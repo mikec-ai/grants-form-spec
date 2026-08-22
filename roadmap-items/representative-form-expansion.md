@@ -2,11 +2,11 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Fourteen forms now compile through the portable specification. Twelve are
-  runtime-sourced through the public Simpler adapter; Project Abstract Summary
-  and R&R SF-424 are merged conformance canaries that deliberately preserve XML
-  as an explicit adapter boundary. The R&R canary now exercises the generic
-  conditional-UI runtime. Expansion alternates cheap derivatives with high-value
+  Fourteen forms are merged through the portable specification, and R&R SF-424
+  Multi-Project Cover is the fifteenth candidate in PR #22. The first cover-form
+  harvest demonstrates 138 of 139 structurally aligned relative XSD paths while
+  preserving optionality, behavior, tracking-name, and lifecycle differences
+  declaratively. Expansion alternates cheap derivatives with high-value
   foundations.
 sequence: '3'
 superbee_progress_status: active

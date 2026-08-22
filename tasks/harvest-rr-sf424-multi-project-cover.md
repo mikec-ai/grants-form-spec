@@ -4,16 +4,18 @@ title: Harvest R&R SF-424 Multi-Project Cover
 priority: P1
 assignee: codex
 description: >-
-  Use the reviewed R&R SF-424 foundation and generic crosswalk promotion
-  importer to stage and declaratively author the Multi-Project Cover derivative.
-  Preserve exact source/version provenance, keep semantic mappings proposed
-  until reviewed, and quantify the real delta without form-specific compiler or
-  adapter code.
+  Producer PR #22 is open and green locally: 139 deterministic source records,
+  143 source behaviors, 138 of 139 relative XSD paths shared with standalone R&R
+  SF-424, 28 top-level properties, 106 rendered leaves, zero unconditional
+  required fields, exact encoded revision values, and 14 generic nested
+  enabled/read-only conditions. Crosswalk proof PR #18 is merged. Zero semantic
+  mappings are accepted. Remaining work is CI/merge, public adapter canary,
+  exact XML, and human/accessibility/release review.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T22:31:12.377Z'
+  at: '2026-08-22T22:49:27.384Z'
 ---
 # Objective
 
