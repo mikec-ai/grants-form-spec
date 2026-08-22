@@ -5,3 +5,4 @@ import "./forms/sf424.tsp";
 import "./forms/sf424a.tsp";
 import "./forms/sf424-short.tsp";
 import "./forms/standalone-attachments.tsp";
+import "./forms/rr-budget.tsp";

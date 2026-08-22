@@ -36,6 +36,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Calculation cycle: ${"cycle"}. A calculated value cannot depend on itself.`,
       },
     },
+    "calculation-path-unresolved": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Calculation path "${"path"}" does not resolve from ${"scope"}. Cross-boundary calculations must name real canonical data paths.`,
+      },
+    },
     "required-but-unreachable": {
       severity: "error",
       messages: {
@@ -79,6 +85,7 @@ export const $lib = createTypeSpecLibrary({
     readOnlyWhen: {},
     requiredWhen: {},
     computed: {},
+    computedFrom: {},
     totals: {},
     prePopulate: {},
     multiField: {},

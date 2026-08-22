@@ -23,7 +23,12 @@ export const $decorators = {
     visibleWhen: d.$visibleWhen,
     readOnlyWhen: d.$readOnlyWhen,
   },
-  "SimplerForms.Validation": { requiredWhen: d.$requiredWhen, computed: d.$computed, totals: d.$totals },
+  "SimplerForms.Validation": {
+    requiredWhen: d.$requiredWhen,
+    computed: d.$computed,
+    computedFrom: d.$computedFrom,
+    totals: d.$totals,
+  },
   "SimplerForms.Sgg": {
     prePopulate: d.$prePopulate,
     multiField: d.$multiField,

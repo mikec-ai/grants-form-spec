@@ -191,6 +191,17 @@ export const $computed = (
     refs: refs.map((r) => r.name),
   });
 
+export const $computedFrom = (
+  ctx: Ctx,
+  target: ModelProperty,
+  operator: unknown,
+  ...paths: unknown[]
+) =>
+  set(ctx, stateKeys.computedFrom, target, {
+    operator: enumName(operator),
+    paths: paths.map((path) => String(literal(path))),
+  });
+
 /**
  * Field-by-field totalling. Only the source properties are recorded; which field of the
  * block pairs with which is worked out at emission, where the type graph is in view.
