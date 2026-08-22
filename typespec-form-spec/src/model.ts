@@ -101,6 +101,8 @@ export const propOmit = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.omit, prop) === true;
 export const propVisibleWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.visibleWhen, prop) as Condition[]) ?? [];
+export const propEnabledWhen = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.enabledWhen, prop) as Condition[]) ?? [];
 export const propRequiredWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.requiredWhen, prop) as Condition[]) ?? [];
 export const propValidationConstraints = (p: Program, prop: ModelProperty) =>

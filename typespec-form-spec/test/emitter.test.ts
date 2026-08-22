@@ -379,4 +379,48 @@ describe("SGG UI emission", () => {
       },
     });
   });
+
+  it("projects inherited enabled and read-only behavior for optional multi-project groups", async () => {
+    const ui = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/rr-sf424-multi-project-cover/sgg/ui-schema.json"),
+        "utf8",
+      ),
+    );
+    const fields = ui.flatMap((section: any) => section.children);
+
+    expect(
+      fields.find((field: any) =>
+        field.definition.endsWith("/smallBusinessOrganizationType/properties/womenOwned")
+      ),
+    ).toMatchObject({
+      conditional: {
+        when: {
+          op: "equals",
+          ref: { scope: "root", pointer: "/applicantType/applicantTypeCode" },
+          value: "R: Small Business",
+        },
+        then: { enabled: true },
+        otherwise: { enabled: false },
+      },
+    });
+    expect(
+      fields.find((field: any) =>
+        field.definition.endsWith("/authorizedRepresentative/properties/address/properties/province")
+      ),
+    ).toMatchObject({
+      conditional: {
+        when: {
+          op: "equals",
+          ref: {
+            scope: "root",
+            pointer: "/authorizedRepresentative/address/country",
+          },
+          value: "USA: UNITED STATES",
+        },
+        then: { readOnly: true },
+        otherwise: { readOnly: false },
+      },
+    });
+  });
 });

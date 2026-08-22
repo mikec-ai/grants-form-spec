@@ -2,8 +2,8 @@ import type { Model, ModelProperty, Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
   Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
-  propLabel, propOmit, propReadOnly, propSection, propTotals, propWidget,
-  propSggFieldList, propVisibleWhen,
+  propLabel, propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propWidget,
+  propEnabledWhen, propSggFieldList, propVisibleWhen,
 } from "../model.js";
 
 export interface SggField {
@@ -99,6 +99,8 @@ function walk(
   into: (SggField | SggFieldList)[],
   overrides: Overrides,
   inheritedVisible: AbsoluteCondition[] = [],
+  inheritedEnabled: AbsoluteCondition[] = [],
+  inheritedReadOnly: AbsoluteCondition[] = [],
 ): void {
   for (const prop of allProperties(program, model)) {
     const here = dataPath ? `${dataPath}.${prop.name}` : prop.name;
@@ -120,10 +122,20 @@ function walk(
         into,
         overrides,
         [...inheritedVisible, ...absoluteConditions(propVisibleWhen(program, prop), here)],
+        [...inheritedEnabled, ...absoluteConditions(propEnabledWhen(program, prop), here)],
+        [...inheritedReadOnly, ...absoluteConditions(propReadOnlyWhen(program, prop), here)],
       );
       continue;
     }
-    into.push(field(program, prop, path, at(overrides, here), inheritedVisible));
+    into.push(field(
+      program,
+      prop,
+      path,
+      at(overrides, here),
+      inheritedVisible,
+      inheritedEnabled,
+      inheritedReadOnly,
+    ));
   }
 }
 
@@ -133,6 +145,8 @@ function field(
   definition: string,
   override: Record<string, unknown>,
   inheritedVisible: AbsoluteCondition[] = [],
+  inheritedEnabled: AbsoluteCondition[] = [],
+  inheritedReadOnly: AbsoluteCondition[] = [],
 ): SggField {
   const f: SggField = {
     type: override.readOnly === true || propReadOnly(program, prop) ? "null" : "field",
@@ -162,6 +176,46 @@ function field(
       then: { visible: true },
       otherwise: { visible: false },
     };
+  } else {
+    const enabled = [
+      ...inheritedEnabled,
+      ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join(".")),
+    ];
+    if (enabled.length) {
+      const predicates = enabled.map((condition) => ({
+        op: "equals",
+        ref: {
+          scope: "root",
+          pointer: `/${condition.sourcePath.join("/")}`,
+        },
+        value: condition.value,
+      }));
+      f.conditional = {
+        when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+        then: { enabled: true },
+        otherwise: { enabled: false },
+      };
+    } else {
+      const readOnly = [
+        ...inheritedReadOnly,
+        ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join(".")),
+      ];
+      if (readOnly.length) {
+        const predicates = readOnly.map((condition) => ({
+          op: "equals",
+          ref: {
+            scope: "root",
+            pointer: `/${condition.sourcePath.join("/")}`,
+          },
+          value: condition.value,
+        }));
+        f.conditional = {
+          when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+          then: { readOnly: true },
+          otherwise: { readOnly: false },
+        };
+      }
+    }
   }
   return f;
 }

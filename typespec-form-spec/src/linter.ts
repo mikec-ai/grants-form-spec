@@ -11,7 +11,10 @@ import {
   getSourceLocation,
   paramMessage,
 } from "@typespec/compiler";
-import { allBlocks, modelOrder, orderedProps, propOmit, propSection } from "./model.js";
+import {
+  allBlocks, modelOrder, orderedProps, propEnabledWhen, propOmit, propReadOnlyWhen,
+  propRequiredWhen, propSection, propVisibleWhen,
+} from "./model.js";
 
 /**
  * Hygiene checks. A TypeSpec linter rule may only be a warning, so everything whose failure
@@ -199,6 +202,14 @@ const redeclaredProperty = createRule({
         const clashes = [...model.properties.values()]
           .filter((prop) => {
             const base = inherited.get(prop.name);
+            if (base && [
+              [propEnabledWhen(context.program, base), propEnabledWhen(context.program, prop)],
+              [propReadOnlyWhen(context.program, base), propReadOnlyWhen(context.program, prop)],
+              [propRequiredWhen(context.program, base), propRequiredWhen(context.program, prop)],
+              [propVisibleWhen(context.program, base), propVisibleWhen(context.program, prop)],
+            ].some(([left, right]) => JSON.stringify(left) !== JSON.stringify(right))) {
+              return false;
+            }
             // Narrowing is the point of redeclaring: a form may require a member the
             // question leaves optional. Only an identical repeat is worth a warning.
             return base && base.optional === prop.optional && base.type === prop.type &&

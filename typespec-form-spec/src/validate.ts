@@ -6,7 +6,7 @@ import {
   Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
   propComputedFrom,
   propEncodedCheckboxGroup,
-  modelPrePopulate, modelProperties, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
+  modelPrePopulate, modelProperties, propEnabledWhen, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
 } from "./model.js";
 
@@ -292,6 +292,7 @@ const name = (type: Model | Scalar) => type.name || "an anonymous model";
 function conditionsOf(program: Program, prop: ModelProperty): Condition[] {
   return [
     ...propVisibleWhen(program, prop),
+    ...propEnabledWhen(program, prop),
     ...propReadOnlyWhen(program, prop),
     ...propRequiredWhen(program, prop),
   ];
