@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T18:54:59.534Z'
+  at: '2026-08-22T19:16:14.360Z'
 ---
 # Objective
 
@@ -31,6 +31,23 @@ Move the portable R&R Budget 3.0 implementation from reference parity toward pro
 - Fifty-six non-empty DAT conditions remain unmodeled, including paired inputs, attachment dependencies, date ordering, and row-completeness behaviors.
 - Evidence pins the XSD but must also pin the DAT hash `c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035`.
 - The current adapter tests prove bundle self-consistency, not browser rendering, XML or REST submission, save/reload, print, or accessibility behavior.
+
+# Delivered hardening
+
+- `mikec-ai/grants-form-spec` PR 12 is merged at `f82c772fd`.
+- All 56 DAT-defined calculations are now declaratively authored and emitted for R&R Budget and its R&R Subaward Budget sibling.
+- Calculation order is deterministic and contiguous from 1 through 56.
+- Three count-valued totals compile to a generic integer-sum rule; monetary totals remain monetary strings.
+- Source-wire profiles now distinguish signed 14- and 15-digit decimals, nonnegative budget amounts and totals, month profiles, indirect rates, and bounded three- and four-digit counts.
+- The exact DAT SHA-256 is pinned alongside the XSD.
+- Public Simpler fork PR 8 executes the complete graph and validates key-person totals, direct costs, cumulative totals, and integer personnel counts.
+- Agent semantic findings remain proposals. The evidence sidecar stays `unreviewed` until human semantic acceptance.
+
+# Remaining production gates
+
+- Define optional calculated-output materialization when every operand is absent versus explicitly zero.
+- Model and test the 56 non-empty DAT conditions.
+- Complete browser rendering, save/reload, locked state, submission/print, accessibility, and XML or REST delivery validation.
 
 # Acceptance criteria
 
