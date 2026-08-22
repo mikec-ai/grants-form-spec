@@ -2,3 +2,7 @@ node_modules/
 dist/
 spike-out/
 tsp-output/
+
+# shared boards — managed on the 'board' branch by superbee sync
+.superbee/
+.agentstate-lite/
