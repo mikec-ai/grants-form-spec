@@ -11,3 +11,5 @@ superbee_updated_by: mikec-ai
 [contains](../tasks/implement-simpler-key-contacts-adapter.md)
 
 [contains](../tasks/integrate-sf424a-reference-form.md)
+
+[contains](../tasks/integrate-sf424-short-reference-form.md)
