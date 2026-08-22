@@ -1,6 +1,6 @@
 import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
 import {
-  Block, blockAncestry, childBlock, modelPrePopulate, propComputed, propOmit, propTotals,
+  Block, blockAncestry, childBlock, modelPrePopulate, propComputed, propComputedFrom, propOmit, propTotals,
   readBlock,
 } from "../model.js";
 
@@ -22,9 +22,6 @@ const STAMP_BY_QUESTION: Record<string, string> = {
  * attachment is a string carrying a file id, and so is a great many other things.
  */
 const ATTACHMENT_QUESTION = "generics/attachment";
-
-/** The question a totalling rule sums. Only money is totalled. */
-const MONEY_QUESTION = "generics/monetary-amount";
 
 /**
  * One calculation. `emit` is what SGG reads; `resolve` is the same reference with the
@@ -169,6 +166,24 @@ function walk(
       continue;
     }
 
+    const computedFrom = propComputedFrom(program, prop);
+    if (computedFrom) {
+      calculations.push({
+        at: here,
+        rule: OP_RULE[computedFrom.operator] ?? "sum_monetary",
+        refs: computedFrom.paths.map((path) => {
+          const rootPath = path.startsWith("/");
+          const canonical = rootPath ? path.slice(1) : path;
+          const emitted = rootPath || atRoot ? canonical : `@THIS.${canonical}`;
+          const resolved = rootPath
+            ? canonical.replaceAll("[*]", "")
+            : [...at, canonical.replaceAll("[*]", "")].join(".");
+          return { emit: emitted, resolve: resolved };
+        }),
+      });
+      continue;
+    }
+
     if (child) {
       const ancestry = blockAncestry(program, child.model);
       const stamp = ancestry.map((id) => STAMP_BY_QUESTION[id]).find(Boolean);
@@ -278,7 +293,9 @@ function moneyFields(program: Program, model: Model): string[] {
   const out: string[] = [];
   for (const prop of model.properties.values()) {
     const child = childBlock(program, prop);
-    if (child && blockAncestry(program, child.model).includes(MONEY_QUESTION)) {
+    // Money is semantic catalogue vocabulary, not the identity of one scalar. This lets
+    // another source preserve a stricter wire precision while remaining a monetary value.
+    if (child && child.tags.includes("money")) {
       out.push(prop.name);
     }
   }

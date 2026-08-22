@@ -4,6 +4,7 @@ import type {
 import { reportDiagnostic } from "./lib.js";
 import {
   Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
+  propComputedFrom,
   modelPrePopulate, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
 } from "./model.js";
@@ -36,6 +37,86 @@ export function $onValidate(program: Program): void {
   }
 
   checkCalculationCycles(program, blocks);
+  checkComputedPaths(program, blocks);
+}
+
+// ---------------------------------------------------------------------------
+// cross-boundary calculation paths
+
+function arrayItem(type: Type): Type | undefined {
+  return type.kind === "Model" && type.indexer ? type.indexer.value : undefined;
+}
+
+function resolves(model: Model, path: string): boolean {
+  let current: Type = model;
+  for (const raw of path.split(".")) {
+    const repeated = raw.endsWith("[*]");
+    const name = repeated ? raw.slice(0, -3) : raw;
+    if (current.kind !== "Model") return false;
+    const property = current.properties.get(name);
+    if (!property) return false;
+    current = property.type;
+    if (repeated) {
+      const item = arrayItem(current);
+      if (!item) return false;
+      current = item;
+    }
+  }
+  return true;
+}
+
+function contains(model: Model, target: Model, seen = new Set<Model>()): boolean {
+  if (model === target) return true;
+  if (seen.has(model)) return false;
+  seen.add(model);
+  for (const property of model.properties.values()) {
+    let type: Type = property.type;
+    const item = arrayItem(type);
+    if (item) type = item;
+    if (type.kind === "Model" && contains(type, target, seen)) return true;
+  }
+  return false;
+}
+
+function checkComputedPaths(program: Program, blocks: Block[]): void {
+  const forms = blocks.filter(
+    (block): block is Block & { model: Model } => block.kind === "form" && block.model.kind === "Model",
+  );
+  const models: Model[] = [];
+  const visit = (namespace: Namespace): void => {
+    models.push(...namespace.models.values());
+    for (const child of namespace.namespaces.values()) visit(child);
+  };
+  visit(program.getGlobalNamespaceType());
+
+  for (const model of models) {
+    for (const property of model.properties.values()) {
+      const computed = propComputedFrom(program, property);
+      if (!computed) continue;
+      const owner = property.model;
+      if (!owner) continue;
+      for (const path of computed.paths) {
+        const absolute = path.startsWith("/");
+        const candidate = absolute ? path.slice(1) : path;
+        const containingForms = absolute
+          ? forms.filter((form) => contains(form.model, owner))
+          : [];
+        const valid = absolute
+          // A question-bank file can compile without any form in scope. Defer its absolute
+          // composition paths until a form actually composes the block; every containing
+          // form must then satisfy the declared relationship.
+          ? containingForms.length === 0 || containingForms.every((form) => resolves(form.model, candidate))
+          : resolves(owner, candidate);
+        if (!valid) {
+          reportDiagnostic(program, {
+            code: "calculation-path-unresolved",
+            target: property,
+            format: { path, scope: absolute ? "its containing form" : owner.name },
+          });
+        }
+      }
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

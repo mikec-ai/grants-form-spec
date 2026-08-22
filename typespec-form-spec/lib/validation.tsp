@@ -14,6 +14,16 @@ extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: va
 extern dec computed(target: ModelProperty, operator: valueof Op, ...refs: ModelProperty[]);
 
 /**
+ * Compute a value from canonical data paths that cross a repeatable boundary.
+ *
+ * Paths are relative to the reusable block that owns the calculation. `[*]` selects every
+ * entry in a list. This is the declarative equivalent of a cross-period total such as
+ * `budgetYear[*].travel.totalTravelCost`; a target adapter may translate the spelling but
+ * must not reinterpret the relationship.
+ */
+extern dec computedFrom(target: ModelProperty, operator: valueof Op, ...paths: valueof string[]);
+
+/**
  * This block totals the same block found in each of `sources`, field by field.
  *
  * A source is either a repeatable list -- in which case the corresponding block is found

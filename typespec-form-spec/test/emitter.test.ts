@@ -6,6 +6,42 @@ import { describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("SGG UI emission", () => {
+  it("projects nested research-budget lists and all source-resolved sums generically", async () => {
+    const root = resolve(packageRoot, "dist/forms/rr-budget");
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+
+    const allObjects = (value: unknown): Record<string, unknown>[] => {
+      if (Array.isArray(value)) return value.flatMap(allObjects);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, unknown>;
+      return [object, ...Object.values(object).flatMap(allObjects)];
+    };
+
+    const lists = allObjects(ui).filter((node) => node.type === "fieldList");
+    const calculations = allObjects(rules).filter((node) =>
+      Object.prototype.hasOwnProperty.call(node, "gg_pre_population")
+    );
+
+    expect(lists.map((node) => node.name)).toEqual([
+      "budgetYear",
+      "equipmentList",
+      "indirectCost",
+      "keyPerson",
+      "other",
+    ]);
+    expect(calculations).toHaveLength(30);
+    expect(
+      rules.budgetYear.totalCompensation.gg_pre_population.fields,
+    ).toEqual([
+      "@THIS.keyPersons.totalFundForKeyPersons",
+      "@THIS.otherPersonnel.totalOtherPersonnelFund",
+    ]);
+    expect(
+      rules.budgetSummary.cumulativeTotalFundsRequestedTravel.gg_pre_population.fields,
+    ).toEqual(["budgetYear[*].travel.totalTravelCost"]);
+  });
+
   it("keeps Key Contacts field-list presentation parity declarative", async () => {
     const ui = JSON.parse(
       await readFile(

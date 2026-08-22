@@ -88,6 +88,8 @@ export const propRequiredWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.requiredWhen, prop) as Condition[]) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
+export const propComputedFrom = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.computedFrom, prop) as { operator: string; paths: string[] } | undefined;
 export const propTotals = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.totals, prop) as ModelProperty[] | undefined;
 /** `@Sgg.prePopulate`: canonical data path -> SGG rule name, declared on the form. */

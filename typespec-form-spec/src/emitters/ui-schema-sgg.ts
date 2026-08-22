@@ -17,9 +17,10 @@ export interface SggFieldList {
   type: "fieldList";
   name: string;
   label: string;
+  definition: string;
   description?: string;
   hideFieldListHeading?: boolean;
-  children: SggField[];
+  children: (SggField | SggFieldList)[];
 }
 export interface SggMultiField {
   type: "multiField";
@@ -89,7 +90,7 @@ function walk(
   model: Model,
   prefix: string,
   dataPath: string,
-  into: SggField[],
+  into: (SggField | SggFieldList)[],
   overrides: Overrides,
 ): void {
   for (const prop of allProperties(program, model)) {
@@ -97,6 +98,11 @@ function walk(
     if (propOmit(program, prop) || at(overrides, here).omit === true) continue;
 
     const path = `${prefix}/properties/${prop.name}`;
+    const list = fieldListAt(program, prop, path, here, overrides);
+    if (list) {
+      into.push(list);
+      continue;
+    }
     const object = objectBehind(program, prop);
     if (object) {
       walk(program, object, path, here, into, overrides);
@@ -148,19 +154,37 @@ function asFieldList(
   prop: ModelProperty,
   overrides: Overrides,
 ): SggFieldList | undefined {
+  return fieldListAt(
+    program,
+    prop,
+    `/properties/${prop.name}`,
+    prop.name,
+    overrides,
+  );
+}
+
+/** A repeatable object at any depth, including one nested inside another field list. */
+function fieldListAt(
+  program: Program,
+  prop: ModelProperty,
+  definition: string,
+  dataPath: string,
+  overrides: Overrides,
+): SggFieldList | undefined {
   const t = prop.type;
   if (t.kind !== "Model" || !t.indexer) return undefined;
   const item = t.indexer.value;
   if (item.kind !== "Model") return undefined;
 
-  const children: SggField[] = [];
-  walk(program, item, `/properties/${prop.name}/items`, prop.name, children, overrides);
+  const children: (SggField | SggFieldList)[] = [];
+  walk(program, item, `${definition}/items`, dataPath, children, overrides);
   // The list's label names one entry, so it comes from the item block; the property's
   // own label names the collection and stays on the schema as `title`.
   const list: SggFieldList = {
     type: "fieldList",
     name: prop.name,
     label: itemLabel(program, item) ?? propLabel(program, prop) ?? prop.name,
+    definition,
     children,
   };
   const description = propHelpText(program, prop) ?? getDoc(program, prop);

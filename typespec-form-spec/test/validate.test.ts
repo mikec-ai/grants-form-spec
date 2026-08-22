@@ -7,6 +7,61 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  * is worse than no check: it reads as coverage and provides none.
  */
 describe("$onValidate", () => {
+  describe("calculation-path-unresolved", () => {
+    it("rejects a misspelled path across a repeated boundary", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          /** Money. */
+          @Question.meta(#{ id: "budget/money" })
+          @Catalog.tag(TagName.money)
+          scalar Money extends string;
+
+          model Period { amount?: Money; }
+          model Summary {
+            @Validation.computedFrom(Op.Sum, "/periods[*].amunt")
+            total?: Money;
+          }
+          enum Section { only: "Only" }
+          ${formMeta("path-check")}
+          @UI.sections(Section)
+          model PathCheck {
+            @UI.section(Section.only) periods?: Period[];
+            @UI.section(Section.only) summary?: Summary;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/calculation-path-unresolved",
+      });
+    });
+
+    it("accepts an existing path across a repeated boundary", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            /** Money. */
+            @Question.meta(#{ id: "budget/money" })
+            @Catalog.tag(TagName.money)
+            scalar Money extends string;
+
+            model Period { amount?: Money; }
+            model Summary {
+              @Validation.computedFrom(Op.Sum, "/periods[*].amount")
+              total?: Money;
+            }
+            enum Section { only: "Only" }
+            ${formMeta("path-check")}
+            @UI.sections(Section)
+            model PathCheck {
+              @UI.section(Section.only) periods?: Period[];
+              @UI.section(Section.only) summary?: Summary;
+            }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("form-scoped-question-id", () => {
     it("rejects a question named after a form", async () => {
       const diagnostics = await Tester.diagnose(
