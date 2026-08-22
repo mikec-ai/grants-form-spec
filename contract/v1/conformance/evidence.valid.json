@@ -1,0 +1,21 @@
+{
+  "contract": "grants-form-evidence/v1",
+  "block": { "id": "example-form", "kind": "form" },
+  "sources": [
+    {
+      "id": "example-xsd",
+      "type": "xsd",
+      "uri": "https://example.gov/forms/example-v1.xsd",
+      "version": "1.0",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "extraction": {
+    "repository": "https://github.com/example/forms",
+    "revision": "1111111111111111111111111111111111111111",
+    "artifact": "artifacts/example.jsonl.manifest.json",
+    "sourceSetSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "extractedAt": "2026-08-18T14:19:31Z"
+  },
+  "semanticReview": { "status": "unreviewed", "mappings": [] }
+}

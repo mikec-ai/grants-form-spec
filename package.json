@@ -14,6 +14,7 @@
   "scripts": {
     "build": "npm run build -w @simpler-grants/form-spec",
     "emit": "rm -rf dist && tsp compile specs/main.tsp",
+    "project-evidence": "node scripts/project_evidence.mjs",
     "analyze": "python3 scripts/analyze.py",
     "validate-artifacts": "node scripts/validate_artifacts.mjs",
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",

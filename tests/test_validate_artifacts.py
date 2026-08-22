@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 VALIDATOR = ROOT / "scripts" / "validate_artifacts.mjs"
+PROJECTOR = ROOT / "scripts" / "project_evidence.mjs"
 
 
 class ArtifactGraphValidatorTests(unittest.TestCase):
@@ -69,6 +70,15 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             check=False,
         )
 
+    def _run_projector(self, *args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["node", str(PROJECTOR), *args],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
     def test_accepts_a_hand_authored_artifact_graph(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             dist = self._write_graph(Path(directory))
@@ -94,6 +104,45 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("usage_error", result.stdout)
         self.assertIn("unknown argument --dits", result.stdout)
         self.assertIn("--help", result.stdout)
+
+    def test_projects_validated_evidence_and_declares_it_in_the_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            evidence = root / "evidence" / "forms" / "example" / "evidence.json"
+            evidence.parent.mkdir(parents=True)
+            self._json(evidence, {
+                "contract": "grants-form-evidence/v1",
+                "block": {"id": "example", "kind": "form"},
+                "sources": [{
+                    "id": "example-xsd", "type": "xsd",
+                    "uri": "https://example.gov/example.xsd", "version": "1.0",
+                    "sha256": "a" * 64,
+                }],
+                "extraction": {
+                    "repository": "https://github.com/example/forms",
+                    "revision": "1" * 40,
+                    "artifact": "artifacts/example.jsonl.manifest.json",
+                    "sourceSetSha256": "b" * 64,
+                    "extractedAt": "2026-08-18T14:19:31Z",
+                },
+                "semanticReview": {"status": "unreviewed", "mappings": []},
+            })
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            manifest = json.loads((dist / "forms/example/manifest.json").read_text())
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("sidecars: 1", result.stdout)
+        self.assertEqual(manifest["artifacts"]["evidence.json"], "passthrough")
+
+    def test_projector_rejects_unknown_flags(self) -> None:
+        result = self._run_projector("--source", "somewhere")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("usage_error", result.stdout)
+        self.assertIn("unknown argument --source", result.stdout)
 
 
 if __name__ == "__main__":

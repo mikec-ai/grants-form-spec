@@ -39,6 +39,7 @@ describe("artifact contract v1", () => {
   let validateUi: ValidateFunction;
   let validateIndex: ValidateFunction;
   let validatePackage: ValidateFunction;
+  let validateEvidence: ValidateFunction;
 
   beforeAll(async () => {
     const ajv = new Ajv2020({ allErrors: true, strict: true });
@@ -49,6 +50,7 @@ describe("artifact contract v1", () => {
     validateUi = ajv.compile(await json(resolve(contractRoot, "ui-schema.schema.json")));
     validateIndex = ajv.compile(await json(resolve(contractRoot, "block-index.schema.json")));
     validatePackage = ajv.compile(await json(resolve(contractRoot, "form-package.schema.json")));
+    validateEvidence = ajv.compile(await json(resolve(contractRoot, "evidence.schema.json")));
   });
 
   it("accepts a hand-authored question artifact without TypeSpec", async () => {
@@ -92,6 +94,7 @@ describe("artifact contract v1", () => {
     ["ui-schema", validateFixture("ui-schema", () => validateUi)],
     ["block-index", validateFixture("block-index", () => validateIndex)],
     ["form-package", validateFixture("form-package", () => validatePackage)],
+    ["evidence", validateFixture("evidence", () => validateEvidence)],
   ])("distinguishes the valid and poisoned %s fixtures", async (_name, run) => {
     await run();
   });
@@ -114,6 +117,7 @@ describe("artifact contract v1", () => {
         () => validateIndex,
       ],
       [await namedArtifacts(emittedFormsRoot, "manifest.json"), () => validatePackage],
+      [await namedArtifacts(emittedFormsRoot, "evidence.json"), () => validateEvidence],
     ];
 
     for (const [artifacts, getValidator] of groups) {
