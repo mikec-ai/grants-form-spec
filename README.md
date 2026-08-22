@@ -6,12 +6,16 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes four reference forms:
+The repository currently includes eight reference forms:
 
 - Key Contacts
 - SF-424
 - SF-424A
 - SF-424 Short
+- Project Narrative Attachment
+- Budget Narrative Attachment
+- Other Narrative Attachments
+- R&R Budget 3.0
 
 The reference implementation proves applicant-visible rendering and validation parity against existing implementations. SF-424 Short adds no new questions to the bank and shares 91 percent of its questions with SF-424, demonstrating the intended reuse model.
 
@@ -32,7 +36,7 @@ Question bank + form specifications
 
 Canonical artifacts remain independent of delivery targets. Consumer-specific projections, legacy field names, XML transforms, and runtime rule mappings belong in consumer adapters.
 
-Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
+Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [attachment semantics](documentation/attachment-semantics.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
 ## Development
 

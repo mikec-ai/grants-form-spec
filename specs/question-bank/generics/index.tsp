@@ -179,7 +179,10 @@ scalar ContactTitle extends string;
 // A doc comment becomes the question's description, which applicants read. Rationale for
 // the reader of this file goes in `//` comments, which no artifact carries.
 /** Attach a file. */
-@Question.meta(#{ id: "generics/attachment" })
+@Question.meta(#{
+  id: "generics/attachment",
+  classification: BlockClassification.captureMechanism,
+})
 @Catalog.entity(EntityName.generic)
 @Catalog.tag(TagName.attachment)
 @format("uuid")

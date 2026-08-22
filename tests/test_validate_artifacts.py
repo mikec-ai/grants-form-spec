@@ -29,6 +29,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self._json(question / "index.json", {
             "id": "generics/name", "kind": "question", "name": "Name",
             "description": "A name.", "tags": ["name"],
+            "classification": "semanticQuestion", "composes": [],
         })
 
         self._json(form / "schema.json", {
@@ -96,6 +97,18 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("artifact_invalid", result.stdout)
         self.assertIn("cannot read JSON", result.stdout)
+
+    def test_rejects_an_unknown_composed_question(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            index_path = dist / "question-bank" / "generics" / "name" / "index.json"
+            index = json.loads(index_path.read_text(encoding="utf-8"))
+            index["composes"] = ["generics/missing"]
+            self._json(index_path, index)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("composes unknown question generics/missing", result.stdout)
 
     def test_unknown_flag_is_an_actionable_usage_error(self) -> None:
         result = self._run("--dits", "somewhere")

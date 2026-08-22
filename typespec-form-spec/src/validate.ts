@@ -131,9 +131,11 @@ const FORM_WORDS = [
 function checkQuestionIds(program: Program, blocks: Block[]): void {
   for (const block of blocks) {
     if (block.kind !== "question") continue;
-    const segments = block.id.toLowerCase().split(/[/\-_]/);
+    const id = block.id.toLowerCase();
+    const pathSegments = id.split("/");
+    const wordSegments = id.split(/[/\-_]/);
     const offender = FORM_WORDS.find(
-      (word) => segments.includes(word) || block.id.toLowerCase().includes(word),
+      (word) => pathSegments.includes(word) || wordSegments.includes(word),
     );
     if (offender) {
       reportDiagnostic(program, {

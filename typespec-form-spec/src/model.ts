@@ -19,6 +19,7 @@ export interface Block {
   scalar: boolean;
   id: string;
   meta: Record<string, unknown>;
+  classification: "semanticQuestion" | "captureMechanism";
   tags: string[];
   entity?: string;
   label?: string;
@@ -29,6 +30,17 @@ export interface Block {
 }
 
 const g = (p: Program, k: symbol, t: Type) => p.stateMap(k).get(t);
+
+function enumName(value: unknown): string | undefined {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object" && "name" in value) {
+    return String((value as EnumMember).name);
+  }
+  if (value && typeof value === "object" && "value" in value) {
+    return enumName((value as { value: unknown }).value);
+  }
+  return undefined;
+}
 
 export function readBlock(program: Program, model: Model | Scalar): Block | undefined {
   const q = g(program, stateKeys.questionMeta, model) as Record<string, unknown> | undefined;
@@ -41,6 +53,7 @@ export function readBlock(program: Program, model: Model | Scalar): Block | unde
     scalar: model.kind === "Scalar",
     id: String(meta.id),
     meta,
+    classification: (enumName(meta.classification) ?? "semanticQuestion") as Block["classification"],
     tags: (g(program, stateKeys.tags, model) as string[]) ?? [],
     entity: g(program, stateKeys.entity, model) as string | undefined,
     label: g(program, stateKeys.label, model) as string | undefined,

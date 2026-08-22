@@ -16,6 +16,7 @@ Usage (from the repo root):
 
 from __future__ import annotations
 
+import argparse
 import itertools
 import json
 import pathlib
@@ -46,6 +47,13 @@ def refs(node: object) -> set[str]:
         for item in node:
             found |= refs(item)
     return found
+
+
+def bank_ref(value: str) -> str | None:
+    """Return the bank block id addressed by a published artifact reference."""
+    if "question-bank/" not in value:
+        return None
+    return value.split("question-bank/", 1)[1].removesuffix("/schema.json")
 
 
 def form_local_leaves(schema: dict, defs: dict) -> set[str]:
@@ -100,25 +108,164 @@ def closure(direct: set[str], bank_refs: dict[str, set[str]]) -> set[str]:
     return seen
 
 
+def occurrences(
+    schema: dict,
+    bank: dict[str, dict],
+    entries: dict[str, dict],
+) -> list[dict[str, str]]:
+    """Every role-qualified bank occurrence, preserving its form data path.
+
+    JSON Schema references carry structural composition. The block index additionally
+    carries scalar inheritance, which the stock JSON Schema emitter otherwise flattens.
+    Walking both produces one graph without confusing a semantic requirement with the
+    mechanism used to capture its answer.
+    """
+    found: dict[tuple[str, str], str] = {}
+
+    def path_text(path: tuple[str, ...]) -> str:
+        return "/" + "/".join(path) if path else "/"
+
+    def record(block_id: str, path: tuple[str, ...], depth: int) -> None:
+        key = (block_id, path_text(path))
+        relationship = "direct" if depth == 0 else "transitive"
+        if found.get(key) != "direct":
+            found[key] = relationship
+
+    def composed(block_id: str, path: tuple[str, ...], depth: int, seen: set[str]) -> None:
+        if block_id in seen:
+            return
+        next_seen = {*seen, block_id}
+        for parent in entries.get(block_id, {}).get("composes", []):
+            record(parent, path, depth)
+            composed(parent, path, depth + 1, next_seen)
+
+    def walk(
+        node: object,
+        path: tuple[str, ...],
+        depth: int,
+        defs: dict,
+        seen: set[tuple[str, tuple[str, ...]]],
+    ) -> None:
+        if not isinstance(node, dict):
+            return
+        ref = node.get("$ref")
+        if isinstance(ref, str):
+            block_id = bank_ref(ref)
+            if block_id is not None and block_id in bank:
+                marker = (block_id, path)
+                record(block_id, path, depth)
+                composed(block_id, path, depth + 1, set())
+                if marker not in seen:
+                    target = bank[block_id]
+                    walk(
+                        target,
+                        path,
+                        depth + 1,
+                        target.get("$defs", {}),
+                        {*seen, marker},
+                    )
+            elif ref.startswith("#/$defs/"):
+                target = defs.get(ref.removeprefix("#/$defs/"))
+                if isinstance(target, dict):
+                    walk(target, path, depth, defs, seen)
+
+        for name, child in node.get("properties", {}).items():
+            walk(child, (*path, name), depth, defs, seen)
+        items = node.get("items")
+        if isinstance(items, dict):
+            walk(items, (*path, "[]"), depth, defs, seen)
+        for keyword in ("allOf", "anyOf", "oneOf"):
+            for branch in node.get(keyword, []):
+                walk(branch, path, depth, defs, seen)
+
+    walk(schema, (), 0, schema.get("$defs", {}), set())
+    return [
+        {
+            "blockId": block_id,
+            "path": path,
+            "relationship": relationship,
+        }
+        for (block_id, path), relationship in sorted(found.items())
+    ]
+
+
 def catalogue(kind: str, block_id: str) -> dict:
     path = DIST / kind / block_id / "index.json"
     return json.loads(path.read_text()) if path.is_file() else {}
 
 
-def main() -> int:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Analyze emitted form and question artifacts.")
+    parser.add_argument("--json", action="store_true", help="Emit the machine-readable analysis projection.")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     bank = blocks("question-bank")
     forms = blocks("forms")
-    bank_refs = {block_id: refs(schema) for block_id, schema in bank.items()}
+    entries = {block_id: catalogue("question-bank", block_id) for block_id in bank}
+    semantic = {
+        block_id
+        for block_id, entry in entries.items()
+        if entry.get("classification", "semanticQuestion") == "semanticQuestion"
+    }
+    mechanisms = {
+        block_id
+        for block_id, entry in entries.items()
+        if entry.get("classification") == "captureMechanism"
+    }
+    bank_refs = {
+        block_id: refs(schema) | set(entries[block_id].get("composes", []))
+        for block_id, schema in bank.items()
+    }
     direct = {form_id: refs(schema) for form_id, schema in forms.items()}
-    asked = {form_id: closure(used, bank_refs) for form_id, used in direct.items()}
+    used = {form_id: closure(blocks_used, bank_refs) for form_id, blocks_used in direct.items()}
+    asked = {form_id: block_ids & semantic for form_id, block_ids in used.items()}
+    capture = {form_id: block_ids & mechanisms for form_id, block_ids in used.items()}
+    direct_questions = {form_id: block_ids & semantic for form_id, block_ids in direct.items()}
+    occurrence_rows = {
+        form_id: occurrences(schema, bank, entries) for form_id, schema in forms.items()
+    }
+    question_associations = [
+        {"formId": form_id, "questionId": row["blockId"], **{k: row[k] for k in ("path", "relationship")}}
+        for form_id, rows in occurrence_rows.items()
+        for row in rows
+        if row["blockId"] in semantic
+    ]
+    mechanism_associations = [
+        {"formId": form_id, "mechanismId": row["blockId"], **{k: row[k] for k in ("path", "relationship")}}
+        for form_id, rows in occurrence_rows.items()
+        for row in rows
+        if row["blockId"] in mechanisms
+    ]
 
-    if "--json" in sys.argv:
+    pairwise = []
+    for a, b in itertools.combinations(sorted(forms), 2):
+        qa, qb = asked[a], asked[b]
+        both, either = qa & qb, qa | qb
+        pairwise.append({
+            "formA": a,
+            "formB": b,
+            "similarity": len(both) / len(either) if either else 0.0,
+            "questionsInCommon": len(both),
+            "shareOfA": len(both) / len(qa) if qa else 0.0,
+            "shareOfB": len(both) / len(qb) if qb else 0.0,
+        })
+
+    if args.json:
         print(
             json.dumps(
                 {
-                    "questions": sorted(bank),
+                    "blocks": sorted(bank),
+                    "questions": sorted(semantic),
+                    "captureMechanisms": sorted(mechanisms),
                     "asks": {f: sorted(q) for f, q in asked.items()},
-                    "asksDirectly": {f: sorted(q) for f, q in direct.items()},
+                    "asksDirectly": {f: sorted(q) for f, q in direct_questions.items()},
+                    "usesCaptureMechanisms": {f: sorted(q) for f, q in capture.items()},
+                    "formQuestionAssociations": question_associations,
+                    "formCaptureMechanisms": mechanism_associations,
+                    "pairwise": pairwise,
                 },
                 indent=2,
             )
@@ -128,8 +275,8 @@ def main() -> int:
     print("## Question inventory\n")
     print("| Question | Entity | Tags | Forms | Asked by |")
     print("| --- | --- | --- | --- | --- |")
-    for block_id in sorted(bank, key=lambda q: (-len([f for f in asked if q in asked[f]]), q)):
-        entry = catalogue("question-bank", block_id)
+    for block_id in sorted(semantic, key=lambda q: (-len([f for f in asked if q in asked[f]]), q)):
+        entry = entries[block_id]
         using = sorted(f for f in asked if block_id in asked[f])
         tags = ", ".join(entry.get("tags", [])) or "—"
         print(
@@ -137,32 +284,31 @@ def main() -> int:
             f"{len(using)} | {', '.join(using) or '—'} |"
         )
 
+    print("\n## Capture mechanisms\n")
+    print("| Mechanism | Forms | Used by |")
+    print("| --- | --- | --- |")
+    for block_id in sorted(mechanisms):
+        using = sorted(form_id for form_id in capture if block_id in capture[form_id])
+        print(f"| `{block_id}` | {len(using)} | {', '.join(using) or '—'} |")
+
     print("\n## Form to question\n")
     print("| Form | Questions asked | Composed directly | Reached through another question |")
     print("| --- | --- | --- | --- |")
     for form_id in sorted(forms):
         print(
-            f"| {form_id} | {len(asked[form_id])} | {len(direct[form_id])} | "
-            f"{len(asked[form_id]) - len(direct[form_id])} |"
+            f"| {form_id} | {len(asked[form_id])} | {len(direct_questions[form_id])} | "
+            f"{len(asked[form_id]) - len(direct_questions[form_id])} |"
         )
 
     print("\n## Pairwise similarity\n")
     print("| Form A | Form B | Similarity | In common | Share of A | Share of B |")
     print("| --- | --- | --- | --- | --- | --- |")
-    rows = []
-    for a, b in itertools.combinations(sorted(forms), 2):
-        qa, qb = asked[a], asked[b]
-        both, either = qa & qb, qa | qb
-        rows.append((
-            len(both) / len(either) if either else 0.0,
-            a,
-            b,
-            len(both),
-            len(both) / len(qa) if qa else 0.0,
-            len(both) / len(qb) if qb else 0.0,
-        ))
-    for score, a, b, both, share_a, share_b in sorted(rows, reverse=True):
-        print(f"| {a} | {b} | {score:.0%} | {both} | {share_a:.0%} | {share_b:.0%} |")
+    for row in sorted(pairwise, key=lambda item: item["similarity"], reverse=True):
+        print(
+            f"| {row['formA']} | {row['formB']} | {row['similarity']:.0%} | "
+            f"{row['questionsInCommon']} | {row['shareOfA']:.0%} | "
+            f"{row['shareOfB']:.0%} |"
+        )
 
     print("\n## Fields not yet in the bank\n")
     local: dict[str, set[str]] = {}
@@ -193,6 +339,7 @@ def main() -> int:
         "project-narrative-attachments",
         "budget-narrative-attachments",
         "other-narrative-attachments",
+        "rr-budget",
     ):
         if form_id not in asked:
             continue

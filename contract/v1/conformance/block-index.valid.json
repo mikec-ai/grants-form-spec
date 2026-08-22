@@ -4,5 +4,7 @@
   "name": "Legal Name",
   "description": "Enter the legal name of the applicant organization.",
   "tags": ["organization", "name"],
-  "entity": "primaryOrg"
+  "entity": "primaryOrg",
+  "classification": "semanticQuestion",
+  "composes": []
 }

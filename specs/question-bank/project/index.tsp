@@ -1,9 +1,36 @@
 import "@simpler-grants/form-spec";
 import "../index.tsp";
+import "../generics/index.tsp";
 
 using SimplerForms;
+using QuestionBank.Generics;
 
 namespace QuestionBank.Project;
+
+/** Provide the project narrative requested by the funding opportunity. */
+@Question.meta(#{ id: "project/narrative" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.narrative, TagName.attachment)
+@UI.label("Project Narrative")
+scalar ProjectNarrative extends AttachmentRef;
+
+/** Provide the geographic areas affected by the proposed project. */
+@Question.meta(#{ id: "project/areas-affected" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.attachment)
+scalar ProjectAreasAffected extends AttachmentRef;
+
+/** Provide additional project titles when the application needs more than one. */
+@Question.meta(#{ id: "project/additional-titles" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.title, TagName.attachment)
+scalar AdditionalProjectTitle extends AttachmentRef;
+
+/** Provide additional congressional districts affected by the proposed project. */
+@Question.meta(#{ id: "project/additional-congressional-districts" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.identifier, TagName.attachment)
+scalar AdditionalCongressionalDistricts extends AttachmentRef;
 
 /** Enter a brief, descriptive title of the project. */
 @Question.meta(#{ id: "project/title" })

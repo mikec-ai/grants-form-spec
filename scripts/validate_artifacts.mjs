@@ -131,6 +131,14 @@ export async function validateArtifactGraph(inputDist) {
   const validate = await validators();
   const cache = new Map();
   const indexes = jsonFiles.filter((path) => path.endsWith(`${sep}index.json`));
+  const indexById = new Map();
+  for (const path of indexes) {
+    const index = await readJson(path);
+    if (indexById.has(index.id)) {
+      throw new ArtifactError(`duplicate block id ${index.id}`, path);
+    }
+    indexById.set(index.id, { index, path });
+  }
 
   for (const indexPath of indexes) {
     const dir = dirname(indexPath);
@@ -153,6 +161,14 @@ export async function validateArtifactGraph(inputDist) {
     }
     if (index.kind !== location || index.id !== expectedId) {
       throw new ArtifactError(`block identity ${index.kind}:${index.id} does not match ${location}:${expectedId}`, indexPath);
+    }
+    if (location === "question") {
+      for (const composedId of index.composes) {
+        const composed = indexById.get(composedId);
+        if (!composed || composed.index.kind !== "question") {
+          throw new ArtifactError(`composes unknown question ${composedId}`, indexPath);
+        }
+      }
     }
 
     const schemaValidator = validate.get(location);

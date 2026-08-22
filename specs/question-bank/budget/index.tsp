@@ -16,6 +16,19 @@ using QuestionBank.Generics;
  */
 namespace QuestionBank.Budget;
 
+/** Provide the narrative explaining and supporting the proposed budget. */
+@Question.meta(#{ id: "budget/narrative" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.narrative, TagName.money, TagName.attachment)
+@UI.label("Budget Narrative")
+scalar BudgetNarrative extends AttachmentRef;
+
+/** Provide the detailed justification supporting the proposed budget. */
+@Question.meta(#{ id: "budget/justification" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.attachment)
+scalar BudgetJustification extends AttachmentRef;
+
 /** Estimated unobligated and new or revised funds, federal and non-federal. */
 @Question.meta(#{ id: "budget/summary" })
 @Catalog.entity(EntityName.project)

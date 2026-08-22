@@ -1,11 +1,20 @@
 namespace SimplerForms;
 
-/** Identity and lifecycle for a bank question. */
+/** How a reusable block participates in semantic analysis. */
+enum BlockClassification {
+  /** A stable information requirement that forms may ask or produce. */
+  semanticQuestion,
+  /** Reusable machinery used to capture an answer, rather than the answer's meaning. */
+  captureMechanism,
+}
+
+/** Identity, lifecycle, and analytical classification for a bank block. */
 model QuestionMeta {
   /** Semantic id, `entity/attribute` — e.g. "poc/details". */
   id: string;
   version?: string;
   status?: "draft" | "stable" | "deprecated";
+  classification?: BlockClassification;
 }
 
 /** Identity, lifecycle, and runtime metadata for a form. */
@@ -25,7 +34,7 @@ model FormMeta {
 
 enum TagName {
   address, phone, email, identifier, name, title, person, organization,
-  details, generic, money, attachment, date, role,
+  details, generic, money, attachment, narrative, date, role,
 }
 
 enum EntityName {

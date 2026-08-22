@@ -15,6 +15,18 @@ namespace QuestionBank.ResearchBudget;
 @maxLength(16)
 scalar ResearchBudgetDecimal extends string;
 
+/** Provide additional equipment details that do not fit in the structured equipment list. */
+@Question.meta(#{ id: "budget/research/additional-equipment" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.attachment)
+scalar ResearchBudgetAdditionalEquipment extends AttachmentRef;
+
+/** Provide additional senior or key-person details beyond the structured entries. */
+@Question.meta(#{ id: "budget/research/additional-key-personnel" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.person, TagName.attachment)
+scalar ResearchBudgetAdditionalKeyPersonnel extends AttachmentRef;
+
 /** Whether the budget describes the applicant project or a subaward or consortium component. */
 enum ResearchBudgetType {
   project: "Project",
@@ -277,7 +289,7 @@ model ResearchBudgetBudgetYearEquipmentEquipmentList {
 model ResearchBudgetBudgetYearEquipment {
   @UI.label("Additional Equipment:")
   @UI.widget(WidgetName.Attachment)
-  additionalEquipmentsAttachment?: AttachmentRef;
+  additionalEquipmentsAttachment?: ResearchBudgetAdditionalEquipment;
 
   @minItems(0)
   @maxItems(10)
@@ -391,7 +403,7 @@ model ResearchBudgetBudgetYearKeyPersonsKeyPerson {
 model ResearchBudgetBudgetYearKeyPersons {
   @UI.label("Additional Senior Key Persons:")
   @UI.widget(WidgetName.Attachment)
-  attachedKeyPersons?: AttachmentRef;
+  attachedKeyPersons?: ResearchBudgetAdditionalKeyPersonnel;
 
   @minItems(1)
   @maxItems(8)

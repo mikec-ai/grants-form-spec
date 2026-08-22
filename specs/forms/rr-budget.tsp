@@ -1,11 +1,13 @@
 import "@simpler-grants/form-spec";
 import "./index.tsp";
 import "../question-bank/generics/index.tsp";
+import "../question-bank/budget/index.tsp";
 import "../question-bank/primary-org/index.tsp";
 import "../question-bank/research-budget/index.tsp";
 
 using SimplerForms;
 using QuestionBank.Generics;
+using QuestionBank.Budget;
 using QuestionBank.PrimaryOrg;
 using QuestionBank.ResearchBudget;
 
@@ -52,7 +54,7 @@ model RRBudget {
   @UI.label("L. Budget Justification (Only attach one file.)")
   @UI.section(ResearchBudgetSection.budgetOverview)
   @UI.widget(WidgetName.Attachment)
-  budgetJustificationAttachment: AttachmentRef;
+  budgetJustificationAttachment: BudgetJustification;
 
   // One to five research budget periods. The item bounds carry this constraint without
   // introducing adapter-specific helper text into the portable UI contract.
