@@ -5,7 +5,7 @@ import { getDoc, getMaxLength, getMinLength, getMaxItems, getMinItems } from "@t
 import { stateKeys } from "./lib.js";
 
 export interface Condition {
-  sourceName: string;
+  sourcePath: string[];
   sourceIsArray: boolean;
   value: string | number | boolean | null;
 }

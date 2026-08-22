@@ -166,7 +166,7 @@ export const $readOnly = (ctx: Ctx, target: ModelProperty) =>
 function condition(source: ModelProperty, equals: unknown) {
   const t = source.type as any;
   return {
-    sourceName: source.name,
+    sourcePath: [source.name],
     sourceIsArray: t?.kind === "Model" && !!t.indexer,
     value: literal(equals),
   };
@@ -180,6 +180,18 @@ export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProp
 
 export const $requiredWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.requiredWhen, target, condition(source, equals));
+
+export const $requiredWhenPath = (
+  ctx: Ctx,
+  target: ModelProperty,
+  sourcePath: unknown,
+  equals: unknown,
+) =>
+  push(ctx, stateKeys.requiredWhen, target, {
+    sourcePath: String(literal(sourcePath)).split("."),
+    sourceIsArray: false,
+    value: literal(equals),
+  });
 
 export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
   set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));

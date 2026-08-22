@@ -30,6 +30,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`"${"value"}" is not a member of ${"enumName"}, so this condition can never hold. Members: ${"members"}.`,
       },
     },
+    "condition-path-unresolved": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Condition path "${"path"}" does not resolve from ${"model"}.`,
+      },
+    },
     "calculation-cycle": {
       severity: "error",
       messages: {

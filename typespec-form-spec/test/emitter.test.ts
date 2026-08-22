@@ -291,4 +291,57 @@ describe("SGG UI emission", () => {
       });
     },
   );
+
+  it("projects nested conditional requiredness and SGG visibility without form code", async () => {
+    const root = resolve(packageRoot, "dist/forms/rr-sf424");
+    const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+
+    const renewal = schema.allOf.find(
+      (branch: any) =>
+        branch.if?.properties?.applicationType?.properties?.applicationTypeCode?.const ===
+        "Renewal",
+    );
+    expect(renewal).toEqual({
+      if: {
+        properties: {
+          applicationType: {
+            properties: { applicationTypeCode: { const: "Renewal" } },
+            required: ["applicationTypeCode"],
+          },
+        },
+        required: ["applicationType"],
+      },
+      then: { required: ["federalId"] },
+    });
+
+    const fields = ui.flatMap((section: any) => section.children);
+    expect(
+      fields.find((field: any) => field.definition.endsWith("/revisionCode")),
+    ).toMatchObject({
+      widget: "EncodedCheckboxGroup",
+      conditional: {
+        when: {
+          op: "equals",
+          ref: { scope: "root", pointer: "/applicationType/applicationTypeCode" },
+          value: "Revision",
+        },
+        then: { visible: true },
+        otherwise: { visible: false },
+      },
+    });
+    expect(
+      fields.find((field: any) => field.definition.endsWith("/womenOwned")),
+    ).toMatchObject({
+      conditional: {
+        when: {
+          op: "equals",
+          ref: { scope: "root", pointer: "/applicantType/applicantTypeCode" },
+          value: "R: Small Business",
+        },
+        then: { visible: true },
+        otherwise: { visible: false },
+      },
+    });
+  });
 });

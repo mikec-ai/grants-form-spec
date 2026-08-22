@@ -58,7 +58,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
       node.rule = {
         effect: "SHOW",
         condition: {
-          scope: `#/properties/${c.sourceName}`,
+          scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
           schema: { const: c.value },
         },
       };

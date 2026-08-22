@@ -1,9 +1,9 @@
 import type { Model, ModelProperty, Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  Block, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
+  Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
   propLabel, propOmit, propReadOnly, propSection, propTotals, propWidget,
-  propSggFieldList,
+  propSggFieldList, propVisibleWhen,
 } from "../model.js";
 
 export interface SggField {
@@ -12,6 +12,7 @@ export interface SggField {
   widget?: string;
   /** Show the field's description in the print view as well as the form. */
   printDescription?: boolean;
+  conditional?: Record<string, unknown>;
 }
 export interface SggFieldList {
   type: "fieldList";
@@ -34,6 +35,11 @@ export interface SggSection {
   label: string;
   description?: string;
   children: (SggField | SggFieldList | SggMultiField)[];
+}
+
+interface AbsoluteCondition {
+  sourcePath: string[];
+  value: string | number | boolean | null;
 }
 
 /**
@@ -92,6 +98,7 @@ function walk(
   dataPath: string,
   into: (SggField | SggFieldList)[],
   overrides: Overrides,
+  inheritedVisible: AbsoluteCondition[] = [],
 ): void {
   for (const prop of allProperties(program, model)) {
     const here = dataPath ? `${dataPath}.${prop.name}` : prop.name;
@@ -105,10 +112,18 @@ function walk(
     }
     const object = objectBehind(program, prop);
     if (object) {
-      walk(program, object, path, here, into, overrides);
+      walk(
+        program,
+        object,
+        path,
+        here,
+        into,
+        overrides,
+        [...inheritedVisible, ...absoluteConditions(propVisibleWhen(program, prop), here)],
+      );
       continue;
     }
-    into.push(field(program, prop, path, at(overrides, here)));
+    into.push(field(program, prop, path, at(overrides, here), inheritedVisible));
   }
 }
 
@@ -117,6 +132,7 @@ function field(
   prop: ModelProperty,
   definition: string,
   override: Record<string, unknown>,
+  inheritedVisible: AbsoluteCondition[] = [],
 ): SggField {
   const f: SggField = {
     type: override.readOnly === true || propReadOnly(program, prop) ? "null" : "field",
@@ -125,7 +141,37 @@ function field(
   const widget = (override.widget as string | undefined) ?? propWidget(program, prop);
   if (widget) f.widget = widget;
   if (override.printDescription === true) f.printDescription = true;
+  const targetPath = definition
+    .split("/")
+    .filter((step) => step && step !== "properties" && step !== "items");
+  const visible = [
+    ...inheritedVisible,
+    ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join(".")),
+  ];
+  if (visible.length) {
+    const predicates = visible.map((condition) => ({
+      op: "equals",
+      ref: {
+        scope: "root",
+        pointer: `/${condition.sourcePath.join("/")}`,
+      },
+      value: condition.value,
+    }));
+    f.conditional = {
+      when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+      then: { visible: true },
+      otherwise: { visible: false },
+    };
+  }
   return f;
+}
+
+function absoluteConditions(conditions: Condition[], targetPath: string): AbsoluteCondition[] {
+  const parent = targetPath.split(".").filter(Boolean).slice(0, -1);
+  return conditions.map((condition) => ({
+    sourcePath: [...parent, ...condition.sourcePath],
+    value: condition.value,
+  }));
 }
 
 /**

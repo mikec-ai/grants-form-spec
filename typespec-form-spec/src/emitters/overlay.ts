@@ -117,15 +117,7 @@ function conditionalRequiredness(
   for (const prop of orderedProps(program, block)) {
     for (const c of propRequiredWhen(program, prop)) {
       conditionals.push({
-        if: {
-          properties: {
-            [c.sourceName]: c.sourceIsArray
-              ? { contains: { const: c.value } }
-              : { const: c.value },
-          },
-          // The guard idiom from forms/README.md: only run when the source is set.
-          required: [c.sourceName],
-        },
+        if: conditionSchema(c.sourcePath, c.sourceIsArray, c.value),
         then: { required: [prop.name] },
       });
     }
@@ -143,6 +135,25 @@ function conditionalRequiredness(
     } else merged.push(c);
   }
   return { allOf: merged };
+}
+
+/** Build a guarded condition at any nested data path. */
+function conditionSchema(
+  path: string[],
+  sourceIsArray: boolean,
+  value: string | number | boolean | null,
+): Record<string, unknown> {
+  let nested: Record<string, unknown> = sourceIsArray
+    ? { contains: { const: value } }
+    : { const: value };
+  for (const step of [...path].reverse()) {
+    nested = {
+      properties: { [step]: nested },
+      // Guard every level so a missing object cannot satisfy the condition vacuously.
+      required: [step],
+    };
+  }
+  return nested;
 }
 
 /**
