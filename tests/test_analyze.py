@@ -128,6 +128,24 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["shareOfA"], 1.0)
         self.assertEqual(row["shareOfB"], 1.0)
 
+    def test_rr_subaward_budget_30_reuses_the_complete_subaward_question_set(self) -> None:
+        ten_subawards = set(self.analysis["asks"]["rr-subaward-budget"])
+        thirty_subawards = set(self.analysis["asks"]["rr-subaward-budget-30"])
+
+        self.assertTrue(ten_subawards)
+        self.assertEqual(thirty_subawards, ten_subawards)
+
+        row = next(
+            row
+            for row in self.analysis["pairwise"]
+            if {row["formA"], row["formB"]}
+            == {"rr-subaward-budget", "rr-subaward-budget-30"}
+        )
+        self.assertEqual(row["questionsInCommon"], len(ten_subawards))
+        self.assertEqual(row["similarity"], 1.0)
+        self.assertEqual(row["shareOfA"], 1.0)
+        self.assertEqual(row["shareOfB"], 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()
