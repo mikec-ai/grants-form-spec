@@ -177,10 +177,16 @@ function walk(
         explicitOrder: propEvaluationOrder(program, prop),
         refs: computedFrom.paths.map((path) => {
           const rootPath = path.startsWith("/");
-          const canonical = rootPath ? path.slice(1) : path;
-          const emitted = rootPath || atRoot ? canonical : `@THIS.${canonical}`;
+          const parentPath = path.startsWith("../");
+          const canonical = rootPath ? path.slice(1) : parentPath ? path.slice(3) : path;
+          const parentAt = at.slice(0, -1);
+          const emitted = parentPath
+            ? parentAt.length ? `@PARENT.${canonical}` : canonical
+            : rootPath || atRoot ? canonical : `@THIS.${canonical}`;
           const resolved = rootPath
             ? canonical.replaceAll("[*]", "")
+            : parentPath
+              ? [...parentAt, canonical.replaceAll("[*]", "")].join(".")
             : [...at, canonical.replaceAll("[*]", "")].join(".");
           return { emit: emitted, resolve: resolved };
         }),

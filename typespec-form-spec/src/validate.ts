@@ -78,6 +78,26 @@ function contains(model: Model, target: Model, seen = new Set<Model>()): boolean
   return false;
 }
 
+/** Immediate composition parents of a model within one form's reachable type graph. */
+function compositionParents(
+  model: Model,
+  target: Model,
+  found = new Set<Model>(),
+  visiting = new Set<Model>(),
+): Set<Model> {
+  if (visiting.has(model)) return found;
+  const next = new Set(visiting).add(model);
+  for (const property of model.properties.values()) {
+    let type: Type = property.type;
+    const item = arrayItem(type);
+    if (item) type = item;
+    if (type.kind !== "Model") continue;
+    if (type === target) found.add(model);
+    compositionParents(type, target, found, next);
+  }
+  return found;
+}
+
 function checkComputedPaths(program: Program, blocks: Block[]): void {
   const forms = blocks.filter(
     (block): block is Block & { model: Model } => block.kind === "form" && block.model.kind === "Model",
@@ -97,21 +117,34 @@ function checkComputedPaths(program: Program, blocks: Block[]): void {
       if (!owner) continue;
       for (const path of computed.paths) {
         const absolute = path.startsWith("/");
-        const candidate = absolute ? path.slice(1) : path;
+        const parentRelative = path.startsWith("../");
+        const candidate = absolute ? path.slice(1) : parentRelative ? path.slice(3) : path;
         const containingForms = absolute
           ? forms.filter((form) => contains(form.model, owner))
           : [];
+        const parents = parentRelative
+          ? new Set(forms.flatMap((form) => [...compositionParents(form.model, owner)]))
+          : new Set<Model>();
         const valid = absolute
           // A question-bank file can compile without any form in scope. Defer its absolute
           // composition paths until a form actually composes the block; every containing
           // form must then satisfy the declared relationship.
           ? containingForms.length === 0 || containingForms.every((form) => resolves(form.model, candidate))
-          : resolves(owner, candidate);
+          : parentRelative
+            ? parents.size === 0 || [...parents].every((parent) => resolves(parent, candidate))
+            : resolves(owner, candidate);
         if (!valid) {
           reportDiagnostic(program, {
             code: "calculation-path-unresolved",
             target: property,
-            format: { path, scope: absolute ? "its containing form" : owner.name },
+            format: {
+              path,
+              scope: absolute
+                ? "its containing form"
+                : parentRelative
+                  ? "its containing block"
+                  : owner.name,
+            },
           });
         }
       }

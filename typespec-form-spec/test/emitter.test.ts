@@ -54,6 +54,35 @@ describe("SGG UI emission", () => {
     expect(period.properties.directCosts.readOnly).toBe(true);
   });
 
+  it("reuses the complete research budget inside each subaward with parent-scoped sums", async () => {
+    const root = resolve(packageRoot, "dist/forms/rr-subaward-budget");
+    const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+
+    expect(schema.properties.budgetAttachments).toMatchObject({
+      type: "array",
+      maxItems: 10,
+      items: { $ref: "../../question-bank/budget/research/details/schema.json" },
+    });
+
+    const allObjects = (value: unknown): Record<string, unknown>[] => {
+      if (Array.isArray(value)) return value.flatMap(allObjects);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, unknown>;
+      return [object, ...Object.values(object).flatMap(allObjects)];
+    };
+    expect(allObjects(ui).filter((node) => node.type === "fieldList")).toHaveLength(6);
+    expect(
+      allObjects(rules).filter((node) =>
+        Object.prototype.hasOwnProperty.call(node, "gg_pre_population")
+      ),
+    ).toHaveLength(30);
+    expect(
+      rules.budgetAttachments.budgetSummary.cumulativeDomesticTravelCosts.gg_pre_population.fields,
+    ).toEqual(["@PARENT.budgetYear[*].travel.domesticTravelCost"]);
+  });
+
   it("keeps Key Contacts field-list presentation parity declarative", async () => {
     const ui = JSON.parse(
       await readFile(

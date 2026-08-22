@@ -60,6 +60,47 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("accepts a parent-scoped path inside a reusable nested composition", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            model Period { amount?: string; }
+            model Summary {
+              @Validation.computedFrom(Op.Sum, "../periods[*].amount")
+              total?: string;
+            }
+            model BudgetDetails {
+              periods?: Period[];
+              summary?: Summary;
+            }
+            ${formMeta("nested-budget")}
+            model NestedBudget { budgets?: BudgetDetails[]; }
+          `),
+        ),
+      );
+    });
+
+    it("rejects a misspelled parent-scoped path", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          model Period { amount?: string; }
+          model Summary {
+            @Validation.computedFrom(Op.Sum, "../periods[*].amunt")
+            total?: string;
+          }
+          model BudgetDetails {
+            periods?: Period[];
+            summary?: Summary;
+          }
+          ${formMeta("nested-budget")}
+          model NestedBudget { budgets?: BudgetDetails[]; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/calculation-path-unresolved",
+      });
+    });
   });
 
   describe("form-scoped-question-id", () => {
