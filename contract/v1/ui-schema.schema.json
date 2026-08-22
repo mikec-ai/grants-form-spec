@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/ui-schema.schema.json",
+  "title": "Portable UI schema artifact",
+  "description": "The supported JSON Forms profile for a portable question or form block.",
+  "$ref": "#/$defs/node",
+  "$defs": {
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "schema"],
+      "properties": {
+        "scope": { "$ref": "#/$defs/scope" },
+        "schema": { "type": "object" }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effect", "condition"],
+      "properties": {
+        "effect": { "enum": ["SHOW", "HIDE", "ENABLE", "DISABLE"] },
+        "condition": { "$ref": "#/$defs/condition" }
+      }
+    },
+    "scope": {
+      "type": "string",
+      "pattern": "^#(?:$|/)"
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "scope"],
+      "properties": {
+        "type": { "const": "Control" },
+        "scope": { "$ref": "#/$defs/scope" },
+        "label": { "type": "string" },
+        "options": { "type": "object" },
+        "rule": { "$ref": "#/$defs/rule" }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "elements"],
+      "properties": {
+        "type": { "enum": ["Group", "VerticalLayout", "HorizontalLayout", "Categorization", "Category"] },
+        "label": { "type": "string" },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/node" }
+        },
+        "options": { "type": "object" },
+        "rule": { "$ref": "#/$defs/rule" }
+      }
+    },
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "Label" },
+        "text": { "type": "string" },
+        "options": { "type": "object" },
+        "rule": { "$ref": "#/$defs/rule" }
+      }
+    },
+    "node": {
+      "oneOf": [
+        { "$ref": "#/$defs/control" },
+        { "$ref": "#/$defs/layout" },
+        { "$ref": "#/$defs/label" }
+      ]
+    }
+  }
+}

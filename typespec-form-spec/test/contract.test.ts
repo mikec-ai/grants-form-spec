@@ -7,6 +7,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const contractRoot = resolve(packageRoot, "contract/v1");
 const emittedQuestionsRoot = resolve(packageRoot, "dist/question-bank");
+const emittedFormsRoot = resolve(packageRoot, "dist/forms");
 
 async function json(path: string): Promise<unknown> {
   return JSON.parse(await readFile(path, "utf8"));
@@ -22,14 +23,32 @@ async function schemaArtifacts(root: string): Promise<string[]> {
   return found;
 }
 
+async function namedArtifacts(root: string, name: string): Promise<string[]> {
+  const found: string[] = [];
+  for (const entry of await readdir(root, { withFileTypes: true })) {
+    const path = resolve(root, entry.name);
+    if (entry.isDirectory()) found.push(...(await namedArtifacts(path, name)));
+    if (entry.isFile() && entry.name === name) found.push(path);
+  }
+  return found;
+}
+
 describe("artifact contract v1", () => {
   let validateQuestion: ValidateFunction;
+  let validateForm: ValidateFunction;
+  let validateUi: ValidateFunction;
+  let validateIndex: ValidateFunction;
+  let validatePackage: ValidateFunction;
 
   beforeAll(async () => {
     const ajv = new Ajv2020({ allErrors: true, strict: true });
     validateQuestion = ajv.compile(
       await json(resolve(contractRoot, "question.schema.json")),
     );
+    validateForm = ajv.compile(await json(resolve(contractRoot, "form.schema.json")));
+    validateUi = ajv.compile(await json(resolve(contractRoot, "ui-schema.schema.json")));
+    validateIndex = ajv.compile(await json(resolve(contractRoot, "block-index.schema.json")));
+    validatePackage = ajv.compile(await json(resolve(contractRoot, "form-package.schema.json")));
   });
 
   it("accepts a hand-authored question artifact without TypeSpec", async () => {
@@ -67,4 +86,53 @@ describe("artifact contract v1", () => {
       ).toBe(true);
     }
   });
+
+  it.each([
+    ["form", validateFixture("form", () => validateForm)],
+    ["ui-schema", validateFixture("ui-schema", () => validateUi)],
+    ["block-index", validateFixture("block-index", () => validateIndex)],
+    ["form-package", validateFixture("form-package", () => validatePackage)],
+  ])("distinguishes the valid and poisoned %s fixtures", async (_name, run) => {
+    await run();
+  });
+
+  it("accepts all emitted form, UI, index, and package artifacts", async () => {
+    const groups: [string[], () => ValidateFunction][] = [
+      [await schemaArtifacts(emittedFormsRoot), () => validateForm],
+      [
+        [
+          ...(await namedArtifacts(emittedQuestionsRoot, "ui.json")),
+          ...(await namedArtifacts(emittedFormsRoot, "ui.json")),
+        ],
+        () => validateUi,
+      ],
+      [
+        [
+          ...(await namedArtifacts(emittedQuestionsRoot, "index.json")),
+          ...(await namedArtifacts(emittedFormsRoot, "index.json")),
+        ],
+        () => validateIndex,
+      ],
+      [await namedArtifacts(emittedFormsRoot, "manifest.json"), () => validatePackage],
+    ];
+
+    for (const [artifacts, getValidator] of groups) {
+      expect(artifacts.length).toBeGreaterThan(0);
+      const validator = getValidator();
+      for (const artifact of artifacts) {
+        const candidate = await json(artifact);
+        expect(validator(candidate), `${artifact}: ${JSON.stringify(validator.errors)}`).toBe(true);
+      }
+    }
+  });
 });
+
+function validateFixture(name: string, getValidator: () => ValidateFunction) {
+  return async () => {
+    const validator = getValidator();
+    const valid = await json(resolve(contractRoot, `conformance/${name}.valid.json`));
+    const invalid = await json(resolve(contractRoot, `conformance/${name}.invalid.json`));
+    expect(validator(valid), JSON.stringify(validator.errors)).toBe(true);
+    expect(validator(invalid)).toBe(false);
+  };
+}

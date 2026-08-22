@@ -26,6 +26,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run emit
+      - run: npm run validate-artifacts
       - run: npm test
       - run: npm run test-python
       - run: npm run package-artifacts

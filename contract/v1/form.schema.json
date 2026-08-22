@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/form.schema.json",
+  "title": "Form schema artifact",
+  "description": "A portable JSON Schema build target for one composed form block.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "https://json-schema.org/draft/2020-12/schema" }
+  ],
+  "required": ["$schema", "$id", "type"],
+  "properties": {
+    "$schema": { "const": "https://json-schema.org/draft/2020-12/schema" },
+    "$id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "(^|/)schema\\.json$"
+    },
+    "type": { "const": "object" }
+  }
+}

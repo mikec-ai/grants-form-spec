@@ -1,0 +1,8 @@
+{
+  "contract": "resolved-form-package/v1",
+  "form": { "id": "example-form" },
+  "artifacts": {
+    "../schema.json": "generated",
+    "ui.json": "invented"
+  }
+}

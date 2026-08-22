@@ -55,6 +55,12 @@ npm test
 npm run analyze
 ```
 
+`npm run validate-artifacts` validates emitted questions, forms, presentation trees,
+catalogue indexes, and package manifests against `contract/v1`. It also checks the artifact
+graph for resolvable `$ref` targets, valid UI scopes, matching block identities, and declared
+package members. The same command accepts artifacts produced without TypeSpec through
+`--dist <path>`.
+
 Generated `dist/` output is intentionally ignored. Build reports, large parity oracles, resolved snapshots, and analysis workbooks are CI artifacts rather than runtime source.
 
 ## Project boundaries

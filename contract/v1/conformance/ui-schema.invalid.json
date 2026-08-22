@@ -1,0 +1,5 @@
+{
+  "type": "Control",
+  "scope": "properties/organizationName",
+  "semanticDecision": "hidden in presentation"
+}
