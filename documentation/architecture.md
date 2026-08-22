@@ -1060,6 +1060,12 @@ totalAmount?: MonetaryAmount;
 **Ordering is derived from the reference graph, never authored.** The emitted `order` becomes
 a computed output, and cycle detection (§4.3) gains its first real consumer.
 
+A reusable calculation may address a sibling of its containing block with `../`. For example,
+`../budgetYear[*].travel.totalTravelCost` means “all budget years beside this summary.” At the
+root it compiles to the existing root reference. When the same budget is nested inside a
+subaward collection, it compiles to the target runtime's parent-scope reference. This keeps one
+calculation declaration valid in both compositions.
+
 **Scale and shape.** A full census of `gg_pre_population` finds **63 calculation entries** —
 `sum_monetary` 44, `subtract_monetary` 18, `multiply_by_percentage` 1 — concentrated in the
 budget forms, with SF-424A alone holding 35 of the sums. A handful are single-level sums; the

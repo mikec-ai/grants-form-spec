@@ -1,11 +1,22 @@
 import "@simpler-grants/form-spec";
 import "../index.tsp";
 import "../generics/index.tsp";
+import "../budget/index.tsp";
+import "../primary-org/index.tsp";
 
 using SimplerForms;
 using QuestionBank.Generics;
+using QuestionBank.Budget;
+using QuestionBank.PrimaryOrg;
 
 namespace QuestionBank.ResearchBudget;
+
+/** The working areas shared by Research & Related budget compositions. */
+enum ResearchBudgetSection {
+  budgetOverview: "Budget overview",
+  budgetYear: "Budget Year",
+  budgetSummary: "Budget Summary",
+}
 
 // A source-wire decimal, kept distinct from the applicant-facing monetary question because
 // its precision pattern is a transport constraint rather than a different semantic question.
@@ -79,55 +90,55 @@ enum ResearchBudgetType {
 )
 model ResearchBudgetBudgetSummary {
   @UI.label("4. ADP/Computer Services")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.adpComputerServices")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.adpComputerServices")
   @Validation.evaluationOrder(23)
   @UI.readOnly
   cumulativeAdpComputerServices?: ResearchBudgetDecimal;
 
   @UI.label("7. Alterations and Renovations")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.alterationsRenovations")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.alterationsRenovations")
   @Validation.evaluationOrder(26)
   @UI.readOnly
   cumulativeAlterationsAndRenovations?: ResearchBudgetDecimal;
 
   @UI.label("3. Consultant Services")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.consultantServices")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.consultantServices")
   @Validation.evaluationOrder(22)
   @UI.readOnly
   cumulativeConsultantServices?: ResearchBudgetDecimal;
 
   @UI.label("1. Domestic")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].travel.domesticTravelCost")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.domesticTravelCost")
   @Validation.evaluationOrder(16)
   @UI.readOnly
   cumulativeDomesticTravelCosts?: ResearchBudgetDecimal;
 
   @UI.label("6. Equipment or Facility Rental/User Fees")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.equipmentRentalFee")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.equipmentRentalFee")
   @Validation.evaluationOrder(25)
   @UI.readOnly
   cumulativeEquipmentFacilityRentalFees?: ResearchBudgetDecimal;
 
   @UI.label("Section J, Fee")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].fee")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].fee")
   @Validation.evaluationOrder(30)
   @UI.readOnly
   cumulativeFee?: ResearchBudgetDecimal;
 
   @UI.label("2. Foreign")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].travel.foreignTravelCost")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.foreignTravelCost")
   @Validation.evaluationOrder(17)
   @UI.readOnly
   cumulativeForeignTravelCosts?: ResearchBudgetDecimal;
 
   @UI.label("1. Materials and Supplies")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.materialsSupplies")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.materialsSupplies")
   @Validation.evaluationOrder(20)
   @UI.readOnly
   cumulativeMaterialAndSupplies?: ResearchBudgetDecimal;
 
   @UI.label("6. Number of Participants/Trainees")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].participantTraineeSupportCosts.participantTraineeNumber")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.participantTraineeNumber")
   @Validation.evaluationOrder(18)
   @UI.readOnly
   cumulativeNoofTrainees?: int32;
@@ -177,13 +188,13 @@ model ResearchBudgetBudgetSummary {
   cumulativeOtherTraineeCost?: ResearchBudgetDecimal;
 
   @UI.label("2. Publication Costs")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.publicationCosts")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.publicationCosts")
   @Validation.evaluationOrder(21)
   @UI.readOnly
   cumulativePublicationCosts?: ResearchBudgetDecimal;
 
   @UI.label("5. Subawards/Consortium/Contractual Costs")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.subawardConsortiumContractualCosts")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.subawardConsortiumContractualCosts")
   @Validation.evaluationOrder(24)
   @UI.readOnly
   cumulativeSubawardConsortiumContractualCosts?: ResearchBudgetDecimal;
@@ -193,13 +204,13 @@ model ResearchBudgetBudgetSummary {
   cumulativeTotalCostsFee: ResearchBudgetDecimal;
 
   @UI.label("Section G, Direct Costs (A thru F)")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].directCosts")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].directCosts")
   @Validation.evaluationOrder(27)
   @UI.readOnly
   cumulativeTotalFundsRequestedDirectCosts: ResearchBudgetDecimal;
 
   @UI.label("Section I, Total Direct and Indirect Costs (G + H)")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].totalCosts")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].totalCosts")
   @Validation.evaluationOrder(29)
   @UI.readOnly
   cumulativeTotalFundsRequestedDirectIndirectCosts: ResearchBudgetDecimal;
@@ -209,31 +220,31 @@ model ResearchBudgetBudgetSummary {
   cumulativeTotalFundsRequestedEquipment?: ResearchBudgetDecimal;
 
   @UI.label("Section H, Indirect Costs")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].indirectCosts.totalIndirectCosts")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].indirectCosts.totalIndirectCosts")
   @Validation.evaluationOrder(28)
   @UI.readOnly
   cumulativeTotalFundsRequestedIndirectCost?: ResearchBudgetDecimal;
 
   @UI.label("Section F, Other Direct Costs")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.totalOtherDirectCost")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.totalOtherDirectCost")
   @Validation.evaluationOrder(19)
   @UI.readOnly
   cumulativeTotalFundsRequestedOtherDirectCosts?: ResearchBudgetDecimal;
 
   @UI.label("Section B, Other Personnel")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherPersonnel.totalOtherPersonnelFund")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherPersonnel.totalOtherPersonnelFund")
   @Validation.evaluationOrder(12)
   @UI.readOnly
   cumulativeTotalFundsRequestedOtherPersonnel?: ResearchBudgetDecimal;
 
   @UI.label("Total Salary, Wages and Fringe Benefits (A + B)")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].totalCompensation")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].totalCompensation")
   @Validation.evaluationOrder(14)
   @UI.readOnly
   cumulativeTotalFundsRequestedPersonnel: ResearchBudgetDecimal;
 
   @UI.label("Section A, Senior/Key Person")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].keyPersons.totalFundForKeyPersons")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].keyPersons.totalFundForKeyPersons")
   @Validation.evaluationOrder(11)
   @UI.readOnly
   cumulativeTotalFundsRequestedSeniorKeyPerson: ResearchBudgetDecimal;
@@ -243,13 +254,13 @@ model ResearchBudgetBudgetSummary {
   cumulativeTotalFundsRequestedTraineeCosts?: ResearchBudgetDecimal;
 
   @UI.label("Section D, Travel")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].travel.totalTravelCost")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.totalTravelCost")
   @Validation.evaluationOrder(15)
   @UI.readOnly
   cumulativeTotalFundsRequestedTravel?: ResearchBudgetDecimal;
 
   @UI.label("Total Number Other Personnel")
-  @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherPersonnel.otherPersonnelTotalNumber")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherPersonnel.otherPersonnelTotalNumber")
   @Validation.evaluationOrder(13)
   @UI.readOnly
   cumulativeTotalNoOtherPersonnel?: int32;
@@ -415,6 +426,47 @@ model ResearchBudgetBudgetYearKeyPersons {
   @UI.label("Total Senior/Key Person")
   @UI.readOnly
   totalFundForKeyPersons: ResearchBudgetDecimal;
+}
+
+/** A complete Research & Related budget that can stand alone or belong to a subaward collection. */
+@Question.meta(#{ id: "budget/research/details" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.details)
+@UI.label("Research & Related Budget")
+@UI.sections(ResearchBudgetSection)
+model ResearchBudgetDetails {
+  /** Unique Entity Identifier for the organization responsible for this budget. */
+  @UI.label("UEI:")
+  @UI.section(ResearchBudgetSection.budgetOverview)
+  samUei: SamUei;
+
+  /** Whether this is the project budget or a subaward or consortium budget. */
+  @UI.label("Budget Type:")
+  @UI.section(ResearchBudgetSection.budgetOverview)
+  budgetType: ResearchBudgetType;
+
+  /** Name of the organization responsible for this budget. */
+  @UI.label("Enter name of Organization:")
+  @UI.section(ResearchBudgetSection.budgetOverview)
+  organizationName?: OrganizationName;
+
+  /** Attach the budget justification file. */
+  @UI.label("L. Budget Justification (Only attach one file.)")
+  @UI.section(ResearchBudgetSection.budgetOverview)
+  @UI.widget(WidgetName.Attachment)
+  budgetJustificationAttachment: BudgetJustification;
+
+  /** One to five budget periods for this project or subaward budget. */
+  @UI.label("Budget Year")
+  @UI.section(ResearchBudgetSection.budgetYear)
+  @minItems(1)
+  @maxItems(5)
+  budgetYear: ResearchBudgetBudgetYear[];
+
+  /** Cumulative totals across every budget period. */
+  @UI.label("Budget Summary")
+  @UI.section(ResearchBudgetSection.budgetSummary)
+  budgetSummary: ResearchBudgetBudgetSummary;
 }
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1 {

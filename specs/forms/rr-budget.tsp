@@ -1,24 +1,17 @@
 import "@simpler-grants/form-spec";
 import "./index.tsp";
-import "../question-bank/generics/index.tsp";
 import "../question-bank/budget/index.tsp";
+import "../question-bank/generics/index.tsp";
 import "../question-bank/primary-org/index.tsp";
 import "../question-bank/research-budget/index.tsp";
 
 using SimplerForms;
-using QuestionBank.Generics;
 using QuestionBank.Budget;
+using QuestionBank.Generics;
 using QuestionBank.PrimaryOrg;
 using QuestionBank.ResearchBudget;
 
 namespace Forms.RRBudget;
-
-/** The three working areas of the Research & Related Budget. */
-enum ResearchBudgetSection {
-  budgetOverview: "Budget overview",
-  budgetYear: "Budget Year",
-  budgetSummary: "Budget Summary",
-}
 
 /** Research & Related Budget, Grants.gov form version 3.0. */
 @Form.meta(#{
@@ -56,8 +49,7 @@ model RRBudget {
   @UI.widget(WidgetName.Attachment)
   budgetJustificationAttachment: BudgetJustification;
 
-  // One to five research budget periods. The item bounds carry this constraint without
-  // introducing adapter-specific helper text into the portable UI contract.
+  /** One to five budget periods. */
   @UI.label("Budget Year")
   @UI.section(ResearchBudgetSection.budgetYear)
   @minItems(1)

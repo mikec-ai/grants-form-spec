@@ -95,6 +95,22 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("unrecognized arguments: --wat", result.stderr)
 
+    def test_rr_subaward_budget_reuses_every_rr_budget_question(self) -> None:
+        budget = set(self.analysis["asks"]["rr-budget"])
+        subaward = set(self.analysis["asks"]["rr-subaward-budget"])
+        self.assertTrue(budget)
+        self.assertLessEqual(budget, subaward)
+        self.assertEqual(subaward - budget, {"budget/research/details"})
+
+        row = next(
+            row
+            for row in self.analysis["pairwise"]
+            if {row["formA"], row["formB"]} == {"rr-budget", "rr-subaward-budget"}
+        )
+        self.assertEqual(row["questionsInCommon"], len(budget))
+        budget_share = row["shareOfA"] if row["formA"] == "rr-budget" else row["shareOfB"]
+        self.assertEqual(budget_share, 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()
