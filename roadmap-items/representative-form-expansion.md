@@ -24,3 +24,5 @@ superbee_updated_by: codex
 [contains](../tasks/integrate-standalone-attachment-forms.md)
 
 [contains](../tasks/author-integrate-rr-budget.md)
+
+[contains](../tasks/research-attachment-semantic-classification.md)
