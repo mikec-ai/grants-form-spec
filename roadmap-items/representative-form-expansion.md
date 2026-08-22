@@ -2,13 +2,14 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Seven forms now run through the portable specification and public Simpler
+  Eight forms now run through the portable specification and public Simpler
   adapter: Key Contacts, SF-424, SF-424A, SF-424 Short, Project Narrative
-  Attachment, Budget Narrative Attachment, and Other Narrative Attachments. The
-  attachment slice proved that three role-specific forms can add zero
-  question-bank entries while preserving distinct source identity and exact
-  runtime parity. Continue with a high-priority form that expands the capability
-  surface beyond application, budget-table, contact, and attachment patterns.
+  Attachment, Budget Narrative Attachment, Other Narrative Attachments, and R&R
+  Budget 3.0. The R&R Budget canary expands the proven capability surface to
+  five nested repeating groups, shared research-budget blocks, 30 ordered
+  calculations, decimal wire constraints, and attachment validation without
+  form-specific schema-generation code. Continue with a nearby R&R sibling to
+  measure how much of this larger capability surface can be reused directly.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
