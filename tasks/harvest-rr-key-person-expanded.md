@@ -14,8 +14,16 @@ description: >-
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T22:56:04.218Z'
+  at: '2026-08-22T22:56:32.356Z'
 ---
-# Objective\n\nAdd R&R Senior/Key Person Profile (Expanded) as the next foundation form after the R&R SF-424 Multi-Project Cover harvest.\n\n# Acceptance criteria\n\n- Deterministic source records and behaviors are pinned at an exact crosswalk revision.\n- Reuse is composed only where semantic identity is supported; label similarity remains a proposal.\n- Repeating person and attachment semantics are represented declaratively.\n- Portable artifacts validate and load through the public adapter without form-specific code.\n- XML, human review, accessibility, and production release gates remain explicit.
+# Objective
 
-[contained by](../roadmap-items/representative-form-expansion.md)
+Add R&R Senior/Key Person Profile (Expanded) as the next foundation form after the R&R SF-424 Multi-Project Cover harvest.
+
+# Acceptance criteria
+
+- Deterministic source records and behaviors are pinned at an exact crosswalk revision.
+- Reuse is composed only where semantic identity is supported; label similarity remains a proposal.
+- Repeating person and attachment semantics are represented declaratively.
+- Portable artifacts validate and load through the public adapter without form-specific code.
+- XML, human review, accessibility, and production release gates remain explicit.

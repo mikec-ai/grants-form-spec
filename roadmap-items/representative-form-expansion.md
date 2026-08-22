@@ -86,3 +86,5 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/promote-project-abstract-summary.md)
 
 [contains](../tasks/harvest-rr-sf424-multi-project-cover.md)
+
+[contains](../tasks/harvest-rr-key-person-expanded.md)
