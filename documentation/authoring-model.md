@@ -1320,7 +1320,7 @@ projection exists: a target's limitations are the target's business, not the mod
 | | Question | Form |
 |---|---|---|
 | identity | `@Question.meta` | `@Form.meta` |
-| runtime metadata (UUID, `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
+| runtime metadata (UUID, optional `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
 | `schema.json` / `ui.json` / `index.json` | yes | yes |
 | `$ref`-able from another block | yes | yes |
 | SGG projection + `sgg/` artifacts | — | yes |

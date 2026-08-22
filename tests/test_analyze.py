@@ -111,6 +111,23 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         budget_share = row["shareOfA"] if row["formA"] == "rr-budget" else row["shareOfB"]
         self.assertEqual(budget_share, 1.0)
 
+    def test_rr_budget_10yr_reuses_the_complete_rr_budget_question_set(self) -> None:
+        five_year = set(self.analysis["asks"]["rr-budget"])
+        ten_year = set(self.analysis["asks"]["rr-budget-10yr"])
+
+        self.assertTrue(five_year)
+        self.assertEqual(ten_year, five_year)
+
+        row = next(
+            row
+            for row in self.analysis["pairwise"]
+            if {row["formA"], row["formB"]} == {"rr-budget", "rr-budget-10yr"}
+        )
+        self.assertEqual(row["questionsInCommon"], len(five_year))
+        self.assertEqual(row["similarity"], 1.0)
+        self.assertEqual(row["shareOfA"], 1.0)
+        self.assertEqual(row["shareOfB"], 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()

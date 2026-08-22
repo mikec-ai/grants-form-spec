@@ -10,7 +10,7 @@
     "contract": { "const": "resolved-form-package/v1" },
     "form": {
       "type": "object",
-      "required": ["id", "formId", "legacyFormId", "formName", "shortFormName", "formVersion", "agencyCode", "ombNumber", "formType", "sggVersion"],
+      "required": ["id", "formId", "formName", "shortFormName", "formVersion", "agencyCode", "ombNumber", "formType", "sggVersion"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "formId": {
