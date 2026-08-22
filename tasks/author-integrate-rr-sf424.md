@@ -4,16 +4,18 @@ title: Author and integrate R&R SF-424
 priority: P0
 assignee: codex
 description: >-
-  R&R SF-424 is now declaratively authored and merged in grants-form-spec; its
-  public Simpler canary and typed conditional-UI runtime are merged. The
-  remaining generic gates are encoded revision-checkbox semantics,
-  conditional-requiredness presentation, lifecycle population, date comparison,
-  exact XML, and release validation.
+  R&R SF-424 is declaratively authored and merged. The public Simpler canary,
+  typed conditional-UI runtime, declarative encoded revision-choice contract,
+  and generic encoded-checkbox widget are all merged to their public main
+  branches. The importer spike accelerated deterministic source staging without
+  accepting semantic proposals. Remaining generic gates are reactive
+  conditional-requiredness presentation and save validation, lifecycle
+  population, date comparison, exact XML, and browser/release validation.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T21:20:58.086Z'
+  at: '2026-08-22T22:25:44.615Z'
 ---
 # Objective
 
