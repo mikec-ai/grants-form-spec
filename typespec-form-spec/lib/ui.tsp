@@ -20,6 +20,8 @@ extern dec overrides(target: Model | ModelProperty, patch: valueof Record<unknow
 extern dec label(target: Model | Scalar | ModelProperty, text: valueof string);
 extern dec helpText(target: ModelProperty, text: valueof string);
 extern dec widget(target: ModelProperty, widget: valueof WidgetName);
+/** Render source-approved checkbox choices while preserving one encoded wire value. */
+extern dec encodedCheckboxGroup(target: ModelProperty, contract: valueof Record<unknown>);
 extern dec order(target: Model, ...props: ModelProperty[]);
 extern dec omit(target: ModelProperty);
 extern dec readOnly(target: ModelProperty);

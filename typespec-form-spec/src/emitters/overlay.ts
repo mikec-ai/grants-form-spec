@@ -3,6 +3,7 @@ import {
   Block,
   orderedProps,
   propHelpText,
+  propEncodedCheckboxGroup,
   propReadOnly,
   propRequiredWhen,
   propValidationConstraints,
@@ -28,9 +29,35 @@ export function emitSchemaOverlay(
   const readOnly = block.model.kind === "Model" ? readOnlyAnnotations(program, block.model) : undefined;
   const helpText = block.model.kind === "Model" ? helpTextAnnotations(program, block.model) : undefined;
   const constraints = block.model.kind === "Model" ? constraintAnnotations(program, block.model) : undefined;
-  const parts = [conditionals, patches, readOnly, helpText, constraints].filter(Boolean) as Record<string, unknown>[];
+  const encodedCheckboxes = block.model.kind === "Model"
+    ? encodedCheckboxAnnotations(program, block.model)
+    : undefined;
+  const parts = [conditionals, patches, readOnly, helpText, constraints, encodedCheckboxes].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
+}
+
+/** Carry the declarative choice-to-wire mapping beside the enum it governs. */
+function encodedCheckboxAnnotations(
+  program: Program,
+  model: Model,
+  seen = new Set<Model>(),
+): Record<string, unknown> | undefined {
+  if (seen.has(model)) return undefined;
+  seen.add(model);
+  const properties: Record<string, unknown> = {};
+  for (const property of model.properties.values()) {
+    let patch: Record<string, unknown> = {};
+    const contract = propEncodedCheckboxGroup(program, property);
+    if (contract) patch["x-encoded-checkbox-group"] = contract;
+    const child = childModel(property.type);
+    if (child) {
+      const nested = encodedCheckboxAnnotations(program, child.model, new Set(seen));
+      if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
+    }
+    if (Object.keys(patch).length) properties[property.name] = patch;
+  }
+  return Object.keys(properties).length ? { properties } : undefined;
 }
 
 /** Carry form-use constraints into JSON Schema without creating another semantic question. */

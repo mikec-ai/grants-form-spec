@@ -36,6 +36,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Condition path "${"path"}" does not resolve from ${"model"}.`,
       },
     },
+    "encoded-checkbox-contract-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Encoded checkbox contract on ${"name"} is invalid: ${"reason"}.`,
+      },
+    },
     "calculation-cycle": {
       severity: "error",
       messages: {
@@ -81,6 +87,7 @@ export const $lib = createTypeSpecLibrary({
     label: {},
     helpText: {},
     widget: {},
+    encodedCheckboxGroup: {},
     sections: {},
     section: {},
     order: {},

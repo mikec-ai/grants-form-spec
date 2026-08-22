@@ -330,6 +330,41 @@ describe("SGG UI emission", () => {
         otherwise: { visible: false },
       },
     });
+    expect(schema.$defs.ResearchRevisionCode.enum).toEqual([
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "AC",
+      "AD",
+      "BC",
+      "BD",
+    ]);
+    expect(
+      schema.properties.applicationType.properties.revisionCode,
+    ).toMatchObject({
+      "x-encoded-checkbox-group": {
+        choices: [
+          { code: "A", label: "A. Increase Award" },
+          { code: "B", label: "B. Decrease Award" },
+          { code: "C", label: "C. Increase Duration" },
+          { code: "D", label: "D. Decrease Duration" },
+          { code: "E", label: "E. Other" },
+        ],
+        combinations: [
+          { value: "A", members: ["A"] },
+          { value: "B", members: ["B"] },
+          { value: "C", members: ["C"] },
+          { value: "D", members: ["D"] },
+          { value: "E", members: ["E"] },
+          { value: "AC", members: ["A", "C"] },
+          { value: "AD", members: ["A", "D"] },
+          { value: "BC", members: ["B", "C"] },
+          { value: "BD", members: ["B", "D"] },
+        ],
+      },
+    });
     expect(
       fields.find((field: any) => field.definition.endsWith("/womenOwned")),
     ).toMatchObject({

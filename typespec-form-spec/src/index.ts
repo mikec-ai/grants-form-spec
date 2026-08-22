@@ -17,6 +17,7 @@ export const $decorators = {
     label: d.$label,
     helpText: d.$helpText,
     widget: d.$widget,
+    encodedCheckboxGroup: d.$encodedCheckboxGroup,
     order: d.$order,
     omit: d.$omit,
     readOnly: d.$readOnly,

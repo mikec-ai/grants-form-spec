@@ -5,6 +5,7 @@ import { reportDiagnostic } from "./lib.js";
 import {
   Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
   propComputedFrom,
+  propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
 } from "./model.js";
@@ -33,11 +34,92 @@ export function $onValidate(program: Program): void {
     for (const prop of block.model.properties.values()) {
       checkConditions(program, prop);
       checkRequiredButHidden(program, prop);
+      checkEncodedCheckboxGroup(program, prop);
     }
   }
 
   checkCalculationCycles(program, blocks);
   checkComputedPaths(program, blocks);
+}
+
+function checkEncodedCheckboxGroup(program: Program, prop: ModelProperty): void {
+  const contract = propEncodedCheckboxGroup(program, prop);
+  if (!contract) return;
+
+  const fail = (reason: string): void =>
+    reportDiagnostic(program, {
+      code: "encoded-checkbox-contract-invalid",
+      target: prop,
+      format: { name: prop.name, reason },
+    });
+  const enumeration = enumOf(prop.type);
+  if (!enumeration) {
+    fail("the field type is not an enum");
+    return;
+  }
+  if (Object.keys(contract).sort().join(",") !== "choices,combinations") {
+    fail("exactly choices and combinations must be declared");
+    return;
+  }
+  const choices = contract.choices;
+  const combinations = contract.combinations;
+  if (!Array.isArray(choices) || !Array.isArray(combinations) || !choices.length) {
+    fail("choices and combinations must be non-empty arrays");
+    return;
+  }
+  const typedChoices = choices as Record<string, unknown>[];
+  if (
+    typedChoices.some(
+      (choice) =>
+        !choice ||
+        typeof choice !== "object" ||
+        Array.isArray(choice) ||
+        Object.keys(choice).sort().join(",") !== "code,label" ||
+        typeof choice.code !== "string" ||
+        !choice.code ||
+        typeof choice.label !== "string" ||
+        !choice.label,
+    )
+  ) {
+    fail("each choice must contain one non-empty code and label");
+    return;
+  }
+  const codes = typedChoices.map((choice) => choice.code as string);
+  const labels = typedChoices.map((choice) => choice.label as string);
+  if (new Set(codes).size !== codes.length || new Set(labels).size !== labels.length) {
+    fail("choice codes and labels must be unique");
+    return;
+  }
+
+  const values = new Set<string>();
+  for (const raw of combinations as Record<string, unknown>[]) {
+    if (
+      !raw ||
+      typeof raw !== "object" ||
+      Array.isArray(raw) ||
+      Object.keys(raw).sort().join(",") !== "members,value" ||
+      typeof raw.value !== "string" ||
+      !raw.value ||
+      !Array.isArray(raw.members) ||
+      !raw.members.length ||
+      raw.members.some((member) => typeof member !== "string" || !codes.includes(member)) ||
+      new Set(raw.members).size !== raw.members.length ||
+      values.has(raw.value)
+    ) {
+      fail("every combination must have a unique value and unique known members");
+      return;
+    }
+    values.add(raw.value);
+  }
+  const enumValues = [...enumeration.members.values()].map((member) =>
+    String(member.value ?? member.name),
+  );
+  if (
+    enumValues.length !== values.size ||
+    enumValues.some((value) => !values.has(value))
+  ) {
+    fail("combination values must exactly match the field enum");
+  }
 }
 
 // ---------------------------------------------------------------------------

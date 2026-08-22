@@ -87,6 +87,8 @@ export const propHelpText = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.helpText, prop) as string | undefined;
 export const propWidget = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.widget, prop) as string | undefined;
+export const propEncodedCheckboxGroup = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.encodedCheckboxGroup, prop) as Record<string, unknown> | undefined;
 export const propSection = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.section, prop) as { name: string; label?: string } | undefined;
 export const propReadOnly = (p: Program, prop: ModelProperty) =>
