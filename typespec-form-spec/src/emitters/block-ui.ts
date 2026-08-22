@@ -1,7 +1,7 @@
 import type { Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  Block, childBlock, orderedProps, propLabel, propReadOnly, propVisibleWhen, propWidget,
+  Block, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
 } from "../model.js";
 
 export interface UiNode {
@@ -62,6 +62,30 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
           schema: { const: c.value },
         },
       };
+    } else {
+      const enabled = propEnabledWhen(program, prop);
+      if (enabled.length === 1) {
+        const c = enabled[0];
+        node.rule = {
+          effect: "ENABLE",
+          condition: {
+            scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
+            schema: { const: c.value },
+          },
+        };
+      } else {
+        const readOnly = propReadOnlyWhen(program, prop);
+        if (readOnly.length === 1) {
+          const c = readOnly[0];
+          node.rule = {
+            effect: "DISABLE",
+            condition: {
+              scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
+              schema: { const: c.value },
+            },
+          };
+        }
+      }
     }
 
     elements.push(node);

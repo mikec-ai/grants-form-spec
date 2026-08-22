@@ -27,4 +27,6 @@ extern dec omit(target: ModelProperty);
 extern dec readOnly(target: ModelProperty);
 
 extern dec visibleWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
+/** Keep the field visible but enable it only while the predicate holds. */
+extern dec enabledWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 extern dec readOnlyWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);

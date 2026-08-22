@@ -95,6 +95,7 @@ export const $lib = createTypeSpecLibrary({
     readOnly: {},
     omit: {},
     visibleWhen: {},
+    enabledWhen: {},
     readOnlyWhen: {},
     requiredWhen: {},
     validationConstraints: {},
