@@ -129,6 +129,15 @@ describe("artifact contract v1", () => {
       }
     }
   });
+
+  it("accepts a portable form package before a legacy consumer id is assigned", async () => {
+    const fixture = structuredClone(
+      await json(resolve(contractRoot, "conformance/form-package.valid.json")),
+    ) as { form: { legacyFormId?: number } };
+    delete fixture.form.legacyFormId;
+
+    expect(validatePackage(fixture), JSON.stringify(validatePackage.errors)).toBe(true);
+  });
 });
 
 function validateFixture(name: string, getValidator: () => ValidateFunction) {

@@ -574,7 +574,7 @@ a target-specific projection and never a composition semantic — the same conta
 | | Question | Form |
 |---|---|---|
 | identity | `@Question.meta` | `@Form.meta` |
-| runtime metadata (UUID, `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
+| runtime metadata (UUID, optional `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
 | `schema.json` / `ui.json` / `index.json` | yes | yes |
 | `$ref`-able from another block | yes | yes |
 | SGG target artifacts and adapter projection | — | yes |
