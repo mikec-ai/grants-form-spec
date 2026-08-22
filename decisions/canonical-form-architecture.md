@@ -28,3 +28,11 @@ TypeSpec is the first typed producer. Emitted JSON Schema, presentation, behavio
 Each migrated form must prove applicant-visible rendering and submission-validation parity through an explicit consumer projection. Known semantic disagreements remain visible review findings rather than hidden exceptions.
 
 The governing design is documented in `documentation/architecture.md`, `documentation/authoring-model.md`, and `documentation/deferred-designs.md`.
+
+[documented by](../architecture/form-architecture.md)
+
+[documented by](../architecture/authoring-model.md)
+
+[documented by](../architecture/deferred-designs.md)
+
+[operationalized by](../architecture/guiding-principles.md)
