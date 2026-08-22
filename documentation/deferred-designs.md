@@ -151,6 +151,17 @@ now, and it deserves its own design pass rather than being bolted onto `@Map.to`
 
 ## 2. XML wire transform
 
+### 2.0 Implemented portable profile boundary
+
+The R&R Budget family now implements the intermediate architecture described in
+[`grants-gov-xml-target.md`](./grants-gov-xml-target.md): a versioned declarative JSON contract,
+canonical field paths, reusable mapping fragments, self-contained emitted profiles, and
+build-time mapping coverage checks. This retires per-form transform knowledge from the SGG
+adapter without adding XML keywords to canonical JSON Schema.
+
+The stronger XSD-to-TypeSpec wire-model design below remains deferred. It can replace JSON
+mapping authoring later without changing the emitted profile contract or its consumers.
+
 ### 2.1 What `@typespec/xml` actually is
 
 First-party and documented, but **metadata only** — five decorators (`@name`, `@attribute`,

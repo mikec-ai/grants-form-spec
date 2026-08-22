@@ -507,13 +507,8 @@ model ResearchBudgetBudgetYearKeyPersons {
   totalFundForKeyPersons: ResearchBudgetDecimal15;
 }
 
-/** A complete Research & Related budget that can stand alone or belong to a subaward collection. */
-@Question.meta(#{ id: "budget/research/details" })
-@Catalog.entity(EntityName.project)
-@Catalog.tag(TagName.money, TagName.details)
-@UI.label("Research & Related Budget")
-@UI.sections(ResearchBudgetSection)
-model ResearchBudgetDetails {
+/** Organization and budget identity shared by every Research & Related budget duration. */
+model ResearchBudgetOverview {
   /** Unique Entity Identifier for the organization responsible for this budget. */
   @UI.label("UEI:")
   @UI.section(ResearchBudgetSection.budgetOverview)
@@ -534,6 +529,16 @@ model ResearchBudgetDetails {
   @UI.section(ResearchBudgetSection.budgetOverview)
   @UI.widget(WidgetName.Attachment)
   budgetJustificationAttachment: BudgetJustification;
+}
+
+/** A complete five-period Research & Related budget. */
+@Question.meta(#{ id: "budget/research/details" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.details)
+@UI.label("Research & Related Budget")
+@UI.sections(ResearchBudgetSection)
+model ResearchBudgetDetails {
+  ...ResearchBudgetOverview;
 
   /** One to five budget periods for this project or subaward budget. */
   @UI.label("Budget Year")
@@ -548,14 +553,26 @@ model ResearchBudgetDetails {
   budgetSummary: ResearchBudgetBudgetSummary;
 }
 
-/** A ten-period profile of the shared Research & Related budget details question. */
-model ResearchBudget10YrDetails extends ResearchBudgetDetails {
-  /** Override only the permitted period count; inherited questions and rules remain shared. */
+/** A complete ten-period Research & Related budget. */
+@Question.meta(#{ id: "budget/research/details-10yr" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.details)
+@UI.label("Research & Related Budget 10YR")
+@UI.sections(ResearchBudgetSection)
+model ResearchBudget10YrDetails {
+  ...ResearchBudgetOverview;
+
+  /** One to ten budget periods for this project or subaward budget. */
   @UI.label("Budget Year")
   @UI.section(ResearchBudgetSection.budgetYear)
   @minItems(1)
   @maxItems(10)
   budgetYear: ResearchBudgetBudgetYear[];
+
+  /** Cumulative totals across every budget period. */
+  @UI.label("Budget Summary")
+  @UI.section(ResearchBudgetSection.budgetSummary)
+  budgetSummary: ResearchBudgetBudgetSummary;
 }
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1 {

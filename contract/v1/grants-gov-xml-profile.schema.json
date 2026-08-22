@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/grants-gov-xml-profile.schema.json",
+  "title": "Portable Grants.gov XML target profile",
+  "description": "A language-neutral mapping from one canonical form response to a Grants.gov XML document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "formId", "xsd", "namespaces", "root", "mapping"],
+  "properties": {
+    "contract": { "const": "grants-gov-xml-profile/v1" },
+    "formId": { "type": "string", "minLength": 1 },
+    "xsd": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uri", "sha256"],
+      "properties": {
+        "uri": { "type": "string", "pattern": "^https://" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "namespaces": {
+      "type": "object",
+      "minProperties": 1,
+      "required": ["default"],
+      "properties": {
+        "default": { "type": "string", "pattern": "^https?://" }
+      },
+      "propertyNames": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$" },
+      "additionalProperties": { "type": "string", "pattern": "^https?://" }
+    },
+    "root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element", "namespacePrefix", "attributes"],
+      "properties": {
+        "element": { "$ref": "#/$defs/xmlName" },
+        "namespacePrefix": { "type": "string", "minLength": 1 },
+        "attributes": { "$ref": "#/$defs/staticAttributes" }
+      }
+    },
+    "attachment": { "$ref": "#/$defs/attachmentWire" },
+    "mapping": { "$ref": "#/$defs/mapping" }
+  },
+  "$defs": {
+    "xmlName": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$" },
+    "staticAttributes": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/xmlName" },
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "string" },
+          { "type": "number" },
+          { "type": "boolean" }
+        ]
+      }
+    },
+    "attachmentField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element", "namespace"],
+      "properties": {
+        "element": { "$ref": "#/$defs/xmlName" },
+        "namespace": { "type": "string", "minLength": 1 }
+      }
+    },
+    "attachmentWire": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields"],
+      "properties": {
+        "fields": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fileName", "mimeType", "fileLocation", "hashValue"],
+          "properties": {
+            "fileName": { "$ref": "#/$defs/attachmentField" },
+            "mimeType": { "$ref": "#/$defs/attachmentField" },
+            "fileLocation": { "$ref": "#/$defs/attachmentField" },
+            "hashValue": { "$ref": "#/$defs/attachmentField" }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields"],
+      "properties": { "fields": { "$ref": "#/$defs/mappingFields" } }
+    },
+    "mappingFields": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+      "additionalProperties": { "$ref": "#/$defs/mappingNode" }
+    },
+    "mappingNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element", "kind"],
+      "properties": {
+        "element": { "$ref": "#/$defs/xmlName" },
+        "kind": { "enum": ["value", "object", "array", "attachment"] },
+        "namespace": { "type": "string", "minLength": 1 },
+        "fields": { "$ref": "#/$defs/mappingFields" },
+        "items": { "$ref": "#/$defs/mapping" },
+        "itemElement": { "$ref": "#/$defs/xmlName" },
+        "itemNamespace": { "type": "string", "minLength": 1 },
+        "itemAttributes": { "$ref": "#/$defs/staticAttributes" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "object" } }, "required": ["kind"] },
+          "then": {
+            "properties": { "fields": true },
+            "required": ["fields"],
+            "not": {
+              "anyOf": [
+                { "properties": { "items": true }, "required": ["items"] },
+                { "properties": { "itemElement": true }, "required": ["itemElement"] },
+                { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
+                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] }
+              ]
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "array" } }, "required": ["kind"] },
+          "then": {
+            "properties": { "items": true },
+            "required": ["items"],
+            "not": { "properties": { "fields": true }, "required": ["fields"] }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "enum": ["value", "attachment"] } },
+            "required": ["kind"]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                { "properties": { "fields": true }, "required": ["fields"] },
+                { "properties": { "items": true }, "required": ["items"] },
+                { "properties": { "itemElement": true }, "required": ["itemElement"] },
+                { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
+                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

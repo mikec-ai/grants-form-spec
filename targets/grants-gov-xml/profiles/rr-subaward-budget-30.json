@@ -1,0 +1,35 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "rr-subaward-budget-30",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_SubawardBudget30_3_0-V3.0.xsd",
+    "sha256": "d5d534326e8f7e4416baf98c95c1f9234c0a23628259ee2d7e3199181a24e08a"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/RR_SubawardBudget30_3_0-V3.0",
+    "RR_Budget_3_0": "http://apply.grants.gov/forms/RR_Budget_3_0-V3.0",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0",
+    "glob": "http://apply.grants.gov/system/Global-V1.0",
+    "att": "http://apply.grants.gov/system/Attachments-V1.0"
+  },
+  "root": {
+    "element": "RR_SubawardBudget30_3_0",
+    "namespacePrefix": "RR_SubawardBudget30_3_0",
+    "attributes": { "FormVersion": "3.0" }
+  },
+  "attachment": {
+    "fields": { "$ref": "../mappings/attached-file-data-1.0.json#/fields" }
+  },
+  "mapping": {
+    "fields": {
+      "budgetAttachments": {
+        "element": "BudgetAttachments",
+        "kind": "array",
+        "itemElement": "RR_Budget_3_0",
+        "itemNamespace": "RR_Budget_3_0",
+        "itemAttributes": { "FormVersion": "3.0" },
+        "items": { "fields": { "$ref": "../mappings/research-budget-3.0.json#/fields" } }
+      }
+    }
+  }
+}

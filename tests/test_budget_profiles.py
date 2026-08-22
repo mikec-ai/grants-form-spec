@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 FORMS = ROOT / "dist" / "forms"
+QUESTIONS = ROOT / "dist" / "question-bank"
 
 
 class ResearchBudgetProfileTests(unittest.TestCase):
@@ -47,12 +48,29 @@ class ResearchBudgetProfileTests(unittest.TestCase):
         )
         budgets = ten_year["properties"]["budgetAttachments"]
         self.assertEqual(budgets["maxItems"], 30)
-        details = ten_year["$defs"]["ResearchBudget10YrDetails"]
         self.assertEqual(
-            details["allOf"],
-            [{"$ref": "../../question-bank/budget/research/details/schema.json"}],
+            budgets["items"]["$ref"],
+            "../../question-bank/budget/research/details-10yr/schema.json",
         )
-        self.assertEqual(details["properties"]["budgetYear"]["maxItems"], 10)
+        self.assertNotIn("$defs", ten_year)
+        details = json.loads(
+            (QUESTIONS / "budget/research/details-10yr/schema.json").read_text()
+        )
+        self.assertEqual(
+            details["properties"]["budgetYear"]["maxItems"],
+            10,
+        )
+        self.assertNotIn("allOf", details)
+
+    def test_duration_profiles_share_source_without_intersecting_cardinality(self) -> None:
+        source = (ROOT / "specs/question-bank/research-budget/index.tsp").read_text()
+        five_year_form = (ROOT / "specs/forms/rr-budget.tsp").read_text()
+        ten_year_form = (ROOT / "specs/forms/rr-budget-10yr.tsp").read_text()
+
+        self.assertIn("...ResearchBudgetOverview;", source)
+        self.assertIn("...ResearchBudgetDetails;", five_year_form)
+        self.assertIn("...ResearchBudget10YrDetails;", ten_year_form)
+        self.assertNotIn("extends ResearchBudgetDetails", source)
 
 
 if __name__ == "__main__":
