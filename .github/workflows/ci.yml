@@ -32,7 +32,10 @@ jobs:
       - run: npm run test-python
       - run: npm run package-artifacts
       - run: python3 scripts/package_artifacts.py --verify build/grants-form-artifacts.tar.gz
-      - run: npm run analyze -- --json > /dev/null
+      - name: Generate form analysis
+        run: |
+          mkdir -p build/analysis
+          python3 scripts/analyze.py --json > build/analysis/form-analysis.json
 
       - name: Check that every TypeSpec file compiles independently
         shell: bash
@@ -54,4 +57,5 @@ jobs:
           path: |
             build/grants-form-artifacts.tar.gz
             build/grants-form-artifacts.tar.gz.sha256
+            build/analysis/form-analysis.json
           if-no-files-found: error
