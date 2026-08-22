@@ -127,7 +127,11 @@ def source_list(*collections: list[dict[str, Any]]) -> list[dict[str, str]]:
     for collection in collections:
         for record in collection:
             provenance = list(record.get("provenance", []))
-            provenance += list(record.get("source_value", {}).get("provenance", []))
+            source_value = optional_object(
+                record.get("source_value"),
+                f"record {record.get('rule_id') or record.get('behavior_key') or 'unknown'} source_value",
+            )
+            provenance += list(source_value.get("provenance", []))
             for value in provenance:
                 match = PROVENANCE.match(value)
                 if match:
@@ -145,6 +149,22 @@ def gate(kind: str, source_path: str, message: str) -> dict[str, str]:
         "status": "open",
         "message": message,
     }
+
+
+def optional_object(value: object, label: str) -> dict[str, Any]:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise PromotionError(f"{label} must be an object or null")
+    return value
+
+
+def optional_array(value: object, label: str) -> list[Any]:
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise PromotionError(f"{label} must be an array or null")
+    return value
 
 
 def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[str, Any]:
@@ -222,18 +242,29 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
 
     runtime_rules = []
     for rule in runtime.get("rules", []):
+        rule_id = rule["rule_id"]
+        target = optional_object(rule.get("target"), f"runtime rule {rule_id} target")
+        dependencies = optional_array(
+            rule.get("dependencies"), f"runtime rule {rule_id} dependencies"
+        )
+        source_value = optional_object(
+            rule.get("source_value"), f"runtime rule {rule_id} source_value"
+        )
         runtime_rules.append({
-            "id": rule["rule_id"],
+            "id": rule_id,
             "mechanism": rule.get("mechanism", ""),
-            "targetPath": rule.get("target", {}).get("path", ""),
-            "dependencyPaths": [item.get("path", "") for item in rule.get("dependencies", [])],
+            "targetPath": target.get("path", ""),
+            "dependencyPaths": [
+                optional_object(item, f"runtime rule {rule_id} dependency").get("path", "")
+                for item in dependencies
+            ],
             "effect": rule.get("effect", ""),
             "operator": rule.get("operator", ""),
             "value": rule.get("value"),
             "disposition": rule.get("disposition", ""),
             "executionClass": rule.get("execution_class", ""),
             "sourceRule": rule.get("source_rule", ""),
-            "provenance": rule.get("source_value", {}).get("provenance", []),
+            "provenance": source_value.get("provenance", []),
             "reviewStatus": "proposed",
         })
 
