@@ -8,11 +8,11 @@ description: >-
   reusable attachment controls from the semantic information requested by
   role-specific narrative attachments, and how analysis outputs should treat
   each.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T18:02:29.711Z'
+  at: '2026-08-22T18:28:49.707Z'
 ---
 # Research question
 
