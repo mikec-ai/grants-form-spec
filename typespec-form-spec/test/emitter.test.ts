@@ -122,6 +122,29 @@ describe("SGG UI emission", () => {
     ).toEqual(["@PARENT.budgetYear[*].travel.domesticTravelCost"]);
   });
 
+  it("inherits the complete rule graph in the ten-year subaward profile", async () => {
+    const root = resolve(packageRoot, "dist/forms/rr-subaward-budget-10yr-30");
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+
+    const allObjects = (value: unknown): Record<string, unknown>[] => {
+      if (Array.isArray(value)) return value.flatMap(allObjects);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, unknown>;
+      return [object, ...Object.values(object).flatMap(allObjects)];
+    };
+
+    expect(allObjects(ui).filter((node) => node.type === "fieldList")).toHaveLength(6);
+    expect(
+      allObjects(rules).filter((node) =>
+        Object.prototype.hasOwnProperty.call(node, "gg_pre_population")
+      ),
+    ).toHaveLength(56);
+    expect(
+      rules.budgetAttachments.budgetSummary.cumulativeDomesticTravelCosts.gg_pre_population.fields,
+    ).toEqual(["@PARENT.budgetYear[*].travel.domesticTravelCost"]);
+  });
+
   it("keeps Key Contacts field-list presentation parity declarative", async () => {
     const ui = JSON.parse(
       await readFile(

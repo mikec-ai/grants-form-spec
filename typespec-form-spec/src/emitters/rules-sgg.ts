@@ -1,6 +1,6 @@
 import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
 import {
-  Block, blockAncestry, childBlock, modelPrePopulate, propComputed, propComputedFrom,
+  Block, blockAncestry, childBlock, modelPrePopulate, modelProperties, propComputed, propComputedFrom,
   propEvaluationOrder, propOmit, propTotals,
   readBlock, typeTags,
 } from "../model.js";
@@ -162,7 +162,8 @@ function walk(
   atRoot: boolean,
 ): void {
   const { calculations, modelPath } = context;
-  for (const prop of [...model.properties.values()].filter((p) => !propOmit(program, p))) {
+  const properties = readBlock(program, model) ? [...model.properties.values()] : modelProperties(model);
+  for (const prop of properties.filter((p) => !propOmit(program, p))) {
     const key = prop.name;
     const here = [...at, key];
     const path = dataPath ? `${dataPath}.${prop.name}` : prop.name;
