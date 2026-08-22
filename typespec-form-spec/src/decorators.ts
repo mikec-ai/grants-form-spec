@@ -148,6 +148,15 @@ export const $helpText = (ctx: Ctx, target: ModelProperty, text: string) =>
 export const $widget = (ctx: Ctx, target: ModelProperty, widget: unknown) =>
   set(ctx, stateKeys.widget, target, enumName(widget));
 
+export const $encodedCheckboxGroup = (
+  ctx: Ctx,
+  target: ModelProperty,
+  contract: unknown,
+) => {
+  set(ctx, stateKeys.widget, target, "EncodedCheckboxGroup");
+  set(ctx, stateKeys.encodedCheckboxGroup, target, plain(ctx, contract));
+};
+
 export const $order = (ctx: Ctx, target: Model, ...props: ModelProperty[]) =>
   set(ctx, stateKeys.order, target, props.map((p) => p.name));
 

@@ -7,6 +7,59 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  * is worse than no check: it reads as coverage and provides none.
  */
 describe("$onValidate", () => {
+  describe("encoded-checkbox-contract-invalid", () => {
+    it("rejects a contract that does not cover every wire value", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          enum RevisionCode { A: "A", B: "B", AB: "AB" }
+          ${formMeta("encoded-checkbox-check")}
+          model EncodedCheckboxCheck {
+            @UI.encodedCheckboxGroup(#{
+              choices: #[
+                #{ code: "A", label: "Increase award" },
+                #{ code: "B", label: "Decrease award" },
+              ],
+              combinations: #[
+                #{ value: "A", members: #["A"] },
+                #{ value: "B", members: #["B"] },
+              ],
+            })
+            revision?: RevisionCode;
+          }
+        `),
+      );
+
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/encoded-checkbox-contract-invalid",
+      });
+    });
+
+    it("accepts a contract exactly matching the wire enum", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            enum RevisionCode { A: "A", B: "B", AB: "AB" }
+            ${formMeta("encoded-checkbox-check")}
+            model EncodedCheckboxCheck {
+              @UI.encodedCheckboxGroup(#{
+                choices: #[
+                  #{ code: "A", label: "Increase award" },
+                  #{ code: "B", label: "Decrease award" },
+                ],
+                combinations: #[
+                  #{ value: "A", members: #["A"] },
+                  #{ value: "B", members: #["B"] },
+                  #{ value: "AB", members: #["A", "B"] },
+                ],
+              })
+              revision?: RevisionCode;
+            }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("calculation-path-unresolved", () => {
     it("rejects a misspelled path across a repeated boundary", async () => {
       const diagnostics = await Tester.diagnose(
