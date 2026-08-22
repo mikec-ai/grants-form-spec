@@ -38,6 +38,21 @@ does not establish semantic equivalence, policy correctness, accessibility, runt
 production readiness. Performance Site remains a spike until its review gates are resolved and its
 source scaffold is deliberately composed from accepted question-bank blocks.
 
+## Budget-family portability result
+
+The next promotion run exercised `RRSubawardBudget10_30`, whose pinned authoring ledger embeds its
+source behavior records instead of storing them in the Performance Site expansion layout. The
+exporter now resolves either representation generically and records the exact selected artifact and
+digest in the packet. At crosswalk revision
+`dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef`, it transcribes 231 source records, preserves 141 source
+behavior records and 213 proposed runtime rules, pins five official schema sources, and accepts zero
+semantic mappings. The canonical form is authored separately by composing the existing research
+budget question and rule graph with declarative 10-period and 30-subaward constraints.
+
+This distinction is intentional: the importer supplies deterministic evidence and a review queue;
+the canonical declaration decides how reviewed reusable blocks are composed. The packet and staging
+outputs remain build artifacts rather than checked-in runtime source.
+
 ## Reproduction
 
 ```sh

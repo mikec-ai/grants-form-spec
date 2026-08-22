@@ -41,6 +41,19 @@ class ResearchBudgetProfileTests(unittest.TestCase):
 
         self.assertEqual(normalized_thirty, ten_subawards)
 
+    def test_ten_year_thirty_subaward_profile_combines_existing_parameters(self) -> None:
+        ten_year = json.loads(
+            (FORMS / "rr-subaward-budget-10yr-30" / "schema.json").read_text()
+        )
+        budgets = ten_year["properties"]["budgetAttachments"]
+        self.assertEqual(budgets["maxItems"], 30)
+        details = ten_year["$defs"]["ResearchBudget10YrDetails"]
+        self.assertEqual(
+            details["allOf"],
+            [{"$ref": "../../question-bank/budget/research/details/schema.json"}],
+        )
+        self.assertEqual(details["properties"]["budgetYear"]["maxItems"], 10)
+
 
 if __name__ == "__main__":
     unittest.main()

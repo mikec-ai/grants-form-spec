@@ -548,6 +548,16 @@ model ResearchBudgetDetails {
   budgetSummary: ResearchBudgetBudgetSummary;
 }
 
+/** A ten-period profile of the shared Research & Related budget details question. */
+model ResearchBudget10YrDetails extends ResearchBudgetDetails {
+  /** Override only the permitted period count; inherited questions and rules remain shared. */
+  @UI.label("Budget Year")
+  @UI.section(ResearchBudgetSection.budgetYear)
+  @minItems(1)
+  @maxItems(10)
+  budgetYear: ResearchBudgetBudgetYear[];
+}
+
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1 {
   @UI.label("Additional Other Direct Cost Funds Requested")
   cost: ResearchBudgetDecimal14;

@@ -74,6 +74,14 @@ class Snapshot:
             raise PromotionError(f"cannot read {path} at {self.revision}: {detail}")
         return result.stdout
 
+    def exists(self, path: str) -> bool:
+        path = safe_path(path)
+        result = subprocess.run(
+            ["git", "-C", str(self.root), "cat-file", "-e", f"{self.revision}:{path}"],
+            capture_output=True,
+        )
+        return result.returncode == 0
+
     def json(self, path: str) -> dict[str, Any]:
         try:
             return json.loads(self.bytes(path))
@@ -155,7 +163,16 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     family_path = safe_path(authoring["output_adapter_oracle"]["input"]["path"])
     family = snapshot.json(family_path)
     runtime = snapshot.json(runtime_path)
-    behavior_records = snapshot.jsonl(behaviors_path)
+    if snapshot.exists(behaviors_path):
+        behavior_records = snapshot.jsonl(behaviors_path)
+        behavior_artifact_path = behaviors_path
+    else:
+        behavior_records = family.get("source_behaviors", [])
+        if not isinstance(behavior_records, list):
+            raise PromotionError(
+                f"{family_path} source_behaviors must be an array when {behaviors_path} is absent"
+            )
+        behavior_artifact_path = family_path
 
     if manifest.get("record_count") != len(source_records):
         raise PromotionError(
@@ -168,7 +185,7 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     artifacts = [
         artifact(snapshot, manifest_path, "xsd_manifest"),
         artifact(snapshot, records_path, "xsd_records"),
-        artifact(snapshot, behaviors_path, "behavior_records"),
+        artifact(snapshot, behavior_artifact_path, "behavior_records"),
         artifact(snapshot, contract_path, "authoring_contract"),
         artifact(snapshot, family_path, "component_proposals"),
         artifact(snapshot, runtime_path, "runtime_rules"),
@@ -237,10 +254,16 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     declared_behavior_count = authoring.get("output_adapter_oracle", {}).get("metrics", {}).get(
         "source_behavior_records"
     )
-    if declared_behavior_count is not None and declared_behavior_count != applicant_behavior_count:
+    if behavior_artifact_path == family_path:
+        comparable_behavior_count = len(behavior_evidence)
+        behavior_scope = "source behavior"
+    else:
+        comparable_behavior_count = applicant_behavior_count
+        behavior_scope = "applicant behavior"
+    if declared_behavior_count is not None and declared_behavior_count != comparable_behavior_count:
         gates.append(gate(
             "source_conflict", "",
-            f"Authoring contract reports {declared_behavior_count} applicant behavior records, but the pinned behavior artifact contains {applicant_behavior_count} applicant-entered records.",
+            f"Authoring contract reports {declared_behavior_count} {behavior_scope} records, but the pinned behavior artifact contains {comparable_behavior_count} comparable records.",
         ))
     for record in records:
         if record["classification"]["value"] == "unresolved":
@@ -276,7 +299,7 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
         "form": {
             "id": form_id,
             "version": source_records[0]["form_version"],
-            "title": family.get("title", form_id),
+            "title": family.get("title") or form_id,
             "sourceRoot": source_records[0]["path"],
         },
         "extraction": {

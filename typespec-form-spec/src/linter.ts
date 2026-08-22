@@ -1,5 +1,16 @@
 import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
-import { createRule, defineCodeFix, defineLinter, getDoc, getSourceLocation, paramMessage } from "@typespec/compiler";
+import {
+  createRule,
+  defineCodeFix,
+  defineLinter,
+  getDoc,
+  getMaxItems,
+  getMaxLength,
+  getMinItems,
+  getMinLength,
+  getSourceLocation,
+  paramMessage,
+} from "@typespec/compiler";
 import { allBlocks, modelOrder, orderedProps, propOmit, propSection } from "./model.js";
 
 /**
@@ -190,7 +201,11 @@ const redeclaredProperty = createRule({
             const base = inherited.get(prop.name);
             // Narrowing is the point of redeclaring: a form may require a member the
             // question leaves optional. Only an identical repeat is worth a warning.
-            return base && base.optional === prop.optional && base.type === prop.type;
+            return base && base.optional === prop.optional && base.type === prop.type &&
+              getMinItems(context.program, base) === getMinItems(context.program, prop) &&
+              getMaxItems(context.program, base) === getMaxItems(context.program, prop) &&
+              getMinLength(context.program, base) === getMinLength(context.program, prop) &&
+              getMaxLength(context.program, base) === getMaxLength(context.program, prop);
           })
           .map((prop) => prop.name);
         if (!clashes.length) return;

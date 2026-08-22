@@ -122,6 +122,42 @@ class PromotionImporterTests(unittest.TestCase):
         self.assertIn("@minLength(1)", draft)
         self.assertIn("not a canonical form declaration", draft)
 
+    def test_export_uses_family_ledger_when_separate_behavior_artifact_is_absent(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo, _ = self._repo(Path(directory))
+            behavior_path = repo / "harness/contracts/expansion-a/evidence/Example-behaviors.jsonl"
+            behavior = json.loads(behavior_path.read_text(encoding="utf-8").splitlines()[0])
+            behavior_path.unlink()
+            family_path = repo / "artifacts/authoring/example-family/forms/Example.json"
+            family = json.loads(family_path.read_text(encoding="utf-8"))
+            family["source_behaviors"] = [behavior]
+            self._write(family_path, family)
+            family_sha = hashlib.sha256(family_path.read_bytes()).hexdigest()
+            contract_path = repo / "artifacts/authoring/form-authoring-contract-v2/forms/Example.json"
+            contract = json.loads(contract_path.read_text(encoding="utf-8"))
+            contract["output_adapter_oracle"]["input"]["sha256"] = family_sha
+            self._write(contract_path, contract)
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo), "commit", "-qm", "embed behaviors"], check=True)
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], check=True,
+                capture_output=True, text=True,
+            ).stdout.strip()
+
+            packet = export_packet(repo, "Example", revision)
+
+        self.assertEqual(packet["metrics"]["sourceBehaviors"], 1)
+        behavior_artifact = next(
+            item for item in packet["artifacts"] if item["role"] == "behavior_records"
+        )
+        self.assertEqual(
+            behavior_artifact["path"],
+            "artifacts/authoring/example-family/forms/Example.json",
+        )
+        self.assertFalse(any(
+            item["kind"] == "source_conflict" for item in packet["reviewGates"]
+        ))
+
 
 if __name__ == "__main__":
     unittest.main()
