@@ -25,6 +25,46 @@ enum ResearchBudgetType {
 @Question.meta(#{ id: "budget/research/cumulative-summary" })
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.money)
+@UI.order(
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedSeniorKeyPerson,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedOtherPersonnel,
+  ResearchBudgetBudgetSummary.cumulativeTotalNoOtherPersonnel,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedPersonnel,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedEquipment,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedTravel,
+  ResearchBudgetBudgetSummary.cumulativeDomesticTravelCosts,
+  ResearchBudgetBudgetSummary.cumulativeForeignTravelCosts,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedTraineeCosts,
+  ResearchBudgetBudgetSummary.cumulativeTraineeTuitionFeesHealthInsurance,
+  ResearchBudgetBudgetSummary.cumulativeTraineeStipends,
+  ResearchBudgetBudgetSummary.cumulativeTraineeTravel,
+  ResearchBudgetBudgetSummary.cumulativeTraineeSubsistence,
+  ResearchBudgetBudgetSummary.cumulativeOtherTraineeCost,
+  ResearchBudgetBudgetSummary.cumulativeNoofTrainees,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedOtherDirectCosts,
+  ResearchBudgetBudgetSummary.cumulativeMaterialAndSupplies,
+  ResearchBudgetBudgetSummary.cumulativePublicationCosts,
+  ResearchBudgetBudgetSummary.cumulativeConsultantServices,
+  ResearchBudgetBudgetSummary.cumulativeAdpComputerServices,
+  ResearchBudgetBudgetSummary.cumulativeSubawardConsortiumContractualCosts,
+  ResearchBudgetBudgetSummary.cumulativeEquipmentFacilityRentalFees,
+  ResearchBudgetBudgetSummary.cumulativeAlterationsAndRenovations,
+  ResearchBudgetBudgetSummary.cumulativeOther1DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther2DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther3DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther4DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther5DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther6DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther7DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther8DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther9DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeOther10DirectCost,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedDirectCosts,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedIndirectCost,
+  ResearchBudgetBudgetSummary.cumulativeTotalFundsRequestedDirectIndirectCosts,
+  ResearchBudgetBudgetSummary.cumulativeFee,
+  ResearchBudgetBudgetSummary.cumulativeTotalCostsFee
+)
 model ResearchBudgetBudgetSummary {
   @UI.label("4. ADP/Computer Services")
   @Validation.computedFrom(Op.Sum, "/budgetYear[*].otherDirectCosts.adpComputerServices")
