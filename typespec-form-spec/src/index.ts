@@ -22,6 +22,7 @@ export const $decorators = {
     omit: d.$omit,
     readOnly: d.$readOnly,
     visibleWhen: d.$visibleWhen,
+    enabledWhen: d.$enabledWhen,
     readOnlyWhen: d.$readOnlyWhen,
   },
   "SimplerForms.Validation": {

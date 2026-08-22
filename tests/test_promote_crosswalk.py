@@ -181,6 +181,38 @@ class PromotionImporterTests(unittest.TestCase):
             item["role"] == "runtime_rules" for item in packet["artifacts"]
         ))
 
+    def test_export_preserves_unresolved_runtime_rule_without_inventing_paths(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo, _ = self._repo(Path(directory))
+            runtime_path = (
+                repo
+                / "artifacts/authoring/runtime-rule-ast-resolved-v1/forms/Example.json"
+            )
+            runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+            runtime["rules"][0].update({
+                "target": None,
+                "dependencies": None,
+                "source_value": None,
+                "disposition": "blocked",
+            })
+            self._write(runtime_path, runtime)
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo), "commit", "-qm", "unresolved rule"], check=True)
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], check=True,
+                capture_output=True, text=True,
+            ).stdout.strip()
+
+            packet = export_packet(repo, "Example", revision)
+
+        self.assertEqual(packet["runtimeRules"][0]["targetPath"], "")
+        self.assertEqual(packet["runtimeRules"][0]["dependencyPaths"], [])
+        self.assertEqual(packet["runtimeRules"][0]["provenance"], [])
+        self.assertEqual(packet["runtimeRules"][0]["disposition"], "blocked")
+        self.assertTrue(any(
+            item["kind"] == "behavior_semantics" for item in packet["reviewGates"]
+        ))
+
 
 if __name__ == "__main__":
     unittest.main()

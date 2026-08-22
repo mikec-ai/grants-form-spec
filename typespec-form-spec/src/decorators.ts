@@ -184,6 +184,9 @@ function condition(source: ModelProperty, equals: unknown) {
 export const $visibleWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.visibleWhen, target, condition(source, equals));
 
+export const $enabledWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
+  push(ctx, stateKeys.enabledWhen, target, condition(source, equals));
+
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));
 
