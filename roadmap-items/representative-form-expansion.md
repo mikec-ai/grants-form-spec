@@ -27,3 +27,11 @@ superbee_updated_by: codex
 [contains](../tasks/author-integrate-rr-budget.md)
 
 [contains](../tasks/research-attachment-semantic-classification.md)
+
+[contains](../tasks/author-integrate-rr-subaward-budget.md)
+
+[contains](../tasks/harden-rr-budget-production.md)
+
+[contains](../tasks/author-integrate-rr-sf424.md)
+
+[contains](../tasks/improve-sf424a-budget-experience.md)
