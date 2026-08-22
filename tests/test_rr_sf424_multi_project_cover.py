@@ -9,7 +9,7 @@ from scripts.promote_crosswalk import export_packet
 
 ROOT = Path(__file__).parents[1]
 CROSSWALK = ROOT.parent / "grants-question-crosswalk-mp-cover"
-CROSSWALK_REVISION = "7a236eeb8d6e9e209ba7dbc06ae5fa80a884045e"
+CROSSWALK_REVISION = "c1573287e0664d7b991e69c352038534b771189f"
 
 
 class RRSF424MultiProjectCoverTests(unittest.TestCase):

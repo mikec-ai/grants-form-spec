@@ -50,7 +50,7 @@
   ],
   "extraction": {
     "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
-    "revision": "7a236eeb8d6e9e209ba7dbc06ae5fa80a884045e",
+    "revision": "c1573287e0664d7b991e69c352038534b771189f",
     "artifact": "artifacts/proof/grantsgov-RRSF424MPCover.jsonl.manifest.json",
     "sourceSetSha256": "3224ce9eac55ccc27a8cae4f257efe10b69872ef5bb6c3fa22d82c9ed4427fac",
     "extractedAt": "2026-08-22T22:34:16.759448Z"
