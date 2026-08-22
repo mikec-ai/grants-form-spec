@@ -181,6 +181,9 @@ export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProp
 export const $requiredWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.requiredWhen, target, condition(source, equals));
 
+export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
+  set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));
+
 export const $computed = (
   ctx: Ctx,
   target: ModelProperty,

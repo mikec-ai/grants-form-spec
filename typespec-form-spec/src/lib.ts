@@ -84,6 +84,7 @@ export const $lib = createTypeSpecLibrary({
     visibleWhen: {},
     readOnlyWhen: {},
     requiredWhen: {},
+    validationConstraints: {},
     computed: {},
     computedFrom: {},
     evaluationOrder: {},

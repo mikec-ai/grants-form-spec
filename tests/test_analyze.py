@@ -164,6 +164,23 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["shareOfA"], 1.0)
         self.assertEqual(row["shareOfB"], 1.0)
 
+    def test_project_abstract_is_text_semantics_not_attachment_capture(self) -> None:
+        self.assertEqual(
+            set(self.analysis["asks"]["project-abstract-summary"]),
+            {
+                "opportunity/number",
+                "opportunity/assistance-listing-number",
+                "primary-org/legal-name",
+                "generics/organization-name",
+                "project/title",
+                "project/abstract",
+            },
+        )
+        self.assertEqual(
+            self.analysis["usesCaptureMechanisms"]["project-abstract-summary"],
+            [],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

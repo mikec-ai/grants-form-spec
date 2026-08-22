@@ -8,6 +8,9 @@ using TypeSpec.Reflection;
 
 namespace SimplerForms.Validation;
 
+/** Apply source-specific limits to this use of a reusable question without changing its identity. */
+extern dec constraints(target: ModelProperty, patch: valueof ValidationConstraints);
+
 extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
 /** `operator` rather than `op`: `op` is a TypeSpec keyword and breaks the parser. */

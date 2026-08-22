@@ -162,7 +162,8 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     authoring = snapshot.json(contract_path)
     family_path = safe_path(authoring["output_adapter_oracle"]["input"]["path"])
     family = snapshot.json(family_path)
-    runtime = snapshot.json(runtime_path)
+    has_runtime_artifact = snapshot.exists(runtime_path)
+    runtime = snapshot.json(runtime_path) if has_runtime_artifact else {"rules": []}
     if snapshot.exists(behaviors_path):
         behavior_records = snapshot.jsonl(behaviors_path)
         behavior_artifact_path = behaviors_path
@@ -188,8 +189,9 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
         artifact(snapshot, behavior_artifact_path, "behavior_records"),
         artifact(snapshot, contract_path, "authoring_contract"),
         artifact(snapshot, family_path, "component_proposals"),
-        artifact(snapshot, runtime_path, "runtime_rules"),
     ]
+    if has_runtime_artifact:
+        artifacts.append(artifact(snapshot, runtime_path, "runtime_rules"))
     check_declared_hash(
         authoring["output_adapter_oracle"]["input"], family_path,
         next(item["sha256"] for item in artifacts if item["path"] == family_path),

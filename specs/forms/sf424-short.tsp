@@ -161,6 +161,7 @@ model SF424Short {
   /** Enter a brief, descriptive title of the project. */
   @UI.label("Project Title")
   @UI.section(Sf424ShortSection.projectInformation)
+  @Validation.constraints(#{ maxLength: 200 })
   projectTitle: ProjectTitle;
 
   /** Enter a brief description of the project. */

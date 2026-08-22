@@ -101,6 +101,8 @@ export const propVisibleWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.visibleWhen, prop) as Condition[]) ?? [];
 export const propRequiredWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.requiredWhen, prop) as Condition[]) ?? [];
+export const propValidationConstraints = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.validationConstraints, prop) as Record<string, unknown> | undefined) ?? {};
 export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>

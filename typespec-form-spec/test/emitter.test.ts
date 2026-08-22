@@ -145,6 +145,25 @@ describe("SGG UI emission", () => {
     ).toEqual(["@PARENT.budgetYear[*].travel.domesticTravelCost"]);
   });
 
+  it("keeps a reusable question identity while applying a form-use constraint", async () => {
+    const form = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/project-abstract-summary/schema.json"), "utf8"),
+    );
+    const question = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/question-bank/project/title/schema.json"), "utf8"),
+    );
+
+    expect(form.properties.projectTitle).toMatchObject({
+      $ref: "../../question-bank/project/title/schema.json",
+      maxLength: 250,
+    });
+    expect(question).not.toHaveProperty("maxLength");
+    const sf424 = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/sf424/schema.json"), "utf8"),
+    );
+    expect(sf424.properties.projectTitle.maxLength).toBe(200);
+  });
+
   it("keeps Key Contacts field-list presentation parity declarative", async () => {
     const ui = JSON.parse(
       await readFile(
