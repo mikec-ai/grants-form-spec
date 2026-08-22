@@ -63,3 +63,7 @@ The current handoff is source-pinned but mostly manual. A future research/design
 [informs](../tasks/author-integrate-rr-sf424.md)
 
 [supports](../decisions/canonical-form-architecture.md)
+
+[informs](../tasks/harden-rr-budget-production.md)
+
+[informs](../tasks/author-integrate-rr-subaward-budget.md)
