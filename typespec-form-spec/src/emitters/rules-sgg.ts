@@ -11,6 +11,26 @@ const OP_RULE: Record<string, string> = {
   PercentOf: "multiply_by_percentage",
 };
 
+function hasTypeTag(
+  program: Program,
+  type: ModelProperty["type"],
+  tag: string,
+): boolean {
+  if (type.kind === "Model") return typeTags(program, type).includes(tag);
+  if (type.kind !== "Scalar") return false;
+  let scalar: Scalar | undefined = type;
+  while (scalar) {
+    if (typeTags(program, scalar).includes(tag)) return true;
+    scalar = scalar.baseScalar;
+  }
+  return false;
+}
+
+function calculationRule(program: Program, prop: ModelProperty, operator: string): string {
+  if (operator === "Sum" && hasTypeTag(program, prop.type, "count")) return "sum_integer";
+  return OP_RULE[operator] ?? "sum_monetary";
+}
+
 /** Question ids whose presence implies a submit-time stamp (Tier 2, inferred). */
 const STAMP_BY_QUESTION: Record<string, string> = {
   "generics/signature": "signature",
@@ -158,7 +178,7 @@ function walk(
     if (computed) {
       calculations.push({
         at: here,
-        rule: OP_RULE[computed.operator] ?? "sum_monetary",
+        rule: calculationRule(program, prop, computed.operator),
         explicitOrder: propEvaluationOrder(program, prop),
         refs: computed.refs.map((name) => ({
           // A sibling reference is spelled `@THIS.` everywhere but the form's own root.
@@ -173,7 +193,7 @@ function walk(
     if (computedFrom) {
       calculations.push({
         at: here,
-        rule: OP_RULE[computedFrom.operator] ?? "sum_monetary",
+        rule: calculationRule(program, prop, computedFrom.operator),
         explicitOrder: propEvaluationOrder(program, prop),
         refs: computedFrom.paths.map((path) => {
           const rootPath = path.startsWith("/");
@@ -305,7 +325,7 @@ function moneyFields(program: Program, model: Model): string[] {
     const type = prop.type;
     // Money is semantic catalogue vocabulary, not the identity of one scalar. This lets
     // another source preserve a stricter wire precision while remaining a monetary value.
-    if ((type.kind === "Model" || type.kind === "Scalar") && typeTags(program, type).includes("money")) {
+    if (hasTypeTag(program, type, "money")) {
       out.push(prop.name);
     }
   }

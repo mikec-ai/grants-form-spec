@@ -30,7 +30,7 @@ describe("SGG UI emission", () => {
       "keyPerson",
       "other",
     ]);
-    expect(calculations).toHaveLength(30);
+    expect(calculations).toHaveLength(56);
     expect(
       rules.budgetYear.totalCompensation.gg_pre_population.fields,
     ).toEqual([
@@ -43,7 +43,23 @@ describe("SGG UI emission", () => {
     ).toEqual(["budgetYear[*].travel.totalTravelCost"]);
     expect(
       rules.budgetSummary.cumulativeTotalFundsRequestedTravel.gg_pre_population.order,
-    ).toBe(15);
+    ).toBe(51);
+    expect(
+      calculations
+        .map((node) => (node.gg_pre_population as { order?: number }).order)
+        .sort((a, b) => (a ?? 0) - (b ?? 0)),
+    ).toEqual(Array.from({ length: 56 }, (_, index) => index + 1));
+    expect(
+      rules.budgetYear.otherPersonnel.otherPersonnelTotalNumber.gg_pre_population.rule,
+    ).toBe("sum_integer");
+    expect(rules.budgetYear.directCosts.gg_pre_population.fields).toEqual([
+      "@THIS.keyPersons.totalFundForKeyPersons",
+      "@THIS.otherPersonnel.totalOtherPersonnelFund",
+      "@THIS.equipment.totalFund",
+      "@THIS.travel.totalTravelCost",
+      "@THIS.participantTraineeSupportCosts.totalCost",
+      "@THIS.otherDirectCosts.totalOtherDirectCost",
+    ]);
 
     const period = JSON.parse(
       await readFile(
@@ -52,6 +68,29 @@ describe("SGG UI emission", () => {
       ),
     );
     expect(period.properties.directCosts.readOnly).toBe(true);
+    expect(period.$defs.ResearchBudgetDecimal15.pattern).toBe(
+      "^-?(?:\\d{1,15}|\\d{1,14}[.]\\d|\\d{1,13}[.]\\d{2})$",
+    );
+    expect(period.$defs.ResearchBudgetTotalAmount15.pattern).toBe(
+      "^(?:\\d{1,15}|\\d{1,14}[.]\\d|\\d{1,13}[.]\\d{2})$",
+    );
+
+    const personnel = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/question-bank/budget/research/other-personnel/schema.json"),
+        "utf8",
+      ),
+    );
+    expect(personnel.$defs.ResearchBudgetCount3).toMatchObject({
+      type: "integer",
+      minimum: 0,
+      maximum: 999,
+    });
+    expect(personnel.$defs.ResearchBudgetCount4).toMatchObject({
+      type: "integer",
+      minimum: 0,
+      maximum: 9999,
+    });
   });
 
   it("reuses the complete research budget inside each subaward with parent-scoped sums", async () => {
@@ -77,7 +116,7 @@ describe("SGG UI emission", () => {
       allObjects(rules).filter((node) =>
         Object.prototype.hasOwnProperty.call(node, "gg_pre_population")
       ),
-    ).toHaveLength(30);
+    ).toHaveLength(56);
     expect(
       rules.budgetAttachments.budgetSummary.cumulativeDomesticTravelCosts.gg_pre_population.fields,
     ).toEqual(["@PARENT.budgetYear[*].travel.domesticTravelCost"]);

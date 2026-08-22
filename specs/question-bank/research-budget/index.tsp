@@ -18,13 +18,50 @@ enum ResearchBudgetSection {
   budgetSummary: "Budget Summary",
 }
 
-// A source-wire decimal, kept distinct from the applicant-facing monetary question because
-// its precision pattern is a transport constraint rather than a different semantic question.
+// Source-wire numeric profiles. These remain distinct because the XSD assigns different
+// signedness, precision, and bounds to amounts, totals, months, rates, and counts.
 @Catalog.tag(TagName.money)
 @pattern("^-?(?:\\d{1,14}|\\d{1,13}[.]\\d|\\d{1,12}[.]\\d{2})$")
 @minLength(1)
 @maxLength(16)
-scalar ResearchBudgetDecimal extends string;
+scalar ResearchBudgetDecimal14 extends string;
+
+@Catalog.tag(TagName.money)
+@pattern("^-?(?:\\d{1,15}|\\d{1,14}[.]\\d|\\d{1,13}[.]\\d{2})$")
+@minLength(1)
+@maxLength(17)
+scalar ResearchBudgetDecimal15 extends string;
+
+@Catalog.tag(TagName.money)
+@pattern("^(?:\\d{1,14}|\\d{1,13}[.]\\d|\\d{1,12}[.]\\d{2})$")
+@minLength(1)
+@maxLength(15)
+scalar ResearchBudgetAmount14 extends string;
+
+@Catalog.tag(TagName.money)
+@pattern("^(?:\\d{1,15}|\\d{1,14}[.]\\d|\\d{1,13}[.]\\d{2})$")
+@minLength(1)
+@maxLength(16)
+scalar ResearchBudgetTotalAmount15 extends string;
+
+@pattern("^-?(?:\\d{1,4}|\\d{1,3}[.]\\d|\\d{1,2}[.]\\d{2})$")
+scalar ResearchBudgetMonth2Whole2Fraction extends string;
+
+@pattern("^-?(?:\\d{1,5}|\\d{1,4}[.]\\d|\\d{1,3}[.]\\d{2})$")
+scalar ResearchBudgetMonth3Whole2Fraction extends string;
+
+@pattern("^(?:\\d{1,3}|\\d{1,3}[.]\\d|\\d{1,3}[.]\\d{2})$")
+scalar ResearchBudgetIndirectRate extends string;
+
+@minValue(0)
+@maxValue(999)
+@Catalog.tag(TagName.count)
+scalar ResearchBudgetCount3 extends int32;
+
+@minValue(0)
+@maxValue(9999)
+@Catalog.tag(TagName.count)
+scalar ResearchBudgetCount4 extends int32;
 
 /** Provide additional equipment details that do not fit in the structured equipment list. */
 @Question.meta(#{ id: "budget/research/additional-equipment" })
@@ -91,195 +128,231 @@ enum ResearchBudgetType {
 model ResearchBudgetBudgetSummary {
   @UI.label("4. ADP/Computer Services")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.adpComputerServices")
-  @Validation.evaluationOrder(23)
+  @Validation.evaluationOrder(19)
   @UI.readOnly
-  cumulativeAdpComputerServices?: ResearchBudgetDecimal;
+  cumulativeAdpComputerServices?: ResearchBudgetAmount14;
 
   @UI.label("7. Alterations and Renovations")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.alterationsRenovations")
-  @Validation.evaluationOrder(26)
+  @Validation.evaluationOrder(20)
   @UI.readOnly
-  cumulativeAlterationsAndRenovations?: ResearchBudgetDecimal;
+  cumulativeAlterationsAndRenovations?: ResearchBudgetAmount14;
 
   @UI.label("3. Consultant Services")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.consultantServices")
-  @Validation.evaluationOrder(22)
+  @Validation.evaluationOrder(21)
   @UI.readOnly
-  cumulativeConsultantServices?: ResearchBudgetDecimal;
+  cumulativeConsultantServices?: ResearchBudgetAmount14;
 
   @UI.label("1. Domestic")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.domesticTravelCost")
-  @Validation.evaluationOrder(16)
+  @Validation.evaluationOrder(22)
   @UI.readOnly
-  cumulativeDomesticTravelCosts?: ResearchBudgetDecimal;
+  cumulativeDomesticTravelCosts?: ResearchBudgetAmount14;
 
   @UI.label("6. Equipment or Facility Rental/User Fees")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.equipmentRentalFee")
-  @Validation.evaluationOrder(25)
+  @Validation.evaluationOrder(23)
   @UI.readOnly
-  cumulativeEquipmentFacilityRentalFees?: ResearchBudgetDecimal;
+  cumulativeEquipmentFacilityRentalFees?: ResearchBudgetAmount14;
 
   @UI.label("Section J, Fee")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].fee")
-  @Validation.evaluationOrder(30)
+  @Validation.evaluationOrder(24)
   @UI.readOnly
-  cumulativeFee?: ResearchBudgetDecimal;
+  cumulativeFee?: ResearchBudgetTotalAmount15;
 
   @UI.label("2. Foreign")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.foreignTravelCost")
-  @Validation.evaluationOrder(17)
+  @Validation.evaluationOrder(25)
   @UI.readOnly
-  cumulativeForeignTravelCosts?: ResearchBudgetDecimal;
+  cumulativeForeignTravelCosts?: ResearchBudgetAmount14;
 
   @UI.label("1. Materials and Supplies")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.materialsSupplies")
-  @Validation.evaluationOrder(20)
+  @Validation.evaluationOrder(26)
   @UI.readOnly
-  cumulativeMaterialAndSupplies?: ResearchBudgetDecimal;
+  cumulativeMaterialAndSupplies?: ResearchBudgetAmount14;
 
   @UI.label("6. Number of Participants/Trainees")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.participantTraineeNumber")
-  @Validation.evaluationOrder(18)
+  @Validation.evaluationOrder(27)
   @UI.readOnly
-  cumulativeNoofTrainees?: int32;
+  cumulativeNoofTrainees?: ResearchBudgetCount4;
 
   @UI.label("17. Other 10")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost10.cost")
+  @Validation.evaluationOrder(28)
   @UI.readOnly
-  cumulativeOther10DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther10DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("8. Other 1")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost1.cost")
+  @Validation.evaluationOrder(29)
   @UI.readOnly
-  cumulativeOther1DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther1DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("9. Other 2")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost2.cost")
+  @Validation.evaluationOrder(30)
   @UI.readOnly
-  cumulativeOther2DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther2DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("10. Other 3")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost3.cost")
+  @Validation.evaluationOrder(31)
   @UI.readOnly
-  cumulativeOther3DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther3DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("11. Other 4")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost4.cost")
+  @Validation.evaluationOrder(32)
   @UI.readOnly
-  cumulativeOther4DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther4DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("12. Other 5")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost5.cost")
+  @Validation.evaluationOrder(33)
   @UI.readOnly
-  cumulativeOther5DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther5DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("13. Other 6")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost6.cost")
+  @Validation.evaluationOrder(34)
   @UI.readOnly
-  cumulativeOther6DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther6DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("14. Other 7")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost7.cost")
+  @Validation.evaluationOrder(35)
   @UI.readOnly
-  cumulativeOther7DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther7DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("15. Other 8")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost8.cost")
+  @Validation.evaluationOrder(36)
   @UI.readOnly
-  cumulativeOther8DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther8DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("16. Other 9")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.otherDirectCost9.cost")
+  @Validation.evaluationOrder(37)
   @UI.readOnly
-  cumulativeOther9DirectCost?: ResearchBudgetDecimal;
+  cumulativeOther9DirectCost?: ResearchBudgetAmount14;
 
   @UI.label("5. Other")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.other.cost")
+  @Validation.evaluationOrder(38)
   @UI.readOnly
-  cumulativeOtherTraineeCost?: ResearchBudgetDecimal;
+  cumulativeOtherTraineeCost?: ResearchBudgetAmount14;
 
   @UI.label("2. Publication Costs")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.publicationCosts")
-  @Validation.evaluationOrder(21)
+  @Validation.evaluationOrder(39)
   @UI.readOnly
-  cumulativePublicationCosts?: ResearchBudgetDecimal;
+  cumulativePublicationCosts?: ResearchBudgetAmount14;
 
   @UI.label("5. Subawards/Consortium/Contractual Costs")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.subawardConsortiumContractualCosts")
-  @Validation.evaluationOrder(24)
+  @Validation.evaluationOrder(40)
   @UI.readOnly
-  cumulativeSubawardConsortiumContractualCosts?: ResearchBudgetDecimal;
+  cumulativeSubawardConsortiumContractualCosts?: ResearchBudgetAmount14;
 
   @UI.label("Section K, Total Costs and Fee (I + J)")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].totalCostsFee")
+  @Validation.evaluationOrder(41)
   @UI.readOnly
-  cumulativeTotalCostsFee: ResearchBudgetDecimal;
+  cumulativeTotalCostsFee: ResearchBudgetTotalAmount15;
 
   @UI.label("Section G, Direct Costs (A thru F)")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].directCosts")
-  @Validation.evaluationOrder(27)
+  @Validation.evaluationOrder(42)
   @UI.readOnly
-  cumulativeTotalFundsRequestedDirectCosts: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedDirectCosts: ResearchBudgetTotalAmount15;
 
   @UI.label("Section I, Total Direct and Indirect Costs (G + H)")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].totalCosts")
-  @Validation.evaluationOrder(29)
+  @Validation.evaluationOrder(43)
   @UI.readOnly
-  cumulativeTotalFundsRequestedDirectIndirectCosts: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedDirectIndirectCosts: ResearchBudgetTotalAmount15;
 
   @UI.label("Section C, Equipment")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].equipment.totalFund")
+  @Validation.evaluationOrder(44)
   @UI.readOnly
-  cumulativeTotalFundsRequestedEquipment?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedEquipment?: ResearchBudgetTotalAmount15;
 
   @UI.label("Section H, Indirect Costs")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].indirectCosts.totalIndirectCosts")
-  @Validation.evaluationOrder(28)
+  @Validation.evaluationOrder(45)
   @UI.readOnly
-  cumulativeTotalFundsRequestedIndirectCost?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedIndirectCost?: ResearchBudgetTotalAmount15;
 
   @UI.label("Section F, Other Direct Costs")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherDirectCosts.totalOtherDirectCost")
-  @Validation.evaluationOrder(19)
+  @Validation.evaluationOrder(46)
   @UI.readOnly
-  cumulativeTotalFundsRequestedOtherDirectCosts?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedOtherDirectCosts?: ResearchBudgetTotalAmount15;
 
   @UI.label("Section B, Other Personnel")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherPersonnel.totalOtherPersonnelFund")
-  @Validation.evaluationOrder(12)
+  @Validation.evaluationOrder(47)
   @UI.readOnly
-  cumulativeTotalFundsRequestedOtherPersonnel?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedOtherPersonnel?: ResearchBudgetTotalAmount15;
 
   @UI.label("Total Salary, Wages and Fringe Benefits (A + B)")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].totalCompensation")
-  @Validation.evaluationOrder(14)
+  @Validation.evaluationOrder(48)
   @UI.readOnly
-  cumulativeTotalFundsRequestedPersonnel: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedPersonnel: ResearchBudgetTotalAmount15;
 
   @UI.label("Section A, Senior/Key Person")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].keyPersons.totalFundForKeyPersons")
-  @Validation.evaluationOrder(11)
+  @Validation.evaluationOrder(49)
   @UI.readOnly
-  cumulativeTotalFundsRequestedSeniorKeyPerson: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedSeniorKeyPerson: ResearchBudgetTotalAmount15;
 
   @UI.label("Section E, Participant/Trainee Support Costs")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.totalCost")
+  @Validation.evaluationOrder(50)
   @UI.readOnly
-  cumulativeTotalFundsRequestedTraineeCosts?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedTraineeCosts?: ResearchBudgetTotalAmount15;
 
   @UI.label("Section D, Travel")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].travel.totalTravelCost")
-  @Validation.evaluationOrder(15)
+  @Validation.evaluationOrder(51)
   @UI.readOnly
-  cumulativeTotalFundsRequestedTravel?: ResearchBudgetDecimal;
+  cumulativeTotalFundsRequestedTravel?: ResearchBudgetTotalAmount15;
 
   @UI.label("Total Number Other Personnel")
   @Validation.computedFrom(Op.Sum, "../budgetYear[*].otherPersonnel.otherPersonnelTotalNumber")
-  @Validation.evaluationOrder(13)
+  @Validation.evaluationOrder(52)
   @UI.readOnly
-  cumulativeTotalNoOtherPersonnel?: int32;
+  cumulativeTotalNoOtherPersonnel?: ResearchBudgetCount4;
 
   @UI.label("2. Stipends")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.stipends")
+  @Validation.evaluationOrder(53)
   @UI.readOnly
-  cumulativeTraineeStipends?: ResearchBudgetDecimal;
+  cumulativeTraineeStipends?: ResearchBudgetAmount14;
 
   @UI.label("4. Subsistence")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.subsistence")
+  @Validation.evaluationOrder(54)
   @UI.readOnly
-  cumulativeTraineeSubsistence?: ResearchBudgetDecimal;
+  cumulativeTraineeSubsistence?: ResearchBudgetAmount14;
 
   @UI.label("3. Travel")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.travel")
+  @Validation.evaluationOrder(55)
   @UI.readOnly
-  cumulativeTraineeTravel?: ResearchBudgetDecimal;
+  cumulativeTraineeTravel?: ResearchBudgetAmount14;
 
   @UI.label("1. Tuition/Fees/Health Insurance")
+  @Validation.computedFrom(Op.Sum, "../budgetYear[*].participantTraineeSupportCosts.tuitionFeeHealthInsurance")
+  @Validation.evaluationOrder(56)
   @UI.readOnly
-  cumulativeTraineeTuitionFeesHealthInsurance?: ResearchBudgetDecimal;
+  cumulativeTraineeTuitionFeesHealthInsurance?: ResearchBudgetAmount14;
 }
 
 @UI.label("Equipment List")
@@ -290,7 +363,7 @@ model ResearchBudgetBudgetYearEquipmentEquipmentList {
   equipmentItem: string;
 
   @UI.label("Equipment Item Funds Requested")
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal14;
 }
 
 /** Equipment costs for one research budget period. */
@@ -307,17 +380,19 @@ model ResearchBudgetBudgetYearEquipment {
   equipmentList?: ResearchBudgetBudgetYearEquipmentEquipmentList[];
 
   @UI.label("Total Equipment")
+  @Validation.computedFrom(Op.Sum, "equipmentList[*].fundsRequested", "totalFundForAttachedEquipment")
+  @Validation.evaluationOrder(7)
   @UI.readOnly
-  totalFund: ResearchBudgetDecimal;
+  totalFund: ResearchBudgetDecimal15;
 
   @UI.label("Total funds requested for all equipment listed in the attached file")
-  totalFundForAttachedEquipment?: ResearchBudgetDecimal;
+  totalFundForAttachedEquipment?: ResearchBudgetDecimal14;
 }
 
 @UI.label("Indirect Cost")
 model ResearchBudgetBudgetYearIndirectCostsIndirectCost {
   @UI.label("Indirect Cost Base")
-  base?: ResearchBudgetDecimal;
+  base?: ResearchBudgetDecimal14;
 
   @UI.label("Indirect Cost Type")
   @minLength(1)
@@ -325,10 +400,10 @@ model ResearchBudgetBudgetYearIndirectCostsIndirectCost {
   costType: string;
 
   @UI.label("Indirect Costs Funds Requested")
-  fundRequested: ResearchBudgetDecimal;
+  fundRequested: ResearchBudgetDecimal14;
 
   @UI.label("Indirect Cost Rate")
-  rate?: ResearchBudgetDecimal;
+  rate?: ResearchBudgetIndirectRate;
 }
 
 /** Indirect cost rates and requested amounts for one research budget period. */
@@ -341,8 +416,10 @@ model ResearchBudgetBudgetYearIndirectCosts {
   indirectCost: ResearchBudgetBudgetYearIndirectCostsIndirectCost[];
 
   @UI.label("Total Indirect Costs")
+  @Validation.computedFrom(Op.Sum, "indirectCost[*].fundRequested")
+  @Validation.evaluationOrder(8)
   @UI.readOnly
-  totalIndirectCosts: ResearchBudgetDecimal;
+  totalIndirectCosts: ResearchBudgetDecimal15;
 }
 
 model ResearchBudgetBudgetYearKeyPersonsKeyPersonName {
@@ -375,22 +452,22 @@ model ResearchBudgetBudgetYearKeyPersonsKeyPersonName {
 @UI.label("Key Person")
 model ResearchBudgetBudgetYearKeyPersonsKeyPerson {
   @UI.label("Senior/Key Person Academic Months")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth2Whole2Fraction;
 
   @UI.label("Senior/Key Person Base Salary")
-  baseSalary?: ResearchBudgetDecimal;
+  baseSalary?: ResearchBudgetDecimal14;
 
   @UI.label("Senior/Key Person Calendar Months")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth2Whole2Fraction;
 
   @UI.label("Senior/Key Person Fringe Benefits")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Senior/Key Person Funds Requested")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearKeyPersonsKeyPerson.requestedSalary, ResearchBudgetBudgetYearKeyPersonsKeyPerson.fringeBenefits)
   @Validation.evaluationOrder(1)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Name")
   name: ResearchBudgetBudgetYearKeyPersonsKeyPersonName;
@@ -401,10 +478,10 @@ model ResearchBudgetBudgetYearKeyPersonsKeyPerson {
   projectRole: string;
 
   @UI.label("Senior/Key Person Requested Salary")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Senior/Key Person Summer Months")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth2Whole2Fraction;
 }
 
 /** Senior and key personnel compensation for one budget period. */
@@ -421,11 +498,13 @@ model ResearchBudgetBudgetYearKeyPersons {
   keyPerson: ResearchBudgetBudgetYearKeyPersonsKeyPerson[];
 
   @UI.label("Total Funds requested for all Senior Key Persons in the attached file")
-  totalFundForAttachedKeyPersons?: ResearchBudgetDecimal;
+  totalFundForAttachedKeyPersons?: ResearchBudgetDecimal15;
 
   @UI.label("Total Senior/Key Person")
+  @Validation.computedFrom(Op.Sum, "keyPerson[*].fundsRequested", "totalFundForAttachedKeyPersons")
+  @Validation.evaluationOrder(9)
   @UI.readOnly
-  totalFundForKeyPersons: ResearchBudgetDecimal;
+  totalFundForKeyPersons: ResearchBudgetDecimal15;
 }
 
 /** A complete Research & Related budget that can stand alone or belong to a subaward collection. */
@@ -471,7 +550,7 @@ model ResearchBudgetDetails {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -481,7 +560,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost10 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -491,7 +570,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost10 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost2 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -501,7 +580,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost2 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost3 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -511,7 +590,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost3 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost4 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -521,7 +600,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost4 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost5 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -531,7 +610,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost5 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost6 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -541,7 +620,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost6 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost7 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -551,7 +630,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost7 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost8 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -561,7 +640,7 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost8 {
 
 model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost9 {
   @UI.label("Additional Other Direct Cost Funds Requested")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("Additional Other Direct Cost Description")
   @minLength(1)
@@ -575,19 +654,19 @@ model ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost9 {
 @Catalog.tag(TagName.money)
 model ResearchBudgetBudgetYearOtherDirectCosts {
   @UI.label("4. ADP/Computer Services")
-  adpComputerServices?: ResearchBudgetDecimal;
+  adpComputerServices?: ResearchBudgetDecimal14;
 
   @UI.label("7. Alterations and Renovations")
-  alterationsRenovations?: ResearchBudgetDecimal;
+  alterationsRenovations?: ResearchBudgetDecimal14;
 
   @UI.label("3. Consultant Services")
-  consultantServices?: ResearchBudgetDecimal;
+  consultantServices?: ResearchBudgetDecimal14;
 
   @UI.label("6. Equipment or Facility Rental/User Fees")
-  equipmentRentalFee?: ResearchBudgetDecimal;
+  equipmentRentalFee?: ResearchBudgetDecimal14;
 
   @UI.label("1. Materials and Supplies")
-  materialsSupplies?: ResearchBudgetDecimal;
+  materialsSupplies?: ResearchBudgetDecimal14;
 
   @UI.label("Other Direct Cost1")
   otherDirectCost1?: ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost1;
@@ -620,34 +699,55 @@ model ResearchBudgetBudgetYearOtherDirectCosts {
   otherDirectCost9?: ResearchBudgetBudgetYearOtherDirectCostsOtherDirectCost9;
 
   @UI.label("2. Publication Costs")
-  publicationCosts?: ResearchBudgetDecimal;
+  publicationCosts?: ResearchBudgetDecimal14;
 
   @UI.label("5. Subawards/Consortium/Contractual Costs")
-  subawardConsortiumContractualCosts?: ResearchBudgetDecimal;
+  subawardConsortiumContractualCosts?: ResearchBudgetDecimal14;
 
   @UI.label("Total Other Direct Costs")
+  @Validation.computedFrom(
+    Op.Sum,
+    "materialsSupplies",
+    "publicationCosts",
+    "consultantServices",
+    "adpComputerServices",
+    "subawardConsortiumContractualCosts",
+    "equipmentRentalFee",
+    "alterationsRenovations",
+    "otherDirectCost1.cost",
+    "otherDirectCost2.cost",
+    "otherDirectCost3.cost",
+    "otherDirectCost4.cost",
+    "otherDirectCost5.cost",
+    "otherDirectCost6.cost",
+    "otherDirectCost7.cost",
+    "otherDirectCost8.cost",
+    "otherDirectCost9.cost",
+    "otherDirectCost10.cost"
+  )
+  @Validation.evaluationOrder(10)
   @UI.readOnly
-  totalOtherDirectCost: ResearchBudgetDecimal;
+  totalOtherDirectCost: ResearchBudgetDecimal15;
 }
 
 model ResearchBudgetBudgetYearOtherPersonnelGraduateStudents {
   @UI.label("Academic Months Graduate Students")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Calendar Months Graduate Students")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Fringe Benefits Graduate Students")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Funds Requested Graduate Students")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearOtherPersonnelGraduateStudents.requestedSalary, ResearchBudgetBudgetYearOtherPersonnelGraduateStudents.fringeBenefits)
   @Validation.evaluationOrder(3)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Number of Personnel Graduate Students")
-  numberOfPersonnel: int32;
+  numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Graduate Students")
   @minLength(1)
@@ -655,31 +755,31 @@ model ResearchBudgetBudgetYearOtherPersonnelGraduateStudents {
   projectRole: string;
 
   @UI.label("Requested Salary Graduate Students")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Summer Months Graduate Students")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth3Whole2Fraction;
 }
 
 @UI.label("Other")
 model ResearchBudgetBudgetYearOtherPersonnelOther {
   @UI.label("Academic Months Additional Project Role")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Calendar Months Additional Project Role")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Fringe Benefits Additional Project Role")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Funds Requested Additional Project Role")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearOtherPersonnelOther.requestedSalary, ResearchBudgetBudgetYearOtherPersonnelOther.fringeBenefits)
   @Validation.evaluationOrder(6)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Number of Personnel Additional Project Role")
-  numberOfPersonnel: int32;
+  numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Additional Project Role Description")
   @minLength(1)
@@ -687,30 +787,30 @@ model ResearchBudgetBudgetYearOtherPersonnelOther {
   projectRole: string;
 
   @UI.label("Requested Salary Additional Project Role")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Summer Months Additional Project Role")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth3Whole2Fraction;
 }
 
 model ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates {
   @UI.label("Academic Months Post Doctoral Associates")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Calendar Months Post Doctoral Associates")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Fringe Benefits Post Doctoral Associates")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Funds Requested Post Doctoral Associates")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates.requestedSalary, ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates.fringeBenefits)
   @Validation.evaluationOrder(2)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Number of Personnel Post Doctoral Associates")
-  numberOfPersonnel: int32;
+  numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Post Doctoral Associates")
   @minLength(1)
@@ -718,30 +818,30 @@ model ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates {
   projectRole: string;
 
   @UI.label("Requested Salary Post Doctoral Associates")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Summer Months Post Doctoral Associates")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth3Whole2Fraction;
 }
 
 model ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical {
   @UI.label("Academic Months Secretarial/Clerical")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Calendar Months Secretarial/Clerical")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Fringe Benefits Secretarial/Clerical")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Funds Requested Secretarial/Clerical")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical.requestedSalary, ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical.fringeBenefits)
   @Validation.evaluationOrder(5)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Number of Personnel Secretarial/Clerical")
-  numberOfPersonnel: int32;
+  numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Secretarial/Clerical")
   @minLength(1)
@@ -749,30 +849,30 @@ model ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical {
   projectRole: string;
 
   @UI.label("Requested Salary Secretarial/Clerical")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Summer Months Secretarial/Clerical")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth3Whole2Fraction;
 }
 
 model ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents {
   @UI.label("Academic Months Undergraduate Students")
-  academicMonths?: ResearchBudgetDecimal;
+  academicMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Calendar Months Undergraduate Students")
-  calendarMonths?: ResearchBudgetDecimal;
+  calendarMonths?: ResearchBudgetMonth3Whole2Fraction;
 
   @UI.label("Fringe Benefits Undergraduate Students")
-  fringeBenefits: ResearchBudgetDecimal;
+  fringeBenefits: ResearchBudgetDecimal14;
 
   @UI.label("Funds Requested Undergraduate Students")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents.requestedSalary, ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents.fringeBenefits)
   @Validation.evaluationOrder(4)
   @UI.readOnly
-  fundsRequested: ResearchBudgetDecimal;
+  fundsRequested: ResearchBudgetDecimal15;
 
   @UI.label("Number of Personnel Undergraduate Students")
-  numberOfPersonnel: int32;
+  numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Undergraduate Students")
   @minLength(1)
@@ -780,10 +880,10 @@ model ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents {
   projectRole: string;
 
   @UI.label("Requested Salary Undergraduate Students")
-  requestedSalary: ResearchBudgetDecimal;
+  requestedSalary: ResearchBudgetDecimal14;
 
   @UI.label("Summer Months Undergraduate Students")
-  summerMonths?: ResearchBudgetDecimal;
+  summerMonths?: ResearchBudgetMonth3Whole2Fraction;
 }
 
 /** Other personnel compensation for one budget period. */
@@ -799,8 +899,17 @@ model ResearchBudgetBudgetYearOtherPersonnel {
   other?: ResearchBudgetBudgetYearOtherPersonnelOther[];
 
   @UI.label("Total Number Other Personnel")
+  @Validation.computedFrom(
+    Op.Sum,
+    "postDocAssociates.numberOfPersonnel",
+    "graduateStudents.numberOfPersonnel",
+    "undergraduateStudents.numberOfPersonnel",
+    "secretarialClerical.numberOfPersonnel",
+    "other[*].numberOfPersonnel"
+  )
+  @Validation.evaluationOrder(11)
   @UI.readOnly
-  otherPersonnelTotalNumber: int32;
+  otherPersonnelTotalNumber: ResearchBudgetCount4;
 
   @UI.label("Post Doc Associates")
   postDocAssociates?: ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates;
@@ -809,8 +918,17 @@ model ResearchBudgetBudgetYearOtherPersonnel {
   secretarialClerical?: ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical;
 
   @UI.label("Total Other Personnel")
+  @Validation.computedFrom(
+    Op.Sum,
+    "postDocAssociates.fundsRequested",
+    "graduateStudents.fundsRequested",
+    "undergraduateStudents.fundsRequested",
+    "secretarialClerical.fundsRequested",
+    "other[*].fundsRequested"
+  )
+  @Validation.evaluationOrder(12)
   @UI.readOnly
-  totalOtherPersonnelFund?: ResearchBudgetDecimal;
+  totalOtherPersonnelFund?: ResearchBudgetDecimal15;
 
   @UI.label("Undergraduate Students")
   undergraduateStudents?: ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents;
@@ -818,7 +936,7 @@ model ResearchBudgetBudgetYearOtherPersonnel {
 
 model ResearchBudgetBudgetYearParticipantTraineeSupportCostsOther {
   @UI.label("Other Participant/Trainee Costs")
-  cost: ResearchBudgetDecimal;
+  cost: ResearchBudgetDecimal14;
 
   @UI.label("5. Other")
   @minLength(1)
@@ -835,23 +953,32 @@ model ResearchBudgetBudgetYearParticipantTraineeSupportCosts {
   other?: ResearchBudgetBudgetYearParticipantTraineeSupportCostsOther;
 
   @UI.label("Number of Participants/Trainees")
-  participantTraineeNumber?: int32;
+  participantTraineeNumber?: ResearchBudgetCount3;
 
   @UI.label("2. Stipends")
-  stipends?: ResearchBudgetDecimal;
+  stipends?: ResearchBudgetDecimal14;
 
   @UI.label("4. Subsistence")
-  subsistence?: ResearchBudgetDecimal;
+  subsistence?: ResearchBudgetDecimal14;
 
   @UI.label("Total Participant/Trainee Support Costs")
+  @Validation.computedFrom(
+    Op.Sum,
+    "tuitionFeeHealthInsurance",
+    "stipends",
+    "travel",
+    "subsistence",
+    "other.cost"
+  )
+  @Validation.evaluationOrder(13)
   @UI.readOnly
-  totalCost: ResearchBudgetDecimal;
+  totalCost: ResearchBudgetDecimal15;
 
   @UI.label("3. Travel")
-  travel?: ResearchBudgetDecimal;
+  travel?: ResearchBudgetDecimal14;
 
   @UI.label("1. Tuition/Fees/Health Insurance")
-  tuitionFeeHealthInsurance?: ResearchBudgetDecimal;
+  tuitionFeeHealthInsurance?: ResearchBudgetDecimal14;
 }
 
 /** Domestic and foreign travel costs for one research budget period. */
@@ -860,16 +987,16 @@ model ResearchBudgetBudgetYearParticipantTraineeSupportCosts {
 @Catalog.tag(TagName.money)
 model ResearchBudgetBudgetYearTravel {
   @UI.label("1. Domestic Travel Costs ( Incl. Canada, Mexico and U.S. Possessions)")
-  domesticTravelCost?: ResearchBudgetDecimal;
+  domesticTravelCost?: ResearchBudgetDecimal14;
 
   @UI.label("2. Foreign Travel Costs")
-  foreignTravelCost?: ResearchBudgetDecimal;
+  foreignTravelCost?: ResearchBudgetDecimal14;
 
   @UI.label("Total Travel Cost")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYearTravel.domesticTravelCost, ResearchBudgetBudgetYearTravel.foreignTravelCost)
-  @Validation.evaluationOrder(8)
+  @Validation.evaluationOrder(14)
   @UI.readOnly
-  totalTravelCost: ResearchBudgetDecimal;
+  totalTravelCost: ResearchBudgetDecimal15;
 }
 
 /** A dated research budget period with personnel, direct, indirect, and total costs. */
@@ -890,14 +1017,24 @@ model ResearchBudgetBudgetYear {
   cognizantFederalAgency?: string;
 
   @UI.label("Total Direct Costs (A thru F)")
+  @Validation.computedFrom(
+    Op.Sum,
+    "keyPersons.totalFundForKeyPersons",
+    "otherPersonnel.totalOtherPersonnelFund",
+    "equipment.totalFund",
+    "travel.totalTravelCost",
+    "participantTraineeSupportCosts.totalCost",
+    "otherDirectCosts.totalOtherDirectCost"
+  )
+  @Validation.evaluationOrder(16)
   @UI.readOnly
-  directCosts: ResearchBudgetDecimal;
+  directCosts: ResearchBudgetDecimal15;
 
   @UI.label("Equipment")
   equipment?: ResearchBudgetBudgetYearEquipment;
 
   @UI.label("Fee")
-  fee?: ResearchBudgetDecimal;
+  fee?: ResearchBudgetAmount14;
 
   @UI.label("Indirect Costs")
   indirectCosts?: ResearchBudgetBudgetYearIndirectCosts;
@@ -916,21 +1053,21 @@ model ResearchBudgetBudgetYear {
 
   @UI.label("Total Salary, Wages and Fringe Benefits (A+B)")
   @Validation.computedFrom(Op.Sum, "keyPersons.totalFundForKeyPersons", "otherPersonnel.totalOtherPersonnelFund")
-  @Validation.evaluationOrder(7)
+  @Validation.evaluationOrder(15)
   @UI.readOnly
-  totalCompensation: ResearchBudgetDecimal;
+  totalCompensation: ResearchBudgetDecimal15;
 
   @UI.label("Total Direct and Indirect Institutional Costs (G + H)")
   @Validation.computedFrom(Op.Sum, "directCosts", "indirectCosts.totalIndirectCosts")
-  @Validation.evaluationOrder(9)
+  @Validation.evaluationOrder(17)
   @UI.readOnly
-  totalCosts: ResearchBudgetDecimal;
+  totalCosts: ResearchBudgetDecimal15;
 
   @UI.label("Total Costs and Fee (I + J)")
   @Validation.computed(Op.Sum, ResearchBudgetBudgetYear.totalCosts, ResearchBudgetBudgetYear.fee)
-  @Validation.evaluationOrder(10)
+  @Validation.evaluationOrder(18)
   @UI.readOnly
-  totalCostsFee: ResearchBudgetDecimal;
+  totalCostsFee: ResearchBudgetTotalAmount15;
 
   @UI.label("Travel")
   travel?: ResearchBudgetBudgetYearTravel;

@@ -34,7 +34,7 @@ model FormMeta {
 
 enum TagName {
   address, phone, email, identifier, name, title, person, organization,
-  details, generic, money, attachment, narrative, date, role,
+  details, generic, money, count, attachment, narrative, date, role,
 }
 
 enum EntityName {
