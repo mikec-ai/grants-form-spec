@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:21:26.602Z'
+  at: '2026-08-22T19:32:46.815Z'
 ---
 # Objective
 
@@ -55,8 +55,10 @@ Column G rows 1 through 4 are manually entered for this delivery slice. Legacy b
 
 # Progress
 
-- Producer PR #13 publishes source-grounded Section A instructions and field help from the declarative specification: https://github.com/mikec-ai/grants-form-spec/pull/13
+- Producer PR #13 is merged and publishes source-grounded Section A instructions and field help from the declarative specification: https://github.com/mikec-ai/grants-form-spec/pull/13
 - The generic compiler now carries `@UI.helpText` into JSON Schema at nested depths; the Simpler adapter does not need to own SF-424A-specific guidance copy.
 - Tests preserve the key behavior boundary: Column G rows 1 through 4 are manual, while row 5 totals the entered Column G values vertically.
 - Full producer preflight passes: 52 compiler tests, 13 analysis tests, 71 blocks, and 370 validated artifacts.
-- Next adapter slice: consume the portable descriptions, replace misleading hard-coded table copy, add semantic table headers and accessible input names, then harden generic section navigation and lifecycle tests.
+- Adapter PR #9 consumes the portable descriptions, removes misleading hard-coded sum copy, adds semantic table headers and row-aware accessible names, preserves manual Column G entry, applies locked state to every input, and hardens generic section navigation: https://github.com/mikec-ai/simpler-grants-gov/pull/9
+- Verified locally: 12 portable artifact/parity tests, 23 focused frontend tests, TypeScript, targeted ESLint, Ruff lint, and Ruff formatting. DB-backed calculation tests await the CI database service; this is an environment boundary rather than a known behavioral failure.
+- Remaining production work: save/reload, submission, print, browser-level keyboard and accessibility checks, and human acceptance of guidance and behavior.
