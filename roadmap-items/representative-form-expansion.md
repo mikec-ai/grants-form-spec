@@ -10,7 +10,6 @@ description: >-
   reusable foundations.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
 ---
 # Strategy
 
@@ -82,3 +81,5 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/harvest-rr-subaward-budget-30.md)
 
 [contains](../tasks/promote-rr-subaward-budget-10-30.md)
+
+[contains](../tasks/promote-project-abstract-summary.md)
