@@ -1,5 +1,5 @@
-import type { Program } from "@typespec/compiler";
-import { Block, orderedProps, propRequiredWhen } from "../model.js";
+import type { Model, Program, Type } from "@typespec/compiler";
+import { Block, orderedProps, propReadOnly, propRequiredWhen } from "../model.js";
 
 /**
  * The parts of a block's JSON Schema that `@typespec/json-schema` cannot produce.
@@ -18,8 +18,40 @@ export function emitSchemaOverlay(
 ): Record<string, unknown> | undefined {
   const conditionals = conditionalRequiredness(program, block);
   const patches = overriddenPresentation(block);
-  if (!conditionals && !patches) return undefined;
-  return { ...(conditionals ?? {}), ...(patches ?? {}) };
+  const readOnly = block.model.kind === "Model" ? readOnlyAnnotations(program, block.model) : undefined;
+  const parts = [conditionals, patches, readOnly].filter(Boolean) as Record<string, unknown>[];
+  if (!parts.length) return undefined;
+  return parts.reduce(merge, {});
+}
+
+function childModel(type: Type): { model: Model; repeated: boolean } | undefined {
+  if (type.kind !== "Model") return undefined;
+  if (!type.indexer) return { model: type, repeated: false };
+  return type.indexer.value.kind === "Model"
+    ? { model: type.indexer.value, repeated: true }
+    : undefined;
+}
+
+/** Carry declared output status into JSON Schema at every nested depth. */
+function readOnlyAnnotations(
+  program: Program,
+  model: Model,
+  seen = new Set<Model>(),
+): Record<string, unknown> | undefined {
+  if (seen.has(model)) return undefined;
+  seen.add(model);
+  const properties: Record<string, unknown> = {};
+  for (const property of model.properties.values()) {
+    let patch: Record<string, unknown> = {};
+    if (propReadOnly(program, property)) patch.readOnly = true;
+    const child = childModel(property.type);
+    if (child) {
+      const nested = readOnlyAnnotations(program, child.model, new Set(seen));
+      if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
+    }
+    if (Object.keys(patch).length) properties[property.name] = patch;
+  }
+  return Object.keys(properties).length ? { properties } : undefined;
 }
 
 function conditionalRequiredness(

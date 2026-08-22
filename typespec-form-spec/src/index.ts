@@ -27,6 +27,7 @@ export const $decorators = {
     requiredWhen: d.$requiredWhen,
     computed: d.$computed,
     computedFrom: d.$computedFrom,
+    evaluationOrder: d.$evaluationOrder,
     totals: d.$totals,
   },
   "SimplerForms.Sgg": {

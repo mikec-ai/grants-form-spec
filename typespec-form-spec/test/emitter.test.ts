@@ -37,9 +37,21 @@ describe("SGG UI emission", () => {
       "@THIS.keyPersons.totalFundForKeyPersons",
       "@THIS.otherPersonnel.totalOtherPersonnelFund",
     ]);
+    expect(rules.budgetYear.keyPersons.keyPerson.fundsRequested.gg_pre_population.order).toBe(1);
     expect(
       rules.budgetSummary.cumulativeTotalFundsRequestedTravel.gg_pre_population.fields,
     ).toEqual(["budgetYear[*].travel.totalTravelCost"]);
+    expect(
+      rules.budgetSummary.cumulativeTotalFundsRequestedTravel.gg_pre_population.order,
+    ).toBe(15);
+
+    const period = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/question-bank/budget/research/period/schema.json"),
+        "utf8",
+      ),
+    );
+    expect(period.properties.directCosts.readOnly).toBe(true);
   });
 
   it("keeps Key Contacts field-list presentation parity declarative", async () => {

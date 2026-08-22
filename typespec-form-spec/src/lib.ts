@@ -86,6 +86,7 @@ export const $lib = createTypeSpecLibrary({
     requiredWhen: {},
     computed: {},
     computedFrom: {},
+    evaluationOrder: {},
     totals: {},
     prePopulate: {},
     multiField: {},

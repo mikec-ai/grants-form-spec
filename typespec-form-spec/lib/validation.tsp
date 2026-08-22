@@ -23,6 +23,9 @@ extern dec computed(target: ModelProperty, operator: valueof Op, ...refs: ModelP
  */
 extern dec computedFrom(target: ModelProperty, operator: valueof Op, ...paths: valueof string[]);
 
+/** Preserve an authoritative calculation's evaluation position when the source defines one. */
+extern dec evaluationOrder(target: ModelProperty, order: valueof int32);
+
 /**
  * This block totals the same block found in each of `sources`, field by field.
  *

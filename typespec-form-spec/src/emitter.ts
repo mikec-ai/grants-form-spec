@@ -179,6 +179,8 @@ function mergeSchema(a: Json, b: Json): Json {
           ? mergeSchema(existing as Json, patch as Json)
           : patch;
       }
+    } else if (isObject(out[key]) && isObject(value)) {
+      out[key] = mergeSchema(out[key], value);
     } else {
       out[key] = value;
     }
