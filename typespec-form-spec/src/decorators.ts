@@ -202,6 +202,9 @@ export const $computedFrom = (
     paths: paths.map((path) => String(literal(path))),
   });
 
+export const $evaluationOrder = (ctx: Ctx, target: ModelProperty, order: number) =>
+  set(ctx, stateKeys.evaluationOrder, target, order);
+
 /**
  * Field-by-field totalling. Only the source properties are recorded; which field of the
  * block pairs with which is worked out at emission, where the type graph is in view.

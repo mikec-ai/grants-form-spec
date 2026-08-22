@@ -1,7 +1,8 @@
 import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
 import {
-  Block, blockAncestry, childBlock, modelPrePopulate, propComputed, propComputedFrom, propOmit, propTotals,
-  readBlock,
+  Block, blockAncestry, childBlock, modelPrePopulate, propComputed, propComputedFrom,
+  propEvaluationOrder, propOmit, propTotals,
+  readBlock, typeTags,
 } from "../model.js";
 
 const OP_RULE: Record<string, string> = {
@@ -38,6 +39,7 @@ interface Calculation {
   at: string[];
   rule: string;
   refs: Reference[];
+  explicitOrder?: number;
 }
 
 type Json = Record<string, unknown>;
@@ -75,8 +77,8 @@ export function emitSggRules(program: Program, block: Block): Json {
       rule: calculation.rule,
       fields: calculation.refs.map((r) => r.emit),
     };
-    const order = depth(calculation.at.join("."), byPath, depths, new Set());
-    if (order >= 2) rule.order = order;
+    const order = calculation.explicitOrder ?? depth(calculation.at.join("."), byPath, depths, new Set());
+    if (calculation.explicitOrder !== undefined || order >= 2) rule.order = order;
     place(out, calculation.at, { gg_pre_population: rule });
   }
   return out;
@@ -157,6 +159,7 @@ function walk(
       calculations.push({
         at: here,
         rule: OP_RULE[computed.operator] ?? "sum_monetary",
+        explicitOrder: propEvaluationOrder(program, prop),
         refs: computed.refs.map((name) => ({
           // A sibling reference is spelled `@THIS.` everywhere but the form's own root.
           emit: atRoot ? name : `@THIS.${name}`,
@@ -171,6 +174,7 @@ function walk(
       calculations.push({
         at: here,
         rule: OP_RULE[computedFrom.operator] ?? "sum_monetary",
+        explicitOrder: propEvaluationOrder(program, prop),
         refs: computedFrom.paths.map((path) => {
           const rootPath = path.startsWith("/");
           const canonical = rootPath ? path.slice(1) : path;
@@ -292,10 +296,10 @@ function collectTotals(
 function moneyFields(program: Program, model: Model): string[] {
   const out: string[] = [];
   for (const prop of model.properties.values()) {
-    const child = childBlock(program, prop);
+    const type = prop.type;
     // Money is semantic catalogue vocabulary, not the identity of one scalar. This lets
     // another source preserve a stricter wire precision while remaining a monetary value.
-    if (child && child.tags.includes("money")) {
+    if ((type.kind === "Model" || type.kind === "Scalar") && typeTags(program, type).includes("money")) {
       out.push(prop.name);
     }
   }

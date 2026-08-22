@@ -78,6 +78,8 @@ export const propSection = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.section, prop) as { name: string; label?: string } | undefined;
 export const propReadOnly = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.readOnly, prop) === true;
+export const typeTags = (p: Program, type: Model | Scalar) =>
+  (g(p, stateKeys.tags, type) as string[]) ?? [];
 export const propReadOnlyWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.readOnlyWhen, prop) as Condition[]) ?? [];
 export const propOmit = (p: Program, prop: ModelProperty) =>
@@ -90,6 +92,8 @@ export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computedFrom, prop) as { operator: string; paths: string[] } | undefined;
+export const propEvaluationOrder = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.evaluationOrder, prop) as number | undefined;
 export const propTotals = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.totals, prop) as ModelProperty[] | undefined;
 /** `@Sgg.prePopulate`: canonical data path -> SGG rule name, declared on the form. */
