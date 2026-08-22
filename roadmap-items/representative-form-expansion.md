@@ -17,3 +17,5 @@ superbee_updated_by: mikec-ai
 [contains](../tasks/integrate-sf424a-reference-form.md)
 
 [contains](../tasks/integrate-sf424-short-reference-form.md)
+
+[contains](../tasks/integrate-standalone-attachment-forms.md)
