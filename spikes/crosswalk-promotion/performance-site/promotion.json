@@ -1,0 +1,3341 @@
+{
+  "artifacts": [
+    {
+      "path": "artifacts/proof/grantsgov-PerformanceSite.jsonl.manifest.json",
+      "role": "xsd_manifest",
+      "sha256": "3fc4549ba234a64bc936d26f1d06c65c43f66efa4b88d054bc51e68330d1d19c"
+    },
+    {
+      "path": "artifacts/proof/grantsgov-PerformanceSite.jsonl",
+      "role": "xsd_records",
+      "sha256": "41d45b4e0282e14045c6090051a65811b83425e2a7fdad8f3a0773e1f9ea6b8d"
+    },
+    {
+      "path": "harness/contracts/expansion-a/evidence/PerformanceSite-behaviors.jsonl",
+      "role": "behavior_records",
+      "sha256": "0dcc163568b670962a749fd0da01c56eb47d9a51727c2d5bbf8096a224ff8181"
+    },
+    {
+      "path": "artifacts/authoring/form-authoring-contract-v2/forms/PerformanceSite.json",
+      "role": "authoring_contract",
+      "sha256": "fbdc47bfc4a90800a60ab6fac6ccecc67da1769849b9f683ad880c9a4a66f278"
+    },
+    {
+      "path": "artifacts/authoring/project-people-family/forms/PerformanceSite.json",
+      "role": "component_proposals",
+      "sha256": "ddab4af00e9ff190dceaf7e67d9ede4a5fc38624bb0317a67b1ba153aa15aa5c"
+    },
+    {
+      "path": "artifacts/authoring/runtime-rule-ast-resolved-v1/forms/PerformanceSite.json",
+      "role": "runtime_rules",
+      "sha256": "8503d03fac54fac3173f93363d177162ce2c50143abac374a7fe2e1f38e194de"
+    }
+  ],
+  "behaviorEvidence": [
+    {
+      "id": "behavior:sha256:b310b74b5938a38a516d4db3ddac288810d769720ecf7676872e73e85f239473",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:b310b74b5938a38a516d4db3ddac288810d769720ecf7676872e73e85f239473",
+        "business_rules": "Clicking displays burden statement: SF-424 PROJECT/PERFORMANCE SITE LOCATION(S) FORM (4040-0010) According to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number. The valid OMB control number for this information collection is 4040-0010. The time required to complete this information collection is estimated to average 14 minutes per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection. If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to: U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201, Attention: PRA Reports Clearance Officer. Agency Total Average Burden Total Burden Responses per response in Hours Hours NSF 34000 10/60 5667 VA 750 20/60 250 USAID 300 5/60 25 IMLS 420 5/60 35 DOD 12210 4/60 814 HHS 122339 11/60 22429 DOI 76132 19/60 24108 SSA 2000 2/60 67 NEA 5 345 5/60 445 DOJ 3 4471 15/60 8618 USDA 7150 10/60 1192 EPA 15264 5/60 1272 HUD 9100 30/60 4550 NASA 9435 15/60 2359 NARA 150 10/60 25 NEH 3750 15/60 938 DOT 3400 53/60 3003 ED 14191 10/60 2365 DOE 7150 20/60 2383 DHS 23 30/60 12 Total 357580 80557 80557 total hrs. x 60 minutes = 4833420 total minutes. 4833420 / 357580 total responses = 14 minutes per response.",
+        "condition": "Clicking displays burden statement: SF-424 PROJECT/PERFORMANCE SITE LOCATION(S) FORM (4040-0010) According to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number. The valid OMB control number for this information collection is 4040-0010. The time required to complete this information collection is estimated to average 14 minutes per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection. If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to: U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201, Attention: PRA Reports Clearance Officer. Agency Total Average Burden Total Burden Responses per response in Hours Hours NSF 34000 10/60 5667 VA 750 20/60 250 USAID 300 5/60 25 IMLS 420 5/60 35 DOD 12210 4/60 814 HHS 122339 11/60 22429 DOI 76132 19/60 24108 SSA 2000 2/60 67 NEA 5 345 5/60 445 DOJ 3 4471 15/60 8618 USDA 7150 10/60 1192 EPA 15264 5/60 1272 HUD 9100 30/60 4550 NASA 9435 15/60 2359 NARA 150 10/60 25 NEH 3750 15/60 938 DOT 3400 53/60 3003 ED 14191 10/60 2365 DOE 7150 20/60 2383 DHS 23 30/60 12 Total 357580 80557 80557 total hrs. x 60 minutes = 4833420 total minutes. 4833420 / 357580 total responses = 14 minutes per response.",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Burden Statement Button",
+        "field_number": "0-0",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Button",
+        "input_role": "presentation",
+        "label": "View Burden Statement",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:b0017fe761c0d98a43c1215d7c5095b140e7f557a7512952f3281dd4a9d847a6",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:b0017fe761c0d98a43c1215d7c5095b140e7f557a7512952f3281dd4a9d847a6",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "OMB Number Text",
+        "field_number": "0-1",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Label",
+        "input_role": "presentation",
+        "label": "OMB Number: 4040-0010",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:f512faeaf451b5d484f2887a5b4522e6843d342415a085ff59b74dee7e3f0d32",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:f512faeaf451b5d484f2887a5b4522e6843d342415a085ff59b74dee7e3f0d32",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Expiration Date Text",
+        "field_number": "0-2",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Label",
+        "input_role": "presentation",
+        "label": "Expiration Date: 12/31/2026",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:576d555edbb5d645c392df3190620dfa8c59ff1f18b25f018bfad4e4092e8cb5",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:576d555edbb5d645c392df3190620dfa8c59ff1f18b25f018bfad4e4092e8cb5",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Form Title Text",
+        "field_number": "0-3",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Label",
+        "input_role": "presentation",
+        "label": "Project/Performance Site Location(s)",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:a7ce7c353a628f658731eff844538198815f13bcb03def98380674e4507275d1",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:a7ce7c353a628f658731eff844538198815f13bcb03def98380674e4507275d1",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "Checkbox",
+        "fid": "723",
+        "field_id": "Submitting as an Individual",
+        "field_number": "1-0",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Check",
+        "input_role": "applicant_entered",
+        "label": "I am submitting an application as an individual, and not on behalf of a company, state, local or tribal government, academia, or other type of organization.",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:3227890234282e8e133cc4c3974d60138a56b4537078c1b98a2735544c209cef",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:3227890234282e8e133cc4c3974d60138a56b4537078c1b98a2735544c209cef",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Project/Performance Site Primary Location Header",
+        "field_number": "1-00-a",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Label",
+        "input_role": "presentation",
+        "label": "Project/Performance Site Primary Location",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:d640272a49ec8742c98b7cc508dc987fd83366b639ec98152192ffef10f47d19",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:d640272a49ec8742c98b7cc508dc987fd83366b639ec98152192ffef10f47d19",
+        "business_rules": "Required if field 1-0 is not checked.",
+        "condition": "Required if field 1-0 is not checked.",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Organization Name",
+        "field_number": "1-01",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Organization Name:",
+        "max_occurs": 1,
+        "maximum": 60,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:74e46665328550227e82bd93e907a4da1df1e2f2fef0891cc1afc5256d4252e8",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:74e46665328550227e82bd93e907a4da1df1e2f2fef0891cc1afc5256d4252e8",
+        "business_rules": "Must be 12 characters.",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "SAM UEI",
+        "field_number": "1-02",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "UEI:",
+        "max_occurs": 1,
+        "maximum": 12,
+        "min_occurs": 0,
+        "minimum": 12,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:70fe44e38f395cf10797a85bd649316db6bb51701e54299ada61262c8b8b3ac7",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:70fe44e38f395cf10797a85bd649316db6bb51701e54299ada61262c8b8b3ac7",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Street 1",
+        "field_number": "1-03",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* Street1:",
+        "max_occurs": 1,
+        "maximum": 55,
+        "min_occurs": 1,
+        "minimum": 1,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": true,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:83909af84e46aab716e8503d7c3139bd888b15242552965c0eff61023259ce67",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:83909af84e46aab716e8503d7c3139bd888b15242552965c0eff61023259ce67",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Street 2",
+        "field_number": "1-04",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Street2:",
+        "max_occurs": 1,
+        "maximum": 55,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:9f8688da1dc5b7aef48909ce4ecc403c41fb189e0534b3535cc3a10e0d3227fa",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:9f8688da1dc5b7aef48909ce4ecc403c41fb189e0534b3535cc3a10e0d3227fa",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "City",
+        "field_number": "1-05",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* City:",
+        "max_occurs": 1,
+        "maximum": 35,
+        "min_occurs": 1,
+        "minimum": 1,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": true,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:ab6847084e6c0e45ff91fdf7b9c4bbe1b8bb7616fd25498ae77a862f734256f1",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:ab6847084e6c0e45ff91fdf7b9c4bbe1b8bb7616fd25498ae77a862f734256f1",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "County",
+        "field_number": "1-06",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "County:",
+        "max_occurs": 1,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:a9ccb8aa3922e64050b5fc0bca5acefccc107e3872f3bea93f2454e8d245a90f",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [
+          "50 US States, US possessions, territories, military codes"
+        ],
+        "behavior_key": "behavior:sha256:a9ccb8aa3922e64050b5fc0bca5acefccc107e3872f3bea93f2454e8d245a90f",
+        "business_rules": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+        "condition": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+        "data_type": "LIST",
+        "fid": "723",
+        "field_id": "State",
+        "field_number": "1-07",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Popup",
+        "input_role": "applicant_entered",
+        "label": "* State:",
+        "max_occurs": 1,
+        "maximum": 55,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:a87ad9006d930ec20e753f7b8e5e5cb755e1477cb993eb82039d200013b2c1b3",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:a87ad9006d930ec20e753f7b8e5e5cb755e1477cb993eb82039d200013b2c1b3",
+        "business_rules": "If Country is US then inactive. If Country is not US, then active",
+        "condition": "If Country is US then inactive. If Country is not US, then active",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Province",
+        "field_number": "1-08",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Province:",
+        "max_occurs": 1,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:1f55d68e90f0df532d5e6c43d59bdacf2bab0e29586599691f12ea4645ace622",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [
+          "GENC Standard Ed3.0 Update 11"
+        ],
+        "behavior_key": "behavior:sha256:1f55d68e90f0df532d5e6c43d59bdacf2bab0e29586599691f12ea4645ace622",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "LIST",
+        "fid": "723",
+        "field_id": "Country",
+        "field_number": "1-09",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Popup",
+        "input_role": "applicant_entered",
+        "label": "* Country:",
+        "max_occurs": 1,
+        "maximum": 49,
+        "min_occurs": 1,
+        "minimum": 1,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": true,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:8e8823d3a647e49eeb9c01118104efb430de03da547d58f473a30650620e1a57",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:8e8823d3a647e49eeb9c01118104efb430de03da547d58f473a30650620e1a57",
+        "business_rules": "Conditionally required if Country is US then required. If Country is not US, then optional. If US, min character =9, max remains the same.",
+        "condition": "Conditionally required if Country is US then required. If Country is not US, then optional. If US, min character =9, max remains the same.",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Zip / Postal Code",
+        "field_number": "1-10",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* ZIP / Postal Code:",
+        "max_occurs": 1,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:ee4831d71e37bf948c91451d35f34b71eb6b265c8536ccdd7bb796ede72f5f6f",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:ee4831d71e37bf948c91451d35f34b71eb6b265c8536ccdd7bb796ede72f5f6f",
+        "business_rules": "Conditionally required if Country is US. If Country is not US, optional data entry. Must be in format **-***. (Any characters, third character must be \"-\").",
+        "condition": "Conditionally required if Country is US. If Country is not US, optional data entry. Must be in format **-***. (Any characters, third character must be \"-\").",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Program District",
+        "field_number": "1-11",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* Project/ Performance Site Congressional District:",
+        "max_occurs": 1,
+        "maximum": 6,
+        "min_occurs": 0,
+        "minimum": 6,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:e7cc1f734cff4c8bbb86b6c5088b38e7ac0861804ab4e3e3ec14b016dfc2e8bf",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:e7cc1f734cff4c8bbb86b6c5088b38e7ac0861804ab4e3e3ec14b016dfc2e8bf",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Project/Performance Site Location Header",
+        "field_number": "2-0",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Label",
+        "input_role": "presentation",
+        "label": "Project/Performance Site Location 1",
+        "max_occurs": 299,
+        "maximum": null,
+        "min_occurs": 0,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:43c8baa784b5a263dd18e57465879ed79d74ded6686f6fe3c918f234558bb784",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:43c8baa784b5a263dd18e57465879ed79d74ded6686f6fe3c918f234558bb784",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "Checkbox",
+        "fid": "723",
+        "field_id": "Submitting as an Individual (Project Performance Site)",
+        "field_number": "2-01",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "I am submitting an application as an individual, and not on behalf of a company, state, local or tribal government, academia, or other type of organization.",
+        "max_occurs": 299,
+        "maximum": null,
+        "min_occurs": 0,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:501c25554996a07e5e46fe129ed6434ea3a924a09c4c3b698f5bf96930fdc9ec",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:501c25554996a07e5e46fe129ed6434ea3a924a09c4c3b698f5bf96930fdc9ec",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Organization Name (Project Performance Site)",
+        "field_number": "2-02",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Organization Name:",
+        "max_occurs": 299,
+        "maximum": 60,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:2e0ab8952c2a01de75c0b47791a05738357d1f0ce37f0f97bd550453236feeea",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:2e0ab8952c2a01de75c0b47791a05738357d1f0ce37f0f97bd550453236feeea",
+        "business_rules": "Must be 12 characters.",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "SAM UEI",
+        "field_number": "2-03",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "UEI:",
+        "max_occurs": 1,
+        "maximum": 12,
+        "min_occurs": 0,
+        "minimum": 12,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:a9bf58416b93e5f71704f2709cf386e0a1535d6b1c73742d3b73f4eb76607f40",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:a9bf58416b93e5f71704f2709cf386e0a1535d6b1c73742d3b73f4eb76607f40",
+        "business_rules": "Required if any other data for this site is entered.",
+        "condition": "Required if any other data for this site is entered.",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Street1 (Project Performance Site)",
+        "field_number": "2-04",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* Street1:",
+        "max_occurs": 299,
+        "maximum": 55,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:5a12d65d8124efae5ddfeb26339ca7567f57cddd0ba10bcd864dfd6cf1719eb6",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:5a12d65d8124efae5ddfeb26339ca7567f57cddd0ba10bcd864dfd6cf1719eb6",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Street2 (Project Performance Site)",
+        "field_number": "2-05",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Street2:",
+        "max_occurs": 299,
+        "maximum": 55,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:609b8ec994aa2829bfa3ee3863834f457da0b214911ffc356d3635f4c3b6c488",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:609b8ec994aa2829bfa3ee3863834f457da0b214911ffc356d3635f4c3b6c488",
+        "business_rules": "Required if any other data for this site is entered.",
+        "condition": "Required if any other data for this site is entered.",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "City (Project Performance Site)",
+        "field_number": "2-06",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* City:",
+        "max_occurs": 299,
+        "maximum": 35,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:ffd9edd8ff78519253dd4222938be17ee84040059ffef7b03c44fd7d4fcf4d79",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:ffd9edd8ff78519253dd4222938be17ee84040059ffef7b03c44fd7d4fcf4d79",
+        "business_rules": "",
+        "condition": "",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "County (Project Performance Site)",
+        "field_number": "2-07",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "County:",
+        "max_occurs": 299,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:f45b19c49371cf91fd6a050890483cc200e3ab403cff26aa23ac370736fcaac5",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [
+          "50 US States, US possessions, territories, military codes"
+        ],
+        "behavior_key": "behavior:sha256:f45b19c49371cf91fd6a050890483cc200e3ab403cff26aa23ac370736fcaac5",
+        "business_rules": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+        "condition": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+        "data_type": "LIST",
+        "fid": "723",
+        "field_id": "State (Project Performance Site)",
+        "field_number": "2-08",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Popup",
+        "input_role": "applicant_entered",
+        "label": "* State:",
+        "max_occurs": 299,
+        "maximum": 55,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:6de44ca4c733e1f3dc213b44e24fbc216e248220be78be80bc4978fe2b98928f",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:6de44ca4c733e1f3dc213b44e24fbc216e248220be78be80bc4978fe2b98928f",
+        "business_rules": "If Country is US then inactive. If Country is not US, then active",
+        "condition": "If Country is US then inactive. If Country is not US, then active",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Province (Project Performance Site)",
+        "field_number": "2-08a",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "Province:",
+        "max_occurs": 299,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:707ac5d752777909c16fec005e25193c99a7f7948d6b424704686e084969c4e8",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [
+          "GENC Standard Ed3.0 Update 11"
+        ],
+        "behavior_key": "behavior:sha256:707ac5d752777909c16fec005e25193c99a7f7948d6b424704686e084969c4e8",
+        "business_rules": "Required if any other data for this site is entered.",
+        "condition": "Required if any other data for this site is entered.",
+        "data_type": "LIST",
+        "fid": "723",
+        "field_id": "Country (Project Performance Site)",
+        "field_number": "2-09",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Popup",
+        "input_role": "applicant_entered",
+        "label": "* Country:",
+        "max_occurs": 299,
+        "maximum": 49,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:4eced2455631ab7ebbf6749bf2abca9614f77788124959f306118a98c8466785",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:4eced2455631ab7ebbf6749bf2abca9614f77788124959f306118a98c8466785",
+        "business_rules": "Conditionally required if Country is US then required. If Country is not US, then optional. If US, min character =9, max remains the same.",
+        "condition": "Conditionally required if Country is US then required. If Country is not US, then optional. If US, min character =9, max remains the same.",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Zip / Postal Code (Project Performance Site)",
+        "field_number": "2-10",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* ZIP / Postal Code:",
+        "max_occurs": 299,
+        "maximum": 30,
+        "min_occurs": 0,
+        "minimum": 0,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:dcd32a265b94c69e094e17fd30a33a0cbd6f7bc38b5b02b4e8b9b9132be7e2c8",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:dcd32a265b94c69e094e17fd30a33a0cbd6f7bc38b5b02b4e8b9b9132be7e2c8",
+        "business_rules": "Conditionally required if Country is US. If Country is not US, optional data entry. Must be in format **-***. (Any characters, third character must be \"-\").",
+        "condition": "Conditionally required if Country is US. If Country is not US, optional data entry. Must be in format **-***. (Any characters, third character must be \"-\").",
+        "data_type": "AN",
+        "fid": "723",
+        "field_id": "Program District (Project Performance Site)",
+        "field_number": "2-11",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Field",
+        "input_role": "applicant_entered",
+        "label": "* Project/ Performance Site Congressional District:",
+        "max_occurs": 299,
+        "maximum": 6,
+        "min_occurs": 0,
+        "minimum": 6,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:de37aec6730cd6b1ab6f542e1f8e4b436499389ae1013c34338e4334d98294d0",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:de37aec6730cd6b1ab6f542e1f8e4b436499389ae1013c34338e4334d98294d0",
+        "business_rules": "Delete the current entry. Only enabled if more than one entry has been made.",
+        "condition": "Delete the current entry. Only enabled if more than one entry has been made.",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Delete Entry Button",
+        "field_number": "3-1",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Button",
+        "input_role": "presentation",
+        "label": "Delete Entry",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:994c65052b1eecb97c1e910238c2d09b8e8d0140bf1b342669d23ac1dd6e9006",
+      "inputRole": "presentation",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:994c65052b1eecb97c1e910238c2d09b8e8d0140bf1b342669d23ac1dd6e9006",
+        "business_rules": "Adds another Project/Performance Site. Current entry must be valid before adding another entry, and having the \"Next\" button enabled. Disabled on 299th entry.",
+        "condition": "Adds another Project/Performance Site. Current entry must be valid before adding another entry, and having the \"Next\" button enabled. Disabled on 299th entry.",
+        "data_type": "",
+        "fid": "723",
+        "field_id": "Next Site Button",
+        "field_number": "3-2",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Button",
+        "input_role": "presentation",
+        "label": "Next Site",
+        "max_occurs": null,
+        "maximum": null,
+        "min_occurs": null,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": null,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    },
+    {
+      "id": "behavior:sha256:b963769f91cf258f206249db4ff3eb854d87b4cff1381a295bc7cc2082d0082e",
+      "inputRole": "applicant_entered",
+      "reviewStatus": "unreviewed",
+      "sourceRecord": {
+        "allowed_values": [],
+        "behavior_key": "behavior:sha256:b963769f91cf258f206249db4ff3eb854d87b4cff1381a295bc7cc2082d0082e",
+        "business_rules": "Button becomes active only after the maximum number of sites (i.e 299) has been entered.",
+        "condition": "",
+        "data_type": "FILE",
+        "fid": "723",
+        "field_id": "Additional Locations",
+        "field_number": "3-3",
+        "form_id": "PerformanceSite",
+        "form_version": "4.0",
+        "implementation": "Single_File",
+        "input_role": "applicant_entered",
+        "label": "Additional Location(s)",
+        "max_occurs": 1,
+        "maximum": null,
+        "min_occurs": 0,
+        "minimum": null,
+        "provenance": [
+          "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+        ],
+        "required": false,
+        "source": "grants.gov.dat",
+        "source_ref": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls",
+        "source_version": "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615"
+      }
+    }
+  ],
+  "contract": "grants-form-promotion/v1",
+  "extraction": {
+    "extractedAt": "2026-08-18T16:54:27.985042Z",
+    "manifest": "artifacts/proof/grantsgov-PerformanceSite.jsonl.manifest.json",
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef",
+    "sourceSetSha256": "ba3348472c48a2fac951308c9a8f44fc078c5b014771d7e9d1a4b0521a00d879"
+  },
+  "form": {
+    "id": "PerformanceSite",
+    "sourceRoot": "PerformanceSite_4_0",
+    "title": "Project/Performance Site Location(s)",
+    "version": "4.0"
+  },
+  "metrics": {
+    "acceptedSemanticMappings": 0,
+    "applicantBehaviorRecords": 25,
+    "openReviewGates": 40,
+    "presentationBehaviorRecords": 8,
+    "runtimeRules": 9,
+    "semanticProposals": 34,
+    "sourceBehaviors": 33,
+    "sourceRecords": 34
+  },
+  "records": [
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "container"
+      },
+      "constraints": {},
+      "dataType": "FieldSet",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0",
+      "prompt": "PerformanceSite_4_0",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd"
+      ],
+      "recordKind": "container",
+      "required": true,
+      "sourceKey": "question:sha256:3af20ce988d0a7bc3efdada99f2ba65b1b6407bf54bc6e6c99133695ea8f33ec"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "container"
+      },
+      "constraints": {
+        "declared_type": "PerformanceSite_4_0:SiteLocationDataType"
+      },
+      "dataType": "SiteLocationDataType",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.PrimarySite",
+      "prompt": "PrimarySite",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd"
+      ],
+      "recordKind": "container",
+      "required": true,
+      "sourceKey": "question:sha256:ad9c99682b31a455bd70edeb1843023c4395d758f1b476e748f5b27d1ebdc186"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:YesNoDataType",
+        "enumeration": [
+          "Y: Yes",
+          "N: No"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Individual",
+      "prompt": "Individual",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:0353b4a287b1809abaa55c3004b0ff913076a9772f7291c8e17baf72e9fe027d"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:OrganizationNameDataType",
+        "maxLength": 60,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.OrganizationName",
+      "prompt": "OrganizationName",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:1a97a5fad71fab0611101ba5c625f157f046baf21e76831ba7f60f305c813340"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:SAMUEIDataType",
+        "length": 12,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.SAMUEI",
+      "prompt": "SAMUEI",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:bed396dceffa4cb69c236a55e5a020c740da997495fc0e6f60d91c8ff7f583b4"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "container"
+      },
+      "constraints": {
+        "declared_type": "globLib:AddressDataTypeV3"
+      },
+      "dataType": "AddressDataTypeV3",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.PrimarySite.Address",
+      "prompt": "Address",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "container",
+      "required": true,
+      "sourceKey": "question:sha256:076537d434aa87b44b0fe4c0c72b7f89c377aab2f4f2d0faea382536f33cfedb"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:StreetDataType",
+        "maxLength": 55,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.Street1",
+      "prompt": "Street1",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:7dfaf461e5a9fe806e713fede4d833053b47313b25cf2e3ba7f63c06fe8d41ac"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:StreetDataType",
+        "maxLength": 55,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.Street2",
+      "prompt": "Street2",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:48ccb9ebc59bf524d057cb53872e6847a085eca62355bff748a12a6bcd36cebb"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:CityDataType",
+        "maxLength": 35,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.City",
+      "prompt": "City",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:aca9b5d224d182b06b1a913a82c2f872b23dca632464b272b23f32eb0f20e7b8"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:CountyDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.County",
+      "prompt": "County",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:dcff5c10cedb2dec5b596ddc404b5b64c491c90f8ff87abec84dd2f7b1c8d1f5"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "codes:StateCodeDataTypeV3",
+        "enumeration": [
+          "AL: Alabama",
+          "AK: Alaska",
+          "AZ: Arizona",
+          "AR: Arkansas",
+          "CA: California",
+          "CO: Colorado",
+          "CT: Connecticut",
+          "DE: Delaware",
+          "DC: District of Columbia",
+          "FL: Florida",
+          "GA: Georgia",
+          "HI: Hawaii",
+          "ID: Idaho",
+          "IL: Illinois",
+          "IN: Indiana",
+          "IA: Iowa",
+          "KS: Kansas",
+          "KY: Kentucky",
+          "LA: Louisiana",
+          "ME: Maine",
+          "MD: Maryland",
+          "MA: Massachusetts",
+          "MI: Michigan",
+          "MN: Minnesota",
+          "MS: Mississippi",
+          "MO: Missouri",
+          "MT: Montana",
+          "NE: Nebraska",
+          "NV: Nevada",
+          "NH: New Hampshire",
+          "NJ: New Jersey",
+          "NM: New Mexico",
+          "NY: New York",
+          "NC: North Carolina",
+          "ND: North Dakota",
+          "OH: Ohio",
+          "OK: Oklahoma",
+          "OR: Oregon",
+          "PA: Pennsylvania",
+          "RI: Rhode Island",
+          "SC: South Carolina",
+          "SD: South Dakota",
+          "TN: Tennessee",
+          "TX: Texas",
+          "UT: Utah",
+          "VT: Vermont",
+          "VA: Virginia",
+          "WA: Washington",
+          "WV: West Virginia",
+          "WI: Wisconsin",
+          "WY: Wyoming",
+          "AS: American Samoa",
+          "FM: Federated States of Micronesia",
+          "GU: Guam",
+          "MH: Marshall Islands",
+          "MP: Northern Mariana Islands",
+          "PW: Palau",
+          "PR: Puerto Rico",
+          "VI: Virgin Islands",
+          "FQ: Baker Island",
+          "HQ: Howland Island",
+          "DQ: Jarvis Island",
+          "JQ: Johnston Atoll",
+          "KQ: Kingman Reef",
+          "MQ: Midway Islands",
+          "BQ: Navassa Island",
+          "LQ: Palmyra Atoll",
+          "WQ: Wake Island",
+          "AA: Armed Forces Americas (except Canada)",
+          "AE: Armed Forces Europe, the Middle East, and Canada",
+          "AP: Armed Forces Pacific"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "prompt": "State",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+        "sha256:78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:9b276edaa180b64b47902154e1a76e677000c0f447667d12f7aac6345bb35877"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:ProvinceDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.Province",
+      "prompt": "Province",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:0f574b0aa14ce65edd611cd137be692779ec945666b7932f047a3ae326b71123"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:ZipPostalCodeDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.ZipPostalCode",
+      "prompt": "ZipPostalCode",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:8b1900a1b90c535b0bb268009fec45107f34856a73dbe8aeff2474ac5804d735"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "codes:CountryCodeDataTypeV3",
+        "enumeration": [
+          "AFG: AFGHANISTAN",
+          "XQZ: AKROTIRI",
+          "ALB: ALBANIA",
+          "DZA: ALGERIA",
+          "AND: ANDORRA",
+          "AGO: ANGOLA",
+          "AIA: ANGUILLA",
+          "ATA: ANTARCTICA",
+          "ATG: ANTIGUA AND BARBUDA",
+          "ARG: ARGENTINA",
+          "ARM: ARMENIA",
+          "ABW: ARUBA",
+          "XAC: ASHMORE AND CARTIER ISLANDS",
+          "AUS: AUSTRALIA",
+          "AUT: AUSTRIA",
+          "AZE: AZERBAIJAN",
+          "BHS: BAHAMAS, THE",
+          "BHR: BAHRAIN",
+          "BGD: BANGLADESH",
+          "BRB: BARBADOS",
+          "XBI: BASSAS DA INDIA",
+          "BLR: BELARUS",
+          "BEL: BELGIUM",
+          "BLZ: BELIZE",
+          "BEN: BENIN",
+          "BMU: BERMUDA",
+          "BTN: BHUTAN",
+          "BOL: BOLIVIA",
+          "BES: BONAIRE, SINT EUSTATIUS, AND SABA",
+          "BIH: BOSNIA AND HERZEGOVINA",
+          "BWA: BOTSWANA",
+          "BVT: BOUVET ISLAND",
+          "BRA: BRAZIL",
+          "IOT: BRITISH INDIAN OCEAN TERRITORY",
+          "BRN: BRUNEI",
+          "BGR: BULGARIA",
+          "BFA: BURKINA FASO",
+          "MMR: BURMA",
+          "BDI: BURUNDI",
+          "CPV: CABO VERDE",
+          "KHM: CAMBODIA",
+          "CMR: CAMEROON",
+          "CAN: CANADA",
+          "CYM: CAYMAN ISLANDS",
+          "CAF: CENTRAL AFRICAN REPUBLIC",
+          "TCD: CHAD",
+          "CHL: CHILE",
+          "CHN: CHINA",
+          "CXR: CHRISTMAS ISLAND",
+          "CPT: CLIPPERTON ISLAND",
+          "CCK: COCOS (KEELING) ISLANDS",
+          "COL: COLOMBIA",
+          "COM: COMOROS",
+          "COG: CONGO (BRAZZAVILLE)",
+          "COD: CONGO (KINSHASA)",
+          "COK: COOK ISLANDS",
+          "XCS: CORAL SEA ISLANDS",
+          "CRI: COSTA RICA",
+          "CIV: C\u00d4TE D\u2019IVOIRE",
+          "HRV: CROATIA",
+          "CUB: CUBA",
+          "CUW: CURA\u00c7AO",
+          "CYP: CYPRUS",
+          "CZE: CZECHIA",
+          "DNK: DENMARK",
+          "XXD: DHEKELIA",
+          "DGA: DIEGO GARCIA",
+          "DJI: DJIBOUTI",
+          "DMA: DOMINICA",
+          "DOM: DOMINICAN REPUBLIC",
+          "ECU: ECUADOR",
+          "EGY: EGYPT",
+          "SLV: EL SALVADOR",
+          "XAZ: ENTITY 1",
+          "XCR: ENTITY 2",
+          "XCY: ENTITY 3",
+          "XKM: ENTITY 4",
+          "XKN: ENTITY 5",
+          "AX3: ENTITY 6",
+          "GNQ: EQUATORIAL GUINEA",
+          "ERI: ERITREA",
+          "EST: ESTONIA",
+          "SWZ: ESWATINI",
+          "ETH: ETHIOPIA",
+          "XEU: EUROPA ISLAND",
+          "FLK: FALKLAND ISLANDS (ISLAS MALVINAS)",
+          "FRO: FAROE ISLANDS",
+          "FJI: FIJI",
+          "FIN: FINLAND",
+          "FRA: FRANCE",
+          "GUF: FRENCH GUIANA",
+          "PYF: FRENCH POLYNESIA",
+          "ATF: FRENCH SOUTHERN AND ANTARCTIC LANDS",
+          "GAB: GABON",
+          "GMB: GAMBIA, THE",
+          "XGZ: GAZA STRIP",
+          "GEO: GEORGIA",
+          "DEU: GERMANY",
+          "GHA: GHANA",
+          "GIB: GIBRALTAR",
+          "XGL: GLORIOSO ISLANDS",
+          "GRC: GREECE",
+          "GRL: GREENLAND",
+          "GRD: GRENADA",
+          "GLP: GUADELOUPE",
+          "GTM: GUATEMALA",
+          "GGY: GUERNSEY",
+          "GIN: GUINEA",
+          "GNB: GUINEA-BISSAU",
+          "GUY: GUYANA",
+          "HTI: HAITI",
+          "HMD: HEARD ISLAND AND MCDONALD ISLANDS",
+          "HND: HONDURAS",
+          "HKG: HONG KONG",
+          "HUN: HUNGARY",
+          "ISL: ICELAND",
+          "IND: INDIA",
+          "IDN: INDONESIA",
+          "IRN: IRAN",
+          "IRQ: IRAQ",
+          "IRL: IRELAND",
+          "IMN: ISLE OF MAN",
+          "ISR: ISRAEL",
+          "ITA: ITALY",
+          "JAM: JAMAICA",
+          "XJM: JAN MAYEN",
+          "JPN: JAPAN",
+          "JEY: JERSEY",
+          "JOR: JORDAN",
+          "XJN: JUAN DE NOVA ISLAND",
+          "KAZ: KAZAKHSTAN",
+          "KEN: KENYA",
+          "KIR: KIRIBATI",
+          "PRK: KOREA, NORTH",
+          "KOR: KOREA, SOUTH",
+          "XKS: KOSOVO",
+          "KWT: KUWAIT",
+          "KGZ: KYRGYZSTAN",
+          "LAO: LAOS",
+          "LVA: LATVIA",
+          "LBN: LEBANON",
+          "LSO: LESOTHO",
+          "LBR: LIBERIA",
+          "LBY: LIBYA",
+          "LIE: LIECHTENSTEIN",
+          "LTU: LITHUANIA",
+          "LUX: LUXEMBOURG",
+          "MAC: MACAU",
+          "MDG: MADAGASCAR",
+          "MWI: MALAWI",
+          "MYS: MALAYSIA",
+          "MDV: MALDIVES",
+          "MLI: MALI",
+          "MLT: MALTA",
+          "MTQ: MARTINIQUE",
+          "MRT: MAURITANIA",
+          "MUS: MAURITIUS",
+          "MYT: MAYOTTE",
+          "MEX: MEXICO",
+          "MDA: MOLDOVA",
+          "MCO: MONACO",
+          "MNG: MONGOLIA",
+          "MNE: MONTENEGRO",
+          "MSR: MONTSERRAT",
+          "MAR: MOROCCO",
+          "MOZ: MOZAMBIQUE",
+          "NAM: NAMIBIA",
+          "NRU: NAURU",
+          "NPL: NEPAL",
+          "NLD: NETHERLANDS",
+          "NCL: NEW CALEDONIA",
+          "NZL: NEW ZEALAND",
+          "NIC: NICARAGUA",
+          "NER: NIGER",
+          "NGA: NIGERIA",
+          "NIU: NIUE",
+          "NFK: NORFOLK ISLAND",
+          "MKD: NORTH MACEDONIA",
+          "NOR: NORWAY",
+          "OMN: OMAN",
+          "PAK: PAKISTAN",
+          "PAN: PANAMA",
+          "PNG: PAPUA NEW GUINEA",
+          "XPR: PARACEL ISLANDS",
+          "PRY: PARAGUAY",
+          "PER: PERU",
+          "PHL: PHILIPPINES",
+          "PCN: PITCAIRN ISLANDS",
+          "POL: POLAND",
+          "PRT: PORTUGAL",
+          "QAT: QATAR",
+          "REU: REUNION",
+          "ROU: ROMANIA",
+          "RUS: RUSSIA",
+          "RWA: RWANDA",
+          "BLM: SAINT BARTHELEMY",
+          "SHN: SAINT HELENA, ASCENSION, AND TRISTAN DA CUNHA",
+          "KNA: SAINT KITTS AND NEVIS",
+          "LCA: SAINT LUCIA",
+          "MAF: SAINT MARTIN",
+          "SPM: SAINT PIERRE AND MIQUELON",
+          "VCT: SAINT VINCENT AND THE GRENADINES",
+          "WSM: SAMOA",
+          "SMR: SAN MARINO",
+          "STP: SAO TOME AND PRINCIPE",
+          "SAU: SAUDI ARABIA",
+          "SEN: SENEGAL",
+          "SRB: SERBIA",
+          "SYC: SEYCHELLES",
+          "SLE: SIERRA LEONE",
+          "SGP: SINGAPORE",
+          "SXM: SINT MAARTEN",
+          "SVK: SLOVAKIA",
+          "SVN: SLOVENIA",
+          "SLB: SOLOMON ISLANDS",
+          "SOM: SOMALIA",
+          "ZAF: SOUTH AFRICA",
+          "SGS: SOUTH GEORGIA AND SOUTH SANDWICH ISLANDS",
+          "SSD: SOUTH SUDAN",
+          "ESP: SPAIN",
+          "XSP: SPRATLY ISLANDS",
+          "LKA: SRI LANKA",
+          "SDN: SUDAN",
+          "SUR: SURINAME",
+          "XSV: SVALBARD",
+          "SWE: SWEDEN",
+          "CHE: SWITZERLAND",
+          "SYR: SYRIA",
+          "TWN: TAIWAN",
+          "TJK: TAJIKISTAN",
+          "TZA: TANZANIA",
+          "THA: THAILAND",
+          "TLS: TIMOR-LESTE",
+          "TGO: TOGO",
+          "TKL: TOKELAU",
+          "TON: TONGA",
+          "TTO: TRINIDAD AND TOBAGO",
+          "XTR: TROMELIN ISLAND",
+          "TUN: TUNISIA",
+          "TUR: TURKEY",
+          "TKM: TURKMENISTAN",
+          "TCA: TURKS AND CAICOS ISLANDS",
+          "TUV: TUVALU",
+          "UGA: UGANDA",
+          "UKR: UKRAINE",
+          "ARE: UNITED ARAB EMIRATES",
+          "GBR: UNITED KINGDOM",
+          "USA: UNITED STATES",
+          "URY: URUGUAY",
+          "UZB: UZBEKISTAN",
+          "VUT: VANUATU",
+          "VAT: VATICAN CITY",
+          "VEN: VENEZUELA",
+          "VNM: VIETNAM",
+          "VGB: VIRGIN ISLANDS, BRITISH",
+          "WLF: WALLIS AND FUTUNA",
+          "XWB: WEST BANK",
+          "ESH: WESTERN SAHARA",
+          "YEM: YEMEN",
+          "ZMB: ZAMBIA",
+          "ZWE: ZIMBABWE"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.PrimarySite.Address.Country",
+      "prompt": "Country",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+        "sha256:78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:94350a090b9c1a561db22d82bea1b49487c0fd9b5849cde0904126076d7ba817"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "maxLength": 6,
+        "minLength": 6,
+        "restriction_base": "globLib:CongressionalDistrictDataType"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.PrimarySite.CongressionalDistrictProgramProject",
+      "prompt": "CongressionalDistrictProgramProject",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:a5fdc28ae60c0d95f9afa79f902f78255edc800bc5029d659c28167fa114439e"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "container"
+      },
+      "constraints": {
+        "declared_type": "PerformanceSite_4_0:SiteLocationDataType"
+      },
+      "dataType": "SiteLocationDataType",
+      "maxOccurs": 299,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite",
+      "prompt": "OtherSite",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd"
+      ],
+      "recordKind": "container",
+      "required": false,
+      "sourceKey": "question:sha256:293d1e6df4f25d38b23458af5b2f8ffa5229a42a45d3cec3412bf6d9a6aa2146"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:YesNoDataType",
+        "enumeration": [
+          "Y: Yes",
+          "N: No"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Individual",
+      "prompt": "Individual",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:5c08bb6128938b04fb0425e1e8d84d2ce7a47481a92ebca9b434778eca07349c"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:OrganizationNameDataType",
+        "maxLength": 60,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.OrganizationName",
+      "prompt": "OrganizationName",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:167c2f25527c6b668e95b5363eac0354ccdafae3b8af4f3450897271ff5112a9"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:SAMUEIDataType",
+        "length": 12,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.SAMUEI",
+      "prompt": "SAMUEI",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:27b4720daa5431020dba5847d30e39c0f3462b9f388fa822a4307b10fc217dd0"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "container"
+      },
+      "constraints": {
+        "declared_type": "globLib:AddressDataTypeV3"
+      },
+      "dataType": "AddressDataTypeV3",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.OtherSite.Address",
+      "prompt": "Address",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "container",
+      "required": true,
+      "sourceKey": "question:sha256:d695b775b1af5c2e27eb780f6072e33264e1f2412c2a588e2f169054469c86cc"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:StreetDataType",
+        "maxLength": 55,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.OtherSite.Address.Street1",
+      "prompt": "Street1",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:4eb03d73cceeb2dafbde3132db640fa3548b93fd76c54d925c52bcce15443c62"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:StreetDataType",
+        "maxLength": 55,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Address.Street2",
+      "prompt": "Street2",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:aaf83a5b74822150f40494436d80681b686b0490d0b7c10005965195a07df27c"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:CityDataType",
+        "maxLength": 35,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.OtherSite.Address.City",
+      "prompt": "City",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:3238c3e3c7fa065b45c3e7385153a2896095f464b4a42293182e5523e7cbfd3a"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:CountyDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Address.County",
+      "prompt": "County",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:4dc834fd821c72c4d5ff07fd3b6e40dd768e244c9fe5334055fc221a9a36c81a"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "codes:StateCodeDataTypeV3",
+        "enumeration": [
+          "AL: Alabama",
+          "AK: Alaska",
+          "AZ: Arizona",
+          "AR: Arkansas",
+          "CA: California",
+          "CO: Colorado",
+          "CT: Connecticut",
+          "DE: Delaware",
+          "DC: District of Columbia",
+          "FL: Florida",
+          "GA: Georgia",
+          "HI: Hawaii",
+          "ID: Idaho",
+          "IL: Illinois",
+          "IN: Indiana",
+          "IA: Iowa",
+          "KS: Kansas",
+          "KY: Kentucky",
+          "LA: Louisiana",
+          "ME: Maine",
+          "MD: Maryland",
+          "MA: Massachusetts",
+          "MI: Michigan",
+          "MN: Minnesota",
+          "MS: Mississippi",
+          "MO: Missouri",
+          "MT: Montana",
+          "NE: Nebraska",
+          "NV: Nevada",
+          "NH: New Hampshire",
+          "NJ: New Jersey",
+          "NM: New Mexico",
+          "NY: New York",
+          "NC: North Carolina",
+          "ND: North Dakota",
+          "OH: Ohio",
+          "OK: Oklahoma",
+          "OR: Oregon",
+          "PA: Pennsylvania",
+          "RI: Rhode Island",
+          "SC: South Carolina",
+          "SD: South Dakota",
+          "TN: Tennessee",
+          "TX: Texas",
+          "UT: Utah",
+          "VT: Vermont",
+          "VA: Virginia",
+          "WA: Washington",
+          "WV: West Virginia",
+          "WI: Wisconsin",
+          "WY: Wyoming",
+          "AS: American Samoa",
+          "FM: Federated States of Micronesia",
+          "GU: Guam",
+          "MH: Marshall Islands",
+          "MP: Northern Mariana Islands",
+          "PW: Palau",
+          "PR: Puerto Rico",
+          "VI: Virgin Islands",
+          "FQ: Baker Island",
+          "HQ: Howland Island",
+          "DQ: Jarvis Island",
+          "JQ: Johnston Atoll",
+          "KQ: Kingman Reef",
+          "MQ: Midway Islands",
+          "BQ: Navassa Island",
+          "LQ: Palmyra Atoll",
+          "WQ: Wake Island",
+          "AA: Armed Forces Americas (except Canada)",
+          "AE: Armed Forces Europe, the Middle East, and Canada",
+          "AP: Armed Forces Pacific"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Address.State",
+      "prompt": "State",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+        "sha256:78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:615974de2fd703b737c075849e49f0207340348dcdb96f9b8a4634167285d438"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:ProvinceDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Address.Province",
+      "prompt": "Province",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:d42bdfdb32db19f89637e4e71ec8e67cb6d79a4612305f21118f6c4bbbfa0ef1"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "globLib:ZipPostalCodeDataType",
+        "maxLength": 30,
+        "minLength": 1,
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.Address.ZipPostalCode",
+      "prompt": "ZipPostalCode",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:688869d07fbd08e856d1d0b9502036f95533038602b741213d190e74dc94369d"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "declared_type": "codes:CountryCodeDataTypeV3",
+        "enumeration": [
+          "AFG: AFGHANISTAN",
+          "XQZ: AKROTIRI",
+          "ALB: ALBANIA",
+          "DZA: ALGERIA",
+          "AND: ANDORRA",
+          "AGO: ANGOLA",
+          "AIA: ANGUILLA",
+          "ATA: ANTARCTICA",
+          "ATG: ANTIGUA AND BARBUDA",
+          "ARG: ARGENTINA",
+          "ARM: ARMENIA",
+          "ABW: ARUBA",
+          "XAC: ASHMORE AND CARTIER ISLANDS",
+          "AUS: AUSTRALIA",
+          "AUT: AUSTRIA",
+          "AZE: AZERBAIJAN",
+          "BHS: BAHAMAS, THE",
+          "BHR: BAHRAIN",
+          "BGD: BANGLADESH",
+          "BRB: BARBADOS",
+          "XBI: BASSAS DA INDIA",
+          "BLR: BELARUS",
+          "BEL: BELGIUM",
+          "BLZ: BELIZE",
+          "BEN: BENIN",
+          "BMU: BERMUDA",
+          "BTN: BHUTAN",
+          "BOL: BOLIVIA",
+          "BES: BONAIRE, SINT EUSTATIUS, AND SABA",
+          "BIH: BOSNIA AND HERZEGOVINA",
+          "BWA: BOTSWANA",
+          "BVT: BOUVET ISLAND",
+          "BRA: BRAZIL",
+          "IOT: BRITISH INDIAN OCEAN TERRITORY",
+          "BRN: BRUNEI",
+          "BGR: BULGARIA",
+          "BFA: BURKINA FASO",
+          "MMR: BURMA",
+          "BDI: BURUNDI",
+          "CPV: CABO VERDE",
+          "KHM: CAMBODIA",
+          "CMR: CAMEROON",
+          "CAN: CANADA",
+          "CYM: CAYMAN ISLANDS",
+          "CAF: CENTRAL AFRICAN REPUBLIC",
+          "TCD: CHAD",
+          "CHL: CHILE",
+          "CHN: CHINA",
+          "CXR: CHRISTMAS ISLAND",
+          "CPT: CLIPPERTON ISLAND",
+          "CCK: COCOS (KEELING) ISLANDS",
+          "COL: COLOMBIA",
+          "COM: COMOROS",
+          "COG: CONGO (BRAZZAVILLE)",
+          "COD: CONGO (KINSHASA)",
+          "COK: COOK ISLANDS",
+          "XCS: CORAL SEA ISLANDS",
+          "CRI: COSTA RICA",
+          "CIV: C\u00d4TE D\u2019IVOIRE",
+          "HRV: CROATIA",
+          "CUB: CUBA",
+          "CUW: CURA\u00c7AO",
+          "CYP: CYPRUS",
+          "CZE: CZECHIA",
+          "DNK: DENMARK",
+          "XXD: DHEKELIA",
+          "DGA: DIEGO GARCIA",
+          "DJI: DJIBOUTI",
+          "DMA: DOMINICA",
+          "DOM: DOMINICAN REPUBLIC",
+          "ECU: ECUADOR",
+          "EGY: EGYPT",
+          "SLV: EL SALVADOR",
+          "XAZ: ENTITY 1",
+          "XCR: ENTITY 2",
+          "XCY: ENTITY 3",
+          "XKM: ENTITY 4",
+          "XKN: ENTITY 5",
+          "AX3: ENTITY 6",
+          "GNQ: EQUATORIAL GUINEA",
+          "ERI: ERITREA",
+          "EST: ESTONIA",
+          "SWZ: ESWATINI",
+          "ETH: ETHIOPIA",
+          "XEU: EUROPA ISLAND",
+          "FLK: FALKLAND ISLANDS (ISLAS MALVINAS)",
+          "FRO: FAROE ISLANDS",
+          "FJI: FIJI",
+          "FIN: FINLAND",
+          "FRA: FRANCE",
+          "GUF: FRENCH GUIANA",
+          "PYF: FRENCH POLYNESIA",
+          "ATF: FRENCH SOUTHERN AND ANTARCTIC LANDS",
+          "GAB: GABON",
+          "GMB: GAMBIA, THE",
+          "XGZ: GAZA STRIP",
+          "GEO: GEORGIA",
+          "DEU: GERMANY",
+          "GHA: GHANA",
+          "GIB: GIBRALTAR",
+          "XGL: GLORIOSO ISLANDS",
+          "GRC: GREECE",
+          "GRL: GREENLAND",
+          "GRD: GRENADA",
+          "GLP: GUADELOUPE",
+          "GTM: GUATEMALA",
+          "GGY: GUERNSEY",
+          "GIN: GUINEA",
+          "GNB: GUINEA-BISSAU",
+          "GUY: GUYANA",
+          "HTI: HAITI",
+          "HMD: HEARD ISLAND AND MCDONALD ISLANDS",
+          "HND: HONDURAS",
+          "HKG: HONG KONG",
+          "HUN: HUNGARY",
+          "ISL: ICELAND",
+          "IND: INDIA",
+          "IDN: INDONESIA",
+          "IRN: IRAN",
+          "IRQ: IRAQ",
+          "IRL: IRELAND",
+          "IMN: ISLE OF MAN",
+          "ISR: ISRAEL",
+          "ITA: ITALY",
+          "JAM: JAMAICA",
+          "XJM: JAN MAYEN",
+          "JPN: JAPAN",
+          "JEY: JERSEY",
+          "JOR: JORDAN",
+          "XJN: JUAN DE NOVA ISLAND",
+          "KAZ: KAZAKHSTAN",
+          "KEN: KENYA",
+          "KIR: KIRIBATI",
+          "PRK: KOREA, NORTH",
+          "KOR: KOREA, SOUTH",
+          "XKS: KOSOVO",
+          "KWT: KUWAIT",
+          "KGZ: KYRGYZSTAN",
+          "LAO: LAOS",
+          "LVA: LATVIA",
+          "LBN: LEBANON",
+          "LSO: LESOTHO",
+          "LBR: LIBERIA",
+          "LBY: LIBYA",
+          "LIE: LIECHTENSTEIN",
+          "LTU: LITHUANIA",
+          "LUX: LUXEMBOURG",
+          "MAC: MACAU",
+          "MDG: MADAGASCAR",
+          "MWI: MALAWI",
+          "MYS: MALAYSIA",
+          "MDV: MALDIVES",
+          "MLI: MALI",
+          "MLT: MALTA",
+          "MTQ: MARTINIQUE",
+          "MRT: MAURITANIA",
+          "MUS: MAURITIUS",
+          "MYT: MAYOTTE",
+          "MEX: MEXICO",
+          "MDA: MOLDOVA",
+          "MCO: MONACO",
+          "MNG: MONGOLIA",
+          "MNE: MONTENEGRO",
+          "MSR: MONTSERRAT",
+          "MAR: MOROCCO",
+          "MOZ: MOZAMBIQUE",
+          "NAM: NAMIBIA",
+          "NRU: NAURU",
+          "NPL: NEPAL",
+          "NLD: NETHERLANDS",
+          "NCL: NEW CALEDONIA",
+          "NZL: NEW ZEALAND",
+          "NIC: NICARAGUA",
+          "NER: NIGER",
+          "NGA: NIGERIA",
+          "NIU: NIUE",
+          "NFK: NORFOLK ISLAND",
+          "MKD: NORTH MACEDONIA",
+          "NOR: NORWAY",
+          "OMN: OMAN",
+          "PAK: PAKISTAN",
+          "PAN: PANAMA",
+          "PNG: PAPUA NEW GUINEA",
+          "XPR: PARACEL ISLANDS",
+          "PRY: PARAGUAY",
+          "PER: PERU",
+          "PHL: PHILIPPINES",
+          "PCN: PITCAIRN ISLANDS",
+          "POL: POLAND",
+          "PRT: PORTUGAL",
+          "QAT: QATAR",
+          "REU: REUNION",
+          "ROU: ROMANIA",
+          "RUS: RUSSIA",
+          "RWA: RWANDA",
+          "BLM: SAINT BARTHELEMY",
+          "SHN: SAINT HELENA, ASCENSION, AND TRISTAN DA CUNHA",
+          "KNA: SAINT KITTS AND NEVIS",
+          "LCA: SAINT LUCIA",
+          "MAF: SAINT MARTIN",
+          "SPM: SAINT PIERRE AND MIQUELON",
+          "VCT: SAINT VINCENT AND THE GRENADINES",
+          "WSM: SAMOA",
+          "SMR: SAN MARINO",
+          "STP: SAO TOME AND PRINCIPE",
+          "SAU: SAUDI ARABIA",
+          "SEN: SENEGAL",
+          "SRB: SERBIA",
+          "SYC: SEYCHELLES",
+          "SLE: SIERRA LEONE",
+          "SGP: SINGAPORE",
+          "SXM: SINT MAARTEN",
+          "SVK: SLOVAKIA",
+          "SVN: SLOVENIA",
+          "SLB: SOLOMON ISLANDS",
+          "SOM: SOMALIA",
+          "ZAF: SOUTH AFRICA",
+          "SGS: SOUTH GEORGIA AND SOUTH SANDWICH ISLANDS",
+          "SSD: SOUTH SUDAN",
+          "ESP: SPAIN",
+          "XSP: SPRATLY ISLANDS",
+          "LKA: SRI LANKA",
+          "SDN: SUDAN",
+          "SUR: SURINAME",
+          "XSV: SVALBARD",
+          "SWE: SWEDEN",
+          "CHE: SWITZERLAND",
+          "SYR: SYRIA",
+          "TWN: TAIWAN",
+          "TJK: TAJIKISTAN",
+          "TZA: TANZANIA",
+          "THA: THAILAND",
+          "TLS: TIMOR-LESTE",
+          "TGO: TOGO",
+          "TKL: TOKELAU",
+          "TON: TONGA",
+          "TTO: TRINIDAD AND TOBAGO",
+          "XTR: TROMELIN ISLAND",
+          "TUN: TUNISIA",
+          "TUR: TURKEY",
+          "TKM: TURKMENISTAN",
+          "TCA: TURKS AND CAICOS ISLANDS",
+          "TUV: TUVALU",
+          "UGA: UGANDA",
+          "UKR: UKRAINE",
+          "ARE: UNITED ARAB EMIRATES",
+          "GBR: UNITED KINGDOM",
+          "USA: UNITED STATES",
+          "URY: URUGUAY",
+          "UZB: UZBEKISTAN",
+          "VUT: VANUATU",
+          "VAT: VATICAN CITY",
+          "VEN: VENEZUELA",
+          "VNM: VIETNAM",
+          "VGB: VIRGIN ISLANDS, BRITISH",
+          "WLF: WALLIS AND FUTUNA",
+          "XWB: WEST BANK",
+          "ESH: WESTERN SAHARA",
+          "YEM: YEMEN",
+          "ZMB: ZAMBIA",
+          "ZWE: ZIMBABWE"
+        ],
+        "restriction_base": "xs:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.OtherSite.Address.Country",
+      "prompt": "Country",
+      "provenance": [
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+        "sha256:78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": true,
+      "sourceKey": "question:sha256:f79bde66cdca4bf929e7a6f9614e170f26a9d41fe9d793f1687efc4ad911571c"
+    },
+    {
+      "classification": {
+        "status": "unreviewed",
+        "value": "unresolved"
+      },
+      "constraints": {
+        "maxLength": 6,
+        "minLength": 6,
+        "restriction_base": "globLib:CongressionalDistrictDataType"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.OtherSite.CongressionalDistrictProgramProject",
+      "prompt": "CongressionalDistrictProgramProject",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8 https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:acb58c51b99cebe382773da493c0060fd077ebad9af3309ed4a448fe2a10c569"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "attachment"
+      },
+      "constraints": {
+        "declared_type": "att:AttachedFileDataType"
+      },
+      "dataType": "AttachedFileDataType",
+      "maxOccurs": 1,
+      "minOccurs": 0,
+      "path": "PerformanceSite_4_0.AttachedFile",
+      "prompt": "AttachedFile",
+      "provenance": [
+        "sha256:d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd",
+        "sha256:ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"
+      ],
+      "recordKind": "question",
+      "required": false,
+      "sourceKey": "question:sha256:125cd19957a406508cad07a2c2052cc2fe0b95c6b466450a77aa9e06cb5937a6"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "technical_field"
+      },
+      "constraints": {
+        "declared_type": "glob:StringMin1Max255Type",
+        "maxLength": 255,
+        "minLength": 1,
+        "restriction_base": "xsd:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.AttachedFile.FileName",
+      "prompt": "FileName",
+      "provenance": [
+        "sha256:ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd",
+        "sha256:4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb https://apply07.grants.gov/apply/system/schemas/Global-V1.0.xsd"
+      ],
+      "recordKind": "technical_field",
+      "required": true,
+      "sourceKey": "question:sha256:6c0724a61d18cb35acaf1b8f62fb2bd05e7ad9f68daa5eff73a89e48dc38f0ba"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "technical_field"
+      },
+      "constraints": {
+        "declared_type": "glob:StringMin1Max255Type",
+        "maxLength": 255,
+        "minLength": 1,
+        "restriction_base": "xsd:string"
+      },
+      "dataType": "string",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.AttachedFile.MimeType",
+      "prompt": "MimeType",
+      "provenance": [
+        "sha256:ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd",
+        "sha256:4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb https://apply07.grants.gov/apply/system/schemas/Global-V1.0.xsd"
+      ],
+      "recordKind": "technical_field",
+      "required": true,
+      "sourceKey": "question:sha256:1955f7f2dbe459bf1318994cce9374a025539259ebaa1020161df2bae3c62855"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "technical_field"
+      },
+      "constraints": {},
+      "dataType": "",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.AttachedFile.FileLocation",
+      "prompt": "FileLocation",
+      "provenance": [
+        "sha256:ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"
+      ],
+      "recordKind": "technical_field",
+      "required": true,
+      "sourceKey": "question:sha256:5055af5fb01da813c62f922870de3f021033f942f886f32598c4366c1c82461b"
+    },
+    {
+      "classification": {
+        "status": "deterministic",
+        "value": "technical_field"
+      },
+      "constraints": {},
+      "dataType": "base64Binary",
+      "maxOccurs": 1,
+      "minOccurs": 1,
+      "path": "PerformanceSite_4_0.AttachedFile.HashValue",
+      "prompt": "HashValue",
+      "provenance": [
+        "sha256:4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb https://apply07.grants.gov/apply/system/schemas/Global-V1.0.xsd"
+      ],
+      "recordKind": "technical_field",
+      "required": true,
+      "sourceKey": "question:sha256:f744d0ff3e6188ac345f2f6f82600b646ca3ef958929485fcbeb3b058b89f110"
+    }
+  ],
+  "reviewGates": [
+    {
+      "id": "gate:sha256:01c82150220dc48d78030a634e2be49d695b25f3e6d6007298a105763af54fdd",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:478d84a81004cadeca01f8f4b59bc563f9d03dbb37cbe50b735b4b061cc9a4c6 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.CongressionalDistrictProgramProject",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:0446e0446040d8fff36eed624a876a8eb4aafd389241d8052a7d3f8c9c84693b",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.CongressionalDistrictProgramProject",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:0e58576d7604c2d864819cd4263f2b830ec3a14e22be5ec9e716096afa277d33",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:113d20ad710772fd3a44a66d118947ff4c87b90731eee47575320086dbc39a25",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.City",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:1612d78c3ba850e4bd3a32a54e93528f1c9be8442b92e786bf957c0442817638",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Individual",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:238d12edf89f7a1183fc8e99da7f4104e4b1a70a5e4a7f58925d9fe19c199370",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.County",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:2f7cebdc16822c28eb10489af03c05f567fa661cfcc1a586b32dbb468749c75e",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:35d5afc01ce4c77eef8d64d54ce2d6e98e0cc2e6852d4b5dbf7236754d29f195",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:b53e78f5db4f92ac8988cf74141861fd10512cb2cc416c809fc68e512a025834 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:4bb18b1415dfc3bb851a9c4747271bd8cbd10568ebd55233bbd50ff2f3f05ecf",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.OrganizationName",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:5097aea64e40af29d60f0c5190dd1a43adb6874f8d6cfe06c2587be46ee81c64",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:f3d067ffdc295de84461c6f45fc5d584f47fb785e98e6dbca1a503359ed24b24 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.OrganizationName",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:5245009787e095520ab74e34766b7352a8d73ae6c32dda430c252746836f7f85",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.ZipPostalCode",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:5342d1dc274992a5677e151a4722755411e6e2f265533d067fd5eec430e1b127",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.CongressionalDistrictProgramProject",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:6696b3fcb409a3bf7d20a2a854bf39b4d872d7a54392928bf227d341bd701483",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Country",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:68d23c4a68e76ba5b4cf9bc5ecf14c626c5e68d6437749d9028a6394590519c7",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.OrganizationName",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:73cabb8b2f047ffc77cda4525f4d3d71fdaab3929bd2c7c771b07336f1b7ed78",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:aa799a0d46dccb5539b920313a098e998becad126b5a138ea6deeece4a7522ad against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.CongressionalDistrictProgramProject",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:75f3f7935b03c4460620f1c202f91af5f79322cbdcdd024e47015a6c7372ff7c",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Individual",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:83cfa46027d45ca8ebd382bf354331c5c76a07afb97d853e7d1696128307fd68",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Country",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:85350ef90e284510373e10f997e354037d1c5d02a55a1759f0fb6d0b68243d32",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Individual",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:8997d8d4d7d57cbd592a6d83823001c4c63a66448580d5452bd399916cfc11c9",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.SAMUEI",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:90188a7818945e28482df9323a5ced184a7481be4b98d7fa71649f2c7a3da821",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.ZipPostalCode",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:9be88f2ee8e4b2f9f80ae70ffa4d8b97f999525f459fcf998ec1593605419b5e",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.City",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:9f47d2f0a01b1e9b6b9caf91f6b964e6cfe7b60d8cd19b799b8bf2b58843ea5d",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:d7436489401d321581d44a87018849d3b159f5e24a4c66e229971c9ee1c3aa06 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:9f4fa8a142283d27ef82b3edb72306c62fcdd3482133327e9763a6cf59bc4b3f",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Street2",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:a180822a29b8fa6cc290e127fe0a9d7242042f9d73bf2caa004afdde7172a1de",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Street1",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:acb819e1b3567b15eb2062c17b96725f6f1d158ad802e354c0550cc3cc945cf0",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Country",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:ae25f3ec3c58ffd1cc2efb50ec8d326659a2ad7780a8d84f482c83fa7d3a28f9",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:3fa7e37f914e1ee20e77e75abb1abc9993a5665196c7cd5e2dad3139bf5e8cdc against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Province",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:ae61cb3fb99abd43391f4908be9c072e95705948366b140610e494dc22e8b282",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:525dce3641de4c1ff33b5b0a188780700fe2b145afbfb0acad84545a415f3ac1 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.ZipPostalCode",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:b8b361e07e832bba94c44cd5f55c6976f5242ea2a7c6ea85de4628316d70c320",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Street2",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:bbf69a2063e75b5e2961ae065d27fa05b547038b24edbe741e725a6908add63d",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Street1",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:be7dd3c60cdb3c1f2d7551f326b00b14dc81c5763001359125ea3b7995906e12",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:ef2ad6554a370c2e61f97ccef027303f396d57564ed9b14f2199c933cc954822 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Province",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:cbf6474a6e53898640e7a33c504b02ee8113e23cc5c2fcf56e5cdf6e38c7c75d",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Province",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:d18da39deee308470530915a254cfadc82fc811d29dfb8a9ee58a7f662264db0",
+      "kind": "behavior_semantics",
+      "message": "Review proposed condition rule runtime-rule:sha256:5bbf04993fa7fa23ebd7ffb3582264dd8de6229b1e29e333268d654f5a7dfdb3 against source behavior and policy evidence.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.ZipPostalCode",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:d6f1663d76cab4d6a8b93d38bce70e7794769bc3064f258a0b169aaab7242b98",
+      "kind": "attachment_semantics",
+      "message": "Separate the information requirement from the attachment capture mechanism before promotion.",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:dbd39c018c6245d945bd7c6569fcc0b1eda0481f1bc3c387a16f8cd118e6ee1e",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Individual",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:dc44fe765c0de5cd1afae3d18cb8b5f566bf0a745a6b07dcbb1049397f590ab5",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.SAMUEI",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:e14b7cd56e6b6f88ca665f2f1a67b552c4bbc4ff26fcbf33fb69491f26a5520d",
+      "kind": "enum_wire_values",
+      "message": "Confirm that extracted label/value pairs preserve the exact XML wire value before authoring an enum.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:e5677f9860cbd2c69f5f76b6bd51f5575f9049e2e57f269c860e593edea173f5",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.County",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:fa2e92fdb4562ab48316e2592ff4f62203c170c37b9f1f90486898d339c0a75c",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Province",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:ff4add4b513499d7dde89053097aa0bd1ffb92ac2b94ec93153a1ca617f0c4fc",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.State",
+      "status": "open"
+    },
+    {
+      "id": "gate:sha256:ff9b06d58baf6fbd275a4eeaf60a29b70454f9e6dc59b97e1ad519a9807b264f",
+      "kind": "semantic_identity",
+      "message": "Determine whether this source question reuses an accepted semantic question or introduces a form-specific delta.",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Country",
+      "status": "open"
+    }
+  ],
+  "runtimeRules": [
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.PrimarySite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:d7436489401d321581d44a87018849d3b159f5e24a4c66e229971c9ee1c3aa06",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.PrimarySite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:5bbf04993fa7fa23ebd7ffb3582264dd8de6229b1e29e333268d654f5a7dfdb3",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.PrimarySite.Address.ZipPostalCode",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.PrimarySite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:478d84a81004cadeca01f8f4b59bc563f9d03dbb37cbe50b735b4b061cc9a4c6",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.PrimarySite.CongressionalDistrictProgramProject",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.PrimarySite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "visible",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:3fa7e37f914e1ee20e77e75abb1abc9993a5665196c7cd5e2dad3139bf5e8cdc",
+      "mechanism": "condition",
+      "operator": "not_equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "If Country is US then inactive. If Country is not US, then active",
+      "targetPath": "PerformanceSite_4_0.PrimarySite.Address.Province",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.PrimarySite.Individual"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:f3d067ffdc295de84461c6f45fc5d584f47fb785e98e6dbca1a503359ed24b24",
+      "mechanism": "condition",
+      "operator": "not_equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Required if field 1-0 is not checked.",
+      "targetPath": "PerformanceSite_4_0.PrimarySite.OrganizationName",
+      "value": true
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.OtherSite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:b53e78f5db4f92ac8988cf74141861fd10512cb2cc416c809fc68e512a025834",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.OtherSite.Address.State",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.OtherSite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:525dce3641de4c1ff33b5b0a188780700fe2b145afbfb0acad84545a415f3ac1",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.OtherSite.Address.ZipPostalCode",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.OtherSite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "required",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:aa799a0d46dccb5539b920313a098e998becad126b5a138ea6deeece4a7522ad",
+      "mechanism": "condition",
+      "operator": "equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "Conditionally required if Country is US then active. If Country is not US, then inactive",
+      "targetPath": "PerformanceSite_4_0.OtherSite.CongressionalDistrictProgramProject",
+      "value": "USA: UNITED STATES"
+    },
+    {
+      "dependencyPaths": [
+        "PerformanceSite_4_0.OtherSite.Address.Country"
+      ],
+      "disposition": "working",
+      "effect": "visible",
+      "executionClass": "executable",
+      "id": "runtime-rule:sha256:ef2ad6554a370c2e61f97ccef027303f396d57564ed9b14f2199c933cc954822",
+      "mechanism": "condition",
+      "operator": "not_equals",
+      "provenance": [
+        "sha256:c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615 https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+      ],
+      "reviewStatus": "proposed",
+      "sourceRule": "If Country is US then inactive. If Country is not US, then active",
+      "targetPath": "PerformanceSite_4_0.OtherSite.Address.Province",
+      "value": "USA: UNITED STATES"
+    }
+  ],
+  "semanticProposals": [
+    {
+      "moduleIds": [
+        "form-structure"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:3af20ce988d0a7bc3efdada99f2ba65b1b6407bf54bc6e6c99133695ea8f33ec",
+      "sourcePath": "PerformanceSite_4_0",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "form-structure"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:ad9c99682b31a455bd70edeb1843023c4395d758f1b476e748f5b27d1ebdc186",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:0353b4a287b1809abaa55c3004b0ff913076a9772f7291c8e17baf72e9fe027d",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Individual",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:1a97a5fad71fab0611101ba5c625f157f046baf21e76831ba7f60f305c813340",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.OrganizationName",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:bed396dceffa4cb69c236a55e5a020c740da997495fc0e6f60d91c8ff7f583b4",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.SAMUEI",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "form-structure"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:076537d434aa87b44b0fe4c0c72b7f89c377aab2f4f2d0faea382536f33cfedb",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:7dfaf461e5a9fe806e713fede4d833053b47313b25cf2e3ba7f63c06fe8d41ac",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Street1",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:48ccb9ebc59bf524d057cb53872e6847a085eca62355bff748a12a6bcd36cebb",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Street2",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:aca9b5d224d182b06b1a913a82c2f872b23dca632464b272b23f32eb0f20e7b8",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.City",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:dcff5c10cedb2dec5b596ddc404b5b64c491c90f8ff87abec84dd2f7b1c8d1f5",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.County",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:9b276edaa180b64b47902154e1a76e677000c0f447667d12f7aac6345bb35877",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.State",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:0f574b0aa14ce65edd611cd137be692779ec945666b7932f047a3ae326b71123",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Province",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:8b1900a1b90c535b0bb268009fec45107f34856a73dbe8aeff2474ac5804d735",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.ZipPostalCode",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-primary-performance-site"
+      ],
+      "publishable": false,
+      "role": "primary-performance-site",
+      "sourceKey": "question:sha256:94350a090b9c1a561db22d82bea1b49487c0fd9b5849cde0904126076d7ba817",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.Address.Country",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "semantic-domain-project"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:a5fdc28ae60c0d95f9afa79f902f78255edc800bc5029d659c28167fa114439e",
+      "sourcePath": "PerformanceSite_4_0.PrimarySite.CongressionalDistrictProgramProject",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "form-structure"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:293d1e6df4f25d38b23458af5b2f8ffa5229a42a45d3cec3412bf6d9a6aa2146",
+      "sourcePath": "PerformanceSite_4_0.OtherSite",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:5c08bb6128938b04fb0425e1e8d84d2ce7a47481a92ebca9b434778eca07349c",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Individual",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:167c2f25527c6b668e95b5363eac0354ccdafae3b8af4f3450897271ff5112a9",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.OrganizationName",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:27b4720daa5431020dba5847d30e39c0f3462b9f388fa822a4307b10fc217dd0",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.SAMUEI",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "form-structure"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:d695b775b1af5c2e27eb780f6072e33264e1f2412c2a588e2f169054469c86cc",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:4eb03d73cceeb2dafbde3132db640fa3548b93fd76c54d925c52bcce15443c62",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Street1",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:aaf83a5b74822150f40494436d80681b686b0490d0b7c10005965195a07df27c",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Street2",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:3238c3e3c7fa065b45c3e7385153a2896095f464b4a42293182e5523e7cbfd3a",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.City",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:4dc834fd821c72c4d5ff07fd3b6e40dd768e244c9fe5334055fc221a9a36c81a",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.County",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:615974de2fd703b737c075849e49f0207340348dcdb96f9b8a4634167285d438",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.State",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:d42bdfdb32db19f89637e4e71ec8e67cb6d79a4612305f21118f6c4bbbfa0ef1",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Province",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:688869d07fbd08e856d1d0b9502036f95533038602b741213d190e74dc94369d",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.ZipPostalCode",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "role-other-performance-site"
+      ],
+      "publishable": false,
+      "role": "other-performance-site",
+      "sourceKey": "question:sha256:f79bde66cdca4bf929e7a6f9614e170f26a9d41fe9d793f1687efc4ad911571c",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.Address.Country",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "semantic-domain-project"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:acb58c51b99cebe382773da493c0060fd077ebad9af3309ed4a448fe2a10c569",
+      "sourcePath": "PerformanceSite_4_0.OtherSite.CongressionalDistrictProgramProject",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "attachment-content",
+        "semantic-domain-attachment"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:125cd19957a406508cad07a2c2052cc2fe0b95c6b466450a77aa9e06cb5937a6",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "technical-metadata"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:6c0724a61d18cb35acaf1b8f62fb2bd05e7ad9f68daa5eff73a89e48dc38f0ba",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile.FileName",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "technical-metadata"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:1955f7f2dbe459bf1318994cce9374a025539259ebaa1020161df2bae3c62855",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile.MimeType",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "technical-metadata"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:5055af5fb01da813c62f922870de3f021033f942f886f32598c4366c1c82461b",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile.FileLocation",
+      "status": "proposed"
+    },
+    {
+      "moduleIds": [
+        "technical-metadata"
+      ],
+      "publishable": false,
+      "role": null,
+      "sourceKey": "question:sha256:f744d0ff3e6188ac345f2f6f82600b646ca3ef958929485fcbeb3b058b89f110",
+      "sourcePath": "PerformanceSite_4_0.AttachedFile.HashValue",
+      "status": "proposed"
+    }
+  ],
+  "sources": [
+    {
+      "sha256": "c0747c333fb89f0be2403e1b4b2beb6ab971391fd85c6aa0cf0a678519e26615",
+      "uri": "https://apply07.grants.gov/apply/forms/sample/PerformanceSite_4_0-V4.0_F723.xls"
+    },
+    {
+      "sha256": "d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c",
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/PerformanceSite_4_0-V4.0.xsd"
+    },
+    {
+      "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd"
+    },
+    {
+      "sha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/Global-V1.0.xsd"
+    },
+    {
+      "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd"
+    },
+    {
+      "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd"
+    }
+  ]
+}

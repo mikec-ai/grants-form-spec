@@ -1,0 +1,25 @@
+{
+  "assessment": "The importer eliminates deterministic retranscription and provenance assembly. It intentionally does not eliminate semantic, policy, or behavior review.",
+  "contract": "grants-form-promotion-spike-report/v1",
+  "form": {
+    "id": "PerformanceSite",
+    "sourceRoot": "PerformanceSite_4_0",
+    "title": "Project/Performance Site Location(s)",
+    "version": "4.0"
+  },
+  "generated": {
+    "applicantBehaviorRecords": 25,
+    "presentationBehaviorRecords": 8,
+    "provenanceSourcesPinned": 6,
+    "runtimeRuleProposalsPreserved": 9,
+    "semanticMappingsAccepted": 0,
+    "sourceBehaviorsPreserved": 33,
+    "sourceRecordsTranscribed": 34
+  },
+  "remainingReview": {
+    "enumWireValueChecks": 6,
+    "openGates": 40,
+    "semanticProposals": 34,
+    "sourceConflicts": 0
+  }
+}
