@@ -8,6 +8,7 @@ npm run build
 npm run emit
 npm run project-evidence
 npm run validate-artifacts
+npm run validate-promotion
 npm test
 npm run test-python
 npm run package-artifacts
@@ -21,7 +22,7 @@ while IFS= read -r -d '' file; do
     npx tsp compile "$file" --no-emit >&2
     result=1
   fi
-done < <(find typespec-form-spec/lib specs -name '*.tsp' -print0)
+done < <(find typespec-form-spec/lib specs spikes -name '*.tsp' -print0)
 
 if [ "$result" -ne 0 ]; then
   exit 1
