@@ -158,6 +158,52 @@ class PromotionImporterTests(unittest.TestCase):
             item["kind"] == "source_conflict" for item in packet["reviewGates"]
         ))
 
+    def test_export_compares_contract_with_family_scope_not_broader_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo, _ = self._repo(Path(directory))
+            behavior_path = repo / "harness/contracts/expansion-a/evidence/Example-behaviors.jsonl"
+            applicant = json.loads(behavior_path.read_text(encoding="utf-8").splitlines()[0])
+            presentation = {
+                **applicant,
+                "behavior_key": "behavior:presentation",
+                "input_role": "presentation",
+            }
+            unknown = {
+                **applicant,
+                "behavior_key": "behavior:unknown",
+                "input_role": "unknown",
+            }
+            self._write(behavior_path, [applicant, presentation, unknown], jsonl=True)
+
+            family_path = repo / "artifacts/authoring/example-family/forms/Example.json"
+            family = json.loads(family_path.read_text(encoding="utf-8"))
+            family["source_behaviors"] = [
+                applicant,
+                {**applicant, "behavior_key": "behavior:defaulted", "input_role": "defaulted"},
+            ]
+            self._write(family_path, family)
+            family_sha = hashlib.sha256(family_path.read_bytes()).hexdigest()
+            contract_path = repo / "artifacts/authoring/form-authoring-contract-v2/forms/Example.json"
+            contract = json.loads(contract_path.read_text(encoding="utf-8"))
+            contract["output_adapter_oracle"]["input"]["sha256"] = family_sha
+            contract["output_adapter_oracle"]["metrics"]["source_behavior_records"] = 2
+            self._write(contract_path, contract)
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo), "commit", "-qm", "split behavior scopes"], check=True)
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], check=True,
+                capture_output=True, text=True,
+            ).stdout.strip()
+
+            packet = export_packet(repo, "Example", revision)
+
+        self.assertEqual(packet["metrics"]["sourceBehaviors"], 3)
+        self.assertEqual(packet["metrics"]["applicantBehaviorRecords"], 1)
+        self.assertEqual(packet["metrics"]["presentationBehaviorRecords"], 1)
+        self.assertFalse(any(
+            item["kind"] == "source_conflict" for item in packet["reviewGates"]
+        ))
+
     def test_export_allows_a_source_form_with_no_runtime_rule_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             repo, _ = self._repo(Path(directory))

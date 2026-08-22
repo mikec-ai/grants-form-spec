@@ -423,4 +423,47 @@ describe("SGG UI emission", () => {
       },
     });
   });
+
+  it("projects a multi-value enable predicate without form-specific emitter code", async () => {
+    const ui = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/rr-key-person-expanded/sgg/ui-schema.json"),
+        "utf8",
+      ),
+    );
+    const allObjects = (value: unknown): Record<string, any>[] => {
+      if (Array.isArray(value)) return value.flatMap(allObjects);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, any>;
+      return [object, ...Object.values(object).flatMap(allObjects)];
+    };
+    const otherRole = allObjects(ui).find((field) =>
+      field.definition === "/properties/principalInvestigator/properties/otherProjectRole"
+    );
+
+    expect(otherRole).toMatchObject({
+      conditional: {
+        when: {
+          op: "in",
+          ref: { scope: "root", pointer: "/principalInvestigator/projectRole" },
+          values: ["Other Professional", "Other (Specify)"],
+        },
+        then: { enabled: true },
+        otherwise: { enabled: false },
+      },
+    });
+
+    const repeatedOtherRole = allObjects(ui).find((field) =>
+      field.definition === "/properties/seniorKeyPersons/items/properties/otherProjectRole"
+    );
+    expect(repeatedOtherRole).toMatchObject({
+      conditional: {
+        when: {
+          op: "in",
+          ref: { scope: "item", pointer: "/projectRole" },
+          values: ["Other Professional", "Other (Specify)"],
+        },
+      },
+    });
+  });
 });

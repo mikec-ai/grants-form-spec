@@ -38,8 +38,21 @@ export interface SggSection {
 }
 
 interface AbsoluteCondition {
+  scope: "root" | "item";
   sourcePath: string[];
-  value: string | number | boolean | null;
+  operator: "equals" | "in";
+  value?: string | number | boolean | null;
+  values?: (string | number | boolean | null)[];
+}
+
+function predicate(condition: AbsoluteCondition): Record<string, unknown> {
+  const ref = {
+    scope: condition.scope,
+    pointer: `/${condition.sourcePath.join("/")}`,
+  };
+  return condition.operator === "in"
+    ? { op: "in", ref, values: condition.values ?? [] }
+    : { op: "equals", ref, value: condition.value };
 }
 
 /**
@@ -101,6 +114,7 @@ function walk(
   inheritedVisible: AbsoluteCondition[] = [],
   inheritedEnabled: AbsoluteCondition[] = [],
   inheritedReadOnly: AbsoluteCondition[] = [],
+  itemPath?: string[],
 ): void {
   for (const prop of allProperties(program, model)) {
     const here = dataPath ? `${dataPath}.${prop.name}` : prop.name;
@@ -121,9 +135,10 @@ function walk(
         here,
         into,
         overrides,
-        [...inheritedVisible, ...absoluteConditions(propVisibleWhen(program, prop), here)],
-        [...inheritedEnabled, ...absoluteConditions(propEnabledWhen(program, prop), here)],
-        [...inheritedReadOnly, ...absoluteConditions(propReadOnlyWhen(program, prop), here)],
+        [...inheritedVisible, ...absoluteConditions(propVisibleWhen(program, prop), here, itemPath)],
+        [...inheritedEnabled, ...absoluteConditions(propEnabledWhen(program, prop), here, itemPath)],
+        [...inheritedReadOnly, ...absoluteConditions(propReadOnlyWhen(program, prop), here, itemPath)],
+        itemPath,
       );
       continue;
     }
@@ -135,6 +150,7 @@ function walk(
       inheritedVisible,
       inheritedEnabled,
       inheritedReadOnly,
+      itemPath,
     ));
   }
 }
@@ -147,6 +163,7 @@ function field(
   inheritedVisible: AbsoluteCondition[] = [],
   inheritedEnabled: AbsoluteCondition[] = [],
   inheritedReadOnly: AbsoluteCondition[] = [],
+  itemPath?: string[],
 ): SggField {
   const f: SggField = {
     type: override.readOnly === true || propReadOnly(program, prop) ? "null" : "field",
@@ -160,17 +177,10 @@ function field(
     .filter((step) => step && step !== "properties" && step !== "items");
   const visible = [
     ...inheritedVisible,
-    ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join(".")),
+    ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join("."), itemPath),
   ];
   if (visible.length) {
-    const predicates = visible.map((condition) => ({
-      op: "equals",
-      ref: {
-        scope: "root",
-        pointer: `/${condition.sourcePath.join("/")}`,
-      },
-      value: condition.value,
-    }));
+    const predicates = visible.map(predicate);
     f.conditional = {
       when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
       then: { visible: true },
@@ -179,17 +189,10 @@ function field(
   } else {
     const enabled = [
       ...inheritedEnabled,
-      ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join(".")),
+      ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), itemPath),
     ];
     if (enabled.length) {
-      const predicates = enabled.map((condition) => ({
-        op: "equals",
-        ref: {
-          scope: "root",
-          pointer: `/${condition.sourcePath.join("/")}`,
-        },
-        value: condition.value,
-      }));
+      const predicates = enabled.map(predicate);
       f.conditional = {
         when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
         then: { enabled: true },
@@ -198,17 +201,10 @@ function field(
     } else {
       const readOnly = [
         ...inheritedReadOnly,
-        ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join(".")),
+        ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join("."), itemPath),
       ];
       if (readOnly.length) {
-        const predicates = readOnly.map((condition) => ({
-          op: "equals",
-          ref: {
-            scope: "root",
-            pointer: `/${condition.sourcePath.join("/")}`,
-          },
-          value: condition.value,
-        }));
+        const predicates = readOnly.map(predicate);
         f.conditional = {
           when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
           then: { readOnly: true },
@@ -220,12 +216,24 @@ function field(
   return f;
 }
 
-function absoluteConditions(conditions: Condition[], targetPath: string): AbsoluteCondition[] {
+function absoluteConditions(
+  conditions: Condition[],
+  targetPath: string,
+  itemPath?: string[],
+): AbsoluteCondition[] {
   const parent = targetPath.split(".").filter(Boolean).slice(0, -1);
-  return conditions.map((condition) => ({
-    sourcePath: [...parent, ...condition.sourcePath],
-    value: condition.value,
-  }));
+  return conditions.map((condition) => {
+    const absolutePath = [...parent, ...condition.sourcePath];
+    const withinItem = itemPath && itemPath.every((step, index) => absolutePath[index] === step);
+    return {
+      scope: withinItem ? "item" : "root",
+      sourcePath: withinItem ? absolutePath.slice(itemPath.length) : absolutePath,
+      operator: condition.operator,
+      ...(condition.operator === "in"
+        ? { values: condition.values }
+        : { value: condition.value }),
+    };
+  });
 }
 
 /**
@@ -277,7 +285,8 @@ function fieldListAt(
   if (item.kind !== "Model") return undefined;
 
   const children: (SggField | SggFieldList)[] = [];
-  walk(program, item, `${definition}/items`, dataPath, children, overrides);
+  const itemPath = dataPath.split(".").filter(Boolean);
+  walk(program, item, `${definition}/items`, dataPath, children, overrides, [], [], [], itemPath);
   // The list's label names one entry, so it comes from the item block; the property's
   // own label names the collection and stays on the schema as `title`.
   const list: SggFieldList = {

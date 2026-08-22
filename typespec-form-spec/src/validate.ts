@@ -319,16 +319,19 @@ function checkConditions(program: Program, prop: ModelProperty): void {
     const enumeration = enumOf(source.type);
     if (!enumeration) continue;
     const members = [...enumeration.members.values()].map((m) => m.value ?? m.name);
-    if (members.includes(condition.value as string | number)) continue;
-    reportDiagnostic(program, {
-      code: "condition-value-not-in-enum",
-      target: prop,
-      format: {
-        value: String(condition.value),
-        enumName: enumeration.name,
-        members: members.slice(0, 6).join(", ") + (members.length > 6 ? ", ..." : ""),
-      },
-    });
+    const values = condition.operator === "in" ? condition.values : [condition.value];
+    for (const value of values) {
+      if (members.includes(value as string | number)) continue;
+      reportDiagnostic(program, {
+        code: "condition-value-not-in-enum",
+        target: prop,
+        format: {
+          value: String(value),
+          enumName: enumeration.name,
+          members: members.slice(0, 6).join(", ") + (members.length > 6 ? ", ..." : ""),
+        },
+      });
+    }
   }
 }
 

@@ -4,11 +4,19 @@ import type {
 import { getDoc, getMaxLength, getMinLength, getMaxItems, getMinItems } from "@typespec/compiler";
 import { stateKeys } from "./lib.js";
 
-export interface Condition {
+interface ConditionBase {
   sourcePath: string[];
   sourceIsArray: boolean;
+}
+export interface EqualsCondition extends ConditionBase {
+  operator: "equals";
   value: string | number | boolean | null;
 }
+export interface InCondition extends ConditionBase {
+  operator: "in";
+  values: (string | number | boolean | null)[];
+}
+export type Condition = EqualsCondition | InCondition;
 
 /** Everything the emitters need about one block, read out of decorator state. */
 export interface Block {

@@ -59,7 +59,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
         effect: "SHOW",
         condition: {
           scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-          schema: { const: c.value },
+          schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
         },
       };
     } else {
@@ -70,7 +70,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
           effect: "ENABLE",
           condition: {
             scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-            schema: { const: c.value },
+            schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
           },
         };
       } else {
@@ -81,7 +81,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
             effect: "DISABLE",
             condition: {
               scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-              schema: { const: c.value },
+              schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
             },
           };
         }
