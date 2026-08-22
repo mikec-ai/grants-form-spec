@@ -2,7 +2,7 @@
 type: Task
 title: Author and integrate R&R SF-424
 priority: P0
-assignee: codex-team
+assignee: codex
 description: >-
   Production-oriented declarative implementation and generic Simpler integration
   for R&R SF-424.
@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:37:38.223Z'
+  at: '2026-08-22T20:55:21.154Z'
 ---
 # Objective
 
