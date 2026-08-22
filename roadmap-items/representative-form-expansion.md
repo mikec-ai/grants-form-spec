@@ -1,7 +1,11 @@
 ---
 type: Roadmap Item
 title: Expand through representative forms
-description: Add forms in an order that exercises new capabilities and measures reuse.
+description: >-
+  All four existing declarative reference forms now run through the public
+  Simpler fork's generic adapter: Key Contacts, SF-424, SF-424A, and SF-424
+  Short. Continue with the first new priority form selected to exercise a
+  capability not already covered by these references.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: mikec-ai
