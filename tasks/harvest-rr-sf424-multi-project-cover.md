@@ -4,18 +4,21 @@ title: Harvest R&R SF-424 Multi-Project Cover
 priority: P1
 assignee: codex
 description: >-
-  Producer PR #22 is open and green locally: 139 deterministic source records,
-  143 source behaviors, 138 of 139 relative XSD paths shared with standalone R&R
-  SF-424, 28 top-level properties, 106 rendered leaves, zero unconditional
-  required fields, exact encoded revision values, and 14 generic nested
-  enabled/read-only conditions. Crosswalk proof PR #18 is merged. Zero semantic
-  mappings are accepted. Remaining work is CI/merge, public adapter canary,
-  exact XML, and human/accessibility/release review.
+  Crosswalk proof PR #18 is merged. Producer PR #22 and public adapter PR #19
+  are open. The implementation pins 139 deterministic source records and 143
+  source behaviors; proves 138 of 139 relative XSD paths align with standalone
+  R&R SF-424; emits 28 top-level properties, 106 leaves, zero unconditional
+  required fields, exact revision wire values, and 14 generic nested
+  enabled/read-only conditions. The adapter loads the fifteenth package with no
+  form-specific code, preserves typed conditions across naming conversion, and
+  intentionally does not infer standalone lifecycle rules. Zero semantic
+  mappings are accepted. Remaining gates are CI/merge, exact XML, and
+  human/accessibility/release review.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T22:49:27.384Z'
+  at: '2026-08-22T22:54:40.238Z'
 ---
 # Objective
 
