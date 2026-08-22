@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T18:43:39.134Z'
+  at: '2026-08-22T18:54:59.816Z'
 ---
 # Objective
 
@@ -24,7 +24,17 @@ Harden the portable SF-424A Budget form and implement the applicant-experience i
 
 # Confirmed issue nuance
 
-Column G rows 1 through 4 are not a simple sum in every business case. Legacy behavior can auto-populate a common-case sum while permitting override, but the current HHS implementation intentionally uses manual entry until richer client-side behavior exists. Issue 11359 requests removal of misleading summation descriptions without functional changes. Issue 11239 describes future end-to-end coverage for row and grand totals.
+Column G rows 1 through 4 are manually entered for this delivery slice. Legacy behavior may calculate the common case while permitting override, but supplemental and change applications can require a different authorized total. Row 5 remains a vertical total for columns C through G, including the entered Column G values.
+
+# Validated implementation findings
+
+- Remove misleading descriptions that say Column G is always the sum of C through F or that row values are always summed horizontally.
+- Preserve the existing declarative row-5 column totals, including Column G.
+- Add source-grounded Section A guidance that explains the common case and the supplemental or change exception without presenting the common case as universal.
+- The custom table must honor read-only state for Column G and supply accessible names for inputs.
+- Table headers should use semantic header cells.
+- Add save/reload, locked-state, print, XML, and navigation tests using an exception payload where C through F total 10 but G is 100.
+- Improve generic multi-field help plumbing and section navigation rather than adding one-off behavior only for SF-424A.
 
 # Scope
 
@@ -32,7 +42,6 @@ Column G rows 1 through 4 are not a simple sum in every business case. Legacy be
 - Add clear tooltips and in-form instructions grounded in source instructions.
 - Improve section and keyboard navigation within the existing renderer architecture.
 - Correct misleading Section A labels in our portable declaration.
-- Decide and test calculated, manually entered, or calculated-but-overridable behavior based on authoritative source evidence and explicit product semantics.
 - Add focused save/reload, submission/print, calculation, validation, navigation, and accessibility-oriented tests.
 
 # Acceptance criteria
@@ -40,6 +49,6 @@ Column G rows 1 through 4 are not a simple sum in every business case. Legacy be
 - No HHS issue or upstream repository is modified.
 - Guidance text and labels do not misrepresent Column G business rules.
 - Navigation and instructional improvements are portable declarations or generic capabilities.
-- Calculation behavior is evidence-backed and distinguishes rows 1 through 4 from the grand total.
+- Calculation behavior distinguishes rows 1 through 4 from the grand total.
 - Producer preflight and focused Simpler adapter tests pass.
 - Remaining approval, UAT, and policy decisions are explicit.
