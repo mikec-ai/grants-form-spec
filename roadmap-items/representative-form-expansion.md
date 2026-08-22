@@ -2,11 +2,11 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Fifteen forms now compile through the portable specification and load through
-  the public Simpler adapter. The first cover-form harvest, R&R SF-424
-  Multi-Project Cover, demonstrates 138 of 139 structurally aligned relative XSD
-  paths while preserving optionality, behavior, tracking-name, and lifecycle
-  differences declaratively. Expansion alternates cheap derivatives with
+  Sixteen forms now compile through the portable specification and load through
+  the public Simpler adapter. R&R Senior/Key Person Profile (Expanded) adds
+  reusable repeating person, role, organization, address, credential, degree,
+  and person-specific attachment declarations; its consumer canary also hardened
+  generic item-scoped conditions. Expansion alternates cheap derivatives with
   high-value foundations.
 sequence: '3'
 superbee_progress_status: active
