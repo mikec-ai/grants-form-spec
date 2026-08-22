@@ -185,7 +185,15 @@ def main() -> int:
     print("| --- | --- | --- | --- |")
     # In the order the forms were migrated, which is the order the curve is claimed in.
     known: set[str] = set()
-    for form_id in ("key-contacts", "sf424", "sf424a", "sf424-short"):
+    for form_id in (
+        "key-contacts",
+        "sf424",
+        "sf424a",
+        "sf424-short",
+        "project-narrative-attachments",
+        "budget-narrative-attachments",
+        "other-narrative-attachments",
+    ):
         if form_id not in asked:
             continue
         new = asked[form_id] - known
