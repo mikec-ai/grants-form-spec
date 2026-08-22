@@ -71,6 +71,15 @@ class RRKeyPersonExpandedTests(unittest.TestCase):
             c["when"]["values"] == ["Other Professional", "Other (Specify)"]
             for c in conditions if c["when"]["op"] == "in"
         ))
+        repeated_conditions = [
+            c for c in conditions
+            if c["when"]["ref"]["scope"] == "item"
+        ]
+        self.assertEqual(len(repeated_conditions), 3)
+        self.assertEqual(
+            {c["when"]["ref"]["pointer"] for c in repeated_conditions},
+            {"/address/country", "/projectRole"},
+        )
 
         rule_objects = list(objects(rules))
         self.assertEqual(sum(row.get("gg_validation", {}).get("rule") == "attachment"

@@ -452,5 +452,18 @@ describe("SGG UI emission", () => {
         otherwise: { enabled: false },
       },
     });
+
+    const repeatedOtherRole = allObjects(ui).find((field) =>
+      field.definition === "/properties/seniorKeyPersons/items/properties/otherProjectRole"
+    );
+    expect(repeatedOtherRole).toMatchObject({
+      conditional: {
+        when: {
+          op: "in",
+          ref: { scope: "item", pointer: "/projectRole" },
+          values: ["Other Professional", "Other (Specify)"],
+        },
+      },
+    });
   });
 });
