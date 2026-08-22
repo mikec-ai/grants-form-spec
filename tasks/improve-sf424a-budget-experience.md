@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T18:54:59.816Z'
+  at: '2026-08-22T19:21:26.602Z'
 ---
 # Objective
 
@@ -52,3 +52,11 @@ Column G rows 1 through 4 are manually entered for this delivery slice. Legacy b
 - Calculation behavior distinguishes rows 1 through 4 from the grand total.
 - Producer preflight and focused Simpler adapter tests pass.
 - Remaining approval, UAT, and policy decisions are explicit.
+
+# Progress
+
+- Producer PR #13 publishes source-grounded Section A instructions and field help from the declarative specification: https://github.com/mikec-ai/grants-form-spec/pull/13
+- The generic compiler now carries `@UI.helpText` into JSON Schema at nested depths; the Simpler adapter does not need to own SF-424A-specific guidance copy.
+- Tests preserve the key behavior boundary: Column G rows 1 through 4 are manual, while row 5 totals the entered Column G values vertically.
+- Full producer preflight passes: 52 compiler tests, 13 analysis tests, 71 blocks, and 370 validated artifacts.
+- Next adapter slice: consume the portable descriptions, replace misleading hard-coded table copy, add semantic table headers and accessible input names, then harden generic section navigation and lifecycle tests.
