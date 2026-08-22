@@ -146,6 +146,24 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["shareOfA"], 1.0)
         self.assertEqual(row["shareOfB"], 1.0)
 
+    def test_rr_subaward_budget_10yr_30_combines_profiles_without_new_questions(self) -> None:
+        five_year = set(self.analysis["asks"]["rr-subaward-budget-30"])
+        ten_year = set(self.analysis["asks"]["rr-subaward-budget-10yr-30"])
+
+        self.assertTrue(five_year)
+        self.assertEqual(ten_year, five_year)
+
+        row = next(
+            row
+            for row in self.analysis["pairwise"]
+            if {row["formA"], row["formB"]}
+            == {"rr-subaward-budget-30", "rr-subaward-budget-10yr-30"}
+        )
+        self.assertEqual(row["questionsInCommon"], len(five_year))
+        self.assertEqual(row["similarity"], 1.0)
+        self.assertEqual(row["shareOfA"], 1.0)
+        self.assertEqual(row["shareOfB"], 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()

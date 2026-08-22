@@ -131,6 +131,19 @@ export const propSggFieldList = (p: Program, prop: ModelProperty) =>
 export const propOverrides = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.overrides, prop) as Record<string, Record<string, unknown>>) ?? {};
 
+/** Own and inherited properties in declaration order, with the derived declaration winning. */
+export function modelProperties(model: Model): ModelProperty[] {
+  const chain: Model[] = [];
+  for (let current: Model | undefined = model; current; current = current.baseModel) {
+    chain.unshift(current);
+  }
+  const byName = new Map<string, ModelProperty>();
+  for (const current of chain) {
+    for (const property of current.properties.values()) byName.set(property.name, property);
+  }
+  return [...byName.values()];
+}
+
 /** Properties in @UI.order if given, else declaration order; omitted ones dropped. */
 export function orderedProps(program: Program, block: Block): ModelProperty[] {
   if (block.model.kind !== "Model") return [];

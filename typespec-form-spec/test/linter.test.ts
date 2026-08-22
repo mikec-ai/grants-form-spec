@@ -313,4 +313,26 @@ describe("no-redeclared-property", () => {
       )
       .toBeValid();
   });
+
+  it("accepts a derived profile that changes a collection constraint", async () => {
+    const lint = await tester("no-redeclared-property");
+    await lint
+      .expect(
+        bank(`
+          /** A base. */
+          @Question.meta(#{ id: "generics/base" })
+          @Catalog.tag(TagName.generic)
+          model Base {
+            @maxItems(5)
+            entries?: string[];
+          }
+
+          model TenEntryProfile extends Base {
+            @maxItems(10)
+            entries?: string[];
+          }
+        `),
+      )
+      .toBeValid();
+  });
 });
