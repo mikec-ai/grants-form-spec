@@ -54,7 +54,8 @@ model RRBudget {
   @UI.widget(WidgetName.Attachment)
   budgetJustificationAttachment: AttachmentRef;
 
-  /** Enter one to five research budget periods. */
+  // One to five research budget periods. The item bounds carry this constraint without
+  // introducing adapter-specific helper text into the portable UI contract.
   @UI.label("Budget Year")
   @UI.section(ResearchBudgetSection.budgetYear)
   @minItems(1)
