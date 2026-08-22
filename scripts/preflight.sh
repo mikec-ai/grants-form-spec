@@ -7,6 +7,9 @@ cd "$(dirname "$0")/.."
 npm run build
 npm run emit
 npm test
+npm run test-python
+npm run package-artifacts
+python3 scripts/package_artifacts.py --verify build/grants-form-artifacts.tar.gz
 npm run analyze -- --json >/dev/null
 
 result=0

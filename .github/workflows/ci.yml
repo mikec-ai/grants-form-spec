@@ -27,6 +27,9 @@ jobs:
       - run: npm run build
       - run: npm run emit
       - run: npm test
+      - run: npm run test-python
+      - run: npm run package-artifacts
+      - run: python3 scripts/package_artifacts.py --verify build/grants-form-artifacts.tar.gz
       - run: npm run analyze -- --json > /dev/null
 
       - name: Check that every TypeSpec file compiles independently
@@ -41,3 +44,12 @@ jobs:
             fi
           done < <(find typespec-form-spec/lib specs -name '*.tsp' -print0)
           exit "$result"
+
+      - name: Publish portable form artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: grants-form-artifacts-${{ github.sha }}
+          path: |
+            build/grants-form-artifacts.tar.gz
+            build/grants-form-artifacts.tar.gz.sha256
+          if-no-files-found: error

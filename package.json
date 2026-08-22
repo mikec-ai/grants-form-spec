@@ -14,6 +14,8 @@
     "build": "npm run build -w @simpler-grants/form-spec",
     "emit": "rm -rf dist && tsp compile specs/main.tsp",
     "analyze": "python3 scripts/analyze.py",
+    "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",
+    "test-python": "python3 -m unittest discover -s tests",
     "test": "npm test -w @simpler-grants/form-spec",
     "preflight": "./scripts/preflight.sh"
   }
