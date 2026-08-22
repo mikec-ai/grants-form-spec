@@ -118,7 +118,7 @@ function walk(value, visit) {
 async function validators() {
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const out = new Map();
-  for (const name of ["question", "form", "ui-schema", "block-index", "form-package"]) {
+  for (const name of ["question", "form", "ui-schema", "block-index", "form-package", "evidence"]) {
     out.set(name, ajv.compile(await readJson(resolve(CONTRACT, `${name}.schema.json`))));
   }
   return out;
@@ -180,6 +180,28 @@ export async function validateArtifactGraph(inputDist) {
     for (const ref of refs) {
       const target = refTarget(schemaPath, ref, dist);
       if (target) await resolvePointer(target.path, target.fragment, dist, cache);
+    }
+
+    const evidencePath = resolve(dir, "evidence.json");
+    if (jsonFiles.includes(evidencePath)) {
+      const evidence = await readJson(evidencePath);
+      const evidenceValidator = validate.get("evidence");
+      if (!evidenceValidator(evidence)) {
+        throw new ArtifactError(`evidence contract failed: ${formatAjv(evidenceValidator.errors)}`, evidencePath);
+      }
+      if (evidence.block.id !== index.id || evidence.block.kind !== index.kind) {
+        throw new ArtifactError("evidence block identity does not match its index", evidencePath);
+      }
+      const sourceIds = new Set(evidence.sources.map((source) => source.id));
+      if (sourceIds.size !== evidence.sources.length) {
+        throw new ArtifactError("evidence source ids must be unique", evidencePath);
+      }
+      for (const mapping of evidence.semanticReview.mappings) {
+        if (!sourceIds.has(mapping.sourceId)) {
+          throw new ArtifactError(`semantic mapping names unknown source ${mapping.sourceId}`, evidencePath);
+        }
+        await resolvePointer(schemaPath, mapping.canonicalPointer, dist, cache);
+      }
     }
 
     if (location === "form") {

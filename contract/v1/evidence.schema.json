@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/evidence.schema.json",
+  "title": "Portable source and semantic-review evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "block", "sources", "extraction", "semanticReview"],
+  "properties": {
+    "contract": { "const": "grants-form-evidence/v1" },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["question", "form"] }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "uri", "version", "sha256"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["xsd", "dat", "pdf", "instructions", "implementation"] },
+          "uri": { "type": "string", "pattern": "^https://" },
+          "version": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "artifact", "sourceSetSha256", "extractedAt"],
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "artifact": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "sourceSetSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "extractedAt": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+        }
+      }
+    },
+    "semanticReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "mappings"],
+      "properties": {
+        "status": { "enum": ["unreviewed", "proposed", "reviewed", "accepted", "rejected"] },
+        "mappings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapping" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalPointer", "sourceId", "sourcePath", "status"],
+      "properties": {
+        "canonicalPointer": { "type": "string", "pattern": "^#(?:$|/)" },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "sourcePath": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["proposed", "reviewed", "accepted", "rejected"] },
+        "reviewedBy": { "type": "string", "minLength": 1 },
+        "reviewedAt": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+        },
+        "note": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "accepted" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "reviewedBy": { "type": "string", "minLength": 1 },
+              "reviewedAt": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+              }
+            },
+            "required": ["reviewedBy", "reviewedAt"]
+          }
+        }
+      ]
+    }
+  }
+}

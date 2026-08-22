@@ -1,0 +1,31 @@
+{
+  "contract": "grants-form-evidence/v1",
+  "block": { "id": "example-form", "kind": "form" },
+  "sources": [
+    {
+      "id": "local-copy",
+      "type": "xsd",
+      "uri": "file:///Users/example/Downloads/example.xsd",
+      "version": "unknown",
+      "sha256": "not-a-hash"
+    }
+  ],
+  "extraction": {
+    "repository": "private-path",
+    "revision": "main",
+    "artifact": "../outside.json",
+    "sourceSetSha256": "unknown",
+    "extractedAt": "yesterday"
+  },
+  "semanticReview": {
+    "status": "accepted",
+    "mappings": [
+      {
+        "canonicalPointer": "#/properties/name",
+        "sourceId": "local-copy",
+        "sourcePath": "Name",
+        "status": "accepted"
+      }
+    ]
+  }
+}
