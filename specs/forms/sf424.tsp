@@ -291,7 +291,7 @@ model SF424 {
   @UI.label("Areas Affected")
   @UI.section(Sf424Section.areasAffected)
   @UI.widget(WidgetName.Attachment)
-  areasAffected?: AttachmentRef;
+  areasAffected?: ProjectAreasAffected;
 
   /** Enter a brief, descriptive title of the project. */
   @UI.label("Project Title")
@@ -303,7 +303,7 @@ model SF424 {
   @UI.section(Sf424Section.projectTitle)
   @UI.widget(WidgetName.AttachmentArray)
   @maxItems(100)
-  additionalProjectTitle?: AttachmentRef[];
+  additionalProjectTitle?: AdditionalProjectTitle[];
 
   /** Enter the Congressional District in the format: 2 character state Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district.If outside the US, enter 00-000. */
   @UI.label("Applicant District")
@@ -319,7 +319,7 @@ model SF424 {
   @UI.label("Additional Congressional Districts")
   @UI.section(Sf424Section.congressionalDistricts)
   @UI.widget(WidgetName.Attachment)
-  additionalCongressionalDistricts?: AttachmentRef;
+  additionalCongressionalDistricts?: AdditionalCongressionalDistricts;
 
   /** Enter the date in the format MM/DD/YYYY.  */
   @UI.label("Project Start Date")
@@ -397,7 +397,7 @@ model SF424 {
   @UI.section(Sf424Section.federalDebt)
   @UI.widget(WidgetName.Attachment)
   @Validation.requiredWhen(SF424.delinquentFederalDebt, true)
-  debtExplanation?: AttachmentRef;
+  debtExplanation?: FederalDebtExplanation;
 
   /** By signing this application, I certify (1) to the statements contained in the list of certifications* and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances** and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001) */
   @UI.label("Certification Agree")

@@ -51,7 +51,8 @@ function publishAs(ctx: Ctx, target: Model | Scalar, id: string): void {
 }
 
 export const $questionMeta = (ctx: Ctx, target: Model | Scalar, meta: unknown) => {
-  const m = plain(ctx, meta) as { id: string };
+  const m = plain(ctx, meta) as { id: string; classification?: unknown };
+  if (m.classification !== undefined) m.classification = enumName(m.classification);
   set(ctx, stateKeys.questionMeta, target, m);
   publishAs(ctx, target, m.id);
 };

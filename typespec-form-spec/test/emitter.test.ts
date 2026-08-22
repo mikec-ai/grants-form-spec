@@ -77,22 +77,25 @@ describe("SGG UI emission", () => {
       "Project Narrative Files",
       "projectNarrativeFiles",
       "1. Project Narrative File(s)",
+      "project/narrative",
     ],
     [
       "budget-narrative-attachments",
       "Budget Narrative Files",
       "budgetNarrativeFiles",
       "1. Budget Narrative File(s)",
+      "budget/narrative",
     ],
     [
       "other-narrative-attachments",
       "Other Narrative Files",
       "otherNarrativeFiles",
       "1. Other Narrative File(s)",
+      "application/other-narrative",
     ],
   ])(
     "emits %s as a role-specific use of the shared attachment question",
-    async (formId, title, sectionName, sectionLabel) => {
+    async (formId, title, sectionName, sectionLabel, questionId) => {
       const root = resolve(packageRoot, `dist/forms/${formId}`);
       const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
       const ui = JSON.parse(
@@ -108,7 +111,22 @@ describe("SGG UI emission", () => {
         description: "At least one file must be attached",
         minItems: 1,
         maxItems: 100,
-        items: { $ref: "../../question-bank/generics/attachment/schema.json" },
+        items: { $ref: `../../question-bank/${questionId}/schema.json` },
+      });
+
+      const semanticIndex = JSON.parse(
+        await readFile(resolve(packageRoot, `dist/question-bank/${questionId}/index.json`), "utf8"),
+      );
+      expect(semanticIndex).toMatchObject({
+        classification: "semanticQuestion",
+        composes: ["generics/attachment"],
+      });
+      const mechanismIndex = JSON.parse(
+        await readFile(resolve(packageRoot, "dist/question-bank/generics/attachment/index.json"), "utf8"),
+      );
+      expect(mechanismIndex).toMatchObject({
+        classification: "captureMechanism",
+        composes: [],
       });
       expect(ui).toEqual([
         {

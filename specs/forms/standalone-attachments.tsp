@@ -1,9 +1,15 @@
 import "@simpler-grants/form-spec";
 import "./index.tsp";
 import "../question-bank/generics/index.tsp";
+import "../question-bank/application/index.tsp";
+import "../question-bank/budget/index.tsp";
+import "../question-bank/project/index.tsp";
 
 using SimplerForms;
 using QuestionBank.Generics;
+using QuestionBank.Application;
+using QuestionBank.Budget;
+using QuestionBank.Project;
 
 namespace Forms.ProjectNarrativeAttachments {
 
@@ -32,7 +38,7 @@ model ProjectNarrativeAttachments {
   @UI.widget(WidgetName.AttachmentArray)
   @minItems(1)
   @maxItems(100)
-  attachments: AttachmentRef[];
+  attachments: ProjectNarrative[];
 }
 }
 
@@ -63,7 +69,7 @@ model BudgetNarrativeAttachments {
   @UI.widget(WidgetName.AttachmentArray)
   @minItems(1)
   @maxItems(100)
-  attachments: AttachmentRef[];
+  attachments: BudgetNarrative[];
 }
 }
 
@@ -94,6 +100,6 @@ model OtherNarrativeAttachments {
   @UI.widget(WidgetName.AttachmentArray)
   @minItems(1)
   @maxItems(100)
-  attachments: AttachmentRef[];
+  attachments: OtherNarrative[];
 }
 }

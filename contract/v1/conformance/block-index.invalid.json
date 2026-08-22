@@ -3,5 +3,7 @@
   "kind": "question",
   "name": "Profile",
   "description": "A form-scoped identity.",
-  "tags": []
+  "tags": [],
+  "classification": "semanticQuestion",
+  "composes": []
 }

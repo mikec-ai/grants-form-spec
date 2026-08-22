@@ -89,6 +89,19 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("does not confuse letters inside a semantic word with a form abbreviation", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          bank(`
+            /** A narrative supplied by the applicant. */
+            @Question.meta(#{ id: "project/narrative" })
+            @Catalog.tag(TagName.narrative)
+            scalar ProjectNarrative extends string;
+          `),
+        ),
+      );
+    });
   });
 
   describe("duplicate-block-id", () => {
