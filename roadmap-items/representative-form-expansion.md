@@ -11,7 +11,7 @@ description: >-
   surface beyond application, budget-table, contact, and attachment patterns.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: mikec-ai
+superbee_updated_by: codex
 ---
 [contains](../tasks/migrate-next-reference-form.md)
 
@@ -22,3 +22,5 @@ superbee_updated_by: mikec-ai
 [contains](../tasks/integrate-sf424-short-reference-form.md)
 
 [contains](../tasks/integrate-standalone-attachment-forms.md)
+
+[contains](../tasks/author-integrate-rr-budget.md)
