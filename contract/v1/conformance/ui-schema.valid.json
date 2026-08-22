@@ -1,0 +1,7 @@
+{
+  "type": "Group",
+  "label": "Example",
+  "elements": [
+    { "type": "Control", "scope": "#/properties/organizationName", "label": "Organization Name" }
+  ]
+}

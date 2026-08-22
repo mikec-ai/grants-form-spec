@@ -1,0 +1,19 @@
+{
+  "contract": "resolved-form-package/v1",
+  "form": {
+    "id": "example-form",
+    "formId": "f140c7db-724d-4954-bebd-081c0527908c",
+    "legacyFormId": 683,
+    "formName": "EXAMPLE FORM",
+    "shortFormName": "Example_Form",
+    "formVersion": "1.0",
+    "agencyCode": "SGG",
+    "ombNumber": "4040-0000",
+    "formType": "EXAMPLE_FORM",
+    "sggVersion": "1.0"
+  },
+  "artifacts": {
+    "schema.json": "generated",
+    "ui.json": "generated"
+  }
+}

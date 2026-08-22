@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/form-package.schema.json",
+  "title": "Portable form package manifest",
+  "description": "A form package manifest that identifies the form and the origin of each consumer artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "form", "artifacts"],
+  "properties": {
+    "contract": { "const": "resolved-form-package/v1" },
+    "form": {
+      "type": "object",
+      "required": ["id", "formId", "legacyFormId", "formName", "shortFormName", "formVersion", "agencyCode", "ombNumber", "formType", "sggVersion"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "formId": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+        },
+        "legacyFormId": { "type": "integer" },
+        "formName": { "type": "string", "minLength": 1 },
+        "shortFormName": { "type": "string", "minLength": 1 },
+        "formVersion": { "type": "string", "minLength": 1 },
+        "agencyCode": { "type": "string", "minLength": 1 },
+        "ombNumber": { "type": "string" },
+        "formType": { "type": "string", "minLength": 1 },
+        "sggVersion": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 2,
+      "required": ["schema.json", "ui.json"],
+      "properties": {
+        "schema.json": { "enum": ["generated", "projected", "passthrough"] },
+        "ui.json": { "enum": ["generated", "projected", "passthrough"] }
+      },
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.json$"
+      },
+      "additionalProperties": { "enum": ["generated", "projected", "passthrough"] }
+    }
+  }
+}

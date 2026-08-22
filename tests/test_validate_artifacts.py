@@ -1,0 +1,100 @@
+from __future__ import annotations
+
+import json
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent.parent
+VALIDATOR = ROOT / "scripts" / "validate_artifacts.mjs"
+
+
+class ArtifactGraphValidatorTests(unittest.TestCase):
+    def _write_graph(self, root: Path, *, ref: str = "../../question-bank/generics/name/schema.json") -> Path:
+        dist = root / "dist"
+        question = dist / "question-bank" / "generics" / "name"
+        form = dist / "forms" / "example"
+        question.mkdir(parents=True)
+        form.mkdir(parents=True)
+
+        self._json(question / "schema.json", {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "generics/name/schema.json",
+            "type": "string",
+        })
+        self._json(question / "ui.json", {"type": "Control", "scope": "#"})
+        self._json(question / "index.json", {
+            "id": "generics/name", "kind": "question", "name": "Name",
+            "description": "A name.", "tags": ["name"],
+        })
+
+        self._json(form / "schema.json", {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "example/schema.json",
+            "type": "object",
+            "properties": {"name": {"$ref": ref}},
+        })
+        self._json(form / "ui.json", {
+            "type": "Group",
+            "elements": [{"type": "Control", "scope": "#/properties/name"}],
+        })
+        self._json(form / "index.json", {
+            "id": "example", "kind": "form", "name": "Example",
+            "description": "Example form.", "tags": [],
+        })
+        self._json(form / "manifest.json", {
+            "contract": "resolved-form-package/v1",
+            "form": {
+                "id": "example", "formId": "f140c7db-724d-4954-bebd-081c0527908c",
+                "legacyFormId": 1, "formName": "EXAMPLE", "shortFormName": "Example",
+                "formVersion": "1.0", "agencyCode": "SGG", "ombNumber": "",
+                "formType": "EXAMPLE", "sggVersion": "1.0",
+            },
+            "artifacts": {"schema.json": "generated", "ui.json": "generated"},
+        })
+        return dist
+
+    @staticmethod
+    def _json(path: Path, value: object) -> None:
+        path.write_text(json.dumps(value), encoding="utf-8")
+
+    def _run(self, *args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["node", str(VALIDATOR), *args],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    def test_accepts_a_hand_authored_artifact_graph(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("status: passed", result.stdout)
+        self.assertIn("blocks: 2", result.stdout)
+
+    def test_rejects_a_dangling_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory), ref="../../question-bank/missing/schema.json")
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("artifact_invalid", result.stdout)
+        self.assertIn("cannot read JSON", result.stdout)
+
+    def test_unknown_flag_is_an_actionable_usage_error(self) -> None:
+        result = self._run("--dits", "somewhere")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("usage_error", result.stdout)
+        self.assertIn("unknown argument --dits", result.stdout)
+        self.assertIn("--help", result.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/block-index.schema.json",
+  "title": "Block index artifact",
+  "description": "Portable catalogue metadata for one question or form block.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "name", "description", "tags"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9/-]*$" },
+    "kind": { "enum": ["question", "form"] },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "entity": { "type": "string", "minLength": 1 }
+  }
+}

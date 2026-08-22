@@ -1,0 +1,7 @@
+{
+  "id": "SF424/Profile",
+  "kind": "question",
+  "name": "Profile",
+  "description": "A form-scoped identity.",
+  "tags": []
+}

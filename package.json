@@ -8,12 +8,14 @@
   "dependencies": {
     "@simpler-grants/form-spec": "file:./typespec-form-spec",
     "@typespec/compiler": "^1.13.0",
-    "@typespec/json-schema": "^1.13.0"
+    "@typespec/json-schema": "^1.13.0",
+    "ajv": "^8.20.0"
   },
   "scripts": {
     "build": "npm run build -w @simpler-grants/form-spec",
     "emit": "rm -rf dist && tsp compile specs/main.tsp",
     "analyze": "python3 scripts/analyze.py",
+    "validate-artifacts": "node scripts/validate_artifacts.mjs",
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",
     "test-python": "python3 -m unittest discover -s tests",
     "test": "npm test -w @simpler-grants/form-spec",

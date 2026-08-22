@@ -1,0 +1,8 @@
+{
+  "id": "primary-org/legal-name",
+  "kind": "question",
+  "name": "Legal Name",
+  "description": "Enter the legal name of the applicant organization.",
+  "tags": ["organization", "name"],
+  "entity": "primaryOrg"
+}
