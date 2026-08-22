@@ -118,7 +118,15 @@ function walk(value, visit) {
 async function validators() {
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const out = new Map();
-  for (const name of ["question", "form", "ui-schema", "block-index", "form-package", "evidence"]) {
+  for (const name of [
+    "question",
+    "form",
+    "ui-schema",
+    "block-index",
+    "form-package",
+    "evidence",
+    "grants-gov-xml-profile",
+  ]) {
     out.set(name, ajv.compile(await readJson(resolve(CONTRACT, `${name}.schema.json`))));
   }
   return out;
@@ -236,11 +244,181 @@ export async function validateArtifactGraph(inputDist) {
           throw new ArtifactError(`manifest artifact does not exist: ${artifact}`, manifestPath);
         }
       }
+
+      const xmlProfilePath = resolve(dir, "targets/grants-gov-xml.json");
+      if (jsonFiles.includes(xmlProfilePath)) {
+        const profile = await readJson(xmlProfilePath);
+        const profileValidator = validate.get("grants-gov-xml-profile");
+        if (!profileValidator(profile)) {
+          throw new ArtifactError(
+            `Grants.gov XML profile contract failed: ${formatAjv(profileValidator.errors)}`,
+            xmlProfilePath,
+          );
+        }
+        if (profile.formId !== index.id) {
+          throw new ArtifactError("Grants.gov XML profile formId does not match its form", xmlProfilePath);
+        }
+        if (manifest.artifacts["targets/grants-gov-xml.json"] !== "generated") {
+          throw new ArtifactError(
+            "Grants.gov XML profile is not declared as a generated package artifact",
+            manifestPath,
+          );
+        }
+        for (const node of mappingNodes(profile.mapping.fields)) {
+          if (node.namespace && !(node.namespace in profile.namespaces)) {
+            throw new ArtifactError(`mapping names unknown namespace ${node.namespace}`, xmlProfilePath);
+          }
+          if (node.itemNamespace && !(node.itemNamespace in profile.namespaces)) {
+            throw new ArtifactError(
+              `mapping names unknown item namespace ${node.itemNamespace}`,
+              xmlProfilePath,
+            );
+          }
+        }
+        if (!(profile.root.namespacePrefix in profile.namespaces)) {
+          const rootNamespace = profile.namespaces.default;
+          if (!rootNamespace) {
+            throw new ArtifactError("XML profile has no root namespace", xmlProfilePath);
+          }
+        }
+        await validateMappingCoverage(
+          profile.mapping.fields,
+          { value: schema, path: schemaPath },
+          dist,
+          cache,
+          xmlProfilePath,
+        );
+      }
     }
   }
 
   if (!indexes.length) throw new ArtifactError("no block index artifacts found", dist);
   return { blocks: indexes.length, artifacts: jsonFiles.length };
+}
+
+function* mappingNodes(fields) {
+  for (const node of Object.values(fields ?? {})) {
+    yield node;
+    if (node.kind === "object") yield* mappingNodes(node.fields);
+    if (node.kind === "array") yield* mappingNodes(node.items?.fields);
+  }
+}
+
+async function schemaProperties(state, dist, cache, seen = new Set()) {
+  if (Array.isArray(state)) {
+    const combined = new Map();
+    for (const branch of state) {
+      for (const [name, children] of await schemaProperties(branch, dist, cache, seen)) {
+        combined.set(name, [...(combined.get(name) ?? []), ...children]);
+      }
+    }
+    return combined;
+  }
+  const { value, path } = state;
+  if (!value || typeof value !== "object") return new Map();
+  const marker = `${path}:${JSON.stringify(value.$ref ?? Object.keys(value.properties ?? {}))}`;
+  if (seen.has(marker)) return new Map();
+  const nextSeen = new Set([...seen, marker]);
+  const out = new Map();
+
+  if (typeof value.$ref === "string") {
+    const target = refTarget(path, value.$ref, dist);
+    if (target) {
+      const resolved = await resolvePointer(
+        target.path,
+        target.fragment,
+        dist,
+        cache,
+        new Set(),
+        true,
+      );
+      for (const [name, children] of await schemaProperties(resolved, dist, cache, nextSeen)) {
+        out.set(name, [...(out.get(name) ?? []), ...children]);
+      }
+    }
+  }
+  for (const branch of value.allOf ?? []) {
+    const branchState = { value: branch, path };
+    for (const [name, children] of await schemaProperties(branchState, dist, cache, nextSeen)) {
+      out.set(name, [...(out.get(name) ?? []), ...children]);
+    }
+  }
+  for (const [name, child] of Object.entries(value.properties ?? {})) {
+    out.set(name, [...(out.get(name) ?? []), { value: child, path }]);
+  }
+  return out;
+}
+
+async function schemaItems(state, dist, cache, seen = new Set()) {
+  if (Array.isArray(state)) {
+    const combined = [];
+    for (const branch of state) {
+      const found = await schemaItems(branch, dist, cache, seen);
+      if (found) combined.push(...(Array.isArray(found) ? found : [found]));
+    }
+    return combined.length ? combined : undefined;
+  }
+  const { value, path } = state;
+  if (!value || typeof value !== "object") return undefined;
+  const marker = `${path}:items:${value.$ref ?? "inline"}`;
+  if (seen.has(marker)) return undefined;
+  const nextSeen = new Set([...seen, marker]);
+  if (value.items && typeof value.items === "object") return { value: value.items, path };
+  if (typeof value.$ref === "string") {
+    const target = refTarget(path, value.$ref, dist);
+    if (target) {
+      const resolved = await resolvePointer(
+        target.path,
+        target.fragment,
+        dist,
+        cache,
+        new Set(),
+        true,
+      );
+      const found = await schemaItems(resolved, dist, cache, nextSeen);
+      if (found) return found;
+    }
+  }
+  for (const branch of value.allOf ?? []) {
+    const found = await schemaItems({ value: branch, path }, dist, cache, nextSeen);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+async function validateMappingCoverage(fields, schemaState, dist, cache, profilePath, at = "") {
+  const properties = await schemaProperties(schemaState, dist, cache);
+  const mapped = new Set(Object.keys(fields));
+  const available = new Set(properties.keys());
+  const missing = [...available].filter((name) => !mapped.has(name)).sort();
+  const unknown = [...mapped].filter((name) => !available.has(name)).sort();
+  if (missing.length || unknown.length) {
+    throw new ArtifactError(
+      `XML mapping coverage mismatch at ${at || "<root>"}; missing=${JSON.stringify(missing)} unknown=${JSON.stringify(unknown)}`,
+      profilePath,
+    );
+  }
+  for (const [name, node] of Object.entries(fields)) {
+    const child = properties.get(name);
+    const childPath = at ? `${at}.${name}` : name;
+    if (node.kind === "object") {
+      await validateMappingCoverage(node.fields, child, dist, cache, profilePath, childPath);
+    }
+    if (node.kind === "array") {
+      const items = await schemaItems(child, dist, cache);
+      if (!items) {
+        throw new ArtifactError(`XML array mapping has no schema items at ${childPath}`, profilePath);
+      }
+      await validateMappingCoverage(
+        node.items.fields,
+        items,
+        dist,
+        cache,
+        profilePath,
+        `${childPath}[*]`,
+      );
+    }
+  }
 }
 
 function parseArgs(argv) {

@@ -1,0 +1,31 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "example",
+  "xsd": {
+    "uri": "https://example.gov/forms/Example-V1.0.xsd",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "namespaces": {
+    "default": "https://example.gov/forms/Example-V1.0",
+    "att": "https://example.gov/system/Attachments-V1.0"
+  },
+  "root": {
+    "element": "Example",
+    "namespacePrefix": "Example",
+    "attributes": { "FormVersion": "1.0" }
+  },
+  "mapping": {
+    "fields": {
+      "title": { "element": "Title", "kind": "value" },
+      "files": {
+        "element": "Files",
+        "kind": "array",
+        "items": {
+          "fields": {
+            "file": { "element": "File", "kind": "attachment" }
+          }
+        }
+      }
+    }
+  }
+}

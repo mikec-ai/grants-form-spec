@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "npm run build -w @simpler-grants/form-spec",
-    "emit": "rm -rf dist && tsp compile specs/main.tsp",
+    "emit": "rm -rf dist && tsp compile specs/main.tsp && npm run project-xml",
+    "project-xml": "node scripts/project_xml_profiles.mjs",
     "project-evidence": "node scripts/project_evidence.mjs",
     "analyze": "python3 scripts/analyze.py",
     "validate-artifacts": "node scripts/validate_artifacts.mjs",

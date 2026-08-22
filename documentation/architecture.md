@@ -32,7 +32,7 @@ The target architecture follows the layer model from the Investment Navigator ar
 | **Calculations** | Declarative predicates + refs | **In scope** — see §4.4 |
 | **Prefill and named validators** | Declarative JSON | **In scope**, in an `@Sgg.*` namespace — §4.5 |
 | Mappings (CommonGrants) | Declarative JSON | Deferred |
-| XML wire transform | Declarative JSON | Deferred — passthrough, over the projected shape |
+| XML wire transform | Declarative JSON | **Target extension implemented** for the R&R Budget family |
 | Routing | Declarative JSON | Deferred |
 | Legacy shape projection | Declarative JSON | **SGG adapter**, not the library — §2.5 |
 
@@ -46,7 +46,8 @@ The following constraints guide every design decision in this document:
 
 1. **The canonical model never bends to a target.** Declarative artifacts must move across
    languages and renderers, so every target-shaped concern lives with its target — the legacy
-   projection and the prefill rule table in the SGG adapter, the XML transform alongside them.
+   projection and the prefill rule table in the SGG adapter. Optional wire targets remain
+   isolated under `targets/`; they address canonical fields and contain no consumer aliases.
    The test is mechanical: point at any decorator and ask "does this exist because of SGG?" If
    yes, it does not belong in the library. Same split as `api/src/services/common_grants/`. This is the constraint that
    killed flat mounting (§2.5), and the count of target-shaped artifacts is a health metric —

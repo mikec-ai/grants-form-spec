@@ -40,6 +40,7 @@ describe("artifact contract v1", () => {
   let validateIndex: ValidateFunction;
   let validatePackage: ValidateFunction;
   let validateEvidence: ValidateFunction;
+  let validateGrantsGovXmlProfile: ValidateFunction;
 
   beforeAll(async () => {
     const ajv = new Ajv2020({ allErrors: true, strict: true });
@@ -51,6 +52,9 @@ describe("artifact contract v1", () => {
     validateIndex = ajv.compile(await json(resolve(contractRoot, "block-index.schema.json")));
     validatePackage = ajv.compile(await json(resolve(contractRoot, "form-package.schema.json")));
     validateEvidence = ajv.compile(await json(resolve(contractRoot, "evidence.schema.json")));
+    validateGrantsGovXmlProfile = ajv.compile(
+      await json(resolve(contractRoot, "grants-gov-xml-profile.schema.json")),
+    );
   });
 
   it("accepts a hand-authored question artifact without TypeSpec", async () => {
@@ -95,6 +99,10 @@ describe("artifact contract v1", () => {
     ["block-index", validateFixture("block-index", () => validateIndex)],
     ["form-package", validateFixture("form-package", () => validatePackage)],
     ["evidence", validateFixture("evidence", () => validateEvidence)],
+    [
+      "grants-gov-xml-profile",
+      validateFixture("grants-gov-xml-profile", () => validateGrantsGovXmlProfile),
+    ],
   ])("distinguishes the valid and poisoned %s fixtures", async (_name, run) => {
     await run();
   });
@@ -118,6 +126,10 @@ describe("artifact contract v1", () => {
       ],
       [await namedArtifacts(emittedFormsRoot, "manifest.json"), () => validatePackage],
       [await namedArtifacts(emittedFormsRoot, "evidence.json"), () => validateEvidence],
+      [
+        await namedArtifacts(emittedFormsRoot, "grants-gov-xml.json"),
+        () => validateGrantsGovXmlProfile,
+      ],
     ];
 
     for (const [artifacts, getValidator] of groups) {

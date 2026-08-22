@@ -12,7 +12,8 @@ current implementation in `api/src/form_schema/forms/key_contacts/1/0/form_json.
 (186 lines) plus `components/contact_profile.py` (254 lines), so the "after" is
 directly comparable to the "before".
 
-**Scope.** CommonGrants mappings and XML are deferred, so this covers the two layers
+**Scope.** CommonGrants mappings remain deferred. Grants.gov XML is now an optional target
+profile described separately in [`grants-gov-xml-target.md`](./grants-gov-xml-target.md), so this covers the two canonical layers
 that matter most: **JSON Schema** and **UI schema** — emitted per *block*, where a block is a
 question or a form (§13). The rule schema passes through
 unchanged from the frozen golden artifacts (§8). The canonical schema is *not* shape-matched

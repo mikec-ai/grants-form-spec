@@ -37,9 +37,12 @@ Question bank + form specifications
   Simpler adapter     other consumers
 ```
 
-Canonical artifacts remain independent of delivery targets. Consumer-specific projections, legacy field names, XML transforms, and runtime rule mappings belong in consumer adapters.
+Canonical artifacts remain independent of delivery targets. Consumer-specific projections,
+legacy field names, and runtime rule mappings belong in consumer adapters. Optional portable
+wire targets are isolated under `targets/` and may be ignored by consumers that do not need
+them.
 
-Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [attachment semantics](documentation/attachment-semantics.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
+Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [attachment semantics](documentation/attachment-semantics.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
 ## Development
 

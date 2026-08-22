@@ -1,0 +1,19 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "example",
+  "xsd": {
+    "uri": "http://not-secure.example/form.xsd",
+    "sha256": "not-a-digest"
+  },
+  "namespaces": {},
+  "root": {
+    "element": "Example",
+    "namespacePrefix": "Example",
+    "attributes": {}
+  },
+  "mapping": {
+    "fields": {
+      "title": { "element": "Title", "kind": "object" }
+    }
+  }
+}
