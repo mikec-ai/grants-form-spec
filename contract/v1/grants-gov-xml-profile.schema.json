@@ -82,11 +82,26 @@
       "allOf": [
         {
           "if": { "properties": { "kind": { "const": "object" } }, "required": ["kind"] },
-          "then": { "properties": { "fields": true }, "required": ["fields"] }
+          "then": {
+            "properties": { "fields": true },
+            "required": ["fields"],
+            "not": {
+              "anyOf": [
+                { "properties": { "items": true }, "required": ["items"] },
+                { "properties": { "itemElement": true }, "required": ["itemElement"] },
+                { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
+                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] }
+              ]
+            }
+          }
         },
         {
           "if": { "properties": { "kind": { "const": "array" } }, "required": ["kind"] },
-          "then": { "properties": { "items": true }, "required": ["items"] }
+          "then": {
+            "properties": { "items": true },
+            "required": ["items"],
+            "not": { "properties": { "fields": true }, "required": ["fields"] }
+          }
         },
         {
           "if": {

@@ -142,6 +142,32 @@ describe("artifact contract v1", () => {
     }
   });
 
+  it("rejects ambiguous Grants.gov XML mapping nodes", async () => {
+    const valid = (await json(
+      resolve(contractRoot, "conformance/grants-gov-xml-profile.valid.json"),
+    )) as {
+      mapping: {
+        fields: Record<string, Record<string, unknown>>;
+      };
+    };
+    const arrayProfile = structuredClone(valid);
+    arrayProfile.mapping.fields.files.fields = {
+      stray: { element: "Stray", kind: "value" },
+    };
+
+    expect(validateGrantsGovXmlProfile(arrayProfile)).toBe(false);
+
+    const objectProfile = structuredClone(valid);
+    objectProfile.mapping.fields.title = {
+      element: "Title",
+      kind: "object",
+      fields: { value: { element: "Value", kind: "value" } },
+      items: { fields: { value: { element: "Value", kind: "value" } } },
+    };
+
+    expect(validateGrantsGovXmlProfile(objectProfile)).toBe(false);
+  });
+
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {
     const fixture = structuredClone(
       await json(resolve(contractRoot, "conformance/form-package.valid.json")),

@@ -15,7 +15,8 @@ enum RRSubawardBudget30Section {
  * R&R Subaward Budget Attachment(s) Form 5 YR 30 ATT, Grants.gov form version 3.0.
  * The source wrapper's ATT1-ATT30 strings are technical capture slots, not thirty
  * distinct semantic questions. This declaration models the structured subaward
- * budgets they carry; consumer-specific wire serialization remains adapter-owned.
+ * budgets they carry. Its portable target profile declares the Grants.gov wire shape;
+ * consumer-specific execution remains adapter-owned.
  */
 @Form.meta(#{
   id: "rr-subaward-budget-30",
