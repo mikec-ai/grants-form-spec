@@ -143,6 +143,7 @@ function conditionalRequiredness(
   const conditionals: Record<string, unknown>[] = [];
   for (const prop of orderedProps(program, block)) {
     for (const c of propRequiredWhen(program, prop)) {
+      if (c.operator !== "equals") continue;
       conditionals.push({
         if: conditionSchema(c.sourcePath, c.sourceIsArray, c.value),
         then: { required: [prop.name] },

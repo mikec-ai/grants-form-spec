@@ -175,6 +175,7 @@ export const $readOnly = (ctx: Ctx, target: ModelProperty) =>
 function condition(source: ModelProperty, equals: unknown) {
   const t = source.type as any;
   return {
+    operator: "equals" as const,
     sourcePath: [source.name],
     sourceIsArray: t?.kind === "Model" && !!t.indexer,
     value: literal(equals),
@@ -186,6 +187,21 @@ export const $visibleWhen = (ctx: Ctx, target: ModelProperty, source: ModelPrope
 
 export const $enabledWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.enabledWhen, target, condition(source, equals));
+
+export const $enabledWhenAny = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  ...equals: unknown[]
+) => {
+  const base = condition(source, null);
+  push(ctx, stateKeys.enabledWhen, target, {
+    operator: "in",
+    sourcePath: base.sourcePath,
+    sourceIsArray: base.sourceIsArray,
+    values: equals.map(literal),
+  });
+};
 
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));
@@ -200,6 +216,7 @@ export const $requiredWhenPath = (
   equals: unknown,
 ) =>
   push(ctx, stateKeys.requiredWhen, target, {
+    operator: "equals",
     sourcePath: String(literal(sourcePath)).split("."),
     sourceIsArray: false,
     value: literal(equals),

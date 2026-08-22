@@ -39,7 +39,19 @@ export interface SggSection {
 
 interface AbsoluteCondition {
   sourcePath: string[];
-  value: string | number | boolean | null;
+  operator: "equals" | "in";
+  value?: string | number | boolean | null;
+  values?: (string | number | boolean | null)[];
+}
+
+function predicate(condition: AbsoluteCondition): Record<string, unknown> {
+  const ref = {
+    scope: "root",
+    pointer: `/${condition.sourcePath.join("/")}`,
+  };
+  return condition.operator === "in"
+    ? { op: "in", ref, values: condition.values ?? [] }
+    : { op: "equals", ref, value: condition.value };
 }
 
 /**
@@ -163,14 +175,7 @@ function field(
     ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join(".")),
   ];
   if (visible.length) {
-    const predicates = visible.map((condition) => ({
-      op: "equals",
-      ref: {
-        scope: "root",
-        pointer: `/${condition.sourcePath.join("/")}`,
-      },
-      value: condition.value,
-    }));
+    const predicates = visible.map(predicate);
     f.conditional = {
       when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
       then: { visible: true },
@@ -182,14 +187,7 @@ function field(
       ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join(".")),
     ];
     if (enabled.length) {
-      const predicates = enabled.map((condition) => ({
-        op: "equals",
-        ref: {
-          scope: "root",
-          pointer: `/${condition.sourcePath.join("/")}`,
-        },
-        value: condition.value,
-      }));
+      const predicates = enabled.map(predicate);
       f.conditional = {
         when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
         then: { enabled: true },
@@ -201,14 +199,7 @@ function field(
         ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join(".")),
       ];
       if (readOnly.length) {
-        const predicates = readOnly.map((condition) => ({
-          op: "equals",
-          ref: {
-            scope: "root",
-            pointer: `/${condition.sourcePath.join("/")}`,
-          },
-          value: condition.value,
-        }));
+        const predicates = readOnly.map(predicate);
         f.conditional = {
           when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
           then: { readOnly: true },
@@ -224,7 +215,10 @@ function absoluteConditions(conditions: Condition[], targetPath: string): Absolu
   const parent = targetPath.split(".").filter(Boolean).slice(0, -1);
   return conditions.map((condition) => ({
     sourcePath: [...parent, ...condition.sourcePath],
-    value: condition.value,
+    operator: condition.operator,
+    ...(condition.operator === "in"
+      ? { values: condition.values }
+      : { value: condition.value }),
   }));
 }
 

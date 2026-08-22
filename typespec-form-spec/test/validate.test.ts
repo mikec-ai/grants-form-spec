@@ -301,6 +301,30 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("checks every member of a multi-value condition", async () => {
+      const diagnostics = await Tester.diagnose(
+        bank(`
+          enum Role {
+            professional: "Other Professional",
+            other: "Other (Specify)",
+          }
+
+          /** Research person details. */
+          @Question.meta(#{ id: "research-person/details" })
+          @Catalog.tag(TagName.person)
+          model Person {
+            role: Role;
+
+            @UI.enabledWhenAny(Person.role, Role.professional, "Unknown Role")
+            otherRole?: string;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/condition-value-not-in-enum",
+      });
+    });
   });
 
   describe("condition-path-unresolved", () => {
