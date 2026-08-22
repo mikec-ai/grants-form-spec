@@ -1,15 +1,16 @@
 ---
 type: Task
-title: Migrate the next reference form
+title: Integrate the next existing reference form
 priority: P1
 assignee: unassigned
 description: >-
-  Select the next form after contract and evidence hardening, then prove reuse
-  and consumer parity without adding target knowledge to the canonical library.
+  Consume Billy's existing SF-424 artifact through the generic Simpler adapter,
+  prove runtime parity, and avoid any second form definition or form-specific
+  compiler branch.
 superbee_progress_status: todo
 superbee_updated_by: mikec-ai
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T14:28:37.083Z'
+  at: '2026-08-22T15:12:31.840Z'
 ---
 
