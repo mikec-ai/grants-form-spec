@@ -4,47 +4,53 @@ title: Spike reusable crosswalk-to-form-spec promotion importer
 priority: P0
 assignee: codex
 description: >-
-  Design and prove a reusable, review-gated development-time promotion path from
-  crosswalk evidence into grants-form-spec staging artifacts, using Performance
-  Site as the spike form.
-superbee_progress_status: in_progress
+  Completed reusable, review-gated development-time promotion path from pinned
+  crosswalk evidence into grants-form-spec staging artifacts; Performance Site
+  spike merged in PR #14 with zero accepted semantic mappings.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:26:46.757Z'
+  at: '2026-08-22T19:40:55.071Z'
 ---
 # Objective
 
-Build a reusable, design-time promotion protocol between `grants-question-crosswalk` and `grants-form-spec`, using Project/Performance Site Location(s) as the proving form. The crosswalk should export neutral, source-pinned evidence; `grants-form-spec` should own the importer that creates reviewable draft authoring material. There must be no runtime dependency between the repositories.
+Build and prove a reusable, design-time promotion protocol between `grants-question-crosswalk` and `grants-form-spec`, using Project/Performance Site Location(s) as the proving form. Preserve the crosswalk as source-pinned research evidence and keep `grants-form-spec` authoritative for canonical authoring. Create no runtime dependency.
 
-# Hypothesis
+# Delivered
 
-Deterministic extraction and provenance already present in the crosswalk can eliminate repeated source discovery, transcription, constraint reconstruction, XML-path bookkeeping, and fixture setup. Semantic identity and reusable-component decisions must remain explicit review gates.
+- Merged `grants-form-spec` PR #14: https://github.com/mikec-ai/grants-form-spec/pull/14
+- Added the versioned, output-neutral `grants-form-promotion/v1` packet contract.
+- Added a revision-pinned exporter that reads crosswalk Git objects rather than the dirty working tree.
+- Added a staging-only importer that emits an evidence sidecar, compiling TypeSpec source-shape draft, review queue, and import report.
+- Added packet validation, independent staging TypeSpec compilation, reproducibility tests, and full-preflight integration.
+- Kept all semantic and component assignments proposed and non-publishable; accepted semantic mappings remain zero.
 
-# Spike outputs
+# Performance Site result
 
-- A versioned, output-neutral promotion-packet contract.
-- A deterministic crosswalk export for Performance Site containing source identity, hashes, XSD paths and types, cardinality, constraints, classifications, extracted behaviors, candidate mappings, conflicts, and review status.
-- A `grants-form-spec` design-time importer that produces staging-only evidence and TypeSpec scaffolding from that packet.
-- Proposed references to existing questions clearly separated from accepted semantic mappings.
-- XML-projection and parity-fixture scaffolding where deterministic evidence supports it.
-- A short findings report measuring generated coverage, remaining manual decisions, edits required to compile, and whether the approach should be used for R&R SF-424.
+- 34 deterministic XSD records transcribed without manual field-by-field re-entry.
+- 33 raw behavior records preserved: 25 applicant-entered and eight presentation records.
+- Nine proposed executable conditional rules preserved for review.
+- Six exact source identities and hashes assembled.
+- 34 component proposals carried into the review queue without promotion to canonical identities.
+- 40 explicit review gates: 24 semantic-identity, nine behavior-semantic, six enum wire-value, and one attachment-semantic gate.
+- The generated TypeSpec draft compiles independently but is deliberately not imported by `specs/main.tsp`.
 
-# Guardrails
+# Findings
 
-- Preserve exact source and version provenance for every promoted record.
-- Never treat similar labels, paths, types, or shapes as proof of semantic equivalence.
-- Generated semantic mappings remain proposed until reviewed; they do not contribute to published coverage.
-- Do not generate canonical question identities automatically.
-- Do not add a production or runtime dependency on the research repository.
-- Do not add form-specific compiler or adapter branches.
-- Keep applicant questions, calculated outputs, technical fields, static content, attachments, and capture mechanisms distinct.
+The reusable seam materially removes repeated source discovery, transcription, constraint reconstruction, provenance assembly, and review-queue setup. It does not remove semantic, policy, behavior, accessibility, or parity review. A potentially confusing 25-versus-33 behavior count was reconciled rather than treated as missing evidence: the 25 are applicant-entered records and the remaining eight are presentation behaviors.
 
-# Acceptance criteria
+Because the crosswalk checkout contained substantial uncommitted parallel work, the spike kept it read-only and placed the exporter beside the importer in `grants-form-spec`. The packet contract is repository-neutral, so a future native crosswalk export command can replace that implementation without changing the consumer.
 
-- The same pinned Performance Site inputs reproduce the same promotion packet and staging output.
-- Every generated field or behavior links back to its source evidence and review state.
-- The importer fails closed on unsupported or conflicting evidence and reports actionable review gates.
-- Generated staging material can be reviewed and promoted into a compiling form specification without manual retranscription of deterministic facts.
-- Existing producer preflight remains green.
-- Findings state whether the reusable importer saves enough effort to apply to R&R SF-424 and subsequent forms.
+# Validation
+
+- GitHub CI passed before merge.
+- Full producer preflight passed.
+- 52 TypeScript tests and 15 Python tests passed.
+- The promotion packet validates against its JSON Schema.
+- The staging TypeSpec compiles independently.
+- A reproducibility test proves that dirty working-copy changes cannot alter a revision-pinned packet.
+
+# Recommended next use
+
+Use the protocol to bootstrap R&R SF-424 or another complex form after deciding whether to resolve the Performance Site review queue into a canonical form. Treat native crosswalk command placement as a follow-up implementation choice, not a prerequisite to consuming the stable packet.
