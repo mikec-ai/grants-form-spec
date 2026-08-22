@@ -5,7 +5,7 @@ import { reportDiagnostic } from "./lib.js";
 import {
   Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
   propComputedFrom,
-  modelPrePopulate, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
+  modelPrePopulate, modelProperties, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
 } from "./model.js";
 
@@ -224,8 +224,15 @@ function checkConditions(program: Program, prop: ModelProperty): void {
   const model = prop.model;
   if (!model) return;
   for (const condition of conditionsOf(program, prop)) {
-    const source = model.properties.get(condition.sourceName);
-    if (!source) continue;
+    const source = conditionSource(model, condition.sourcePath);
+    if (!source) {
+      reportDiagnostic(program, {
+        code: "condition-path-unresolved",
+        target: prop,
+        format: { path: condition.sourcePath.join("."), model: model.name },
+      });
+      continue;
+    }
     const enumeration = enumOf(source.type);
     if (!enumeration) continue;
     const members = [...enumeration.members.values()].map((m) => m.value ?? m.name);
@@ -240,6 +247,19 @@ function checkConditions(program: Program, prop: ModelProperty): void {
       },
     });
   }
+}
+
+function conditionSource(model: Model, path: string[]): ModelProperty | undefined {
+  let current: Model = model;
+  let property: ModelProperty | undefined;
+  for (const [index, step] of path.entries()) {
+    property = modelProperties(current).find((item) => item.name === step);
+    if (!property) return undefined;
+    if (index === path.length - 1) return property;
+    if (property.type.kind !== "Model" || property.type.indexer) return undefined;
+    current = property.type;
+  }
+  return property;
 }
 
 /** The enum behind a property's type, looking through an array. */

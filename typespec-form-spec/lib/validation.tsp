@@ -13,6 +13,9 @@ extern dec constraints(target: ModelProperty, patch: valueof ValidationConstrain
 
 extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
+/** Require a field from a condition on a nested sibling path, relative to the containing model. */
+extern dec requiredWhenPath(target: ModelProperty, sourcePath: valueof string, equals: valueof unknown);
+
 /** `operator` rather than `op`: `op` is a TypeSpec keyword and breaks the parser. */
 extern dec computed(target: ModelProperty, operator: valueof Op, ...refs: ModelProperty[]);
 

@@ -19,15 +19,15 @@ coverage. The evidence sidecar accepts zero semantic mappings.
 - Three attachment information requirements remain semantically distinct while sharing the
   generic attachment capture mechanism.
 - Applicant-type Other, other-agency explanation, revision details, state-review date, and
-  the previous Grants.gov tracking ID have source-backed conditional requiredness.
+  the previous Grants.gov tracking ID have source-backed conditional requiredness and SGG
+  visibility projection.
+- Federal ID uses a generic nested-path condition and becomes required for Renewal,
+  Continuation, and Revision without form-specific compiler code.
 - Opportunity and UEI prepopulation, attachment validation, read-only system fields, project
   title length, and congressional-district format are declarative.
 
 ## Remaining implementation gates
 
-- A generic cross-boundary condition is needed for Federal ID requiredness when the nested
-  application type is Renewal, Continuation, or Revision.
-- Conditional presentation is declared but the SGG UI emitter does not yet project it.
 - Encoded revision checkboxes still need their code-to-checkbox combination table in the
   portable contract, plus clear-on-parent-change behavior.
 - Source-reviewed defaults, copy-if-missing lifecycle population, submission-managed AOR

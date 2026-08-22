@@ -227,6 +227,9 @@ model RRSF424 {
   @UI.section(RRSF424Section.stateUse)
   @minLength(1)
   @maxLength(30)
+  @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.renewal)
+  @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.continuation)
+  @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.revision)
   federalId?: string;
 
   @UI.label("Agency Routing Number")

@@ -250,6 +250,55 @@ describe("$onValidate", () => {
     });
   });
 
+  describe("condition-path-unresolved", () => {
+    it("rejects a misspelled nested condition path", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          enum Section { only: "Only" }
+          enum Choice { yes: "Yes", no: "No" }
+          model Details { choice: Choice; }
+
+          ${formMeta("nested-condition")}
+          @UI.sections(Section)
+          model NestedCondition {
+            @UI.section(Section.only)
+            details: Details;
+
+            @UI.section(Section.only)
+            @Validation.requiredWhenPath("details.choce", Choice.yes)
+            explanation?: string;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/condition-path-unresolved",
+      });
+    });
+
+    it("accepts an existing nested condition path and enum member", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            enum Section { only: "Only" }
+            enum Choice { yes: "Yes", no: "No" }
+            model Details { choice: Choice; }
+
+            ${formMeta("nested-condition")}
+            @UI.sections(Section)
+            model NestedCondition {
+              @UI.section(Section.only)
+              details: Details;
+
+              @UI.section(Section.only)
+              @Validation.requiredWhenPath("details.choice", Choice.yes)
+              explanation?: string;
+            }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("calculation-cycle", () => {
     it("rejects a calculation that depends on itself", async () => {
       const diagnostics = await Tester.diagnose(
