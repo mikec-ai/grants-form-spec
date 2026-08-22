@@ -2,14 +2,14 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Twelve forms now compile through the portable specification and public Simpler
-  adapter. The latest 10-year / 30-subaward budget profile combined two existing
-  parameters with zero new renderer, projection, or calculation capability, and
-  the promotion importer now handles both standalone and embedded behavior
-  ledgers. Expansion continues by alternating cheap derivatives with high-value
-  reusable foundations.
+  Thirteen forms now compile through the portable specification. Twelve are
+  runtime-sourced through the public Simpler adapter; Project Abstract Summary
+  is a merged parity canary that deliberately preserves the existing XML-capable
+  runtime implementation until XML mappings enter the portable contract.
+  Expansion alternates cheap derivatives with high-value foundations.
 sequence: '3'
 superbee_progress_status: active
+superbee_updated_by: codex
 ---
 # Strategy
 
