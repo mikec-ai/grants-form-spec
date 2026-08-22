@@ -2,10 +2,13 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  All four existing declarative reference forms now run through the public
-  Simpler fork's generic adapter: Key Contacts, SF-424, SF-424A, and SF-424
-  Short. Continue with the first new priority form selected to exercise a
-  capability not already covered by these references.
+  Seven forms now run through the portable specification and public Simpler
+  adapter: Key Contacts, SF-424, SF-424A, SF-424 Short, Project Narrative
+  Attachment, Budget Narrative Attachment, and Other Narrative Attachments. The
+  attachment slice proved that three role-specific forms can add zero
+  question-bank entries while preserving distinct source identity and exact
+  runtime parity. Continue with a high-priority form that expands the capability
+  surface beyond application, budget-table, contact, and attachment patterns.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: mikec-ai
