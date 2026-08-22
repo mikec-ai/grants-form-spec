@@ -10,6 +10,14 @@ namespace Forms.SF424a;
 
 /** The lettered sections of the paper form. */
 enum Sf424aSection {
+  /**
+   * Use one row for each grant program, function, or activity. At least one row is required.
+   * For new applications, leave Columns C and D blank and enter the federal and non-federal
+   * amounts needed in Columns E and F. For continuing applications, complete Columns C and D
+   * only when directed by the grantor agency. For supplemental grants and changes, enter the
+   * increase or decrease in Columns E and F, then enter the new total authorized budget in
+   * Column G. Column G is entered manually and may not equal the sum of Columns C through F.
+   */
   SectionA: "Section A - Budget summary",
 
   /** Enter funds required for each object class category for the selected program. */
@@ -26,10 +34,14 @@ enum Sf424aSection {
 // The four budget questions are asked once per activity here and once more as a total at
 // the form's root. That is the whole shape of SF-424A: four questions, asked twice.
 model ActivityLineItem {
+  @UI.label("Grant program, function, or activity")
+  @UI.helpText("Enter the Assistance Listing title, notice of funding opportunity number, program code, or grant number.")
   @minLength(0)
   @maxLength(120)
   activityTitle: string;
 
+  @UI.label("Assistance Listing number")
+  @UI.helpText("Enter the Assistance Listing number in ##.### format.")
   @minLength(0)
   @maxLength(15)
   assistanceListingNumber?: string;

@@ -1,5 +1,11 @@
 import type { Model, Program, Type } from "@typespec/compiler";
-import { Block, orderedProps, propReadOnly, propRequiredWhen } from "../model.js";
+import {
+  Block,
+  orderedProps,
+  propHelpText,
+  propReadOnly,
+  propRequiredWhen,
+} from "../model.js";
 
 /**
  * The parts of a block's JSON Schema that `@typespec/json-schema` cannot produce.
@@ -19,9 +25,33 @@ export function emitSchemaOverlay(
   const conditionals = conditionalRequiredness(program, block);
   const patches = overriddenPresentation(block);
   const readOnly = block.model.kind === "Model" ? readOnlyAnnotations(program, block.model) : undefined;
-  const parts = [conditionals, patches, readOnly].filter(Boolean) as Record<string, unknown>[];
+  const helpText = block.model.kind === "Model" ? helpTextAnnotations(program, block.model) : undefined;
+  const parts = [conditionals, patches, readOnly, helpText].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
+}
+
+/** Carry portable field guidance into JSON Schema at every nested depth. */
+function helpTextAnnotations(
+  program: Program,
+  model: Model,
+  seen = new Set<Model>(),
+): Record<string, unknown> | undefined {
+  if (seen.has(model)) return undefined;
+  seen.add(model);
+  const properties: Record<string, unknown> = {};
+  for (const property of model.properties.values()) {
+    let patch: Record<string, unknown> = {};
+    const helpText = propHelpText(program, property);
+    if (helpText) patch.description = helpText;
+    const child = childModel(property.type);
+    if (child) {
+      const nested = helpTextAnnotations(program, child.model, new Set(seen));
+      if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
+    }
+    if (Object.keys(patch).length) properties[property.name] = patch;
+  }
+  return Object.keys(properties).length ? { properties } : undefined;
 }
 
 function childModel(type: Type): { model: Model; repeated: boolean } | undefined {
