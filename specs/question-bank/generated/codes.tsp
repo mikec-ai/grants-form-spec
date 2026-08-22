@@ -1,6 +1,5 @@
 // GENERATED FILE — do not edit.
-// Source: api/src/form_schema/shared/shared_form_constants.py
-// Regenerate: python3 form-spec/scripts/gen_code_enums.py
+// Source record: specs/question-bank/generated/codes.source.json
 
 import "../index.tsp";
 

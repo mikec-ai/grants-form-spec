@@ -19,8 +19,8 @@ like `assistance_listing_number` and `assistance_listing_program_title`. A packa
 question with several members rather than several questions, which is what stops the bank
 filling up with halves of things.
 
-Usage (from the repo root, needs the API's toolchain for the goldens):
-    python3 form-spec/scripts/mine_questions.py --forms <dump.json>
+Usage (from the repo root, against an exported form bundle):
+    python3 scripts/mine_questions.py --forms <dump.json>
 """
 
 from __future__ import annotations

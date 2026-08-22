@@ -23,6 +23,6 @@
     "@typespec/json-schema": "^1.13.0",
     "ajv": "^8.20.0",
     "typescript": "^5.6.0",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.11"
   }
 }

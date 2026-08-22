@@ -16,7 +16,7 @@ it is a simple element. So for every field the form asks:
 * anything else -> a divergence, reported with which side nests
 
 Usage (from the repo root):
-    python3 form-spec/scripts/scan_shape_agreement.py --forms <dump.json>
+    python3 scripts/scan_shape_agreement.py --forms <dump.json>
 """
 
 from __future__ import annotations

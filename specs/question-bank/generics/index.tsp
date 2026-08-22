@@ -174,7 +174,7 @@ scalar ContactTitle extends string;
 // What the reference resolves *to* is a separate type: `CommonGrants.Fields.File`
 // (`downloadUrl`, `name`, `sizeInBytes`, `mimeType`, plus system metadata). The mapping
 // from this question to that model is a lookup rather than a transformation, so it is
-// one-way -- see `documentation/form-spec/deferred-designs.md`.
+// one-way -- see `documentation/deferred-designs.md`.
 //
 // A doc comment becomes the question's description, which applicants read. Rationale for
 // the reader of this file goes in `//` comments, which no artifact carries.

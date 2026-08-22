@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  form-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run emit
+      - run: npm test
+      - run: npm run analyze -- --json > /dev/null
+
+      - name: Check that every TypeSpec file compiles independently
+        shell: bash
+        run: |
+          result=0
+          while IFS= read -r -d '' file; do
+            if ! npx tsp compile "$file" --no-emit >/dev/null 2>&1; then
+              echo "::error file=$file::does not compile independently"
+              npx tsp compile "$file" --no-emit 2>&1 | sed -n '/error/,+3p'
+              result=1
+            fi
+          done < <(find typespec-form-spec/lib specs -name '*.tsp' -print0)
+          exit "$result"

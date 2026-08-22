@@ -11,7 +11,7 @@ way, so the tables count the transitive closure. The direct count is reported al
 because the difference is what says how much of the bank is built out of the rest of it.
 
 Usage (from the repo root):
-    python3 form-spec/scripts/analyze.py [--json]
+    python3 scripts/analyze.py [--json]
 """
 
 from __future__ import annotations
@@ -21,8 +21,8 @@ import json
 import pathlib
 import sys
 
-REPO = pathlib.Path(__file__).resolve().parents[2]
-DIST = REPO / "form-spec" / "dist"
+REPO = pathlib.Path(__file__).resolve().parents[1]
+DIST = REPO / "dist"
 
 
 def blocks(kind: str) -> dict[str, dict]:
