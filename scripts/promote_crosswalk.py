@@ -287,7 +287,13 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     declared_behavior_count = authoring.get("output_adapter_oracle", {}).get("metrics", {}).get(
         "source_behavior_records"
     )
-    if behavior_artifact_path == family_path:
+    family_behavior_records = family.get("source_behaviors")
+    if family_behavior_records is not None:
+        if not isinstance(family_behavior_records, list):
+            raise PromotionError(f"{family_path} source_behaviors must be an array")
+        comparable_behavior_count = len(family_behavior_records)
+        behavior_scope = "family source behavior"
+    elif behavior_artifact_path == family_path:
         comparable_behavior_count = len(behavior_evidence)
         behavior_scope = "source behavior"
     else:
@@ -296,7 +302,7 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
     if declared_behavior_count is not None and declared_behavior_count != comparable_behavior_count:
         gates.append(gate(
             "source_conflict", "",
-            f"Authoring contract reports {declared_behavior_count} {behavior_scope} records, but the pinned behavior artifact contains {comparable_behavior_count} comparable records.",
+            f"Authoring contract reports {declared_behavior_count} {behavior_scope} records, but the declared behavior scope contains {comparable_behavior_count} comparable records.",
         ))
     for record in records:
         if record["classification"]["value"] == "unresolved":
