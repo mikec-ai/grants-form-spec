@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:02:48.716Z'
+  at: '2026-08-22T19:03:46.362Z'
 ---
 # Objective
 
@@ -44,8 +44,8 @@ Author R&R Subaward Budget as the next sibling of R&R Budget, using the existing
 
 # Remaining production work
 
-- Integrate the emitted bundle through the public Simpler fork's generic adapter.
-- Add generic frontend support for nested repeating groups; the current frontend rejects nested `fieldList` definitions.
+- Public Simpler fork integration is implemented in `mikec-ai/simpler-grants-gov` PR 8.
+- Generic recursive `fieldList` rendering is implemented with nested value updates, required/minimum metadata resolution, and focused frontend tests.
 - Reconcile the remaining source calculations and conditions rather than inferring them.
 - Validate save/reload, read-only, print, accessibility, and submission behavior.
 
