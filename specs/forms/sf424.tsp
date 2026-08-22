@@ -296,6 +296,7 @@ model SF424 {
   /** Enter a brief, descriptive title of the project. */
   @UI.label("Project Title")
   @UI.section(Sf424Section.projectTitle)
+  @Validation.constraints(#{ maxLength: 200 })
   projectTitle: ProjectTitle;
 
   /** Attach file(s) using the appropriate buttons. */

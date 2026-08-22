@@ -157,7 +157,11 @@ describe("SGG UI emission", () => {
       $ref: "../../question-bank/project/title/schema.json",
       maxLength: 250,
     });
-    expect(question.maxLength).toBe(200);
+    expect(question).not.toHaveProperty("maxLength");
+    const sf424 = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/sf424/schema.json"), "utf8"),
+    );
+    expect(sf424.properties.projectTitle.maxLength).toBe(200);
   });
 
   it("keeps Key Contacts field-list presentation parity declarative", async () => {

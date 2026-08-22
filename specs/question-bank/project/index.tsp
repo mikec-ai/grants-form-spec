@@ -38,7 +38,6 @@ scalar AdditionalCongressionalDistricts extends AttachmentRef;
 @Catalog.tag(TagName.title)
 @UI.label("Project Title")
 @minLength(1)
-@maxLength(200)
 scalar ProjectTitle extends string;
 
 /**
