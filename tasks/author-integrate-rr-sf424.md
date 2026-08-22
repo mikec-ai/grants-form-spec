@@ -4,13 +4,16 @@ title: Author and integrate R&R SF-424
 priority: P0
 assignee: codex
 description: >-
-  Production-oriented declarative implementation and generic Simpler integration
-  for R&R SF-424.
+  R&R SF-424 is now declaratively authored and merged in grants-form-spec; its
+  public Simpler canary and typed conditional-UI runtime are merged. The
+  remaining generic gates are encoded revision-checkbox semantics,
+  conditional-requiredness presentation, lifecycle population, date comparison,
+  exact XML, and release validation.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T20:55:21.154Z'
+  at: '2026-08-22T21:20:58.086Z'
 ---
 # Objective
 

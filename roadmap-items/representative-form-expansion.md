@@ -2,11 +2,12 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirteen forms now compile through the portable specification. Twelve are
+  Fourteen forms now compile through the portable specification. Twelve are
   runtime-sourced through the public Simpler adapter; Project Abstract Summary
-  is a merged parity canary that deliberately preserves the existing XML-capable
-  runtime implementation until XML mappings enter the portable contract.
-  Expansion alternates cheap derivatives with high-value foundations.
+  and R&R SF-424 are merged conformance canaries that deliberately preserve XML
+  as an explicit adapter boundary. The R&R canary now exercises the generic
+  conditional-UI runtime. Expansion alternates cheap derivatives with high-value
+  foundations.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
