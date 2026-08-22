@@ -67,3 +67,5 @@ The current handoff is source-pinned but mostly manual. A future research/design
 [informs](../tasks/harden-rr-budget-production.md)
 
 [informs](../tasks/author-integrate-rr-subaward-budget.md)
+
+[informs](../tasks/spike-crosswalk-promotion-importer.md)
