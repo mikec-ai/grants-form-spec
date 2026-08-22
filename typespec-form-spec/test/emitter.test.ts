@@ -139,6 +139,40 @@ describe("SGG UI emission", () => {
     expect(list.hideFieldListHeading).toBe(true);
   });
 
+  it("emits SF-424A source guidance without changing Column G semantics", async () => {
+    const root = resolve(packageRoot, "dist/forms/sf424a");
+    const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+    const budgetSummary = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/question-bank/budget/summary/schema.json"),
+        "utf8",
+      ),
+    );
+
+    expect(ui[0]).toMatchObject({
+      name: "SectionA",
+      label: "Section A - Budget summary",
+    });
+    expect(ui[0].description).toContain("Column G is entered manually");
+    expect(schema.$defs.ActivityLineItem.properties.activityTitle).toMatchObject({
+      title: "Grant program, function, or activity",
+    });
+    expect(schema.properties.activityLineItems.items.properties.activityTitle).toMatchObject({
+      description: expect.stringContaining("Assistance Listing title"),
+    });
+    expect(budgetSummary.properties.totalAmount).toMatchObject({
+      title: "Total",
+      description: "Enter the total budgeted amount for this row. This value is not calculated automatically.",
+    });
+    expect(rules.activityLineItems).not.toHaveProperty("budgetSummary.totalAmount");
+    expect(
+      rules.totalBudgetSummary.totalAmount.gg_pre_population.fields,
+    ).toEqual(["activityLineItems[*].budgetSummary.totalAmount"]);
+    expect(JSON.stringify({ schema, ui, rules })).not.toMatch(/(?:is|equals) the sum of (?:Columns? )?C(?: through|-)[ ]?F/i);
+  });
+
   it.each([
     [
       "project-narrative-attachments",
