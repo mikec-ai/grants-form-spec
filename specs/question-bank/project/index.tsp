@@ -42,6 +42,18 @@ scalar AdditionalCongressionalDistricts extends AttachmentRef;
 scalar ProjectTitle extends string;
 
 /**
+ * Summarize the proposed project in plain language suitable for public release. Do not include
+ * personally identifiable, sensitive, or proprietary information.
+ */
+@Question.meta(#{ id: "project/abstract" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.narrative)
+@UI.label("Project Abstract")
+@minLength(1)
+@maxLength(4000)
+scalar ProjectAbstract extends string;
+
+/**
  * A congressional district, as a two-character state abbreviation and a three-character
  * district number: `CA-005`.
  */

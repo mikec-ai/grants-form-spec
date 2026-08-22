@@ -24,6 +24,7 @@ export const $decorators = {
     readOnlyWhen: d.$readOnlyWhen,
   },
   "SimplerForms.Validation": {
+    constraints: d.$validationConstraints,
     requiredWhen: d.$requiredWhen,
     computed: d.$computed,
     computedFrom: d.$computedFrom,

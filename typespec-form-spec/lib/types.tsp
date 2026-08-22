@@ -32,6 +32,15 @@ model FormMeta {
   sggVersion?: string;
 }
 
+/** Source-specific constraints applied where a reusable question is composed into a form. */
+model ValidationConstraints {
+  minLength?: int32;
+  maxLength?: int32;
+  minItems?: int32;
+  maxItems?: int32;
+  pattern?: string;
+}
+
 enum TagName {
   address, phone, email, identifier, name, title, person, organization,
   details, generic, money, count, attachment, narrative, date, role,

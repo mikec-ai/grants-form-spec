@@ -158,6 +158,29 @@ class PromotionImporterTests(unittest.TestCase):
             item["kind"] == "source_conflict" for item in packet["reviewGates"]
         ))
 
+    def test_export_allows_a_source_form_with_no_runtime_rule_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo, _ = self._repo(Path(directory))
+            runtime_path = (
+                repo
+                / "artifacts/authoring/runtime-rule-ast-resolved-v1/forms/Example.json"
+            )
+            runtime_path.unlink()
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo), "commit", "-qm", "no runtime rules"], check=True)
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], check=True,
+                capture_output=True, text=True,
+            ).stdout.strip()
+
+            packet = export_packet(repo, "Example", revision)
+
+        self.assertEqual(packet["runtimeRules"], [])
+        self.assertEqual(packet["metrics"]["runtimeRules"], 0)
+        self.assertFalse(any(
+            item["role"] == "runtime_rules" for item in packet["artifacts"]
+        ))
+
 
 if __name__ == "__main__":
     unittest.main()
