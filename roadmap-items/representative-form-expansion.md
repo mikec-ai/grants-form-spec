@@ -10,7 +10,6 @@ description: >-
   high-value foundations.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
 ---
 # Strategy
 
@@ -88,3 +87,5 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/harvest-rr-sf424-multi-project-cover.md)
 
 [contains](../tasks/harvest-rr-key-person-expanded.md)
+
+[contains](../tasks/harvest-performance-site.md)
