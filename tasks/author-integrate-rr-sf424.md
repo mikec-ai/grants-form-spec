@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T18:54:59.669Z'
+  at: '2026-08-22T19:37:38.223Z'
 ---
 # Objective
 
@@ -39,3 +39,7 @@ Author and integrate the R&R SF-424 form as a production-oriented portable form,
 - Source and version provenance accompanies emitted evidence.
 - The generic Simpler adapter loads the form and focused parity/behavior tests pass.
 - Remaining human review, policy, accessibility, and release work is explicit.
+
+# Promotion path
+
+If the Performance Site promotion spike is reviewed and merged, use its generic importer to stage R&R SF-424's deterministic source facts, provenance, behavior evidence, and review gates. Do not import proposed semantic identities as accepted reuse. The canonical R&R SF-424 declaration remains authored and reviewed in this repository.
