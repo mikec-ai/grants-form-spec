@@ -14,6 +14,14 @@
     "namespacePrefix": "Example",
     "attributes": { "FormVersion": "1.0" }
   },
+  "attachment": {
+    "fields": {
+      "fileName": { "element": "FileName", "namespace": "att" },
+      "mimeType": { "element": "MimeType", "namespace": "att" },
+      "fileLocation": { "element": "FileLocation", "namespace": "att" },
+      "hashValue": { "element": "HashValue", "namespace": "att" }
+    }
+  },
   "mapping": {
     "fields": {
       "title": { "element": "Title", "kind": "value" },

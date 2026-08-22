@@ -38,6 +38,7 @@
         "attributes": { "$ref": "#/$defs/staticAttributes" }
       }
     },
+    "attachment": { "$ref": "#/$defs/attachmentWire" },
     "mapping": { "$ref": "#/$defs/mapping" }
   },
   "$defs": {
@@ -51,6 +52,33 @@
           { "type": "number" },
           { "type": "boolean" }
         ]
+      }
+    },
+    "attachmentField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element", "namespace"],
+      "properties": {
+        "element": { "$ref": "#/$defs/xmlName" },
+        "namespace": { "type": "string", "minLength": 1 }
+      }
+    },
+    "attachmentWire": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields"],
+      "properties": {
+        "fields": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fileName", "mimeType", "fileLocation", "hashValue"],
+          "properties": {
+            "fileName": { "$ref": "#/$defs/attachmentField" },
+            "mimeType": { "$ref": "#/$defs/attachmentField" },
+            "fileLocation": { "$ref": "#/$defs/attachmentField" },
+            "hashValue": { "$ref": "#/$defs/attachmentField" }
+          }
+        }
       }
     },
     "mapping": {

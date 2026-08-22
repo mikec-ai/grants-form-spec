@@ -1225,6 +1225,14 @@ plus the extension's own properties, and — carrying no `@Question.meta` — is
 referencing form's `$defs`, matching the golden's
 `items: { $ref: "#/$defs/key_contact_person" }`.
 
+`allOf` is intersection, not object-oriented override. An extension may add or narrow
+constraints, but it cannot relax `maxItems: 5` to `maxItems: 10`; both constraints would apply
+and five would still win. Duration variants therefore share a structural TypeSpec mixin with
+model spread and publish sibling five- and ten-period question profiles, each with its own
+cardinality. Subaward forms reference those complete profiles with ordinary JSON Schema `$ref`.
+The standalone form roots spread the selected profile so current JSON Forms UI scopes such as
+`#/properties/budgetYear` continue to address an actual root property.
+
 ### 13.3 Every block emits the same three artifacts
 
 ```

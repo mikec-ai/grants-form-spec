@@ -16,5 +16,8 @@
     "namespacePrefix": "RR_Budget_3_0",
     "attributes": { "FormVersion": "3.0" }
   },
+  "attachment": {
+    "fields": { "$ref": "../mappings/attached-file-data-1.0.json#/fields" }
+  },
   "mapping": { "fields": { "$ref": "../mappings/research-budget-3.0.json#/fields" } }
 }

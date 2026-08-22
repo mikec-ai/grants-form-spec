@@ -146,12 +146,14 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["shareOfA"], 1.0)
         self.assertEqual(row["shareOfB"], 1.0)
 
-    def test_rr_subaward_budget_10yr_30_combines_profiles_without_new_questions(self) -> None:
+    def test_rr_subaward_budget_10yr_30_swaps_only_the_duration_profile(self) -> None:
         five_year = set(self.analysis["asks"]["rr-subaward-budget-30"])
         ten_year = set(self.analysis["asks"]["rr-subaward-budget-10yr-30"])
 
         self.assertTrue(five_year)
-        self.assertEqual(ten_year, five_year)
+        self.assertEqual(five_year - ten_year, {"budget/research/details"})
+        self.assertEqual(ten_year - five_year, {"budget/research/details-10yr"})
+        self.assertEqual(len(five_year), len(ten_year))
 
         row = next(
             row
@@ -159,10 +161,11 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             if {row["formA"], row["formB"]}
             == {"rr-subaward-budget-30", "rr-subaward-budget-10yr-30"}
         )
-        self.assertEqual(row["questionsInCommon"], len(five_year))
-        self.assertEqual(row["similarity"], 1.0)
-        self.assertEqual(row["shareOfA"], 1.0)
-        self.assertEqual(row["shareOfB"], 1.0)
+        common = five_year & ten_year
+        self.assertEqual(row["questionsInCommon"], len(common))
+        self.assertEqual(row["similarity"], len(common) / len(five_year | ten_year))
+        self.assertEqual(row["shareOfA"], len(common) / len(five_year))
+        self.assertEqual(row["shareOfB"], len(common) / len(ten_year))
 
     def test_project_abstract_is_text_semantics_not_attachment_capture(self) -> None:
         self.assertEqual(

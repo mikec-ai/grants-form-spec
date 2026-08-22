@@ -28,6 +28,12 @@ Profiles contain only data: root element and attributes, namespaces, a pinned XS
 digest, and the mapping. An array may additionally declare an imported item element,
 namespace, and fixed attributes. Consumers must not branch on a form id.
 
+The standard Grants.gov attached-file wire children are data as well. Profiles that map an
+`attachment` compose the shared `attached-file-data-1.0.json` declaration, which names
+`FileName`, `MimeType`, `FileLocation`, `HashValue`, and their namespaces. Consumers resolve
+the attachment reference and mechanically project those declared fields; they do not hardcode
+the Grants.gov child vocabulary.
+
 Mappings address the canonical camelCase response shape. A consumer that stores another shape
 projects these source keys at its boundary. In particular, Simpler owns `samUei -> samuei` and
 the historical numbered-cost spellings; those aliases do not appear in the portable target.

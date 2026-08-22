@@ -264,13 +264,28 @@ export async function validateArtifactGraph(inputDist) {
             manifestPath,
           );
         }
-        for (const node of mappingNodes(profile.mapping.fields)) {
+        const nodes = [...mappingNodes(profile.mapping.fields)];
+        for (const node of nodes) {
           if (node.namespace && !(node.namespace in profile.namespaces)) {
             throw new ArtifactError(`mapping names unknown namespace ${node.namespace}`, xmlProfilePath);
           }
           if (node.itemNamespace && !(node.itemNamespace in profile.namespaces)) {
             throw new ArtifactError(
               `mapping names unknown item namespace ${node.itemNamespace}`,
+              xmlProfilePath,
+            );
+          }
+        }
+        if (nodes.some((node) => node.kind === "attachment") && !profile.attachment) {
+          throw new ArtifactError(
+            "XML profile maps attachments without declaring their wire fields",
+            xmlProfilePath,
+          );
+        }
+        for (const field of Object.values(profile.attachment?.fields ?? {})) {
+          if (!(field.namespace in profile.namespaces)) {
+            throw new ArtifactError(
+              `attachment wire field names unknown namespace ${field.namespace}`,
               xmlProfilePath,
             );
           }
