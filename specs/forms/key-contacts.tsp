@@ -11,7 +11,7 @@ namespace Forms.KeyContacts;
 
 /** Sections, in paper-form order. */
 enum KeyContactsSection {
-  /** Enter between 1 and 4 key contacts and their role on the project. */
+  // The existing SGG section has no section-level description.
   keyContacts: "Key Contacts",
 }
 
@@ -63,6 +63,7 @@ model KeyContacts {
   @UI.label("Key Contacts")
   @UI.helpText("You may enter up to four (4) Key Contacts. At least 1 (one) contact person is required. Additional contacts are optional.")
   @UI.section(KeyContactsSection.keyContacts)
+  @Sgg.fieldList(#{ hideFieldListHeading: true })
   @minItems(1)
   @maxItems(4)
   keyContacts: KeyContactPerson[];

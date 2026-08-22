@@ -3,6 +3,7 @@ import { getDoc } from "@typespec/compiler";
 import {
   Block, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
   propLabel, propOmit, propReadOnly, propSection, propTotals, propWidget,
+  propSggFieldList,
 } from "../model.js";
 
 export interface SggField {
@@ -17,6 +18,7 @@ export interface SggFieldList {
   name: string;
   label: string;
   description?: string;
+  hideFieldListHeading?: boolean;
   children: SggField[];
 }
 export interface SggMultiField {
@@ -163,6 +165,9 @@ function asFieldList(
   };
   const description = propHelpText(program, prop) ?? getDoc(program, prop);
   if (description) list.description = description;
+  if (propSggFieldList(program, prop).hideFieldListHeading === true) {
+    list.hideFieldListHeading = true;
+  }
   return list;
 }
 

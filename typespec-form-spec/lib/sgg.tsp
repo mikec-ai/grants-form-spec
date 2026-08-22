@@ -32,3 +32,10 @@ extern dec prePopulate(target: Model, rules: valueof Record<SggPrePop>);
  */
 extern dec multiField(target: Model, section: valueof EnumMember, widget: valueof WidgetName);
 
+/** SGG-only presentation options for a repeatable field list. */
+model SggFieldListOptions {
+  hideFieldListHeading?: boolean;
+}
+
+/** Configure how SGG renders one form-local repeatable property. */
+extern dec fieldList(target: ModelProperty, options: valueof SggFieldListOptions);

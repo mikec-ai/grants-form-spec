@@ -24,5 +24,9 @@ export const $decorators = {
     readOnlyWhen: d.$readOnlyWhen,
   },
   "SimplerForms.Validation": { requiredWhen: d.$requiredWhen, computed: d.$computed, totals: d.$totals },
-  "SimplerForms.Sgg": { prePopulate: d.$prePopulate, multiField: d.$multiField },
+  "SimplerForms.Sgg": {
+    prePopulate: d.$prePopulate,
+    multiField: d.$multiField,
+    fieldList: d.$fieldList,
+  },
 };

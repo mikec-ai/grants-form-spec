@@ -105,6 +105,10 @@ export const modelMultiFields = (p: Program, model: Model) =>
   (g(p, stateKeys.multiField, model) as { section: string; widget: string }[] | undefined) ??
   [];
 
+/** `@Sgg.fieldList` options for one form-local repeatable property. */
+export const propSggFieldList = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.fieldList, prop) as { hideFieldListHeading?: boolean } | undefined) ?? {};
+
 export const propOverrides = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.overrides, prop) as Record<string, Record<string, unknown>>) ?? {};
 

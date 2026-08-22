@@ -207,6 +207,9 @@ export const $multiField = (ctx: Ctx, target: Model, section: unknown, widget: u
     widget: enumName(widget),
   });
 
+export const $fieldList = (ctx: Ctx, target: ModelProperty, options: unknown) =>
+  set(ctx, stateKeys.fieldList, target, plain(ctx, options));
+
 /**
  * The rule name is each entry's enum *value*, which is SGG's wire spelling. Marshalled here
  * so the emitter sees a plain `path -> rule` map (D11).
@@ -219,4 +222,3 @@ export const $prePopulate = (ctx: Ctx, target: Model, rules: unknown) => {
   }
   set(ctx, stateKeys.prePopulate, target, out);
 };
-

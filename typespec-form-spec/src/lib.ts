@@ -82,6 +82,7 @@ export const $lib = createTypeSpecLibrary({
     totals: {},
     prePopulate: {},
     multiField: {},
+    fieldList: {},
   },
 } as const);
 
