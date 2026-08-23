@@ -18,7 +18,6 @@ enum PerformanceSiteSection {
 model PerformanceSiteAddress extends QuestionAddress {
   @UI.label("State")
   @UI.enabledWhen(PerformanceSiteAddress.country, CountryCode.USA)
-  @Validation.requiredWhen(PerformanceSiteAddress.country, CountryCode.USA)
   state?: StateCode;
 
   @UI.label("Province")
@@ -26,11 +25,28 @@ model PerformanceSiteAddress extends QuestionAddress {
   @maxLength(30)
   @UI.readOnlyWhen(PerformanceSiteAddress.country, CountryCode.USA)
   province?: string;
+
+  @UI.label("Zip / Postal Code")
+  @minLength(1)
+  @maxLength(30)
+  @Validation.constraintsWhen(
+    PerformanceSiteAddress.country,
+    CountryCode.USA,
+    #{ minLength: 9 },
+  )
+  zipCode?: string;
 }
 
 model PerformanceSiteDetails extends QuestionProjectSiteDetails {
   @UI.label("Address")
   address: PerformanceSiteAddress;
+}
+
+/** The primary location alone requires an organization when it is not an individual filing. */
+model PrimaryPerformanceSiteDetails extends PerformanceSiteDetails {
+  @UI.label("Organization Name")
+  @Validation.requiredWhen(PrimaryPerformanceSiteDetails.individual, SiteIndividualIndicator.no)
+  organizationName?: OrganizationName;
 }
 
 /** Project/Performance Site Location(s), Grants.gov version 4.0. */
@@ -50,15 +66,17 @@ model PerformanceSiteDetails extends QuestionProjectSiteDetails {
 model PerformanceSite {
   @UI.label("Primary Project / Performance Site")
   @UI.section(PerformanceSiteSection.primary)
-  primarySite: PerformanceSiteDetails;
+  primarySite: PrimaryPerformanceSiteDetails;
 
   @UI.label("Additional Project / Performance Site")
   @UI.section(PerformanceSiteSection.additional)
+  @Sgg.fieldList(#{ validateBeforeAdd: true })
   @maxItems(299)
   additionalSites?: PerformanceSiteDetails[];
 
   @UI.label("Additional Locations")
   @UI.section(PerformanceSiteSection.overflow)
   @UI.widget(WidgetName.Attachment)
+  @UI.enabledWhenCount(PerformanceSite.additionalSites, 299)
   additionalLocations?: AdditionalProjectSites;
 }

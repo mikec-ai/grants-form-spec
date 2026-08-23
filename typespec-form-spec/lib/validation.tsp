@@ -11,6 +11,14 @@ namespace SimplerForms.Validation;
 /** Apply source-specific limits to this use of a reusable question without changing its identity. */
 extern dec constraints(target: ModelProperty, patch: valueof ValidationConstraints);
 
+/** Apply constraints only when a sibling field equals the declared value. */
+extern dec constraintsWhen(
+  target: ModelProperty,
+  source: ModelProperty,
+  equals: valueof unknown,
+  patch: valueof ValidationConstraints,
+);
+
 extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
 /** Require a field from a condition on a nested sibling path, relative to the containing model. */

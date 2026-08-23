@@ -58,9 +58,41 @@ class PerformanceSiteTests(unittest.TestCase):
 
         self.assertEqual(len(schema["properties"]), 3)
         self.assertEqual(schema["properties"]["additionalSites"]["maxItems"], 299)
+        primary = schema["$defs"]["PrimaryPerformanceSiteDetails"]
+        self.assertIn({
+            "if": {
+                "properties": {"individual": {"const": "N: No"}},
+                "required": ["individual"],
+            },
+            "then": {"required": ["organizationName"]},
+        }, primary["allOf"])
+        address = schema["$defs"]["PerformanceSiteAddress"]
+        self.assertIn({
+            "if": {
+                "properties": {"country": {"const": "USA: UNITED STATES"}},
+                "required": ["country"],
+            },
+            "then": {
+                "properties": {"zipCode": {"minLength": 9}},
+            },
+        }, address["allOf"])
         self.assertEqual(len(fields), 25)
-        self.assertEqual(len(conditions), 4)
+        self.assertEqual(len(conditions), 5)
         self.assertEqual(sum(c["when"]["ref"]["scope"] == "item" for c in conditions), 2)
+        overflow = next(
+            row for row in fields
+            if row["definition"] == "/properties/additionalLocations"
+        )
+        self.assertEqual(overflow["conditional"]["when"], {
+            "op": "countAtLeast",
+            "ref": {"scope": "root", "pointer": "/additionalSites"},
+            "minimum": 299,
+        })
+        field_list = next(
+            row for row in all_ui
+            if row.get("type") == "fieldList" and row.get("name") == "additionalSites"
+        )
+        self.assertTrue(field_list["validateBeforeAdd"])
         self.assertEqual(sum(
             row.get("gg_validation", {}).get("rule") == "attachment"
             for row in objects(rules)
@@ -72,7 +104,14 @@ class PerformanceSiteTests(unittest.TestCase):
         self.assertEqual(len(details["allOf"]), 1)
 
         evidence = load(root / "evidence.json")
+        manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c",
+        )
 
 
 if __name__ == "__main__":

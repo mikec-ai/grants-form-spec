@@ -106,6 +106,7 @@ export const $lib = createTypeSpecLibrary({
     requiredWhen: {},
     notBefore: {},
     validationConstraints: {},
+    validationConstraintsWhen: {},
     computed: {},
     computedFrom: {},
     evaluationOrder: {},

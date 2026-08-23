@@ -10,6 +10,21 @@ using QuestionBank.ResearchBudget;
 /** Reusable questions introduced by the PHS 398 modular budget. */
 namespace QuestionBank.PHSModularBudget;
 
+/** Grants.gov modular direct-cost choices, in exact wire format. */
+enum PHSModularDirectCostAmount {
+  zero: "0.00",
+  twentyFiveThousand: "25000.00",
+  fiftyThousand: "50000.00",
+  seventyFiveThousand: "75000.00",
+  oneHundredThousand: "100000.00",
+  oneHundredTwentyFiveThousand: "125000.00",
+  oneHundredFiftyThousand: "150000.00",
+  oneHundredSeventyFiveThousand: "175000.00",
+  twoHundredThousand: "200000.00",
+  twoHundredTwentyFiveThousand: "225000.00",
+  twoHundredFiftyThousand: "250000.00",
+}
+
 /** One indirect-cost rate and base used in a modular budget period. */
 model PHSModularIndirectCostItem {
   /** Describe the type of indirect cost. */
@@ -34,8 +49,8 @@ model PHSModularIndirectCostItem {
 model PHSModularDirectCosts {
   /** Enter direct costs excluding consortium indirect costs. */
   @UI.label("Direct Cost less Consortium Indirect (F&A)")
-  @UI.helpText("The source form presents modular values from $0 to $250,000. Exact option-to-wire encoding remains a review gate.")
-  directCostLessConsortiumFandA: ResearchBudgetAmount14;
+  @UI.widget(WidgetName.Select)
+  directCostLessConsortiumFandA: PHSModularDirectCostAmount = PHSModularDirectCostAmount.zero;
 
   /** Enter consortium indirect costs. */
   @UI.label("Consortium Indirect (F&A)")
@@ -89,7 +104,8 @@ model QuestionPHSModularBudgetPeriod {
 
   /** Enter the budget period end date. */
   @UI.label("End Date")
-  @UI.helpText("The end date cannot be earlier than the start date. Cross-field date comparison remains a runtime review gate.")
+  @Validation.notBefore(QuestionPHSModularBudgetPeriod.budgetPeriodStartDate)
+  @UI.helpText("The end date cannot be earlier than the start date.")
   budgetPeriodEndDate?: plainDate;
 
   /** Enter the direct costs requested for this period. */

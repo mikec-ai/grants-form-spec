@@ -61,6 +61,61 @@ class RROtherProjectInformationTests(unittest.TestCase):
         self.assertEqual(len(fields), 26)
         self.assertEqual(len(conditions), 13)
         self.assertEqual(
+            {
+                row["definition"]
+                for row in fields
+                if "conditional" in row
+            },
+            {
+                "/properties/humanSubjects/properties/exemptFromFederalRegulations",
+                "/properties/humanSubjects/properties/exemptions",
+                "/properties/humanSubjects/properties/irbReviewPending",
+                "/properties/humanSubjects/properties/irbApprovalDate",
+                "/properties/humanSubjects/properties/assuranceNumber",
+                "/properties/vertebrateAnimals/properties/iacucReviewPending",
+                "/properties/vertebrateAnimals/properties/iacucApprovalDate",
+                "/properties/vertebrateAnimals/properties/assuranceNumber",
+                "/properties/environmentalImpact/properties/environmentalImpactExplanation",
+                "/properties/environmentalImpact/properties/hasEnvironmentalExemptionOrAssessment",
+                "/properties/environmentalImpact/properties/environmentalExemptionOrAssessmentExplanation",
+                "/properties/historicPlaces/properties/explanation",
+                "/properties/internationalActivities/properties/countries",
+            },
+        )
+        conditional_required = set()
+        for question_id in (
+            "human-subjects",
+            "vertebrate-animals",
+            "environmental-impact",
+            "historic-designation",
+            "international-activities",
+        ):
+            question = load(
+                ROOT
+                / f"dist/question-bank/research-project/{question_id}/schema.json"
+            )
+            for row in objects(question):
+                then = row.get("then")
+                if "if" not in row or not isinstance(then, dict):
+                    continue
+                conditional_required.update(then.get("required", []))
+        self.assertEqual(
+            conditional_required,
+            {
+                "exemptFromFederalRegulations",
+                "irbReviewPending",
+                "irbApprovalDate",
+                "assuranceNumber",
+                "iacucReviewPending",
+                "iacucApprovalDate",
+                "environmentalImpactExplanation",
+                "hasEnvironmentalExemptionOrAssessment",
+                "environmentalExemptionOrAssessmentExplanation",
+                "explanation",
+                "countries",
+            },
+        )
+        self.assertEqual(
             human_subjects["$defs"]["ResearchProjectYesNoCode"]["enum"],
             ["Y: Yes", "N: No"],
         )
@@ -82,7 +137,14 @@ class RROtherProjectInformationTests(unittest.TestCase):
         )
 
         evidence = load(root / "evidence.json")
+        manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "b2144c290ed5ad6d942e70815d195d7d6aa4e8e6c82fc3932d8540e3aa303ef5",
+        )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,26 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "rr-other-project-information",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_OtherProjectInfo_1_4-V1.4.xsd",
+    "sha256": "b2144c290ed5ad6d942e70815d195d7d6aa4e8e6c82fc3932d8540e3aa303ef5"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/RR_OtherProjectInfo_1_4-V1.4",
+    "RR_OtherProjectInfo_1_4": "http://apply.grants.gov/forms/RR_OtherProjectInfo_1_4-V1.4",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0",
+    "glob": "http://apply.grants.gov/system/Global-V1.0",
+    "att": "http://apply.grants.gov/system/Attachments-V1.0"
+  },
+  "root": {
+    "element": "RR_OtherProjectInfo_1_4",
+    "namespacePrefix": "RR_OtherProjectInfo_1_4",
+    "attributes": { "FormVersion": "1.4" }
+  },
+  "attachment": {
+    "fields": { "$ref": "../mappings/attached-file-data-1.0.json#/fields" }
+  },
+  "mapping": {
+    "fields": { "$ref": "../mappings/rr-other-project-information-1.4.json#/fields" }
+  }
+}

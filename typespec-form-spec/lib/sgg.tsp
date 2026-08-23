@@ -35,6 +35,7 @@ extern dec multiField(target: Model, section: valueof EnumMember, widget: valueo
 /** SGG-only presentation options for a repeatable field list. */
 model SggFieldListOptions {
   hideFieldListHeading?: boolean;
+  validateBeforeAdd?: boolean;
 }
 
 /** Configure how SGG renders one form-local repeatable property. */

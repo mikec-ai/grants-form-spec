@@ -74,7 +74,15 @@ class PHS398ModularBudgetTests(unittest.TestCase):
         direct_choice = period["$defs"]["PHSModularDirectCosts"]["properties"][
             "directCostLessConsortiumFandA"
         ]
-        self.assertNotIn("enum", direct_choice)
+        self.assertEqual(direct_choice["default"], "0.00")
+        self.assertEqual(
+            period["$defs"]["PHSModularDirectCostAmount"]["enum"],
+            [f"{amount:.2f}" for amount in range(0, 250001, 25000)],
+        )
+        self.assertEqual(
+            rules["periods"]["budgetPeriodEndDate"]["gg_validation"],
+            {"rule": "date_not_before", "fields": ["@THIS.budgetPeriodStartDate"]},
+        )
 
         self.assertEqual(len(calculations), 8)
         self.assertEqual(sorted(rule["order"] for rule in calculations), list(range(1, 9)))
@@ -97,8 +105,14 @@ class PHS398ModularBudgetTests(unittest.TestCase):
 
         evidence = load(root / "evidence.json")
         manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
-        self.assertNotIn("targets/grants-gov-xml.json", manifest["artifacts"])
+        self.assertEqual(manifest["form"]["ombNumber"], "0925-0001")
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "f166abebd40e6912861dca5c5c4a83c7a82779f1ae67a2c0fa8b4aafc25d5bff",
+        )
 
 
 if __name__ == "__main__":

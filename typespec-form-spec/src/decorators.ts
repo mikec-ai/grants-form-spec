@@ -203,6 +203,19 @@ export const $enabledWhenAny = (
   });
 };
 
+export const $enabledWhenCount = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) =>
+  push(ctx, stateKeys.enabledWhen, target, {
+    operator: "countAtLeast",
+    sourcePath: [source.name],
+    sourceIsArray: true,
+    minimum: Number(literal(minimum)),
+  });
+
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));
 
@@ -227,6 +240,18 @@ export const $notBefore = (ctx: Ctx, target: ModelProperty, source: ModelPropert
 
 export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
   set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));
+
+export const $validationConstraintsWhen = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  equals: unknown,
+  patch: unknown,
+) =>
+  push(ctx, stateKeys.validationConstraintsWhen, target, {
+    condition: condition(source, equals),
+    patch: plain(ctx, patch),
+  });
 
 export const $computed = (
   ctx: Ctx,

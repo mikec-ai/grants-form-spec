@@ -16,7 +16,11 @@ export interface InCondition extends ConditionBase {
   operator: "in";
   values: (string | number | boolean | null)[];
 }
-export type Condition = EqualsCondition | InCondition;
+export interface CountAtLeastCondition extends ConditionBase {
+  operator: "countAtLeast";
+  minimum: number;
+}
+export type Condition = EqualsCondition | InCondition | CountAtLeastCondition;
 
 /** Everything the emitters need about one block, read out of decorator state. */
 export interface Block {
@@ -117,6 +121,11 @@ export const propNotBefore = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.notBefore, prop) as ModelProperty | undefined;
 export const propValidationConstraints = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.validationConstraints, prop) as Record<string, unknown> | undefined) ?? {};
+export const propValidationConstraintsWhen = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.validationConstraintsWhen, prop) as {
+    condition: Condition;
+    patch: Record<string, unknown>;
+  }[] | undefined) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>
@@ -142,7 +151,10 @@ export const modelMultiFields = (p: Program, model: Model) =>
 
 /** `@Sgg.fieldList` options for one form-local repeatable property. */
 export const propSggFieldList = (p: Program, prop: ModelProperty) =>
-  (g(p, stateKeys.fieldList, prop) as { hideFieldListHeading?: boolean } | undefined) ?? {};
+  (g(p, stateKeys.fieldList, prop) as {
+    hideFieldListHeading?: boolean;
+    validateBeforeAdd?: boolean;
+  } | undefined) ?? {};
 
 export const propOverrides = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.overrides, prop) as Record<string, Record<string, unknown>>) ?? {};

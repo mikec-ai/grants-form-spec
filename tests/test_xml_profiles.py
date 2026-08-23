@@ -16,13 +16,17 @@ def _json(path: Path) -> Any:
 
 
 class GrantsGovXmlProfileTests(unittest.TestCase):
-    def test_budget_family_emits_five_self_contained_profiles(self) -> None:
+    def test_all_authored_profiles_emit_self_contained_targets(self) -> None:
         form_ids = {
             "rr-budget",
             "rr-budget-10yr",
             "rr-subaward-budget",
             "rr-subaward-budget-30",
             "rr-subaward-budget-10yr-30",
+            "rr-sf424",
+            "performance-site",
+            "rr-other-project-information",
+            "phs398-modular-budget",
         }
         profiles = {
             form_id: _json(DIST_FORMS / form_id / "targets/grants-gov-xml.json")
@@ -69,6 +73,21 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             self.assertEqual(profile["attachment"]["fields"], attachment)
 
     def test_source_profiles_compose_the_shared_mapping_instead_of_copying_it(self) -> None:
+        expected_refs = {
+            "performance-site": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/performance-site-location-4.0.json#/fields",
+                "../mappings/performance-site-location-4.0.json#/fields",
+            ],
+            "phs398-modular-budget": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/phs398-modular-budget-1.2.json#/fields",
+            ],
+            "rr-other-project-information": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/rr-other-project-information-1.4.json#/fields",
+            ],
+        }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)
             refs: list[str] = []
@@ -84,17 +103,16 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                         walk(child)
 
             walk(profile)
-            expected_mapping = (
-                "../mappings/rr-sf424-5.0.json#/fields"
-                if profile["formId"] == "rr-sf424"
-                else "../mappings/research-budget-3.0.json#/fields"
-            )
+            default_refs = [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                (
+                    "../mappings/rr-sf424-5.0.json#/fields"
+                    if profile["formId"] == "rr-sf424"
+                    else "../mappings/research-budget-3.0.json#/fields"
+                ),
+            ]
             self.assertEqual(
-                sorted(refs),
-                sorted([
-                    "../mappings/attached-file-data-1.0.json#/fields",
-                    expected_mapping,
-                ]),
+                sorted(refs), sorted(expected_refs.get(profile["formId"], default_refs))
             )
 
     def test_rr_sf424_keeps_wire_only_grouping_out_of_the_question_model(self) -> None:
@@ -113,6 +131,25 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             },
         )
         self.assertEqual(profile["evidence"]["status"], "source-bound-unreviewed")
+
+    def test_complex_wire_shapes_remain_declarative(self) -> None:
+        other = _json(DIST_FORMS / "rr-other-project-information/targets/grants-gov-xml.json")
+        human = other["mapping"]["fields"]["humanSubjects"]
+        self.assertTrue(human["flatten"])
+        self.assertEqual(
+            human["fields"]["humanSubjectsSupplement"]["kind"],
+            "group",
+        )
+        self.assertEqual(
+            other["mapping"]["fields"]["otherAttachments"]["items"]["node"],
+            {"element": "OtherAttachment", "kind": "attachment"},
+        )
+
+        modular = _json(DIST_FORMS / "phs398-modular-budget/targets/grants-gov-xml.json")
+        self.assertEqual(
+            modular["mapping"]["fields"]["budgetJustifications"]["kind"],
+            "group",
+        )
 
 
 if __name__ == "__main__":

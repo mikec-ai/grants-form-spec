@@ -1,9 +1,9 @@
-import type { EmitContext } from "@typespec/compiler";
+import type { EmitContext, Model, Namespace } from "@typespec/compiler";
 import { emitFile, resolvePath } from "@typespec/compiler";
 import { $onEmit as emitJsonSchema } from "@typespec/json-schema";
 import { allBlocks } from "./model.js";
 import { blockSchemaRef } from "./decorators.js";
-import { emitSchemaOverlay } from "./emitters/overlay.js";
+import { emitModelOverlay, emitSchemaOverlay } from "./emitters/overlay.js";
 import { emitBlockUi } from "./emitters/block-ui.js";
 import { emitSggUi } from "./emitters/ui-schema-sgg.js";
 import { emitSggRules } from "./emitters/rules-sgg.js";
@@ -59,6 +59,7 @@ export async function $onEmit(context: EmitContext<FormSpecOptions>): Promise<vo
     });
 
   const blocks = allBlocks(program);
+  const modelsByName = indexModels(program.getGlobalNamespaceType());
   const refToDir = new Map(
     blocks.map((b) => [
       blockSchemaRef(b.id),
@@ -73,7 +74,15 @@ export async function $onEmit(context: EmitContext<FormSpecOptions>): Promise<vo
 
     // 3. Inline refs to unpublished declarations into $defs, as the goldens do.
     const defs: Json = {};
-    let schema = resolveRefs(stock, { byFile, refToDir, defs, baseUri, from: dir });
+    let schema = resolveRefs(stock, {
+      byFile,
+      refToDir,
+      defs,
+      baseUri,
+      from: dir,
+      program,
+      modelsByName,
+    });
     if (Object.keys(defs).length) schema = { ...schema, $defs: defs };
 
     // 4. Fold in the conditional requiredness only we can know about.
@@ -117,6 +126,8 @@ interface RefCtx {
   defs: Json;
   baseUri?: string;
   from: string;
+  program: EmitContext<FormSpecOptions>["program"];
+  modelsByName: Map<string, Model>;
 }
 
 /** Rewrite every `$ref`: published blocks keep their identity, others become `$defs`. */
@@ -137,7 +148,14 @@ function resolveRefs(node: any, ctx: RefCtx, seen = new Set<string>()): any {
       if (!seen.has(name)) {
         seen.add(name);
         const { $schema, $id, ...body } = target;
-        ctx.defs[name] = resolveRefs(body, ctx, seen);
+        const overlay = ctx.modelsByName.has(name)
+          ? emitModelOverlay(ctx.program, ctx.modelsByName.get(name)!)
+          : undefined;
+        ctx.defs[name] = resolveRefs(
+          overlay ? mergeSchema(body, overlay) : body,
+          ctx,
+          seen,
+        );
       }
       out[k] = `#/$defs/${name}`;
       continue;
@@ -149,6 +167,21 @@ function resolveRefs(node: any, ctx: RefCtx, seen = new Set<string>()): any {
     out[k] = resolveRefs(v, ctx, seen);
   }
   return out;
+}
+
+function indexModels(root: Namespace): Map<string, Model> {
+  const indexed = new Map<string, Model>();
+  const duplicates = new Set<string>();
+  const visit = (namespace: Namespace): void => {
+    for (const model of namespace.models.values()) {
+      if (indexed.has(model.name)) duplicates.add(model.name);
+      else indexed.set(model.name, model);
+    }
+    for (const child of namespace.namespaces.values()) visit(child);
+  };
+  visit(root);
+  for (const name of duplicates) indexed.delete(name);
+  return indexed;
 }
 
 /** A path from one block's directory to another's schema, for base-less artifacts. */

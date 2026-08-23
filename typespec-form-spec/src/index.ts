@@ -24,10 +24,12 @@ export const $decorators = {
     visibleWhen: d.$visibleWhen,
     enabledWhen: d.$enabledWhen,
     enabledWhenAny: d.$enabledWhenAny,
+    enabledWhenCount: d.$enabledWhenCount,
     readOnlyWhen: d.$readOnlyWhen,
   },
   "SimplerForms.Validation": {
     constraints: d.$validationConstraints,
+    constraintsWhen: d.$validationConstraintsWhen,
     requiredWhen: d.$requiredWhen,
     requiredWhenPath: d.$requiredWhenPath,
     notBefore: d.$notBefore,

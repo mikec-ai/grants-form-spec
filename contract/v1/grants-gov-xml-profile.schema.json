@@ -112,10 +112,21 @@
       "properties": {
         "element": { "$ref": "#/$defs/xmlName" },
         "kind": { "enum": ["value", "object", "group", "array", "attachment"] },
+        "flatten": { "type": "boolean" },
         "namespace": { "type": "string", "minLength": 1 },
         "source": { "type": "string", "pattern": "^/" },
         "fields": { "$ref": "#/$defs/mappingFields" },
-        "items": { "$ref": "#/$defs/mapping" },
+        "items": {
+          "oneOf": [
+            { "$ref": "#/$defs/mapping" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["node"],
+              "properties": { "node": { "$ref": "#/$defs/mappingNode" } }
+            }
+          ]
+        },
         "itemElement": { "$ref": "#/$defs/xmlName" },
         "itemNamespace": { "type": "string", "minLength": 1 },
         "itemAttributes": { "$ref": "#/$defs/staticAttributes" }
@@ -142,8 +153,8 @@
         {
           "if": { "properties": { "kind": { "const": "array" } }, "required": ["kind"] },
           "then": {
-            "properties": { "items": true },
-            "required": ["items"],
+            "properties": { "element": true, "items": true },
+            "required": ["element", "items"],
             "not": { "properties": { "fields": true }, "required": ["fields"] }
           }
         },
@@ -153,6 +164,8 @@
             "required": ["kind"]
           },
           "then": {
+            "properties": { "element": true },
+            "required": ["element"],
             "not": {
               "anyOf": [
                 { "properties": { "fields": true }, "required": ["fields"] },
