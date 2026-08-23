@@ -3,11 +3,11 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, modelMultiFields, orderedProps, propComputed, readBlock,
+  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propComputed, readBlock,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
-  propVisibleWhen, sameModelIdentity,
+  propVisibleWhen,
   propValidationConstraintsWhen,
 } from "./model.js";
 
@@ -433,7 +433,8 @@ function checkConditions(program: Program, prop: ModelProperty): void {
       ? condition.predicates
       : [condition];
   for (const condition of conditionsOf(program, prop).flatMap(atomic)) {
-    if (!sameModelIdentity(condition.sourceModel, model)) {
+    const declaringModel = conditionSourceModel(condition);
+    if (declaringModel && declaringModel !== model) {
       reportDiagnostic(program, {
         code: "condition-source-not-sibling",
         target: prop,

@@ -357,4 +357,30 @@ describe("no-redeclared-property", () => {
       )
       .toBeValid();
   });
+
+  it("compares inherited count conditions without serializing compiler models", async () => {
+    const lint = await tester("no-redeclared-property");
+    await lint
+      .expect(
+        bank(`
+          /** A base with a count-gated overflow field. */
+          @Question.meta(#{ id: "generics/count-gated-base" })
+          @Catalog.tag(TagName.generic)
+          model Base {
+            people?: string[];
+            @UI.enabledWhenCount(Base.people, 2)
+            upload?: string;
+          }
+
+          model Derived extends Base {
+            @UI.enabledWhenCount(Base.people, 2)
+            upload?: string;
+          }
+        `),
+      )
+      .toEmitDiagnostics({
+        code: "@simpler-grants/form-spec/no-redeclared-property",
+        message: /upload/,
+      });
+  });
 });

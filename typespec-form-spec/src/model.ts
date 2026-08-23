@@ -7,13 +7,7 @@ import { stateKeys } from "./lib.js";
 interface ConditionBase {
   sourcePath: string[];
   sourceIsArray: boolean;
-  /** Compiler-only identity for sibling validation. Emitters never serialize this reference. */
-  sourceModel?: Model;
 }
-
-/** Model identity is compiler identity, not an unqualified name that namespaces may repeat. */
-export const sameModelIdentity = (left: Model | undefined, right: Model): boolean =>
-  left === undefined || left === right;
 export interface EqualsCondition extends ConditionBase {
   operator: "equals";
   value: string | number | boolean | null;
@@ -34,6 +28,19 @@ export type AtomicCondition =
   | InCondition
   | CountAtLeastCondition
   | PresentCondition;
+
+const conditionSourceModels = new WeakMap<AtomicCondition, Model>();
+
+/** Retain compiler identity out-of-band so declarative conditions remain JSON-serializable. */
+export function rememberConditionSourceModel(
+  condition: AtomicCondition,
+  model: Model | undefined,
+): void {
+  if (model) conditionSourceModels.set(condition, model);
+}
+
+export const conditionSourceModel = (condition: AtomicCondition): Model | undefined =>
+  conditionSourceModels.get(condition);
 /**
  * The only compound predicate currently authored by the library. Keeping this to a flat
  * disjunction avoids introducing a general expression language for one source-backed use case.

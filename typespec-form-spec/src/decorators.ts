@@ -4,6 +4,7 @@ import type {
 import { isArrayModelType, serializeValueAsJson, $summary } from "@typespec/compiler";
 import { $id as $jsonSchemaId } from "@typespec/json-schema";
 import { reportDiagnostic, stateKeys } from "./lib.js";
+import { rememberConditionSourceModel } from "./model.js";
 
 /**
  * `valueof <Model>` arrives as a TypeSpec ObjectValue with parent back-references,
@@ -228,13 +229,14 @@ function countCondition(
     valid = false;
   }
   if (!valid) return undefined;
-  return {
+  const condition = {
     operator: "countAtLeast" as const,
     sourcePath: [source.name],
     sourceIsArray: true,
-    sourceModel: source.model,
     minimum: normalizedMinimum,
   };
+  rememberConditionSourceModel(condition, source.model);
+  return condition;
 }
 
 export const $enabledWhenCount = (
