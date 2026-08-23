@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:24:22.339Z'
+  at: '2026-08-23T19:34:45.056Z'
 assignee: codex
 ---
 # Goal
@@ -39,12 +39,12 @@ SF-LLL remains distinct from the Grants.gov Lobbying Form. Shared identity and a
 
 # Progress (2026-08-23)
 
-- Producer: `mikec-ai/grants-form-spec#45`, commit `a3012227877b3219e7e09a904ae243a78b1c7d25`.
-- Consumer: `mikec-ai/simpler-grants-gov#40`, commit `eae8603c`, based on SGG oracle `26fb5f686b0d0555028eb50b0115e485ad699c1a`.
+- Producer: `mikec-ai/grants-form-spec#45`, commit `6e3942920410c46c2e371258534bb014888b6312`, rebased on lifecycle-correction main commit `c4a7fa5e722bca4dd92eb66a887bc2f7f6e0a865`.
+- Consumer: `mikec-ai/simpler-grants-gov#40`, commit `204d8554037c808a2963f92f3a2831257f032b54`, rebased on SGG main commit `f2cd204e206edd9783d135bc633efc838cf4292a` and pinned to the rebased producer.
 - Factory evidence: `mikec-ai/grants-question-crosswalk@4312f6504b060e2b9ffdbd2307fc41130c3123a0`; source-set SHA-256 `86c5849f65a3f3d8fcdc7da17cfa6070c185008eae9916184e7d6c32cd098b05`.
 - Official SF-LLL 2.0 XSD SHA-256: `fff7449d00c715efb79d83b572bc7b1ef3e8171f6a9ba841436b26242e883664`.
 - Portable schema, UI, conditions, lifecycle population, evidence, and XML profile are declarative. The consumer additions are generic support for constants, value maps, dynamic attributes, and compile-time flattened wire groups; there is no SF-LLL-specific compiler or adapter branch.
-- Exact-XSD validation passes for a fully populated SubAwardee/material-change response with tier zero and two service individuals. The non-database regression selection passed 212 tests; Ruff and targeted mypy passed. DB-backed save/reload and submit tests are included for CI because the local PostgreSQL service was unavailable.
+- Exact-XSD validation passes for a fully populated SubAwardee/material-change response with tier zero and two service individuals. After both rebases, the producer preflight passes 93 TypeSpec tests, 90 Python tests, 750 artifact validations, and the 49-field unclassified ratchet; the consumer non-database regression selection passes 212 tests. Ruff and targeted mypy pass. DB-backed save/reload and submit tests are included for CI because the local PostgreSQL service was unavailable.
 - Classified source-correct differences from the legacy oracle include: one-to-ten service individuals instead of one, tier minimum zero instead of one, Federal Action Number maximum 110 instead of 120, and a corrected nested canonical-to-XML mapping.
 - Per user direction, production registration is intentionally unchanged. Cutover remains gated on CI, semantic/accessibility/instruction review, full legacy differential classification, and a compatibility or migration decision for persisted legacy response shapes.
 
