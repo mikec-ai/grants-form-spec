@@ -1,7 +1,7 @@
 import type { Model, ModelProperty, Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
+  AtomicCondition, Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
   propLabel, propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propWidget,
   propEnabledWhen, propSggFieldList, propVisibleWhen,
 } from "../model.js";
@@ -38,16 +38,24 @@ export interface SggSection {
   children: (SggField | SggFieldList | SggMultiField)[];
 }
 
-interface AbsoluteCondition {
+interface AbsoluteAtomicCondition {
   scope: "root" | "item";
   sourcePath: string[];
-  operator: "equals" | "in" | "countAtLeast";
+  operator: "equals" | "in" | "countAtLeast" | "present";
   value?: string | number | boolean | null;
   values?: (string | number | boolean | null)[];
   minimum?: number;
 }
+interface AbsoluteAnyCondition {
+  operator: "any";
+  predicates: AbsoluteAtomicCondition[];
+}
+type AbsoluteCondition = AbsoluteAtomicCondition | AbsoluteAnyCondition;
 
 function predicate(condition: AbsoluteCondition): Record<string, unknown> {
+  if (condition.operator === "any") {
+    return { op: "any", predicates: condition.predicates.map(predicate) };
+  }
   const ref = {
     scope: condition.scope,
     pointer: `/${condition.sourcePath.join("/")}`,
@@ -58,6 +66,7 @@ function predicate(condition: AbsoluteCondition): Record<string, unknown> {
   if (condition.operator === "countAtLeast") {
     return { op: "countAtLeast", ref, minimum: condition.minimum };
   }
+  if (condition.operator === "present") return { op: "present", ref };
   return { op: "equals", ref, value: condition.value };
 }
 
@@ -228,7 +237,7 @@ function absoluteConditions(
   itemPath?: string[],
 ): AbsoluteCondition[] {
   const parent = targetPath.split(".").filter(Boolean).slice(0, -1);
-  return conditions.map((condition) => {
+  const absolute = (condition: AtomicCondition): AbsoluteAtomicCondition => {
     const absolutePath = [...parent, ...condition.sourcePath];
     const withinItem = itemPath && itemPath.every((step, index) => absolutePath[index] === step);
     return {
@@ -239,8 +248,16 @@ function absoluteConditions(
         ? { values: condition.values }
         : condition.operator === "countAtLeast"
           ? { minimum: condition.minimum }
-          : { value: condition.value }),
+          : condition.operator === "equals"
+            ? { value: condition.value }
+            : {}),
     };
+  };
+  return conditions.map((condition) => {
+    if (condition.operator === "any") {
+      return { operator: "any", predicates: condition.predicates.map(absolute) };
+    }
+    return absolute(condition);
   });
 }
 

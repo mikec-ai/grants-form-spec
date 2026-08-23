@@ -428,7 +428,11 @@ function conditionsOf(program: Program, prop: ModelProperty): Condition[] {
 function checkConditions(program: Program, prop: ModelProperty): void {
   const model = prop.model;
   if (!model) return;
-  for (const condition of conditionsOf(program, prop)) {
+  const atomic = (condition: Condition): Exclude<Condition, { operator: "any" }>[] =>
+    condition.operator === "any"
+      ? condition.predicates
+      : [condition];
+  for (const condition of conditionsOf(program, prop).flatMap(atomic)) {
     const source = conditionSource(model, condition.sourcePath);
     if (!source) {
       reportDiagnostic(program, {

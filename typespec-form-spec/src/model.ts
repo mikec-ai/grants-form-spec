@@ -20,7 +20,23 @@ export interface CountAtLeastCondition extends ConditionBase {
   operator: "countAtLeast";
   minimum: number;
 }
-export type Condition = EqualsCondition | InCondition | CountAtLeastCondition;
+export interface PresentCondition extends ConditionBase {
+  operator: "present";
+}
+export type AtomicCondition =
+  | EqualsCondition
+  | InCondition
+  | CountAtLeastCondition
+  | PresentCondition;
+/**
+ * The only compound predicate currently authored by the library. Keeping this to a flat
+ * disjunction avoids introducing a general expression language for one source-backed use case.
+ */
+export interface AnyCondition {
+  operator: "any";
+  predicates: AtomicCondition[];
+}
+export type Condition = AtomicCondition | AnyCondition;
 
 /** Everything the emitters need about one block, read out of decorator state. */
 export interface Block {

@@ -725,6 +725,12 @@ extern dec omit(target: ModelProperty);
 extern dec readOnly(target: ModelProperty);
 extern dec visibleWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 extern dec visibleWhenIn(target: ModelProperty, source: ModelProperty, values: valueof unknown[]);
+// Bounded overflow case: count(source) >= minimum OR target is already present.
+extern dec enabledWhenCountOrPresent(
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: valueof int32,
+);
 extern dec readOnlyWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
 // lib/validation.tsp

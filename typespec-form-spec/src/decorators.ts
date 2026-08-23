@@ -216,6 +216,34 @@ export const $enabledWhenCount = (
     minimum: Number(literal(minimum)),
   });
 
+/**
+ * Enable a field once a sibling list reaches capacity, while keeping an already-saved value
+ * operable if the list later falls below that threshold. This is the narrow disjunction needed
+ * by overflow attachment controls; it deliberately does not expose an arbitrary expression AST.
+ */
+export const $enabledWhenCountOrPresent = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) =>
+  push(ctx, stateKeys.enabledWhen, target, {
+    operator: "any",
+    predicates: [
+      {
+        operator: "countAtLeast",
+        sourcePath: [source.name],
+        sourceIsArray: true,
+        minimum: Number(literal(minimum)),
+      },
+      {
+        operator: "present",
+        sourcePath: [target.name],
+        sourceIsArray: false,
+      },
+    ],
+  });
+
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));
 
