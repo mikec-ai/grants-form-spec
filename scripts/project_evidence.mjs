@@ -59,7 +59,8 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       const inherited = byBlock.get(inheritedId);
       if (!inherited) throw new Error(`${id}: inherited behavior evidence block ${inheritedId} does not exist`);
       const resolved = resolveBehaviorEvidence(inherited, new Set(visiting));
-      for (const source of resolved.sources) {
+      const behaviorSourceIds = new Set(resolved.behaviorEvidence.map((entry) => entry.sourceId));
+      for (const source of resolved.sources.filter((candidate) => behaviorSourceIds.has(candidate.id))) {
         const existing = sources.find((candidate) => candidate.id === source.id);
         if (existing && JSON.stringify(existing) !== JSON.stringify(source)) {
           throw new Error(`${id}: inherited source ${source.id} conflicts with a local source`);
