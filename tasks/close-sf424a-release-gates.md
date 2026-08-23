@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:07:35.084Z'
+  at: '2026-08-23T19:09:19.908Z'
 assignee: codex
 ---
 # Goal
@@ -55,7 +55,7 @@ modify HHS upstream.
 - The same PR adds an automated Section A accessibility scan and verifies the entered G value is
   preserved in the locked rendering path. Existing generic print coverage proves print always uses
   the locked path.
-- Focused frontend tests, ESLint, Prettier, and API Ruff checks pass locally. The DB-backed test is
-  awaiting CI because the local `grants-db` service is unavailable.
+- Focused frontend tests, ESLint, Prettier, API Ruff checks, and the DB-backed lifecycle test pass
+  locally against the PostgreSQL test service.
 - Submission, browser-level keyboard testing, human accessibility/guidance acceptance, policy
   decisions, and production registration remain open gates.
