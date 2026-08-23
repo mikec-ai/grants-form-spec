@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:08:29.583Z'
+  at: '2026-08-23T21:12:35.828Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -35,14 +35,14 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 # Delivery receipt
 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
-- Rebasing completed after PR #47 merged; review-fixed frozen head: `b4cb440b74966dab0fb2ce11f0f7b920e678f3e6` on `codex/sf424c-portable-parity`.
+- Rebasing completed after PR #47 merged; final review-fixed frozen head: `78f2e19689158615e2799db454294d167751fe38` on `codex/sf424c-portable-parity`.
 - Producer preflight after review fixes: passed; 102 TypeScript tests and 136 Python tests passed, with one environment-dependent skip.
-- GitHub CI passed on the review-fixed head in 1m36s; GitHub reports the PR clean and mergeable.
+- GitHub CI passed on the final review-fixed head in 1m21s; GitHub reports the PR clean and mergeable.
 - Source provenance pinned: official XSD, DAT, read-only PDF, instructions PDF, deterministic extraction revision/source set, and public SGG oracle revision/file digest.
 - Portable result: 18 semantic questions, a reused three-column construction-cost structure, 24 declarative calculations, SGG UI projection, and Grants.gov XML projection. No form-specific compiler or adapter branch was added.
 - XML evidence: full, flattened federal-funding-only, contingencies-only, program-income-only, and explicitly empty budget-object responses validate against the pinned official XSD fixture. The two required subtotal containers use generic declarative `emitWhenParentPresent` semantics.
 - Calculation evidence: representative values match the existing SGG oracle across cost rows, both subtotals, program income, total project costs, and federal funding share.
-- Behavior evidence reconciliation: the evidence target set exactly equals the 24 calculation-rule targets. It includes the calculated eligible-cost display copy and excludes the applicant-entered federal percentage.
+- Behavior evidence reconciliation: the evidence target set exactly equals the 24 calculation-rule targets. Every behavior record cites a pinned official source; the calculated eligible-cost display copy cites PDF page 1, line 17, the applicant-entered federal percentage is excluded, and the SGG implementation remains differential parity evidence only.
 - Safety boundary: all 18 source-to-question mappings remain `proposed` and are excluded from published coverage metrics.
 - Intentional bounded difference: empty drafts do not materialize the legacy implementation's phantom zero totals; populated results remain aligned.
 
