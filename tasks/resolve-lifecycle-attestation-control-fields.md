@@ -6,10 +6,10 @@ description: >-
   Determine evidence-backed ownership and roles for 18 lifecycle-sensitive or
   nonstandard form-local occurrences.
 superbee_progress_status: done
-superbee_updated_by: codex
+superbee_updated_by: correct_tracking_role
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:58:42.510Z'
+  at: '2026-08-23T19:18:17.577Z'
 assignee: lifecycle_fields_agent
 ---
 # Objective
@@ -47,7 +47,7 @@ Resolve value ownership and response roles for 18 fields that should not be norm
 
 Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `5af4b807d`.
 
-The evidence-backed disposition is:
+The initial PR #43 disposition was:
 
 - Nine `systemValue` occurrences: agency routing numbers in both R&R covers; the Multi-Project
   Grants.gov tracking number; SF-424 State received date/application identifier; and the equivalent
@@ -59,7 +59,7 @@ The evidence-backed disposition is:
 - One `applicantInput`: Multi-Project `submittedDate`, represented by the new
   `application/submission-date-entered` canonical question.
 
-Response role is orthogonal to semantic identity. The nine externally assigned occurrences now
+Response role is orthogonal to semantic identity. In PR #43, the nine externally assigned occurrences
 retain canonical lineage through four source-neutral blocks: Federal agency routing number, State
 received date, State application identifier, and previous Grants.gov tracking number. Each emitted
 occurrence has both its canonical block id and `systemValue` role. The nine evidence mappings are
@@ -86,3 +86,23 @@ tests, 131 validated blocks / 712 artifacts, 107 canonical questions, 436 explor
 zero reviewed associations, and the combined monotonic ratchet at 76 initial / 26 resolved / 50
 remaining. XML profiles and current runtime presentation/validation behavior are unchanged. No
 HHS/upstream repository or issue was modified.
+
+# Superseding correction
+
+PR #43's actor-versus-authority interpretation was corrected after independently re-reading the
+pinned population instructions. Merged producer PR
+[mikec-ai/grants-form-spec#46](https://github.com/mikec-ai/grants-form-spec/pull/46), main commit
+`c4a7fa5e722bca4dd92eb66a887bc2f7f6e0a865`, is authoritative:
+
+- Eight R&R occurrences are `applicantInput`: State-received date, State application identifier,
+  agency routing identifier, and prior Grants.gov tracking number in both R&R covers.
+- Classic SF-424's two State fields remain read-only `systemValue`s.
+- The other attestations, technical controls, and Multi-Project submitted date retain their PR #43
+  roles.
+- The standalone tracking occurrence now shares the proposal-only canonical identity, moving the
+  ratchet to 27 resolved / 49 remaining and exploratory associations to 437.
+
+The standalone instructions (`666647f...`) and independent Multi-Project DAT (`361e00d...`) both
+direct the applicant to enter the four R&R values. External authority remains in descriptions and
+provenance; it no longer overrides the documented response-population actor. All ten mappings remain
+proposed and unpublished.
