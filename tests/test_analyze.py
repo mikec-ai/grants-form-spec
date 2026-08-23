@@ -209,7 +209,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 101)
+        self.assertEqual(len(self.analysis["questionInventory"]), 102)
         self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 426)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)

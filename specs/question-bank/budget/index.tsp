@@ -26,6 +26,15 @@ namespace QuestionBank.Budget;
 @maxLength(120)
 scalar BudgetActivityTitle extends string;
 
+/** Enter the Assistance Listing number associated with this budget activity, when applicable. */
+@Question.meta(#{ id: "budget/activity-assistance-listing-number" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.identifier)
+@UI.label("Assistance Listing number")
+@minLength(1)
+@maxLength(15)
+scalar BudgetActivityAssistanceListingNumber extends string;
+
 /** Explain direct-charge amounts that need additional context. */
 @Question.meta(#{ id: "budget/direct-charges-explanation" })
 @Response.role(ResponseRole.applicantInput)

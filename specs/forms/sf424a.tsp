@@ -5,7 +5,6 @@ import "../question-bank/opportunity/index.tsp";
 
 using SimplerForms;
 using QuestionBank.Budget;
-using QuestionBank.Opportunity;
 
 namespace Forms.SF424a;
 
@@ -41,8 +40,7 @@ model ActivityLineItem {
 
   @UI.label("Assistance Listing number")
   @UI.helpText("Enter the Assistance Listing number in ##.### format.")
-  @Response.role(ResponseRole.applicantInput)
-  assistanceListingNumber?: AssistanceListingNumber;
+  assistanceListingNumber?: BudgetActivityAssistanceListingNumber;
 
   budgetSummary?: QuestionBudgetSummary;
   budgetCategories?: QuestionBudgetCategories;

@@ -36,7 +36,7 @@
         "sourceId": "grantsgov-sf424a-xsd-1.0",
         "sourcePath": "BudgetInformation.BudgetSummary.SummaryLineItem.CFDANumber",
         "status": "proposed",
-        "note": "The pinned XSD defines the optional per-row CFDANumber as a 1-15 character Assistance Listing number. This proposal reuses the canonical Assistance Listing number while preserving its repeated row path."
+        "note": "The pinned XSD defines the optional per-row CFDANumber as a 1-15 character Assistance Listing number. This proposal gives it a conservative budget-row identity; the XSD does not establish equivalence with the opportunity-level value or prove which workflow actor supplies it."
       },
       {
         "canonicalPointer": "#/properties/directChargesExplanation",

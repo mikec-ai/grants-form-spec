@@ -27,7 +27,7 @@ class ResidualReferenceQuestionTests(unittest.TestCase):
             (
                 "sf424a",
                 "/activityLineItems/[]/assistanceListingNumber",
-            ): "opportunity/assistance-listing-number",
+            ): "budget/activity-assistance-listing-number",
             (
                 "sf424a",
                 "/directChargesExplanation",
@@ -98,8 +98,22 @@ class ResidualReferenceQuestionTests(unittest.TestCase):
         )
         self.assertEqual(
             row["properties"]["assistanceListingNumber"]["$ref"],
-            "../../question-bank/opportunity/assistance-listing-number/schema.json",
+            "../../question-bank/budget/activity-assistance-listing-number/schema.json",
         )
+
+        assistance_listing = load(
+            ROOT
+            / "dist/question-bank/budget/activity-assistance-listing-number/schema.json"
+        )
+        assistance_listing_index = load(
+            ROOT
+            / "dist/question-bank/budget/activity-assistance-listing-number/index.json"
+        )
+        self.assertEqual(
+            (assistance_listing["minLength"], assistance_listing["maxLength"]),
+            (1, 15),
+        )
+        self.assertNotIn("responseRole", assistance_listing_index)
 
         constraints = {
             "activity-title": (1, 120),
