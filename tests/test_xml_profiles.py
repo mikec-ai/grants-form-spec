@@ -102,11 +102,13 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
         district = profile["mapping"]["fields"]["congressionalDistrict"]
 
         self.assertEqual(district["kind"], "group")
+        self.assertEqual(district["namespace"], "default")
         self.assertEqual(
             district["fields"]["applicantCongressionalDistrict"],
             {
                 "element": "ApplicantCongressionalDistrict",
                 "kind": "value",
+                "namespace": "default",
                 "source": "/applicantCongressionalDistrict",
             },
         )
