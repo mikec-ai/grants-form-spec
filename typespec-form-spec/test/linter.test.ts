@@ -227,6 +227,29 @@ describe("section-unused", () => {
       )
       .toBeValid();
   });
+
+  it("accepts a documented empty section as static presentation content", async () => {
+    const lint = await tester("section-unused");
+    await lint
+      .expect(
+        form(`
+          enum Section {
+            /** Read these instructions before continuing. */
+            instructions: "Instructions",
+            used: "Used",
+          }
+
+          /** A form. */
+          ${formMeta("with-instructions")}
+          @UI.sections(Section)
+          model WithInstructions {
+            @UI.section(Section.used)
+            field?: string;
+          }
+        `),
+      )
+      .toBeValid();
+  });
 });
 
 describe("order-incomplete", () => {

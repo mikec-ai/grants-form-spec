@@ -6,7 +6,7 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes nineteen reference forms, spanning:
+The repository currently includes 32 reference forms, spanning:
 
 - Key Contacts
 - SF-424
@@ -26,6 +26,11 @@ The repository currently includes nineteen reference forms, spanning:
 - Project/Performance Site Locations
 - R&R Other Project Information
 - PHS 398 Modular Budget
+- PHS Assignment Request
+- Attachment Form
+- SF-LLL, CD-511, and Grants.gov Lobbying Form
+- the SF-424B and SF-424D profile families
+- SF-424C and R&R SF-424B
 
 The reference implementation proves applicant-visible rendering and validation parity against existing implementations. SF-424 Short adds no new questions to the bank and shares 91 percent of its questions with SF-424, demonstrating the intended reuse model.
 
