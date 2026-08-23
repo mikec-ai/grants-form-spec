@@ -267,6 +267,47 @@ describe("bounded presence conditions", () => {
     );
   });
 
+  it("accepts an alias that resolves to the target model", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(`
+      import "@simpler-grants/form-spec";
+      using SimplerForms;
+
+      alias LocalTwin = Target.Twin;
+      namespace Target {
+        enum TwinSection { fields: "Fields" }
+        ${formMeta("aliased-count-source")}
+        @UI.sections(TwinSection)
+        model Twin {
+          @UI.section(TwinSection.fields)
+          people?: string[];
+          @UI.section(TwinSection.fields)
+          @UI.enabledWhenCountOrPresent(LocalTwin.people, 1)
+          upload?: string;
+        }
+      }
+    `);
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "aliased-count-source",
+    );
+    const upload = emitSggUi(instance.program, block!)
+      .flatMap((node) => ("children" in node ? node.children : [node]))
+      .find((node) => "definition" in node && node.definition === "/properties/upload");
+    expect(upload).toMatchObject({
+      definition: "/properties/upload",
+      conditional: {
+        when: {
+          op: "any",
+          predicates: [
+            { op: "countAtLeast", ref: { pointer: "/people" }, minimum: 1 },
+            { op: "present", ref: { pointer: "/upload" } },
+          ],
+        },
+      },
+    });
+  });
+
   it.each([0, -1])("rejects a non-positive count threshold (%s)", async (minimum) => {
     expectDiagnostics(
       await Tester.diagnose(

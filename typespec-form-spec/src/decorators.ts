@@ -20,30 +20,12 @@ function plain(ctx: DecoratorContext, value: unknown): unknown {
 
 type Ctx = DecoratorContext;
 
-function referencePath(node: any): string[] | undefined {
-  if (!node || typeof node !== "object") return undefined;
-  if (typeof node.sv === "string") return [node.sv];
-  if (node.base && node.id) {
-    const base = referencePath(node.base);
-    return base && typeof node.id.sv === "string" ? [...base, node.id.sv] : undefined;
-  }
-  return node.target ? referencePath(node.target) : undefined;
-}
-
-function declarationModelPath(property: ModelProperty): string[] {
-  const model = property.node?.parent as any;
-  if (!model?.id?.sv) return property.model ? [property.model.name] : [];
-  const path = [model.id.sv];
-  for (let namespace = model.parent; namespace; namespace = namespace.parent) {
-    if (namespace.id?.sv) path.unshift(namespace.id.sv);
-  }
-  return path;
-}
-
-function pathEndsWith(path: string[], suffix: string[]): boolean {
-  return suffix.length <= path.length && suffix.every(
-    (part, index) => part === path[path.length - suffix.length + index],
-  );
+function resolvedArgumentProperty(ctx: Ctx, index: number): ModelProperty | undefined {
+  const target = ctx.getArgumentTarget(index);
+  if (!target || (target as any).entityKind) return undefined;
+  const node = target as Parameters<typeof ctx.program.checker.getTypeForNode>[0];
+  const resolved = ctx.program.checker.getTypeForNode(node);
+  return resolved.kind === "ModelProperty" ? resolved : undefined;
 }
 
 /** Store a single value keyed by target. */
@@ -237,16 +219,12 @@ function countCondition(
   minimum: number,
 ) {
   let valid = true;
-  const invocation = ctx.decoratorTarget as any;
-  const sourceReference = referencePath(invocation.arguments?.[0])?.slice(0, -1) ?? [];
-  if (
-    sourceReference.length > 0 &&
-    !pathEndsWith(declarationModelPath(target), sourceReference)
-  ) {
+  const resolvedSource = resolvedArgumentProperty(ctx, 0) ?? source;
+  if (resolvedSource.model && target.model && resolvedSource.model !== target.model) {
     reportDiagnostic(ctx.program, {
       code: "condition-source-not-sibling",
       target,
-      format: { source: sourceReference.join("."), target: target.name },
+      format: { source: resolvedSource.name, target: target.name },
     });
     valid = false;
   }
@@ -274,7 +252,7 @@ function countCondition(
     sourceIsArray: true,
     minimum: normalizedMinimum,
   };
-  rememberConditionSourceModel(condition, source.model);
+  rememberConditionSourceModel(condition, resolvedSource.model);
   return condition;
 }
 
