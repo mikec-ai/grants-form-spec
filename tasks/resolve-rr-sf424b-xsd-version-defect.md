@@ -8,10 +8,9 @@ description: >-
   metadata defect, then bank the exact XSD and form in SGG without runtime
   enablement.
 superbee_progress_status: in_progress
-superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T23:25:02.216Z'
+  at: '2026-08-23T23:42:44.531Z'
 ---
 # Goal
 
@@ -38,5 +37,15 @@ Resolve the R&R SF-424B official-XSD version discrepancy as a narrow, evidence-b
 1. Land the producer evidence/disposition and tests.
 2. Repin the consumer artifact bank after the producer merge.
 3. Verify digest, XSD, selection, and fail-closed runtime tests in SGG.
+
+# Progress (2026-08-23)
+
+- Producer PR [mikec-ai/grants-form-spec#61](https://github.com/mikec-ai/grants-form-spec/pull/61) merged as `7089fa6b0cca70e63e805a971c192a1849394d20`.
+- Producer preflight passed: 198 Python tests, 104 TypeScript tests, artifact validation, promotion validation, bundle verification, and the classified-field gate.
+- The official XSD remains byte-identical at SHA-256 `511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296`.
+- Consumer commit `930302c0` on `codex/bank-rr-sf424b-20260823` banks the form from the producer merge commit and leaves runtime identity and registration absent.
+- The consumer promotion updater now provisions a missing XSD only from the immutable producer checkout and only when its bytes match the declared digest; it does not fetch live bytes or overwrite a conflicting consumer XSD.
+- Focused consumer verification passed: Ruff plus 43 promotion/provenance/registration/SF-424B tests. The full portable-adapter directory produced 222 passes; its sole local error was the unrelated database lifecycle test because the non-container host `grants-db` was unavailable.
+- Consumer delivery remains stacked on `tasks/separate-banked-from-runtime-enabled-forms` / SGG PR #51 and is not complete until that prerequisite lands and this branch is rebased, opened as a focused PR, and merged.
 
 [depends on](separate-banked-from-runtime-enabled-forms.md)
