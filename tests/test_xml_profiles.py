@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import unittest
 from pathlib import Path
 from typing import Any
@@ -40,17 +41,19 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
         evidence = _json(ROOT / "evidence/forms/rr-sf424/evidence.json")
         source_by_uri = {item["uri"]: item for item in evidence["sources"]}
         fragments = {
-            "global-library-v2-human-name.json": ("globLib:HumanNameDataType", "2.0"),
-            "global-library-v2-address-v3.json": ("globLib:AddressDataTypeV3", "2.0"),
-            "attached-file-data-1.0.json": ("att:AttachedFileDataType", "1.0"),
+            "global-library-v2-human-name.json": "globLib:HumanNameDataType",
+            "global-library-v2-address-v3.json": "globLib:AddressDataTypeV3",
+            "attached-file-data-1.0.json": "att:AttachedFileDataType",
         }
-        for name, (expected_type, expected_version) in fragments.items():
+        for name, expected_type in fragments.items():
             fragment = _json(SOURCE / "mappings" / name)
             xsd = fragment["evidence"]["xsd"]
             pinned = source_by_uri[xsd["uri"]]
             self.assertEqual(xsd["sha256"], pinned["sha256"])
             self.assertEqual(xsd["type"], expected_type)
-            self.assertEqual(xsd["version"], expected_version)
+            native_version = re.search(r"-V([0-9]+(?:\.[0-9]+)+)\.xsd$", xsd["uri"])
+            self.assertIsNotNone(native_version)
+            self.assertEqual(xsd["version"], native_version.group(1))
 
     def test_all_authored_profiles_emit_self_contained_targets(self) -> None:
         form_ids = {
