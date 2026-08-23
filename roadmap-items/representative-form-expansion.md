@@ -2,12 +2,11 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Eighteen forms now compile through the portable specification and load through
-  the public Simpler adapter. R&R Other Project Information adds reusable
-  human-subject, vertebrate-animal, environmental, historic-place,
-  international-activity, and semantically distinct supporting-document
-  foundations. Its nested conditional composition also hardened generic JSON
-  Forms scope rebasing. The next foundation is PHS 398 Modular Budget.
+  Nineteen forms now compile through the portable specification and load through
+  the public Simpler adapter. R&R Other Project Information adds reusable policy
+  and supporting-document questions; PHS 398 Modular Budget adds a materially
+  different budget model with nested rows and eight portable calculations. Both
+  also hardened generic infrastructure discovered through promotion.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex

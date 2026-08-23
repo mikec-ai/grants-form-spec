@@ -6,11 +6,11 @@ assignee: codex
 description: >-
   Extend the portable budget foundation into the distinct NIH modular-budget
   model using the deterministic promotion pipeline and generic Simpler adapter.
-superbee_progress_status: todo
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T04:52:06.814Z'
+  at: '2026-08-23T05:14:20.979Z'
 ---
 # Objective
 
