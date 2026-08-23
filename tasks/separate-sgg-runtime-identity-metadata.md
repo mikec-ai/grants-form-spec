@@ -2,16 +2,16 @@
 type: Task
 title: Separate SGG runtime identity from portable FormMeta
 priority: P0
-assignee: codex
+assignee: identity_agent
 description: >-
   Move only demonstrated SGG runtime identity fields into a versioned SGG-owned
   registration/target record, preserving compatibility and avoiding wholesale
   target-vocabulary relocation.
-superbee_progress_status: todo
-superbee_updated_by: Codex
+superbee_progress_status: in_progress
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:55:12.617Z'
+  at: '2026-08-23T15:36:02.486Z'
 ---
 # Goal
 

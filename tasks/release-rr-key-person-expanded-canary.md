@@ -2,16 +2,16 @@
 type: Task
 title: Prove R&R Key Person Expanded through the full SGG lifecycle
 priority: P0
-assignee: codex
+assignee: canary_assessment_agent
 description: >-
   Use the existing Key Person form as the post-leverage vertical canary before
   authoring a twentieth form; validate registration, lifecycle, repeated
   structures, projection, XML/XSD, and explicit human gates.
 superbee_progress_status: todo
-superbee_updated_by: Codex
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:55:12.827Z'
+  at: '2026-08-23T15:36:02.757Z'
 ---
 # Goal
 
