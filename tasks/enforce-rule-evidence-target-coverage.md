@@ -7,7 +7,7 @@ description: >-
 superbee_updated_by: rule_evidence_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:45:47.011Z'
+  at: '2026-08-23T21:50:06.592Z'
 superbee_progress_status: in_progress
 priority: P0
 assignee: rule_evidence_agent
@@ -38,8 +38,9 @@ The gate verifies evidence coverage and authority class. It does not infer behav
 # Delivery receipt
 
 - Draft implementation: [grants-form-spec PR #57](https://github.com/mikec-ai/grants-form-spec/pull/57)
-- Commit: `107bf15c969495ea8200f0632aa8982e510e2e77`
-- Full local preflight passed: 102 TypeSpec tests, 155 Python tests with one skip, 1,010 artifact validations, artifact packaging verification, and zero unclassified occurrences or exceptions.
+- Head commit: `d7236c23c84cc144b1ffb8db0dbc7137c8983cdc`
+- Full local preflight passed after review fixes: 102 TypeSpec tests, 158 Python tests with one skip, 1,010 artifact validations, artifact packaging verification, and zero unclassified occurrences or exceptions.
 - Coverage proof: SF-424C has 24 official-source calculation dispositions; the R&R Budget family inherits 56 exact calculation dispositions (20 official, 36 unresolved); R&R Other Project Information has 13 exact unresolved condition dispositions.
 - Negative regressions cover missing and duplicate dispositions, input-only/count substitution, ambiguous array normalization, and implementation evidence misclassified as official authority.
-- GitHub CI passed. Status remains in progress until independent review completes; the PR is intentionally unmerged.
+- Independent review response: duplicate emitted target identities now fail before map construction; calculation detection accepts only explicit `fields` or `amount` + `percentage` operand shapes, and unknown or mixed prepopulation shapes fail closed. Three negative regressions cover these cases.
+- GitHub CI is rerunning for the review-fix head. Status remains in progress until independent re-review completes; the PR is intentionally unmerged.
