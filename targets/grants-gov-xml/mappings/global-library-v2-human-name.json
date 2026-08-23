@@ -1,0 +1,40 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "global-library-v2-human-name",
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+      "version": "2.0",
+      "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8",
+      "type": "globLib:HumanNameDataType",
+      "path": "/xs:schema/xs:complexType[@name='HumanNameDataType']"
+    }
+  },
+  "fields": {
+    "prefix": {
+      "element": "PrefixName",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "firstName": {
+      "element": "FirstName",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "middleName": {
+      "element": "MiddleName",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "lastName": {
+      "element": "LastName",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "suffix": {
+      "element": "SuffixName",
+      "kind": "value",
+      "namespace": "globLib"
+    }
+  }
+}

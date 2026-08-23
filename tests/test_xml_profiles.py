@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import unittest
 from pathlib import Path
@@ -16,6 +17,41 @@ def _json(path: Path) -> Any:
 
 
 class GrantsGovXmlProfileTests(unittest.TestCase):
+    def test_factored_profiles_remain_byte_identical_to_the_source_bound_baseline(self) -> None:
+        expected = {
+            "rr-budget": "b519089485c79277dd6eb21363624895eebfde882f5e2224b268692d606eafe3",
+            "rr-sf424": "23015dd8940e677666e335d2533012865439952db03c57eea61056f8764ca9ca",
+        }
+
+        for form_id, digest in expected.items():
+            artifact = DIST_FORMS / form_id / "targets/grants-gov-xml.json"
+            self.assertEqual(hashlib.sha256(artifact.read_bytes()).hexdigest(), digest)
+
+    def test_rr_sf424_factors_only_source_identical_global_library_types(self) -> None:
+        source = _json(SOURCE / "mappings/rr-sf424-5.0.json")
+        serialized = json.dumps(source)
+        self.assertEqual(
+            serialized.count("global-library-v2-human-name.json#/fields"), 3
+        )
+        self.assertEqual(
+            serialized.count("global-library-v2-address-v3.json#/fields"), 4
+        )
+
+        evidence = _json(ROOT / "evidence/forms/rr-sf424/evidence.json")
+        source_by_uri = {item["uri"]: item for item in evidence["sources"]}
+        fragments = {
+            "global-library-v2-human-name.json": ("globLib:HumanNameDataType", "2.0"),
+            "global-library-v2-address-v3.json": ("globLib:AddressDataTypeV3", "2.0"),
+            "attached-file-data-1.0.json": ("att:AttachedFileDataType", "1.0"),
+        }
+        for name, (expected_type, expected_version) in fragments.items():
+            fragment = _json(SOURCE / "mappings" / name)
+            xsd = fragment["evidence"]["xsd"]
+            pinned = source_by_uri[xsd["uri"]]
+            self.assertEqual(xsd["sha256"], pinned["sha256"])
+            self.assertEqual(xsd["type"], expected_type)
+            self.assertEqual(xsd["version"], expected_version)
+
     def test_all_authored_profiles_emit_self_contained_targets(self) -> None:
         form_ids = {
             "rr-budget",
