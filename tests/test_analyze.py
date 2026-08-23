@@ -215,6 +215,16 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 32)
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
 
+    def test_readme_reference_form_summary_tracks_the_sequence(self) -> None:
+        sequence = json.loads((ROOT / "analysis/form-sequence.v1.json").read_text())
+        readme = (ROOT / "README.md").read_text()
+        self.assertIn(
+            f"currently includes {len(sequence['forms'])} reference forms",
+            readme,
+        )
+        self.assertIn("- PHS Assignment Request", readme)
+        self.assertIn("- Attachment Form", readme)
+
     def test_attachment_form_adds_capture_capability_without_semantic_questions(self) -> None:
         self.assertEqual(self.analysis["asks"]["attachment-form"], [])
         mechanisms = self.analysis["usesCaptureMechanisms"]["attachment-form"]
