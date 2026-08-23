@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:45:21.107Z'
+  at: '2026-08-23T18:47:16.856Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -64,10 +64,12 @@ architecture or silently claim human approval.
   tests, 76 Python tests, 660 artifact validations, and the unclassified-field ratchet). GitHub CI
   passed in 1m17s.
 - Adapter implementation is ready in [simpler-grants-gov PR 38](https://github.com/mikec-ai/simpler-grants-gov/pull/38):
-  generic monetary-sum, integer-sum, and subtraction handling plus the exact producer commit pinned
-  across all five family profiles. The focused 104-test rule-processing, root-budget,
+  generic server-side monetary-sum, integer-sum, and subtraction handling plus the exact producer
+  commit pinned across all five family profiles. The focused 105-test rule-processing, root-budget,
   nested-subaward, and artifact-integrity suite passes against the local test database; lint,
   formatting, and targeted mypy pass. This fork currently reports no GitHub checks for the branch.
+- SGG executes this portable calculation contract in its server-side rule processor. This slice does
+  not add or claim a client-side calculation implementation.
 - This slice has no lifecycle/residual-normalization overlap and adds no budget-family branch.
 
 [depends on](harden-rr-budget-production.md)
