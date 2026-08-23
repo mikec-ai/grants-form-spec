@@ -7,7 +7,7 @@ description: >-
 superbee_updated_by: rule_evidence_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:50:06.592Z'
+  at: '2026-08-23T21:51:32.711Z'
 superbee_progress_status: in_progress
 priority: P0
 assignee: rule_evidence_agent
@@ -43,4 +43,4 @@ The gate verifies evidence coverage and authority class. It does not infer behav
 - Coverage proof: SF-424C has 24 official-source calculation dispositions; the R&R Budget family inherits 56 exact calculation dispositions (20 official, 36 unresolved); R&R Other Project Information has 13 exact unresolved condition dispositions.
 - Negative regressions cover missing and duplicate dispositions, input-only/count substitution, ambiguous array normalization, and implementation evidence misclassified as official authority.
 - Independent review response: duplicate emitted target identities now fail before map construction; calculation detection accepts only explicit `fields` or `amount` + `percentage` operand shapes, and unknown or mixed prepopulation shapes fail closed. Three negative regressions cover these cases.
-- GitHub CI is rerunning for the review-fix head. Status remains in progress until independent re-review completes; the PR is intentionally unmerged.
+- GitHub CI passed for the review-fix head. Status remains in progress until independent re-review completes; the PR is intentionally unmerged.
