@@ -7,7 +7,7 @@ description: >-
 superbee_updated_by: xml_conformance_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:51:50.802Z'
+  at: '2026-08-23T21:53:10.170Z'
 superbee_progress_status: in_progress
 priority: P0
 assignee: xml_conformance_agent
@@ -40,12 +40,13 @@ This is conformance infrastructure. It does not decide form semantics, generate 
 
 - Open producer PR: [mikec-ai/grants-form-spec#56](https://github.com/mikec-ai/grants-form-spec/pull/56)
 - Branch: `codex/generic-xml-xsd-conformance`
-- Commits: `51b2b4b64`, `977dd2213`
+- Rebased commits: `0b8fdcfef`, `cf8bae6ff`; exact head `cf8bae6fffb1fcacdb6cd936ab116772e83149dc`.
+- Base includes producer main `b6298fd39` from PR #57.
 - Added one resolved-profile reference interpreter with no form IDs or form-specific branches.
 - Added digest-pinned offline XSD validation using `xmllint --nonet` and local dependency rewriting.
 - Migrated SF-424C, SF-LLL, and R&R Senior/Key Person Profile (Expanded), including repeated people and attachments.
 - Preserved form-specific representative responses, semantic XML assertions, exact source digests, and positive/negative XSD expectations.
 - Independent review findings addressed: profile contract versions fail closed; declarative null constants and null value-map outputs fail closed; official profile digest and URI filename must match the pinned XSD entrypoint.
 - Added three bounded negative-test groups for those review findings.
-- Full `npm run preflight` passed after review fixes: 102 TypeScript tests; 151 Python tests with one existing skip; 1,010 artifacts and 180 blocks validated; zero unclassified fields and zero exceptions.
+- Full `npm run preflight` passed after rebase: 102 TypeScript tests; 163 Python tests with one existing skip; 1,010 artifacts and 180 blocks validated; zero unclassified fields and zero exceptions.
 - Status remains `in_progress` until independent review and merge.
