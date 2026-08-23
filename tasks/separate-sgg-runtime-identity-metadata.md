@@ -7,6 +7,21 @@ description: >-
   Move only demonstrated SGG runtime identity fields into a versioned SGG-owned
   registration/target record, preserving compatibility and avoiding wholesale
   target-vocabulary relocation.
+superbee_progress_status: done
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T16:05:59.673Z'
+---
+---
+type: Task
+title: Separate SGG runtime identity from portable FormMeta
+priority: P0
+assignee: identity_agent
+description: >-
+  Move only demonstrated SGG runtime identity fields into a versioned SGG-owned
+  registration/target record, preserving compatibility and avoiding wholesale
+  target-vocabulary relocation.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
@@ -33,3 +48,15 @@ Do not move every `@Sgg.*` declaration, introduce a new intermediate representat
 # Completion evidence
 
 Record the fields moved, the compatibility mechanism, affected-form count, and before-and-after SGG-specific surface in the portable contract.
+
+# Result
+
+Delivered through ordered producer and adapter changes.
+
+- mikec-ai/grants-form-spec PR #35 merged as fb85da8b7fc58f9000be7da491f317502da3b269.
+- mikec-ai/simpler-grants-gov PR #32 merged as 0c14d8bfea32b182c51803e5f2e31f1c426518ec.
+- Portable FormMeta no longer owns the SGG-generated UUID, FormType, or SGG schema version. The legacy Grants.gov FID remains portable source identity.
+- A versioned SGG record preserves the exact UUID, FormType, and version triples for all 19 forms; only the prior five registrations remain active and no instruction UUID was invented.
+- The adapter consumes identity through one generic path with no per-form branch.
+- Producer preflight passed with 659 artifacts; 119 adapter lifecycle/parity tests and all static checks passed.
+- Independent review required and verified an exact all-19 compatibility lock plus repinning to the merged producer commit before adapter merge.
