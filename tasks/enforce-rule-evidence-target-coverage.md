@@ -2,13 +2,13 @@
 type: Task
 title: Enforce exact rule-to-evidence target coverage
 description: >-
-  Require every calculation and condition target to have an exact-path evidence
-  disposition with explicit authority class.
-superbee_updated_by: rule_evidence_agent
+  Exact calculation and condition targets now require one fail-closed evidence
+  disposition; reviewed producer PR 57 is merged.
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:51:32.711Z'
-superbee_progress_status: in_progress
+  at: '2026-08-23T21:51:37.924Z'
+superbee_progress_status: done
 priority: P0
 assignee: rule_evidence_agent
 ---
