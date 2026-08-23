@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424d_family_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:04:23.629Z'
+  at: '2026-08-23T20:06:03.282Z'
 ---
 # Goal
 
@@ -38,14 +38,14 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 ## Official-source audit staged (2026-08-23)
 
 - Producer branch: `codex/sf424d-family-20260823`
-- Staging commit: `ca0ba79b346d4b7ae05108ee628145342e7d51ba`
+- Staging commits: `ca0ba79b346d4b7ae05108ee628145342e7d51ba`, `53ffcd005982c9e7c3e786ad2afa964079781ff5`
 - Fresh worktree baseline: `origin/main` at `7db589062431f3db063e847ddf6bfc2046b38c7b`
 - All three official FID records were independently checked and are currently Active at v1.1: base FID 238, Individual FID 522, Mandatory FID 329.
 - Exact XSD, DAT, instructions, sample-PDF, and read-only-PDF URLs and SHA-256 digests are staged under `research/sf424d-family/official-source-audit.json`.
 - The twenty policy items are identical across all three profiles and staged as one source-bound, unreviewed construction bundle. Canonical policy-text-array SHA-256: `89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be`.
 - Individual and Mandatory XSD shapes differ only by namespace/prefix. Base additionally carries `glob:FormVersionIdentifier` plus `glob:coreSchemaVersion`; the variants use local fixed `FormVersion`.
 - Base and Mandatory title/organization are prefilled; Individual title/organization are applicant input. Signature/date remain platform values for all three.
-- Exact official XSD fixtures and six focused audit tests are staged. Full producer preflight passed: 93 TypeScript tests, 96 Python tests with 8 pre-existing skips, artifact validation, packaging, and unclassified ratchet.
+- Exact official XSD fixtures and seven focused audit tests are staged, including minimal XML canaries that validate each profile's distinct namespace/version wiring against its exact XSD. Full producer preflight passed: 93 TypeScript tests, 96 Python tests with 8 pre-existing skips, artifact validation, packaging, and unclassified ratchet.
 
 # Remaining gates
 
