@@ -54,6 +54,15 @@
         }
       }
     },
+    "inheritsBehaviorEvidenceFrom": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/behaviorEvidenceInheritance" }
+    },
+    "behaviorEvidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/behaviorEvidence" }
+    },
     "extraction": {
       "type": "object",
       "additionalProperties": false,
@@ -86,6 +95,27 @@
     }
   },
   "$defs": {
+    "behaviorEvidenceInheritance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blockId", "mountPath"],
+      "properties": {
+        "blockId": { "type": "string", "minLength": 1 },
+        "mountPath": { "type": "string" }
+      }
+    },
+    "behaviorEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalPath", "sourceId", "sourcePath", "sourceRecord"],
+      "properties": {
+        "canonicalPath": { "type": "string", "minLength": 1 },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "sourcePath": { "type": "string", "minLength": 1 },
+        "sourceRecord": { "type": "string", "minLength": 1 },
+        "inheritedFrom": { "type": "string", "minLength": 1 }
+      }
+    },
     "mapping": {
       "type": "object",
       "additionalProperties": false,

@@ -58,6 +58,14 @@ extern dec computed(target: ModelProperty, operator: valueof Op, ...refs: ModelP
  */
 extern dec computedFrom(target: ModelProperty, operator: valueof Op, ...paths: valueof string[]);
 
+/**
+ * Leave a calculated output absent until at least one declared source value is present.
+ *
+ * An explicitly entered zero is present and therefore materializes the calculated value. This
+ * controls output materialization only; it does not change the calculation or requiredness.
+ */
+extern dec materializeWhenAnySourcePresent(target: ModelProperty);
+
 /** Preserve an authoritative calculation's evaluation position when the source defines one. */
 extern dec evaluationOrder(target: ModelProperty, order: valueof int32);
 

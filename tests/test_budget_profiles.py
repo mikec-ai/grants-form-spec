@@ -72,6 +72,59 @@ class ResearchBudgetProfileTests(unittest.TestCase):
         self.assertIn("...ResearchBudget10YrDetails;", ten_year_form)
         self.assertNotIn("extends ResearchBudgetDetails", source)
 
+    def test_family_profiles_inherit_exact_f770_behavior_provenance(self) -> None:
+        root_evidence = json.loads((FORMS / "rr-budget" / "evidence.json").read_text())
+        root_paths = {
+            record["canonicalPath"] for record in root_evidence["behaviorEvidence"]
+        }
+        for form_id in (
+            "rr-budget",
+            "rr-budget-10yr",
+            "rr-subaward-budget",
+            "rr-subaward-budget-30",
+            "rr-subaward-budget-10yr-30",
+        ):
+            with self.subTest(form_id=form_id):
+                evidence = json.loads((FORMS / form_id / "evidence.json").read_text())
+                dat = next(
+                    source
+                    for source in evidence["sources"]
+                    if source["id"] == "grantsgov-rr-budget-dat-3.0-f770"
+                )
+                self.assertEqual(
+                    dat["sha256"],
+                    "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035",
+                )
+                self.assertEqual(len(evidence["behaviorEvidence"]), 20)
+                self.assertEqual(
+                    {record["sourceId"] for record in evidence["behaviorEvidence"]},
+                    {"grantsgov-rr-budget-dat-3.0-f770"},
+                )
+                self.assertEqual(
+                    evidence["semanticReview"], {"status": "unreviewed", "mappings": []}
+                )
+                if form_id != "rr-budget":
+                    self.assertEqual(
+                        {record["inheritedFrom"] for record in evidence["behaviorEvidence"]},
+                        {"rr-budget"},
+                    )
+                prefix = (
+                    "budgetAttachments[*]."
+                    if form_id.startswith("rr-subaward-budget")
+                    else ""
+                )
+                self.assertEqual(
+                    {record["canonicalPath"] for record in evidence["behaviorEvidence"]},
+                    {f"{prefix}{path}" for path in root_paths},
+                )
+                if prefix:
+                    self.assertTrue(
+                        all(
+                            not record["canonicalPath"].startswith("budgetYear[*]")
+                            for record in evidence["behaviorEvidence"]
+                        )
+                    )
+
 
 if __name__ == "__main__":
     unittest.main()

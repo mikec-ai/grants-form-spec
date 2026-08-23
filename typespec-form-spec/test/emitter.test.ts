@@ -188,6 +188,23 @@ describe("SGG UI emission", () => {
     ]);
     expect(calculations).toHaveLength(56);
     expect(
+      calculations.filter(
+        (node) =>
+          (node.gg_pre_population as { materialize?: string }).materialize ===
+          "when_any_source_present",
+      ),
+    ).toHaveLength(20);
+    expect(
+      rules.budgetYear.travel.totalTravelCost.gg_pre_population.materialize,
+    ).toBe("when_any_source_present");
+    expect(
+      rules.budgetSummary.cumulativeTotalFundsRequestedOtherPersonnel.gg_pre_population
+        .presence_fields,
+    ).toEqual(["budgetYear[*].otherPersonnel.totalOtherPersonnelFund"]);
+    expect(
+      rules.budgetYear.directCosts.gg_pre_population,
+    ).not.toHaveProperty("materialize");
+    expect(
       rules.budgetYear.totalCompensation.gg_pre_population.fields,
     ).toEqual([
       "@THIS.keyPersons.totalFundForKeyPersons",
