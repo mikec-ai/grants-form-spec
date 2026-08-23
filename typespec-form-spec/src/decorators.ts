@@ -1,9 +1,10 @@
 import type {
   DecoratorContext, Enum, EnumMember, Model, ModelProperty, Scalar, Type, Value,
 } from "@typespec/compiler";
-import { serializeValueAsJson, $summary } from "@typespec/compiler";
+import { isArrayModelType, serializeValueAsJson, $summary } from "@typespec/compiler";
 import { $id as $jsonSchemaId } from "@typespec/json-schema";
-import { stateKeys } from "./lib.js";
+import { reportDiagnostic, stateKeys } from "./lib.js";
+import { rememberConditionSourceModel } from "./model.js";
 
 /**
  * `valueof <Model>` arrives as a TypeSpec ObjectValue with parent back-references,
@@ -18,6 +19,14 @@ function plain(ctx: DecoratorContext, value: unknown): unknown {
 }
 
 type Ctx = DecoratorContext;
+
+function resolvedArgumentProperty(ctx: Ctx, index: number): ModelProperty | undefined {
+  const target = ctx.getArgumentTarget(index);
+  if (!target || (target as any).entityKind) return undefined;
+  const node = target as Parameters<typeof ctx.program.checker.getTypeForNode>[0];
+  const resolved = ctx.program.checker.getTypeForNode(node);
+  return resolved.kind === "ModelProperty" ? resolved : undefined;
+}
 
 /** Store a single value keyed by target. */
 function set(ctx: Ctx, key: symbol, target: Type, value: unknown): void {
@@ -203,18 +212,85 @@ export const $enabledWhenAny = (
   });
 };
 
+function countCondition(
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) {
+  let valid = true;
+  const resolvedSource = resolvedArgumentProperty(ctx, 0) ?? source;
+  if (resolvedSource.model && target.model && resolvedSource.model !== target.model) {
+    reportDiagnostic(ctx.program, {
+      code: "condition-source-not-sibling",
+      target,
+      format: { source: resolvedSource.name, target: target.name },
+    });
+    valid = false;
+  }
+  if (source.type.kind !== "Model" || !isArrayModelType(source.type)) {
+    reportDiagnostic(ctx.program, {
+      code: "condition-count-source-not-array",
+      target,
+      format: { source: source.name },
+    });
+    valid = false;
+  }
+  const normalizedMinimum = Number(literal(minimum));
+  if (!Number.isInteger(normalizedMinimum) || normalizedMinimum <= 0) {
+    reportDiagnostic(ctx.program, {
+      code: "condition-count-minimum-invalid",
+      target,
+      format: { minimum: String(normalizedMinimum) },
+    });
+    valid = false;
+  }
+  if (!valid) return undefined;
+  const condition = {
+    operator: "countAtLeast" as const,
+    sourcePath: [source.name],
+    sourceIsArray: true,
+    minimum: normalizedMinimum,
+  };
+  rememberConditionSourceModel(condition, resolvedSource.model);
+  return condition;
+}
+
 export const $enabledWhenCount = (
   ctx: Ctx,
   target: ModelProperty,
   source: ModelProperty,
   minimum: number,
-) =>
+) => {
+  const count = countCondition(ctx, target, source, minimum);
+  if (count) push(ctx, stateKeys.enabledWhen, target, count);
+};
+
+/**
+ * Enable a field once a sibling list reaches capacity, while keeping an already-saved value
+ * operable if the list later falls below that threshold. This is the narrow disjunction needed
+ * by overflow attachment controls; it deliberately does not expose an arbitrary expression AST.
+ */
+export const $enabledWhenCountOrPresent = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) => {
+  const count = countCondition(ctx, target, source, minimum);
+  if (!count) return;
   push(ctx, stateKeys.enabledWhen, target, {
-    operator: "countAtLeast",
-    sourcePath: [source.name],
-    sourceIsArray: true,
-    minimum: Number(literal(minimum)),
+    operator: "any",
+    predicates: [
+      count,
+      {
+        operator: "present",
+        sourcePath: [target.name],
+        sourceIsArray: false,
+      },
+    ],
   });
+};
 
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));

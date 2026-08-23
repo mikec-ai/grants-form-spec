@@ -1,15 +1,45 @@
 import type { Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
+  AtomicCondition, Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
 } from "../model.js";
 
-const conditionSchema = (condition: Condition): Record<string, unknown> =>
+const conditionSchema = (condition: AtomicCondition): Record<string, unknown> =>
   condition.operator === "in"
     ? { enum: condition.values }
     : condition.operator === "countAtLeast"
       ? { type: "array", minItems: condition.minimum }
-      : { const: condition.value };
+      : condition.operator === "present"
+        ? {
+            not: {
+              anyOf: [
+                { type: "null" },
+                { const: "" },
+                { type: "array", maxItems: 0 },
+              ],
+            },
+          }
+        : { const: condition.value };
+
+/** A condition over the block root, used only for the bounded cross-field disjunction. */
+const rootConditionSchema = (condition: AtomicCondition): Record<string, unknown> => {
+  let schema = conditionSchema(condition);
+  for (const step of [...condition.sourcePath].reverse()) {
+    schema = { properties: { [step]: schema }, required: [step] };
+  }
+  return schema;
+};
+
+const jsonFormsCondition = (condition: Condition): Record<string, unknown> =>
+  condition.operator === "any"
+    ? {
+        scope: "#",
+        schema: { anyOf: condition.predicates.map(rootConditionSchema) },
+      }
+    : {
+        scope: `#/${condition.sourcePath.map((step) => `properties/${step}`).join("/")}`,
+        schema: conditionSchema(condition),
+      };
 
 export interface UiNode {
   type: string;
@@ -26,13 +56,24 @@ export function rescopeUi(node: UiNode, propName: string): UiNode {
   if (typeof out.scope === "string" && out.scope.startsWith("#/")) {
     out.scope = `#/properties/${propName}/${out.scope.slice(2)}`;
   }
-  const condition = out.rule?.condition as { scope?: unknown } | undefined;
+  const condition = out.rule?.condition as { scope?: unknown; schema?: unknown } | undefined;
   if (typeof condition?.scope === "string" && condition.scope.startsWith("#/")) {
     out.rule = {
       ...out.rule,
       condition: {
         ...condition,
         scope: `#/properties/${propName}/${condition.scope.slice(2)}`,
+      },
+    };
+  } else if (condition?.scope === "#" && condition.schema !== undefined) {
+    out.rule = {
+      ...out.rule,
+      condition: {
+        ...condition,
+        schema: {
+          properties: { [propName]: condition.schema },
+          required: [propName],
+        },
       },
     };
   }
@@ -74,10 +115,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
       const c = conds[0];
       node.rule = {
         effect: "SHOW",
-        condition: {
-          scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-          schema: conditionSchema(c),
-        },
+        condition: jsonFormsCondition(c),
       };
     } else {
       const enabled = propEnabledWhen(program, prop);
@@ -85,10 +123,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
         const c = enabled[0];
         node.rule = {
           effect: "ENABLE",
-          condition: {
-            scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-            schema: conditionSchema(c),
-          },
+          condition: jsonFormsCondition(c),
         };
       } else {
         const readOnly = propReadOnlyWhen(program, prop);
@@ -96,10 +131,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
           const c = readOnly[0];
           node.rule = {
             effect: "DISABLE",
-            condition: {
-              scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-              schema: conditionSchema(c),
-            },
+            condition: jsonFormsCondition(c),
           };
         }
       }

@@ -33,4 +33,13 @@ extern dec enabledWhen(target: ModelProperty, source: ModelProperty, equals: val
 extern dec enabledWhenAny(target: ModelProperty, source: ModelProperty, ...equals: valueof unknown[]);
 /** Enable the field once a sibling list reaches the declared entry count. */
 extern dec enabledWhenCount(target: ModelProperty, source: ModelProperty, minimum: valueof int32);
+/**
+ * Enable an overflow field at a list threshold or while that field already has a saved value.
+ * This preserves access to an existing upload if the list later falls below the threshold.
+ */
+extern dec enabledWhenCountOrPresent(
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: valueof int32,
+);
 extern dec readOnlyWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
