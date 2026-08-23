@@ -98,7 +98,13 @@ export function emitSggRules(program: Program, block: Block): Json {
       rule: calculation.rule,
       fields: calculation.refs.map((r) => r.emit),
     };
-    if (calculation.materialize) rule.materialize = calculation.materialize;
+    if (calculation.materialize) {
+      rule.materialize = calculation.materialize;
+      // Presence is a separate contract from formula evaluation. The adapter follows these
+      // references through any calculated dependencies to their entered source values, so an
+      // eagerly materialized intermediate zero cannot manufacture presence.
+      rule.presence_fields = calculation.refs.map((r) => r.emit);
+    }
     const order = calculation.explicitOrder ?? depth(calculation.at.join("."), byPath, depths, new Set());
     if (calculation.explicitOrder !== undefined || order >= 2) rule.order = order;
     place(out, calculation.at, { gg_pre_population: rule });

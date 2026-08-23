@@ -198,6 +198,10 @@ describe("SGG UI emission", () => {
       rules.budgetYear.travel.totalTravelCost.gg_pre_population.materialize,
     ).toBe("when_any_source_present");
     expect(
+      rules.budgetSummary.cumulativeTotalFundsRequestedOtherPersonnel.gg_pre_population
+        .presence_fields,
+    ).toEqual(["budgetYear[*].otherPersonnel.totalOtherPersonnelFund"]);
+    expect(
       rules.budgetYear.directCosts.gg_pre_population,
     ).not.toHaveProperty("materialize");
     expect(

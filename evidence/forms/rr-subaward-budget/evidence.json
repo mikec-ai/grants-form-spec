@@ -21,6 +21,7 @@
       "nativeVersion": null
     }
   ],
+  "inheritsBehaviorEvidenceFrom": ["rr-budget"],
   "extraction": {
     "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
     "revision": "dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef",

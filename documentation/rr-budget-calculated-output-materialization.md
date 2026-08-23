@@ -36,9 +36,13 @@ The SGG rule projection emits:
 {
   "rule": "sum_monetary",
   "fields": ["@THIS.left", "@THIS.right"],
+  "presence_fields": ["@THIS.left", "@THIS.right"],
   "materialize": "when_any_source_present"
 }
 ```
 
-The adapter interprets this generically for monetary sums, integer sums, and subtraction. The policy
-works at the form root and inside repeatable subaward contexts without a budget-family branch.
+`presence_fields` is evaluated independently from the formula. The adapter follows a presence field
+that names another calculated output through that calculation's own sources until it reaches entered
+values. Therefore an eager intermediate `0` does not falsely count as applicant data. The adapter
+interprets this generically for monetary sums, integer sums, and subtraction at the form root and
+inside repeatable subaward contexts without a budget-family branch.

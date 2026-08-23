@@ -46,11 +46,57 @@ export async function projectEvidence({ evidenceRoot, dist }) {
   const validate = ajv.compile(schema);
   const files = await evidenceFiles(evidenceRoot);
 
-  for (const sourcePath of files) {
-    const document = await json(sourcePath);
-    if (!validate(document)) {
+  const records = await Promise.all(files.map(async (sourcePath) => ({ sourcePath, document: await json(sourcePath) })));
+  const byBlock = new Map(records.map((record) => [record.document.block?.id, record]));
+
+  function resolveBehaviorEvidence(record, visiting = new Set()) {
+    const id = record.document.block.id;
+    if (visiting.has(id)) throw new Error(`behavior evidence inheritance cycle at ${id}`);
+    visiting.add(id);
+    const sources = [...record.document.sources];
+    const behaviorEvidence = [...(record.document.behaviorEvidence ?? [])];
+    for (const inheritedId of record.document.inheritsBehaviorEvidenceFrom ?? []) {
+      const inherited = byBlock.get(inheritedId);
+      if (!inherited) throw new Error(`${id}: inherited behavior evidence block ${inheritedId} does not exist`);
+      const resolved = resolveBehaviorEvidence(inherited, new Set(visiting));
+      for (const source of resolved.sources) {
+        const existing = sources.find((candidate) => candidate.id === source.id);
+        if (existing && JSON.stringify(existing) !== JSON.stringify(source)) {
+          throw new Error(`${id}: inherited source ${source.id} conflicts with a local source`);
+        }
+        if (!existing) sources.push(source);
+      }
+      behaviorEvidence.push(
+        ...resolved.behaviorEvidence.map((entry) => ({ ...entry, inheritedFrom: inheritedId })),
+      );
+    }
+    visiting.delete(id);
+    return { sources, behaviorEvidence };
+  }
+
+  for (const { sourcePath, document: authoredDocument } of records) {
+    if (!validate(authoredDocument)) {
       const detail = validate.errors.map((error) => `${error.instancePath || "/"} ${error.message}`).join("; ");
       throw new Error(`${relative(ROOT, sourcePath)}: ${detail}`);
+    }
+    const resolvedEvidence = resolveBehaviorEvidence({ sourcePath, document: authoredDocument });
+    const document = {
+      ...authoredDocument,
+      sources: resolvedEvidence.sources,
+      behaviorEvidence: resolvedEvidence.behaviorEvidence,
+    };
+    delete document.inheritsBehaviorEvidenceFrom;
+    if (!validate(document)) {
+      const detail = validate.errors.map((error) => `${error.instancePath || "/"} ${error.message}`).join("; ");
+      throw new Error(`${relative(ROOT, sourcePath)} after behavior inheritance: ${detail}`);
+    }
+    const sourceIds = new Set(document.sources.map((source) => source.id));
+    for (const behavior of document.behaviorEvidence) {
+      if (!sourceIds.has(behavior.sourceId)) {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: behavior ${behavior.canonicalPath} names missing source ${behavior.sourceId}`,
+        );
+      }
     }
 
     const rel = relative(evidenceRoot, sourcePath);
