@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:34:45.056Z'
+  at: '2026-08-23T19:41:15.805Z'
 assignee: codex
 ---
 # Goal
@@ -39,8 +39,8 @@ SF-LLL remains distinct from the Grants.gov Lobbying Form. Shared identity and a
 
 # Progress (2026-08-23)
 
-- Producer: `mikec-ai/grants-form-spec#45`, commit `6e3942920410c46c2e371258534bb014888b6312`, rebased on lifecycle-correction main commit `c4a7fa5e722bca4dd92eb66a887bc2f7f6e0a865`.
-- Consumer: `mikec-ai/simpler-grants-gov#40`, commit `204d8554037c808a2963f92f3a2831257f032b54`, rebased on SGG main commit `f2cd204e206edd9783d135bc633efc838cf4292a` and pinned to the rebased producer.
+- Producer: merged `mikec-ai/grants-form-spec#45` at main commit `7db589062431f3db063e847ddf6bfc2046b38c7b`, after rebasing on lifecycle-correction commit `c4a7fa5e722bca4dd92eb66a887bc2f7f6e0a865`.
+- Consumer: merged unregistered canary `mikec-ai/simpler-grants-gov#40` at main commit `30dd50cf0493146c32f89f78398979523e040080`; its artifact manifest pins the merged producer commit exactly.
 - Factory evidence: `mikec-ai/grants-question-crosswalk@4312f6504b060e2b9ffdbd2307fc41130c3123a0`; source-set SHA-256 `86c5849f65a3f3d8fcdc7da17cfa6070c185008eae9916184e7d6c32cd098b05`.
 - Official SF-LLL 2.0 XSD SHA-256: `fff7449d00c715efb79d83b572bc7b1ef3e8171f6a9ba841436b26242e883664`.
 - Portable schema, UI, conditions, lifecycle population, evidence, and XML profile are declarative. The consumer additions are generic support for constants, value maps, dynamic attributes, and compile-time flattened wire groups; there is no SF-LLL-specific compiler or adapter branch.
