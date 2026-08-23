@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Normalize eight likely semantic fields in Key Contacts, SF-424 Short, and
   SF-424A.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:58:42.962Z'
+  at: '2026-08-23T17:58:29.167Z'
+assignee: residual_questions_agent
 ---
 # Objective
 

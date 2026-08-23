@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Determine evidence-backed ownership and roles for 18 lifecycle-sensitive or
   nonstandard form-local occurrences.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:59:04.750Z'
+  at: '2026-08-23T17:58:29.007Z'
+assignee: lifecycle_fields_agent
 ---
 # Objective
 
