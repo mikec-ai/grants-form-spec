@@ -244,6 +244,29 @@ describe("bounded presence conditions", () => {
     );
   });
 
+  it("rejects a same-named count source from another namespace", async () => {
+    expectDiagnostics(
+      await Tester.diagnose(`
+        import "@simpler-grants/form-spec";
+        using SimplerForms;
+
+        namespace Source {
+          model Twin { people?: string[]; }
+        }
+
+        namespace Target {
+          ${formMeta("same-named-foreign-count-source")}
+          model Twin {
+            people?: string[];
+            @UI.enabledWhenCountOrPresent(Source.Twin.people, 1)
+            upload?: string;
+          }
+        }
+      `),
+      { code: "@simpler-grants/form-spec/condition-source-not-sibling" },
+    );
+  });
+
   it.each([0, -1])("rejects a non-positive count threshold (%s)", async (minimum) => {
     expectDiagnostics(
       await Tester.diagnose(

@@ -373,14 +373,15 @@ describe("no-redeclared-property", () => {
           }
 
           model Derived extends Base {
-            @UI.enabledWhenCount(Base.people, 2)
+            people?: string[];
+            @UI.enabledWhenCount(Derived.people, 2)
             upload?: string;
           }
         `),
       )
       .toEmitDiagnostics({
         code: "@simpler-grants/form-spec/no-redeclared-property",
-        message: /upload/,
+        message: /people, upload/,
       });
   });
 });
