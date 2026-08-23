@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gg_lobbying_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:12:21.445Z'
+  at: '2026-08-23T20:13:18.585Z'
 assignee: gg_lobbying_agent
 ---
 # Goal
@@ -70,7 +70,7 @@ Replace SGG's legacy Grants.gov Lobbying Form with portable artifacts as a sibli
 - Consumer GG Lobbying canary: 7 passed.
 - Consumer artifact/integrity/registration/XML tranche: 33 passed.
 - Broader consumer form-spec tranche reached 116 passing tests; the remaining DB-backed lifecycle test could not run because the local `grants-db` hostname is unavailable.
-- Producer CI for PR 49 was in progress when this receipt was written; consumer PR 42 had no reported CI checks yet.
+- Producer PR 49 CI passed in 1m34s; consumer PR 42 has no configured/reported checks.
 
 # Remaining gates
 
