@@ -10,43 +10,53 @@
   "fields": {
     "submissionTypeCode": {
       "element": "SubmissionTypeCode",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "submittedDate": {
       "element": "SubmittedDate",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "applicantId": {
       "element": "ApplicantID",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "stateReceivedDate": {
       "element": "StateReceivedDate",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "stateId": {
       "element": "StateID",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "federalId": {
       "element": "FederalID",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "agencyRoutingNumber": {
       "element": "AgencyRoutingNumber",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "grantsGovTrackingId": {
       "element": "GGTrackingID",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "applicantInfo": {
       "element": "ApplicantInfo",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "organizationInfo": {
           "element": "OrganizationInfo",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "organizationName": {
               "element": "OrganizationName",
@@ -125,10 +135,12 @@
         "contactPersonInfo": {
           "element": "ContactPersonInfo",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "name": {
               "element": "Name",
               "kind": "object",
+              "namespace": "default",
               "fields": {
                 "prefix": {
                   "element": "PrefixName",
@@ -159,11 +171,13 @@
             },
             "title": {
               "element": "Title",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             },
             "address": {
               "element": "Address",
               "kind": "object",
+              "namespace": "default",
               "fields": {
                 "street1": {
                   "element": "Street1",
@@ -209,15 +223,18 @@
             },
             "phone": {
               "element": "Phone",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             },
             "fax": {
               "element": "Fax",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             },
             "email": {
               "element": "Email",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             }
           }
         }
@@ -225,31 +242,38 @@
     },
     "employerId": {
       "element": "EmployerID",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "applicantType": {
       "element": "ApplicantType",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "applicantTypeCode": {
           "element": "ApplicantTypeCode",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "applicantTypeCodeOtherExplanation": {
           "element": "ApplicantTypeCodeOtherExplanation",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "smallBusinessOrganizationType": {
           "element": "SmallBusinessOrganizationType",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "womenOwned": {
               "element": "isWomenOwned",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             },
             "sociallyEconomicallyDisadvantaged": {
               "element": "isSociallyEconomicallyDisadvantaged",
-              "kind": "value"
+              "kind": "value",
+              "namespace": "default"
             }
           }
         }
@@ -258,66 +282,94 @@
     "applicationType": {
       "element": "ApplicationType",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "applicationTypeCode": {
           "element": "ApplicationTypeCode",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "revisionCode": {
           "element": "RevisionCode",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "revisionCodeOtherExplanation": {
           "element": "RevisionCodeOtherExplanation",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "isOtherAgencySubmission": {
           "element": "isOtherAgencySubmission",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "otherAgencySubmissionExplanation": {
           "element": "OtherAgencySubmissionExplanation",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         }
       }
     },
     "federalAgencyName": {
       "element": "FederalAgencyName",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "assistanceListingNumber": {
       "element": "CFDANumber",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "activityTitle": {
       "element": "ActivityTitle",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "projectTitle": {
       "element": "ProjectTitle",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "proposedProjectPeriod": {
       "element": "ProposedProjectPeriod",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "proposedStartDate": {
           "element": "ProposedStartDate",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "proposedEndDate": {
           "element": "ProposedEndDate",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
+        }
+      }
+    },
+    "congressionalDistrict": {
+      "element": "CongressionalDistrict",
+      "kind": "group",
+      "namespace": "default",
+      "fields": {
+        "applicantCongressionalDistrict": {
+          "element": "ApplicantCongressionalDistrict",
+          "kind": "value",
+          "namespace": "default",
+          "source": "/applicantCongressionalDistrict"
         }
       }
     },
     "principalInvestigator": {
       "element": "PDPIContactInfo",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "name": {
           "element": "Name",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "prefix": {
               "element": "PrefixName",
@@ -348,11 +400,13 @@
         },
         "title": {
           "element": "Title",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "address": {
           "element": "Address",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "street1": {
               "element": "Street1",
@@ -398,81 +452,99 @@
         },
         "phone": {
           "element": "Phone",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "fax": {
           "element": "Fax",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "email": {
           "element": "Email",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "organizationName": {
           "element": "OrganizationName",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "department": {
           "element": "Department",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "division": {
           "element": "Division",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         }
       }
     },
     "estimatedProjectFunding": {
       "element": "EstimatedProjectFunding",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "totalEstimatedAmount": {
           "element": "TotalEstimatedAmount",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "totalNonFederalRequested": {
           "element": "TotalNonfedrequested",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "totalFederalNonFederalRequested": {
           "element": "TotalfedNonfedrequested",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "estimatedProgramIncome": {
           "element": "EstimatedProgramIncome",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         }
       }
     },
     "stateReview": {
       "element": "StateReview",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "stateReviewCodeType": {
           "element": "StateReviewCodeType",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "stateReviewDate": {
           "element": "StateReviewDate",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         }
       }
     },
     "trustAgree": {
       "element": "TrustAgree",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "sflllAttachment": {
       "element": "SFLLLAttachment",
-      "kind": "attachment"
+      "kind": "attachment",
+      "namespace": "default"
     },
     "authorizedRepresentative": {
       "element": "AORInfo",
       "kind": "object",
+      "namespace": "default",
       "fields": {
         "name": {
           "element": "Name",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "prefix": {
               "element": "PrefixName",
@@ -503,11 +575,13 @@
         },
         "title": {
           "element": "Title",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "address": {
           "element": "Address",
           "kind": "object",
+          "namespace": "default",
           "fields": {
             "street1": {
               "element": "Street1",
@@ -553,56 +627,55 @@
         },
         "phone": {
           "element": "Phone",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "fax": {
           "element": "Fax",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "email": {
           "element": "Email",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "organizationName": {
           "element": "OrganizationName",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "department": {
           "element": "Department",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         },
         "division": {
           "element": "Division",
-          "kind": "value"
+          "kind": "value",
+          "namespace": "default"
         }
       }
     },
     "aorSignature": {
       "element": "AOR_Signature",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "aorSignedDate": {
       "element": "AOR_SignedDate",
-      "kind": "value"
+      "kind": "value",
+      "namespace": "default"
     },
     "preApplicationAttachment": {
       "element": "PreApplicationAttachment",
-      "kind": "attachment"
+      "kind": "attachment",
+      "namespace": "default"
     },
     "coverLetterAttachment": {
       "element": "CoverLetterAttachment",
-      "kind": "attachment"
-    },
-    "congressionalDistrict": {
-      "element": "CongressionalDistrict",
-      "kind": "group",
-      "fields": {
-        "applicantCongressionalDistrict": {
-          "element": "ApplicantCongressionalDistrict",
-          "kind": "value",
-          "source": "/applicantCongressionalDistrict"
-        }
-      }
+      "kind": "attachment",
+      "namespace": "default"
     }
   }
 }
