@@ -116,6 +116,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
 
     def test_source_profiles_compose_the_shared_mapping_instead_of_copying_it(self) -> None:
         expected_refs = {
+            "gg-lobbying": [
+                "../mappings/global-library-v2-human-name.json#/fields",
+            ],
             "performance-site": [
                 "../mappings/attached-file-data-1.0.json#/fields",
                 "../mappings/performance-site-location-4.0.json#/fields",
