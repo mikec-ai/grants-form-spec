@@ -1,4 +1,15 @@
 {
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "attached-file-data-1.0",
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd",
+      "version": "1.0",
+      "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d",
+      "type": "att:AttachedFileDataType",
+      "path": "/xs:schema/xs:complexType[@name='AttachedFileDataType']"
+    }
+  },
   "fields": {
     "fileName": { "element": "FileName", "namespace": "att" },
     "mimeType": { "element": "MimeType", "namespace": "att" },

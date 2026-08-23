@@ -72,6 +72,40 @@ The initial R&R Budget family proves that one authored payload mapping serves th
 10-year, and three subaward profiles. Their only differences are declarative wire-contract
 metadata.
 
+## Source-identical mapping fragments
+
+Mapping fragments are extracted only when the source XSD establishes the same named type,
+namespace, version, element sequence, and leaf types. Similar JSON shape is not sufficient.
+The first pass extracts two Global Library V2 structures used by R&R SF-424:
+
+- `globLib:HumanNameDataType`, used by applicant contact, PD/PI, and AOR names; and
+- `globLib:AddressDataTypeV3`, used by applicant organization, applicant contact, PD/PI, and
+  AOR addresses.
+
+This replaces 47 repeated field-node declarations with 13 declarations and seven local
+references, eliminating 34 duplicate field-node definitions while leaving every resolved
+profile byte-identical. The existing `att:AttachedFileDataType` fragment remains the shared
+attachment-wire declaration for every profile.
+
+Whole contact objects are deliberately not factored. `ContactPersonInfo`,
+`OrganizationContactPersonDataType`, and `AORInfoType` have different source types and
+requiredness, including different `Title` and `Email` cardinalities. Their similar mapping
+shape does not establish semantic equivalence. The Research Budget key-person name is also
+left inline for now because that profile does not yet carry the explicit Global Library
+namespace annotations used by R&R SF-424; sharing it would change the resolved target rather
+than perform a byte-preserving refactor.
+
+Likely future consumers are forms whose pinned XSD imports the exact same Global Library V2
+types. Research Budget can consume the human-name fragment after its namespace profile is
+reconciled as a separately reviewed semantic change. Contact structures may become reusable
+only if a later fragment contract represents their cardinality differences explicitly.
+
+The fragment `evidence.xsd.version` is the native version encoded by the fragment's official
+XSD URI. The imported R&R SF-424 form evidence sidecar predates that distinction and stamps its
+form-context version onto dependency records. Tests therefore use that sidecar only to verify
+the pinned dependency URI and digest. Normalizing native source versions across legacy evidence
+sidecars is separate provenance debt and is not part of this byte-preserving XML refactor.
+
 ## Boundary
 
 This is a target extension, not a canonical form keyword. TypeSpec and JSON Schema remain
