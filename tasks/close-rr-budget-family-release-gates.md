@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:47:16.856Z'
+  at: '2026-08-23T19:12:05.919Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -60,14 +60,26 @@ architecture or silently claim human approval.
   neither formulas nor requiredness.
 - Producer implementation is ready in [grants-form-spec PR 44](https://github.com/mikec-ai/grants-form-spec/pull/44):
   one declarative decorator, generic SGG projection, exactly 20 source-bound annotations,
-  diagnostic coverage, and a source-bound decision record. Producer preflight passes (93 TypeSpec
-  tests, 76 Python tests, 660 artifact validations, and the unclassified-field ratchet). GitHub CI
-  passed in 1m17s.
+  diagnostic coverage, and a source-bound decision record. Each annotation now declares explicit
+  presence inputs. The producer also records the 20 exact F770 DAT behavior records and carries
+  only those records into the four derived profiles, without changing their unreviewed semantic
+  status. Producer revision `9d72e095dfb9ec9d7e606efc284bd5a4afe4a795` passes preflight (93
+  TypeSpec tests, 77 Python tests, 660 artifact validations, and the unclassified-field ratchet),
+  and GitHub CI is green.
 - Adapter implementation is ready in [simpler-grants-gov PR 38](https://github.com/mikec-ai/simpler-grants-gov/pull/38):
   generic server-side monetary-sum, integer-sum, and subtraction handling plus the exact producer
-  commit pinned across all five family profiles. The focused 105-test rule-processing, root-budget,
-  nested-subaward, and artifact-integrity suite passes against the local test database; lint,
-  formatting, and targeted mypy pass. This fork currently reports no GitHub checks for the branch.
+  revision pinned across all five family profiles. Presence resolution follows calculated
+  dependencies to entered leaf inputs, so eagerly derived zeroes cannot make optional cumulative
+  outputs appear. Unknown or incomplete materialization policies fail closed during artifact
+  projection. The focused 134-test rule-processing, root-budget, nested-subaward, provenance, and
+  artifact-integrity suite passes against the local test database; lint, formatting, and targeted
+  mypy pass. This fork currently reports no GitHub checks for the branch.
+- Regression coverage proves that absent optional Other Personnel input leaves cumulative count and
+  funds outputs absent, while explicitly entered integer and monetary zeroes materialize zero. The
+  same assertion runs at the root and across independent nested subaward instances.
+- Provenance coverage proves that all five family profiles expose 20 exact F770 source records at
+  canonical property paths. Derived profiles identify `rr-budget` as the inheritance source, and
+  every profile remains explicitly `unreviewed` for semantic acceptance.
 - SGG executes this portable calculation contract in its server-side rule processor. This slice does
   not add or claim a client-side calculation implementation.
 - This slice has no lifecycle/residual-normalization overlap and adds no budget-family branch.
