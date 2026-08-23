@@ -224,7 +224,14 @@ export function modelProperties(model: Model): ModelProperty[] {
 /** Properties in @UI.order if given, else declaration order; omitted ones dropped. */
 export function orderedProps(program: Program, block: Block): ModelProperty[] {
   if (block.model.kind !== "Model") return [];
-  const props = [...block.model.properties.values()].filter((p) => !propOmit(program, p));
+  // A form may extend a question to preserve flat response fields with explicit semantic
+  // lineage. Its inherited fields remain form members for sectioning and presentation.
+  // Question artifacts themselves keep their local surface and compose their base through
+  // JSON Schema `allOf`, so walking inherited properties there would duplicate that surface.
+  const candidates = block.kind === "form"
+    ? modelProperties(block.model)
+    : [...block.model.properties.values()];
+  const props = candidates.filter((p) => !propOmit(program, p));
   if (!block.order) return props;
   const byName = new Map(props.map((p) => [p.name, p]));
   const out = block.order.map((n) => byName.get(n)).filter(Boolean) as ModelProperty[];

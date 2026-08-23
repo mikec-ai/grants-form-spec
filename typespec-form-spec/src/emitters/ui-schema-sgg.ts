@@ -411,7 +411,17 @@ export function emitSggUi(program: Program, block: Block): SggSection[] {
       const object = objectBehind(program, prop);
       if (object) {
         const flat: SggField[] = [];
-        walk(program, object, path, prop.name, flat, overrides);
+        walk(
+          program,
+          object,
+          path,
+          prop.name,
+          flat,
+          overrides,
+          absoluteConditions(propVisibleWhen(program, prop), prop.name),
+          absoluteConditions(propEnabledWhen(program, prop), prop.name),
+          absoluteConditions(propReadOnlyWhen(program, prop), prop.name),
+        );
         bucket.push(...flat);
         continue;
       }

@@ -1,0 +1,17 @@
+{
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/SFLLL_2_0-V2.0.xsd",
+      "sha256": "fff7449d00c715efb79d83b572bc7b1ef3e8171f6a9ba841436b26242e883664",
+      "type": "SFLLL_2_0:domestic-address-occurrences",
+      "version": "2.0"
+    }
+  },
+  "fields": {
+    "street1": { "element": "Street1", "kind": "value", "namespace": "default" },
+    "street2": { "element": "Street2", "kind": "value", "namespace": "default" },
+    "city": { "element": "City", "kind": "value", "namespace": "default" },
+    "state": { "element": "State", "kind": "value", "namespace": "default" },
+    "zipCode": { "element": "ZipPostalCode", "kind": "value", "namespace": "default" }
+  }
+}

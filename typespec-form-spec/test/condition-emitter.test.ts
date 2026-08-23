@@ -2,10 +2,84 @@ import { describe, expect, it } from "vitest";
 import { expectDiagnostics } from "@typespec/compiler/testing";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
 import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
+import { emitFieldOccurrences } from "../src/emitters/field-occurrences.js";
 import { allBlocks } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
 
 describe("bounded presence conditions", () => {
+  it("keeps inherited question lineage and sections when a form extends a question", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum FilingSection { filing: "Filing" }
+        @Question.meta(#{ id: "test/filing-details" })
+        @Catalog.entity(EntityName.application)
+        @Catalog.tag(TagName.details)
+        model FilingDetails {
+          @UI.section(FilingSection.filing)
+          kind: string;
+          @UI.section(FilingSection.filing)
+          details: { value: string };
+        }
+
+        ${formMeta("inherited-question-check")}
+        @UI.sections(FilingSection)
+        model InheritedQuestionCheck extends FilingDetails {}
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "inherited-question-check",
+    );
+    expect(emitSggUi(instance.program, block!)[0].children[0]).toMatchObject({
+      definition: "/properties/kind",
+    });
+    expect(emitFieldOccurrences(instance.program, block!)).toEqual(expect.arrayContaining([
+      { path: "/kind", leaf: true, blockIds: ["test/filing-details"] },
+      { path: "/details/value", leaf: true, blockIds: ["test/filing-details"] },
+    ]));
+  });
+
+  it("carries a top-level object's visibility condition onto its flattened SGG fields", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Choice { no: "No", yes: "Yes" }
+        enum DetailsSection { details: "Details" }
+        model Details { name: string; address: string; }
+
+        ${formMeta("conditional-object-check")}
+        @UI.sections(DetailsSection)
+        model ConditionalObjectCheck {
+          @UI.section(DetailsSection.details)
+          choice: Choice;
+
+          @UI.section(DetailsSection.details)
+          @UI.visibleWhen(ConditionalObjectCheck.choice, Choice.yes)
+          details?: Details;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "conditional-object-check",
+    );
+    const children = emitSggUi(instance.program, block!)[0].children;
+    for (const field of children.slice(1)) {
+      expect(field).toMatchObject({
+        conditional: {
+          when: {
+            op: "equals",
+            ref: { scope: "root", pointer: "/choice" },
+            value: "Yes",
+          },
+          then: { visible: true },
+          otherwise: { visible: false },
+        },
+      });
+    }
+  });
+
   it("emits count-or-saved-value behavior without a form-specific generator", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(

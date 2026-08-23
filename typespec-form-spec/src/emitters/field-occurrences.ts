@@ -112,7 +112,17 @@ export function emitFieldOccurrences(program: Program, form: Block): FieldOccurr
     }
   };
 
-  walkModel(form.model, "", [], form.responseRole, new Set());
+  const inheritedTemplates: TemplateContext[] = [];
+  for (let base = form.model.baseModel; base; base = base.baseModel) {
+    const block = readBlock(program, base);
+    if (!block || block.kind !== "question") continue;
+    inheritedTemplates.push({
+      model: base,
+      blockIds: blockAncestry(program, base),
+      responseRole: block.responseRole,
+    });
+  }
+  walkModel(form.model, "", inheritedTemplates, form.responseRole, new Set());
   return [...found.values()].sort((a, b) => a.path.localeCompare(b.path));
 }
 
