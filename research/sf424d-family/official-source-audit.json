@@ -10,9 +10,23 @@
     "id": "sf424d-construction-assurances",
     "version": "1.1",
     "artifact": "construction-assurances-v1.1.json",
+    "profileExtractArtifact": "profile-policy-extract-v1.1.json",
     "itemCount": 20,
     "canonicalTextArraySha256": "89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be",
-    "identicalAcrossProfiles": true
+    "equivalenceStatus": "deterministic-match-unreviewed",
+    "perProfileNormalizedTextArraySha256": {
+      "sf424d": "89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be",
+      "individual-sf424d": "89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be",
+      "mandatory-sf424d": "89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be"
+    }
+  },
+  "burdenInteraction": {
+    "profileExtractArtifact": "profile-policy-extract-v1.1.json",
+    "label": "View Burden Statement",
+    "normalizedTextSha256": "afa221267ca5e165754d2001e5ab90e6974064772c16984d6813dadd674d1506",
+    "identicalAcrossProfiles": true,
+    "presentationDisposition": "unresolved-pending-policy-owner-review",
+    "reason": "The active DAT interaction states a 30-minute estimate under OMB 4040-0009, while the printed PDF/DAT fields 00-3 and 00-4 state 15 minutes and cite OMB project 0348-0042. Both are preserved as evidence; neither is silently treated as the sole current presentation pending policy-owner review."
   },
   "sharedFields": [
     {
@@ -198,6 +212,7 @@
   ],
   "structuralConclusions": [
     "The twenty construction assurances are policy content and do not appear in any of the three XML schemas.",
+    "Each active DAT also contains the same View Burden Statement interaction; its current 30-minute content is preserved separately from the printed 15-minute statement and remains unresolved pending policy-owner review.",
     "Individual and Mandatory are structurally identical after replacing their target namespace and namespace prefix.",
     "The base profile has one additional required version element and uses a namespaced coreSchemaVersion attribute; the other profiles use a local fixed FormVersion attribute.",
     "All three DAT workbooks mark signature, title, applicant organization, and submitted date required even though the XSD permits the corresponding content elements to be absent.",

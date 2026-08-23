@@ -65,6 +65,11 @@
     "gates": [
       { "id": "official-source-provenance", "status": "passed" },
       { "id": "cross-profile-policy-equivalence", "status": "passed" },
+      {
+        "id": "burden-statement-policy-review",
+        "status": "pending",
+        "note": "Resolve the active DAT 00-0 30-minute interaction against the printed 15-minute statement before presentation or registration."
+      },
       { "id": "semantic-review", "status": "pending" },
       { "id": "accessibility-review", "status": "pending" },
       { "id": "consumer-lifecycle-review", "status": "pending" },
