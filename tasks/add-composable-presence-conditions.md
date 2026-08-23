@@ -6,11 +6,11 @@ assignee: condition_agent
 description: >-
   Add the smallest generic condition vocabulary needed to express count-at-limit
   OR existing attachment presence across producer and SGG frontend.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:06:46.589Z'
+  at: '2026-08-23T16:06:54.924Z'
 ---
 # Goal
 

@@ -7,11 +7,11 @@ description: >-
   Exercise R&R Key Person Expanded through generic SGG registration-ready
   projection, validation, persistence, print, submission, and XML without
   production opt-in.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:06:46.727Z'
+  at: '2026-08-23T16:06:55.062Z'
 ---
 # Goal
 

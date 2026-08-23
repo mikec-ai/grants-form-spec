@@ -6,11 +6,11 @@ assignee: key_person_xml_agent
 description: >-
   Correct pinned DAT behaviors and author the reviewed Grants.gov XML/XSD target
   for R&R Key Person Expanded.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:06:46.448Z'
+  at: '2026-08-23T16:06:54.785Z'
 ---
 # Goal
 
