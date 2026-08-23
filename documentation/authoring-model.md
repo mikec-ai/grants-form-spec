@@ -85,7 +85,7 @@ model QuestionPersonName {
   /** Enter the First Name. */
   @UI.label("First Name")
   @maxLength(35)
-  firstName: string;
+  firstName?: string;
 
   /** Enter the Middle Name. */
   @UI.label("Middle Name")
@@ -95,7 +95,7 @@ model QuestionPersonName {
   /** Enter the Last Name. */
   @UI.label("Last Name")
   @maxLength(60)
-  lastName: string;
+  lastName?: string;
 
   /** Enter the Suffix. */
   @UI.label("Suffix")
@@ -106,16 +106,17 @@ model QuestionPersonName {
 
 Notes on ergonomics:
 
-- **Requiredness comes from TypeSpec's own `?`**, not a separate `required: [...]` array
-  you can forget to update. `firstName`/`lastName` required, the rest optional —
-  matching `common_shared.py`'s `person_name` exactly.
+- **Base requiredness comes from TypeSpec's own `?`.** The generic name is the
+  least-restrictive source-backed shape because the Multi-Project Cover permits every part to
+  be absent. A stricter occurrence adds `@Validation.requiredPaths("firstName", "lastName")`;
+  it does not fork the question.
 - `@order` takes **property references**. Reorder freely; delete a property and the
   `@order` line fails to compile. Today the equivalent is a tuple of strings in
   `contact_profile.py`:
   `("prefix", "first_name", "middle_name", "last_name", "suffix")`.
 - The doc comment becomes `description`; `@label` becomes `title`. One place each.
 
-### 1.3 A generic question with conditional logic
+### 1.3 A generic object with occurrence cardinality
 
 The address is where real behavior lives. Today `address_shared.py` hand-writes a JSON
 Schema `allOf`/`if`/`then` block, and the forms README has to *teach* authors the
@@ -131,7 +132,7 @@ namespace QuestionBank.Generics;
 model QuestionAddress {
   /** Enter the first line of the Street Address. */
   @UI.label("Street 1") @maxLength(55)
-  street1: string;
+  street1?: string;
 
   /** Enter the second line of the Street Address. */
   @UI.label("Street 2") @maxLength(55)
@@ -139,7 +140,7 @@ model QuestionAddress {
 
   /** Enter the city. */
   @UI.label("City") @maxLength(35)
-  city: string;
+  city?: string;
 
   /** Enter the County or Parish. */
   @UI.label("County/Parish") @maxLength(30)
@@ -147,7 +148,6 @@ model QuestionAddress {
 
   /** Enter the state. */
   @UI.label("State")
-  @Validation.requiredWhen(QuestionAddress.country, CountryCode.USA_UNITED_STATES)
   state?: StateCode;
 
   /** Enter the province. */
@@ -156,19 +156,20 @@ model QuestionAddress {
 
   /** Enter the country. */
   @UI.label("Country")
-  country: CountryCode;
+  country?: CountryCode;
 
   /** Enter the nine-digit Postal Code (e.g., ZIP Code). */
   @UI.label("Zip / Postal Code") @maxLength(30)
-  @Validation.requiredWhen(QuestionAddress.country, CountryCode.USA_UNITED_STATES)
   zipCode?: string;
 }
 ```
 
-`@requiredWhen` takes a **property reference plus an enum member**. Both halves are
-compile-checked. The emitter generates the `if`/`then` block *and* the `required:
-["country"]` guard automatically — the house idiom is encoded once in the emitter
-instead of in every author's head.
+An occurrence that requires a normal U.S.-aware address adds
+`@Validation.requiredPaths("street1", "city", "country")` and
+`@Validation.requiredPathWhen("state", "country", CountryCode.USA)`.
+The paths and enum value are build-time checked. The emitter generates the guarded JSON Schema
+beside the ordinary address `$ref`, while the generic question remains usable by the source whose
+address members are all optional.
 
 ### 1.4 An entity-scoped question composing generics
 
@@ -551,6 +552,16 @@ Authoring overhead introduced by this model, relative to the current implementat
    becomes `CountryCode.USA_UNITED_STATES` with a value of `"USA: UNITED STATES"`. Fine,
    but the identifier↔value mapping is one more thing to get right, and the ~200-member
    country enum and ~60-member state enum have to be generated rather than typed.
+
+8. **A shared object cannot publish the strictest occurrence's requiredness.** JSON Schema
+   `$ref` and `allOf` only add constraints; they cannot make a required member optional. Shared
+   semantic objects therefore publish the least-restrictive source-backed cardinality. A stricter
+   form occurrence uses `@Validation.requiredPaths` and, where necessary,
+   `@Validation.requiredPathWhen`. Those paths are build-time checked, remain visible as
+   declarative data, and emit beside the ordinary `$ref`. R&R SF-424 Multi-Project Cover is the
+   canary: its small address-behavior profiles retain `allOf` references to the shared applicant,
+   principal-investigator, and authorized-representative questions, while standalone R&R SF-424
+   adds its stricter occurrence profile.
 
 ---
 

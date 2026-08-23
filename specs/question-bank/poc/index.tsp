@@ -31,5 +31,8 @@ model QuestionPocDetails extends QuestionContactDetails {
   title?: ContactTitle;
 
   /** Enter the address. */
+  @Validation.requiredPaths("street1", "city", "country")
+  @Validation.requiredPathWhen("state", "country", CountryCode.USA)
+  @Validation.requiredPathWhen("zipCode", "country", CountryCode.USA)
   address: QuestionAddress;
 }

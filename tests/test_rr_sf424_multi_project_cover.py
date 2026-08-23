@@ -72,6 +72,22 @@ class RRSF424MultiProjectCoverTests(unittest.TestCase):
 
         self.assertEqual(len(schema["properties"]), 28)
         self.assertNotIn("required", schema)
+        self.assertEqual(
+            schema["properties"]["applicantInfo"]["$ref"],
+            "#/$defs/MultiProjectApplicant",
+        )
+        self.assertEqual(
+            schema["properties"]["principalInvestigator"]["$ref"],
+            "#/$defs/MultiProjectPrincipalInvestigator",
+        )
+        self.assertEqual(
+            schema["properties"]["authorizedRepresentative"]["$ref"],
+            "#/$defs/MultiProjectAuthorizedRepresentative",
+        )
+        self.assertEqual(
+            schema["$defs"]["MultiProjectApplicant"]["allOf"],
+            [{"$ref": "../../question-bank/research-application/applicant/schema.json"}],
+        )
         self.assertEqual(len(ui), 21)
         self.assertEqual(len(fields), 106)
         self.assertEqual(sum("conditional" in field for field in fields), 14)

@@ -36,6 +36,18 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Condition path "${"path"}" does not resolve from ${"model"}.`,
       },
     },
+    "cardinality-path-unresolved": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Cardinality path "${"path"}" does not resolve from ${"model"}: ${"reason"}.`,
+      },
+    },
+    "cardinality-model-not-emitted": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Cardinality annotations on model ${"model"} would not be emitted. Put them on a semantic block or on the property where that block is composed.`,
+      },
+    },
     "encoded-checkbox-contract-invalid": {
       severity: "error",
       messages: {
@@ -107,6 +119,8 @@ export const $lib = createTypeSpecLibrary({
     notBefore: {},
     validationConstraints: {},
     validationConstraintsWhen: {},
+    requiredPaths: {},
+    requiredPathWhen: {},
     computed: {},
     computedFrom: {},
     evaluationOrder: {},

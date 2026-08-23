@@ -16,11 +16,11 @@ namespace QuestionBank.ResearchApplication;
 model ResearchApplicantOrganization {
   /** Enter the applicant organization's legal name. */
   @UI.label("Organization Name")
-  organizationName: LegalName;
+  organizationName?: LegalName;
 
   /** Enter the applicant organization's address. */
   @UI.label("Address")
-  address: QuestionAddress;
+  address?: QuestionAddress;
 
   /** Enter the department. */
   @UI.label("Department")
@@ -36,7 +36,7 @@ model ResearchApplicantOrganization {
 
   /** The applicant organization's Unique Entity Identifier. */
   @UI.label("SAM UEI")
-  samUei: SamUei;
+  samUei?: SamUei;
 
   // The XSD contains this second EIN leaf, but the reviewed XFA has no binding for it. The
   // top-level Employer ID is the applicant-facing answer, so preserve this source leaf without
@@ -51,11 +51,11 @@ model ResearchApplicantOrganization {
 model ResearchApplicationContact {
   /** Enter the contact person's name. */
   @UI.label("Name")
-  name: QuestionPersonName;
+  name?: QuestionPersonName;
 
   /** Enter the contact person's address. */
   @UI.label("Address")
-  address: QuestionAddress;
+  address?: QuestionAddress;
 
   /** Enter the contact person's title. */
   @UI.label("Title")
@@ -63,7 +63,7 @@ model ResearchApplicationContact {
 
   /** Enter the daytime telephone number. */
   @UI.label("Telephone Number")
-  phone: PhoneNumber;
+  phone?: PhoneNumber;
 
   /** Enter the fax number. */
   @UI.label("Fax Number")
@@ -71,7 +71,7 @@ model ResearchApplicationContact {
 
   /** Enter a valid email address. */
   @UI.label("Email")
-  email: EmailAddress;
+  email?: EmailAddress;
 }
 
 /** Applicant organization and application-contact information. */
@@ -81,11 +81,11 @@ model ResearchApplicationContact {
 model QuestionResearchApplicant {
   /** Enter the applicant organization information. */
   @UI.label("Organization Information")
-  organizationInfo: ResearchApplicantOrganization;
+  organizationInfo?: ResearchApplicantOrganization;
 
   /** Enter the contact person for this application. */
   @UI.label("Contact Person Information")
-  contactPersonInfo: ResearchApplicationContact;
+  contactPersonInfo?: ResearchApplicationContact;
 }
 
 /** The project director or principal investigator named on the application. */
@@ -95,7 +95,7 @@ model QuestionResearchApplicant {
 model QuestionPrincipalInvestigator {
   /** Enter the project director or principal investigator's name. */
   @UI.label("Name")
-  name: QuestionPersonName;
+  name?: QuestionPersonName;
 
   /** Enter the position title. */
   @UI.label("Position / Title")
@@ -103,7 +103,7 @@ model QuestionPrincipalInvestigator {
 
   /** Enter the organization name. */
   @UI.label("Organization Name")
-  organizationName: OrganizationName;
+  organizationName?: OrganizationName;
 
   /** Enter the department. */
   @UI.label("Department")
@@ -119,11 +119,11 @@ model QuestionPrincipalInvestigator {
 
   /** Enter the address. */
   @UI.label("Address")
-  address: QuestionAddress;
+  address?: QuestionAddress;
 
   /** Enter the daytime telephone number. */
   @UI.label("Telephone Number")
-  phone: PhoneNumber;
+  phone?: PhoneNumber;
 
   /** Enter the fax number. */
   @UI.label("Fax Number")
@@ -131,7 +131,7 @@ model QuestionPrincipalInvestigator {
 
   /** Enter a valid email address. */
   @UI.label("Email")
-  email: EmailAddress;
+  email?: EmailAddress;
 }
 
 /** The representative authorized to submit the Research and Related application. */
@@ -141,15 +141,15 @@ model QuestionPrincipalInvestigator {
 model QuestionResearchAuthorizedRepresentative {
   /** Enter the authorized representative's name. */
   @UI.label("Name")
-  name: QuestionAorName;
+  name?: QuestionAorName;
 
   /** Enter the position title. */
   @UI.label("Position / Title")
-  title: AorTitle;
+  title?: AorTitle;
 
   /** Enter the organization name. */
   @UI.label("Organization Name")
-  organizationName: OrganizationName;
+  organizationName?: OrganizationName;
 
   /** Enter the department. */
   @UI.label("Department")
@@ -165,11 +165,11 @@ model QuestionResearchAuthorizedRepresentative {
 
   /** Enter the address. */
   @UI.label("Address")
-  address: QuestionAddress;
+  address?: QuestionAddress;
 
   /** Enter the daytime telephone number. */
   @UI.label("Telephone Number")
-  phone: AorPhone;
+  phone?: AorPhone;
 
   /** Enter the fax number. */
   @UI.label("Fax Number")
@@ -177,7 +177,7 @@ model QuestionResearchAuthorizedRepresentative {
 
   /** Enter a valid email address. */
   @UI.label("Email")
-  email: AorEmail;
+  email?: AorEmail;
 }
 
 /** Attach the lobbying disclosure associated with this application, when required. */

@@ -212,6 +212,7 @@ model SF424 {
   /** Enter information about the contact person. */
   @UI.label("Contact Person")
   @UI.section(Sf424Section.contactPerson)
+  @Validation.requiredPaths("firstName", "lastName")
   contactPerson: QuestionPersonName;
 
   /** Enter the position title. */
@@ -407,6 +408,7 @@ model SF424 {
 
   @UI.label("Authorized Representative")
   @UI.section(Sf424Section.authorizedRepresentative)
+  @Validation.requiredPaths("firstName", "lastName")
   authorizedRepresentative: QuestionAorName;
 
   /** Enter the position title. */

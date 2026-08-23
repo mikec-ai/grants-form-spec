@@ -19,6 +19,24 @@ extern dec constraintsWhen(
   patch: valueof ValidationConstraints,
 );
 
+/**
+ * Require the named descendant paths for this occurrence of a reusable object.
+ *
+ * Paths are relative to the decorated semantic block or property. A Model target must be an
+ * emitted `@Question.meta` or `@Form.meta` block; otherwise the annotation would have no artifact
+ * boundary and compilation fails. This is deliberately narrower than a schema override: it can
+ * only add requiredness, which JSON Schema can compose safely beside a `$ref`.
+ */
+extern dec requiredPaths(target: Model | ModelProperty, ...paths: valueof string[]);
+
+/** Require one descendant path when another descendant path has the supplied value. */
+extern dec requiredPathWhen(
+  target: Model | ModelProperty,
+  targetPath: valueof string,
+  sourcePath: valueof string,
+  equals: valueof unknown,
+);
+
 extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
 /** Require a field from a condition on a nested sibling path, relative to the containing model. */

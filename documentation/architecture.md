@@ -818,6 +818,27 @@ configuration and live in the SGG repository (§2.5).
 
 ### 3.4 Diagnostics and linter rules
 
+#### Source-specific object cardinality
+
+JSON Schema composition can narrow a referenced schema, but it cannot relax a `required`
+constraint already present behind `$ref`. When two authoritative sources ask the same semantic
+question with different object-member cardinality, the reusable block therefore carries the
+least-restrictive source-backed shape. A stricter occurrence adds only the required descendants:
+
+```typespec
+@Validation.requiredPaths("name.firstName", "name.lastName", "email")
+@Validation.requiredPathWhen("address.state", "address.country", CountryCode.USA)
+contact: QuestionContactDetails;
+```
+
+The emitter places these constraints beside the ordinary question-bank `$ref`. Every path and
+conditional source is resolved against the composed model during validation. This is intentionally
+not a general schema override language: it can add requiredness, and nothing else. Presentation
+and conditional differences continue to use ordinary, narrowly derived local models, which keep
+their `allOf` relationship to the shared block. A model-level cardinality annotation is accepted
+only on an emitted question or form block; putting one on a non-block model is a build error because
+that model has no independent artifact on which the annotation can reliably land.
+
 **A TypeSpec linter rule may only be a warning.** `LinterRuleDefinition.severity` is typed
 as the literal `"warning"`, so the severity of a check is not a free choice, and it decides
 where the check lives:

@@ -22,7 +22,7 @@ model QuestionPersonName {
   @UI.label("First Name")
   @minLength(1)
   @maxLength(35)
-  firstName: string;
+  firstName?: string;
 
   /** Enter the Middle Name. */
   @UI.label("Middle Name")
@@ -34,7 +34,7 @@ model QuestionPersonName {
   @UI.label("Last Name")
   @minLength(1)
   @maxLength(60)
-  lastName: string;
+  lastName?: string;
 
   /** Enter the Suffix. */
   @UI.label("Suffix")
@@ -53,7 +53,7 @@ model QuestionAddress {
   @UI.label("Street 1")
   @minLength(1)
   @maxLength(55)
-  street1: string;
+  street1?: string;
 
   /** Enter the second line of the Street Address. */
   @UI.label("Street 2")
@@ -65,7 +65,7 @@ model QuestionAddress {
   @UI.label("City")
   @minLength(1)
   @maxLength(35)
-  city: string;
+  city?: string;
 
   /** Enter the County or Parish. */
   @UI.label("County/Parish")
@@ -75,7 +75,6 @@ model QuestionAddress {
 
   /** Enter the state. */
   @UI.label("State")
-  @Validation.requiredWhen(QuestionAddress.country, CountryCode.USA)
   state?: StateCode;
 
   /** Enter the province. */
@@ -86,13 +85,12 @@ model QuestionAddress {
 
   /** Enter the country. */
   @UI.label("Country")
-  country: CountryCode;
+  country?: CountryCode;
 
   /** Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States. */
   @UI.label("Zip / Postal Code")
   @minLength(1)
   @maxLength(30)
-  @Validation.requiredWhen(QuestionAddress.country, CountryCode.USA)
   zipCode?: string;
 }
 
@@ -114,6 +112,7 @@ model QuestionAddress {
 model QuestionContactDetails {
   /** Enter the name. */
   @UI.label("Name")
+  @Validation.requiredPaths("firstName", "lastName")
   name: QuestionPersonName;
 
   /** Enter the daytime Telephone Number. */

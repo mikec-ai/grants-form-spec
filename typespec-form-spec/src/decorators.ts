@@ -253,6 +253,24 @@ export const $validationConstraintsWhen = (
     patch: plain(ctx, patch),
   });
 
+export const $requiredPaths = (
+  ctx: Ctx,
+  target: Model | ModelProperty,
+  ...paths: unknown[]
+) => set(ctx, stateKeys.requiredPaths, target, paths.map((path) => String(literal(path))));
+
+export const $requiredPathWhen = (
+  ctx: Ctx,
+  target: Model | ModelProperty,
+  targetPath: unknown,
+  sourcePath: unknown,
+  equals: unknown,
+) => push(ctx, stateKeys.requiredPathWhen, target, {
+  targetPath: String(literal(targetPath)),
+  sourcePath: String(literal(sourcePath)),
+  value: literal(equals),
+});
+
 export const $computed = (
   ctx: Ctx,
   target: ModelProperty,
