@@ -35,7 +35,7 @@
       "properties": {
         "element": { "$ref": "#/$defs/xmlName" },
         "namespacePrefix": { "type": "string", "minLength": 1 },
-        "attributes": { "$ref": "#/$defs/staticAttributes" }
+        "attributes": { "$ref": "#/$defs/rootAttributes" }
       }
     },
     "attachment": { "$ref": "#/$defs/attachmentWire" },
@@ -47,6 +47,20 @@
     "staticAttributes": {
       "type": "object",
       "propertyNames": { "$ref": "#/$defs/xmlName" },
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "string" },
+          { "type": "number" },
+          { "type": "boolean" }
+        ]
+      }
+    },
+    "rootAttributes": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^(?:[A-Za-z_][A-Za-z0-9_.-]*:)?[A-Za-z_][A-Za-z0-9_.-]*$"
+      },
       "additionalProperties": {
         "anyOf": [
           { "type": "string" },

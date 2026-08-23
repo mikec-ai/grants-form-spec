@@ -3,10 +3,33 @@ import { expectDiagnostics } from "@typespec/compiler/testing";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
 import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
 import { emitFieldOccurrences } from "../src/emitters/field-occurrences.js";
+import { emitSchemaOverlay } from "../src/emitters/overlay.js";
 import { allBlocks } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
 
 describe("bounded presence conditions", () => {
+  it("emits at-least-one alternatives as portable JSON Schema", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        ${formMeta("alternative-check")}
+        @Validation.atLeastOneOf(AlternativeCheck.awardNumber, AlternativeCheck.projectName)
+        model AlternativeCheck { awardNumber?: string; projectName?: string; }
+      `),
+    );
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "alternative-check",
+    );
+    expect(emitSchemaOverlay(instance.program, block!)).toMatchObject({
+      allOf: [{
+        anyOf: [
+          { required: ["awardNumber"] },
+          { required: ["projectName"] },
+        ],
+      }],
+    });
+  });
+
   it("keeps inherited question lineage and sections when a form extends a question", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(

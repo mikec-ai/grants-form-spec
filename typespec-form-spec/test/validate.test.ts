@@ -7,6 +7,33 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  * is worse than no check: it reads as coverage and provides none.
  */
 describe("$onValidate", () => {
+  describe("at-least-one-invalid", () => {
+    it("rejects fewer than two distinct alternatives", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          ${formMeta("alternative-check")}
+          @Validation.atLeastOneOf(AlternativeCheck.first)
+          model AlternativeCheck { first?: string; second?: string; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/at-least-one-invalid",
+      });
+    });
+
+    it("accepts two sibling alternatives", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            ${formMeta("alternative-check")}
+            @Validation.atLeastOneOf(AlternativeCheck.first, AlternativeCheck.second)
+            model AlternativeCheck { first?: string; second?: string; }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("cardinality-path-unresolved", () => {
     it("rejects cardinality on a non-block model whose annotation would not emit", async () => {
       const diagnostics = await Tester.diagnose(

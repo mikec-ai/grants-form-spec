@@ -37,6 +37,9 @@ extern dec requiredPathWhen(
   equals: valueof unknown,
 );
 
+/** Require a value for at least one of the named sibling properties. */
+extern dec atLeastOneOf(target: Model, ...properties: ModelProperty[]);
+
 extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 
 /** Require a field from a condition on a nested sibling path, relative to the containing model. */

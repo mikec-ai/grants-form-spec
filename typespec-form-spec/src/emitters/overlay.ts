@@ -3,6 +3,7 @@ import {
   Block,
   cardinalityRequiredPaths,
   cardinalityRequiredWhen,
+  modelAtLeastOneOf,
   orderedProps,
   propHelpText,
   propEncodedCheckboxGroup,
@@ -36,7 +37,8 @@ export function emitSchemaOverlay(
   const constraints = constraintAnnotations(program, model);
   const cardinality = cardinalityAnnotations(program, model);
   const encodedCheckboxes = encodedCheckboxAnnotations(program, model);
-  const parts = [conditionals, patches, readOnly, helpText, constraints, cardinality, encodedCheckboxes].filter(Boolean) as Record<string, unknown>[];
+  const alternatives = atLeastOneAnnotations(program, model);
+  const parts = [conditionals, patches, readOnly, helpText, constraints, cardinality, encodedCheckboxes, alternatives].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
 }
@@ -53,8 +55,23 @@ export function emitModelOverlay(
     constraintAnnotations(program, model),
     cardinalityAnnotations(program, model),
     encodedCheckboxAnnotations(program, model),
+    atLeastOneAnnotations(program, model),
   ].filter(Boolean) as Record<string, unknown>[];
   return parts.length ? parts.reduce(merge, {}) : undefined;
+}
+
+/** Emit a model-level choice as ordinary, portable JSON Schema. */
+function atLeastOneAnnotations(
+  program: Program,
+  model: Model,
+): Record<string, unknown> | undefined {
+  const groups = modelAtLeastOneOf(program, model);
+  if (!groups.length) return undefined;
+  return {
+    allOf: groups.map((properties) => ({
+      anyOf: properties.map((property) => ({ required: [property] })),
+    })),
+  };
 }
 
 /**

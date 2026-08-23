@@ -9,11 +9,13 @@
     "@simpler-grants/form-spec": "file:./typespec-form-spec",
     "@typespec/compiler": "^1.13.0",
     "@typespec/json-schema": "^1.13.0",
-    "ajv": "^8.20.0"
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
   },
   "scripts": {
     "build": "npm run build -w @simpler-grants/form-spec",
-    "emit": "rm -rf dist && tsp compile specs/main.tsp && npm run project-xml",
+    "emit": "rm -rf dist && tsp compile specs/main.tsp && npm run project-policy && npm run project-xml",
+    "project-policy": "node scripts/project_policy_bindings.mjs",
     "project-xml": "node scripts/project_xml_profiles.mjs",
     "project-evidence": "node scripts/project_evidence.mjs",
     "analyze": "python3 scripts/analyze.py",
