@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: lifecycle_fields_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:52:59.851Z'
+  at: '2026-08-23T18:55:44.784Z'
 assignee: lifecycle_fields_agent
 ---
 # Objective
@@ -45,7 +45,7 @@ Resolve value ownership and response roles for 18 fields that should not be norm
 
 # Delivery
 
-Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `4f65c4526`.
+Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `5af4b807d`.
 
 The evidence-backed disposition is:
 
@@ -65,6 +65,11 @@ received date, State application identifier, and previous Grants.gov tracking nu
 occurrence has both its canonical block id and `systemValue` role. The nine evidence mappings are
 proposal-only, have no reviewer attribution, and remain unpublished.
 
+The analysis projection now preserves exact path-qualified proposal status. The 17 proposals from
+PRs #42 and #43 report `mappingStatus: proposed` with their source id/path while remaining
+`publishable: false`; only accepted mappings can enter reviewed or published metrics. An occurrence
+without an exact mapping remains `unmapped` on a proposed form or `unreviewed` on an unreviewed form.
+
 The Multi-Project signature/date pair was reviewed independently using its pinned 4.0 XSD, DAT,
 and read-only PDF. It remains form-local because its applicant/AOR lifecycle differs from the
 submission-populated standalone R&R fields. Certification controls also remain form-local: their
@@ -76,7 +81,7 @@ The official SF-424 Short 3.0 DAT is pinned at
 `technicalField`, while the portable runtime's missing disable behavior is recorded as an explicit
 source-parity gap.
 
-After rebasing on merged PR #42, full `npm run preflight` passed with 91 TypeSpec tests, 85 Python
+After rebasing on merged PR #42, full `npm run preflight` passed with 91 TypeSpec tests, 86 Python
 tests, 131 validated blocks / 712 artifacts, 107 canonical questions, 436 exploratory associations,
 zero reviewed associations, and the combined monotonic ratchet at 76 initial / 26 resolved / 50
 remaining. XML profiles and current runtime presentation/validation behavior are unchanged. No
