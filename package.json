@@ -17,6 +17,7 @@
     "project-xml": "node scripts/project_xml_profiles.mjs",
     "project-evidence": "node scripts/project_evidence.mjs",
     "analyze": "python3 scripts/analyze.py",
+    "check-unclassified": "python3 scripts/check_unclassified_baseline.py",
     "validate-artifacts": "node scripts/validate_artifacts.mjs",
     "validate-promotion": "node scripts/validate_promotion.mjs",
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",

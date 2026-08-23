@@ -40,6 +40,9 @@ jobs:
       - name: Generate form analysis
         run: python3 scripts/analyze.py --output-dir build/analysis --json > /dev/null
 
+      - name: Prevent new unclassified form-field debt
+        run: npm run check-unclassified
+
       - name: Check that every TypeSpec file compiles independently
         shell: bash
         run: |

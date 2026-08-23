@@ -80,6 +80,15 @@ export const $tag = (ctx: Ctx, target: Model | Scalar, ...tags: unknown[]) =>
 export const $entity = (ctx: Ctx, target: Model | Scalar, entity: unknown) =>
   set(ctx, stateKeys.entity, target, enumName(entity));
 
+// --- response semantics --------------------------------------------------
+
+/** Keep response ownership orthogonal to question identity and presentation. */
+export const $responseRole = (
+  ctx: Ctx,
+  target: Model | Scalar | ModelProperty,
+  role: unknown,
+) => set(ctx, stateKeys.responseRole, target, enumName(role));
+
 /** An enum member argument arrives as the member; take its name. */
 function enumName(v: unknown): string {
   const m = unwrap(v);

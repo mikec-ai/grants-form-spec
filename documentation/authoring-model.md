@@ -645,6 +645,7 @@ worked examples that motivate each.
 | D9 | Unit of composition | **A *block*** (§13). Questions and forms are both blocks, distinguished only by `@Question.meta` vs `@Form.meta`. A block is a Model when it holds several values and a **Scalar** when it holds one — roughly half the bank is single-valued. Every block emits its own `schema.json`, `ui.json`, and `index.json`. Sections are the single grouping mechanism, usable at any block level. |
 | D10 | SGG's remaining rule names | **Declared in an `@Sgg.*` namespace** (§12.5), so the library emits a *complete* SGG rule schema in one pass and the adapter merges nothing. 8 names, restricted to `specs/forms/` by lint, counted in CI. Attachment validation and submit stamps are inferred and need no authoring surface. |
 | D11 | Decorator arguments | **Marshalled to plain data on write.** `valueof` arguments arrive as compiler graph nodes with parent back-references and cannot be serialized; state holds values so every emitter and linter rule reads plain JSON. |
+| D12 | Response ownership and form-field lineage | **A separate `@Response.role` vocabulary plus generated `fieldOccurrences` in each form index.** Semantic identity, capture machinery, response ownership, UI behavior, and delivery targets remain orthogonal. The emitter preserves canonical lineage through spreads, inheritance, and form-scoped overrides before the TypeSpec AST disappears; analyzers consume the portable index rather than custom JSON Schema keywords. |
 
 Alongside D1: **field constraints need no namespace of this library's own.** `@maxLength`,
 `@pattern`, `@minValue`, `@minItems` and `?` are TypeSpec built-ins, so roughly half of what
@@ -660,10 +661,10 @@ Alongside D1: **field constraints need no namespace of this library's own.** `@m
    an augment on the enum member is the natural spelling
    (`@@UI.visibleWhen(Sf424Section.revision, SF424.applicationType, ApplicationType.Revision)`),
    since enum members are augmentable targets. Deferred until a form requires it.
-3. **How deep `index.json` facets go.** The website's `CatalogItem` is
-   `{ id, name, description, tags, rawSchema }`. Whether `entity`, source provenance, or the
-   reuse count belong there or in a generated top-level catalogue is a browser-UX question,
-   not a schema one.
+3. **Which browser-only aggregate facets belong beside the portable index.** Canonical block
+   identity, composition, response role, and form-field lineage now belong in `index.json` because
+   they are portable contract facts. Source provenance and aggregate reuse counts remain generated
+   views whose browser placement is a UX question, not a schema one.
 
 ## 10. Key Contacts as the reference case for the deferred mapping layer
 

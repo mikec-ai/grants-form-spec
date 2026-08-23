@@ -364,6 +364,7 @@ model SF424 {
   @UI.label("Total Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
   @UI.readOnly
+  @Response.role(ResponseRole.calculatedOutput)
   @Validation.computed(
     Op.Sum,
     SF424.federalEstimatedFunding,

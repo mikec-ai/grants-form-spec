@@ -63,12 +63,21 @@ export interface Block {
   classification: "semanticQuestion" | "captureMechanism";
   tags: string[];
   entity?: string;
+  responseRole?: ResponseRole;
   label?: string;
   doc?: string;
   sections?: Enum;
   order?: string[];
   overrides: Record<string, Record<string, unknown>>;
 }
+
+export type ResponseRole =
+  | "applicantInput"
+  | "calculatedOutput"
+  | "systemValue"
+  | "technicalField"
+  | "attestation"
+  | "staticContent";
 
 const g = (p: Program, k: symbol, t: Type) => p.stateMap(k).get(t);
 
@@ -97,6 +106,7 @@ export function readBlock(program: Program, model: Model | Scalar): Block | unde
     classification: (enumName(meta.classification) ?? "semanticQuestion") as Block["classification"],
     tags: (g(program, stateKeys.tags, model) as string[]) ?? [],
     entity: g(program, stateKeys.entity, model) as string | undefined,
+    responseRole: g(program, stateKeys.responseRole, model) as ResponseRole | undefined,
     label: g(program, stateKeys.label, model) as string | undefined,
     doc: getDoc(program, model),
     sections: g(program, stateKeys.sections, model) as Enum | undefined,
@@ -134,6 +144,10 @@ export const propSection = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.section, prop) as { name: string; label?: string } | undefined;
 export const propReadOnly = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.readOnly, prop) === true;
+export const propResponseRole = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.responseRole, prop) as ResponseRole | undefined;
+export const typeResponseRole = (p: Program, type: Model | Scalar) =>
+  g(p, stateKeys.responseRole, type) as ResponseRole | undefined;
 export const typeTags = (p: Program, type: Model | Scalar) =>
   (g(p, stateKeys.tags, type) as string[]) ?? [];
 export const propReadOnlyWhen = (p: Program, prop: ModelProperty) =>

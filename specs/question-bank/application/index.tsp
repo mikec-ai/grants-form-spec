@@ -22,6 +22,7 @@ scalar FederalDebtExplanation extends AttachmentRef;
 
 /** Completed by Grants.gov upon submission. */
 @Question.meta(#{ id: "application/date-received" })
+@Response.role(ResponseRole.systemValue)
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.date)
 @UI.label("Date Received")

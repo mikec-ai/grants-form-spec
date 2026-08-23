@@ -177,6 +177,23 @@ export async function validateArtifactGraph(inputDist) {
           throw new ArtifactError(`composes unknown question ${composedId}`, indexPath);
         }
       }
+    } else {
+      const occurrencePaths = new Set();
+      for (const occurrence of index.fieldOccurrences) {
+        if (occurrencePaths.has(occurrence.path)) {
+          throw new ArtifactError(`duplicate field occurrence path ${occurrence.path}`, indexPath);
+        }
+        occurrencePaths.add(occurrence.path);
+        for (const blockId of occurrence.blockIds) {
+          const composed = indexById.get(blockId);
+          if (!composed || composed.index.kind !== "question") {
+            throw new ArtifactError(
+              `field occurrence ${occurrence.path} names unknown question block ${blockId}`,
+              indexPath,
+            );
+          }
+        }
+      }
     }
 
     const schemaValidator = validate.get(location);
@@ -185,6 +202,35 @@ export async function validateArtifactGraph(inputDist) {
     }
     if (schema.$id !== `${index.id}/schema.json`) {
       throw new ArtifactError(`schema $id ${schema.$id} does not match block ${index.id}`, schemaPath);
+    }
+    if (location === "form") {
+      const actual = await schemaFieldOccurrences(
+        { value: schema, path: schemaPath },
+        dist,
+        cache,
+      );
+      const declared = new Map(
+        index.fieldOccurrences.map((occurrence) => [occurrence.path, occurrence.leaf]),
+      );
+      const missing = [...actual.keys()].filter((path) => !declared.has(path));
+      const extra = [...declared.keys()].filter((path) => !actual.has(path));
+      const wrongShape = [...actual].filter(
+        ([path, leaf]) => declared.has(path) && declared.get(path) !== leaf,
+      );
+      if (missing.length || extra.length || wrongShape.length) {
+        const details = [];
+        if (missing.length) details.push(`missing ${missing.join(", ")}`);
+        if (extra.length) details.push(`unknown ${extra.join(", ")}`);
+        if (wrongShape.length) {
+          details.push(
+            `leaf mismatch ${wrongShape.map(([path]) => path).join(", ")}`,
+          );
+        }
+        throw new ArtifactError(
+          `field occurrence coverage mismatch: ${details.join("; ")}`,
+          indexPath,
+        );
+      }
     }
 
     const uiValidator = validate.get("ui-schema");
@@ -408,6 +454,37 @@ async function schemaItems(state, dist, cache, seen = new Set()) {
     if (found) return found;
   }
   return undefined;
+}
+
+async function schemaFieldOccurrences(rootState, dist, cache) {
+  const found = new Map();
+
+  async function visit(states, parentPath) {
+    const properties = await schemaProperties(states, dist, cache);
+    for (const [name, childStates] of properties) {
+      const path = `${parentPath}/${encodeOccurrenceStep(name)}`;
+      const itemStates = [];
+      for (const child of childStates) {
+        const items = await schemaItems(child, dist, cache);
+        if (Array.isArray(items)) itemStates.push(...items);
+        else if (items) itemStates.push(items);
+      }
+      const candidates = itemStates.length ? itemStates : childStates;
+      if (itemStates.length) found.set(path, false);
+      const valuePath = itemStates.length ? `${path}/[]` : path;
+      const nested = await schemaProperties(candidates, dist, cache);
+      const leaf = nested.size === 0;
+      found.set(valuePath, leaf);
+      if (!leaf) await visit(candidates, valuePath);
+    }
+  }
+
+  await visit(rootState, "");
+  return found;
+}
+
+function encodeOccurrenceStep(value) {
+  return value.replaceAll("~", "~0").replaceAll("/", "~1");
 }
 
 async function validateSourcePointer(source, rootSchemaState, dist, cache, profilePath) {

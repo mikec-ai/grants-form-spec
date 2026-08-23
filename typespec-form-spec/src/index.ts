@@ -10,6 +10,7 @@ export const $decorators = {
   "SimplerForms.Question": { meta: d.$questionMeta },
   "SimplerForms.Form": { meta: d.$formMeta },
   "SimplerForms.Catalog": { tag: d.$tag, entity: d.$entity },
+  "SimplerForms.Response": { role: d.$responseRole },
   "SimplerForms.UI": {
     sections: d.$sections,
     section: d.$section,

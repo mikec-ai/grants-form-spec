@@ -27,11 +27,11 @@ Meaning, interaction, and representation are independent facets:
 | Response role | applicant input, calculated output, system-supplied value, technical field, static content | distinguish questions asked from values displayed or managed |
 | Capture mechanism | attachment, text, date, choice, structured group | implementation and capability reuse |
 
-This change introduces block classification for semantic questions and capture mechanisms.
-Response-role classification belongs on a form occurrence because the same semantic value can
-be entered by an applicant in one context and calculated or supplied by a system in another.
-The occurrence vocabulary should be added when the first non-applicant role needs to appear in
-the exported association table.
+Block classification distinguishes semantic questions from capture mechanisms. Response-role
+classification is resolved per form occurrence because the same semantic value can be entered by
+an applicant in one context and calculated or supplied by a system in another. Authors may place a
+default role on a reusable block and override it on a form property; the emitted
+`fieldOccurrences` inventory records the effective role at each canonical response path.
 
 ## Alternatives considered
 

@@ -45,6 +45,9 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self._json(form / "index.json", {
             "id": "example", "kind": "form", "name": "Example",
             "description": "Example form.", "tags": [],
+            "fieldOccurrences": [{
+                "path": "/name", "leaf": True, "blockIds": ["generics/name"],
+            }],
         })
         self._json(form / "manifest.json", {
             "contract": "resolved-form-package/v1",
@@ -108,6 +111,19 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
 
         self.assertEqual(result.returncode, 1)
         self.assertIn("composes unknown question generics/missing", result.stdout)
+
+    def test_rejects_an_incomplete_field_occurrence_inventory(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            index_path = dist / "forms" / "example" / "index.json"
+            index = json.loads(index_path.read_text(encoding="utf-8"))
+            index["fieldOccurrences"] = []
+            self._json(index_path, index)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("field occurrence coverage mismatch", result.stdout)
+        self.assertIn("missing /name", result.stdout)
 
     def test_rejects_an_xml_mapping_field_outside_the_canonical_form(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

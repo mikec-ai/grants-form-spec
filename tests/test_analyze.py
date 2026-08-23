@@ -213,6 +213,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 418)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)
+        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 76)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
@@ -287,8 +288,54 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         rows = self.analysis["unclassifiedFormFields"]
         self.assertEqual(len(rows), self.analysis["status"]["unclassifiedFormFieldCount"])
         self.assertTrue(rows)
+        self.assertTrue(all(row["fieldPath"].startswith("/") for row in rows))
         self.assertTrue(all(row["classification"] == "unclassified" for row in rows))
         self.assertTrue(all(not row["countedAsQuestion"] for row in rows))
+
+    def test_canonical_lineage_survives_spreads_inheritance_and_overrides(self) -> None:
+        rows = self.analysis["unclassifiedFormFields"]
+        by_form = {
+            form_id: {row["fieldName"] for row in rows if row["formId"] == form_id}
+            for form_id in {
+                "rr-budget",
+                "rr-budget-10yr",
+                "performance-site",
+                "rr-key-person-expanded",
+                "rr-sf424-multi-project-cover",
+            }
+        }
+        self.assertNotIn("budgetType", by_form["rr-budget"])
+        self.assertNotIn("budgetType", by_form["rr-budget-10yr"])
+        self.assertTrue(
+            {"state", "province", "zipCode"}.isdisjoint(by_form["performance-site"])
+        )
+        self.assertTrue(
+            {"state", "province", "zipCode", "projectRole"}.isdisjoint(
+                by_form["rr-key-person-expanded"]
+            )
+        )
+        self.assertTrue(
+            {"state", "province", "department", "division", "employerId"}.isdisjoint(
+                by_form["rr-sf424-multi-project-cover"]
+            )
+        )
+
+    def test_authored_response_roles_flow_to_question_occurrences(self) -> None:
+        system = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "sf424"
+            and row["questionId"] == "application/date-received"
+        )
+        calculated = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "sf424"
+            and row["questionId"] == "generics/monetary-amount"
+            and row["occurrencePath"] == "/totalEstimatedFunding"
+        )
+        self.assertEqual(system["responseRole"], "systemValue")
+        self.assertEqual(calculated["responseRole"], "calculatedOutput")
 
 
 if __name__ == "__main__":
