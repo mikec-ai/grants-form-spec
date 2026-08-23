@@ -127,11 +127,9 @@ def source_list(*collections: list[dict[str, Any]]) -> list[dict[str, str]]:
     for collection in collections:
         for record in collection:
             provenance = list(record.get("provenance", []))
-            source_value = optional_object(
-                record.get("source_value"),
-                f"record {record.get('rule_id') or record.get('behavior_key') or 'unknown'} source_value",
-            )
-            provenance += list(source_value.get("provenance", []))
+            source_value = record.get("source_value")
+            if isinstance(source_value, dict):
+                provenance += list(source_value.get("provenance", []))
             for value in provenance:
                 match = PROVENANCE.match(value)
                 if match:
@@ -247,9 +245,7 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
         dependencies = optional_array(
             rule.get("dependencies"), f"runtime rule {rule_id} dependencies"
         )
-        source_value = optional_object(
-            rule.get("source_value"), f"runtime rule {rule_id} source_value"
-        )
+        source_value = rule.get("source_value")
         runtime_rules.append({
             "id": rule_id,
             "mechanism": rule.get("mechanism", ""),
@@ -261,10 +257,13 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
             "effect": rule.get("effect", ""),
             "operator": rule.get("operator", ""),
             "value": rule.get("value"),
+            "sourceValue": source_value,
             "disposition": rule.get("disposition", ""),
             "executionClass": rule.get("execution_class", ""),
             "sourceRule": rule.get("source_rule", ""),
-            "provenance": source_value.get("provenance", []),
+            "provenance": source_value.get("provenance", [])
+            if isinstance(source_value, dict)
+            else [],
             "reviewStatus": "proposed",
         })
 

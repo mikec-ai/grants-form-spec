@@ -179,6 +179,7 @@
         "effect": { "type": "string" },
         "operator": { "type": "string" },
         "value": {},
+        "sourceValue": {},
         "disposition": { "type": "string", "minLength": 1 },
         "executionClass": { "type": "string", "minLength": 1 },
         "sourceRule": { "type": "string" },
