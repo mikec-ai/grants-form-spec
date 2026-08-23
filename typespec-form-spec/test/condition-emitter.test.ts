@@ -149,6 +149,22 @@ describe("bounded presence conditions", () => {
     );
   });
 
+  it("rejects an indexed record because runtime count semantics are array-only", async () => {
+    expectDiagnostics(
+      await Tester.diagnose(
+        form(`
+          ${formMeta("record-count-source")}
+          model RecordCountSource {
+            people?: Record<string>;
+            @UI.enabledWhenCount(RecordCountSource.people, 1)
+            upload?: string;
+          }
+        `),
+      ),
+      { code: "@simpler-grants/form-spec/condition-count-source-not-array" },
+    );
+  });
+
   it("rejects a count source from another model instead of rebinding it by name", async () => {
     expectDiagnostics(
       await Tester.diagnose(

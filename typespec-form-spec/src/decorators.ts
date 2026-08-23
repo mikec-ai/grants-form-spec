@@ -1,7 +1,7 @@
 import type {
   DecoratorContext, Enum, EnumMember, Model, ModelProperty, Scalar, Type, Value,
 } from "@typespec/compiler";
-import { serializeValueAsJson, $summary } from "@typespec/compiler";
+import { isArrayModelType, serializeValueAsJson, $summary } from "@typespec/compiler";
 import { $id as $jsonSchemaId } from "@typespec/json-schema";
 import { reportDiagnostic, stateKeys } from "./lib.js";
 
@@ -210,7 +210,7 @@ function countCondition(
   minimum: number,
 ) {
   let valid = true;
-  if (source.type.kind !== "Model" || !source.type.indexer) {
+  if (source.type.kind !== "Model" || !isArrayModelType(source.type)) {
     reportDiagnostic(ctx.program, {
       code: "condition-count-source-not-array",
       target,
