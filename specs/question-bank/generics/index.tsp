@@ -187,6 +187,15 @@ scalar ContactTitle extends string;
 @format("uuid")
 scalar AttachmentRef extends string;
 
+/** One optional position in a source-defined ordered attachment sequence. */
+@Question.meta(#{
+  id: "generics/ordered-attachment-slot",
+  classification: BlockClassification.captureMechanism,
+})
+@Catalog.entity(EntityName.generic)
+@Catalog.tag(TagName.attachment)
+scalar OrderedAttachmentSlot extends AttachmentRef;
+
 /**
  * A dollar amount. Held as a string rather than a number so that a cent is never lost to
  * binary floating point.

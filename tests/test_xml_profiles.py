@@ -69,6 +69,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "rr-key-person-expanded",
             "sflll",
             "cd511",
+            "attachment-form",
         }
         profiles = {
             form_id: _json(DIST_FORMS / form_id / "targets/grants-gov-xml.json")
@@ -148,6 +149,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             ],
             "cd511": [
                 "../mappings/global-library-v2-human-name.json#/fields",
+            ],
+            "attachment-form": [
+                "../mappings/attached-file-data-1.0.json#/fields",
             ],
             "sf424b": [
                 "../mappings/sf424b-assurance-shell-1.1.json#/fields/authorizedRepresentative",

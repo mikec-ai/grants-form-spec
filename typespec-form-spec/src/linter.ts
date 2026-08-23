@@ -131,6 +131,8 @@ const sectionUnused = createRule({
           }
           for (const member of block.sections.members.values()) {
             if (used.has(member.name)) continue;
+            // A documented empty section is deliberate static presentation content.
+            if (getDoc(program, member)) continue;
             context.reportDiagnostic({
               target: member,
               format: { section: member.name, form: block.id },

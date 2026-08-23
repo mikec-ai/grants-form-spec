@@ -460,8 +460,8 @@ export function emitSggUi(program: Program, block: Block): SggSection[] {
   const out: SggSection[] = [];
   for (const name of order) {
     const children = bySection.get(name)!;
-    if (!children.length) continue;
     const m = meta.get(name)!;
+    if (!children.length && !m.description) continue;
     const section: SggSection = { type: "section", name, label: m.label, children };
     if (m.description) section.description = m.description;
     out.push(section);

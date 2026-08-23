@@ -1,7 +1,7 @@
 import type { Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  AtomicCondition, Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
+  AtomicCondition, Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propSection, propVisibleWhen, propWidget,
 } from "../model.js";
 
 const conditionSchema = (condition: AtomicCondition): Record<string, unknown> =>
@@ -45,6 +45,7 @@ export interface UiNode {
   type: string;
   scope?: string;
   label?: string;
+  text?: string;
   elements?: UiNode[];
   options?: Record<string, unknown>;
   rule?: Record<string, unknown>;
@@ -93,13 +94,10 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
     return node;
   }
 
-  const elements: UiNode[] = [];
-
-  for (const prop of orderedProps(program, block)) {
+  const nodeForProperty = (prop: ReturnType<typeof orderedProps>[number]): UiNode => {
     const child = childBlock(program, prop);
     if (child && !child.scalar) {
-      elements.push(rescopeUi(emitBlockUi(program, child), prop.name));
-      continue;
+      return rescopeUi(emitBlockUi(program, child), prop.name);
     }
 
     const node: UiNode = { type: "Control", scope: `#/properties/${prop.name}` };
@@ -137,7 +135,32 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
       }
     }
 
-    elements.push(node);
+    return node;
+  };
+
+  const props = orderedProps(program, block);
+  const elements: UiNode[] = [];
+  const documentedStaticSections = block.sections
+    ? [...block.sections.members.values()].filter(
+        (member) => getDoc(program, member)
+          && !props.some((prop) => propSection(program, prop)?.name === member.name),
+      )
+    : [];
+
+  if (documentedStaticSections.length && block.sections) {
+    const emitted = new Set<string>();
+    for (const member of block.sections.members.values()) {
+      const description = getDoc(program, member);
+      const members = props.filter((prop) => propSection(program, prop)?.name === member.name);
+      if (!members.length && description) elements.push({ type: "Label", text: description });
+      for (const prop of members) {
+        elements.push(nodeForProperty(prop));
+        emitted.add(prop.name);
+      }
+    }
+    for (const prop of props) if (!emitted.has(prop.name)) elements.push(nodeForProperty(prop));
+  } else {
+    elements.push(...props.map(nodeForProperty));
   }
 
   const group: UiNode = { type: "Group", elements };
