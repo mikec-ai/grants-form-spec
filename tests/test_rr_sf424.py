@@ -79,7 +79,7 @@ class RRSF424Tests(unittest.TestCase):
             if row["formId"] == "rr-sf424"
         ]
         question_ids = {row["questionId"] for row in associations}
-        self.assertEqual(len(associations), 74)
+        self.assertEqual(len(associations), 70)
         self.assertTrue({
             "generics/address",
             "generics/person-name",

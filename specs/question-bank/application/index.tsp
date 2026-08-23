@@ -47,6 +47,7 @@ enum Sf424StateReviewCode {
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
 model QuestionSf424SubmissionType {
+  /** Select one type of submission in accordance with agency instructions. */
   @UI.label("Submission Type")
   submissionType: Sf424SubmissionType;
 }
@@ -57,16 +58,17 @@ model QuestionSf424SubmissionType {
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
 model QuestionSf424ApplicationType {
+  /** Select one type of application in accordance with agency instructions. */
   @UI.label("Application Type")
   applicationType: Sf424ApplicationType;
 
+  /** Select a revision type from the list provided. A selection is required if Type of Application is Revision. */
   @UI.label("Revision Type")
   @Validation.requiredWhen(QuestionSf424ApplicationType.applicationType, Sf424ApplicationType.revision)
   revisionType?: Sf424RevisionType;
 
+  /** Please specify the type of revision. This field is required if E. Other is checked. */
   @UI.label("Other Explanation")
-  @minLength(0)
-  @maxLength(21)
   @Validation.requiredWhen(QuestionSf424ApplicationType.revisionType, Sf424RevisionType.E)
   revisionOtherSpecify?: string;
 }
@@ -104,9 +106,11 @@ scalar Sf424FederalAwardIdentifier extends string;
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details, TagName.date)
 model QuestionSf424StateReview {
+  /** One selection is required. */
   @UI.label("Is Application Subject to Review By State Under Executive Order 12372 Process?")
   stateReview: Sf424StateReviewCode;
 
+  /** If 'a' is selected, enter the date the application was submitted to the State. */
   @UI.label("State Review Date")
   @Validation.requiredWhen(QuestionSf424StateReview.stateReview, Sf424StateReviewCode.madeAvailable)
   stateReviewAvailableDate?: plainDate;
@@ -118,6 +122,7 @@ model QuestionSf424StateReview {
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
 model QuestionFederalDebtStatus {
+  /** If 'Yes,' provide explanation in attachment. */
   @UI.label("Applicant Delinquent on Federal Debt")
   @UI.widget(WidgetName.Radio)
   delinquentFederalDebt: boolean;

@@ -58,11 +58,13 @@ scalar EmployerIdentificationNumber extends string;
 @Catalog.entity(EntityName.primaryOrg)
 @Catalog.tag(TagName.organization, TagName.name)
 model QuestionOrganizationalUnit {
+  /** Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity. */
   @UI.label("Department Name")
   @minLength(1)
   @maxLength(30)
   departmentName?: string;
 
+  /** Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity. */
   @UI.label("Division Name")
   @minLength(1)
   @maxLength(100)

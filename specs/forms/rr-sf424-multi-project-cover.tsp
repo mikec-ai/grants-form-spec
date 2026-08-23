@@ -71,64 +71,9 @@ model MultiProjectAuthorizedRepresentative extends QuestionResearchAuthorizedRep
   address?: MultiProjectCountryControlledAddress;
 }
 
-model MultiProjectApplicationType extends QuestionResearchApplicationType {
-  @UI.label("Application Type")
-  applicationTypeCode?: ResearchApplicationTypeCode;
+model MultiProjectApplicationType extends QuestionResearchApplicationType {}
 
-  @UI.label("Is this application being submitted to another agency?")
-  isOtherAgencySubmission?: YesNoCode;
-
-  @UI.label("Other Agency Submission Explanation")
-  @minLength(1)
-  @maxLength(20)
-  @UI.enabledWhen(MultiProjectApplicationType.isOtherAgencySubmission, YesNoCode.yes)
-  otherAgencySubmissionExplanation?: string;
-
-  @UI.label("Revision Code")
-  @UI.encodedCheckboxGroup(#{
-    choices: #[
-      #{ code: "A", label: "A. Increase Award" },
-      #{ code: "B", label: "B. Decrease Award" },
-      #{ code: "C", label: "C. Increase Duration" },
-      #{ code: "D", label: "D. Decrease Duration" },
-      #{ code: "E", label: "E. Other" },
-    ],
-    combinations: #[
-      #{ value: "A", members: #["A"] },
-      #{ value: "B", members: #["B"] },
-      #{ value: "C", members: #["C"] },
-      #{ value: "D", members: #["D"] },
-      #{ value: "E", members: #["E"] },
-      #{ value: "AC", members: #["A", "C"] },
-      #{ value: "AD", members: #["A", "D"] },
-      #{ value: "BC", members: #["B", "C"] },
-      #{ value: "BD", members: #["B", "D"] },
-    ],
-  })
-  @UI.enabledWhen(MultiProjectApplicationType.applicationTypeCode, ResearchApplicationTypeCode.revision)
-  revisionCode?: ResearchRevisionCode;
-
-  @UI.label("Other Revision Explanation")
-  @minLength(1)
-  @maxLength(45)
-  @UI.enabledWhen(MultiProjectApplicationType.revisionCode, ResearchRevisionCode.E)
-  revisionCodeOtherExplanation?: string;
-}
-
-model MultiProjectApplicantType extends QuestionResearchApplicantType {
-  @UI.label("Applicant Type")
-  applicantTypeCode?: ApplicantTypeCode;
-
-  @UI.label("Other Applicant Type Explanation")
-  @minLength(1)
-  @maxLength(50)
-  @UI.enabledWhen(MultiProjectApplicantType.applicantTypeCode, ApplicantTypeCode.X)
-  applicantTypeCodeOtherExplanation?: string;
-
-  @UI.label("Small Business Organization Type")
-  @UI.enabledWhen(MultiProjectApplicantType.applicantTypeCode, ApplicantTypeCode.R)
-  smallBusinessOrganizationType?: QuestionResearchSmallBusinessType;
-}
+model MultiProjectApplicantType extends QuestionResearchApplicantType {}
 
 model MultiProjectPeriod {
   @UI.label("Proposed Start Date")
@@ -138,14 +83,9 @@ model MultiProjectPeriod {
   proposedEndDate?: ProjectEndDate;
 }
 
-model MultiProjectStateReview extends QuestionResearchStateReview {
-  @UI.label("State Review")
-  stateReviewCodeType?: ResearchStateReviewCode;
+model MultiProjectEstimatedFunding extends QuestionResearchEstimatedFunding {}
 
-  @UI.label("State Review Date")
-  @UI.enabledWhen(MultiProjectStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
-  stateReviewDate?: plainDate;
-}
+model MultiProjectStateReview extends QuestionResearchStateReview {}
 
 /** Research & Related Multi-Project Cover, Grants.gov form version 4.0. */
 @Form.meta(#{
@@ -158,6 +98,26 @@ model MultiProjectStateReview extends QuestionResearchStateReview {
   ombNumber: "4040-0001",
 })
 @UI.sections(RRSF424Section)
+@UI.overrides(#{
+  `applicationType.otherAgencySubmissionExplanation`: #{
+    enabledWhen: #{ path: "applicationType.isOtherAgencySubmission", equals: YesNoCode.yes }
+  },
+  `applicationType.revisionCode`: #{
+    enabledWhen: #{ path: "applicationType.applicationTypeCode", equals: ResearchApplicationTypeCode.revision }
+  },
+  `applicationType.revisionCodeOtherExplanation`: #{
+    enabledWhen: #{ path: "applicationType.revisionCode", equals: ResearchRevisionCode.E }
+  },
+  `applicantType.applicantTypeCodeOtherExplanation`: #{
+    enabledWhen: #{ path: "applicantType.applicantTypeCode", equals: ApplicantTypeCode.X }
+  },
+  `applicantType.smallBusinessOrganizationType`: #{
+    enabledWhen: #{ path: "applicantType.applicantTypeCode", equals: ApplicantTypeCode.R }
+  },
+  `stateReview.stateReviewDate`: #{
+    enabledWhen: #{ path: "stateReview.stateReviewCodeType", equals: ResearchStateReviewCode.yes }
+  },
+})
 model RRSF424MultiProjectCover {
   ...QuestionResearchSubmissionType;
 
@@ -248,7 +208,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Estimated Project Funding")
   @UI.section(RRSF424Section.estimatedFunding)
-  estimatedProjectFunding?: QuestionResearchEstimatedFunding;
+  estimatedProjectFunding?: MultiProjectEstimatedFunding;
 
   @UI.label("State Review")
   @UI.section(RRSF424Section.stateReview)

@@ -475,21 +475,27 @@ def main(argv: list[str] | None = None) -> int:
     direct_questions = {form_id: block_ids & semantic for form_id, block_ids in direct.items()}
     occurrence_rows = {}
     for form_id, schema in forms.items():
-        rows = occurrences(schema, bank, entries)
+        authoritative = {
+            (block_id, occurrence["path"])
+            for occurrence in form_indexes[form_id].get("fieldOccurrences", [])
+            if occurrence.get("leaf")
+            for block_id in occurrence.get("blockIds", [])
+            if entries.get(block_id, {}).get("responseRole")
+        }
+        authoritative_blocks = {block_id for block_id, _ in authoritative}
+        rows = [
+            row
+            for row in occurrences(schema, bank, entries)
+            if row["blockId"] not in authoritative_blocks
+            or (row["blockId"], row["path"]) in authoritative
+        ]
         seen = {(row["blockId"], row["path"]) for row in rows}
-        for occurrence in form_indexes[form_id].get("fieldOccurrences", []):
-            if not occurrence.get("leaf"):
-                continue
-            for block_id in occurrence.get("blockIds", []):
-                key = (block_id, occurrence["path"])
-                if (
-                    not entries.get(block_id, {}).get("responseRole")
-                    or key in seen
-                ):
-                    continue
+        for block_id, path in sorted(authoritative):
+            key = (block_id, path)
+            if key not in seen:
                 rows.append({
                     "blockId": block_id,
-                    "path": occurrence["path"],
+                    "path": path,
                     "relationship": "direct",
                 })
                 seen.add(key)

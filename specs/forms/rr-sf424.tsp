@@ -152,6 +152,7 @@ model ResearchStateReview extends QuestionResearchStateReview {
 }
 
 model RequiredResearchSubmissionType extends QuestionResearchSubmissionType {
+  @UI.label("Type of Submission")
   submissionTypeCode: ResearchSubmissionType;
 }
 

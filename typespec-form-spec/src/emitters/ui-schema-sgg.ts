@@ -112,6 +112,28 @@ type Overrides = Record<string, Record<string, unknown>>;
 
 const at = (overrides: Overrides, dataPath: string) => overrides[dataPath] ?? {};
 
+function overrideEnabledWhen(
+  override: Record<string, unknown>,
+): AbsoluteAtomicCondition[] {
+  const condition = override.enabledWhen;
+  if (!condition || typeof condition !== "object" || Array.isArray(condition)) return [];
+  const path = (condition as Record<string, unknown>).path;
+  const value = (condition as Record<string, unknown>).equals;
+  if (typeof path !== "string" || !path) return [];
+  if (
+    value !== null
+    && typeof value !== "string"
+    && typeof value !== "number"
+    && typeof value !== "boolean"
+  ) return [];
+  return [{
+    scope: "root",
+    sourcePath: path.split(".").filter(Boolean),
+    operator: "equals",
+    value,
+  }];
+}
+
 /**
  * Flatten a subtree into SGG's max-depth-1 vocabulary. A target-specific projection
  * of the canonical tree, not a composition semantic.
@@ -143,6 +165,7 @@ function walk(
     }
     const object = objectBehind(program, prop);
     if (object) {
+      const override = at(overrides, here);
       walk(
         program,
         object,
@@ -151,7 +174,11 @@ function walk(
         into,
         overrides,
         [...inheritedVisible, ...absoluteConditions(propVisibleWhen(program, prop), here, itemPath)],
-        [...inheritedEnabled, ...absoluteConditions(propEnabledWhen(program, prop), here, itemPath)],
+        [
+          ...inheritedEnabled,
+          ...overrideEnabledWhen(override),
+          ...absoluteConditions(propEnabledWhen(program, prop), here, itemPath),
+        ],
         [...inheritedReadOnly, ...absoluteConditions(propReadOnlyWhen(program, prop), here, itemPath)],
         itemPath,
       );
@@ -204,6 +231,7 @@ function field(
   } else {
     const enabled = [
       ...inheritedEnabled,
+      ...overrideEnabledWhen(override),
       ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), itemPath),
     ];
     if (enabled.length) {

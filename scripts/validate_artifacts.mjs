@@ -68,64 +68,40 @@ async function dereference(state, dist, cache, seen) {
 }
 
 async function resolveSteps(state, steps, dist, cache, seen) {
-  for (let index = 0; index < steps.length; index += 1) {
-    const step = steps[index];
-    state = await dereference(state, dist, cache, seen);
-    const { value, path } = state;
-    // A derived JSON Schema keeps inherited properties behind an `allOf` reference while
-    // UI and mapping pointers address the resolved response shape. If the local properties
-    // object does not own the requested field, resolve the property pair through a composed
-    // branch before descending into the local object and losing the parent `allOf` context.
-    const propertyName = step === "properties" ? steps[index + 1] : undefined;
-    if (
-      propertyName !== undefined
-      && value && typeof value === "object"
-      && !(propertyName in (value.properties ?? {}))
-      && Array.isArray(value.allOf)
-    ) {
-      let found;
-      for (const branch of value.allOf) {
-        try {
-          found = await resolveSteps(
-            { value: branch, path },
-            ["properties", propertyName],
-            dist,
-            cache,
-            new Set(seen),
-          );
-          break;
-        } catch {
-          // Try the next composed branch.
-        }
-      }
-      if (found !== undefined) {
-        state = found;
-        index += 1;
-        continue;
-      }
-    }
-    if (value && typeof value === "object" && step in value) {
-      state = { value: value[step], path };
-      continue;
-    }
-    if (value && typeof value === "object" && Array.isArray(value.allOf)) {
-      let found;
-      for (const branch of value.allOf) {
-        try {
-          found = await resolveSteps({ value: branch, path }, [step], dist, cache, new Set(seen));
-          break;
-        } catch {
-          // Try the next composed branch.
-        }
-      }
-      if (found !== undefined) {
-        state = found;
-        continue;
-      }
-    }
+  state = await dereference(state, dist, cache, seen);
+  if (!steps.length) return state;
+  const [step, ...rest] = steps;
+  const { value, path } = state;
+  if (!value || typeof value !== "object") {
     throw new ArtifactError(`schema path does not contain ${step}`, path);
   }
-  return state;
+  if (step in value) {
+    try {
+      return await resolveSteps(
+        { value: value[step], path },
+        rest,
+        dist,
+        cache,
+        new Set(seen),
+      );
+    } catch {
+      // An empty local `properties` branch may be completed by an `allOf` parent.
+    }
+  }
+  for (const branch of value.allOf ?? []) {
+    try {
+      return await resolveSteps(
+        { value: branch, path },
+        steps,
+        dist,
+        cache,
+        new Set(seen),
+      );
+    } catch {
+      // Try the next composed branch.
+    }
+  }
+  throw new ArtifactError(`schema path does not contain ${step}`, path);
 }
 
 async function resolvePointer(path, fragment, dist, cache, seen = new Set(), returnState = false) {

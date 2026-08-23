@@ -43,8 +43,10 @@ the fallback rendering.
 ## Mechanical guarantees
 
 The emitted field-occurrence index is authoritative for path-qualified form-to-question lineage.
-The analyzer supplements flattened JSON Schema references from those exact leaf occurrences only
-when the question has an explicitly authored response role. Tests require all 50 source-bound
-occurrences to appear at their exact paths, remain proposed and unpublished, and retain
-`applicantInput` capture roles. The unclassified-field ratchet now resolves all 76 identities in
-its original baseline without deleting or rewriting the baseline.
+For a canonical block with an explicitly authored response role, the analyzer uses its exact leaf
+occurrences instead of the flattened JSON Schema reference roots. This prevents compound roots
+such as `/applicantType` from appearing as extra, unmapped associations beside their actual leaf
+questions. Tests require exactly the 50 intended source-bound occurrences to appear at their exact
+paths, remain proposed and unpublished, and retain `applicantInput` capture roles. The
+unclassified-field ratchet now resolves all 76 identities in its original baseline without
+deleting or rewriting the baseline.

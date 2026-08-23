@@ -693,6 +693,37 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("rejects an enabledWhen override whose source path does not resolve", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          enum Section { only: "Only" }
+
+          /** An address. */
+          @Question.meta(#{ id: "generics/address" })
+          @Catalog.tag(TagName.address)
+          model Address {
+            city: string;
+          }
+
+          /** A form. */
+          ${formMeta("bad-behavior-source")}
+          @UI.sections(Section)
+          @UI.overrides(#{
+            \`applicant.city\`: #{
+              enabledWhen: #{ path: "applicant.citty", equals: "Boston" }
+            }
+          })
+          model BadBehaviorSource {
+            @UI.section(Section.only)
+            applicant: Address;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/override-path-unresolved",
+      });
+    });
   });
 
   describe("sgg-outside-forms", () => {

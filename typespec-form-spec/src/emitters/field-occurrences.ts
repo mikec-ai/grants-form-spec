@@ -70,10 +70,10 @@ export function emitFieldOccurrences(program: Program, form: Block): FieldOccurr
       ]);
       const responseRole = firstDefined(
         propResponseRole(program, property),
-        ...sources.map((source) => propResponseRole(program, source)),
-        ...sources.map((source) => roleForPropertyOwner(program, source)),
-        ...matches.map((match) => propResponseRole(program, match.property)),
         roleForType(program, property.type),
+        ...sources.map((source) => propResponseRole(program, source)),
+        ...matches.map((match) => propResponseRole(program, match.property)),
+        ...sources.map((source) => roleForPropertyOwner(program, source)),
         ...matches.map((match) => match.context.responseRole),
         inheritedRole,
       );

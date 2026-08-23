@@ -539,6 +539,18 @@ function checkOverridePaths(program: Program, block: Block): void {
     ...Object.keys(block.overrides),
     ...Object.keys(modelPrePopulate(program, block.model as Model)),
   ];
+  for (const override of Object.values(block.overrides)) {
+    const condition = override.enabledWhen;
+    const enabledWhen = condition as Record<string, unknown> | undefined;
+    if (
+      enabledWhen
+      && typeof enabledWhen === "object"
+      && !Array.isArray(enabledWhen)
+      && typeof enabledWhen.path === "string"
+    ) {
+      paths.push(enabledWhen.path);
+    }
+  }
   for (const path of paths) {
     const reason = resolvePath(program, block.model as Model, path.split("."));
     if (!reason) continue;

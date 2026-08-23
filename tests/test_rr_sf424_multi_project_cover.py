@@ -103,7 +103,19 @@ class RRSF424MultiProjectCoverTests(unittest.TestCase):
             "sflllAttachment", "preApplicationAttachment", "coverLetterAttachment",
         })
         self.assertEqual(
-            schema["properties"]["applicationType"]["properties"]["revisionCode"]
+            schema["$defs"]["MultiProjectApplicationType"]["allOf"],
+            [{
+                "$ref": "../../question-bank/research-application/application-type/schema.json"
+            }],
+        )
+        application_type = json.loads(
+            (
+                ROOT
+                / "dist/question-bank/research-application/application-type/schema.json"
+            ).read_text()
+        )
+        self.assertEqual(
+            application_type["properties"]["revisionCode"]
             ["x-encoded-checkbox-group"]["combinations"][-1],
             {"value": "BD", "members": ["B", "D"]},
         )

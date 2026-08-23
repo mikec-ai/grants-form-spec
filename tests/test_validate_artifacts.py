@@ -91,6 +91,55 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("status: passed", result.stdout)
         self.assertIn("blocks: 2", result.stdout)
 
+    def test_resolves_nested_paths_through_an_empty_local_all_of_extension(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            question = dist / "question-bank/generics/name/schema.json"
+            form = dist / "forms/example"
+            self._json(question, {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "$id": "generics/name/schema.json",
+                "type": "object",
+                "properties": {"value": {"type": "string"}},
+            })
+            self._json(form / "schema.json", {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "$id": "example/schema.json",
+                "type": "object",
+                "properties": {"details": {"$ref": "#/$defs/LocalDetails"}},
+                "$defs": {
+                    "LocalDetails": {
+                        "type": "object",
+                        "properties": {},
+                        "allOf": [{
+                            "$ref": "../../question-bank/generics/name/schema.json",
+                        }],
+                    },
+                },
+            })
+            self._json(form / "ui.json", {
+                "type": "Group",
+                "elements": [{
+                    "type": "Control",
+                    "scope": "#/properties/details/properties/value",
+                }],
+            })
+            self._json(form / "index.json", {
+                "id": "example", "kind": "form", "name": "Example",
+                "description": "Example form.", "tags": [],
+                "fieldOccurrences": [{
+                    "path": "/details", "leaf": False,
+                    "blockIds": ["generics/name"],
+                }, {
+                    "path": "/details/value", "leaf": True,
+                    "blockIds": ["generics/name"],
+                }],
+            })
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("status: passed", result.stdout)
+
     def test_rejects_a_dangling_reference(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             dist = self._write_graph(Path(directory), ref="../../question-bank/missing/schema.json")

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { expectDiagnostics } from "@typespec/compiler/testing";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
-import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
 import { emitFieldOccurrences } from "../src/emitters/field-occurrences.js";
+import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
 import { emitSchemaOverlay } from "../src/emitters/overlay.js";
 import { allBlocks } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
@@ -419,5 +419,100 @@ describe("bounded presence conditions", () => {
       ),
       { code: "@simpler-grants/form-spec/condition-count-minimum-invalid" },
     );
+  });
+});
+
+describe("field occurrence role precedence", () => {
+  it("keeps a direct type role above the owning question default", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(`
+      import "@simpler-grants/form-spec";
+      using SimplerForms;
+
+      namespace QuestionBank {
+        @Question.meta(#{ id: "application/system-identifier" })
+        @Response.role(ResponseRole.systemValue)
+        @Catalog.tag(TagName.identifier)
+        scalar SystemIdentifier extends string;
+
+        @Question.meta(#{ id: "application/mixed-details" })
+        @Response.role(ResponseRole.applicantInput)
+        @Catalog.tag(TagName.details)
+        model MixedDetails {
+          identifier?: SystemIdentifier;
+          explanation?: string;
+        }
+      }
+
+      namespace Forms {
+        @Form.meta(#{
+          id: "mixed-role-check",
+          formName: "mixed-role-check",
+          shortFormName: "mixed-role-check",
+          formVersion: "1.0",
+        })
+        model MixedRoleCheck {
+          ...QuestionBank.MixedDetails;
+        }
+      }
+    `);
+
+    const form = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "mixed-role-check",
+    );
+    expect(form).toBeDefined();
+    const occurrences = emitFieldOccurrences(instance.program, form!);
+    expect(occurrences.find((row) => row.path === "/identifier")).toMatchObject({
+      responseRole: "systemValue",
+    });
+    expect(occurrences.find((row) => row.path === "/explanation")).toMatchObject({
+      responseRole: "applicantInput",
+    });
+  });
+});
+
+describe("form-scoped behavior overrides", () => {
+  it("emits an enabled condition without re-declaring the shared question", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Mode { enabled: "Enabled", disabled: "Disabled" }
+        enum OverrideSection { details: "Details" }
+        model SharedDetails { mode?: Mode; explanation?: string; }
+        model LocalDetails extends SharedDetails {}
+
+        ${formMeta("behavior-override-check")}
+        @UI.sections(OverrideSection)
+        @UI.overrides(#{
+          \`details.explanation\`: #{
+            enabledWhen: #{ path: "details.mode", equals: Mode.enabled }
+          },
+        })
+        model BehaviorOverrideCheck {
+          @UI.section(OverrideSection.details)
+          details?: LocalDetails;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "behavior-override-check",
+    );
+    expect(block).toBeDefined();
+    expect(block!.overrides["details.explanation"]).toEqual({
+      enabledWhen: { path: "details.mode", equals: "Enabled" },
+    });
+    const fields = emitSggUi(instance.program, block!)[0].children;
+    expect(fields.find((field) => field.definition.endsWith("/explanation"))).toMatchObject({
+      conditional: {
+        when: {
+          op: "equals",
+          ref: { scope: "root", pointer: "/details/mode" },
+          value: "Enabled",
+        },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
+      },
+    });
   });
 });
