@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424d_family_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:40:21.360Z'
+  at: '2026-08-23T20:41:57.610Z'
 ---
 # Goal
 
@@ -51,7 +51,7 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 - One factored XML acceptance mapping is composed by three declarative profiles. Fully populated samples for all profiles validate against the exact official XSD bytes, including the profile-qualified root attributes and the base-only global version child.
 - The base SGG implementation oracle is pinned at `mikec-ai/simpler-grants-gov@30dd50cf0493146c32f89f78398979523e040080`, file SHA-256 `8236db821592dc3b36e3e95971b514af4657b3b41e781259f0797e46d091fb2a`.
 - Full producer preflight passes on the final restack: 99 TypeScript tests, 120 Python tests with 8 existing skips, artifact validation (145 blocks/859 artifacts), promotion validation, 589-artifact packaging, 20 XML profiles, and the unclassified-field ratchet (49 remaining, unchanged by this family).
-- The final D diff is three commits directly atop merged producer `main`; PR `#52` is mergeable. GitHub CI run `32665096478` was queued from the final producer commit when this receipt was written.
+- The final D diff is three commits directly atop merged producer `main`; PR `#52` is mergeable. GitHub CI run `32665096478` passed from final producer commit `7b23153` (including independent TypeSpec compilation and portable-artifact publication).
 - Forms remain `draft`, absent from production registration, and no HHS upstream worktree was mutated.
 
 # Remaining gates
