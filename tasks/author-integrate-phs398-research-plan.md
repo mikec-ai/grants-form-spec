@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:51:53.922Z'
+  at: '2026-08-23T23:04:22.525Z'
 assignee: research_plan_agent
 ---
 # Goal
@@ -40,7 +40,7 @@ The Attachment Form runtime mechanism is reusable; each Research Plan attachment
 
 # Implementation receipt
 
-Draft producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) at commit `d37db0953` implements the source-conformance slice and remains unmerged for independent review.
+Draft producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) at commit `6ec72f8a4` implements the source-conformance slice and remains unmerged for independent review.
 
 - Authored thirteen role-qualified, draft semantic questions over the one shared `generics/attachment` capture mechanism.
 - Composed PHS 398 Research Plan FID 797 v5.0 with exact source order, identity, labels, sections, required Research Strategy, and ten-file applicant Appendix limit.
@@ -52,7 +52,17 @@ Draft producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) at
 
 # Verification
 
-`npm run preflight` passes: 103 TypeSpec/Vitest tests, 195 Python tests with one existing skip, 202 blocks and 1,116 artifacts validated, plus promotion, provenance, packaging, exact-XSD, analysis, and zero-unclassified gates.
+`npm run preflight` passes: 104 TypeSpec/Vitest tests, 197 Python tests with one existing skip, 202 blocks and 1,116 artifacts validated, plus promotion, provenance, packaging, exact-XSD, analysis, and zero-unclassified gates.
+
+# Independent review response
+
+The first independent review found that `flatten: true` attachment nodes could declare properties the reference runtime silently ignored. Commit `6ec72f8a4` resolves that merge blocker generically:
+
+- The JSON contract permits a flattened attachment only as an array `items.node` with a declared `itemElement`.
+- Its exact declarative shape is only `{ "kind": "attachment", "flatten": true }`; element, namespace, attributes, source, container, and other ignored declarations are rejected.
+- The reference runtime independently enforces exact keys and legal array-item context, including misspelled properties.
+- Negative contract and runtime tests mutate element, namespace, attributes, source, `flatten` spelling, top-level placement, and missing `itemElement`.
+- The positive Research Plan XML/XSD projection remains green.
 
 # Remaining review and consumer gates
 
