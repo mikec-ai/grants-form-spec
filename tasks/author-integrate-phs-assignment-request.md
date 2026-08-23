@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: assignment_request_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:22:29.275Z'
+  at: '2026-08-23T22:23:36.984Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -56,7 +56,7 @@ Pinned evidence:
 Verification receipt:
 
 - `npm run preflight` passed.
-- Updated-head GitHub CI is running: https://github.com/mikec-ai/grants-form-spec/actions/runs/32670351671/job/97270159780
+- Updated-head GitHub CI passed in 1m27s: https://github.com/mikec-ai/grants-form-spec/actions/runs/32670351671/job/97270159780
 - 102 TypeScript/TypeSpec tests and 171 Python tests passed locally; one existing environment-dependent test skipped.
 - Artifact, promotion, package, exact XML/XSD, evidence coverage, and independent TypeSpec compilation checks passed.
 - Classified field gate passed with zero unclassified fields and zero exceptions.
