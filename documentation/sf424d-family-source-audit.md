@@ -32,7 +32,7 @@ organization are prefilled for base and Mandatory but entered by the applicant f
 ## Profile differences
 
 Individual and Mandatory have the same XML structure after namespace substitution. Both use a
-local fixed `FormVersion="1.1"` root attribute. The base profile instead requires a
+profile-namespace-qualified fixed `FormVersion="1.1"` root attribute. The base profile instead requires a
 `glob:FormVersionIdentifier` child and a namespaced fixed `glob:coreSchemaVersion="1.1"`
 attribute. Each profile also has its own target namespace and prefix. Those facts must remain
 declarative profile data rather than adapter branches.
