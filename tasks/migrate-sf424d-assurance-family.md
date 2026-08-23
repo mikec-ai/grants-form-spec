@@ -11,7 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:43:36.839Z'
+  at: '2026-08-23T21:44:22.626Z'
 ---
 # Goal
 
@@ -51,7 +51,7 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 - Base and Mandatory title/organization are locked system values; Individual title/organization are applicant input. Signature/date remain locked platform values for all three. Those deltas live in policy bindings and TypeSpec composition rather than an adapter branch.
 - One factored XML acceptance mapping is composed by three declarative profiles. Fully populated samples for all profiles validate against the exact official XSD bytes, including the profile-qualified root attributes and the base-only global version child.
 - The base SGG implementation oracle is pinned at `mikec-ai/simpler-grants-gov@30dd50cf0493146c32f89f78398979523e040080`, file SHA-256 `8236db821592dc3b36e3e95971b514af4657b3b41e781259f0797e46d091fb2a`.
-- Full producer preflight passes on the final restack: 99 TypeScript tests, 120 Python tests with 8 existing skips, artifact validation (145 blocks/859 artifacts), promotion validation, 589-artifact packaging, 20 XML profiles, and the unclassified-field ratchet (49 remaining, unchanged by this family).
+- Full producer preflight passes on the final restack: 99 TypeScript tests, 120 Python tests with 8 existing skips, artifact validation (145 blocks/859 artifacts), promotion validation, 589-artifact packaging, 20 XML profiles, and the then-current unclassified-field ratchet (49 remaining at merge, unchanged by this family).
 - The final D diff was three commits directly atop merged producer `main`; PR `#52` merged at immutable producer revision `e0b0fb24c421a7c70e395afedf5be3f37f366606`. GitHub CI run `32665096478` passed from the reviewed head (including independent TypeSpec compilation and portable-artifact publication).
 - A bounded comparison against the merged SF-424B contract found no competing policy/projector abstraction or form-specific adapter branch. The D policy, response ownership, and namespace/version deltas use the shared contracts as intended.
 - Forms remain `draft`, absent from production registration, and no HHS upstream worktree was mutated.

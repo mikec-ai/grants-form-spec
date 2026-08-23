@@ -3,14 +3,15 @@ type: Task
 title: Close SF-424A release gates
 priority: P1
 description: >-
-  Prove SF-424A lifecycle, browser accessibility, human acceptance, and
-  production readiness after the completed portable implementation.
-superbee_progress_status: in_progress
+  Portable SF-424A technical automation is merged; remaining work requires
+  provisioned DB/browser execution, human semantic and accessibility review,
+  instruction approval, and production registration.
+superbee_progress_status: blocked
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:26:49.771Z'
-assignee: codex
+  at: '2026-08-23T21:44:32.446Z'
+assignee: human-review
 ---
 # Goal
 

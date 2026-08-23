@@ -3,13 +3,14 @@ type: Task
 title: Migrate SF-424C through the portable parity oracle
 priority: P1
 description: >-
-  Replace legacy SF-424C with portable construction-budget composition,
-  calculations, and differential XML/lifecycle parity.
+  The producer-side portable SF-424C declaration is merged; the task remains
+  active for public-fork consumer promotion, lifecycle, exact-XML integration,
+  registration, and release gates.
 superbee_progress_status: in_progress
-superbee_updated_by: sf424c_parity
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:13:50.503Z'
+  at: '2026-08-23T21:45:30.665Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -48,7 +49,7 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 
 # Remaining gates
 
-- Independent review findings are addressed; freeze for review confirmation and merge coordination.
+- Producer review and merge are complete at `c508ec23`; consumer promotion, lifecycle, exact-XML integration, registration, and release gates remain.
 - Human semantic acceptance or revision for the 18 proposed mappings.
 - Human instruction-content and accessibility review.
 - Consuming-fork adapter tests for save/reload, locked, print, and submission lifecycle behavior.

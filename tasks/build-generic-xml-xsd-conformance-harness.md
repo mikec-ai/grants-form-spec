@@ -4,10 +4,10 @@ title: Build a generic XML/XSD conformance harness
 description: >-
   Replace repeated producer XML rendering and exact-XSD helpers with one
   profile-driven reference harness.
-superbee_updated_by: xml_conformance_agent
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:43:22.429Z'
+  at: '2026-08-23T21:45:30.452Z'
 superbee_progress_status: in_progress
 priority: P0
 assignee: xml_conformance_agent
@@ -34,7 +34,7 @@ At least seven current producer test modules separately implement `render_xml` a
 
 This is conformance infrastructure. It does not decide form semantics, generate canonical questions, or replace the portable XML declarations.
 
-[depends on](migrate-sf424c-parity-oracle.md)
+[uses producer output from](migrate-sf424c-parity-oracle.md)
 
 # Delivery receipt
 

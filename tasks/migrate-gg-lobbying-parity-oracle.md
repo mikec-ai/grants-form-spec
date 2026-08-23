@@ -10,7 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:43:37.379Z'
+  at: '2026-08-23T21:44:22.426Z'
 assignee: gg_lobbying_agent
 ---
 # Goal
@@ -61,7 +61,7 @@ Replace SGG's legacy Grants.gov Lobbying Form with portable artifacts as a sibli
 
 - PR 42: https://github.com/mikec-ai/simpler-grants-gov/pull/42
 - Immutable merge commit: `9a912428ba6cf5c33f417f95d0a4207fe68e3d7a`.
-- The adapter pins immutable merged producer revision `7ebb2033de2cd7c31a6039fd3b7f492adb70aeed` in a 22-form, 242-artifact selection.
+- The adapter pins immutable merged producer revision `7ebb2033de2cd7c31a6039fd3b7f492adb70aeed` in the 22-form, 242-artifact selection at merge.
 - The already-shared artifact selector retains declared `policy-content.json` and `policy-binding.json`; GG Lobbying adds only declarative legacy UI identifier projection and the existing SGG runtime identity.
 - Required-field, nested representative, signature/date, submitter application-context, JSON save/reload, browser/print UI-input, XML, exact-XSD, policy, evidence, and legacy-oracle parity canaries pass.
 - Portable XML is canonically equal to legacy output and validates against the exact official XSD.
@@ -70,7 +70,7 @@ Replace SGG's legacy Grants.gov Lobbying Form with portable artifacts as a sibli
 ## Validation
 
 - Producer preflight at the immutable merged revision passed: 99 TypeScript tests and 98 Python tests, with 8 environment/source-checkout skips.
-- Producer artifact validation passed for 138 blocks and 774 artifacts; package verification covered 519 artifacts; the unclassified-field ratchet remains 49.
+- Producer artifact validation passed for 138 blocks and 774 artifacts; package verification covered 519 artifacts; the unclassified-field ratchet was 49 at that merge.
 - Consumer focused GG Lobbying/CD-511/selector/provenance/integrity/registration/XML tranche: 48 passed.
 - Consumer portable-form tranche excluding the database-backed SF-424A lifecycle module: 187 passed.
 - Ruff passed for the changed consumer test surface.
