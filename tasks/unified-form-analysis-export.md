@@ -4,13 +4,14 @@ title: Emit reviewed form-analysis and marginal-reuse datasets
 priority: P0
 assignee: codex
 description: >-
-  Create the spreadsheet-ready analytical read model for question mappings,
-  similarity, provenance, and marginal capability reuse.
-superbee_progress_status: in_progress
+  Delivered and merged in grants-form-spec PR #36: reviewed and exploratory
+  question mappings, joined provenance/XML associations, unclassified-field
+  ledger, and marginal question/mechanism/behavior reuse datasets.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:54:25.050Z'
+  at: '2026-08-23T16:07:40.130Z'
 ---
 # Objective
 
