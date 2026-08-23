@@ -164,7 +164,7 @@
     "mappingNode": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["element", "kind"],
+      "required": ["kind"],
       "properties": {
         "element": { "$ref": "#/$defs/xmlName" },
         "kind": { "enum": ["value", "object", "group", "array", "attachment"] },
@@ -184,7 +184,7 @@
               "type": "object",
               "additionalProperties": false,
               "required": ["node"],
-              "properties": { "node": { "$ref": "#/$defs/mappingNode" } }
+              "properties": { "node": { "$ref": "#/$defs/arrayItemNode" } }
             }
           ]
         },
@@ -217,8 +217,8 @@
             "required": ["kind"]
           },
           "then": {
-            "properties": { "fields": true },
-            "required": ["fields"],
+            "properties": { "element": true, "fields": true },
+            "required": ["element", "fields"],
             "not": {
               "anyOf": [
                 { "properties": { "items": true }, "required": ["items"] },
@@ -229,6 +229,13 @@
                 { "properties": { "container": true }, "required": ["container"] }
               ]
             }
+          }
+        },
+        {
+          "if": { "properties": { "flatten": { "const": true } }, "required": ["flatten"] },
+          "then": {
+            "properties": { "kind": { "const": "group" } },
+            "required": ["kind"]
           }
         },
         {
@@ -243,6 +250,22 @@
               ]
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "array" },
+              "items": {
+                "type": "object",
+                "properties": {
+                  "node": { "$ref": "#/$defs/flattenedAttachmentNode" }
+                },
+                "required": ["node"]
+              }
+            },
+            "required": ["kind", "items"]
+          },
+          "then": { "required": ["itemElement"] }
         },
         {
           "if": {
@@ -281,6 +304,21 @@
             }
           }
         }
+      ]
+    },
+    "flattenedAttachmentNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "flatten"],
+      "properties": {
+        "kind": { "const": "attachment" },
+        "flatten": { "const": true }
+      }
+    },
+    "arrayItemNode": {
+      "oneOf": [
+        { "$ref": "#/$defs/mappingNode" },
+        { "$ref": "#/$defs/flattenedAttachmentNode" }
       ]
     }
   }

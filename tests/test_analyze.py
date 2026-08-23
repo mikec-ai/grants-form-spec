@@ -51,6 +51,24 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
                     ["generics/attachment"],
                 )
 
+    def test_research_plan_preserves_thirteen_meanings_and_one_capture_mechanism(self) -> None:
+        questions = self.analysis["asks"]["phs398-research-plan"]
+        self.assertEqual(len(questions), 13)
+        self.assertEqual(len(set(questions)), 13)
+        self.assertEqual(
+            self.analysis["usesCaptureMechanisms"]["phs398-research-plan"],
+            ["generics/attachment"],
+        )
+        associations = [
+            row for row in self.analysis["formQuestionAssociations"]
+            if row["formId"] == "phs398-research-plan"
+        ]
+        self.assertEqual(len(associations), 13)
+        self.assertEqual(
+            {row["path"] for row in associations if row["questionId"].endswith("appendix-document")},
+            {"/appendix/[]"},
+        )
+
     def test_capture_mechanism_does_not_inflate_semantic_similarity(self) -> None:
         attachment_forms = {
             "project-narrative-attachments",
@@ -209,10 +227,10 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 150)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 616)
-        self.assertEqual(len(self.analysis["pairwiseExploratory"]), 496)
-        self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 32)
+        self.assertEqual(len(self.analysis["questionInventory"]), 163)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 629)
+        self.assertEqual(len(self.analysis["pairwiseExploratory"]), 528)
+        self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 33)
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
 
     def test_readme_reference_form_summary_tracks_the_sequence(self) -> None:
@@ -224,6 +242,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         )
         self.assertIn("- PHS Assignment Request", readme)
         self.assertIn("- Attachment Form", readme)
+        self.assertIn("- PHS 398 Research Plan", readme)
 
     def test_attachment_form_adds_capture_capability_without_semantic_questions(self) -> None:
         self.assertEqual(self.analysis["asks"]["attachment-form"], [])
@@ -245,7 +264,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 616)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 629)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )

@@ -21,6 +21,24 @@ from xml.etree import ElementTree as ET
 
 _MISSING = object()
 _SUPPORTED_CONTRACT = "grants-gov-xml-profile/v1"
+_MAPPING_NODE_KEYS = {
+    "element",
+    "kind",
+    "flatten",
+    "emitWhenParentPresent",
+    "namespace",
+    "container",
+    "source",
+    "constant",
+    "valueMap",
+    "attributes",
+    "fields",
+    "items",
+    "itemElement",
+    "itemNamespace",
+    "itemAttributes",
+    "repeatElementPerItem",
+}
 
 
 @dataclass(frozen=True)
@@ -55,6 +73,61 @@ def _assert_supported_profile(profile: Mapping[str, Any]) -> None:
         raise AssertionError(
             f"unsupported Grants.gov XML profile contract: {contract!r}; "
             f"expected {_SUPPORTED_CONTRACT!r}"
+        )
+    _assert_mapping_fields(profile["mapping"]["fields"])
+
+
+def _assert_mapping_fields(fields: Mapping[str, Mapping[str, Any]]) -> None:
+    for node in fields.values():
+        _assert_mapping_node(node, flattened_attachment_context=False)
+
+
+def _assert_mapping_node(
+    node: Mapping[str, Any], *, flattened_attachment_context: bool
+) -> None:
+    unexpected = set(node) - _MAPPING_NODE_KEYS
+    if unexpected:
+        raise AssertionError(
+            "unsupported Grants.gov XML mapping node properties: "
+            + ", ".join(sorted(unexpected))
+        )
+
+    kind = node.get("kind")
+    if kind == "attachment" and node.get("flatten") is True:
+        if not flattened_attachment_context:
+            raise AssertionError(
+                "flattened attachment mapping is only valid as an array item node "
+                "with a declared itemElement"
+            )
+        ignored = set(node) - {"kind", "flatten"}
+        if ignored:
+            raise AssertionError(
+                "flattened attachment mapping cannot declare ignored properties: "
+                + ", ".join(sorted(ignored))
+            )
+        return
+
+    if kind in {"object", "group"}:
+        _assert_mapping_fields(node["fields"])
+        return
+    if kind == "array":
+        items = node["items"]
+        if "fields" in items:
+            _assert_mapping_fields(items["fields"])
+            return
+        item_node = items["node"]
+        item_is_flattened_attachment = (
+            item_node.get("kind") == "attachment"
+            and item_node.get("flatten") is True
+        )
+        if item_is_flattened_attachment and not node.get("itemElement"):
+            raise AssertionError(
+                "flattened attachment mapping is only valid as an array item node "
+                "with a declared itemElement"
+            )
+        _assert_mapping_node(
+            item_node,
+            flattened_attachment_context=item_is_flattened_attachment,
         )
 
 
@@ -143,7 +216,7 @@ def _add_attachment(
         leaf_parent = ET.SubElement(
             parent, _qname(profile, container["namespace"], container["element"])
         )
-    leaf = ET.SubElement(
+    leaf = leaf_parent if node.get("flatten") else ET.SubElement(
         leaf_parent,
         _qname(profile, node.get("namespace"), node["element"]),
         _attributes(profile, node, root_response),

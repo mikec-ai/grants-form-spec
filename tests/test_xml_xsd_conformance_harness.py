@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import tempfile
 import unittest
@@ -26,6 +27,15 @@ def profile_with(fields: dict) -> dict:
             "attributes": {"version": "1"},
         },
         "mapping": {"fields": fields},
+    }
+
+
+def attachment() -> dict:
+    return {
+        "fileName": "appendix.pdf",
+        "mimeType": "application/pdf",
+        "fileLocation": "files/appendix.pdf",
+        "hashValue": "a" * 64,
     }
 
 
@@ -122,6 +132,144 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
 
         self.assertEqual([child.tag for child in root], ["{urn:fixture}Entry"] * 2)
         self.assertEqual([child[0].text for child in root], ["true", "false"])
+
+    def test_collection_array_can_flatten_attachment_payload_into_each_item(self) -> None:
+        profile = profile_with(
+            {
+                "appendix": {
+                    "element": "Appendix",
+                    "kind": "array",
+                    "namespace": "default",
+                    "itemElement": "AttachedFile",
+                    "itemNamespace": "item",
+                    "items": {
+                        "node": {
+                            "kind": "attachment",
+                            "flatten": True,
+                        }
+                    },
+                }
+            }
+        )
+        profile["attachment"] = {
+            "fields": {
+                name: {"element": element, "namespace": "item"}
+                for name, element in (
+                    ("fileName", "FileName"),
+                    ("mimeType", "MimeType"),
+                    ("fileLocation", "FileLocation"),
+                    ("hashValue", "HashValue"),
+                )
+            }
+        }
+
+        root = ET.fromstring(
+            render_profile_xml(
+                profile,
+                {"appendix": ["one", "two"]},
+                {"one": attachment(), "two": attachment()},
+            )
+        )
+
+        self.assertEqual([child.tag for child in root], ["{urn:fixture}Appendix"])
+        self.assertEqual(
+            [child.tag for child in root[0]],
+            ["{urn:item}AttachedFile", "{urn:item}AttachedFile"],
+        )
+        self.assertEqual(
+            [child.tag for child in root[0][0]],
+            [
+                "{urn:item}FileName",
+                "{urn:item}MimeType",
+                "{urn:item}FileLocation",
+                "{urn:item}HashValue",
+            ],
+        )
+
+    def test_flattened_attachment_rejects_ignored_or_misspelled_declarations(self) -> None:
+        profile = profile_with(
+            {
+                "appendix": {
+                    "element": "Appendix",
+                    "kind": "array",
+                    "namespace": "default",
+                    "itemElement": "AttachedFile",
+                    "itemNamespace": "item",
+                    "items": {
+                        "node": {"kind": "attachment", "flatten": True}
+                    },
+                }
+            }
+        )
+        profile["attachment"] = {
+            "fields": {
+                name: {"element": element, "namespace": "item"}
+                for name, element in (
+                    ("fileName", "FileName"),
+                    ("mimeType", "MimeType"),
+                    ("fileLocation", "FileLocation"),
+                    ("hashValue", "HashValue"),
+                )
+            }
+        }
+        mutations = (
+            {"element": "AttachedFile"},
+            {"namespace": "item"},
+            {"attributes": {"status": {"constant": "ignored"}}},
+            {"source": "/appendix"},
+        )
+        for mutation in mutations:
+            with self.subTest(mutation=mutation):
+                candidate = copy.deepcopy(profile)
+                candidate_node = (
+                    candidate["mapping"]["fields"]["appendix"]["items"]["node"]
+                )
+                candidate_node.update(mutation)
+                with self.assertRaisesRegex(
+                    AssertionError, "flattened attachment mapping cannot declare ignored"
+                ):
+                    render_profile_xml(
+                        candidate,
+                        {"appendix": ["one"]},
+                        {"one": attachment()},
+                    )
+
+        typo = copy.deepcopy(profile)
+        typo_node = typo["mapping"]["fields"]["appendix"]["items"]["node"]
+        del typo_node["flatten"]
+        typo_node["flaten"] = True
+        with self.assertRaisesRegex(AssertionError, "unsupported.*flaten"):
+            render_profile_xml(typo, {"appendix": ["one"]}, {"one": attachment()})
+
+    def test_flattened_attachment_rejects_illegal_contexts(self) -> None:
+        top_level = profile_with(
+            {"file": {"kind": "attachment", "flatten": True}}
+        )
+        with self.assertRaisesRegex(
+            AssertionError, "only valid as an array item node"
+        ):
+            render_profile_xml(top_level, {"file": "one"}, {"one": attachment()})
+
+        missing_item_element = profile_with(
+            {
+                "appendix": {
+                    "element": "Appendix",
+                    "kind": "array",
+                    "namespace": "default",
+                    "items": {
+                        "node": {"kind": "attachment", "flatten": True}
+                    },
+                }
+            }
+        )
+        with self.assertRaisesRegex(
+            AssertionError, "with a declared itemElement"
+        ):
+            render_profile_xml(
+                missing_item_element,
+                {"appendix": ["one"]},
+                {"one": attachment()},
+            )
 
     def test_digest_mismatch_fails_before_xsd_execution(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -6,7 +6,7 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes 32 reference forms, spanning:
+The repository currently includes 33 reference forms, spanning:
 
 - Key Contacts
 - SF-424
@@ -28,6 +28,7 @@ The repository currently includes 32 reference forms, spanning:
 - PHS 398 Modular Budget
 - PHS Assignment Request
 - Attachment Form
+- PHS 398 Research Plan
 - SF-LLL, CD-511, and Grants.gov Lobbying Form
 - the SF-424B and SF-424D profile families
 - SF-424C and R&R SF-424B
@@ -55,6 +56,10 @@ wire targets are isolated under `targets/` and may be ignored by consumers that 
 them.
 
 Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
+
+The [PHS 398 Research Plan status](documentation/phs398-research-plan-status.md) records how thirteen
+semantic attachment roles reuse one capture mechanism while preserving cross-form applicability and
+the Appendix 10-versus-100 source boundary.
 
 The [lifecycle field ownership decision](documentation/lifecycle-field-ownership.md) records why
 externally assigned values, attestations, and workflow controls do not automatically become

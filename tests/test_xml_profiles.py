@@ -190,6 +190,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             ],
             "sf424c": [],
             "phs-assignment-request": [],
+            "phs398-research-plan": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+            ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)
