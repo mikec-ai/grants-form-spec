@@ -466,6 +466,39 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("duplicate calculation evidence disposition for target name", result.stdout)
 
+    def test_projector_rejects_duplicate_emitted_target_identities(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            conditional = {
+                "type": "field",
+                "definition": "/properties/name",
+                "conditional": {
+                    "when": {"op": "equals", "ref": {"scope": "root", "pointer": "/kind"}},
+                    "then": {"visible": True},
+                    "otherwise": {"visible": False},
+                },
+            }
+            self._json(
+                dist / "forms/example/sgg/ui-schema.json",
+                [conditional, conditional],
+            )
+            self._write_evidence(root, behavior_evidence=[{
+                "canonicalPath": "name",
+                "ruleKind": "condition",
+                "authority": "unresolved",
+                "owner": "form-semantic-review",
+                "reason": "The exact source-bound condition has not been reconciled.",
+                "removalCondition": "Replace after exact official-source review.",
+            }])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("duplicate emitted condition target name", result.stdout)
+        self.assertIn("stable occurrence identity is required", result.stdout)
+
     def test_projector_rejects_ambiguous_array_path_normalization(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -492,6 +525,44 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
 
         self.assertEqual(result.returncode, 1)
         self.assertIn("calculation target items.amount has 2 exact occurrence candidates", result.stdout)
+
+    def test_projector_rejects_unknown_prepopulation_metadata_instead_of_inferring_calculation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/rule-schema.json", {
+                "name": {"gg_pre_population": {
+                    "rule": "agency_name",
+                    "cache": "application",
+                }},
+            })
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("unsupported gg_pre_population operand shape", result.stdout)
+
+    def test_projector_rejects_ambiguous_calculation_operand_shapes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/rule-schema.json", {
+                "name": {"gg_pre_population": {
+                    "rule": "multiply_by_percentage",
+                    "fields": ["amount", "percentage"],
+                    "amount": "amount",
+                    "percentage": "percentage",
+                }},
+            })
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("unsupported gg_pre_population operand shape", result.stdout)
 
     def test_projector_rejects_implementation_source_as_official_authority(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

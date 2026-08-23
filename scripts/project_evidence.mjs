@@ -74,18 +74,65 @@ function canonicalUiDefinition(definition, context) {
   return path.join(".");
 }
 
-function collectCalculationTargets(node, path = [], targets = []) {
-  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
-  // External lookups contain only a rule name. Portable calculations carry dependency or
-  // evaluation metadata in addition to their rule name. Classify by that emitted contract
-  // shape so a new calculation operator is covered without another form-specific allowlist.
-  const prePopulation = node.gg_pre_population;
+function prePopulationKind(prePopulation, context) {
+  if (!prePopulation || typeof prePopulation !== "object" || Array.isArray(prePopulation)) {
+    throw new Error(`${context}: gg_pre_population must be an object`);
+  }
+  if (typeof prePopulation.rule !== "string" || !prePopulation.rule) {
+    throw new Error(`${context}: gg_pre_population requires a non-empty rule name`);
+  }
+
+  const keys = Object.keys(prePopulation);
+  if (keys.length === 1) return "external_lookup";
+
+  const metadata = new Set(["materialize", "order", "presence_fields", "rule"]);
+  const hasFields = Object.hasOwn(prePopulation, "fields");
+  const hasAmount = Object.hasOwn(prePopulation, "amount");
+  const hasPercentage = Object.hasOwn(prePopulation, "percentage");
+  let operands;
   if (
-    prePopulation &&
-    Object.keys(prePopulation).some((key) => key !== "rule")
-  ) targets.push(path.join("."));
+    hasFields &&
+    !hasAmount &&
+    !hasPercentage &&
+    Array.isArray(prePopulation.fields) &&
+    prePopulation.fields.length > 0 &&
+    prePopulation.fields.every((field) => typeof field === "string" && field)
+  ) {
+    operands = new Set(["fields"]);
+  } else if (
+    !hasFields &&
+    hasAmount &&
+    hasPercentage &&
+    typeof prePopulation.amount === "string" &&
+    prePopulation.amount &&
+    typeof prePopulation.percentage === "string" &&
+    prePopulation.percentage
+  ) {
+    operands = new Set(["amount", "percentage"]);
+  } else {
+    throw new Error(
+      `${context}: unsupported gg_pre_population operand shape; expected fields or amount+percentage`,
+    );
+  }
+  const unsupported = keys.filter((key) => !metadata.has(key) && !operands.has(key));
+  if (unsupported.length) {
+    throw new Error(
+      `${context}: unsupported gg_pre_population keys ${unsupported.sort().join(", ")}`,
+    );
+  }
+  return "calculation";
+}
+
+function collectCalculationTargets(node, path = [], targets = [], context = "rule schema") {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
+  const prePopulation = node.gg_pre_population;
+  if (prePopulation && prePopulationKind(prePopulation, `${context}: ${path.join(".")}`) === "calculation") {
+    targets.push(path.join("."));
+  }
   for (const [key, value] of Object.entries(node)) {
-    if (!key.startsWith("gg_")) collectCalculationTargets(value, [...path, key], targets);
+    if (!key.startsWith("gg_")) {
+      collectCalculationTargets(value, [...path, key], targets, context);
+    }
   }
   return targets;
 }
@@ -111,7 +158,7 @@ function emittedRuleTargets(ruleSchema, uiSchema, occurrences, context) {
     byRulePath.set(normalized, candidates);
   }
   const targets = [];
-  for (const rawPath of collectCalculationTargets(ruleSchema)) {
+  for (const rawPath of collectCalculationTargets(ruleSchema, [], [], context)) {
     const candidates = byRulePath.get(rawPath) ?? [];
     if (candidates.length !== 1) {
       throw new Error(
@@ -127,7 +174,18 @@ function emittedRuleTargets(ruleSchema, uiSchema, occurrences, context) {
     }
     targets.push({ ruleKind: "condition", canonicalPath });
   }
-  return new Map(targets.map((target) => [`${target.ruleKind}:${target.canonicalPath}`, target]));
+  const byIdentity = new Map();
+  for (const target of targets) {
+    const key = `${target.ruleKind}:${target.canonicalPath}`;
+    if (byIdentity.has(key)) {
+      throw new Error(
+        `${context}: duplicate emitted ${target.ruleKind} target ${target.canonicalPath}; ` +
+        "stable occurrence identity is required",
+      );
+    }
+    byIdentity.set(key, target);
+  }
+  return byIdentity;
 }
 
 export async function projectEvidence({ evidenceRoot, dist }) {
