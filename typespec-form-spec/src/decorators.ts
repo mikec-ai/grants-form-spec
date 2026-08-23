@@ -378,6 +378,9 @@ export const $computedFrom = (
     paths: paths.map((path) => String(literal(path))),
   });
 
+export const $materializeWhenAnySourcePresent = (ctx: Ctx, target: ModelProperty) =>
+  set(ctx, stateKeys.calculationMaterialization, target, "when_any_source_present");
+
 export const $evaluationOrder = (ctx: Ctx, target: ModelProperty, order: number) =>
   set(ctx, stateKeys.evaluationOrder, target, order);
 

@@ -3,7 +3,7 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propComputed, readBlock,
+  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propCalculationMaterialization, propComputed, readBlock,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
@@ -42,6 +42,7 @@ export function $onValidate(program: Program): void {
   checkDateOrders(program);
   checkCardinalityPaths(program);
   checkCalculationCycles(program, blocks);
+  checkCalculationMaterialization(program, blocks);
   checkComputedPaths(program, blocks);
 }
 
@@ -606,6 +607,25 @@ function checkMultiFieldSections(program: Program, block: Block): void {
 
 // ---------------------------------------------------------------------------
 // calculations
+
+/** A materialization policy is meaningful only on a declared calculation. */
+function checkCalculationMaterialization(program: Program, blocks: Block[]): void {
+  const seen = new Set<Model>();
+  for (const block of blocks) {
+    if (block.model.kind !== "Model") continue;
+    walkModels(program, block.model, seen, (model) => {
+      for (const prop of model.properties.values()) {
+        if (!propCalculationMaterialization(program, prop)) continue;
+        if (propComputed(program, prop) || propComputedFrom(program, prop)) continue;
+        reportDiagnostic(program, {
+          code: "calculation-materialization-without-calculation",
+          target: prop,
+          format: { name: prop.name },
+        });
+      }
+    });
+  }
+}
 
 /**
  * A calculated value that depends on itself has no evaluation order, so `rules-sgg` would

@@ -39,6 +39,7 @@ export const $decorators = {
     notBefore: d.$notBefore,
     computed: d.$computed,
     computedFrom: d.$computedFrom,
+    materializeWhenAnySourcePresent: d.$materializeWhenAnySourcePresent,
     evaluationOrder: d.$evaluationOrder,
     totals: d.$totals,
   },

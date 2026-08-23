@@ -179,6 +179,8 @@ export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computedFrom, prop) as { operator: string; paths: string[] } | undefined;
+export const propCalculationMaterialization = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.calculationMaterialization, prop) as "when_any_source_present" | undefined;
 export const propEvaluationOrder = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.evaluationOrder, prop) as number | undefined;
 export const propTotals = (p: Program, prop: ModelProperty) =>

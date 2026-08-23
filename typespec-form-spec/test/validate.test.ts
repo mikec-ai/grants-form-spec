@@ -705,4 +705,38 @@ describe("$onValidate", () => {
       );
     });
   });
+
+  describe("calculation-materialization-without-calculation", () => {
+    it("rejects a materialization policy without a calculation", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          ${formMeta("invalid-materialization")}
+          model InvalidMaterialization {
+            @Validation.materializeWhenAnySourcePresent
+            total?: decimal;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/calculation-materialization-without-calculation",
+      });
+    });
+
+    it("accepts the policy on a declared calculation", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            ${formMeta("valid-materialization")}
+            model ValidMaterialization {
+              left?: decimal;
+              right?: decimal;
+              @Validation.materializeWhenAnySourcePresent
+              @Validation.computed(Op.Sum, ValidMaterialization.left, ValidMaterialization.right)
+              total?: decimal;
+            }
+          `),
+        ),
+      );
+    });
+  });
 });

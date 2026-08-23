@@ -1,7 +1,7 @@
 import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
 import {
   Block, blockAncestry, childBlock, modelPrePopulate, modelProperties, propComputed, propComputedFrom,
-  propEvaluationOrder, propOmit, propTotals,
+  propCalculationMaterialization, propEvaluationOrder, propOmit, propTotals,
   propNotBefore, readBlock, typeTags,
 } from "../model.js";
 
@@ -60,6 +60,7 @@ interface Calculation {
   rule: string;
   refs: Reference[];
   explicitOrder?: number;
+  materialize?: "when_any_source_present";
 }
 
 type Json = Record<string, unknown>;
@@ -97,6 +98,7 @@ export function emitSggRules(program: Program, block: Block): Json {
       rule: calculation.rule,
       fields: calculation.refs.map((r) => r.emit),
     };
+    if (calculation.materialize) rule.materialize = calculation.materialize;
     const order = calculation.explicitOrder ?? depth(calculation.at.join("."), byPath, depths, new Set());
     if (calculation.explicitOrder !== undefined || order >= 2) rule.order = order;
     place(out, calculation.at, { gg_pre_population: rule });
@@ -191,6 +193,7 @@ function walk(
         at: here,
         rule: calculationRule(program, prop, computed.operator),
         explicitOrder: propEvaluationOrder(program, prop),
+        materialize: propCalculationMaterialization(program, prop),
         refs: computed.refs.map((name) => ({
           // A sibling reference is spelled `@THIS.` everywhere but the form's own root.
           emit: atRoot ? name : `@THIS.${name}`,
@@ -206,6 +209,7 @@ function walk(
         at: here,
         rule: calculationRule(program, prop, computedFrom.operator),
         explicitOrder: propEvaluationOrder(program, prop),
+        materialize: propCalculationMaterialization(program, prop),
         refs: computedFrom.paths.map((path) => {
           const rootPath = path.startsWith("/");
           const parentPath = path.startsWith("../");

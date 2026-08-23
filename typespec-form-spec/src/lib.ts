@@ -84,6 +84,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Calculation path "${"path"}" does not resolve from ${"scope"}. Cross-boundary calculations must name real canonical data paths.`,
       },
     },
+    "calculation-materialization-without-calculation": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@Validation.materializeWhenAnySourcePresent on ${"name"} requires @Validation.computed or @Validation.computedFrom.`,
+      },
+    },
     "date-order-source-invalid": {
       severity: "error",
       messages: {
@@ -142,6 +148,7 @@ export const $lib = createTypeSpecLibrary({
     requiredPathWhen: {},
     computed: {},
     computedFrom: {},
+    calculationMaterialization: {},
     evaluationOrder: {},
     totals: {},
     prePopulate: {},
