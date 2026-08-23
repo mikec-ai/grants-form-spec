@@ -136,7 +136,7 @@
         "programType": "Construction",
         "versionAttribute": {
           "name": "FormVersion",
-          "namespace": null,
+          "namespace": "http://apply.grants.gov/forms/Individual_SF424D-V1.1",
           "value": "1.1"
         }
       },
@@ -185,7 +185,7 @@
         "programType": "Construction",
         "versionAttribute": {
           "name": "FormVersion",
-          "namespace": null,
+          "namespace": "http://apply.grants.gov/forms/Mandatory_SF424D-V1.1",
           "value": "1.1"
         }
       },

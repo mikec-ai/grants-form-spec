@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -10,7 +13,9 @@ from xml.etree import ElementTree as ET
 ROOT = Path(__file__).parents[1]
 AUDIT_ROOT = ROOT / "research/sf424d-family"
 FIXTURE_ROOT = ROOT / "tests/fixtures/grants-gov-xsd/sf424d-family-1.1"
+DEPENDENCY_ROOT = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
 XSD_NS = "http://www.w3.org/2001/XMLSchema"
+GLOBAL_NS = "http://apply.grants.gov/system/Global-V1.0"
 XSD_HASHES = {
     "SF424D-V1.1.xsd": "22026ea7130a01b8674e1c3ce1668e1b57d5be65498b5a76042eb80d38de77f1",
     "Individual_SF424D-V1.1.xsd": "52187d42b9ca30cf1f2f95de50be13bbd9ae333ede4b843e8c43b23db4489356",
@@ -167,6 +172,78 @@ class Sf424dFamilyAuditTests(unittest.TestCase):
             },
             variant_attributes,
         )
+
+    def test_minimal_profile_canaries_validate_against_exact_official_xsds(self) -> None:
+        xmllint = shutil.which("xmllint")
+        if xmllint is None:
+            self.fail("xmllint is required for exact official-XSD validation")
+
+        profiles = [
+            {
+                "xsd": "SF424D-V1.1.xsd",
+                "namespace": "http://apply.grants.gov/forms/SF424D-V1.1",
+                "versionElement": True,
+                "versionAttribute": (GLOBAL_NS, "coreSchemaVersion"),
+            },
+            {
+                "xsd": "Individual_SF424D-V1.1.xsd",
+                "namespace": "http://apply.grants.gov/forms/Individual_SF424D-V1.1",
+                "versionElement": False,
+                "versionAttribute": (
+                    "http://apply.grants.gov/forms/Individual_SF424D-V1.1",
+                    "FormVersion",
+                ),
+            },
+            {
+                "xsd": "Mandatory_SF424D-V1.1.xsd",
+                "namespace": "http://apply.grants.gov/forms/Mandatory_SF424D-V1.1",
+                "versionElement": False,
+                "versionAttribute": (
+                    "http://apply.grants.gov/forms/Mandatory_SF424D-V1.1",
+                    "FormVersion",
+                ),
+            },
+        ]
+
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            dependencies = ["Global-V1.0.xsd", "GlobalLibrary-V2.0.xsd", "UniversalCodes-V2.0.xsd"]
+            for name in dependencies:
+                source = (DEPENDENCY_ROOT / name).read_text()
+                for dependency in dependencies:
+                    source = source.replace(
+                        f"https://apply07.grants.gov/apply/system/schemas/{dependency}",
+                        dependency,
+                    )
+                (temp / name).write_text(source)
+
+            for profile in profiles:
+                source = (FIXTURE_ROOT / profile["xsd"]).read_text()
+                for dependency in dependencies:
+                    source = source.replace(
+                        f"https://apply07.grants.gov/apply/system/schemas/{dependency}",
+                        dependency,
+                    )
+                (temp / profile["xsd"]).write_text(source)
+
+                namespace = profile["namespace"]
+                root = ET.Element(f"{{{namespace}}}Assurances")
+                root.set(f"{{{namespace}}}programType", "Construction")
+                attribute_namespace, attribute_name = profile["versionAttribute"]
+                root.set(f"{{{attribute_namespace}}}{attribute_name}", "1.1")
+                if profile["versionElement"]:
+                    child = ET.SubElement(root, f"{{{GLOBAL_NS}}}FormVersionIdentifier")
+                    child.text = "1.1"
+                xml_path = temp / f"{profile['xsd']}.xml"
+                xml_path.write_bytes(ET.tostring(root, encoding="utf-8", xml_declaration=True))
+
+                validation = subprocess.run(
+                    [xmllint, "--noout", "--schema", str(temp / profile["xsd"]), str(xml_path)],
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(validation.returncode, 0, validation.stderr)
 
 
 if __name__ == "__main__":
