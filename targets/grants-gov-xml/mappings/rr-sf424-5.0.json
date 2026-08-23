@@ -1,0 +1,608 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "rr-sf424-5.0",
+  "evidence": {
+    "status": "source-bound-unreviewed",
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "artifact": "artifacts/sgm/RRSF424-quad7-proof.json"
+  },
+  "fields": {
+    "submissionTypeCode": {
+      "element": "SubmissionTypeCode",
+      "kind": "value"
+    },
+    "submittedDate": {
+      "element": "SubmittedDate",
+      "kind": "value"
+    },
+    "applicantId": {
+      "element": "ApplicantID",
+      "kind": "value"
+    },
+    "stateReceivedDate": {
+      "element": "StateReceivedDate",
+      "kind": "value"
+    },
+    "stateId": {
+      "element": "StateID",
+      "kind": "value"
+    },
+    "federalId": {
+      "element": "FederalID",
+      "kind": "value"
+    },
+    "agencyRoutingNumber": {
+      "element": "AgencyRoutingNumber",
+      "kind": "value"
+    },
+    "grantsGovTrackingId": {
+      "element": "GGTrackingID",
+      "kind": "value"
+    },
+    "applicantInfo": {
+      "element": "ApplicantInfo",
+      "kind": "object",
+      "fields": {
+        "organizationInfo": {
+          "element": "OrganizationInfo",
+          "kind": "object",
+          "fields": {
+            "organizationName": {
+              "element": "OrganizationName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "samUei": {
+              "element": "SAMUEI",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "department": {
+              "element": "Department",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "division": {
+              "element": "Division",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "address": {
+              "element": "Address",
+              "kind": "object",
+              "namespace": "globLib",
+              "fields": {
+                "street1": {
+                  "element": "Street1",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "street2": {
+                  "element": "Street2",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "city": {
+                  "element": "City",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "county": {
+                  "element": "County",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "state": {
+                  "element": "State",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "province": {
+                  "element": "Province",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "zipCode": {
+                  "element": "ZipPostalCode",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "country": {
+                  "element": "Country",
+                  "kind": "value",
+                  "namespace": "globLib"
+                }
+              }
+            },
+            "employerId": {
+              "element": "EIN",
+              "kind": "value",
+              "namespace": "globLib"
+            }
+          }
+        },
+        "contactPersonInfo": {
+          "element": "ContactPersonInfo",
+          "kind": "object",
+          "fields": {
+            "name": {
+              "element": "Name",
+              "kind": "object",
+              "fields": {
+                "prefix": {
+                  "element": "PrefixName",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "firstName": {
+                  "element": "FirstName",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "middleName": {
+                  "element": "MiddleName",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "lastName": {
+                  "element": "LastName",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "suffix": {
+                  "element": "SuffixName",
+                  "kind": "value",
+                  "namespace": "globLib"
+                }
+              }
+            },
+            "title": {
+              "element": "Title",
+              "kind": "value"
+            },
+            "address": {
+              "element": "Address",
+              "kind": "object",
+              "fields": {
+                "street1": {
+                  "element": "Street1",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "street2": {
+                  "element": "Street2",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "city": {
+                  "element": "City",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "county": {
+                  "element": "County",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "state": {
+                  "element": "State",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "province": {
+                  "element": "Province",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "zipCode": {
+                  "element": "ZipPostalCode",
+                  "kind": "value",
+                  "namespace": "globLib"
+                },
+                "country": {
+                  "element": "Country",
+                  "kind": "value",
+                  "namespace": "globLib"
+                }
+              }
+            },
+            "phone": {
+              "element": "Phone",
+              "kind": "value"
+            },
+            "fax": {
+              "element": "Fax",
+              "kind": "value"
+            },
+            "email": {
+              "element": "Email",
+              "kind": "value"
+            }
+          }
+        }
+      }
+    },
+    "employerId": {
+      "element": "EmployerID",
+      "kind": "value"
+    },
+    "applicantType": {
+      "element": "ApplicantType",
+      "kind": "object",
+      "fields": {
+        "applicantTypeCode": {
+          "element": "ApplicantTypeCode",
+          "kind": "value"
+        },
+        "applicantTypeCodeOtherExplanation": {
+          "element": "ApplicantTypeCodeOtherExplanation",
+          "kind": "value"
+        },
+        "smallBusinessOrganizationType": {
+          "element": "SmallBusinessOrganizationType",
+          "kind": "object",
+          "fields": {
+            "womenOwned": {
+              "element": "isWomenOwned",
+              "kind": "value"
+            },
+            "sociallyEconomicallyDisadvantaged": {
+              "element": "isSociallyEconomicallyDisadvantaged",
+              "kind": "value"
+            }
+          }
+        }
+      }
+    },
+    "applicationType": {
+      "element": "ApplicationType",
+      "kind": "object",
+      "fields": {
+        "applicationTypeCode": {
+          "element": "ApplicationTypeCode",
+          "kind": "value"
+        },
+        "revisionCode": {
+          "element": "RevisionCode",
+          "kind": "value"
+        },
+        "revisionCodeOtherExplanation": {
+          "element": "RevisionCodeOtherExplanation",
+          "kind": "value"
+        },
+        "isOtherAgencySubmission": {
+          "element": "isOtherAgencySubmission",
+          "kind": "value"
+        },
+        "otherAgencySubmissionExplanation": {
+          "element": "OtherAgencySubmissionExplanation",
+          "kind": "value"
+        }
+      }
+    },
+    "federalAgencyName": {
+      "element": "FederalAgencyName",
+      "kind": "value"
+    },
+    "assistanceListingNumber": {
+      "element": "CFDANumber",
+      "kind": "value"
+    },
+    "activityTitle": {
+      "element": "ActivityTitle",
+      "kind": "value"
+    },
+    "projectTitle": {
+      "element": "ProjectTitle",
+      "kind": "value"
+    },
+    "proposedProjectPeriod": {
+      "element": "ProposedProjectPeriod",
+      "kind": "object",
+      "fields": {
+        "proposedStartDate": {
+          "element": "ProposedStartDate",
+          "kind": "value"
+        },
+        "proposedEndDate": {
+          "element": "ProposedEndDate",
+          "kind": "value"
+        }
+      }
+    },
+    "principalInvestigator": {
+      "element": "PDPIContactInfo",
+      "kind": "object",
+      "fields": {
+        "name": {
+          "element": "Name",
+          "kind": "object",
+          "fields": {
+            "prefix": {
+              "element": "PrefixName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "firstName": {
+              "element": "FirstName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "middleName": {
+              "element": "MiddleName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "lastName": {
+              "element": "LastName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "suffix": {
+              "element": "SuffixName",
+              "kind": "value",
+              "namespace": "globLib"
+            }
+          }
+        },
+        "title": {
+          "element": "Title",
+          "kind": "value"
+        },
+        "address": {
+          "element": "Address",
+          "kind": "object",
+          "fields": {
+            "street1": {
+              "element": "Street1",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "street2": {
+              "element": "Street2",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "city": {
+              "element": "City",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "county": {
+              "element": "County",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "state": {
+              "element": "State",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "province": {
+              "element": "Province",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "zipCode": {
+              "element": "ZipPostalCode",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "country": {
+              "element": "Country",
+              "kind": "value",
+              "namespace": "globLib"
+            }
+          }
+        },
+        "phone": {
+          "element": "Phone",
+          "kind": "value"
+        },
+        "fax": {
+          "element": "Fax",
+          "kind": "value"
+        },
+        "email": {
+          "element": "Email",
+          "kind": "value"
+        },
+        "organizationName": {
+          "element": "OrganizationName",
+          "kind": "value"
+        },
+        "department": {
+          "element": "Department",
+          "kind": "value"
+        },
+        "division": {
+          "element": "Division",
+          "kind": "value"
+        }
+      }
+    },
+    "estimatedProjectFunding": {
+      "element": "EstimatedProjectFunding",
+      "kind": "object",
+      "fields": {
+        "totalEstimatedAmount": {
+          "element": "TotalEstimatedAmount",
+          "kind": "value"
+        },
+        "totalNonFederalRequested": {
+          "element": "TotalNonfedrequested",
+          "kind": "value"
+        },
+        "totalFederalNonFederalRequested": {
+          "element": "TotalfedNonfedrequested",
+          "kind": "value"
+        },
+        "estimatedProgramIncome": {
+          "element": "EstimatedProgramIncome",
+          "kind": "value"
+        }
+      }
+    },
+    "stateReview": {
+      "element": "StateReview",
+      "kind": "object",
+      "fields": {
+        "stateReviewCodeType": {
+          "element": "StateReviewCodeType",
+          "kind": "value"
+        },
+        "stateReviewDate": {
+          "element": "StateReviewDate",
+          "kind": "value"
+        }
+      }
+    },
+    "trustAgree": {
+      "element": "TrustAgree",
+      "kind": "value"
+    },
+    "sflllAttachment": {
+      "element": "SFLLLAttachment",
+      "kind": "attachment"
+    },
+    "authorizedRepresentative": {
+      "element": "AORInfo",
+      "kind": "object",
+      "fields": {
+        "name": {
+          "element": "Name",
+          "kind": "object",
+          "fields": {
+            "prefix": {
+              "element": "PrefixName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "firstName": {
+              "element": "FirstName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "middleName": {
+              "element": "MiddleName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "lastName": {
+              "element": "LastName",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "suffix": {
+              "element": "SuffixName",
+              "kind": "value",
+              "namespace": "globLib"
+            }
+          }
+        },
+        "title": {
+          "element": "Title",
+          "kind": "value"
+        },
+        "address": {
+          "element": "Address",
+          "kind": "object",
+          "fields": {
+            "street1": {
+              "element": "Street1",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "street2": {
+              "element": "Street2",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "city": {
+              "element": "City",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "county": {
+              "element": "County",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "state": {
+              "element": "State",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "province": {
+              "element": "Province",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "zipCode": {
+              "element": "ZipPostalCode",
+              "kind": "value",
+              "namespace": "globLib"
+            },
+            "country": {
+              "element": "Country",
+              "kind": "value",
+              "namespace": "globLib"
+            }
+          }
+        },
+        "phone": {
+          "element": "Phone",
+          "kind": "value"
+        },
+        "fax": {
+          "element": "Fax",
+          "kind": "value"
+        },
+        "email": {
+          "element": "Email",
+          "kind": "value"
+        },
+        "organizationName": {
+          "element": "OrganizationName",
+          "kind": "value"
+        },
+        "department": {
+          "element": "Department",
+          "kind": "value"
+        },
+        "division": {
+          "element": "Division",
+          "kind": "value"
+        }
+      }
+    },
+    "aorSignature": {
+      "element": "AOR_Signature",
+      "kind": "value"
+    },
+    "aorSignedDate": {
+      "element": "AOR_SignedDate",
+      "kind": "value"
+    },
+    "preApplicationAttachment": {
+      "element": "PreApplicationAttachment",
+      "kind": "attachment"
+    },
+    "coverLetterAttachment": {
+      "element": "CoverLetterAttachment",
+      "kind": "attachment"
+    },
+    "congressionalDistrict": {
+      "element": "CongressionalDistrict",
+      "kind": "group",
+      "fields": {
+        "applicantCongressionalDistrict": {
+          "element": "ApplicantCongressionalDistrict",
+          "kind": "value",
+          "source": "/applicantCongressionalDistrict"
+        }
+      }
+    }
+  }
+}

@@ -39,7 +39,8 @@
       }
     },
     "attachment": { "$ref": "#/$defs/attachmentWire" },
-    "mapping": { "$ref": "#/$defs/mapping" }
+    "mapping": { "$ref": "#/$defs/mapping" },
+    "evidence": { "$ref": "#/$defs/sourceEvidence" }
   },
   "$defs": {
     "xmlName": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$" },
@@ -52,6 +53,17 @@
           { "type": "number" },
           { "type": "boolean" }
         ]
+      }
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "repository", "revision", "artifact"],
+      "properties": {
+        "status": { "enum": ["source-bound-unreviewed", "reviewed"] },
+        "repository": { "type": "string", "pattern": "^https://" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "artifact": { "type": "string", "minLength": 1 }
       }
     },
     "attachmentField": {
@@ -99,8 +111,9 @@
       "required": ["element", "kind"],
       "properties": {
         "element": { "$ref": "#/$defs/xmlName" },
-        "kind": { "enum": ["value", "object", "array", "attachment"] },
+        "kind": { "enum": ["value", "object", "group", "array", "attachment"] },
         "namespace": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "pattern": "^/" },
         "fields": { "$ref": "#/$defs/mappingFields" },
         "items": { "$ref": "#/$defs/mapping" },
         "itemElement": { "$ref": "#/$defs/xmlName" },
@@ -109,7 +122,10 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "kind": { "const": "object" } }, "required": ["kind"] },
+          "if": {
+            "properties": { "kind": { "enum": ["object", "group"] } },
+            "required": ["kind"]
+          },
           "then": {
             "properties": { "fields": true },
             "required": ["fields"],

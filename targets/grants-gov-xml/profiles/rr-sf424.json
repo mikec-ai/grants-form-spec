@@ -1,0 +1,37 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "rr-sf424",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_SF424_5_0-V5.0.xsd",
+    "sha256": "f140f32afed9d7efbe30fc8f299542bbbc3121dbc87a79aa351fcf096163d3bc"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/RR_SF424_5_0-V5.0",
+    "att": "http://apply.grants.gov/system/Attachments-V1.0",
+    "glob": "http://apply.grants.gov/system/Global-V1.0",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0"
+  },
+  "root": {
+    "element": "RR_SF424_5_0",
+    "namespacePrefix": "RR_SF424_5_0",
+    "attributes": {
+      "FormVersion": "5.0"
+    }
+  },
+  "attachment": {
+    "fields": {
+      "$ref": "../mappings/attached-file-data-1.0.json#/fields"
+    }
+  },
+  "mapping": {
+    "fields": {
+      "$ref": "../mappings/rr-sf424-5.0.json#/fields"
+    }
+  },
+  "evidence": {
+    "status": "source-bound-unreviewed",
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "artifact": "artifacts/sgm/RRSF424-quad7-proof.json"
+  }
+}
