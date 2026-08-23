@@ -1,0 +1,25 @@
+{
+  "contract": "grants-form-analysis-sequence/v1",
+  "description": "Versioned authoring sequence used to measure marginal reuse. Order reflects the reference-form delivery sequence; changing it creates a new version rather than rewriting historical measurements.",
+  "forms": [
+    "key-contacts",
+    "sf424",
+    "sf424a",
+    "sf424-short",
+    "project-narrative-attachments",
+    "budget-narrative-attachments",
+    "other-narrative-attachments",
+    "rr-budget",
+    "rr-subaward-budget",
+    "rr-budget-10yr",
+    "rr-subaward-budget-30",
+    "rr-subaward-budget-10yr-30",
+    "project-abstract-summary",
+    "rr-sf424",
+    "rr-sf424-multi-project-cover",
+    "rr-key-person-expanded",
+    "performance-site",
+    "rr-other-project-information",
+    "phs398-modular-budget"
+  ]
+}

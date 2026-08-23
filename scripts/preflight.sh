@@ -13,7 +13,7 @@ npm test
 npm run test-python
 npm run package-artifacts
 python3 scripts/package_artifacts.py --verify build/grants-form-artifacts.tar.gz
-npm run analyze -- --json >/dev/null
+npm run analyze -- --json --output-dir build/analysis >/dev/null
 
 result=0
 while IFS= read -r -d '' file; do

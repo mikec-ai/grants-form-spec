@@ -6,7 +6,7 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes eleven reference forms:
+The repository currently includes nineteen reference forms, spanning:
 
 - Key Contacts
 - SF-424
@@ -19,6 +19,13 @@ The repository currently includes eleven reference forms:
 - R&R Budget 10YR 3.0
 - R&R Subaward Budget 3.0
 - R&R Subaward Budget 5 YR 30 ATT 3.0
+- R&R Subaward Budget 10YR/30
+- Project Abstract Summary
+- R&R SF-424 and Multi-Project Cover
+- R&R Senior/Key Person Profile (Expanded)
+- Project/Performance Site Locations
+- R&R Other Project Information
+- PHS 398 Modular Budget
 
 The reference implementation proves applicant-visible rendering and validation parity against existing implementations. SF-424 Short adds no new questions to the bank and shares 91 percent of its questions with SF-424, demonstrating the intended reuse model.
 
@@ -42,7 +49,7 @@ legacy field names, and runtime rule mappings belong in consumer adapters. Optio
 wire targets are isolated under `targets/` and may be ignored by consumers that do not need
 them.
 
-Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
+Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
 ## Development
 
@@ -63,6 +70,7 @@ npm run build
 npm run emit
 npm test
 npm run analyze
+python3 scripts/analyze.py --json --output-dir build/analysis
 ```
 
 `npm run validate-artifacts` validates emitted questions, forms, presentation trees,

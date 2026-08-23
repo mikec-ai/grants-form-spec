@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,8 +14,16 @@ ANALYZER = ROOT / "scripts" / "analyze.py"
 class AttachmentSemanticAnalysisTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        cls.temp_dir = tempfile.TemporaryDirectory()
+        cls.output_dir = Path(cls.temp_dir.name)
         result = subprocess.run(
-            ["python3", str(ANALYZER), "--json"],
+            [
+                "python3",
+                str(ANALYZER),
+                "--json",
+                "--output-dir",
+                str(cls.output_dir),
+            ],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -23,6 +32,10 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
         cls.analysis = json.loads(result.stdout)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.temp_dir.cleanup()
 
     def test_attachment_roles_are_distinct_semantic_questions(self) -> None:
         expected = {
@@ -183,6 +196,99 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             self.analysis["usesCaptureMechanisms"]["project-abstract-summary"],
             [],
         )
+
+    def test_spreadsheet_ready_outputs_are_complete(self) -> None:
+        expected = {
+            "form-analysis.json",
+            "question-inventory.csv",
+            "form-question-associations.csv",
+            "unclassified-form-fields.csv",
+            "pairwise-exploratory.csv",
+            "pairwise-reviewed.csv",
+            "capability-occurrences.csv",
+            "marginal-capability-reuse.csv",
+        }
+        self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
+        self.assertEqual(len(self.analysis["questionInventory"]), 94)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 418)
+        self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
+        self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)
+
+    def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
+        self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 418)
+        self.assertTrue(
+            all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
+        )
+        self.assertTrue(
+            all(not row["eligible"] for row in self.analysis["pairwiseReviewed"])
+        )
+        self.assertTrue(
+            all(row["similarity"] is None for row in self.analysis["pairwiseReviewed"])
+        )
+
+    def test_association_joins_question_xml_and_source_provenance(self) -> None:
+        row = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "rr-sf424" and row["questionId"] == "primary-org/uei"
+        )
+        self.assertEqual(row["questionName"], "SAM UEI")
+        self.assertEqual(row["occurrencePath"], "/applicantInfo/organizationInfo/samUei")
+        self.assertEqual(
+            row["xmlPath"],
+            "/RR_SF424_5_0:RR_SF424_5_0/RR_SF424_5_0:ApplicantInfo/"
+            "RR_SF424_5_0:OrganizationInfo/globLib:SAMUEI",
+        )
+        self.assertEqual(
+            row["xsdUri"],
+            "https://apply07.grants.gov/apply/forms/schemas/RR_SF424_5_0-V5.0.xsd",
+        )
+        self.assertEqual(row["xsdNativeVersion"], "5.0")
+        self.assertEqual(len(row["xsdSha256"]), 64)
+        self.assertEqual(len(row["extractionRevision"]), 40)
+        self.assertEqual(row["mappingStatus"], "unreviewed")
+        self.assertEqual(row["responseRole"], "unclassified")
+        self.assertTrue(row["countedInExploratorySimilarity"])
+        self.assertFalse(row["countedInPublishedSimilarity"])
+
+    def test_occurrence_constraints_are_not_confused_with_question_identity(self) -> None:
+        row = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "project-narrative-attachments"
+        )
+        self.assertEqual(row["questionId"], "project/narrative")
+        self.assertEqual(row["schemaType"], "string")
+        self.assertTrue(row["required"])
+        self.assertEqual(row["minItems"], 1)
+        self.assertEqual(row["maxItems"], 100)
+        mechanism = next(
+            row
+            for row in self.analysis["capabilityOccurrences"]
+            if row["formId"] == "project-narrative-attachments"
+            and row["kind"] == "captureMechanism"
+        )
+        self.assertEqual(mechanism["capabilityId"], "generics/attachment")
+
+    def test_marginal_curve_records_configuration_only_reuse(self) -> None:
+        short = next(
+            row
+            for row in self.analysis["marginalCapabilityReuse"]
+            if row["formId"] == "sf424-short"
+        )
+        self.assertEqual(short["newQuestionCount"], 0)
+        self.assertEqual(short["reusedQuestionCount"], short["questionCount"])
+        self.assertEqual(short["newBehaviorCount"], 0)
+        self.assertEqual(short["reusedBehaviorCount"], short["behaviorCount"])
+        self.assertEqual(short["measurementStatus"], "implementation-derived-unreviewed")
+
+    def test_unclassified_form_fields_are_visible_but_not_counted_as_questions(self) -> None:
+        rows = self.analysis["unclassifiedFormFields"]
+        self.assertEqual(len(rows), self.analysis["status"]["unclassifiedFormFieldCount"])
+        self.assertTrue(rows)
+        self.assertTrue(all(row["classification"] == "unclassified" for row in rows))
+        self.assertTrue(all(not row["countedAsQuestion"] for row in rows))
 
 
 if __name__ == "__main__":
