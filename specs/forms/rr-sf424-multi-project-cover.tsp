@@ -195,15 +195,17 @@ model RRSF424MultiProjectCover {
   @maxLength(30)
   applicantId?: string;
 
-  // The State owns these values even when the applicant transcribes them into the exchange form.
+  // The applicant enters the values assigned through the State review process.
   @UI.label("State Received Date")
   @UI.section(RRSF424Section.stateUse)
+  @Response.role(ResponseRole.applicantInput)
   stateReceivedDate?: StateReceivedDate;
 
   @UI.label("State Application Identifier")
   @UI.section(RRSF424Section.stateUse)
   @minLength(1)
   @maxLength(30)
+  @Response.role(ResponseRole.applicantInput)
   stateId?: StateApplicationIdentifier;
 
   @UI.label("Federal Identifier")
@@ -221,7 +223,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Grants.gov Identifier")
   @UI.section(RRSF424Section.stateUse)
-  // Assigned by Grants.gov; the applicant may transcribe the previous submission's identifier.
+  // Assigned by Grants.gov for the prior submission and entered by the applicant here.
   @minLength(13)
   @maxLength(15)
   grantsTrackingNumber?: PreviousGrantsGovTrackingNumber;

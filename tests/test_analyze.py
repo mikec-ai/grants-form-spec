@@ -210,14 +210,14 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
         self.assertEqual(len(self.analysis["questionInventory"]), 107)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 436)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 437)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)
-        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 50)
+        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 49)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 436)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 437)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
@@ -340,19 +340,20 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
     def test_lifecycle_attestation_and_control_roles_are_explicit(self) -> None:
         expected = {
             "rr-sf424-multi-project-cover": {
-                "/agencyRoutingNumber": "systemValue",
+                "/agencyRoutingNumber": "applicantInput",
                 "/aorSignature": "attestation",
                 "/aorSignedDate": "attestation",
-                "/grantsTrackingNumber": "systemValue",
-                "/stateId": "systemValue",
-                "/stateReceivedDate": "systemValue",
+                "/grantsTrackingNumber": "applicantInput",
+                "/stateId": "applicantInput",
+                "/stateReceivedDate": "applicantInput",
                 "/submittedDate": "applicantInput",
                 "/trustAgree": "attestation",
             },
             "rr-sf424": {
-                "/agencyRoutingNumber": "systemValue",
-                "/stateId": "systemValue",
-                "/stateReceivedDate": "systemValue",
+                "/agencyRoutingNumber": "applicantInput",
+                "/grantsGovTrackingId": "applicantInput",
+                "/stateId": "applicantInput",
+                "/stateReceivedDate": "applicantInput",
                 "/trustAgree": "attestation",
             },
             "sf424": {
@@ -389,19 +390,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
 
     def test_system_owned_lifecycle_values_retain_canonical_identity(self) -> None:
         expected = {
-            ("rr-sf424", "/agencyRoutingNumber"):
-                "application/federal-agency-routing-number",
-            ("rr-sf424-multi-project-cover", "/agencyRoutingNumber"):
-                "application/federal-agency-routing-number",
-            ("rr-sf424-multi-project-cover", "/grantsTrackingNumber"):
-                "application/previous-grants-gov-tracking-number",
-            ("rr-sf424", "/stateReceivedDate"): "application/state-received-date",
-            ("rr-sf424-multi-project-cover", "/stateReceivedDate"):
-                "application/state-received-date",
             ("sf424", "/stateReceiveDate"): "application/state-received-date",
-            ("rr-sf424", "/stateId"): "application/state-application-identifier",
-            ("rr-sf424-multi-project-cover", "/stateId"):
-                "application/state-application-identifier",
             ("sf424", "/stateApplicationId"):
                 "application/state-application-identifier",
         }
@@ -435,7 +424,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
                 self.assertIsNone(row["reviewedAt"])
 
         for form_id, count in {
-            "rr-sf424": 3,
+            "rr-sf424": 4,
             "rr-sf424-multi-project-cover": 4,
             "sf424": 2,
         }.items():
@@ -451,6 +440,113 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             self.assertTrue(
                 all("reviewedBy" not in mapping for mapping in review["mappings"])
             )
+
+    def test_rr_lifecycle_values_entered_by_applicants_retain_origin(self) -> None:
+        expected = {
+            ("rr-sf424", "/agencyRoutingNumber"):
+                "application/federal-agency-routing-number",
+            ("rr-sf424-multi-project-cover", "/agencyRoutingNumber"):
+                "application/federal-agency-routing-number",
+            ("rr-sf424", "/stateReceivedDate"):
+                "application/state-received-date",
+            ("rr-sf424-multi-project-cover", "/stateReceivedDate"):
+                "application/state-received-date",
+            ("rr-sf424", "/stateId"):
+                "application/state-application-identifier",
+            ("rr-sf424-multi-project-cover", "/stateId"):
+                "application/state-application-identifier",
+            ("rr-sf424", "/grantsGovTrackingId"):
+                "application/previous-grants-gov-tracking-number",
+            ("rr-sf424-multi-project-cover", "/grantsTrackingNumber"):
+                "application/previous-grants-gov-tracking-number",
+        }
+        rows = {
+            (row["formId"], row["occurrencePath"]): row
+            for row in self.analysis["formQuestionWorkbook"]
+        }
+        for key, question_id in expected.items():
+            with self.subTest(form=key[0], path=key[1]):
+                row = rows[key]
+                self.assertEqual(row["questionId"], question_id)
+                self.assertEqual(row["responseRole"], "applicantInput")
+                self.assertEqual(row["mappingStatus"], "proposed")
+                self.assertTrue(row["countedInExploratorySimilarity"])
+                self.assertFalse(row["countedInPublishedSimilarity"])
+                self.assertFalse(row["publishable"])
+                self.assertIsNotNone(row["sourceId"])
+                self.assertIsNotNone(row["sourcePath"])
+                self.assertIsNone(row["reviewedBy"])
+                self.assertIsNone(row["reviewedAt"])
+
+        sf424_award = next(
+            row
+            for row in self.analysis["unclassifiedFormFields"]
+            if row["formId"] == "sf424"
+            and row["fieldPath"] == "/federalAwardIdentifier"
+        )
+        self.assertFalse(sf424_award["countedAsQuestion"])
+
+        rr_evidence = json.loads(
+            (ROOT / "dist/forms/rr-sf424/evidence.json").read_text()
+        )
+        instructions = next(
+            source
+            for source in rr_evidence["sources"]
+            if source["type"] == "instructions"
+        )
+        self.assertEqual(
+            instructions["sha256"],
+            "666647fdeb7d9d69f2d36dedc74f09ff6a9540776f87c5a5c5b0593219736bd1",
+        )
+        mp_evidence = json.loads(
+            (ROOT / "dist/forms/rr-sf424-multi-project-cover/evidence.json").read_text()
+        )
+        dat = next(source for source in mp_evidence["sources"] if source["type"] == "dat")
+        self.assertEqual(
+            dat["sha256"],
+            "361e00da500cb092997dadefcac9723cba3be63417a46375d2a5845797beae8e",
+        )
+
+        for form_id in ("rr-sf424", "rr-sf424-multi-project-cover"):
+            ui = json.loads(
+                (ROOT / "dist/forms" / form_id / "sgg/ui-schema.json").read_text()
+            )
+            fields = {
+                child["definition"]: child
+                for section in ui
+                for child in section["children"]
+                if child.get("definition") in {
+                    "/properties/stateReceivedDate",
+                    "/properties/stateId",
+                }
+            }
+            self.assertEqual(
+                {path: field["type"] for path, field in fields.items()},
+                {
+                    "/properties/stateReceivedDate": "field",
+                    "/properties/stateId": "field",
+                },
+            )
+
+        sf424_ui = json.loads(
+            (ROOT / "dist/forms/sf424/sgg/ui-schema.json").read_text()
+        )
+        sf424_state_types = {
+            child["definition"]: child["type"]
+            for section in sf424_ui
+            for child in section["children"]
+            if child.get("definition") in {
+                "/properties/stateReceiveDate",
+                "/properties/stateApplicationId",
+            }
+        }
+        self.assertEqual(
+            sf424_state_types,
+            {
+                "/properties/stateReceiveDate": "null",
+                "/properties/stateApplicationId": "null",
+            },
+        )
 
     def test_residual_reference_proposals_remain_exploratory(self) -> None:
         expected = {

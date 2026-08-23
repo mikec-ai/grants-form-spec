@@ -78,28 +78,28 @@
         "sourceId": "source-2-5d5599068d72",
         "sourcePath": "RR_SF424_Multi_Project_Cover_4_0.StateReceivedDate",
         "status": "proposed",
-        "note": "Proposed reuse of the shared State received-date identity. Lifecycle ownership remains systemValue; the cross-family proposal is not accepted for published similarity."
+        "note": "Proposed reuse of the shared State received-date identity. The pinned DAT directs the applicant to enter it, so this occurrence is applicantInput; the cross-family proposal is not accepted for published similarity."
       },
       {
         "canonicalPointer": "#/properties/stateId",
         "sourceId": "source-2-5d5599068d72",
         "sourcePath": "RR_SF424_Multi_Project_Cover_4_0.StateID",
         "status": "proposed",
-        "note": "Proposed reuse of the shared State application-identifier identity. Lifecycle ownership remains systemValue; the cross-family proposal is not accepted for published similarity."
+        "note": "Proposed reuse of the shared State application-identifier identity. The pinned DAT directs the applicant to enter it, so this occurrence is applicantInput; the cross-family proposal is not accepted for published similarity."
       },
       {
         "canonicalPointer": "#/properties/agencyRoutingNumber",
         "sourceId": "source-2-5d5599068d72",
         "sourcePath": "RR_SF424_Multi_Project_Cover_4_0.AgencyRoutingNumber",
         "status": "proposed",
-        "note": "Proposed reuse of the Federal-agency-routing identity. Lifecycle ownership remains systemValue; this is not accepted for published similarity."
+        "note": "Proposed reuse of the Federal-agency-routing identity. The pinned DAT directs the applicant to enter it, so this occurrence is applicantInput; this is not accepted for published similarity."
       },
       {
         "canonicalPointer": "#/properties/grantsTrackingNumber",
         "sourceId": "source-2-5d5599068d72",
         "sourcePath": "RR_SF424_Multi_Project_Cover_4_0.GrantsTrackingNumber",
         "status": "proposed",
-        "note": "Proposed form-specific identity for the previous Grants.gov tracking number. Lifecycle ownership remains systemValue; this is not accepted for published similarity."
+        "note": "Proposed reuse of the prior Grants.gov tracking-number identity. The pinned DAT independently directs the applicant to enter it, so this occurrence is applicantInput; the proposal is not accepted for published similarity."
       }
     ]
   }

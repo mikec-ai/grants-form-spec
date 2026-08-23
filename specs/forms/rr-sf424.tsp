@@ -231,13 +231,14 @@ model RRSF424 {
 
   @UI.label("State Received Date")
   @UI.section(RRSF424Section.stateUse)
-  @UI.readOnly
+  @Response.role(ResponseRole.applicantInput)
   stateReceivedDate?: StateReceivedDate;
 
   @UI.label("State Application Identifier")
   @UI.section(RRSF424Section.stateUse)
   @minLength(1)
   @maxLength(30)
+  @Response.role(ResponseRole.applicantInput)
   stateId?: StateApplicationIdentifier;
 
   @UI.label("Federal Identifier")
@@ -262,7 +263,7 @@ model RRSF424 {
   @maxLength(15)
   @Validation.requiredWhen(RRSF424.submissionTypeCode, ResearchSubmissionType.changedCorrected)
   @UI.visibleWhen(RRSF424.submissionTypeCode, ResearchSubmissionType.changedCorrected)
-  grantsGovTrackingId?: string;
+  grantsGovTrackingId?: PreviousGrantsGovTrackingNumber;
 
   @UI.label("Applicant Information")
   @UI.section(RRSF424Section.applicantInformation)

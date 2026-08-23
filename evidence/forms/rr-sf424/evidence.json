@@ -85,21 +85,28 @@
         "sourceId": "source-2-f140f32afed9",
         "sourcePath": "RR_SF424_5_0.StateReceivedDate",
         "status": "proposed",
-        "note": "Proposed shared identity for the date the State received the application. Lifecycle ownership remains systemValue; the cross-family proposal is not accepted for published similarity."
+        "note": "Proposed shared identity for the date the State received the application. The pinned instructions direct the applicant to enter it, so this occurrence is applicantInput; the cross-family proposal is not accepted for published similarity."
       },
       {
         "canonicalPointer": "#/properties/stateId",
         "sourceId": "source-2-f140f32afed9",
         "sourcePath": "RR_SF424_5_0.StateID",
         "status": "proposed",
-        "note": "Proposed shared identity for the application identifier assigned by the State. Lifecycle ownership remains systemValue; the cross-family proposal is not accepted for published similarity."
+        "note": "Proposed shared identity for the application identifier assigned by the State. The pinned instructions direct the applicant to enter it, so this occurrence is applicantInput; the cross-family proposal is not accepted for published similarity."
       },
       {
         "canonicalPointer": "#/properties/agencyRoutingNumber",
         "sourceId": "source-2-f140f32afed9",
         "sourcePath": "RR_SF424_5_0.AgencyRoutingNumber",
         "status": "proposed",
-        "note": "Proposed identity for the Federal-agency-assigned routing number. Lifecycle ownership remains systemValue; this is not accepted for published similarity."
+        "note": "Proposed identity for the Federal-agency-assigned routing number. The pinned instructions direct the applicant to enter it, so this occurrence is applicantInput; this is not accepted for published similarity."
+      },
+      {
+        "canonicalPointer": "#/properties/grantsGovTrackingId",
+        "sourceId": "source-2-f140f32afed9",
+        "sourcePath": "RR_SF424_5_0.GGTrackingID",
+        "status": "proposed",
+        "note": "Proposed reuse of the prior Grants.gov tracking-number identity. The pinned instructions direct the applicant to enter this value for a changed or corrected application; the proposal is not accepted for published similarity."
       }
     ]
   }

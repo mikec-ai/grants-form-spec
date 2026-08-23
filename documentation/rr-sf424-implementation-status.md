@@ -21,6 +21,11 @@ coverage. The evidence sidecar accepts zero semantic mappings.
 - Applicant-type Other, other-agency explanation, revision details, state-review date, and
   the previous Grants.gov tracking ID have source-backed conditional requiredness and SGG
   visibility projection.
+- The previous Grants.gov tracking ID composes the shared R&R tracking identity and is classified
+  as applicant input because the pinned instructions tell the applicant to enter the prior number.
+- State-received date, State application identifier, and agency routing identifier remain
+  externally assigned facts but are applicant inputs on R&R because the pinned instructions tell
+  the applicant to enter them; unlike classic SF-424, the R&R State date is not emitted read-only.
 - Federal ID uses a generic nested-path condition and becomes required for Renewal,
   Continuation, and Revision without form-specific compiler code.
 - Opportunity and UEI prepopulation, attachment validation, read-only system fields, project
