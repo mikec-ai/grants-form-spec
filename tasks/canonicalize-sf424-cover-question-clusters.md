@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: prepare_cover_clusters
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:42:09.380Z'
+  at: '2026-08-23T20:49:01.673Z'
 assignee: prepare_cover_clusters
 ---
 # Objective
@@ -46,10 +46,11 @@ Multi-Project Cover into evidence-backed canonical question composition.
 # Delivery receipt
 
 - Pull request: `mikec-ai/grants-form-spec#47`
-- Producer base: `bc1d60325e52fbffd782756ec40c9dba232fd978`
-- Verified head: `f78c96c4a5699ffe6ec1f08b86e09ab7d6b348b7`
-- Review state: cleanly mergeable and frozen for independent re-review
-- Verification: full preflight passed with 102 TypeScript tests, 111 Python tests (1 skipped),
-  158 blocks and 887 artifacts validated, 34 promotion records, and the honest `76/76/0`
-  unclassified-field ratchet.
+- Producer base: `e0b0fb24c421a7c70e395afedf5be3f37f366606`
+- Verified head: `eb859b2f22feba23c35be8d0a690293019a482f2`
+- Review state: independent functional review clean; GitHub CI passed; cleanly mergeable and
+  frozen for merge
+- Verification: full preflight and GitHub CI passed with zero TypeSpec warnings, 102 TypeScript
+  tests, 125 Python tests (1 skipped), 161 blocks and 924 artifacts validated, 34 promotion
+  records, and the honest `76/76/0` unclassified-field ratchet.
 - Publication boundary: all 50 source-bound mappings remain proposed and unpublished.
