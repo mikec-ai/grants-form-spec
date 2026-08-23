@@ -6,15 +6,15 @@ description: >-
   Replace legacy SF-424B with a portable versioned assurance-policy bundle and
   differential SGG parity.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: sf424b_family_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:52:13.094Z'
+  at: '2026-08-23T20:43:34.287Z'
 assignee: sf424b_family_agent
 ---
 # Goal
 
-Replace SGG's legacy SF-424B with portable declarative artifacts and establish the versioned assurance-policy bundle pattern.
+Replace SGG legacy SF-424B with portable declarative artifacts and establish the versioned assurance-policy bundle pattern.
 
 # Evidence starting point
 
@@ -33,6 +33,27 @@ Replace SGG's legacy SF-424B with portable declarative artifacts and establish t
 
 # Exit evidence
 
-Record which assurance-shell artifacts can be reused by SF-424D and its Mandatory and Individual variants without conflating their policy bundles.
+The generic `form-policy-binding/v1` contract, versioned policy content, submission acceptance envelope, response roles, section presentation order, shared AOR/organization primitives, and declarative XML-profile machinery are reusable by SF-424D. SF-424D PR 51 was built directly on the merged SF-424B foundation and uses the same generic projector and contract.
+
+# Implementation receipts
+
+- Producer PR 50 merged green: https://github.com/mikec-ai/grants-form-spec/pull/50
+- Immutable producer merge revision: `bc1d60325e52fbffd782756ec40c9dba232fd978`.
+- Legacy SGG oracle pinned at revision `30dd50cf`, path `api/src/form_schema/forms/sf424b/form_json.py`, SHA-256 `ca94f236d449f5e4437d03c33ebe09504fe1d02948d7bb17d16fc4a646d7d39a`.
+- Base XSD SHA-256: `b0da616d262329e869b7c2a12146396fd8a279d2a1723521271c519f4571075d`.
+- Consumer PR 46 merged clean: https://github.com/mikec-ai/simpler-grants-gov/pull/46
+- Immutable consumer merge revision: `a90910022ac1ea57e9f417a605f9546eef29aa6b`; producer pin inside is exactly `bc1d60325e52fbffd782756ec40c9dba232fd978`.
+- Consumer tests cover oracle constraints, source-correct ownership deltas, missing signature/date before submission, submission population, locked/print shape, exact XML/XSD, artifact locks, and absent registration.
+- Local validation: 52 relevant non-DB tests passed; changed-file Ruff and formatting checks passed; mypy passed for 742 source files. DB-backed lifecycle tests are committed; local execution was unavailable because `grants-db` was absent.
+
+# Remaining gates
+
+- Semantic and policy-owner review.
+- Accessibility review.
+- Hosted consumer lifecycle execution.
+- Instruction UUID assignment.
+- Explicit production registration.
+
+The task remains in progress; no profile is registered.
 
 [depends on](release-rr-key-person-expanded-canary.md)
