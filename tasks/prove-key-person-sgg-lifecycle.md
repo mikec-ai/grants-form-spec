@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:34:49.203Z'
+  at: '2026-08-23T17:22:12.265Z'
 ---
 # Goal
 
@@ -29,3 +29,5 @@ Prove the existing portable Key Person form through the complete technical SGG l
 Technical completion is not production approval or semantic acceptance.
 
 [depends on](project-key-person-xml-in-sgg.md)
+
+[depends on](integrate-key-person-overflow-gating.md)

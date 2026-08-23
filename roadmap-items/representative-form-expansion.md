@@ -182,3 +182,5 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/project-key-person-xml-in-sgg.md)
 
 [contains](../tasks/distinguish-xml-array-wrapper-cardinality.md)
+
+[contains](../tasks/integrate-key-person-overflow-gating.md)

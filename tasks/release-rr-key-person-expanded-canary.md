@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:44:53.664Z'
+  at: '2026-08-23T17:22:12.125Z'
 ---
 # Goal
 
@@ -53,3 +53,5 @@ After this canary proves the bounded architecture and records its exceptions, re
 [depends on](project-key-person-xml-in-sgg.md)
 
 [depends on](distinguish-xml-array-wrapper-cardinality.md)
+
+[depends on](integrate-key-person-overflow-gating.md)
