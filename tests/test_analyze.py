@@ -209,15 +209,15 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 145)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 603)
-        self.assertEqual(len(self.analysis["pairwiseExploratory"]), 435)
-        self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 30)
+        self.assertEqual(len(self.analysis["questionInventory"]), 150)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 616)
+        self.assertEqual(len(self.analysis["pairwiseExploratory"]), 465)
+        self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 31)
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 603)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 616)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
@@ -227,6 +227,35 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertTrue(
             all(row["similarity"] is None for row in self.analysis["pairwiseReviewed"])
         )
+
+    def test_assignment_request_occurrences_are_applicant_input_but_not_publishable(self) -> None:
+        rows = [
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "phs-assignment-request"
+        ]
+        self.assertEqual(len(rows), 13)
+        self.assertEqual({row["responseRole"] for row in rows}, {"applicantInput"})
+        self.assertEqual(
+            {row["occurrencePath"] for row in rows},
+            {
+                "/suggestedAwardingComponent1",
+                "/suggestedAwardingComponent2",
+                "/suggestedAwardingComponent3",
+                "/suggestedStudySection1",
+                "/suggestedStudySection2",
+                "/suggestedStudySection3",
+                "/rationaleSuggestions",
+                "/expertise1",
+                "/expertise2",
+                "/expertise3",
+                "/expertise4",
+                "/expertise5",
+                "/notReview",
+            },
+        )
+        self.assertTrue(all(row["mappingStatus"] == "proposed" for row in rows))
+        self.assertTrue(all(not row["publishable"] for row in rows))
 
     def test_association_joins_question_xml_and_source_provenance(self) -> None:
         row = next(

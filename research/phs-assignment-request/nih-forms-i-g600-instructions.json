@@ -1,0 +1,56 @@
+{
+  "contract": "normalized-instruction-evidence/v1",
+  "title": "NIH Forms I G.600 - PHS Assignment Request Form",
+  "source": {
+    "uri": "https://grants.nih.gov/grants/how-to-apply-application-guide/forms-i/general/g.600-phs-assignment-request-form.htm",
+    "retrievedDate": "2026-08-23",
+    "sha256": "e12101cdc12d38cfc9942744e25aec93e28d0a0bee1465cbf615e7187cb64c54",
+    "applicationGuide": "SF424 (R&R) - Forms Version I",
+    "released": "November 2024",
+    "lastRevised": "December 2025"
+  },
+  "transformation": {
+    "method": "manual deterministic selection of instruction statements into ordered JSON records",
+    "normalization": [
+      "HTML navigation and presentation markup omitted",
+      "whitespace normalized",
+      "instruction meaning and numeric limits preserved",
+      "no OCR used",
+      "no cross-form semantic equivalence inferred"
+    ]
+  },
+  "records": [
+    {
+      "section": "Completing the PHS Assignment Request Form",
+      "statement": "The form is optional. Applicants may make a single entry and do not need to complete every field or section."
+    },
+    {
+      "section": "Information handling",
+      "statement": "The information is used to communicate assignment and review preferences to referral and scientific review staff; it is not part of the assembled application and is not provided to program staff or reviewers."
+    },
+    {
+      "section": "Awarding Component Assignment Suggestions",
+      "statement": "Applicants may enter up to three short awarding-component abbreviations. Suggestions must identify participating organizations in the funding opportunity or be supported by an appropriate Notice of Special Interest in R&R Cover Form box 4B."
+    },
+    {
+      "section": "Study Section Assignment Suggestions",
+      "statement": "Applicants may enter up to three scientific review group or special-emphasis-panel codes and should remove hyphens, parentheses, and spaces. Free-form descriptions should not be entered."
+    },
+    {
+      "section": "Rationale for assignment suggestions",
+      "statement": "Applicants may explain why their awarding-component or study-section suggestions are appropriate. The response limit is 1,000 characters."
+    },
+    {
+      "section": "Scientific areas of expertise",
+      "statement": "Applicants may enter up to five areas of expertise, limited to 40 characters each, and must not enter names of individuals they would like to review the application."
+    },
+    {
+      "section": "Individuals who should not review",
+      "statement": "Applicants may identify individuals who should not review the application, explain why, and provide enough identifying information such as name and organizational affiliation. The response limit is 1,000 characters."
+    }
+  ],
+  "knownSourceConflict": {
+    "status": "unresolved",
+    "detail": "The Grants.gov readonly PDF uses the illustrative study-section code B10 while the pinned DAT uses BP10. This normalized instruction capture does not resolve that conflict, and the declarative help omits the disputed example."
+  }
+}
