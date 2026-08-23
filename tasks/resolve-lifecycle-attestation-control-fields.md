@@ -6,10 +6,10 @@ description: >-
   Determine evidence-backed ownership and roles for 18 lifecycle-sensitive or
   nonstandard form-local occurrences.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: lifecycle_fields_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:58:29.007Z'
+  at: '2026-08-23T18:18:43.608Z'
 assignee: lifecycle_fields_agent
 ---
 # Objective
@@ -42,3 +42,30 @@ Resolve value ownership and response roles for 18 fields that should not be norm
   intentionally approved.
 
 [depends on](classify-portable-response-roles.md)
+
+# Delivery
+
+Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `095f392d6`.
+
+The evidence-backed disposition is:
+
+- Nine `systemValue` occurrences: agency routing numbers in both R&R covers; the Multi-Project
+  Grants.gov tracking number; SF-424 State received date/application identifier; and the equivalent
+  State-owned date/identifier fields in both R&R covers.
+- Six `attestation` occurrences: the four form-local certification controls and the Multi-Project
+  AOR signature/date pair.
+- Two `technicalField` occurrences: SF-424 Short `sameAsProjectDirector` and SF-424A
+  `confirmation`.
+- One `applicantInput`: Multi-Project `submittedDate`, represented by the new
+  `application/submission-date-entered` canonical question.
+
+The Multi-Project signature/date pair was reviewed independently using its pinned 4.0 XSD, DAT,
+and read-only PDF. It remains form-local because its applicant/AOR lifecycle differs from the
+submission-populated standalone R&R fields. Certification controls also remain form-local: their
+semantic identity and portable boolean-versus-source-code answer shape are not reviewed. All
+semantic sidecars therefore remain `unreviewed`, and no new association enters published metrics.
+
+Verification: full `npm run preflight` passed with 91 TypeSpec tests, 78 Python tests, 119 validated
+blocks / 664 artifacts, and the monotonic ratchet at 76 initial / 18 resolved / 58 remaining. XML
+profiles and runtime presentation/validation behavior are unchanged. No HHS/upstream repository or
+issue was modified.
