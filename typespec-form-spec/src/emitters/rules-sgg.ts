@@ -96,14 +96,20 @@ export function emitSggRules(program: Program, block: Block): Json {
   for (const calculation of calculations) {
     const rule: Json = {
       rule: calculation.rule,
-      fields: calculation.refs.map((r) => r.emit),
     };
+    const sourceFields = calculation.refs.map((r) => r.emit);
+    if (calculation.rule === "multiply_by_percentage") {
+      rule.amount = sourceFields[0];
+      rule.percentage = sourceFields[1];
+    } else {
+      rule.fields = sourceFields;
+    }
     if (calculation.materialize) {
       rule.materialize = calculation.materialize;
       // Presence is a separate contract from formula evaluation. The adapter follows these
       // references through any calculated dependencies to their entered source values, so an
       // eagerly materialized intermediate zero cannot manufacture presence.
-      rule.presence_fields = calculation.refs.map((r) => r.emit);
+      rule.presence_fields = sourceFields;
     }
     const order = calculation.explicitOrder ?? depth(calculation.at.join("."), byPath, depths, new Set());
     if (calculation.explicitOrder !== undefined || order >= 2) rule.order = order;

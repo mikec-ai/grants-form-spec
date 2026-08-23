@@ -38,6 +38,23 @@ function nativeVersionFromUri(source, rel) {
   return null;
 }
 
+function mountCanonicalPath(mountPath, canonicalPath) {
+  return mountPath ? `${mountPath}.${canonicalPath}` : canonicalPath;
+}
+
+function occurrencePath(canonicalPath) {
+  return `/${canonicalPath.replaceAll(".", "/").replaceAll("[*]", "/[]")}`;
+}
+
+function collectRuleTargets(node, path = [], targets = new Set()) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
+  if (node.gg_pre_population) targets.add(path.join("."));
+  for (const [key, value] of Object.entries(node)) {
+    if (!key.startsWith("gg_")) collectRuleTargets(value, [...path, key], targets);
+  }
+  return targets;
+}
+
 export async function projectEvidence({ evidenceRoot, dist }) {
   evidenceRoot = resolve(evidenceRoot);
   dist = resolve(dist);
@@ -55,7 +72,8 @@ export async function projectEvidence({ evidenceRoot, dist }) {
     visiting.add(id);
     const sources = [...record.document.sources];
     const behaviorEvidence = [...(record.document.behaviorEvidence ?? [])];
-    for (const inheritedId of record.document.inheritsBehaviorEvidenceFrom ?? []) {
+    for (const inheritance of record.document.inheritsBehaviorEvidenceFrom ?? []) {
+      const { blockId: inheritedId, mountPath } = inheritance;
       const inherited = byBlock.get(inheritedId);
       if (!inherited) throw new Error(`${id}: inherited behavior evidence block ${inheritedId} does not exist`);
       const resolved = resolveBehaviorEvidence(inherited, new Set(visiting));
@@ -68,7 +86,11 @@ export async function projectEvidence({ evidenceRoot, dist }) {
         if (!existing) sources.push(source);
       }
       behaviorEvidence.push(
-        ...resolved.behaviorEvidence.map((entry) => ({ ...entry, inheritedFrom: inheritedId })),
+        ...resolved.behaviorEvidence.map((entry) => ({
+          ...entry,
+          canonicalPath: mountCanonicalPath(mountPath, entry.canonicalPath),
+          inheritedFrom: inheritedId,
+        })),
       );
     }
     visiting.delete(id);
@@ -121,6 +143,19 @@ export async function projectEvidence({ evidenceRoot, dist }) {
     const expectedKindRoot = index.kind === "question" ? "question-bank" : "forms";
     if (index.id !== document.block.id || expectedKindRoot !== kindRoot) {
       throw new Error(`${rel}: evidence block identity does not match ${relative(dist, indexPath)}`);
+    }
+    const occurrences = new Set((index.fieldOccurrences ?? []).map((entry) => entry.path));
+    const ruleTargets = kindRoot === "forms" && document.behaviorEvidence.length
+      ? collectRuleTargets(await json(resolve(targetDir, "sgg", "rule-schema.json")))
+      : new Set();
+    for (const behavior of document.behaviorEvidence) {
+      const formOccurrence = occurrencePath(behavior.canonicalPath);
+      const ruleTarget = behavior.canonicalPath.replaceAll("[*]", "");
+      if (!occurrences.has(formOccurrence) && !ruleTargets.has(ruleTarget)) {
+        throw new Error(
+          `${rel}: behavior ${behavior.canonicalPath} does not resolve to an emitted field occurrence or rule target`,
+        );
+      }
     }
 
     await writeFile(resolve(targetDir, "evidence.json"), `${JSON.stringify(document, null, 2)}\n`);

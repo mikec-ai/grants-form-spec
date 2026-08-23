@@ -73,6 +73,10 @@ class ResearchBudgetProfileTests(unittest.TestCase):
         self.assertNotIn("extends ResearchBudgetDetails", source)
 
     def test_family_profiles_inherit_exact_f770_behavior_provenance(self) -> None:
+        root_evidence = json.loads((FORMS / "rr-budget" / "evidence.json").read_text())
+        root_paths = {
+            record["canonicalPath"] for record in root_evidence["behaviorEvidence"]
+        }
         for form_id in (
             "rr-budget",
             "rr-budget-10yr",
@@ -103,6 +107,22 @@ class ResearchBudgetProfileTests(unittest.TestCase):
                     self.assertEqual(
                         {record["inheritedFrom"] for record in evidence["behaviorEvidence"]},
                         {"rr-budget"},
+                    )
+                prefix = (
+                    "budgetAttachments[*]."
+                    if form_id.startswith("rr-subaward-budget")
+                    else ""
+                )
+                self.assertEqual(
+                    {record["canonicalPath"] for record in evidence["behaviorEvidence"]},
+                    {f"{prefix}{path}" for path in root_paths},
+                )
+                if prefix:
+                    self.assertTrue(
+                        all(
+                            not record["canonicalPath"].startswith("budgetYear[*]")
+                            for record in evidence["behaviorEvidence"]
+                        )
                     )
 
 

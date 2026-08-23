@@ -276,6 +276,46 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("sidecars: 1", result.stdout)
         self.assertEqual(manifest["artifacts"]["evidence.json"], "passthrough")
 
+    def test_projector_rejects_behavior_path_outside_emitted_form_and_rules(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            rules = dist / "forms" / "example" / "sgg" / "rule-schema.json"
+            rules.parent.mkdir()
+            self._json(rules, {})
+            evidence = root / "evidence" / "forms" / "example" / "evidence.json"
+            evidence.parent.mkdir(parents=True)
+            self._json(evidence, {
+                "contract": "grants-form-evidence/v1",
+                "block": {"id": "example", "kind": "form", "formVersion": "1.0"},
+                "sources": [{
+                    "id": "example-dat", "type": "dat",
+                    "uri": "https://example.gov/example_F1.xls", "nativeVersion": None,
+                    "sha256": "a" * 64,
+                }],
+                "behaviorEvidence": [{
+                    "canonicalPath": "unmounted.name",
+                    "sourceId": "example-dat",
+                    "sourcePath": "Example.Name",
+                    "sourceRecord": "A-1",
+                }],
+                "extraction": {
+                    "repository": "https://github.com/example/forms",
+                    "revision": "1" * 40,
+                    "artifact": "artifacts/example.jsonl.manifest.json",
+                    "sourceSetSha256": "b" * 64,
+                    "extractedAt": "2026-08-18T14:19:31Z",
+                },
+                "semanticReview": {"status": "unreviewed", "mappings": []},
+            })
+
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("behavior unmounted.name does not resolve", result.stdout)
+
     def test_projector_rejects_native_version_inherited_from_form_context(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
