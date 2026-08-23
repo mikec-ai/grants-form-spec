@@ -195,8 +195,8 @@ function field(
       const predicates = enabled.map(predicate);
       f.conditional = {
         when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
-        then: { enabled: true },
-        otherwise: { enabled: false },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
       };
     } else {
       const readOnly = [
@@ -207,8 +207,8 @@ function field(
         const predicates = readOnly.map(predicate);
         f.conditional = {
           when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
-          then: { readOnly: true },
-          otherwise: { readOnly: false },
+          then: { interaction: "readOnly" },
+          otherwise: { interaction: "enabled" },
         };
       }
     }

@@ -8,6 +8,7 @@ import {
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
+  propValidationConstraintsWhen,
 } from "./model.js";
 
 /**
@@ -314,6 +315,7 @@ function conditionsOf(program: Program, prop: ModelProperty): Condition[] {
     ...propEnabledWhen(program, prop),
     ...propReadOnlyWhen(program, prop),
     ...propRequiredWhen(program, prop),
+    ...propValidationConstraintsWhen(program, prop).map((item) => item.condition),
   ];
 }
 

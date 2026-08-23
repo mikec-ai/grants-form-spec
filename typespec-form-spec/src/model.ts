@@ -117,6 +117,11 @@ export const propNotBefore = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.notBefore, prop) as ModelProperty | undefined;
 export const propValidationConstraints = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.validationConstraints, prop) as Record<string, unknown> | undefined) ?? {};
+export const propValidationConstraintsWhen = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.validationConstraintsWhen, prop) as {
+    condition: Condition;
+    patch: Record<string, unknown>;
+  }[] | undefined) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>

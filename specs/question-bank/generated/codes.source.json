@@ -1,11 +1,9 @@
 {
   "contract": "generated-source-record/v1",
   "artifact": "codes.tsp",
-  "artifact_sha256_before_source_header_update": "9ec94ac035aff92a1b204a94081b857424b60b75d44f423aae84e98c4dd15456",
+  "artifact_sha256_before_source_header_update": "d1c49c34f2b270f50500cac2d086a435453b86c3fb3dc887d571b62dee94fe80",
   "source": {
-    "repository": "https://github.com/mikec-ai/simpler-grants-form-runtime.git",
-    "revision": "32a1f2d7610019a6d77de673c9a3a49be49659a1",
-    "path": "api/src/form_schema/shared/shared_form_constants.py",
-    "sha256": "68f243b32f4a65414a4b0e89df379e8b7fb631845b0612124b383891585c0f12"
+    "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
+    "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a"
   }
 }

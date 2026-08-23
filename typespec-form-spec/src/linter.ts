@@ -13,7 +13,7 @@ import {
 } from "@typespec/compiler";
 import {
   allBlocks, modelOrder, orderedProps, propEnabledWhen, propOmit, propReadOnlyWhen,
-  propRequiredWhen, propSection, propVisibleWhen,
+  propRequiredWhen, propSection, propValidationConstraintsWhen, propVisibleWhen,
 } from "./model.js";
 
 /**
@@ -206,6 +206,10 @@ const redeclaredProperty = createRule({
               [propEnabledWhen(context.program, base), propEnabledWhen(context.program, prop)],
               [propReadOnlyWhen(context.program, base), propReadOnlyWhen(context.program, prop)],
               [propRequiredWhen(context.program, base), propRequiredWhen(context.program, prop)],
+              [
+                propValidationConstraintsWhen(context.program, base),
+                propValidationConstraintsWhen(context.program, prop),
+              ],
               [propVisibleWhen(context.program, base), propVisibleWhen(context.program, prop)],
             ].some(([left, right]) => JSON.stringify(left) !== JSON.stringify(right))) {
               return false;

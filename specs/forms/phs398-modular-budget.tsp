@@ -22,7 +22,7 @@ enum PHS398ModularBudgetSection {
   shortFormName: "PHS398_ModularBudget_1_2",
   formVersion: "1.2",
   agencyCode: "GRANTS_GOV",
-  ombNumber: "0925-0001 and 0925-0002",
+  ombNumber: "0925-0001",
   formType: "PHS398ModularBudget",
   sggVersion: "1.0",
 })

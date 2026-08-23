@@ -228,6 +228,18 @@ export const $notBefore = (ctx: Ctx, target: ModelProperty, source: ModelPropert
 export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
   set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));
 
+export const $validationConstraintsWhen = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  equals: unknown,
+  patch: unknown,
+) =>
+  push(ctx, stateKeys.validationConstraintsWhen, target, {
+    condition: condition(source, equals),
+    patch: plain(ctx, patch),
+  });
+
 export const $computed = (
   ctx: Ctx,
   target: ModelProperty,

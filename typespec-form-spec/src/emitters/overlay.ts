@@ -1,4 +1,4 @@
-import type { Model, Program, Type } from "@typespec/compiler";
+import type { Model, ModelProperty, Program, Type } from "@typespec/compiler";
 import {
   Block,
   orderedProps,
@@ -7,6 +7,7 @@ import {
   propReadOnly,
   propRequiredWhen,
   propValidationConstraints,
+  propValidationConstraintsWhen,
 } from "../model.js";
 
 /**
@@ -24,17 +25,32 @@ export function emitSchemaOverlay(
   program: Program,
   block: Block,
 ): Record<string, unknown> | undefined {
-  const conditionals = conditionalRequiredness(program, block);
+  if (block.model.kind !== "Model") return undefined;
+  const model = block.model;
+  const conditionals = conditionalValidation(program, orderedProps(program, block));
   const patches = overriddenPresentation(block);
-  const readOnly = block.model.kind === "Model" ? readOnlyAnnotations(program, block.model) : undefined;
-  const helpText = block.model.kind === "Model" ? helpTextAnnotations(program, block.model) : undefined;
-  const constraints = block.model.kind === "Model" ? constraintAnnotations(program, block.model) : undefined;
-  const encodedCheckboxes = block.model.kind === "Model"
-    ? encodedCheckboxAnnotations(program, block.model)
-    : undefined;
+  const readOnly = readOnlyAnnotations(program, model);
+  const helpText = helpTextAnnotations(program, model);
+  const constraints = constraintAnnotations(program, model);
+  const encodedCheckboxes = encodedCheckboxAnnotations(program, model);
   const parts = [conditionals, patches, readOnly, helpText, constraints, encodedCheckboxes].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
+}
+
+/** Decorator-derived JSON Schema for an unpublished model embedded under `$defs`. */
+export function emitModelOverlay(
+  program: Program,
+  model: Model,
+): Record<string, unknown> | undefined {
+  const parts = [
+    conditionalValidation(program, [...model.properties.values()]),
+    readOnlyAnnotations(program, model),
+    helpTextAnnotations(program, model),
+    constraintAnnotations(program, model),
+    encodedCheckboxAnnotations(program, model),
+  ].filter(Boolean) as Record<string, unknown>[];
+  return parts.length ? parts.reduce(merge, {}) : undefined;
 }
 
 /** Carry the declarative choice-to-wire mapping beside the enum it governs. */
@@ -134,19 +150,28 @@ function readOnlyAnnotations(
   return Object.keys(properties).length ? { properties } : undefined;
 }
 
-function conditionalRequiredness(
+function conditionalValidation(
   program: Program,
-  block: Block,
+  properties: ModelProperty[],
 ): Record<string, unknown> | undefined {
-  if (block.scalar) return undefined;
-
   const conditionals: Record<string, unknown>[] = [];
-  for (const prop of orderedProps(program, block)) {
+  for (const prop of properties) {
     for (const c of propRequiredWhen(program, prop)) {
       if (c.operator !== "equals") continue;
       conditionals.push({
         if: conditionSchema(c.sourcePath, c.sourceIsArray, c.value),
         then: { required: [prop.name] },
+      });
+    }
+    for (const c of propValidationConstraintsWhen(program, prop)) {
+      if (c.condition.operator !== "equals") continue;
+      conditionals.push({
+        if: conditionSchema(
+          c.condition.sourcePath,
+          c.condition.sourceIsArray,
+          c.condition.value,
+        ),
+        then: { properties: { [prop.name]: c.patch } },
       });
     }
   }
@@ -157,8 +182,9 @@ function conditionalRequiredness(
   for (const c of conditionals) {
     const twin = merged.find((m) => JSON.stringify(m.if) === JSON.stringify(c.if));
     if (twin) {
-      (twin.then as { required: string[] }).required.push(
-        ...(c.then as { required: string[] }).required,
+      twin.then = merge(
+        twin.then as Record<string, unknown>,
+        c.then as Record<string, unknown>,
       );
     } else merged.push(c);
   }
@@ -230,8 +256,11 @@ function merge(
   const out: Record<string, unknown> = { ...a };
   for (const [key, value] of Object.entries(b)) {
     const existing = out[key];
-    out[key] =
-      isRecord(existing) && isRecord(value) ? merge(existing, value) : value;
+    out[key] = key === "required" && Array.isArray(existing) && Array.isArray(value)
+      ? [...new Set([...existing, ...value])]
+      : isRecord(existing) && isRecord(value)
+        ? merge(existing, value)
+        : value;
   }
   return out;
 }

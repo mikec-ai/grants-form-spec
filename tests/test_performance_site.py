@@ -58,6 +58,25 @@ class PerformanceSiteTests(unittest.TestCase):
 
         self.assertEqual(len(schema["properties"]), 3)
         self.assertEqual(schema["properties"]["additionalSites"]["maxItems"], 299)
+        primary = schema["$defs"]["PrimaryPerformanceSiteDetails"]
+        self.assertIn({
+            "if": {
+                "properties": {"individual": {"const": "N: No"}},
+                "required": ["individual"],
+            },
+            "then": {"required": ["organizationName"]},
+        }, primary["allOf"])
+        address = schema["$defs"]["PerformanceSiteAddress"]
+        self.assertIn({
+            "if": {
+                "properties": {"country": {"const": "USA: UNITED STATES"}},
+                "required": ["country"],
+            },
+            "then": {
+                "required": ["state", "zipCode"],
+                "properties": {"zipCode": {"minLength": 9}},
+            },
+        }, address["allOf"])
         self.assertEqual(len(fields), 25)
         self.assertEqual(len(conditions), 4)
         self.assertEqual(sum(c["when"]["ref"]["scope"] == "item" for c in conditions), 2)

@@ -6,6 +6,66 @@ import { describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("SGG UI emission", () => {
+  it("preserves form-local conditions on embedded models", async () => {
+    const schema = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/performance-site/schema.json"),
+        "utf8",
+      ),
+    );
+    expect(schema.$defs.PrimaryPerformanceSiteDetails.allOf).toContainEqual({
+      if: {
+        properties: { individual: { const: "N: No" } },
+        required: ["individual"],
+      },
+      then: { required: ["organizationName"] },
+    });
+    expect(schema.$defs.PerformanceSiteAddress.allOf).toContainEqual({
+      if: {
+        properties: { country: { const: "USA: UNITED STATES" } },
+        required: ["country"],
+      },
+      then: {
+        required: ["state", "zipCode"],
+        properties: { zipCode: { minLength: 9 } },
+      },
+    });
+    const address = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/question-bank/generics/address/schema.json"),
+        "utf8",
+      ),
+    );
+    expect(address.$defs.CountryCode.enum).toContain("CIV: CÔTE D’IVOIRE");
+  });
+
+  it("emits portable modular choices and sibling date ordering", async () => {
+    const root = resolve(packageRoot, "dist/forms/phs398-modular-budget");
+    const manifest = JSON.parse(await readFile(resolve(root, "manifest.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+    const period = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/question-bank/budget/phs398-modular/period/schema.json"),
+        "utf8",
+      ),
+    );
+
+    expect(manifest.form.ombNumber).toBe("0925-0001");
+    expect(period.$defs.PHSModularDirectCostAmount).toMatchObject({
+      type: "string",
+      enum: [
+        "0.00", "25000.00", "50000.00", "75000.00", "100000.00", "125000.00",
+        "150000.00", "175000.00", "200000.00", "225000.00", "250000.00",
+      ],
+    });
+    expect(period.$defs.PHSModularDirectCosts.properties.directCostLessConsortiumFandA)
+      .toMatchObject({ default: "0.00" });
+    expect(rules.periods.budgetPeriodEndDate.gg_validation).toEqual({
+      rule: "date_not_before",
+      fields: ["@THIS.budgetPeriodStartDate"],
+    });
+  });
+
   it("re-scopes a composed question's JSON Forms conditions with its fields", async () => {
     const ui = JSON.parse(
       await readFile(
@@ -432,8 +492,8 @@ describe("SGG UI emission", () => {
           ref: { scope: "root", pointer: "/applicantType/applicantTypeCode" },
           value: "R: Small Business",
         },
-        then: { enabled: true },
-        otherwise: { enabled: false },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
       },
     });
     expect(
@@ -450,8 +510,8 @@ describe("SGG UI emission", () => {
           },
           value: "USA: UNITED STATES",
         },
-        then: { readOnly: true },
-        otherwise: { readOnly: false },
+        then: { interaction: "readOnly" },
+        otherwise: { interaction: "enabled" },
       },
     });
   });
@@ -480,8 +540,8 @@ describe("SGG UI emission", () => {
           ref: { scope: "root", pointer: "/principalInvestigator/projectRole" },
           values: ["Other Professional", "Other (Specify)"],
         },
-        then: { enabled: true },
-        otherwise: { enabled: false },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
       },
     });
 

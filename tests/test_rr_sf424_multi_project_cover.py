@@ -76,11 +76,11 @@ class RRSF424MultiProjectCoverTests(unittest.TestCase):
         self.assertEqual(len(fields), 106)
         self.assertEqual(sum("conditional" in field for field in fields), 14)
         self.assertEqual(sum(
-            field.get("conditional", {}).get("then", {}).get("enabled") is True
+            field.get("conditional", {}).get("then", {}).get("interaction") == "enabled"
             for field in fields
         ), 10)
         self.assertEqual(sum(
-            field.get("conditional", {}).get("then", {}).get("readOnly") is True
+            field.get("conditional", {}).get("then", {}).get("interaction") == "readOnly"
             for field in fields
         ), 4)
         self.assertEqual(set(rules), {
