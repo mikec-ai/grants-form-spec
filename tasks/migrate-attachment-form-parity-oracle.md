@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:50:24.230Z'
+  at: '2026-08-23T23:20:13.936Z'
 assignee: attachment_form_agent
 ---
 # Goal
@@ -88,3 +88,7 @@ Consumer PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) banks 
 The first hosted promotion run [32670976757](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32670976757) failed closed because the consumer stored an LF-normalized copy of the Attachment XSD (`ac392f51bdeb17ffe734f3008e2c2ad67a71a46c9051829f39ee02ce136a4a20`) while the producer correctly pins official raw bytes `c6b7f40614a2077818f5f3b5df72959f867611b887c5b888005df8adeaa5e8e9`. PR #51 vendors the exact official bytes and preserves them as binary; the producer offline conformance fixture remains a separately declared reformatted lineage (`dc3ae0af03a52b3a062dc74745b2e355a6c6ce1cc1b53a6c955cd2f972f11466`). No provenance check was weakened.
 
 Generic artifact/XSD integrity, 25 focused tests, 225 non-DB form-spec and legacy Attachment XML tests, Ruff, and changed-loader mypy pass. `registrations.json` is unchanged. The form remains banked-only, unavailable to runtime projection or preview, and unregistered pending explicit consumer identity/projection plus the existing human and release gates.
+
+## Formatting baseline and rebased review head
+
+Public-fork formatting baseline [#52](https://github.com/mikec-ai/simpler-grants-gov/pull/52) isolated the pre-existing repository format debt from the promotion: formatting head `746b3350461b43211f5975943a8c7e12415fcca0`, merged to public-fork main as `caa617c1d1ee4aaebb016ed76c048f02cb5515ca`. Promotion PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) then rebased cleanly and is open, unmerged, at review head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`. Repository-wide isort, Black, and Ruff checks pass locally; 32 focused promotion/provenance/runtime tests pass. Hosted API and E2E runs are in progress.

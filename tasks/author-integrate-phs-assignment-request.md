@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:50:24.510Z'
+  at: '2026-08-23T23:20:14.209Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -87,3 +87,7 @@ The producer form landed in a focused PR without a runtime extension. Its source
 Consumer PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) banks PHS Assignment Request from immutable producer revision `2fde5118f440f31c7527fde784d573bb3ab3d912` without inventing workflow behavior, a runtime identity, compatibility projection, or registration. The 31-form selection contains 342 digest-verified artifacts and pins producer bundle SHA-256 `72aee82f3d5d04ff7862a978a5953e876489622c219d9482f2b712347e5a622e`. The exact official XSD is vendored at SHA-256 `7e697ee33ea6f72271c0d74fc48c61f4f81faa242a712a4c73e7898f6c4ab976`.
 
 Generic artifact/XSD integrity, 25 focused tests, 225 non-DB form-spec and legacy Attachment XML tests, Ruff, and changed-loader mypy pass. `registrations.json` is unchanged. The form remains banked-only, unavailable to runtime projection or preview, and unregistered pending explicit consumer identity/projection plus semantic, privacy, policy, instruction, accessibility, operational, and release review.
+
+## Formatting baseline and rebased review head
+
+Public-fork formatting baseline [#52](https://github.com/mikec-ai/simpler-grants-gov/pull/52) isolated the pre-existing repository format debt from the promotion: formatting head `746b3350461b43211f5975943a8c7e12415fcca0`, merged to public-fork main as `caa617c1d1ee4aaebb016ed76c048f02cb5515ca`. Promotion PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) then rebased cleanly and is open, unmerged, at review head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`. Repository-wide isort, Black, and Ruff checks pass locally; 32 focused promotion/provenance/runtime tests pass. Hosted API and E2E runs are in progress.
