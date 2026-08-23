@@ -11,7 +11,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:36:02.757Z'
+  at: '2026-08-23T15:50:19.147Z'
 ---
 # Goal
 
@@ -41,3 +41,5 @@ After this canary proves the bounded architecture and records its exceptions, re
 [depends on](unify-simpler-path-projection.md)
 
 [depends on](separate-sgg-runtime-identity-metadata.md)
+
+[depends on](fix-repeated-attachment-audit.md)
