@@ -2,24 +2,25 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Nineteen forms compile and load; finish the bounded leverage pass and prove
-  R&R Key Person Expanded vertically before authoring the twentieth form.
+  Nineteen forms compile and load; after the bounded leverage and Key Person
+  canary gate, deliver forms 20–29 through five SGG parity-oracle migrations and
+  five high-value portable foundations or derivatives.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
 ---
 # Strategy
 
-Use two complementary delivery lanes:
+Use two complementary delivery lanes after the current nineteen-form foundation:
 
-1. **Harvest existing capability.** Finish and consume the reusable architecture already implemented. These forms should provide fast, visible evidence that marginal delivery cost is falling.
-2. **Build the next foundations.** Choose forms that add reusable domain concepts or runtime capabilities needed by many later forms.
+1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
+2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
 
-Alternate one foundation-building form with one inexpensive derivative after the current priority forms are hardened. Similar wording, paths, or shapes remain proposed reuse until semantic review accepts them.
+The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remain authoritative. An existing SGG implementation is evidence of compatibility behavior, not proof of source completeness or semantic correctness. Similar wording, paths, or shapes remain proposed reuse until semantic review accepts them.
 
 # Expansion gate
 
-Before authoring a twentieth portable form:
+Before authoring the twentieth portable form:
 
 1. Complete the bounded architecture-leverage pass, including the SGG runtime-identity boundary.
 2. Take the already-authored R&R Senior/Key Person Profile (Expanded) through the full Simpler lifecycle as a vertical canary.
@@ -27,33 +28,76 @@ Before authoring a twentieth portable form:
 
 Human semantic or release review that remains explicitly blocked does not prevent architectural learning from continuing, but no form is registered for production until its applicable gates are accepted.
 
-# Current priority
+# Prioritization model
 
-1. **Architecture leverage:** finish the four bounded tasks and stop cleanup at their exit condition.
-2. **R&R Key Person Expanded:** prove the existing form through registration and lifecycle without inventing another architecture.
-3. **R&R Budget:** finish production hardening and lifecycle validation for the implemented form.
-4. **SF-424A Budget:** finish save, reload, submission, print, browser accessibility, and human acceptance for the implemented guidance and navigation improvements.
-5. **R&R SF-424:** finish its remaining human rendering, accessibility, and release gates.
+Rank the next cohort using these decision weights:
 
-# Harvest lane
+- 30% reuse leverage
+- 25% strength of an existing SGG parity oracle
+- 20% two-year form-instance volume
+- 15% maturity of source-pinned factory evidence
+- 10% architectural diversity, policy risk, and ability to falsify the reuse thesis
 
-These candidates primarily consume capabilities already built:
+The weights determine the cohort, not semantic equivalence. Submission counts are overlapping form instances rather than unique applications. Factory components and mappings remain agent-proposed until reviewed.
 
-1. R&R Budget 10YR
-2. R&R Subaward Budget 30
-3. R&R Subaward Budget 10YR/30
-4. R&R SF-424 Multi-Project Cover
-5. Project Abstract Summary
+# Forms 20–29
 
-The Performance Site promotion spike may reduce deterministic authoring work for these and later forms. Adopt it only if its reproducibility, provenance, failure behavior, and review boundaries satisfy its acceptance criteria.
+| Order | Form | Lane | SGG oracle | Primary learning target |
+| ---: | --- | --- | --- | --- |
+| 20 | SF-LLL | Oracle migration | Strong | Disclosure, certification, conditions, identity, and XML parity |
+| 21 | PHS Human Subjects and Clinical Trials | Foundation | None | Deep conditions, nested repetition, and dimensional enrollment |
+| 22 | Attachment Form | Oracle migration | Strong | Ordered repeated attachments and generic attachment XML |
+| 23 | PHS Inclusion Enrollment Report | Derivative | None | Reuse the Human Subjects enrollment model without duplication |
+| 24 | SF-424B | Oracle migration | Strong | Versioned assurance-policy bundles and signature acceptance |
+| 25 | PHS 398 Research Plan | Derivative | None | Compose thirteen typed attachment roles from the attachment foundation |
+| 26 | Grants.gov Lobbying Form | Oracle derivative | Moderate | Reuse identity and attestation while remaining distinct from SF-LLL |
+| 27 | PHS Assignment Request | Foundation/quick win | None | Bounded review-routing preferences without a workflow engine |
+| 28 | SF-424C | Oracle migration | Strong | Construction-budget composition, calculations, and XML parity |
+| 29 | PHS 398 Cover Page Supplement | Foundation | None | Versioned HHS research-policy profile and conditional behavior |
 
-# Foundation lane
+This order alternates compatibility proof with capability expansion. Work may proceed in parallel after the expansion gate except for the declared dependency pairs:
 
-After the R&R Key Person Expanded vertical canary, the next new foundation is:
+- PHS Inclusion Enrollment Report depends on PHS Human Subjects.
+- PHS 398 Research Plan depends on Attachment Form.
+- Grants.gov Lobbying Form depends on SF-LLL.
 
-1. **PHS Human Subjects and Clinical Trials:** establish deeply nested, conditional, repeating behavior needed across NIH forms.
+# Oracle protocol
 
-Treat each new capability it exposes as evidence for the smallest generic extension, not as permission to create a general DSL.
+For every oracle-backed migration:
+
+1. Pin the legacy SGG implementation revision before changing registration.
+2. Extract representative minimal, maximal, conditional, invalid, and XML fixtures from existing behavior and official sources.
+3. Run the legacy and portable implementations against the same fixtures.
+4. Classify every difference as a source correction, intentional presentation change, unresolved policy decision, or regression.
+5. Preserve approved exceptions explicitly; never add a form-specific adapter or compiler branch to force superficial parity.
+6. Cut registration over only after portable lifecycle, XML/XSD, accessibility, and applicable human gates pass.
+
+# Cohort success measures
+
+Record for every form:
+
+- source and evidence revisions and hashes;
+- factory records and behaviors reused versus re-reviewed;
+- reusable questions, blocks, rules, XML fragments, and target profiles added;
+- production compiler/adapter lines changed and form-specific branch count;
+- differential parity results when an SGG oracle exists;
+- schema, UI, validation, calculation, XML/XSD, save/reload, locked/print, and submission results;
+- accessibility findings and unresolved semantic, policy, instruction, or operational gates;
+- elapsed implementation effort and marginal effort compared with the prior form.
+
+The cohort validates the next-form economics when the final five forms require no form-specific adapter branches and no more than two genuinely reusable runtime extensions across the cohort. Failure to meet that condition triggers an architecture review before forms 30–39.
+
+# Follow-on candidates
+
+Keep these immediately behind the cohort rather than silently expanding scope:
+
+1. PHS Fellowship Supplemental
+2. SF-425 Federal Financial Report
+3. SBIR/STTR Information
+4. SF-424D as an inexpensive SF-424B assurance derivative
+5. EPA Key Contacts as an identity/contact oracle migration
+6. R&R Federal/Non-Federal Budget
+7. R&R Personal Data after privacy and policy review
 
 # Work governed by this roadmap item
 
@@ -106,3 +150,23 @@ Treat each new capability it exposes as evidence for the smallest generic extens
 [contains](../tasks/release-rr-key-person-expanded-canary.md)
 
 [contains](../tasks/fix-repeated-attachment-audit.md)
+
+[contains](../tasks/migrate-sflll-parity-oracle.md)
+
+[contains](../tasks/author-integrate-phs-human-subjects.md)
+
+[contains](../tasks/migrate-attachment-form-parity-oracle.md)
+
+[contains](../tasks/author-integrate-phs-inclusion-enrollment-report.md)
+
+[contains](../tasks/migrate-sf424b-parity-oracle.md)
+
+[contains](../tasks/author-integrate-phs398-research-plan.md)
+
+[contains](../tasks/migrate-gg-lobbying-parity-oracle.md)
+
+[contains](../tasks/author-integrate-phs-assignment-request.md)
+
+[contains](../tasks/migrate-sf424c-parity-oracle.md)
+
+[contains](../tasks/author-integrate-phs398-cover-page-supplement.md)
