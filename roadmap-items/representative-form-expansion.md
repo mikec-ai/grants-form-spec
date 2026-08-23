@@ -95,3 +95,5 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/harvest-rr-other-project-information.md)
 
 [contains](../tasks/harvest-phs398-modular-budget.md)
+
+[contains](../tasks/close-rr-sf424-release-gates.md)
