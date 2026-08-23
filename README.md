@@ -51,6 +51,10 @@ them.
 
 Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
+The [lifecycle field ownership decision](documentation/lifecycle-field-ownership.md) records why
+externally assigned values, attestations, and workflow controls do not automatically become
+semantic questions.
+
 ## Development
 
 Requirements:

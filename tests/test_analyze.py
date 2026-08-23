@@ -209,15 +209,15 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 102)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 426)
+        self.assertEqual(len(self.analysis["questionInventory"]), 107)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 436)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)
-        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 68)
+        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 50)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 426)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 436)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
@@ -248,7 +248,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["xsdNativeVersion"], "5.0")
         self.assertEqual(len(row["xsdSha256"]), 64)
         self.assertEqual(len(row["extractionRevision"]), 40)
-        self.assertEqual(row["mappingStatus"], "unreviewed")
+        self.assertEqual(row["mappingStatus"], "unmapped")
         self.assertEqual(row["responseRole"], "unclassified")
         self.assertTrue(row["countedInExploratorySimilarity"])
         self.assertFalse(row["countedInPublishedSimilarity"])
@@ -336,6 +336,186 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         )
         self.assertEqual(system["responseRole"], "systemValue")
         self.assertEqual(calculated["responseRole"], "calculatedOutput")
+
+    def test_lifecycle_attestation_and_control_roles_are_explicit(self) -> None:
+        expected = {
+            "rr-sf424-multi-project-cover": {
+                "/agencyRoutingNumber": "systemValue",
+                "/aorSignature": "attestation",
+                "/aorSignedDate": "attestation",
+                "/grantsTrackingNumber": "systemValue",
+                "/stateId": "systemValue",
+                "/stateReceivedDate": "systemValue",
+                "/submittedDate": "applicantInput",
+                "/trustAgree": "attestation",
+            },
+            "rr-sf424": {
+                "/agencyRoutingNumber": "systemValue",
+                "/stateId": "systemValue",
+                "/stateReceivedDate": "systemValue",
+                "/trustAgree": "attestation",
+            },
+            "sf424": {
+                "/certificationAgree": "attestation",
+                "/stateApplicationId": "systemValue",
+                "/stateReceiveDate": "systemValue",
+            },
+            "sf424-short": {
+                "/applicationCertification": "attestation",
+                "/sameAsProjectDirector": "technicalField",
+            },
+            "sf424a": {"/confirmation": "technicalField"},
+        }
+        resolved = set()
+        for form_id, roles_by_path in expected.items():
+            form = json.loads((ROOT / "dist" / "forms" / form_id / "index.json").read_text())
+            actual = {
+                occurrence["path"]: occurrence["responseRole"]
+                for occurrence in form["fieldOccurrences"]
+                if occurrence["path"] in roles_by_path
+            }
+            self.assertEqual(actual, roles_by_path)
+            resolved.update(f"{form_id}:{path}" for path in roles_by_path)
+
+        unresolved = {
+            f'{row["formId"]}:{row["fieldPath"]}'
+            for row in self.analysis["unclassifiedFormFields"]
+        }
+        self.assertTrue(resolved.isdisjoint(unresolved))
+        baseline = json.loads(
+            (ROOT / "analysis" / "unclassified-fields-baseline.v1.json").read_text()
+        )
+        self.assertTrue(resolved.issubset(set(baseline["resolved"])))
+
+    def test_system_owned_lifecycle_values_retain_canonical_identity(self) -> None:
+        expected = {
+            ("rr-sf424", "/agencyRoutingNumber"):
+                "application/federal-agency-routing-number",
+            ("rr-sf424-multi-project-cover", "/agencyRoutingNumber"):
+                "application/federal-agency-routing-number",
+            ("rr-sf424-multi-project-cover", "/grantsTrackingNumber"):
+                "application/previous-grants-gov-tracking-number",
+            ("rr-sf424", "/stateReceivedDate"): "application/state-received-date",
+            ("rr-sf424-multi-project-cover", "/stateReceivedDate"):
+                "application/state-received-date",
+            ("sf424", "/stateReceiveDate"): "application/state-received-date",
+            ("rr-sf424", "/stateId"): "application/state-application-identifier",
+            ("rr-sf424-multi-project-cover", "/stateId"):
+                "application/state-application-identifier",
+            ("sf424", "/stateApplicationId"):
+                "application/state-application-identifier",
+        }
+        rows = {
+            (row["formId"], row["occurrencePath"]): row
+            for row in self.analysis["formQuestionWorkbook"]
+        }
+        emitted_occurrences = {}
+        for form_id in {form_id for form_id, _ in expected}:
+            form = json.loads((ROOT / "dist/forms" / form_id / "index.json").read_text())
+            emitted_occurrences.update({
+                (form_id, occurrence["path"]): occurrence
+                for occurrence in form["fieldOccurrences"]
+            })
+        for key, question_id in expected.items():
+            with self.subTest(form=key[0], path=key[1]):
+                row = rows[key]
+                self.assertEqual(row["questionId"], question_id)
+                self.assertEqual(row["responseRole"], "systemValue")
+                self.assertEqual(emitted_occurrences[key]["blockIds"], [question_id])
+                self.assertEqual(
+                    emitted_occurrences[key]["responseRole"], "systemValue"
+                )
+                self.assertEqual(row["mappingStatus"], "proposed")
+                self.assertTrue(row["countedInExploratorySimilarity"])
+                self.assertFalse(row["countedInPublishedSimilarity"])
+                self.assertFalse(row["publishable"])
+                self.assertIsNotNone(row["sourceId"])
+                self.assertIsNotNone(row["sourcePath"])
+                self.assertIsNone(row["reviewedBy"])
+                self.assertIsNone(row["reviewedAt"])
+
+        for form_id, count in {
+            "rr-sf424": 3,
+            "rr-sf424-multi-project-cover": 4,
+            "sf424": 2,
+        }.items():
+            evidence = json.loads(
+                (ROOT / "dist" / "forms" / form_id / "evidence.json").read_text()
+            )
+            review = evidence["semanticReview"]
+            self.assertEqual(review["status"], "proposed")
+            self.assertEqual(len(review["mappings"]), count)
+            self.assertTrue(
+                all(mapping["status"] == "proposed" for mapping in review["mappings"])
+            )
+            self.assertTrue(
+                all("reviewedBy" not in mapping for mapping in review["mappings"])
+            )
+
+    def test_residual_reference_proposals_remain_exploratory(self) -> None:
+        expected = {
+            ("key-contacts", "/keyContacts/[]/projectRole"),
+            ("sf424-short", "/applicantWebAddress"),
+            ("sf424-short", "/projectDescription"),
+            ("sf424a", "/activityLineItems/[]/activityTitle"),
+            ("sf424a", "/activityLineItems/[]/assistanceListingNumber"),
+            ("sf424a", "/directChargesExplanation"),
+            ("sf424a", "/indirectChargesExplanation"),
+            ("sf424a", "/remarks"),
+        }
+        rows = {
+            (row["formId"], row["occurrencePath"]): row
+            for row in self.analysis["formQuestionWorkbook"]
+        }
+        for key in expected:
+            with self.subTest(form=key[0], path=key[1]):
+                row = rows[key]
+                self.assertEqual(row["mappingStatus"], "proposed")
+                self.assertFalse(row["publishable"])
+                self.assertTrue(row["countedInExploratorySimilarity"])
+                self.assertFalse(row["countedInPublishedSimilarity"])
+                self.assertIsNotNone(row["sourceId"])
+                self.assertIsNotNone(row["sourcePath"])
+                self.assertIsNone(row["reviewedBy"])
+                self.assertIsNone(row["reviewedAt"])
+
+    def test_sf424_short_copy_control_has_pinned_behavior_evidence(self) -> None:
+        evidence = json.loads(
+            (ROOT / "dist" / "forms" / "sf424-short" / "evidence.json").read_text()
+        )
+        dat = next(source for source in evidence["sources"] if source["type"] == "dat")
+        self.assertEqual(
+            dat["uri"],
+            "https://apply07.grants.gov/apply/forms/sample/"
+            "SF424_Short_3_0-V3.0_F711.xls",
+        )
+        self.assertEqual(
+            dat["sha256"],
+            "a905f905928a730b10d48d0b77cbb59397edb3ad3c99770391e1e160c3fb06df",
+        )
+        occurrence = next(
+            row
+            for row in json.loads(
+                (ROOT / "dist/forms/sf424-short/index.json").read_text()
+            )["fieldOccurrences"]
+            if row["path"] == "/sameAsProjectDirector"
+        )
+        self.assertEqual(occurrence["responseRole"], "technicalField")
+        decision = (ROOT / "documentation/lifecycle-field-ownership.md").read_text()
+        self.assertIn("source parity is explicitly unresolved", decision)
+
+    def test_applicant_entered_submission_date_remains_unreviewed(self) -> None:
+        row = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "rr-sf424-multi-project-cover"
+            and row["questionId"] == "application/submission-date-entered"
+        )
+        self.assertEqual(row["occurrencePath"], "/submittedDate")
+        self.assertEqual(row["responseRole"], "applicantInput")
+        self.assertEqual(row["mappingStatus"], "unmapped")
+        self.assertEqual(row["formSemanticReviewStatus"], "proposed")
+        self.assertFalse(row["publishable"])
 
 
 if __name__ == "__main__":

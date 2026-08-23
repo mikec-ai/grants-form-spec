@@ -185,12 +185,18 @@ def canonical_pointer(path: str) -> str:
     return pointer
 
 
-def accepted_mapping(evidence: dict, path: str) -> dict | None:
+def mapping_for_path(evidence: dict, path: str) -> dict | None:
+    """Return the strongest path-qualified mapping without promoting its review status."""
     pointer = canonical_pointer(path)
-    for mapping in evidence.get("semanticReview", {}).get("mappings", []):
-        if mapping.get("canonicalPointer") == pointer and mapping.get("status") == "accepted":
-            return mapping
-    return None
+    matches = [
+        mapping
+        for mapping in evidence.get("semanticReview", {}).get("mappings", [])
+        if mapping.get("canonicalPointer") == pointer
+    ]
+    return next(
+        (mapping for mapping in matches if mapping.get("status") == "accepted"),
+        matches[0] if matches else None,
+    )
 
 
 def primary_xsd(evidence: dict, profile: dict) -> dict:
@@ -481,7 +487,8 @@ def main(argv: list[str] | None = None) -> int:
         entry = entries[question_id]
         evidence = form_evidence[form_id]
         profile = form_profiles[form_id]
-        accepted = accepted_mapping(evidence, row["path"])
+        mapping = mapping_for_path(evidence, row["path"])
+        accepted = mapping if mapping and mapping.get("status") == "accepted" else None
         if accepted:
             reviewed_asked[form_id].add(question_id)
         review = evidence.get("semanticReview", {})
@@ -512,14 +519,14 @@ def main(argv: list[str] | None = None) -> int:
             "relationship": row["relationship"],
             **shape,
             "formSemanticReviewStatus": review.get("status", "unreviewed"),
-            "mappingStatus": accepted.get("status") if accepted else (
+            "mappingStatus": mapping.get("status") if mapping else (
                 "unreviewed" if review.get("status", "unreviewed") == "unreviewed" else "unmapped"
             ),
             "publishable": accepted is not None,
             "countedInExploratorySimilarity": True,
             "countedInPublishedSimilarity": accepted is not None,
-            "sourceId": accepted.get("sourceId") if accepted else None,
-            "sourcePath": accepted.get("sourcePath") if accepted else None,
+            "sourceId": mapping.get("sourceId") if mapping else None,
+            "sourcePath": mapping.get("sourcePath") if mapping else None,
             "reviewedBy": accepted.get("reviewedBy") if accepted else None,
             "reviewedAt": accepted.get("reviewedAt") if accepted else None,
             "xmlPath": xml_path(profile, row["path"]),

@@ -122,5 +122,6 @@ model SF424a {
   /** Is this form complete? */
   @UI.label("Confirmation")
   @UI.section(Sf424aSection.SectionF)
+  @Response.role(ResponseRole.technicalField)
   confirmation: true;
 }
