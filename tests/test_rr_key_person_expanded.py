@@ -55,6 +55,7 @@ class RRKeyPersonExpandedTests(unittest.TestCase):
     def test_form_compiles_repeated_people_and_typed_conditions_generically(self) -> None:
         root = ROOT / "dist/forms/rr-key-person-expanded"
         schema = load(root / "schema.json")
+        canonical_ui = load(root / "ui.json")
         ui = load(root / "sgg/ui-schema.json")
         rules = load(root / "sgg/rule-schema.json")
         all_ui = list(objects(ui))
@@ -78,21 +79,151 @@ class RRKeyPersonExpandedTests(unittest.TestCase):
             "PD/PI",
         )
         self.assertEqual(len(fields), 57)
-        self.assertEqual(len(conditions), 6)
+        self.assertEqual(len(conditions), 9)
         self.assertEqual(sum(c["when"]["op"] == "in" for c in conditions), 2)
         self.assertTrue(all(
             c["when"]["values"] == ["Other Professional", "Other (Specify)"]
             for c in conditions if c["when"]["op"] == "in"
         ))
+        self.assertTrue(all(
+            c["when"]["value"] == "USA: UNITED STATES"
+            for c in conditions if c["when"]["op"] == "equals"
+        ))
         repeated_conditions = [
             c for c in conditions
-            if c["when"]["ref"]["scope"] == "item"
+            if c["when"].get("ref", {}).get("scope") == "item"
         ]
         self.assertEqual(len(repeated_conditions), 3)
         self.assertEqual(
             {c["when"]["ref"]["pointer"] for c in repeated_conditions},
             {"/address/country", "/projectRole"},
         )
+
+        overflow_fields = (
+            "additionalProfiles",
+            "additionalBiographicalSketches",
+            "additionalCurrentPendingSupport",
+        )
+        overflow_definitions = {
+            f"/properties/{field_name}" for field_name in overflow_fields
+        }
+        existing_conditions = [
+            row for row in fields
+            if "conditional" in row and row["definition"] not in overflow_definitions
+        ]
+        self.assertEqual(len(existing_conditions), 6)
+        self.assertEqual(
+            {
+                (
+                    row["definition"],
+                    row["conditional"]["when"]["op"],
+                    row["conditional"]["when"]["ref"]["scope"],
+                    row["conditional"]["when"]["ref"]["pointer"],
+                    row["conditional"]["then"]["interaction"],
+                    row["conditional"]["otherwise"]["interaction"],
+                )
+                for row in existing_conditions
+            },
+            {
+                (
+                    "/properties/principalInvestigator/properties/address/properties/state",
+                    "equals", "root", "/principalInvestigator/address/country",
+                    "enabled", "disabled",
+                ),
+                (
+                    "/properties/principalInvestigator/properties/address/properties/province",
+                    "equals", "root", "/principalInvestigator/address/country",
+                    "readOnly", "enabled",
+                ),
+                (
+                    "/properties/principalInvestigator/properties/otherProjectRole",
+                    "in", "root", "/principalInvestigator/projectRole",
+                    "enabled", "disabled",
+                ),
+                (
+                    "/properties/seniorKeyPersons/items/properties/address/properties/state",
+                    "equals", "item", "/address/country", "enabled", "disabled",
+                ),
+                (
+                    "/properties/seniorKeyPersons/items/properties/address/properties/province",
+                    "equals", "item", "/address/country", "readOnly", "enabled",
+                ),
+                (
+                    "/properties/seniorKeyPersons/items/properties/otherProjectRole",
+                    "in", "item", "/projectRole", "enabled", "disabled",
+                ),
+            },
+        )
+
+        overflow_sgg = {
+            row["definition"].removeprefix("/properties/"): row["conditional"]
+            for row in fields if row["definition"] in overflow_definitions
+        }
+        self.assertEqual(set(overflow_sgg), set(overflow_fields))
+        for field_name in overflow_fields:
+            self.assertEqual(overflow_sgg[field_name], {
+                "when": {
+                    "op": "any",
+                    "predicates": [
+                        {
+                            "op": "countAtLeast",
+                            "ref": {
+                                "scope": "root",
+                                "pointer": "/seniorKeyPersons",
+                            },
+                            "minimum": 99,
+                        },
+                        {
+                            "op": "present",
+                            "ref": {
+                                "scope": "root",
+                                "pointer": f"/{field_name}",
+                            },
+                        },
+                    ],
+                },
+                "then": {"interaction": "enabled"},
+                "otherwise": {"interaction": "disabled"},
+            })
+
+        canonical_controls = {
+            row["scope"].removeprefix("#/properties/"): row
+            for row in canonical_ui["elements"]
+        }
+        for field_name in overflow_fields:
+            self.assertEqual(canonical_controls[field_name]["rule"], {
+                "effect": "ENABLE",
+                "condition": {
+                    "scope": "#",
+                    "schema": {
+                        "anyOf": [
+                            {
+                                "properties": {
+                                    "seniorKeyPersons": {
+                                        "type": "array",
+                                        "minItems": 99,
+                                    },
+                                },
+                                "required": ["seniorKeyPersons"],
+                            },
+                            {
+                                "properties": {
+                                    field_name: {
+                                        "not": {
+                                            "anyOf": [
+                                                {"type": "null"},
+                                                {"const": ""},
+                                                {"type": "array", "maxItems": 0},
+                                            ],
+                                        },
+                                    },
+                                },
+                                "required": [field_name],
+                            },
+                        ],
+                    },
+                },
+            })
 
         rule_objects = list(objects(rules))
         self.assertEqual(sum(row.get("gg_validation", {}).get("rule") == "attachment"

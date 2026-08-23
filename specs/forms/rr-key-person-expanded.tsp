@@ -103,15 +103,18 @@ model RRKeyPersonExpanded {
   @UI.label("Additional Senior / Key Person Profiles")
   @UI.section(RRKeyPersonExpandedSection.overflowAttachments)
   @UI.widget(WidgetName.Attachment)
+  @UI.enabledWhenCountOrPresent(RRKeyPersonExpanded.seniorKeyPersons, 99)
   additionalProfiles?: AdditionalResearchPersonProfiles;
 
   @UI.label("Additional Biographical Sketches")
   @UI.section(RRKeyPersonExpandedSection.overflowAttachments)
   @UI.widget(WidgetName.Attachment)
+  @UI.enabledWhenCountOrPresent(RRKeyPersonExpanded.seniorKeyPersons, 99)
   additionalBiographicalSketches?: AdditionalResearchPersonBiographicalSketches;
 
   @UI.label("Additional Current and Pending Support")
   @UI.section(RRKeyPersonExpandedSection.overflowAttachments)
   @UI.widget(WidgetName.Attachment)
+  @UI.enabledWhenCountOrPresent(RRKeyPersonExpanded.seniorKeyPersons, 99)
   additionalCurrentPendingSupport?: AdditionalResearchPersonSupport;
 }
