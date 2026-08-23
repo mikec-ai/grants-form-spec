@@ -73,13 +73,26 @@ class PerformanceSiteTests(unittest.TestCase):
                 "required": ["country"],
             },
             "then": {
-                "required": ["state", "zipCode"],
                 "properties": {"zipCode": {"minLength": 9}},
             },
         }, address["allOf"])
         self.assertEqual(len(fields), 25)
-        self.assertEqual(len(conditions), 4)
+        self.assertEqual(len(conditions), 5)
         self.assertEqual(sum(c["when"]["ref"]["scope"] == "item" for c in conditions), 2)
+        overflow = next(
+            row for row in fields
+            if row["definition"] == "/properties/additionalLocations"
+        )
+        self.assertEqual(overflow["conditional"]["when"], {
+            "op": "countAtLeast",
+            "ref": {"scope": "root", "pointer": "/additionalSites"},
+            "minimum": 299,
+        })
+        field_list = next(
+            row for row in all_ui
+            if row.get("type") == "fieldList" and row.get("name") == "additionalSites"
+        )
+        self.assertTrue(field_list["validateBeforeAdd"])
         self.assertEqual(sum(
             row.get("gg_validation", {}).get("rule") == "attachment"
             for row in objects(rules)

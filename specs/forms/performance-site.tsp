@@ -18,7 +18,6 @@ enum PerformanceSiteSection {
 model PerformanceSiteAddress extends QuestionAddress {
   @UI.label("State")
   @UI.enabledWhen(PerformanceSiteAddress.country, CountryCode.USA)
-  @Validation.requiredWhen(PerformanceSiteAddress.country, CountryCode.USA)
   state?: StateCode;
 
   @UI.label("Province")
@@ -30,7 +29,6 @@ model PerformanceSiteAddress extends QuestionAddress {
   @UI.label("Zip / Postal Code")
   @minLength(1)
   @maxLength(30)
-  @Validation.requiredWhen(PerformanceSiteAddress.country, CountryCode.USA)
   @Validation.constraintsWhen(
     PerformanceSiteAddress.country,
     CountryCode.USA,
@@ -72,11 +70,13 @@ model PerformanceSite {
 
   @UI.label("Additional Project / Performance Site")
   @UI.section(PerformanceSiteSection.additional)
+  @Sgg.fieldList(#{ validateBeforeAdd: true })
   @maxItems(299)
   additionalSites?: PerformanceSiteDetails[];
 
   @UI.label("Additional Locations")
   @UI.section(PerformanceSiteSection.overflow)
   @UI.widget(WidgetName.Attachment)
+  @UI.enabledWhenCount(PerformanceSite.additionalSites, 299)
   additionalLocations?: AdditionalProjectSites;
 }

@@ -21,6 +21,7 @@ export interface SggFieldList {
   definition: string;
   description?: string;
   hideFieldListHeading?: boolean;
+  validateBeforeAdd?: boolean;
   children: (SggField | SggFieldList)[];
 }
 export interface SggMultiField {
@@ -40,9 +41,10 @@ export interface SggSection {
 interface AbsoluteCondition {
   scope: "root" | "item";
   sourcePath: string[];
-  operator: "equals" | "in";
+  operator: "equals" | "in" | "countAtLeast";
   value?: string | number | boolean | null;
   values?: (string | number | boolean | null)[];
+  minimum?: number;
 }
 
 function predicate(condition: AbsoluteCondition): Record<string, unknown> {
@@ -50,9 +52,13 @@ function predicate(condition: AbsoluteCondition): Record<string, unknown> {
     scope: condition.scope,
     pointer: `/${condition.sourcePath.join("/")}`,
   };
-  return condition.operator === "in"
-    ? { op: "in", ref, values: condition.values ?? [] }
-    : { op: "equals", ref, value: condition.value };
+  if (condition.operator === "in") {
+    return { op: "in", ref, values: condition.values ?? [] };
+  }
+  if (condition.operator === "countAtLeast") {
+    return { op: "countAtLeast", ref, minimum: condition.minimum };
+  }
+  return { op: "equals", ref, value: condition.value };
 }
 
 /**
@@ -231,7 +237,9 @@ function absoluteConditions(
       operator: condition.operator,
       ...(condition.operator === "in"
         ? { values: condition.values }
-        : { value: condition.value }),
+        : condition.operator === "countAtLeast"
+          ? { minimum: condition.minimum }
+          : { value: condition.value }),
     };
   });
 }
@@ -300,6 +308,9 @@ function fieldListAt(
   if (description) list.description = description;
   if (propSggFieldList(program, prop).hideFieldListHeading === true) {
     list.hideFieldListHeading = true;
+  }
+  if (propSggFieldList(program, prop).validateBeforeAdd === true) {
+    list.validateBeforeAdd = true;
   }
   return list;
 }

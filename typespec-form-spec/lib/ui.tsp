@@ -31,4 +31,6 @@ extern dec visibleWhen(target: ModelProperty, source: ModelProperty, equals: val
 extern dec enabledWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);
 /** Enable the field when the source equals any one of the supplied values. */
 extern dec enabledWhenAny(target: ModelProperty, source: ModelProperty, ...equals: valueof unknown[]);
+/** Enable the field once a sibling list reaches the declared entry count. */
+extern dec enabledWhenCount(target: ModelProperty, source: ModelProperty, minimum: valueof int32);
 extern dec readOnlyWhen(target: ModelProperty, source: ModelProperty, equals: valueof unknown);

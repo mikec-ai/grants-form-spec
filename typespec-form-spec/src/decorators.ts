@@ -203,6 +203,19 @@ export const $enabledWhenAny = (
   });
 };
 
+export const $enabledWhenCount = (
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) =>
+  push(ctx, stateKeys.enabledWhen, target, {
+    operator: "countAtLeast",
+    sourcePath: [source.name],
+    sourceIsArray: true,
+    minimum: Number(literal(minimum)),
+  });
+
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));
 

@@ -340,7 +340,11 @@ function checkConditions(program: Program, prop: ModelProperty): void {
     const enumeration = enumOf(source.type);
     if (!enumeration) continue;
     const members = [...enumeration.members.values()].map((m) => m.value ?? m.name);
-    const values = condition.operator === "in" ? condition.values : [condition.value];
+    const values = condition.operator === "in"
+      ? condition.values
+      : condition.operator === "equals"
+        ? [condition.value]
+        : [];
     for (const value of values) {
       if (members.includes(value as string | number)) continue;
       reportDiagnostic(program, {

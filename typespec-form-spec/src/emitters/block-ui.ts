@@ -1,8 +1,15 @@
 import type { Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
-  Block, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
+  Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propVisibleWhen, propWidget,
 } from "../model.js";
+
+const conditionSchema = (condition: Condition): Record<string, unknown> =>
+  condition.operator === "in"
+    ? { enum: condition.values }
+    : condition.operator === "countAtLeast"
+      ? { type: "array", minItems: condition.minimum }
+      : { const: condition.value };
 
 export interface UiNode {
   type: string;
@@ -69,7 +76,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
         effect: "SHOW",
         condition: {
           scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-          schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
+          schema: conditionSchema(c),
         },
       };
     } else {
@@ -80,7 +87,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
           effect: "ENABLE",
           condition: {
             scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-            schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
+            schema: conditionSchema(c),
           },
         };
       } else {
@@ -91,7 +98,7 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
             effect: "DISABLE",
             condition: {
               scope: `#/${c.sourcePath.map((step) => `properties/${step}`).join("/")}`,
-              schema: c.operator === "in" ? { enum: c.values } : { const: c.value },
+              schema: conditionSchema(c),
             },
           };
         }

@@ -26,7 +26,6 @@ describe("SGG UI emission", () => {
         required: ["country"],
       },
       then: {
-        required: ["state", "zipCode"],
         properties: { zipCode: { minLength: 9 } },
       },
     });
@@ -37,6 +36,32 @@ describe("SGG UI emission", () => {
       ),
     );
     expect(address.$defs.CountryCode.enum).toContain("CIV: CÔTE D’IVOIRE");
+    const ui = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/performance-site/sgg/ui-schema.json"),
+        "utf8",
+      ),
+    );
+    const nodes = (value: unknown): Record<string, any>[] => {
+      if (Array.isArray(value)) return value.flatMap(nodes);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, any>;
+      return [object, ...Object.values(object).flatMap(nodes)];
+    };
+    expect(nodes(ui).find((node) => node.name === "additionalSites"))
+      .toMatchObject({ validateBeforeAdd: true });
+    expect(nodes(ui).find((node) => node.definition === "/properties/additionalLocations"))
+      .toMatchObject({
+        conditional: {
+          when: {
+            op: "countAtLeast",
+            ref: { scope: "root", pointer: "/additionalSites" },
+            minimum: 299,
+          },
+          then: { interaction: "enabled" },
+          otherwise: { interaction: "disabled" },
+        },
+      });
   });
 
   it("emits portable modular choices and sibling date ordering", async () => {
