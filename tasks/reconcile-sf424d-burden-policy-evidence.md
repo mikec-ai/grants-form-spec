@@ -4,12 +4,12 @@ title: Reconcile SF-424D burden-statement policy evidence
 description: >-
   Preserve the active burden-statement interaction and make three-profile policy
   equivalence reproducible before consumer or release work.
-superbee_updated_by: codex
+superbee_updated_by: sf424d_policy_followup
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:49:49.748Z'
+  at: '2026-08-23T20:50:11.313Z'
 priority: P1
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 assignee: sf424d_policy_followup
 ---
 # Goal
