@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: assignment_request_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:11:17.826Z'
+  at: '2026-08-23T22:11:46.424Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -35,7 +35,7 @@ Author PHS Assignment Request as a small, high-volume, bounded review-routing pr
 
 Draft producer PR: https://github.com/mikec-ai/grants-form-spec/pull/58
 
-Commit: `80891939e4c73201c8183e7661367643ab7b6f1b`
+Commit: `80891939ec7e6f0fbbd0a0e4284dedcd8a12035d`
 
 The PR authors FID 833, version 4.0 as thirteen optional fixed source occurrences composed from five source-local declarative question blocks. It adds no runtime, compiler, adapter, renderer, workflow, lookup, or form-specific conformance branch.
 
