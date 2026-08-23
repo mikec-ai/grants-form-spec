@@ -356,6 +356,30 @@ export const $requiredPathWhen = (
   value: literal(equals),
 });
 
+/** Record a portable JSON Schema any-of-required constraint on sibling properties. */
+export const $atLeastOneOf = (
+  ctx: Ctx,
+  target: Model,
+  ...properties: ModelProperty[]
+) => {
+  const names = [...new Set(properties.map((property) => property.name))];
+  if (
+    names.length < 2 ||
+    properties.some((property) => property.model !== target)
+  ) {
+    reportDiagnostic(ctx.program, {
+      code: "at-least-one-invalid",
+      target,
+      format: {
+        model: target.name || "an anonymous model",
+        properties: names.join(", ") || "none",
+      },
+    });
+    return;
+  }
+  push(ctx, stateKeys.atLeastOneOf, target, names);
+};
+
 export const $computed = (
   ctx: Ctx,
   target: ModelProperty,

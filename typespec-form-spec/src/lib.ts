@@ -66,6 +66,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Cardinality annotations on model ${"model"} would not be emitted. Put them on a semantic block or on the property where that block is composed.`,
       },
     },
+    "at-least-one-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@Validation.atLeastOneOf on ${"model"} must name at least two distinct properties owned by that model; received ${"properties"}.`,
+      },
+    },
     "encoded-checkbox-contract-invalid": {
       severity: "error",
       messages: {
@@ -140,6 +146,7 @@ export const $lib = createTypeSpecLibrary({
     validationConstraintsWhen: {},
     requiredPaths: {},
     requiredPathWhen: {},
+    atLeastOneOf: {},
     computed: {},
     computedFrom: {},
     evaluationOrder: {},

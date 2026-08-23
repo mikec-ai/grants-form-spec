@@ -34,6 +34,7 @@ export const $decorators = {
     constraintsWhen: d.$validationConstraintsWhen,
     requiredPaths: d.$requiredPaths,
     requiredPathWhen: d.$requiredPathWhen,
+    atLeastOneOf: d.$atLeastOneOf,
     requiredWhen: d.$requiredWhen,
     requiredWhenPath: d.$requiredWhenPath,
     notBefore: d.$notBefore,
