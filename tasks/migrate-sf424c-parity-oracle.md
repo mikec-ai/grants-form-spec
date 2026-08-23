@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:55:14.654Z'
+  at: '2026-08-23T20:56:51.607Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -37,6 +37,7 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
 - Rebasing completed after PR #47 merged; frozen head: `7d893d0dfe0cd56a94d7174a79cb0fe43fe1a886` on `codex/sf424c-portable-parity`.
 - Producer preflight after rebase: passed; 102 TypeScript tests and 133 Python tests passed, with one environment-dependent skip.
+- GitHub CI passed on the rebased head in 1m37s; GitHub reports the PR mergeable.
 - Source provenance pinned: official XSD, DAT, read-only PDF, instructions PDF, deterministic extraction revision/source set, and public SGG oracle revision/file digest.
 - Portable result: 18 semantic questions, a reused three-column construction-cost structure, 24 declarative calculations, SGG UI projection, and Grants.gov XML projection. No form-specific compiler or adapter branch was added.
 - XML evidence: a full response and a flattened federal-funding-only response validate against the pinned official XSD fixture.
