@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Compose thirteen source-bound research attachment roles from the portable
   Attachment Form foundation.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:42.394Z'
+  at: '2026-08-23T22:31:35.604Z'
+assignee: research_plan_agent
 ---
 # Goal
 
@@ -35,4 +36,4 @@ Author PHS 398 Research Plan as a declarative composition of typed attachment ro
 
 The Attachment Form runtime mechanism is reusable; each Research Plan attachment role remains independently reviewable policy content.
 
-[depends on](migrate-attachment-form-parity-oracle.md)
+[builds on producer output from](migrate-attachment-form-parity-oracle.md)

@@ -2,16 +2,16 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty producer forms are delivered; the authoring gates are complete, so
-  Attachment and Assignment Request can resume while supervised consumer
-  promotion proceeds in parallel.
+  Thirty-two producer forms are delivered; Research Plan can now consume the
+  Attachment Form foundation while supervised consumer promotion proceeds in
+  parallel.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
 ---
 # Strategy
 
-Use two complementary delivery lanes across the current 30-form baseline and the next expansion sequence:
+Use two complementary delivery lanes across the current 32-form producer baseline and the next expansion sequence:
 
 1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
 2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
@@ -20,9 +20,9 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 # Delivered baseline
 
-The producer now contains 30 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
+The producer now contains 32 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 28 forms at producer revision `e0b0fb24`; `rr-sf424b` and `sf424c` remain producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks 28 forms at producer revision `e0b0fb24`; `rr-sf424b`, `sf424c`, `phs-assignment-request`, and `attachment-form` remain producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
