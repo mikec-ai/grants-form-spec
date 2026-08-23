@@ -2,11 +2,12 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Nineteen forms compile and load; after the bounded leverage and Key Person
-  canary gate, deliver forms 20–29 through five SGG parity-oracle migrations and
-  five high-value portable foundations or derivatives.
+  Thirty portable forms are delivered; complete three bounded delivery-cost
+  tasks, then resume Attachment, Assignment Request, Research Plan, and PHS
+  foundation work.
 sequence: '3'
 superbee_progress_status: active
+superbee_updated_by: codex
 ---
 # Strategy
 
@@ -17,15 +18,20 @@ Use two complementary delivery lanes after the current nineteen-form foundation:
 
 The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remain authoritative. An existing SGG implementation is evidence of compatibility behavior, not proof of source completeness or semantic correctness. Similar wording, paths, or shapes remain proposed reuse until semantic review accepts them.
 
-# Expansion gate
+# Delivered baseline
 
-Before authoring the twentieth portable form:
+The producer now contains 30 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-1. Complete the bounded architecture-leverage pass, including the SGG runtime-identity boundary.
-2. Take the already-authored R&R Senior/Key Person Profile (Expanded) through the full Simpler lifecycle as a vertical canary.
-3. Record marginal authoring cost, new reusable concepts, form-specific branch count, parity, XML/XSD, lifecycle, accessibility, and unresolved human gates.
+Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
-Human semantic or release review that remains explicitly blocked does not prevent architectural learning from continuing, but no form is registered for production until its applicable gates are accepted.
+# Immediate leverage gate before forms 31+
+
+Complete two bounded, independent test/validation improvements:
+
+1. A generic producer XML/XSD conformance harness.
+2. Exact rule-target-to-behavior-evidence coverage enforcement.
+
+These changes do not reopen the compiler, adapter, authoring language, or runtime architecture.
 
 # Prioritization model
 
@@ -39,26 +45,16 @@ Rank the next cohort using these decision weights:
 
 The weights determine the cohort, not semantic equivalence. Submission counts are overlapping form instances rather than unique applications. Factory components and mappings remain agent-proposed until reviewed.
 
-# Forms 20–29
+# Next delivery sequence
 
-| Order | Form | Lane | SGG oracle | Primary learning target |
-| ---: | --- | --- | --- | --- |
-| 20 | SF-LLL | Oracle migration | Strong | Disclosure, certification, conditions, identity, and XML parity |
-| 21 | PHS Human Subjects and Clinical Trials | Foundation | None | Deep conditions, nested repetition, and dimensional enrollment |
-| 22 | Attachment Form | Oracle migration | Strong | Ordered repeated attachments and generic attachment XML |
-| 23 | PHS Inclusion Enrollment Report | Derivative | None | Reuse the Human Subjects enrollment model without duplication |
-| 24 | SF-424B | Oracle migration | Strong | Versioned assurance-policy bundles and signature acceptance |
-| 25 | PHS 398 Research Plan | Derivative | None | Compose thirteen typed attachment roles from the attachment foundation |
-| 26 | Grants.gov Lobbying Form | Oracle derivative | Moderate | Reuse identity and attestation while remaining distinct from SF-LLL |
-| 27 | PHS Assignment Request | Foundation/quick win | None | Bounded review-routing preferences without a workflow engine |
-| 28 | SF-424C | Oracle migration | Strong | Construction-budget composition, calculations, and XML parity |
-| 29 | PHS 398 Cover Page Supplement | Foundation | None | Versioned HHS research-policy profile and conditional behavior |
+1. **Attachment Form** establishes ordered reusable attachment composition and generic attachment XML.
+2. **PHS Assignment Request** proceeds in parallel as a bounded high-volume form expected to require no runtime extension.
+3. **PHS 398 Research Plan** immediately consumes the Attachment Form foundation through thirteen typed attachment roles.
+4. **PHS Human Subjects and Clinical Trials** establishes the dimensional enrollment and deeply nested conditional foundation.
+5. **PHS Inclusion Enrollment Report** proves reuse of the Human Subjects dimensional model.
+6. **PHS 398 Cover Page Supplement** composes existing application, identity, budget, attachment, and versioned-policy foundations.
 
-This order alternates compatibility proof with capability expansion. Work may proceed in parallel after the expansion gate except for the declared dependency pairs:
-
-- PHS Inclusion Enrollment Report depends on PHS Human Subjects.
-- PHS 398 Research Plan depends on Attachment Form.
-- Grants.gov Lobbying Form depends on SF-LLL.
+Do not pre-build a general workflow engine, policy DSL, new intermediate representation, or generalized PHS framework. A concrete form must demonstrate any additional generic capability.
 
 # Oracle protocol
 
@@ -86,9 +82,9 @@ Record for every form:
 
 The cohort validates the next-form economics when the final five forms require no form-specific adapter branches and no more than two genuinely reusable runtime extensions across the cohort. Failure to meet that condition triggers an architecture review before forms 30–39.
 
-# Follow-on candidates
+# Later candidates
 
-Keep these immediately behind the cohort rather than silently expanding scope:
+Keep these behind the committed next sequence rather than silently expanding scope:
 
 1. PHS Fellowship Supplemental
 2. SF-425 Federal Financial Report
@@ -193,5 +189,9 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/migrate-sf424d-assurance-family.md)
 
 [contains](../tasks/migrate-cd511-parity-oracle.md)
+
+[contains](../tasks/build-generic-xml-xsd-conformance-harness.md)
+
+[contains](../tasks/enforce-rule-evidence-target-coverage.md)
 
 [contains](../tasks/automate-cross-repo-form-promotion.md)
