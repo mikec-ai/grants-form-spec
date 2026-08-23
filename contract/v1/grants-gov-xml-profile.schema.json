@@ -232,6 +232,25 @@
           }
         },
         {
+          "if": { "properties": { "flatten": { "const": true } }, "required": ["flatten"] },
+          "then": {
+            "properties": { "kind": { "enum": ["group", "attachment"] } },
+            "required": ["kind"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "attachment" },
+              "flatten": { "const": true }
+            },
+            "required": ["kind", "flatten"]
+          },
+          "then": {
+            "not": { "properties": { "container": true }, "required": ["container"] }
+          }
+        },
+        {
           "if": { "properties": { "kind": { "const": "array" } }, "required": ["kind"] },
           "then": {
             "properties": { "element": true, "items": true },

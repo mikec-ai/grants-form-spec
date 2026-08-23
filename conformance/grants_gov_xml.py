@@ -143,7 +143,7 @@ def _add_attachment(
         leaf_parent = ET.SubElement(
             parent, _qname(profile, container["namespace"], container["element"])
         )
-    leaf = ET.SubElement(
+    leaf = leaf_parent if node.get("flatten") else ET.SubElement(
         leaf_parent,
         _qname(profile, node.get("namespace"), node["element"]),
         _attributes(profile, node, root_response),

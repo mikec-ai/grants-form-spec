@@ -1,0 +1,179 @@
+{
+  "contract": "normalized-instruction-evidence/v1",
+  "title": "NIH Forms I G.400 - PHS 398 Research Plan Form",
+  "source": {
+    "uri": "https://grants.nih.gov/grants/how-to-apply-application-guide/forms-i/general/g.400-phs-398-research-plan-form.htm",
+    "retrievedDate": "2026-08-23",
+    "sha256": "42b0527032e54414283b5a00ee9322cb6d6776c3cf1c56c2dc912dbbf242f215",
+    "applicationGuide": "SF424 (R&R) - Forms Version I",
+    "released": "November 2024",
+    "lastRevised": "December 2025",
+    "pdf": {
+      "uri": "https://grants.nih.gov/grants/how-to-apply-application-guide/forms-i/general-forms-i.pdf",
+      "sha256": "97b323be4e8ca90a0a5f69fe46b7762e45188088dc220efd846e008df3c13588"
+    }
+  },
+  "transformation": {
+    "method": "manual deterministic selection of instruction statements into ordered JSON records",
+    "normalization": [
+      "HTML navigation and presentation markup omitted",
+      "whitespace normalized",
+      "instruction meaning, applicability, and numeric limits preserved",
+      "no OCR used",
+      "no cross-form semantic equivalence inferred"
+    ]
+  },
+  "records": [
+    {
+      "ordinal": 1,
+      "role": "introduction",
+      "label": "Introduction to Application (for Resubmission and Revision applications)",
+      "format": "PDF",
+      "applicability": "Required for resubmission and revision applications or when the NOFO requires it; not allowed for new or renewal applications. Multi-project component rules vary."
+    },
+    {
+      "ordinal": 2,
+      "role": "specificAims",
+      "label": "Specific Aims",
+      "format": "PDF",
+      "applicability": "Required unless the NOFO specifies otherwise."
+    },
+    {
+      "ordinal": 3,
+      "role": "researchStrategy",
+      "label": "Research Strategy",
+      "format": "PDF",
+      "applicability": "Required."
+    },
+    {
+      "ordinal": 4,
+      "role": "progressReportPublicationList",
+      "label": "Progress Report Publication List",
+      "format": "PDF",
+      "applicability": "Required only for renewal applications."
+    },
+    {
+      "ordinal": 5,
+      "role": "vertebrateAnimals",
+      "label": "Vertebrate Animals",
+      "format": "PDF",
+      "applicability": "Required when the R&R Other Project Information response says vertebrate animals are used; multi-project overall-component rules vary."
+    },
+    {
+      "ordinal": 6,
+      "role": "selectAgentResearch",
+      "label": "Select Agent Research",
+      "format": "PDF",
+      "applicability": "Include when proposed activities use select agents during the project period."
+    },
+    {
+      "ordinal": 7,
+      "role": "multiplePdPiLeadershipPlan",
+      "label": "Multiple PD/PI Leadership Plan",
+      "format": "PDF",
+      "applicability": "Required when the application designates multiple PD/PIs and prohibited otherwise."
+    },
+    {
+      "ordinal": 8,
+      "role": "consortiumContractualArrangements",
+      "label": "Consortium/Contractual Arrangements",
+      "format": "PDF",
+      "applicability": "Include when the budget contains consortium or contractual arrangements."
+    },
+    {
+      "ordinal": 9,
+      "role": "lettersOfSupport",
+      "label": "Letters of Support",
+      "format": "single PDF",
+      "applicability": "Combine applicable letters into one role-specific document; do not place them in the Appendix."
+    },
+    {
+      "ordinal": 10,
+      "role": "resourceSharingPlans",
+      "label": "Resource Sharing Plan(s)",
+      "format": "PDF",
+      "applicability": "Include applicable model-organism and research-tool sharing plans."
+    },
+    {
+      "ordinal": 11,
+      "role": "otherPlans",
+      "label": "Other Plan(s)",
+      "format": "PDF",
+      "applicability": "Include a Data Management and Sharing Plan when the activity code, proposed scientific data, and NOFO make the policy applicable."
+    },
+    {
+      "ordinal": 12,
+      "role": "keyResourceAuthentication",
+      "label": "Authentication of Key Biological and/or Chemical Resources",
+      "format": "PDF",
+      "applicability": "Include when key biological or chemical resources are applicable to the proposed science."
+    },
+    {
+      "ordinal": 13,
+      "role": "appendix",
+      "label": "Appendix",
+      "format": "up to 10 PDF files",
+      "applicability": "Optional; include only policy-allowed appendix materials and follow any conflicting NOFO instructions."
+    }
+  ],
+  "applicationLevelConditions": [
+    {
+      "id": "research-plan-introduction-by-application-type",
+      "targetPath": "introduction",
+      "sourceBlockId": "research-application/application-type",
+      "sourcePath": "applicationTypeCode",
+      "operator": "in",
+      "values": ["Resubmission", "Revision"],
+      "effects": ["enabled", "required"],
+      "authority": "official_source",
+      "status": "source-bound-unresolved-cross-form",
+      "sourceRecords": ["DAT F797 field 1-1", "NIH Forms I G.400 section 1"]
+    },
+    {
+      "id": "research-plan-progress-publications-by-application-type",
+      "targetPath": "progressReportPublicationList",
+      "sourceBlockId": "research-application/application-type",
+      "sourcePath": "applicationTypeCode",
+      "operator": "equals",
+      "value": "Renewal",
+      "effects": ["required"],
+      "authority": "official_source",
+      "status": "source-bound-unresolved-cross-form",
+      "sourceRecords": ["NIH Forms I G.400 section 4"]
+    },
+    {
+      "id": "research-plan-vertebrate-document-by-animal-use",
+      "targetPath": "vertebrateAnimals",
+      "sourceBlockId": "research-project/vertebrate-animals",
+      "sourcePath": "involvesVertebrateAnimals",
+      "operator": "equals",
+      "value": "Y: Yes",
+      "effects": ["required"],
+      "authority": "official_source",
+      "status": "source-bound-unresolved-cross-form",
+      "sourceRecords": ["NIH Forms I G.400 section 5"]
+    }
+  ],
+  "knownSourceConflicts": [
+    {
+      "id": "appendix-cardinality",
+      "status": "preserved",
+      "xsd": "AttachmentGroupMin0Max100DataType permits zero through 100 AttachedFile records.",
+      "applicantInstructions": "The DAT and NIH Forms I guide permit up to 10 PDF files.",
+      "disposition": "The applicant JSON Schema enforces 10; the XML profile remains valid within the XSD's 100-record technical envelope."
+    },
+    {
+      "id": "specific-aims-requiredness",
+      "status": "unresolved",
+      "xsdAndDat": "The SpecificAims wrapper is optional.",
+      "applicantInstructions": "Specific Aims is required unless the NOFO specifies otherwise.",
+      "disposition": "The standalone form keeps the field optional until NOFO-aware application policy can express the exception without over-restricting submissions."
+    },
+    {
+      "id": "xsd-prefix-version",
+      "status": "resolved-by-schema-semantics",
+      "detail": "The source XSD declares its PHS398_ResearchPlan_5_0 prefix with a V4.0 URI while targetNamespace is V5.0.",
+      "disposition": "The XML profile uses the authoritative V5.0 targetNamespace and does not copy the erroneous alias URI."
+    }
+  ]
+}

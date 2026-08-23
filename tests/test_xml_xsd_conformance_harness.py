@@ -29,6 +29,15 @@ def profile_with(fields: dict) -> dict:
     }
 
 
+def attachment() -> dict:
+    return {
+        "fileName": "appendix.pdf",
+        "mimeType": "application/pdf",
+        "fileLocation": "files/appendix.pdf",
+        "hashValue": "a" * 64,
+    }
+
+
 def value_field() -> dict:
     return {"element": "Value", "kind": "value", "namespace": "default"}
 
@@ -122,6 +131,61 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
 
         self.assertEqual([child.tag for child in root], ["{urn:fixture}Entry"] * 2)
         self.assertEqual([child[0].text for child in root], ["true", "false"])
+
+    def test_collection_array_can_flatten_attachment_payload_into_each_item(self) -> None:
+        profile = profile_with(
+            {
+                "appendix": {
+                    "element": "Appendix",
+                    "kind": "array",
+                    "namespace": "default",
+                    "itemElement": "AttachedFile",
+                    "itemNamespace": "item",
+                    "items": {
+                        "node": {
+                            "element": "AttachedFile",
+                            "kind": "attachment",
+                            "namespace": "item",
+                            "flatten": True,
+                        }
+                    },
+                }
+            }
+        )
+        profile["attachment"] = {
+            "fields": {
+                name: {"element": element, "namespace": "item"}
+                for name, element in (
+                    ("fileName", "FileName"),
+                    ("mimeType", "MimeType"),
+                    ("fileLocation", "FileLocation"),
+                    ("hashValue", "HashValue"),
+                )
+            }
+        }
+
+        root = ET.fromstring(
+            render_profile_xml(
+                profile,
+                {"appendix": ["one", "two"]},
+                {"one": attachment(), "two": attachment()},
+            )
+        )
+
+        self.assertEqual([child.tag for child in root], ["{urn:fixture}Appendix"])
+        self.assertEqual(
+            [child.tag for child in root[0]],
+            ["{urn:item}AttachedFile", "{urn:item}AttachedFile"],
+        )
+        self.assertEqual(
+            [child.tag for child in root[0][0]],
+            [
+                "{urn:item}FileName",
+                "{urn:item}MimeType",
+                "{urn:item}FileLocation",
+                "{urn:item}HashValue",
+            ],
+        )
 
     def test_digest_mismatch_fails_before_xsd_execution(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
