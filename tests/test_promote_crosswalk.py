@@ -7,7 +7,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.promote_crosswalk import export_packet, import_packet
+from scripts.promote_crosswalk import (
+    PromotionError,
+    export_packet,
+    import_packet,
+    native_source_version,
+)
 
 
 class PromotionImporterTests(unittest.TestCase):
@@ -27,13 +32,14 @@ class PromotionImporterTests(unittest.TestCase):
         subprocess.run(["git", "-C", str(repo), "config", "user.name", "Test"], check=True)
 
         xsd_provenance = f"sha256:{'a' * 64} https://example.gov/forms/Example_1_0-V1.0.xsd"
+        shared_xsd_provenance = f"sha256:{'c' * 64} https://example.gov/system/Shared-V2.0.xsd"
         dat_provenance = f"sha256:{'b' * 64} https://example.gov/forms/Example_1_0-V1.0_F1.xls"
         records = [
             {
                 "form_id": "Example", "form_version": "1.0", "path": "Example_1_0",
                 "question_key": "question:root", "record_kind": "container", "data_type": "FieldSet",
                 "prompt": "Example", "required": True, "min_occurs": 1, "max_occurs": 1,
-                "constraints": {}, "provenance": [xsd_provenance],
+                "constraints": {}, "provenance": [xsd_provenance, shared_xsd_provenance],
             },
             {
                 "form_id": "Example", "form_version": "1.0", "path": "Example_1_0.Name",
@@ -104,6 +110,19 @@ class PromotionImporterTests(unittest.TestCase):
         self.assertEqual(first["semanticProposals"][0]["status"], "proposed")
         self.assertFalse(first["semanticProposals"][0]["publishable"])
         self.assertTrue(any(gate["kind"] == "semantic_identity" for gate in first["reviewGates"]))
+        sources = {source["uri"]: source for source in first["sources"]}
+        self.assertEqual(
+            sources["https://example.gov/system/Shared-V2.0.xsd"]["version"],
+            "2.0",
+        )
+        self.assertEqual(
+            sources["https://example.gov/system/Shared-V2.0.xsd"]["formVersion"],
+            "1.0",
+        )
+
+    def test_native_xsd_version_must_be_declared_by_the_source_uri(self) -> None:
+        with self.assertRaisesRegex(PromotionError, "does not declare a native version"):
+            native_source_version("https://example.gov/system/Shared.xsd", "5.0")
 
     def test_import_writes_staging_not_canonical_authoring(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -116,6 +135,15 @@ class PromotionImporterTests(unittest.TestCase):
             draft = (output / "draft.tsp").read_text(encoding="utf-8")
 
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        sources = {source["uri"]: source for source in evidence["sources"]}
+        self.assertEqual(
+            sources["https://example.gov/system/Shared-V2.0.xsd"]["version"],
+            "2.0",
+        )
+        self.assertEqual(
+            sources["https://example.gov/system/Shared-V2.0.xsd"]["formVersion"],
+            "1.0",
+        )
         self.assertEqual(report["generated"]["sourceRecordsTranscribed"], 2)
         self.assertEqual(report["generated"]["semanticMappingsAccepted"], 0)
         self.assertIn("namespace PromotionDraft.Example", draft)
