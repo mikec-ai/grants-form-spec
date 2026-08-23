@@ -1,25 +1,33 @@
 ---
 type: Task
-title: Correct prior Grants.gov tracking response role
+title: Correct lifecycle response ownership
 priority: P0
 assignee: correct_tracking_role
 description: >-
-  Correct the R&R tracking-number occurrences using pinned source instructions
-  and the portable ResponseRole contract; preserve proposal-only semantic
-  mapping and unchanged XML/runtime behavior.
+  Audit PR43 lifecycle occurrences against pinned population instructions;
+  classify R&R applicant-entered values separately from classic SF-424
+  system-populated values while preserving external authority and proposal-only
+  semantic mappings.
 superbee_progress_status: in_progress
 superbee_updated_by: correct_tracking_role
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:03:30.822Z'
+  at: '2026-08-23T19:16:01.677Z'
 ---
 # Scope
 
-Verify the standalone R&R SF-424 and Multi-Project Cover tracking fields against pinned sources. Model the response occurrence according to who supplies it into the application while keeping its source authority and canonical semantic identity explicit.
+Audit the standalone R&R SF-424, Multi-Project Cover, and classic SF-424 lifecycle fields against pinned sources. `ResponseRole` identifies the actor populating the response; the organization that originally assigned a value remains in descriptions and provenance.
 
-# Acceptance
+# Evidence-backed disposition
 
-- Both affected R&R occurrences have the evidence-backed response role.
-- Standalone and Multi-Project share the canonical prior-tracking identity only as an unpublished proposal.
-- SF-424 federal award identity remains separate.
-- Ratchet, analysis, XML, UI, and validation tests remain honest.
+- R&R State-received date, State application identifier, agency routing identifier, and prior Grants.gov tracking number: `applicantInput` in both covers (8 occurrences).
+- Classic SF-424 State-received date and State application identifier: read-only `systemValue` (2 occurrences).
+- Multi-Project submitted date: `applicantInput` (unchanged).
+- Attestations and technical controls: unchanged.
+- SF-424 Federal Award Identifier: distinct and still unresolved, not equated to the tracking number.
+
+# Delivery
+
+Producer-only PR: [mikec-ai/grants-form-spec#46](https://github.com/mikec-ai/grants-form-spec/pull/46), commit `c316aff26`.
+
+Pinned standalone instructions SHA `666647f...` and Multi-Project DAT SHA `361e00d...` independently direct applicant entry. All semantic mappings remain proposed and unpublished. Full local preflight passed: 91 TypeSpec tests, 87 Python tests, 131 blocks / 712 artifacts, and ratchet 76 initial / 27 resolved / 49 remaining. Awaiting CI and review; not merged.
