@@ -6,6 +6,21 @@ description: >-
   Define and backfill an unambiguous distinction between enclosing form version,
   native source version, and explicitly unknown source versions across all
   evidence sidecars.
+superbee_progress_status: done
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T16:03:16.501Z'
+assignee: provenance_agent
+---
+---
+type: Task
+title: Normalize native source version provenance
+priority: P2
+description: >-
+  Define and backfill an unambiguous distinction between enclosing form version,
+  native source version, and explicitly unknown source versions across all
+  evidence sidecars.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
@@ -28,3 +43,14 @@ Remove the historical ambiguity where imported XSDs and unversioned documents ca
 # Boundary
 
 Deliver this as a dedicated provenance-contract change, separate from XML mapping-fragment refactors.
+
+# Result
+
+Delivered and merged in mikec-ai/grants-form-spec PR #34, merge commit 9da2d626d454e740e090cbe383b068a46e3ad25f.
+
+- Canonical form version and per-source nativeVersion are distinct contract fields.
+- Nineteen production evidence sidecars now contain 47 source-stated XSD native versions and nine explicit null DAT versions.
+- DAT, PDF, instruction, and implementation filenames are never treated as native-version evidence.
+- Only the pinned XSD filename convention ending in -V<major>.<minor>.xsd is parsed automatically; other version-looking XSD names fail actionably.
+- Independent review found and closed both filename-inference gaps before merge.
+- Full preflight and GitHub CI passed: 77 TypeScript tests, 57 Python tests, 659 validated artifacts, and a reproducible 439-artifact package.
