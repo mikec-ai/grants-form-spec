@@ -7,21 +7,7 @@ description: >-
 superbee_updated_by: sf424d_policy_followup
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:55:58.162Z'
-priority: P1
-superbee_progress_status: in_progress
-assignee: sf424d_policy_followup
----
----
-type: Task
-title: Reconcile SF-424D burden-statement policy evidence
-description: >-
-  Preserve the active burden-statement interaction and make three-profile policy
-  equivalence reproducible before consumer or release work.
-superbee_updated_by: sf424d_policy_followup
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T20:50:11.313Z'
+  at: '2026-08-23T20:57:53.742Z'
 priority: P1
 superbee_progress_status: in_progress
 assignee: sf424d_policy_followup
@@ -60,7 +46,7 @@ Resolve the active SF-424D v1.1 burden-statement evidence gap before any consume
 - Tests also recompute the identical normalized burden-interaction hash `afa221267ca5e165754d2001e5ab90e6974064772c16984d6813dadd674d1506` for every profile.
 - The 15-minute printed statement versus 30-minute active interaction is explicitly `unresolved-pending-policy-owner-review`; a dedicated pending release gate was added to all three bindings.
 - Semantic and policy status remains source-bound/unreviewed; forms remain draft and unregistered. No compiler, adapter, consumer, or HHS code changed.
-- Full producer preflight passes: 102 TypeScript tests; 127 Python tests with 8 existing skips; artifact validation; 20 XML profiles; packaging; analysis; and the zero-unclassified gate.
+- Full producer preflight passes: 102 TypeScript tests; 127 Python tests with 8 existing skips; artifact validation; 20 XML profiles; packaging; analysis; and the zero-unclassified gate.\n- GitHub CI run `32665902765` passed at exact head `342afde9bebbdaedb7c542537b77bb7085af72d3`.
 
 # Remaining gate
 
