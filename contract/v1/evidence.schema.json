@@ -105,16 +105,64 @@
       }
     },
     "behaviorEvidence": {
+      "oneOf": [
+        { "$ref": "#/$defs/sourceBoundBehaviorEvidence" },
+        { "$ref": "#/$defs/unresolvedBehaviorEvidence" }
+      ]
+    },
+    "behaviorEvidenceBase": {
       "type": "object",
-      "additionalProperties": false,
-      "required": ["canonicalPath", "sourceId", "sourcePath", "sourceRecord"],
+      "required": ["canonicalPath", "ruleKind", "authority"],
       "properties": {
         "canonicalPath": { "type": "string", "minLength": 1 },
-        "sourceId": { "type": "string", "minLength": 1 },
-        "sourcePath": { "type": "string", "minLength": 1 },
-        "sourceRecord": { "type": "string", "minLength": 1 },
+        "ruleKind": { "enum": ["calculation", "condition"] },
+        "authority": {
+          "enum": ["official_source", "implementation_parity", "unresolved"]
+        },
         "inheritedFrom": { "type": "string", "minLength": 1 }
       }
+    },
+    "sourceBoundBehaviorEvidence": {
+      "allOf": [
+        { "$ref": "#/$defs/behaviorEvidenceBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonicalPath", "ruleKind", "authority", "sourceId", "sourcePath", "sourceRecord"
+          ],
+          "properties": {
+            "canonicalPath": { "type": "string", "minLength": 1 },
+            "ruleKind": { "enum": ["calculation", "condition"] },
+            "authority": { "enum": ["official_source", "implementation_parity"] },
+            "sourceId": { "type": "string", "minLength": 1 },
+            "sourcePath": { "type": "string", "minLength": 1 },
+            "sourceRecord": { "type": "string", "minLength": 1 },
+            "inheritedFrom": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "unresolvedBehaviorEvidence": {
+      "allOf": [
+        { "$ref": "#/$defs/behaviorEvidenceBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonicalPath", "ruleKind", "authority", "owner", "reason", "removalCondition"
+          ],
+          "properties": {
+            "canonicalPath": { "type": "string", "minLength": 1 },
+            "ruleKind": { "enum": ["calculation", "condition"] },
+            "authority": { "const": "unresolved" },
+            "owner": { "type": "string", "minLength": 1 },
+            "reason": { "type": "string", "minLength": 1 },
+            "removalCondition": { "type": "string", "minLength": 1 },
+            "inheritedFrom": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
     },
     "mapping": {
       "type": "object",

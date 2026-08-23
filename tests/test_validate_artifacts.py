@@ -56,8 +56,16 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
                 "legacyFormId": 1, "formName": "EXAMPLE", "shortFormName": "Example",
                 "formVersion": "1.0", "agencyCode": "SGG", "ombNumber": "",
             },
-            "artifacts": {"schema.json": "generated", "ui.json": "generated"},
+            "artifacts": {
+                "schema.json": "generated",
+                "ui.json": "generated",
+                "sgg/rule-schema.json": "generated",
+                "sgg/ui-schema.json": "generated",
+            },
         })
+        (form / "sgg").mkdir()
+        self._json(form / "sgg/rule-schema.json", {})
+        self._json(form / "sgg/ui-schema.json", [])
         return dist
 
     @staticmethod
@@ -81,6 +89,56 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             text=True,
             check=False,
         )
+
+    def _write_evidence(
+        self,
+        root: Path,
+        *,
+        behavior_evidence: list[dict[str, object]],
+        source_type: str = "dat",
+    ) -> Path:
+        evidence = root / "evidence/forms/example/evidence.json"
+        evidence.parent.mkdir(parents=True)
+        self._json(evidence, {
+            "contract": "grants-form-evidence/v1",
+            "block": {"id": "example", "kind": "form", "formVersion": "1.0"},
+            "sources": [{
+                "id": "example-source", "type": source_type,
+                "uri": "https://example.gov/example-source.json", "nativeVersion": None,
+                "sha256": "a" * 64,
+            }],
+            "behaviorEvidence": behavior_evidence,
+            "extraction": {
+                "repository": "https://github.com/example/forms",
+                "revision": "1" * 40,
+                "artifact": "artifacts/example.jsonl.manifest.json",
+                "sourceSetSha256": "b" * 64,
+                "extractedAt": "2026-08-18T14:19:31Z",
+            },
+            "semanticReview": {"status": "unreviewed", "mappings": []},
+        })
+        return evidence
+
+    @staticmethod
+    def _official_calculation(path: str) -> dict[str, object]:
+        return {
+            "canonicalPath": path,
+            "ruleKind": "calculation",
+            "authority": "official_source",
+            "sourceId": "example-source",
+            "sourcePath": f"Example.{path}",
+            "sourceRecord": "F-1",
+        }
+
+    def _add_calculation(self, dist: Path, target: str = "name") -> None:
+        self._json(dist / "forms/example/sgg/rule-schema.json", {
+            target: {
+                "gg_pre_population": {
+                    "rule": "sum_monetary",
+                    "fields": ["source"],
+                },
+            },
+        })
 
     def test_accepts_a_hand_authored_artifact_graph(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -360,12 +418,201 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("sidecars: 1", result.stdout)
         self.assertEqual(manifest["artifacts"]["evidence.json"], "passthrough")
 
+    def test_projector_requires_an_exact_disposition_for_each_calculation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_calculation(dist)
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("calculation target name has no behavior evidence disposition", result.stdout)
+
+    def test_projector_rejects_count_substitution_with_an_input_only_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_calculation(dist, "total")
+            index_path = dist / "forms/example/index.json"
+            index = json.loads(index_path.read_text())
+            index["fieldOccurrences"].append({
+                "path": "/total", "leaf": True, "blockIds": ["generics/name"],
+            })
+            self._json(index_path, index)
+            self._write_evidence(
+                root, behavior_evidence=[self._official_calculation("name")],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("calculation evidence name is not an exact emitted rule target", result.stdout)
+
+    def test_projector_rejects_duplicate_target_dispositions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_calculation(dist)
+            record = self._official_calculation("name")
+            self._write_evidence(root, behavior_evidence=[record, record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("duplicate calculation evidence disposition for target name", result.stdout)
+
+    def test_projector_rejects_duplicate_emitted_target_identities(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            conditional = {
+                "type": "field",
+                "definition": "/properties/name",
+                "conditional": {
+                    "when": {"op": "equals", "ref": {"scope": "root", "pointer": "/kind"}},
+                    "then": {"visible": True},
+                    "otherwise": {"visible": False},
+                },
+            }
+            self._json(
+                dist / "forms/example/sgg/ui-schema.json",
+                [conditional, conditional],
+            )
+            self._write_evidence(root, behavior_evidence=[{
+                "canonicalPath": "name",
+                "ruleKind": "condition",
+                "authority": "unresolved",
+                "owner": "form-semantic-review",
+                "reason": "The exact source-bound condition has not been reconciled.",
+                "removalCondition": "Replace after exact official-source review.",
+            }])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("duplicate emitted condition target name", result.stdout)
+        self.assertIn("stable occurrence identity is required", result.stdout)
+
+    def test_projector_rejects_ambiguous_array_path_normalization(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/rule-schema.json", {
+                "items": {"amount": {"gg_pre_population": {
+                    "rule": "sum_monetary", "fields": ["source"],
+                }}},
+            })
+            index_path = dist / "forms/example/index.json"
+            index = json.loads(index_path.read_text())
+            index["fieldOccurrences"].extend([{
+                "path": "/items/amount", "leaf": True,
+                "blockIds": ["generics/name"],
+            }, {
+                "path": "/items/[]/amount", "leaf": True,
+                "blockIds": ["generics/name"],
+            }])
+            self._json(index_path, index)
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("calculation target items.amount has 2 exact occurrence candidates", result.stdout)
+
+    def test_projector_rejects_unknown_prepopulation_metadata_instead_of_inferring_calculation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/rule-schema.json", {
+                "name": {"gg_pre_population": {
+                    "rule": "agency_name",
+                    "cache": "application",
+                }},
+            })
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("unsupported gg_pre_population operand shape", result.stdout)
+
+    def test_projector_rejects_ambiguous_calculation_operand_shapes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/rule-schema.json", {
+                "name": {"gg_pre_population": {
+                    "rule": "multiply_by_percentage",
+                    "fields": ["amount", "percentage"],
+                    "amount": "amount",
+                    "percentage": "percentage",
+                }},
+            })
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("unsupported gg_pre_population operand shape", result.stdout)
+
+    def test_projector_rejects_implementation_source_as_official_authority(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_calculation(dist)
+            self._write_evidence(
+                root,
+                behavior_evidence=[self._official_calculation("name")],
+                source_type="implementation",
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("claims official_source authority from implementation source", result.stdout)
+
+    def test_projector_accepts_an_explicit_unresolved_condition(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._json(dist / "forms/example/sgg/ui-schema.json", [{
+                "type": "field",
+                "definition": "/properties/name",
+                "conditional": {
+                    "when": {"op": "equals", "ref": {"scope": "root", "pointer": "/kind"}},
+                    "then": {"visible": True},
+                    "otherwise": {"visible": False},
+                },
+            }])
+            self._write_evidence(root, behavior_evidence=[{
+                "canonicalPath": "name",
+                "ruleKind": "condition",
+                "authority": "unresolved",
+                "owner": "form-semantic-review",
+                "reason": "The exact source-bound condition has not been reconciled.",
+                "removalCondition": "Replace after exact official-source review.",
+            }])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_projector_rejects_behavior_path_outside_emitted_form_and_rules(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             dist = self._write_graph(root)
             rules = dist / "forms" / "example" / "sgg" / "rule-schema.json"
-            rules.parent.mkdir()
             self._json(rules, {})
             evidence = root / "evidence" / "forms" / "example" / "evidence.json"
             evidence.parent.mkdir(parents=True)
@@ -379,6 +626,8 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
                 }],
                 "behaviorEvidence": [{
                     "canonicalPath": "unmounted.name",
+                    "ruleKind": "calculation",
+                    "authority": "official_source",
                     "sourceId": "example-dat",
                     "sourcePath": "Example.Name",
                     "sourceRecord": "A-1",
@@ -398,7 +647,10 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             )
 
         self.assertEqual(result.returncode, 1)
-        self.assertIn("behavior unmounted.name does not resolve", result.stdout)
+        self.assertIn(
+            "calculation evidence unmounted.name is not an exact emitted rule target",
+            result.stdout,
+        )
 
     def test_projector_rejects_native_version_inherited_from_form_context(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
