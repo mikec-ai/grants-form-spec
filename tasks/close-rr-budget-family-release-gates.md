@@ -7,6 +7,21 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T20:34:13.249Z'
+assignee: gate_assessment_agent
+---
+---
+type: Task
+title: Close R&R Budget family release gates
+priority: P0
+description: >-
+  Close shared DAT-condition, lifecycle, browser, accessibility,
+  semantic-review, and production gates across R&R Budget and Subaward Budget
+  profiles.
+superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
@@ -101,6 +116,12 @@ architecture or silently claim human approval.
 - SGG executes this portable calculation contract in its server-side rule processor. This slice does
   not add or claim a client-side calculation implementation.
 - This slice has no lifecycle/residual-normalization overlap and adds no budget-family branch.
+
+## Merge receipt
+
+- The producer contract merged in grants-form-spec PR 44 at `c36b0173bf1f4a596727a06218e4e423ed5f60ee`.
+- The generic Simpler consumer merged in fork PR 38 at `a6a8ec6a062e4c2a9cab207a715d0d37c783cadf` after restacking over the 21-form baseline.
+- The broader human semantic, accessibility, instruction, operational, and production-registration gates remain open, so this task remains in progress.
 
 [depends on](harden-rr-budget-production.md)
 
