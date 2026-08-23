@@ -7,20 +7,26 @@ description: >-
   Use the deterministic promotion spike to author the next high-value repeating
   organization and location foundation, then prove it through the public Simpler
   adapter without form-specific runtime code.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T23:20:02.447Z'
+  at: '2026-08-23T00:17:37.835Z'
 ---
 # Objective
 
-Author Project/Performance Site Locations from the pinned source inventory and behavior evidence, establishing reusable repeating organization and address declarations.
+Author Project/Performance Site Location(s) from pinned deterministic evidence as a reusable repeating organization and location foundation.
 
-# Acceptance criteria
+# Completed result
 
-- Exact XSD and behavior provenance is pinned through the promotion packet.
-- Repeating site semantics and source-specific address conditions remain declarative.
-- Proposed semantic mappings remain unaccepted until reviewed.
-- The form compiles and loads through the generic public-fork adapter.
-- XML, human review, accessibility, and production release remain explicit gates.
+- Producer PR #25 added the declarative form and project-site question block.
+- Adapter PR #22 pinned integrated producer revision 82bf2bf016eff4ea2320298eb29a6039aaa5d55a and proved the form loads without form-specific adapter code.
+- The form composes one primary site, up to 299 additional sites, and one overflow attachment.
+- It emits 25 fields and four typed address conditions; repeated-site conditions use item scope and row-relative pointers.
+- The overflow attachment is explicitly a capture mechanism rather than a semantic question.
+- Deterministic evidence is pinned to crosswalk revision 4312f6504b060e2b9ffdbd2307fc41130c3123a0 and source-set hash ba3348472c48a2fac951308c9a8f44fc078c5b014771d7e9d1a4b0521a00d879.
+- No semantic mapping is accepted. XML, human semantic review, accessibility, and production release remain explicit gates.
+
+# Validation
+
+The integrated producer preflight passed with 568 artifacts, 66 TypeScript tests, 41 Python tests, and reproducible packaging. The rebased public-fork adapter passed 83 form-spec tests before merge and 21 focused integration, maintenance, XML-profile, lint, and typing checks after restacking.

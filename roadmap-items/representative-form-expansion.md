@@ -2,14 +2,15 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Sixteen forms now compile through the portable specification and load through
-  the public Simpler adapter. R&R Senior/Key Person Profile (Expanded) adds
-  reusable repeating person, role, organization, address, credential, degree,
-  and person-specific attachment declarations; its consumer canary also hardened
-  generic item-scoped conditions. Expansion alternates cheap derivatives with
-  high-value foundations.
+  Seventeen forms now compile through the portable specification and load
+  through the public Simpler adapter. R&R Senior/Key Person Profile (Expanded)
+  and Project/Performance Site Location(s) add reusable repeating person,
+  organization, role, address, credential, degree, and attachment foundations.
+  Their consumer canaries hardened generic item-scoped conditions, while the
+  concurrently merged XML-profile work now projects five budget families.
 sequence: '3'
 superbee_progress_status: active
+superbee_updated_by: codex
 ---
 # Strategy
 
