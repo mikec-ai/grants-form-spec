@@ -12,7 +12,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: correct_tracking_role
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:16:01.677Z'
+  at: '2026-08-23T19:17:25.353Z'
 ---
 # Scope
 
@@ -30,4 +30,4 @@ Audit the standalone R&R SF-424, Multi-Project Cover, and classic SF-424 lifecyc
 
 Producer-only PR: [mikec-ai/grants-form-spec#46](https://github.com/mikec-ai/grants-form-spec/pull/46), commit `c316aff26`.
 
-Pinned standalone instructions SHA `666647f...` and Multi-Project DAT SHA `361e00d...` independently direct applicant entry. All semantic mappings remain proposed and unpublished. Full local preflight passed: 91 TypeSpec tests, 87 Python tests, 131 blocks / 712 artifacts, and ratchet 76 initial / 27 resolved / 49 remaining. Awaiting CI and review; not merged.
+Pinned standalone instructions SHA `666647f...` and Multi-Project DAT SHA `361e00d...` independently direct applicant entry. All semantic mappings remain proposed and unpublished. Local preflight and GitHub CI passed: 91 TypeSpec tests, 87 Python tests, 131 blocks / 712 artifacts, and ratchet 76 initial / 27 resolved / 49 remaining. Awaiting review and merge.
