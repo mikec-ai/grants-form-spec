@@ -19,6 +19,16 @@ export function rescopeUi(node: UiNode, propName: string): UiNode {
   if (typeof out.scope === "string" && out.scope.startsWith("#/")) {
     out.scope = `#/properties/${propName}/${out.scope.slice(2)}`;
   }
+  const condition = out.rule?.condition as { scope?: unknown } | undefined;
+  if (typeof condition?.scope === "string" && condition.scope.startsWith("#/")) {
+    out.rule = {
+      ...out.rule,
+      condition: {
+        ...condition,
+        scope: `#/properties/${propName}/${condition.scope.slice(2)}`,
+      },
+    };
+  }
   if (out.elements) out.elements = out.elements.map((c) => rescopeUi(c, propName));
   return out;
 }
