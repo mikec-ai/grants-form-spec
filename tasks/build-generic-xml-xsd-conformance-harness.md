@@ -7,21 +7,7 @@ description: >-
 superbee_updated_by: xml_conformance_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:43:03.890Z'
-superbee_progress_status: in_progress
-priority: P0
-assignee: xml_conformance_agent
----
----
-type: Task
-title: Build a generic XML/XSD conformance harness
-description: >-
-  Replace repeated producer XML rendering and exact-XSD helpers with one
-  profile-driven reference harness.
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T21:33:49.431Z'
+  at: '2026-08-23T21:43:22.429Z'
 superbee_progress_status: in_progress
 priority: P0
 assignee: xml_conformance_agent
