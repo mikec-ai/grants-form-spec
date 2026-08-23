@@ -14,3 +14,4 @@ import "./forms/project-abstract-summary.tsp";
 import "./forms/rr-sf424.tsp";
 import "./forms/rr-sf424-multi-project-cover.tsp";
 import "./forms/rr-key-person-expanded.tsp";
+import "./forms/performance-site.tsp";
