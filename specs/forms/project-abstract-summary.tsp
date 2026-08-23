@@ -19,15 +19,12 @@ enum ProjectAbstractSummarySection {
 /** Project Abstract Summary, Grants.gov form version 2.0. */
 @Form.meta(#{
   id: "project-abstract-summary",
-  formId: "bf683068-23a4-43fa-ac7a-0f046b83cb14",
   legacyFormId: 591,
   formName: "Project Abstract Summary",
   shortFormName: "Project_AbstractSummary_2_0",
   formVersion: "2.0",
   agencyCode: "SGG",
   ombNumber: "4040-0019",
-  formType: "ProjectAbstractSummary",
-  sggVersion: "1.0",
 })
 @UI.sections(ProjectAbstractSummarySection)
 @Sgg.prePopulate(#{

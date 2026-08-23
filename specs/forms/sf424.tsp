@@ -82,15 +82,12 @@ enum StateReview {
 /** APPLICATION FOR FEDERAL ASSISTANCE (SF-424) */
 @Form.meta(#{
   id: "sf424",
-  formId: "1623b310-85be-496a-b84b-34bdee22a68a",
   legacyFormId: 713,
   formName: "Application for Federal Assistance (SF-424)",
   shortFormName: "SF424_4_0",
   formVersion: "4.0",
   agencyCode: "SGG",
   ombNumber: "4040-0004",
-  formType: "SF424",
-  sggVersion: "1.0",
 })
 @UI.sections(Sf424Section)
 // Box 8d asks for the applicant's address but not its county, which every other form

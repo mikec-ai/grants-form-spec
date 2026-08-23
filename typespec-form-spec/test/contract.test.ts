@@ -142,6 +142,18 @@ describe("artifact contract v1", () => {
     }
   });
 
+  it("keeps delivery-target runtime identity out of every portable manifest", async () => {
+    const manifests = await namedArtifacts(emittedFormsRoot, "manifest.json");
+
+    expect(manifests.length).toBeGreaterThan(0);
+    for (const artifact of manifests) {
+      const candidate = (await json(artifact)) as { form: Record<string, unknown> };
+      expect(candidate.form, artifact).not.toHaveProperty("formId");
+      expect(candidate.form, artifact).not.toHaveProperty("formType");
+      expect(candidate.form, artifact).not.toHaveProperty("sggVersion");
+    }
+  });
+
   it("rejects ambiguous Grants.gov XML mapping nodes", async () => {
     const valid = (await json(
       resolve(contractRoot, "conformance/grants-gov-xml-profile.valid.json"),

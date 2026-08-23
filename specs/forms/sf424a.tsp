@@ -67,15 +67,12 @@ model ForecastedCashNeeds {
 /** Budget Information for Non-Construction Programs (SF-424A) */
 @Form.meta(#{
   id: "sf424a",
-  formId: "08e6603f-d197-4a60-98cd-d49acb1fc1fd",
   legacyFormId: 241,
   formName: "Budget Information for Non-Construction Programs (SF-424A)",
   shortFormName: "SF424A",
   formVersion: "1.0",
   agencyCode: "SGG",
   ombNumber: "4040-0006",
-  formType: "SF424A",
-  sggVersion: "1.0",
 })
 @UI.sections(Sf424aSection)
 // Each section is one purpose-built SGG component that lays out its own table, so the

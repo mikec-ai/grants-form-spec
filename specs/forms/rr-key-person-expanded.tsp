@@ -69,15 +69,12 @@ scalar AdditionalResearchPersonSupport extends AttachmentRef;
 /** Research & Related Senior/Key Person Profile (Expanded), Grants.gov version 4.0. */
 @Form.meta(#{
   id: "rr-key-person-expanded",
-  formId: "2a638e46-7680-55ba-a11a-4d152f37ca1e",
   legacyFormId: 774,
   formName: "Research & Related Senior/Key Person Profile (Expanded)",
   shortFormName: "RR_KeyPersonExpanded_4_0",
   formVersion: "4.0",
   agencyCode: "GRANTS_GOV",
   ombNumber: "4040-0001",
-  formType: "RRKeyPersonExpanded",
-  sggVersion: "1.0",
 })
 @UI.sections(RRKeyPersonExpandedSection)
 model RRKeyPersonExpanded {

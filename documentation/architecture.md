@@ -528,7 +528,7 @@ forms are both blocks; one decorator distinguishes them:
 
 ```typespec
 @Question.meta(#{ id: "poc/details" })                    // the bank, $ref-able, question catalogue
-@Form.meta(#{ id: "sf424", formId: "…", legacyFormId: 713, … })   // a deliverable form
+@Form.meta(#{ id: "sf424", legacyFormId: 713, … })                 // a deliverable form
 ```
 
 Everything else — `@UI.*`, `@Validation.*`, `@Catalog.*`, and later `@Map.*` — applies
@@ -575,14 +575,14 @@ a target-specific projection and never a composition semantic — the same conta
 | | Question | Form |
 |---|---|---|
 | identity | `@Question.meta` | `@Form.meta` |
-| runtime metadata (UUID, optional `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
+| portable form metadata (source identity, optional legacy id, OMB number, version) | — | yes |
 | `schema.json` / `ui.json` / `index.json` | yes | yes |
 | `$ref`-able from another block | yes | yes |
 | SGG target artifacts and adapter projection | — | yes |
 | becomes a `Form` row in SGG | — | yes |
 | catalogue | question bank | forms |
 
-A form is a question with runtime metadata and a delivery target, which is why "forms are
+A form is a question with portable form metadata and one or more delivery targets, which is why "forms are
 configurable collections of questions" holds: a form embedding a question is the same
 operation as a question embedding a question.
 
@@ -705,7 +705,7 @@ namespace SimplerForms.Question;
 extern dec meta(target: Model | Scalar, meta: valueof QuestionMeta);  // { id, version?, status? }
 
 namespace SimplerForms.Form;
-extern dec meta(target: Model, meta: valueof FormMeta);       // { id, formId, legacyFormId, … }
+extern dec meta(target: Model, meta: valueof FormMeta);       // { id, legacyFormId, formVersion, … }
 
 // lib/catalog.tsp — facets shared by questions and forms, mirroring CatalogItem
 namespace SimplerForms.Catalog;

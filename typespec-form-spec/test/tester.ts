@@ -33,7 +33,6 @@ export const form = (body: string) => `
 /** Metadata every form needs, so a fixture can say only what it is testing. */
 export const formMeta = (id: string) => `@Form.meta(#{
     id: "${id}",
-    formId: "00000000-0000-0000-0000-000000000000",
     formName: "${id}",
     shortFormName: "${id}",
     formVersion: "1.0",

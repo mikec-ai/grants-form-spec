@@ -42,15 +42,12 @@ model KeyContactPerson extends QuestionPocDetails {
 /** KEY CONTACTS (Grants.gov FID 683, v2.0) */
 @Form.meta(#{
   id: "key-contacts",
-  formId: "f140c7db-724d-4954-bebd-081c0527908c",
   legacyFormId: 683,
   formName: "KEY CONTACTS",
   shortFormName: "Key_Contacts",
   formVersion: "2.0",
   agencyCode: "SGG",
   ombNumber: "4040-0010",
-  formType: "KEY_CONTACTS",
-  sggVersion: "1.0",
 })
 @UI.sections(KeyContactsSection)
 model KeyContacts {

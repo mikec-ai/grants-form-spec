@@ -16,15 +16,12 @@ enum PHS398ModularBudgetSection {
 /** PHS 398 Modular Budget, Grants.gov form version 1.2. */
 @Form.meta(#{
   id: "phs398-modular-budget",
-  formId: "885622d5-8122-5c9c-b15a-ba429fd458fe",
   legacyFormId: 403,
   formName: "PHS 398 Modular Budget",
   shortFormName: "PHS398_ModularBudget_1_2",
   formVersion: "1.2",
   agencyCode: "GRANTS_GOV",
   ombNumber: "0925-0001",
-  formType: "PHS398ModularBudget",
-  sggVersion: "1.0",
 })
 @UI.sections(PHS398ModularBudgetSection)
 model PHS398ModularBudget {

@@ -22,15 +22,12 @@ enum RROtherProjectInformationSection {
 /** Research & Related Other Project Information, Grants.gov form version 1.4. */
 @Form.meta(#{
   id: "rr-other-project-information",
-  formId: "c1559671-bd72-51e5-9a58-2101b4c654d0",
   legacyFormId: 619,
   formName: "Research & Related Other Project Information",
   shortFormName: "RR_OtherProjectInfo_1_4",
   formVersion: "1.4",
   agencyCode: "GRANTS_GOV",
   ombNumber: "4040-0001",
-  formType: "RROtherProjectInfo",
-  sggVersion: "1.0",
 })
 @UI.sections(RROtherProjectInformationSection)
 model RROtherProjectInformation {

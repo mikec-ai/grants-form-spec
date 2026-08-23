@@ -10,21 +10,15 @@
     "contract": { "const": "resolved-form-package/v1" },
     "form": {
       "type": "object",
-      "required": ["id", "formId", "formName", "shortFormName", "formVersion", "agencyCode", "ombNumber", "formType", "sggVersion"],
+      "required": ["id", "formName", "shortFormName", "formVersion", "agencyCode", "ombNumber"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "formId": {
-          "type": "string",
-          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
-        },
         "legacyFormId": { "type": "integer" },
         "formName": { "type": "string", "minLength": 1 },
         "shortFormName": { "type": "string", "minLength": 1 },
         "formVersion": { "type": "string", "minLength": 1 },
         "agencyCode": { "type": "string", "minLength": 1 },
-        "ombNumber": { "type": "string" },
-        "formType": { "type": "string", "minLength": 1 },
-        "sggVersion": { "type": "string", "minLength": 1 }
+        "ombNumber": { "type": "string" }
       },
       "additionalProperties": true
     },
