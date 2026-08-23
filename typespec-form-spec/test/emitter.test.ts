@@ -275,6 +275,18 @@ describe("SGG UI emission", () => {
     expect(sf424.properties.projectTitle.maxLength).toBe(200);
   });
 
+  it("preserves required AOR name parts in SF-424 and SF-424 Short", async () => {
+    for (const formId of ["sf424", "sf424-short"]) {
+      const schema = JSON.parse(
+        await readFile(resolve(packageRoot, `dist/forms/${formId}/schema.json`), "utf8"),
+      );
+      expect(schema.properties.authorizedRepresentative).toMatchObject({
+        $ref: "../../question-bank/aor/name/schema.json",
+        required: ["firstName", "lastName"],
+      });
+    }
+  });
+
   it("keeps Key Contacts field-list presentation parity declarative", async () => {
     const ui = JSON.parse(
       await readFile(

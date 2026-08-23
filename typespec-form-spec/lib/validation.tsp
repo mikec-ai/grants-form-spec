@@ -22,9 +22,10 @@ extern dec constraintsWhen(
 /**
  * Require the named descendant paths for this occurrence of a reusable object.
  *
- * Paths are relative to the decorated model or property. This is deliberately narrower than
- * a schema override: it can only add requiredness, which JSON Schema can compose safely beside
- * a `$ref`.
+ * Paths are relative to the decorated semantic block or property. A Model target must be an
+ * emitted `@Question.meta` or `@Form.meta` block; otherwise the annotation would have no artifact
+ * boundary and compilation fails. This is deliberately narrower than a schema override: it can
+ * only add requiredness, which JSON Schema can compose safely beside a `$ref`.
  */
 extern dec requiredPaths(target: Model | ModelProperty, ...paths: valueof string[]);
 

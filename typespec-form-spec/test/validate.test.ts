@@ -8,6 +8,34 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  */
 describe("$onValidate", () => {
   describe("cardinality-path-unresolved", () => {
+    it("rejects cardinality on a non-block model whose annotation would not emit", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          @Validation.requiredPaths("name")
+          model LocalDetails { name?: string; }
+          ${formMeta("cardinality-model-check")}
+          model CardinalityModelCheck { details?: LocalDetails; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/cardinality-model-not-emitted",
+      });
+    });
+
+    it("accepts cardinality on an emitted semantic question block", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          bank(`
+            /** A reusable person's name. */
+            @Question.meta(#{ id: "person/name" })
+            @Catalog.tag(TagName.name)
+            @Validation.requiredPaths("firstName", "lastName")
+            model PersonName { firstName?: string; lastName?: string; }
+          `),
+        ),
+      );
+    });
+
     it("rejects a required descendant path that is not in the composed object", async () => {
       const diagnostics = await Tester.diagnose(
         form(`

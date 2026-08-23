@@ -835,7 +835,9 @@ The emitter places these constraints beside the ordinary question-bank `$ref`. E
 conditional source is resolved against the composed model during validation. This is intentionally
 not a general schema override language: it can add requiredness, and nothing else. Presentation
 and conditional differences continue to use ordinary, narrowly derived local models, which keep
-their `allOf` relationship to the shared block.
+their `allOf` relationship to the shared block. A model-level cardinality annotation is accepted
+only on an emitted question or form block; putting one on a non-block model is a build error because
+that model has no independent artifact on which the annotation can reliably land.
 
 **A TypeSpec linter rule may only be a warning.** `LinterRuleDefinition.severity` is typed
 as the literal `"warning"`, so the severity of a check is not a free choice, and it decides

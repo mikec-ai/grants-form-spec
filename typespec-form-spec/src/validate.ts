@@ -3,7 +3,7 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, modelMultiFields, orderedProps, propComputed,
+  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, modelMultiFields, orderedProps, propComputed, readBlock,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
@@ -48,7 +48,17 @@ export function $onValidate(program: Program): void {
 function checkCardinalityPaths(program: Program): void {
   const visit = (namespace: Namespace): void => {
     for (const model of namespace.models.values()) {
-      checkCardinalityTarget(program, model, model);
+      const modelPaths = cardinalityRequiredPaths(program, model);
+      const modelConditions = cardinalityRequiredWhen(program, model);
+      if ((modelPaths.length || modelConditions.length) && !readBlock(program, model)) {
+        reportDiagnostic(program, {
+          code: "cardinality-model-not-emitted",
+          target: model,
+          format: { model: model.name || "an anonymous model" },
+        });
+      } else {
+        checkCardinalityTarget(program, model, model);
+      }
       for (const property of model.properties.values()) {
         const root = objectBehind(program, property);
         if (!root) {

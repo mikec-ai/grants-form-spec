@@ -201,6 +201,7 @@ model SF424Short {
   /** Enter the name of the authorized representative. */
   @UI.label("Authorized Representative")
   @UI.section(Sf424ShortSection.authorizedRepresentative)
+  @Validation.requiredPaths("firstName", "lastName")
   authorizedRepresentative: QuestionAorName;
 
   /** Enter the position title. */
