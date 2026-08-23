@@ -169,6 +169,7 @@
         "element": { "$ref": "#/$defs/xmlName" },
         "kind": { "enum": ["value", "object", "group", "array", "attachment"] },
         "flatten": { "type": "boolean" },
+        "emitWhenParentPresent": { "type": "boolean" },
         "namespace": { "type": "string", "minLength": 1 },
         "container": { "$ref": "#/$defs/leafContainer" },
         "source": { "type": "string", "pattern": "^/" },
@@ -241,6 +242,16 @@
                 { "properties": { "container": true }, "required": ["container"] }
               ]
             }
+          }
+        },
+        {
+          "if": {
+            "properties": { "emitWhenParentPresent": true },
+            "required": ["emitWhenParentPresent"]
+          },
+          "then": {
+            "properties": { "kind": { "const": "object" } },
+            "required": ["kind"]
           }
         },
         {

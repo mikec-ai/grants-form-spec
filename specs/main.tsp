@@ -22,3 +22,4 @@ import "./forms/cd511.tsp";
 import "./forms/gg-lobbying.tsp";
 import "./forms/sf424b.tsp";
 import "./forms/sf424d-family.tsp";
+import "./forms/sf424c.tsp";

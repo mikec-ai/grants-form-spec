@@ -49,6 +49,12 @@ object. For example, R&R SF-424 asks for one applicant congressional district wh
 wraps that value in a `CongressionalDistrict` element. The target profile owns that wrapper;
 the canonical form remains a scalar question.
 
+An `object` node may declare `emitWhenParentPresent: true` when the pinned XSD requires its
+element whenever the parent object is emitted, even if the canonical child object is absent.
+The consumer emits the declared object with no child values in that case. This is wire
+cardinality data, not a default answer and not a form-specific adapter decision. The option is
+valid only for object nodes whose XSD permits an empty content model at that point.
+
 The standard Grants.gov attached-file wire children are data as well. Profiles that map an
 `attachment` compose the shared `attached-file-data-1.0.json` declaration, which names
 `FileName`, `MimeType`, `FileLocation`, `HashValue`, and their namespaces. Consumers resolve
