@@ -28,7 +28,6 @@
           "type": { "enum": ["xsd", "dat", "pdf", "instructions", "implementation"] },
           "uri": { "type": "string", "pattern": "^https://" },
           "version": { "type": "string", "minLength": 1 },
-          "formVersion": { "type": "string", "minLength": 1 },
           "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
         }
       }

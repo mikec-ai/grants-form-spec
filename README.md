@@ -72,9 +72,8 @@ package members. The same command accepts artifacts produced without TypeSpec th
 `--dist <path>`.
 
 Source evidence is authored as a separate sidecar under `evidence/` and projected beside its
-block with `npm run project-evidence`. Each record pins public source URIs, native document
-versions, enclosing form-version contexts, hashes, and deterministic extraction provenance.
-Semantic mappings carry an explicit review state;
+block with `npm run project-evidence`. Each record pins public source URIs, versions, hashes,
+and deterministic extraction provenance. Semantic mappings carry an explicit review state;
 unreviewed or proposed mappings are never eligible for published coverage metrics.
 
 Generated `dist/` output is intentionally ignored. Build reports, large parity oracles, resolved snapshots, and analysis workbooks are CI artifacts rather than runtime source.

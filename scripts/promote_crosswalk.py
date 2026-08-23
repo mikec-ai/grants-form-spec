@@ -23,10 +23,6 @@ from typing import Any
 CONTRACT = "grants-form-promotion/v1"
 REPOSITORY = "https://github.com/mikec-ai/grants-question-crosswalk"
 PROVENANCE = re.compile(r"^sha256:([0-9a-f]{64}) (https://.+)$")
-SOURCE_VERSION = re.compile(
-    r"-V(?P<version>[0-9]+(?:\.[0-9]+)+)(?:_[^/?#]+)?\.(?:xsd|xls|xlsx|pdf)(?:[?#].*)?$",
-    re.IGNORECASE,
-)
 
 
 class PromotionError(RuntimeError):
@@ -126,24 +122,7 @@ def classification(record: dict[str, Any]) -> dict[str, str]:
     return {"value": "unresolved", "status": "unreviewed"}
 
 
-def native_source_version(uri: str, form_version: str) -> str:
-    """Return a source document's version when its official URI declares one.
-
-    Grants.gov form and system-schema filenames carry their native version after
-    ``-V``. A source without that convention remains explicitly tied to the form
-    context rather than receiving an invented document version.
-    """
-    match = SOURCE_VERSION.search(uri)
-    if match:
-        return match.group("version")
-    if re.search(r"\.xsd(?:[?#].*)?$", uri, re.IGNORECASE):
-        raise PromotionError(f"XSD source URI does not declare a native version: {uri}")
-    return form_version
-
-
-def source_list(
-    *collections: list[dict[str, Any]], form_version: str
-) -> list[dict[str, str]]:
+def source_list(*collections: list[dict[str, Any]]) -> list[dict[str, str]]:
     sources: dict[tuple[str, str], dict[str, str]] = {}
     for collection in collections:
         for record in collection:
@@ -155,12 +134,7 @@ def source_list(
                 match = PROVENANCE.match(value)
                 if match:
                     sha, uri = match.groups()
-                    sources[(uri, sha)] = {
-                        "uri": uri,
-                        "version": native_source_version(uri, form_version),
-                        "formVersion": form_version,
-                        "sha256": sha,
-                    }
+                    sources[(uri, sha)] = {"uri": uri, "sha256": sha}
     return [sources[key] for key in sorted(sources)]
 
 
@@ -352,27 +326,17 @@ def export_packet(crosswalk: Path, form_id: str, revision: str | None) -> dict[s
         ))
     gates.sort(key=lambda item: item["id"])
 
-    form_version = source_records[0]["form_version"]
-    sources = source_list(
-        source_records,
-        behavior_records,
-        runtime.get("rules", []),
-        form_version=form_version,
-    )
+    sources = source_list(source_records, behavior_records, runtime.get("rules", []))
     if not sources:
         raise PromotionError("no source provenance could be parsed")
-    # The source-set identity remains the canonical URI/hash pair set. Version
-    # metadata describes those pinned documents but does not redefine the set.
-    source_set_sha = digest(canonical([
-        {"uri": source["uri"], "sha256": source["sha256"]} for source in sources
-    ]))
+    source_set_sha = digest(canonical(sources))
     extracted_at = manifest["extracted_at"].replace("+00:00", "Z")
 
     return {
         "contract": CONTRACT,
         "form": {
             "id": form_id,
-            "version": form_version,
+            "version": source_records[0]["form_version"],
             "title": family.get("title") or form_id,
             "sourceRoot": source_records[0]["path"],
         },
@@ -548,11 +512,7 @@ def import_packet(packet: dict[str, Any], out: Path) -> dict[str, Any]:
             "id": f"source-{index}-{source['sha256'][:12]}",
             "type": source_type(source["uri"]),
             "uri": source["uri"],
-            "version": source.get(
-                "version",
-                native_source_version(source["uri"], packet["form"]["version"]),
-            ),
-            "formVersion": source.get("formVersion", packet["form"]["version"]),
+            "version": packet["form"]["version"],
             "sha256": source["sha256"],
         })
     evidence = {
