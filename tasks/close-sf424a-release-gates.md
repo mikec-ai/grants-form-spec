@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:13:38.863Z'
+  at: '2026-08-23T19:30:46.838Z'
 assignee: codex
 ---
 # Goal
@@ -58,5 +58,14 @@ modify HHS upstream.
   the locked path.
 - Focused frontend tests, ESLint, Prettier, API Ruff checks, and the DB-backed lifecycle test pass
   locally against the PostgreSQL test service.
-- Submission, browser-level keyboard testing, human accessibility/guidance acceptance, policy
-  decisions, and production registration remain open gates.
+- Fork PR [mikec-ai/simpler-grants-gov#41](https://github.com/mikec-ai/simpler-grants-gov/pull/41)
+  extends the existing Playwright submission/print harness with the same C-F = 10 / G = 100
+  exception, browser A-to-G keyboard order, accessible-name assertions, the actual print route
+  under print media, locked controls, and the persisted Column G total. It removes SF-424A's former
+  exemption from the generic read-only print gate.
+- Focused ESLint, Next type generation, TypeScript, the five-test Section A Jest suite, and
+  Playwright discovery pass locally. The authenticated browser scenarios remain environment-run
+  evidence because this workspace has no configured application session.
+- Human accessibility and guidance acceptance, semantic and policy decisions, instruction-asset
+  and identifier acceptance, operational submission evidence, and production registration remain
+  open gates. Technical automation does not resolve or approve them.
