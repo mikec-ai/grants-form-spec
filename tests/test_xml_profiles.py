@@ -68,6 +68,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "phs398-modular-budget",
             "rr-key-person-expanded",
             "sflll",
+            "cd511",
         }
         profiles = {
             form_id: _json(DIST_FORMS / form_id / "targets/grants-gov-xml.json")
@@ -141,6 +142,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                 "../mappings/sflll-domestic-address-2.0.json#/fields",
                 "../mappings/sflll-domestic-address-2.0.json#/fields",
                 "../mappings/sflll-domestic-address-2.0.json#/fields",
+            ],
+            "cd511": [
+                "../mappings/global-library-v2-human-name.json#/fields",
             ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
