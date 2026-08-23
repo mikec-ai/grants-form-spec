@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T23:20:14.209Z'
+  at: '2026-08-23T23:44:14.880Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -91,3 +91,7 @@ Generic artifact/XSD integrity, 25 focused tests, 225 non-DB form-spec and legac
 ## Formatting baseline and rebased review head
 
 Public-fork formatting baseline [#52](https://github.com/mikec-ai/simpler-grants-gov/pull/52) isolated the pre-existing repository format debt from the promotion: formatting head `746b3350461b43211f5975943a8c7e12415fcca0`, merged to public-fork main as `caa617c1d1ee4aaebb016ed76c048f02cb5515ca`. Promotion PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) then rebased cleanly and is open, unmerged, at review head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`. Repository-wide isort, Black, and Ruff checks pass locally; 32 focused promotion/provenance/runtime tests pass. Hosted API and E2E runs are in progress.
+
+### Hosted CI classification
+
+At PR #51 head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`, all hosted formatting, lint, migration, and security stages pass. The full API suite records 4,502 passed, 1 skipped, and 23 failures. Public-fork main at formatting baseline #52 records 4,499 passed, 1 skipped, and the exact same 23 failures; the three additional passing tests are the promotion’s banked-only fail-closed coverage. Both heads also fail before Playwright because the detached API server does not become ready within the workflow’s 800-second wait. No E2E assertion executes. These hosted failures are therefore classified as existing main-branch debt, not a promotion regression. PR #51 remains open and unmerged for independent review.
