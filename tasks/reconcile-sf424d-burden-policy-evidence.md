@@ -4,6 +4,20 @@ title: Reconcile SF-424D burden-statement policy evidence
 description: >-
   Preserve the active burden-statement interaction and make three-profile policy
   equivalence reproducible before consumer or release work.
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T21:04:00.406Z'
+priority: P1
+superbee_progress_status: done
+assignee: sf424d_policy_followup
+---
+---
+type: Task
+title: Reconcile SF-424D burden-statement policy evidence
+description: >-
+  Preserve the active burden-statement interaction and make three-profile policy
+  equivalence reproducible before consumer or release work.
 superbee_updated_by: sf424d_policy_followup
 generated:
   by: 'process:superbee'
@@ -49,6 +63,8 @@ Resolve the active SF-424D v1.1 burden-statement evidence gap before any consume
 - Full producer preflight passes: 102 TypeScript tests; 127 Python tests with 8 existing skips; artifact validation; 20 XML profiles; packaging; analysis; and the zero-unclassified gate.
 - GitHub CI run `32665902765` passed at exact head `342afde9bebbdaedb7c542537b77bb7085af72d3`.
 
-# Remaining gate
+# Completion receipt
 
-- Review and merge producer PR `#54`; policy-owner resolution of which burden presentation is authoritative remains intentionally outside this correction.
+- Independent review was clean at exact head `342afde9bebbdaedb7c542537b77bb7085af72d3`.
+- Producer PR `#54` merged to main as `7e90ca5bd287ff202b84e19552a5488c69d51ff1`.
+- Policy-owner resolution of which burden presentation is authoritative remains an explicit pending release gate on the SF-424D family, outside this evidence-preservation task.
