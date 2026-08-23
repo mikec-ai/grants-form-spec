@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: attachment_form_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:23:00.542Z'
+  at: '2026-08-23T22:26:30.084Z'
 assignee: attachment_form_agent
 ---
 # Goal
@@ -35,7 +35,7 @@ Replace SGG's legacy Attachment Form with a portable composition and use the leg
 
 Draft producer PR: https://github.com/mikec-ai/grants-form-spec/pull/59
 
-Commit `3822da0a9` authors Attachment Form (FID 540, version 1.2) as fifteen optional, positional uses of one reusable `generics/ordered-attachment-slot` capture mechanism. That mechanism composes `generics/attachment`; neither block is counted as a semantic question. The prior generic-ordered semantic concept remains unreviewed and excluded from published coverage.
+Commit `66c7198a4` authors Attachment Form (FID 540, version 1.2) as fifteen optional, positional uses of one reusable `generics/ordered-attachment-slot` capture mechanism. That mechanism composes `generics/attachment`; neither block is counted as a semantic question. The prior generic-ordered semantic concept remains unreviewed and excluded from published coverage.
 
 Exact authority is pinned in `evidence/forms/attachment-form/evidence.json`:
 
@@ -49,15 +49,17 @@ The producer adds no form-ID branch. A generic presentation rule now treats a do
 
 The declarative XML profile uses the shared attached-file wire fragment and maps the canonical slots to the exact ordered `ATT1` through `ATT15` wrappers. Empty, single, sparse, fully populated, replacement, removal, and missing-reference cases run through the generic reference interpreter. Minimal and full output validate offline against the pinned exact-XSD contract. The checked-in form fixture is whitespace-normalized and has a separately asserted local digest; profile linkage still requires the physical official digest.
 
-Independent review found that the evidence sidecar omitted UniversalCodes v2.0 even though the pinned GlobalLibrary dependency imports it and the exact-XSD fixture already used it. Commit `3822da0a9` adds the official source URI, native version, and exact SHA-256 plus a source-pin regression assertion. This is a provenance-closure correction only; the declarative architecture and runtime behavior are unchanged.
+Independent review found that the evidence sidecar omitted UniversalCodes v2.0 even though the pinned GlobalLibrary dependency imports it and the exact-XSD fixture already used it. Commit `66c7198a4` includes the official source URI, native version, and exact SHA-256 plus a source-pin regression assertion. This is a provenance-closure correction only; the declarative architecture and runtime behavior are unchanged.
 
-Full preflight passed on commit `3822da0a9`:
+After PHS Assignment Request merged to producer main at `abb119400`, the Attachment Form branch was rebased and the form sequence and aggregate analysis expectations were reconciled mechanically so both forms remain. No form semantics or architecture changed in the rebase.
+
+Full preflight passed on rebased commit `66c7198a4`:
 
 - 103 TypeScript tests;
-- 173 Python tests passed, 1 skipped;
-- 182 blocks and 1,024 artifacts validated;
+- 181 Python tests passed, 1 skipped;
+- 188 blocks and 1,054 artifacts validated;
 - reproducible artifact package created and verified;
-- 31 evidence sidecars projected;
+- 32 evidence sidecars projected;
 - zero unclassified fields and zero classification exceptions; and
 - analysis reconciled across 31 forms with Attachment Form adding capture-mechanism occurrences and zero semantic-question associations.
 
