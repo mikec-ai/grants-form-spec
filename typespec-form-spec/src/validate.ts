@@ -6,7 +6,7 @@ import {
   Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
   propComputedFrom,
   propEncodedCheckboxGroup,
-  modelPrePopulate, modelProperties, propEnabledWhen, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
+  modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
 } from "./model.js";
 
@@ -38,8 +38,27 @@ export function $onValidate(program: Program): void {
     }
   }
 
+  checkDateOrders(program);
   checkCalculationCycles(program, blocks);
   checkComputedPaths(program, blocks);
+}
+
+function checkDateOrders(program: Program): void {
+  const visit = (namespace: Namespace): void => {
+    for (const model of namespace.models.values()) {
+      for (const prop of model.properties.values()) {
+        const source = propNotBefore(program, prop);
+        if (!source || (source !== prop && source.model === prop.model)) continue;
+        reportDiagnostic(program, {
+          code: "date-order-source-invalid",
+          target: prop,
+          format: { target: prop.name, source: source.name },
+        });
+      }
+    }
+    for (const child of namespace.namespaces.values()) visit(child);
+  };
+  visit(program.getGlobalNamespaceType());
 }
 
 function checkEncodedCheckboxGroup(program: Program, prop: ModelProperty): void {

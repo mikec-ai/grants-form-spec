@@ -7,6 +7,42 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  * is worse than no check: it reads as coverage and provides none.
  */
 describe("$onValidate", () => {
+  describe("date-order-source-invalid", () => {
+    it("rejects a date-order source outside the target model", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          model OtherPeriod { start: plainDate; }
+          model Period {
+            @Validation.notBefore(OtherPeriod.start)
+            end: plainDate;
+          }
+          ${formMeta("date-order-check")}
+          model DateOrderCheck { period: Period; }
+        `),
+      );
+
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/date-order-source-invalid",
+      });
+    });
+
+    it("accepts a different sibling date", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            model Period {
+              start: plainDate;
+              @Validation.notBefore(Period.start)
+              end: plainDate;
+            }
+            ${formMeta("date-order-check")}
+            model DateOrderCheck { period: Period; }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("encoded-checkbox-contract-invalid", () => {
     it("rejects a contract that does not cover every wire value", async () => {
       const diagnostics = await Tester.diagnose(

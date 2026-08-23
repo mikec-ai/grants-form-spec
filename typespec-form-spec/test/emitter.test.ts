@@ -322,6 +322,12 @@ describe("SGG UI emission", () => {
     const root = resolve(packageRoot, "dist/forms/rr-sf424");
     const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
     const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
+
+    expect(rules.proposedProjectPeriod.proposedEndDate.gg_validation).toEqual({
+      rule: "date_not_before",
+      fields: ["@THIS.proposedStartDate"],
+    });
 
     const renewal = schema.allOf.find(
       (branch: any) =>

@@ -222,6 +222,9 @@ export const $requiredWhenPath = (
     value: literal(equals),
   });
 
+export const $notBefore = (ctx: Ctx, target: ModelProperty, source: ModelProperty) =>
+  set(ctx, stateKeys.notBefore, target, source);
+
 export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
   set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));
 

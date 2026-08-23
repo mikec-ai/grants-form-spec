@@ -59,6 +59,10 @@ class RRSF424Tests(unittest.TestCase):
             {name for name, rule in rules.items() if rule.get("gg_validation", {}).get("rule") == "attachment"},
             {"sflllAttachment", "preApplicationAttachment", "coverLetterAttachment"},
         )
+        self.assertEqual(
+            rules["proposedProjectPeriod"]["proposedEndDate"]["gg_validation"],
+            {"rule": "date_not_before", "fields": ["@THIS.proposedStartDate"]},
+        )
 
     def test_analysis_exposes_reuse_without_claiming_review(self) -> None:
         result = subprocess.run(

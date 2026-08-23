@@ -113,6 +113,8 @@ export const propEnabledWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.enabledWhen, prop) as Condition[]) ?? [];
 export const propRequiredWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.requiredWhen, prop) as Condition[]) ?? [];
+export const propNotBefore = (p: Program, prop: ModelProperty) =>
+  g(p, stateKeys.notBefore, prop) as ModelProperty | undefined;
 export const propValidationConstraints = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.validationConstraints, prop) as Record<string, unknown> | undefined) ?? {};
 export const propComputed = (p: Program, prop: ModelProperty) =>
