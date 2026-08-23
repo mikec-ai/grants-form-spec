@@ -1,0 +1,43 @@
+{
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/SF424D-V1.1.xsd",
+      "sha256": "22026ea7130a01b8674e1c3ce1668e1b57d5be65498b5a76042eb80d38de77f1",
+      "type": "SF424D:AssurancesType acceptance content",
+      "version": "1.1"
+    }
+  },
+  "fields": {
+    "authorizedRepresentative": {
+      "element": "AuthorizedRepresentative",
+      "kind": "group",
+      "namespace": "default",
+      "fields": {
+        "signature": {
+          "element": "RepresentativeName",
+          "kind": "value",
+          "namespace": "default",
+          "source": "/signature"
+        },
+        "title": {
+          "element": "RepresentativeTitle",
+          "kind": "value",
+          "namespace": "default",
+          "source": "/title"
+        }
+      }
+    },
+    "applicantOrganization": {
+      "element": "ApplicantOrganizationName",
+      "kind": "value",
+      "namespace": "default",
+      "source": "/applicantOrganization"
+    },
+    "signedDate": {
+      "element": "SubmittedDate",
+      "kind": "value",
+      "namespace": "default",
+      "source": "/signedDate"
+    }
+  }
+}

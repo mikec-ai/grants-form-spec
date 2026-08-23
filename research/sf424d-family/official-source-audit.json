@@ -1,0 +1,206 @@
+{
+  "contract": "sf424d-family-official-source-audit/v1",
+  "checkedAt": "2026-08-23T19:59:51Z",
+  "status": "source-bound-unreviewed",
+  "sourceCache": {
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0"
+  },
+  "sharedPolicy": {
+    "id": "sf424d-construction-assurances",
+    "version": "1.1",
+    "artifact": "construction-assurances-v1.1.json",
+    "itemCount": 20,
+    "canonicalTextArraySha256": "89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be",
+    "identicalAcrossProfiles": true
+  },
+  "sharedFields": [
+    {
+      "canonicalName": "signature",
+      "wirePath": "AuthorizedRepresentative.RepresentativeName",
+      "requiredByDat": true,
+      "responseRole": "systemValue",
+      "sourceBehavior": "System generated after successful upload of the application package. Display \"Completed on submission to Grants.gov\"."
+    },
+    {
+      "canonicalName": "title",
+      "wirePath": "AuthorizedRepresentative.RepresentativeTitle",
+      "requiredByDat": true,
+      "maxLength": 45
+    },
+    {
+      "canonicalName": "applicantOrganization",
+      "wirePath": "ApplicantOrganizationName",
+      "requiredByDat": true,
+      "maxLength": 60
+    },
+    {
+      "canonicalName": "signedDate",
+      "wirePath": "SubmittedDate",
+      "requiredByDat": true,
+      "responseRole": "systemValue",
+      "sourceBehavior": "System generated after successful upload of the application package. Display \"Completed on submission to Grants.gov\"."
+    }
+  ],
+  "profiles": [
+    {
+      "id": "sf424d",
+      "legacyFormId": 238,
+      "formName": "Assurances for Construction Programs (SF-424D)",
+      "shortFormName": "SF424D",
+      "formVersion": "1.1",
+      "status": "Active",
+      "statusSource": "https://www.grants.gov/forms/form-items-description/fid/238",
+      "ombNumber": "4040-0009",
+      "ombExpirationDate": "2028-06-30",
+      "artifacts": {
+        "xsd": {
+          "uri": "https://apply07.grants.gov/apply/forms/schemas/SF424D-V1.1.xsd",
+          "sha256": "22026ea7130a01b8674e1c3ce1668e1b57d5be65498b5a76042eb80d38de77f1"
+        },
+        "dat": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/SF424D-V1.1_F238.xls",
+          "sha256": "1a2f94459b9a98591c7413062bdbede3d5bd12b5063f5ac64694b287ee1065ac"
+        },
+        "instructions": {
+          "uri": "https://apply07.grants.gov/apply/forms/instructions/SF424D-V1.1-Instructions.pdf",
+          "sha256": "ea9a907bde88bf769d7b2837d049e3ef9a8b9bbe4305c23a180d44b2c110b2d5"
+        },
+        "samplePdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/SF424D-V1.1.pdf",
+          "sha256": "55ad3f62b818a5aa2be52ee0d9a4646a3d1f9ce073f3646fab3d28822e81ebe5"
+        },
+        "readOnlyPdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/readonly/SF424D-V1.1.pdf",
+          "sha256": "7f7370e5a9bca317c48c8ab77fd77aa9d3e55d38df5653d460fa878fbb8ac864"
+        }
+      },
+      "wire": {
+        "namespace": "http://apply.grants.gov/forms/SF424D-V1.1",
+        "namespacePrefix": "SF424D",
+        "rootElement": "Assurances",
+        "programType": "Construction",
+        "versionElement": {
+          "name": "FormVersionIdentifier",
+          "namespace": "http://apply.grants.gov/system/Global-V1.0",
+          "value": "1.1"
+        },
+        "versionAttribute": {
+          "name": "coreSchemaVersion",
+          "namespace": "http://apply.grants.gov/system/Global-V1.0",
+          "value": "1.1"
+        }
+      },
+      "presentation": {
+        "applicantLabel": "Applicant Organization",
+        "titleRole": "prefilled",
+        "applicantOrganizationRole": "prefilled"
+      }
+    },
+    {
+      "id": "individual-sf424d",
+      "legacyFormId": 522,
+      "formName": "Assurances for Construction Programs (SF-424D Individual)",
+      "shortFormName": "Individual_SF424D",
+      "formVersion": "1.1",
+      "status": "Active",
+      "statusSource": "https://www.grants.gov/forms/form-items-description/fid/522",
+      "ombNumber": "4040-0009",
+      "ombExpirationDate": "2028-06-30",
+      "artifacts": {
+        "xsd": {
+          "uri": "https://apply07.grants.gov/apply/forms/schemas/Individual_SF424D-V1.1.xsd",
+          "sha256": "52187d42b9ca30cf1f2f95de50be13bbd9ae333ede4b843e8c43b23db4489356"
+        },
+        "dat": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/Individual_SF424D-V1.1_F522.xls",
+          "sha256": "6e81457ae7c0e39d70f13b31fc4022f37b169645f732ad04245065543362c455"
+        },
+        "instructions": {
+          "uri": "https://apply07.grants.gov/apply/forms/instructions/Individual_SF424D-V1.1-Instructions.pdf",
+          "sha256": "888763019a918a284906c37787a44f0b79f4c8e1360eab579e84faac37760d9e"
+        },
+        "samplePdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/Individual_SF424D-V1.1.pdf",
+          "sha256": "0f0b0e7080369d15bf8059ee8a2951d83acc2c50bb9651b9802b12223f9a5ecc"
+        },
+        "readOnlyPdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/readonly/Individual_SF424D-V1.1.pdf",
+          "sha256": "137728b836be226e54a7aab51142019f28234fa5619c72aa8137cf1821af9287"
+        }
+      },
+      "wire": {
+        "namespace": "http://apply.grants.gov/forms/Individual_SF424D-V1.1",
+        "namespacePrefix": "Individual_SF424D",
+        "rootElement": "Assurances",
+        "programType": "Construction",
+        "versionAttribute": {
+          "name": "FormVersion",
+          "namespace": "http://apply.grants.gov/forms/Individual_SF424D-V1.1",
+          "value": "1.1"
+        }
+      },
+      "presentation": {
+        "applicantLabel": "Applicant Name",
+        "titleRole": "applicantInput",
+        "applicantOrganizationRole": "applicantInput"
+      }
+    },
+    {
+      "id": "mandatory-sf424d",
+      "legacyFormId": 329,
+      "formName": "Assurances for Construction Programs (SF-424D - Mandatory)",
+      "shortFormName": "Mandatory_SF424D",
+      "formVersion": "1.1",
+      "status": "Active",
+      "statusSource": "https://www.grants.gov/forms/form-items-description/fid/329",
+      "ombNumber": "4040-0009",
+      "ombExpirationDate": "2028-06-30",
+      "artifacts": {
+        "xsd": {
+          "uri": "https://apply07.grants.gov/apply/forms/schemas/Mandatory_SF424D-V1.1.xsd",
+          "sha256": "6685f2c19329db0ee959e2453cbcaf749e9bb2d7f45cb96892d9a4e71d87f68d"
+        },
+        "dat": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/Mandatory_SF424D-V1.1_F329.xls",
+          "sha256": "36bad462d58c2230ceaa6a777362bda4afcf2018e5a421f3fe25ad5b03425591"
+        },
+        "instructions": {
+          "uri": "https://apply07.grants.gov/apply/forms/instructions/Mandatory_SF424D-V1.1-Instructions.pdf",
+          "sha256": "1bf340b765736e2868befbe607abbb1765fce8e857e5d3a0c5bc1a25a6f6b82e"
+        },
+        "samplePdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/sample/Mandatory_SF424D-V1.1.pdf",
+          "sha256": "841d74574a4ffbd26cbf3b6dbcb64c975fd0b1c902eccc814dd2520fa38003eb"
+        },
+        "readOnlyPdf": {
+          "uri": "https://apply07.grants.gov/apply/forms/readonly/Mandatory_SF424D-V1.1.pdf",
+          "sha256": "5ca3685442c42ef70babab6833fde2fae4adfbd82aacc244718dc1faf15d4812"
+        }
+      },
+      "wire": {
+        "namespace": "http://apply.grants.gov/forms/Mandatory_SF424D-V1.1",
+        "namespacePrefix": "Mandatory_SF424D",
+        "rootElement": "Assurances",
+        "programType": "Construction",
+        "versionAttribute": {
+          "name": "FormVersion",
+          "namespace": "http://apply.grants.gov/forms/Mandatory_SF424D-V1.1",
+          "value": "1.1"
+        }
+      },
+      "presentation": {
+        "applicantLabel": "Applicant Organization",
+        "titleRole": "prefilled",
+        "applicantOrganizationRole": "prefilled"
+      }
+    }
+  ],
+  "structuralConclusions": [
+    "The twenty construction assurances are policy content and do not appear in any of the three XML schemas.",
+    "Individual and Mandatory are structurally identical after replacing their target namespace and namespace prefix.",
+    "The base profile has one additional required version element and uses a namespaced coreSchemaVersion attribute; the other profiles use a local fixed FormVersion attribute.",
+    "All three DAT workbooks mark signature, title, applicant organization, and submitted date required even though the XSD permits the corresponding content elements to be absent.",
+    "The instructions make title and applicant organization prepopulation explicit for base and Mandatory and leave both editable for Individual."
+  ]
+}
