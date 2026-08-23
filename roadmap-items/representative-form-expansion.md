@@ -178,3 +178,5 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/prove-key-person-sgg-lifecycle.md)
 
 [contains](../tasks/unified-form-analysis-export.md)
+
+[contains](../tasks/project-key-person-xml-in-sgg.md)

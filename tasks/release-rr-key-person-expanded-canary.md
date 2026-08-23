@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:06:47.667Z'
+  at: '2026-08-23T16:34:49.075Z'
 ---
 # Goal
 
@@ -49,3 +49,5 @@ After this canary proves the bounded architecture and records its exceptions, re
 [depends on](add-composable-presence-conditions.md)
 
 [depends on](prove-key-person-sgg-lifecycle.md)
+
+[depends on](project-key-person-xml-in-sgg.md)
