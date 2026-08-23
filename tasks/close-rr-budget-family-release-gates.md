@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:37:11.109Z'
+  at: '2026-08-23T20:28:19.045Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -77,10 +77,12 @@ architecture or silently claim human approval.
   materialization policies fail closed during artifact projection. Materialized sums and
   subtraction require nonempty string `fields`; PercentOf requires nonempty string `amount` and
   `percentage` paths, so malformed artifacts cannot fall through to a swallowed runtime error. The
-  focused 148-test rule-processing, root-budget, nested-subaward, provenance, malformed-contract,
+  focused 149-test rule-processing, root-budget, nested-subaward, provenance, malformed-contract,
   and artifact-integrity suite passes
   against the local test database; lint, formatting, and targeted mypy pass at adapter commit
-  `9298b8c3d7376dce2b37302b15a1909f139f779f`. This fork currently reports no GitHub checks for
+  `a029d1aaf2c053fc4075bffa6c2a8dd19b1fe75b`. The branch is rebased on fork main
+  `f0a0aabd3308b4d0bddd1bae5ce881ea8e17309b`; the corrected SF-424A lifecycle fixture passes in
+  the same focused run. This fork currently reports no GitHub checks for
   the branch.
 - Regression coverage proves that absent optional Other Personnel input leaves cumulative count and
   funds outputs absent, while explicitly entered integer and monetary zeroes materialize zero. The
