@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:30:46.838Z'
+  at: '2026-08-23T19:32:12.501Z'
 assignee: codex
 ---
 # Goal
@@ -58,8 +58,9 @@ modify HHS upstream.
   the locked path.
 - Focused frontend tests, ESLint, Prettier, API Ruff checks, and the DB-backed lifecycle test pass
   locally against the PostgreSQL test service.
-- Fork PR [mikec-ai/simpler-grants-gov#41](https://github.com/mikec-ai/simpler-grants-gov/pull/41)
-  extends the existing Playwright submission/print harness with the same C-F = 10 / G = 100
+- Merged fork PR [mikec-ai/simpler-grants-gov#41](https://github.com/mikec-ai/simpler-grants-gov/pull/41),
+  commit `777f854037465f46f4f884d56e3b3feaf63efbc7`, extends the existing Playwright
+  submission/print harness with the same C-F = 10 / G = 100
   exception, browser A-to-G keyboard order, accessible-name assertions, the actual print route
   under print media, locked controls, and the persisted Column G total. It removes SF-424A's former
   exemption from the generic read-only print gate.
