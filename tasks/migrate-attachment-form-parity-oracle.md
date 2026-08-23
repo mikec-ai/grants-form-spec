@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Replace the legacy SGG Attachment Form with portable ordered-attachment
   composition and differential XML/lifecycle parity.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:57:45.258Z'
+  at: '2026-08-23T22:00:55.891Z'
+assignee: attachment_form_agent
 ---
 # Goal
 

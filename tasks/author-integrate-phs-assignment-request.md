@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Deliver the small high-volume assignment-preference profile without
   introducing a PHS-specific workflow engine.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:57:45.454Z'
+  at: '2026-08-23T22:00:56.125Z'
+assignee: assignment_request_agent
 ---
 # Goal
 
