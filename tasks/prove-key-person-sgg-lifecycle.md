@@ -11,22 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:58:01.725Z'
----
----
-type: Task
-title: Prove Key Person through the SGG lifecycle
-priority: P0
-assignee: key_person_lifecycle_agent
-description: >-
-  Exercise R&R Key Person Expanded through generic SGG registration-ready
-  projection, validation, persistence, print, submission, and XML without
-  production opt-in.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T17:22:12.265Z'
+  at: '2026-08-23T21:41:45.759Z'
 ---
 # Goal
 

@@ -10,21 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:20:26.155Z'
----
----
-type: Task
-title: Distinguish XML array wrapper cardinality
-priority: P0
-assignee: key_person_xml_agent
-description: >-
-  Make collection-wrapper and per-item-wrapper XML arrays explicit so budgets
-  and Key Person compile identically across producer and SGG.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T16:44:53.395Z'
+  at: '2026-08-23T21:41:43.598Z'
 ---
 # Goal
 

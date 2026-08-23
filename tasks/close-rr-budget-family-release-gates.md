@@ -10,22 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:34:13.249Z'
-assignee: gate_assessment_agent
----
----
-type: Task
-title: Close R&R Budget family release gates
-priority: P0
-description: >-
-  Close shared DAT-condition, lifecycle, browser, accessibility,
-  semantic-review, and production gates across R&R Budget and Subaward Budget
-  profiles.
-superbee_progress_status: in_progress
-superbee_updated_by: gate_assessment_agent
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T20:32:22.850Z'
+  at: '2026-08-23T21:41:43.358Z'
 assignee: gate_assessment_agent
 ---
 # Goal

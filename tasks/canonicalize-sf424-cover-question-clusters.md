@@ -9,21 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:50:17.919Z'
-assignee: prepare_cover_clusters
----
----
-type: Task
-title: Canonicalize SF-424 cover question clusters
-priority: P1
-description: >-
-  Normalize 50 likely semantic occurrences across SF-424 and the two R&R cover
-  variants using accepted evidence.
-superbee_progress_status: in_progress
-superbee_updated_by: prepare_cover_clusters
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T20:49:01.673Z'
+  at: '2026-08-23T21:41:45.332Z'
 assignee: prepare_cover_clusters
 ---
 # Objective

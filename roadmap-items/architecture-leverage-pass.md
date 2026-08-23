@@ -8,16 +8,6 @@ sequence: '4'
 superbee_progress_status: done
 superbee_updated_by: codex
 ---
----
-type: Roadmap Item
-title: Simplify reusable form authoring before the next expansion wave
-description: >-
-  A bounded architecture leverage and SGG target-boundary pass with an explicit
-  stop condition before representative expansion resumes.
-sequence: '4'
-superbee_progress_status: active
-superbee_updated_by: codex
----
 # Outcome
 
 Make the next form expansion wave cheaper and easier to review by removing duplication at three proven seams, correcting one demonstrated target-identity leak, and isolating one source-version provenance migration, while preserving the portable artifact contract and current runtime behavior.

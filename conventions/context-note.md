@@ -14,6 +14,7 @@ sections:
   - Summary
 freshness_horizon: 24h
 browse_collapsed: true
+superbee_updated_by: codex
 ---
 # Context Note
 
@@ -25,34 +26,4 @@ A kind convention is a plain OKF doc (`type: Convention`) living under `conventi
 
 - `governs` (required, non-empty) — the `type` value this convention governs.
 - `title` (optional) — display title; defaults to `governs`.
-- `description` (optional) — the kind's purpose and intended use.
-- `path` (optional) — canonical bundle-relative path prefix instances are scaffolded under (e.g. `roadmap/`).
-- `fields.required` — list of field names an instance MUST carry (non-empty).
-- `fields.optional` — list of field names an instance MAY carry.
-- `fields.descriptions` — a MAP of `field name -> human guidance` for declared fields.
-- `fields.values` — a MAP of `field name -> list of allowed values`. This is the ONLY place an enum constraint goes — never a top-level `enum:`/`enums:`/`values:`/`constraints:` key, and never a field named directly at the top level either.
-- `sections` — list of expected level-1 (`# Heading`) body-section names. Declare only the headings EVERY instance must carry (this Context Note kind declares just `Summary`, the one section `new "Context Note"` scaffolds and every instance carries).
-- `freshness_horizon` — a Superbee Kind extension using `<n>(m|h|d)`, e.g. `24h`, `30d`, `15m`.
-
-Worked example (a `Roadmap Item` kind, with an enum-restricted field and expected sections):
-
-```yaml
----
-type: Convention
-title: Roadmap Item
-governs: Roadmap Item
-description: A durable line of work that groups related tasks.
-path: roadmap/
-fields:
-  required: [title, superbee_progress_status]
-  optional: [horizon]
-  values:
-    superbee_progress_status: [planned, active, done]
-  descriptions:
-    title: A concise summary of the outcome.
-    superbee_progress_status: The roadmap item's current workflow progress.
-    horizon: The expected delivery window.
-sections: [Why, "Done when"]
-freshness_horizon: 30d
----
-```
+- `description` (optional) — the kind's purpose and intended

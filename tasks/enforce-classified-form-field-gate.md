@@ -9,21 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:22:35.479Z'
-assignee: gate_assessment_agent
----
----
-type: Task
-title: Enforce the classified form-field gate
-priority: P1
-description: >-
-  Prevent unknown field classifications from returning after the baseline
-  normalization work is complete.
-superbee_progress_status: in_progress
-superbee_updated_by: gate_assessment_agent
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T21:21:59.228Z'
+  at: '2026-08-23T21:42:02.360Z'
 assignee: gate_assessment_agent
 ---
 # Objective
@@ -33,7 +19,7 @@ resolved.
 
 # Acceptance criteria
 
-- The 19-form baseline emits zero unknown rows in `unclassified-form-fields.csv`; explicitly
+- The 30-form baseline emits zero unknown rows in `unclassified-form-fields.csv`; explicitly
   classified form-local technical/system/attestation fields remain visible in the full occurrence
   dataset but are not counted as semantic questions.
 - CI fails when a new emitted field lacks both canonical lineage and an explicit response role.

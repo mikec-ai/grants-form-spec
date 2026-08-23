@@ -10,21 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:58:01.584Z'
----
----
-type: Task
-title: Integrate Key Person overflow gating
-priority: P0
-assignee: key_person_xml_agent
-description: >-
-  Apply the merged count-or-presence condition to all three Key Person overflow
-  uploads and carry the emitted artifacts through SGG.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T17:22:11.971Z'
+  at: '2026-08-23T21:41:44.862Z'
 ---
 # Goal
 

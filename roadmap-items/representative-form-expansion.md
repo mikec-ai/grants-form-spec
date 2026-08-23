@@ -11,7 +11,7 @@ superbee_updated_by: codex
 ---
 # Strategy
 
-Use two complementary delivery lanes after the current nineteen-form foundation:
+Use two complementary delivery lanes across the current 30-form baseline and the next expansion sequence:
 
 1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
 2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
@@ -26,10 +26,11 @@ Producer completion does not imply production registration or human semantic, po
 
 # Immediate leverage gate before forms 31+
 
-Complete two bounded, independent test/validation improvements:
+Complete three bounded, independent delivery-cost improvements:
 
 1. A generic producer XML/XSD conformance harness.
 2. Exact rule-target-to-behavior-evidence coverage enforcement.
+3. A supervised, consumer-owned producer-to-SGG promotion workflow.
 
 These changes do not reopen the compiler, adapter, authoring language, or runtime architecture.
 
@@ -80,7 +81,7 @@ Record for every form:
 - accessibility findings and unresolved semantic, policy, instruction, or operational gates;
 - elapsed implementation effort and marginal effort compared with the prior form.
 
-The cohort validates the next-form economics when the final five forms require no form-specific adapter branches and no more than two genuinely reusable runtime extensions across the cohort. Failure to meet that condition triggers an architecture review before forms 30–39.
+The next sequence validates next-form economics when its final forms require no form-specific adapter branches and no more than two genuinely reusable runtime extensions. Failure to meet that condition triggers a bounded architecture review before continuing beyond the committed sequence.
 
 # Later candidates
 
@@ -89,10 +90,9 @@ Keep these behind the committed next sequence rather than silently expanding sco
 1. PHS Fellowship Supplemental
 2. SF-425 Federal Financial Report
 3. SBIR/STTR Information
-4. SF-424D as an inexpensive SF-424B assurance derivative
-5. EPA Key Contacts as an identity/contact oracle migration
-6. R&R Federal/Non-Federal Budget
-7. R&R Personal Data after privacy and policy review
+4. EPA Key Contacts as an identity/contact oracle migration
+5. R&R Federal/Non-Federal Budget
+6. R&R Personal Data after privacy and policy review
 
 # Work governed by this roadmap item
 

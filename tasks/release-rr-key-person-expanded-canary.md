@@ -11,22 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:58:01.860Z'
----
----
-type: Task
-title: Prove R&R Key Person Expanded through the full SGG lifecycle
-priority: P0
-assignee: codex-team
-description: >-
-  Use the existing Key Person form as the post-leverage vertical canary before
-  authoring a twentieth form; validate registration, lifecycle, repeated
-  structures, projection, XML/XSD, and explicit human gates.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T17:22:12.125Z'
+  at: '2026-08-23T21:41:44.367Z'
 ---
 # Goal
 

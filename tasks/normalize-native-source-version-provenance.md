@@ -10,22 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:03:16.501Z'
-assignee: provenance_agent
----
----
-type: Task
-title: Normalize native source version provenance
-priority: P2
-description: >-
-  Define and backfill an unambiguous distinction between enclosing form version,
-  native source version, and explicitly unknown source versions across all
-  evidence sidecars.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T15:36:02.620Z'
+  at: '2026-08-23T21:41:43.846Z'
 assignee: provenance_agent
 ---
 # Goal

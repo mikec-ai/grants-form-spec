@@ -10,21 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:24:59.322Z'
----
----
-type: Task
-title: Add composable presence conditions
-priority: P0
-assignee: condition_agent
-description: >-
-  Add the smallest generic condition vocabulary needed to express count-at-limit
-  OR existing attachment presence across producer and SGG frontend.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T16:06:54.924Z'
+  at: '2026-08-23T21:41:44.119Z'
 ---
 # Goal
 

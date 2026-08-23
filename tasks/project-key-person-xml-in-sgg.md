@@ -11,22 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:20:26.301Z'
----
----
-type: Task
-title: Project Key Person XML through SGG
-priority: P0
-assignee: key_person_xml_agent
-description: >-
-  Consume the merged portable Key Person XML profile through a generic
-  leaf-container projection and validate assembled submission XML against the
-  pinned official XSD.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T16:44:53.538Z'
+  at: '2026-08-23T21:41:44.622Z'
 ---
 # Goal
 

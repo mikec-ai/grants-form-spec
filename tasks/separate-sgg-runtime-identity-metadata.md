@@ -11,22 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:05:59.673Z'
----
----
-type: Task
-title: Separate SGG runtime identity from portable FormMeta
-priority: P0
-assignee: identity_agent
-description: >-
-  Move only demonstrated SGG runtime identity fields into a versioned SGG-owned
-  registration/target record, preserving compatibility and avoiding wholesale
-  target-vocabulary relocation.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T15:36:02.486Z'
+  at: '2026-08-23T21:41:33.765Z'
 ---
 # Goal
 

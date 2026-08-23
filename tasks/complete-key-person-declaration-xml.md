@@ -10,21 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:38:55.380Z'
----
----
-type: Task
-title: Complete Key Person declaration and XML target
-priority: P0
-assignee: key_person_xml_agent
-description: >-
-  Correct pinned DAT behaviors and author the source-bound Grants.gov XML/XSD target
-  for R&R Key Person Expanded.
-superbee_progress_status: in_progress
-superbee_updated_by: codex
-generated:
-  by: 'process:superbee'
-  at: '2026-08-23T16:06:54.785Z'
+  at: '2026-08-23T21:41:45.547Z'
 ---
 # Goal
 
