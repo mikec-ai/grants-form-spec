@@ -2,6 +2,8 @@
 type: Roadmap
 title: Portable grants form specification
 superbee_updated_by: codex
+actor: Codex
+timestamp: '2026-08-23T22:26:12.549Z'
 ---
 [contains](../roadmap-items/contract-and-conformance.md)
 
@@ -16,3 +18,5 @@ superbee_updated_by: codex
 [contains](../roadmap-items/form-field-normalization.md)
 
 [contains](../roadmap-items/conformance-authoring-leverage.md)
+
+[contains](../roadmap-items/portable-catalog-proof.md)
