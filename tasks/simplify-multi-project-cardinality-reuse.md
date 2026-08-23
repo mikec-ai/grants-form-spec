@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Bounded schema-composition canary that removes optional-cardinality clones
   without weakening semantic identity.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:27:32.271Z'
+  at: '2026-08-23T14:36:36.321Z'
+assignee: rr_sf424_semantic_review
 ---
 # Goal
 

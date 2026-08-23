@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Use the existing JSON reference resolver to remove repeated, source-identical
   wire mappings.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:27:32.435Z'
+  at: '2026-08-23T14:36:36.462Z'
+assignee: rr_budget_semantic_review
 ---
 # Goal
 
