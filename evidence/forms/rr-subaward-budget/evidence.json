@@ -18,7 +18,7 @@
       "type": "dat",
       "uri": "https://apply07.grants.gov/apply/forms/sample/RR_SubawardBudget_3_0-V3.0_F776.xls",
       "sha256": "4eab979aa62d4a4e79da6ee536140da7b76545a8fc20a9897c1c13527b3c56fd",
-      "nativeVersion": "3.0"
+      "nativeVersion": null
     }
   ],
   "extraction": {

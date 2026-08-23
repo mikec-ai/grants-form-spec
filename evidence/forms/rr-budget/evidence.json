@@ -18,7 +18,7 @@
       "type": "dat",
       "uri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sha256": "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035",
-      "nativeVersion": "3.0"
+      "nativeVersion": null
     }
   ],
   "extraction": {

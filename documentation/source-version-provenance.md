@@ -12,8 +12,12 @@ Form evidence records two different version concepts and never substitutes one f
 preferable to copying the form version, parsing a nearby source, or inventing a PDF, DAT, or
 instruction version. The URI and SHA-256 still pin the exact source bytes.
 
-The evidence projector checks version tokens that are explicit in source URIs such as
-`GlobalLibrary-V2.0.xsd`. The crosswalk promotion importer applies the same deterministic rule and
-emits null when no version token is present. These checks concern source identity only; they do not
-accept or alter semantic mappings.
+The evidence projector checks the authorized XSD filename format, such as
+`GlobalLibrary-V2.0.xsd`. A version-looking XSD filename in another format fails with an actionable
+error instead of silently becoming unknown. The crosswalk promotion importer applies the same
+rule.
 
+A `V` token in a DAT, PDF, instruction, or implementation filename is not enough to establish that
+source's native version; it may describe the containing form or another publication context. The
+importer emits null for those source types unless independent evidence supplies an exact native
+version. These checks concern source identity only; they do not accept or alter semantic mappings.

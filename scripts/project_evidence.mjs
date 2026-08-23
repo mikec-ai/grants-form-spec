@@ -24,9 +24,18 @@ async function evidenceFiles(root) {
   return found.sort();
 }
 
-function nativeVersionFromUri(uri) {
-  const match = /(?:^|[-_])V([0-9]+(?:\.[0-9]+)+)(?=[_.-]|$)/i.exec(uri);
-  return match?.[1] ?? null;
+function nativeVersionFromUri(source, rel) {
+  if (source.type !== "xsd") return null;
+  const filename = new URL(source.uri).pathname.split("/").at(-1) ?? "";
+  const match = /-V([0-9]+\.[0-9]+)\.xsd$/i.exec(filename);
+  if (match) return match[1];
+  if (/(?:^|[-_])V[0-9]/i.test(filename)) {
+    throw new Error(
+      `${rel}: source ${source.id} uses unsupported version-looking XSD URI ${source.uri}; ` +
+      "expected a filename ending in -V<major>.<minor>.xsd",
+    );
+  }
+  return null;
 }
 
 export async function projectEvidence({ evidenceRoot, dist }) {
@@ -46,7 +55,7 @@ export async function projectEvidence({ evidenceRoot, dist }) {
 
     const rel = relative(evidenceRoot, sourcePath);
     for (const source of document.sources) {
-      const uriVersion = nativeVersionFromUri(source.uri);
+      const uriVersion = nativeVersionFromUri(source, rel);
       if (uriVersion !== null && source.nativeVersion !== uriVersion) {
         throw new Error(
           `${rel}: source ${source.id} nativeVersion ${JSON.stringify(source.nativeVersion)} ` +
