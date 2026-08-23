@@ -84,13 +84,33 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                         walk(child)
 
             walk(profile)
+            expected_mapping = (
+                "../mappings/rr-sf424-5.0.json#/fields"
+                if profile["formId"] == "rr-sf424"
+                else "../mappings/research-budget-3.0.json#/fields"
+            )
             self.assertEqual(
                 sorted(refs),
-                [
+                sorted([
                     "../mappings/attached-file-data-1.0.json#/fields",
-                    "../mappings/research-budget-3.0.json#/fields",
-                ],
+                    expected_mapping,
+                ]),
             )
+
+    def test_rr_sf424_keeps_wire_only_grouping_out_of_the_question_model(self) -> None:
+        profile = _json(DIST_FORMS / "rr-sf424/targets/grants-gov-xml.json")
+        district = profile["mapping"]["fields"]["congressionalDistrict"]
+
+        self.assertEqual(district["kind"], "group")
+        self.assertEqual(
+            district["fields"]["applicantCongressionalDistrict"],
+            {
+                "element": "ApplicantCongressionalDistrict",
+                "kind": "value",
+                "source": "/applicantCongressionalDistrict",
+            },
+        )
+        self.assertEqual(profile["evidence"]["status"], "source-bound-unreviewed")
 
 
 if __name__ == "__main__":

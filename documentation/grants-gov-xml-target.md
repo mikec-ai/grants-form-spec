@@ -16,10 +16,12 @@ self-contained targets/grants-gov-xml.json
 generic consumer adapter -> XML
 ```
 
-The source mapping vocabulary contains four node kinds:
+The source mapping vocabulary contains five node kinds:
 
 - `value`: one response value becomes one XML element;
 - `object`: child response fields become child elements;
+- `group`: a wire-only wrapper collects explicitly sourced canonical values without adding
+  the wrapper to the question model;
 - `array`: each item is mapped with one reusable item mapping;
 - `attachment`: a consumer resolves an attachment reference into the standard Grants.gov
   attachment wire structure.
@@ -27,6 +29,12 @@ The source mapping vocabulary contains four node kinds:
 Profiles contain only data: root element and attributes, namespaces, a pinned XSD URI and
 digest, and the mapping. An array may additionally declare an imported item element,
 namespace, and fixed attributes. Consumers must not branch on a form id.
+
+A mapping node may declare an absolute `source` JSON pointer. This is primarily used inside
+`group` nodes when the official XSD introduces structure that applicants never answer as an
+object. For example, R&R SF-424 asks for one applicant congressional district while its XML
+wraps that value in a `CongressionalDistrict` element. The target profile owns that wrapper;
+the canonical form remains a scalar question.
 
 The standard Grants.gov attached-file wire children are data as well. Profiles that map an
 `attachment` compose the shared `attached-file-data-1.0.json` declaration, which names

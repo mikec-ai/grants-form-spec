@@ -314,7 +314,7 @@ export async function validateArtifactGraph(inputDist) {
 function* mappingNodes(fields) {
   for (const node of Object.values(fields ?? {})) {
     yield node;
-    if (node.kind === "object") yield* mappingNodes(node.fields);
+    if (node.kind === "object" || node.kind === "group") yield* mappingNodes(node.fields);
     if (node.kind === "array") yield* mappingNodes(node.items?.fields);
   }
 }
@@ -401,9 +401,67 @@ async function schemaItems(state, dist, cache, seen = new Set()) {
   return undefined;
 }
 
-async function validateMappingCoverage(fields, schemaState, dist, cache, profilePath, at = "") {
+async function validateSourcePointer(source, rootSchemaState, dist, cache, profilePath) {
+  if (typeof source !== "string" || !source.startsWith("/")) {
+    throw new ArtifactError(`XML mapping source is not an absolute JSON pointer: ${source}`, profilePath);
+  }
+  let states = [rootSchemaState];
+  for (const step of decodePointer(`#${source}`)) {
+    const next = [];
+    for (const state of states) {
+      const properties = await schemaProperties(state, dist, cache);
+      next.push(...(properties.get(step) ?? []));
+    }
+    if (!next.length) {
+      throw new ArtifactError(`XML mapping source does not resolve: ${source}`, profilePath);
+    }
+    states = next;
+  }
+}
+
+async function groupSources(fields, rootSchemaState, dist, cache, profilePath) {
+  const sources = [];
+  for (const node of Object.values(fields)) {
+    if (node.kind === "group") {
+      sources.push(...await groupSources(node.fields, rootSchemaState, dist, cache, profilePath));
+    } else if (node.source) {
+      await validateSourcePointer(node.source, rootSchemaState, dist, cache, profilePath);
+      sources.push(node.source);
+    } else {
+      throw new ArtifactError("XML group child must declare an absolute source", profilePath);
+    }
+  }
+  return sources;
+}
+
+function sourcePropertyAt(source, at) {
+  const sourceSteps = decodePointer(`#${source}`);
+  const atSteps = at ? at.replaceAll("[*]", "").split(".") : [];
+  if (!atSteps.every((step, index) => sourceSteps[index] === step)) return undefined;
+  return sourceSteps[atSteps.length];
+}
+
+async function validateMappingCoverage(
+  fields,
+  schemaState,
+  dist,
+  cache,
+  profilePath,
+  at = "",
+  rootSchemaState = schemaState,
+) {
   const properties = await schemaProperties(schemaState, dist, cache);
-  const mapped = new Set(Object.keys(fields));
+  const mapped = new Set(Object.entries(fields)
+    .filter(([, node]) => node.kind !== "group")
+    .map(([name]) => name));
+  for (const node of Object.values(fields).filter((candidate) => candidate.kind === "group")) {
+    for (const source of await groupSources(
+      node.fields, rootSchemaState, dist, cache, profilePath,
+    )) {
+      const property = sourcePropertyAt(source, at);
+      if (property) mapped.add(property);
+    }
+  }
   const available = new Set(properties.keys());
   const missing = [...available].filter((name) => !mapped.has(name)).sort();
   const unknown = [...mapped].filter((name) => !available.has(name)).sort();
@@ -417,7 +475,9 @@ async function validateMappingCoverage(fields, schemaState, dist, cache, profile
     const child = properties.get(name);
     const childPath = at ? `${at}.${name}` : name;
     if (node.kind === "object") {
-      await validateMappingCoverage(node.fields, child, dist, cache, profilePath, childPath);
+      await validateMappingCoverage(
+        node.fields, child, dist, cache, profilePath, childPath, rootSchemaState,
+      );
     }
     if (node.kind === "array") {
       const items = await schemaItems(child, dist, cache);
@@ -431,6 +491,7 @@ async function validateMappingCoverage(fields, schemaState, dist, cache, profile
         cache,
         profilePath,
         `${childPath}[*]`,
+        rootSchemaState,
       );
     }
   }

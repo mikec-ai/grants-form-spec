@@ -143,6 +143,45 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("XML mapping coverage mismatch", result.stdout)
         self.assertIn("notAFormField", result.stdout)
 
+    def test_rejects_an_xml_group_with_a_dangling_source_pointer(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            form = dist / "forms/example"
+            target = form / "targets/grants-gov-xml.json"
+            target.parent.mkdir()
+            self._json(target, {
+                "contract": "grants-gov-xml-profile/v1",
+                "formId": "example",
+                "xsd": {
+                    "uri": "https://example.gov/forms/Example-V1.0.xsd",
+                    "sha256": "a" * 64,
+                },
+                "namespaces": {"default": "https://example.gov/forms/Example-V1.0"},
+                "root": {
+                    "element": "Example", "namespacePrefix": "Example",
+                    "attributes": {"FormVersion": "1.0"},
+                },
+                "mapping": {"fields": {
+                    "wireWrapper": {
+                        "element": "WireWrapper", "kind": "group",
+                        "fields": {
+                            "name": {
+                                "element": "Name", "kind": "value", "source": "/missing",
+                            },
+                        },
+                    },
+                }},
+            })
+            manifest_path = form / "manifest.json"
+            manifest = json.loads(manifest_path.read_text())
+            manifest["artifacts"]["targets/grants-gov-xml.json"] = "generated"
+            self._json(manifest_path, manifest)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("XML mapping source does not resolve: /missing", result.stdout)
+
     def test_unknown_flag_is_an_actionable_usage_error(self) -> None:
         result = self._run("--dits", "somewhere")
 
