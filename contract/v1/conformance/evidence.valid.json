@@ -1,12 +1,12 @@
 {
   "contract": "grants-form-evidence/v1",
-  "block": { "id": "example-form", "kind": "form" },
+  "block": { "id": "example-form", "kind": "form", "formVersion": "2.0" },
   "sources": [
     {
       "id": "example-xsd",
       "type": "xsd",
       "uri": "https://example.gov/forms/example-v1.xsd",
-      "version": "1.0",
+      "nativeVersion": "1.0",
       "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
   ],

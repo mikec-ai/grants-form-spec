@@ -197,11 +197,15 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             evidence.parent.mkdir(parents=True)
             self._json(evidence, {
                 "contract": "grants-form-evidence/v1",
-                "block": {"id": "example", "kind": "form"},
+                "block": {"id": "example", "kind": "form", "formVersion": "1.0"},
                 "sources": [{
                     "id": "example-xsd", "type": "xsd",
-                    "uri": "https://example.gov/example.xsd", "version": "1.0",
+                    "uri": "https://example.gov/example-V1.0.xsd", "nativeVersion": "1.0",
                     "sha256": "a" * 64,
+                }, {
+                    "id": "example-dat", "type": "dat",
+                    "uri": "https://example.gov/example-V1.0_F1.xls", "nativeVersion": None,
+                    "sha256": "c" * 64,
                 }],
                 "extraction": {
                     "repository": "https://github.com/example/forms",
@@ -220,6 +224,95 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("sidecars: 1", result.stdout)
         self.assertEqual(manifest["artifacts"]["evidence.json"], "passthrough")
+
+    def test_projector_rejects_native_version_inherited_from_form_context(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            evidence = root / "evidence" / "forms" / "example" / "evidence.json"
+            evidence.parent.mkdir(parents=True)
+            self._json(evidence, {
+                "contract": "grants-form-evidence/v1",
+                "block": {"id": "example", "kind": "form", "formVersion": "4.0"},
+                "sources": [{
+                    "id": "global-library", "type": "xsd",
+                    "uri": "https://example.gov/GlobalLibrary-V2.0.xsd",
+                    "nativeVersion": "4.0", "sha256": "a" * 64,
+                }],
+                "extraction": {
+                    "repository": "https://github.com/example/forms", "revision": "1" * 40,
+                    "artifact": "artifacts/example.jsonl.manifest.json",
+                    "sourceSetSha256": "b" * 64, "extractedAt": "2026-08-18T14:19:31Z",
+                },
+                "semanticReview": {"status": "unreviewed", "mappings": []},
+            })
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("nativeVersion", result.stdout)
+        self.assertIn("version 2.0 stated by", result.stdout)
+
+    def test_projector_rejects_unsupported_version_looking_xsd_uris(self) -> None:
+        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd", "SchemaV2.0.xsd"]:
+            with self.subTest(filename=filename), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                dist = self._write_graph(root)
+                evidence = root / "evidence" / "forms" / "example" / "evidence.json"
+                evidence.parent.mkdir(parents=True)
+                self._json(evidence, {
+                    "contract": "grants-form-evidence/v1",
+                    "block": {"id": "example", "kind": "form", "formVersion": "1.0"},
+                    "sources": [{
+                        "id": "unsupported-xsd", "type": "xsd",
+                        "uri": f"https://example.gov/{filename}", "nativeVersion": None,
+                        "sha256": "a" * 64,
+                    }],
+                    "extraction": {
+                        "repository": "https://github.com/example/forms", "revision": "1" * 40,
+                        "artifact": "artifacts/example.jsonl.manifest.json",
+                        "sourceSetSha256": "b" * 64,
+                        "extractedAt": "2026-08-18T14:19:31Z",
+                    },
+                    "semanticReview": {"status": "unreviewed", "mappings": []},
+                })
+                result = self._run_projector(
+                    "--evidence", str(root / "evidence"), "--dist", str(dist),
+                )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("unsupported version-looking XSD URI", result.stdout)
+            self.assertIn("-V<major>.<minor>.xsd", result.stdout)
+
+    def test_projector_rejects_evidence_for_another_form_version(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            evidence = root / "evidence" / "forms" / "example" / "evidence.json"
+            evidence.parent.mkdir(parents=True)
+            self._json(evidence, {
+                "contract": "grants-form-evidence/v1",
+                "block": {"id": "example", "kind": "form", "formVersion": "2.0"},
+                "sources": [{
+                    "id": "unversioned", "type": "implementation",
+                    "uri": "https://example.gov/source.json", "nativeVersion": None,
+                    "sha256": "a" * 64,
+                }],
+                "extraction": {
+                    "repository": "https://github.com/example/forms", "revision": "1" * 40,
+                    "artifact": "artifacts/example.jsonl.manifest.json",
+                    "sourceSetSha256": "b" * 64, "extractedAt": "2026-08-18T14:19:31Z",
+                },
+                "semanticReview": {"status": "unreviewed", "mappings": []},
+            })
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("evidence formVersion 2.0", result.stdout)
+        self.assertIn("formVersion 1.0", result.stdout)
 
     def test_projector_rejects_unknown_flags(self) -> None:
         result = self._run_projector("--source", "somewhere")

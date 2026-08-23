@@ -100,11 +100,10 @@ types. Research Budget can consume the human-name fragment after its namespace p
 reconciled as a separately reviewed semantic change. Contact structures may become reusable
 only if a later fragment contract represents their cardinality differences explicitly.
 
-The fragment `evidence.xsd.version` is the native version encoded by the fragment's official
-XSD URI. The imported R&R SF-424 form evidence sidecar predates that distinction and stamps its
-form-context version onto dependency records. Tests therefore use that sidecar only to verify
-the pinned dependency URI and digest. Normalizing native source versions across legacy evidence
-sidecars is separate provenance debt and is not part of this byte-preserving XML refactor.
+The fragment `evidence.xsd.version` and each form evidence source's `nativeVersion` are the native
+versions encoded by their official XSD URIs. A form evidence sidecar records its separate canonical
+form version in `block.formVersion`; dependency records do not inherit that value. See
+`source-version-provenance.md` for the version and unknown-source rules.
 
 ## Boundary
 

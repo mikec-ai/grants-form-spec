@@ -17,6 +17,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
+from urllib.parse import urlparse
 
 
 CONTRACT = "grants-form-promotion/v1"
@@ -486,7 +487,7 @@ def render_tsp(packet: dict[str, Any]) -> str:
 
 
 def source_type(uri: str) -> str:
-    lower = uri.lower()
+    lower = urlparse(uri).path.lower()
     if lower.endswith(".xsd"):
         return "xsd"
     if lower.endswith(".xls") or lower.endswith(".xlsx"):
@@ -496,6 +497,21 @@ def source_type(uri: str) -> str:
     return "implementation"
 
 
+def native_source_version(uri: str, kind: str) -> str | None:
+    if kind != "xsd":
+        return None
+    filename = urlparse(uri).path.rsplit("/", 1)[-1]
+    match = re.search(r"-V([0-9]+\.[0-9]+)\.xsd$", filename, re.IGNORECASE)
+    if match:
+        return match.group(1)
+    if re.search(r"V[0-9]", filename, re.IGNORECASE):
+        raise PromotionError(
+            f"unsupported version-looking XSD URI {uri}; expected a filename ending in "
+            "-V<major>.<minor>.xsd"
+        )
+    return None
+
+
 def import_packet(packet: dict[str, Any], out: Path) -> dict[str, Any]:
     if packet.get("contract") != CONTRACT:
         raise PromotionError(f"unsupported promotion contract: {packet.get('contract')}")
@@ -503,16 +519,21 @@ def import_packet(packet: dict[str, Any], out: Path) -> dict[str, Any]:
     form_slug = re.sub(r"[^a-z0-9]+", "-", packet["form"]["id"].lower()).strip("-")
     evidence_sources = []
     for index, source in enumerate(packet["sources"], start=1):
+        kind = source_type(source["uri"])
         evidence_sources.append({
             "id": f"source-{index}-{source['sha256'][:12]}",
-            "type": source_type(source["uri"]),
+            "type": kind,
             "uri": source["uri"],
-            "version": packet["form"]["version"],
+            "nativeVersion": native_source_version(source["uri"], kind),
             "sha256": source["sha256"],
         })
     evidence = {
         "contract": "grants-form-evidence/v1",
-        "block": {"id": form_slug, "kind": "form"},
+        "block": {
+            "id": form_slug,
+            "kind": "form",
+            "formVersion": packet["form"]["version"],
+        },
         "sources": evidence_sources,
         "extraction": {
             "repository": packet["extraction"]["repository"],

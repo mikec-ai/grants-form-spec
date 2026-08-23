@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.promote_crosswalk import export_packet, import_packet
+from scripts.promote_crosswalk import PromotionError, export_packet, import_packet
 
 
 class PromotionImporterTests(unittest.TestCase):
@@ -116,11 +116,50 @@ class PromotionImporterTests(unittest.TestCase):
             draft = (output / "draft.tsp").read_text(encoding="utf-8")
 
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(evidence["block"]["formVersion"], "1.0")
+        xsd = next(source for source in evidence["sources"] if source["type"] == "xsd")
+        dat = next(source for source in evidence["sources"] if source["type"] == "dat")
+        self.assertEqual(xsd["nativeVersion"], "1.0")
+        self.assertIsNone(dat["nativeVersion"])
         self.assertEqual(report["generated"]["sourceRecordsTranscribed"], 2)
         self.assertEqual(report["generated"]["semanticMappingsAccepted"], 0)
         self.assertIn("namespace PromotionDraft.Example", draft)
         self.assertIn("@minLength(1)", draft)
         self.assertIn("not a canonical form declaration", draft)
+
+    def test_import_does_not_invent_a_native_version_for_an_unversioned_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            repo, revision = self._repo(root)
+            packet = export_packet(repo, "Example", revision)
+            packet["sources"].append({
+                "uri": "https://example.gov/forms/instructions.pdf",
+                "sha256": "c" * 64,
+            })
+            output = root / "stage"
+            import_packet(packet, output)
+            evidence = json.loads((output / "evidence.json").read_text(encoding="utf-8"))
+
+        unversioned = next(
+            source for source in evidence["sources"] if source["uri"].endswith("instructions.pdf")
+        )
+        self.assertIsNone(unversioned["nativeVersion"])
+
+    def test_import_rejects_unsupported_version_looking_xsd_uris(self) -> None:
+        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd", "SchemaV2.0.xsd"]:
+            with self.subTest(filename=filename), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                repo, revision = self._repo(root)
+                packet = export_packet(repo, "Example", revision)
+                packet["sources"] = [{
+                    "uri": f"https://example.gov/forms/{filename}",
+                    "sha256": "c" * 64,
+                }]
+
+                with self.assertRaisesRegex(
+                    PromotionError, r"expected a filename ending in -V<major>\.<minor>\.xsd",
+                ):
+                    import_packet(packet, root / "stage")
 
     def test_import_preserves_unbounded_repetition_without_inventing_a_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

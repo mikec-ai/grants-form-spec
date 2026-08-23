@@ -24,6 +24,20 @@ async function evidenceFiles(root) {
   return found.sort();
 }
 
+function nativeVersionFromUri(source, rel) {
+  if (source.type !== "xsd") return null;
+  const filename = new URL(source.uri).pathname.split("/").at(-1) ?? "";
+  const match = /-V([0-9]+\.[0-9]+)\.xsd$/i.exec(filename);
+  if (match) return match[1];
+  if (/V[0-9]/i.test(filename)) {
+    throw new Error(
+      `${rel}: source ${source.id} uses unsupported version-looking XSD URI ${source.uri}; ` +
+      "expected a filename ending in -V<major>.<minor>.xsd",
+    );
+  }
+  return null;
+}
+
 export async function projectEvidence({ evidenceRoot, dist }) {
   evidenceRoot = resolve(evidenceRoot);
   dist = resolve(dist);
@@ -40,6 +54,15 @@ export async function projectEvidence({ evidenceRoot, dist }) {
     }
 
     const rel = relative(evidenceRoot, sourcePath);
+    for (const source of document.sources) {
+      const uriVersion = nativeVersionFromUri(source, rel);
+      if (uriVersion !== null && source.nativeVersion !== uriVersion) {
+        throw new Error(
+          `${rel}: source ${source.id} nativeVersion ${JSON.stringify(source.nativeVersion)} ` +
+          `does not match version ${uriVersion} stated by ${source.uri}`,
+        );
+      }
+    }
     const segments = rel.split(sep);
     const kindRoot = segments[0];
     if (!(["forms", "question-bank"].includes(kindRoot))) {
@@ -57,6 +80,12 @@ export async function projectEvidence({ evidenceRoot, dist }) {
     if (kindRoot === "forms") {
       const manifestPath = resolve(targetDir, "manifest.json");
       const manifest = await json(manifestPath);
+      if (manifest.form.formVersion !== document.block.formVersion) {
+        throw new Error(
+          `${rel}: evidence formVersion ${document.block.formVersion} does not match ` +
+          `${relative(dist, manifestPath)} formVersion ${manifest.form.formVersion}`,
+        );
+      }
       manifest.artifacts["evidence.json"] = "passthrough";
       await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
     }

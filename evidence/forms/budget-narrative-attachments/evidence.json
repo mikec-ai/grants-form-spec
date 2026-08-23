@@ -1,13 +1,17 @@
 {
   "contract": "grants-form-evidence/v1",
-  "block": { "id": "budget-narrative-attachments", "kind": "form" },
+  "block": {
+    "id": "budget-narrative-attachments",
+    "kind": "form",
+    "formVersion": "1.2"
+  },
   "sources": [
     {
       "id": "grantsgov-budget-narrative-attachments-xsd-1.2",
       "type": "xsd",
       "uri": "https://apply07.grants.gov/apply/forms/schemas/BudgetNarrativeAttachments_1_2-V1.2.xsd",
-      "version": "1.2",
-      "sha256": "33c8bc63905589adae9508ddf08e69c7d8f900b394960f12fdd9b77cbfeb4feb"
+      "sha256": "33c8bc63905589adae9508ddf08e69c7d8f900b394960f12fdd9b77cbfeb4feb",
+      "nativeVersion": "1.2"
     }
   ],
   "extraction": {
@@ -17,5 +21,8 @@
     "sourceSetSha256": "50642162c0917579b07b40d284a4add445b172b63de792c99e4100b60ff0204a",
     "extractedAt": "2026-08-18T17:42:25.514755Z"
   },
-  "semanticReview": { "status": "unreviewed", "mappings": [] }
+  "semanticReview": {
+    "status": "unreviewed",
+    "mappings": []
+  }
 }
