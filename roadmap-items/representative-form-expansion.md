@@ -6,7 +6,7 @@ description: >-
   R&R Key Person Expanded vertically before authoring the twentieth form.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: Codex
+superbee_updated_by: codex
 ---
 # Strategy
 
@@ -104,3 +104,5 @@ Treat each new capability it exposes as evidence for the smallest generic extens
 [contains](../tasks/close-rr-sf424-release-gates.md)
 
 [contains](../tasks/release-rr-key-person-expanded-canary.md)
+
+[contains](../tasks/fix-repeated-attachment-audit.md)
