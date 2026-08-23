@@ -199,15 +199,12 @@ model ResearchStateReview {
 /** Research & Related Application for Federal Assistance, Grants.gov form version 5.0. */
 @Form.meta(#{
   id: "rr-sf424",
-  formId: "98f03cc4-5cd8-455b-a318-ba5abd0cf572",
   legacyFormId: 768,
   formName: "[Draft] Research & Related Application for Federal Assistance (SF424 R&R)",
   shortFormName: "RR_SF424_5_0",
   formVersion: "5.0",
   agencyCode: "GRANTS_GOV",
   ombNumber: "4040-0001",
-  formType: "RRSF424",
-  sggVersion: "1.0",
 })
 @UI.sections(RRSF424Section)
 @Sgg.prePopulate(#{

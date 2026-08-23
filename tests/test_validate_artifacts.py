@@ -49,10 +49,9 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self._json(form / "manifest.json", {
             "contract": "resolved-form-package/v1",
             "form": {
-                "id": "example", "formId": "f140c7db-724d-4954-bebd-081c0527908c",
+                "id": "example",
                 "legacyFormId": 1, "formName": "EXAMPLE", "shortFormName": "Example",
                 "formVersion": "1.0", "agencyCode": "SGG", "ombNumber": "",
-                "formType": "EXAMPLE", "sggVersion": "1.0",
             },
             "artifacts": {"schema.json": "generated", "ui.json": "generated"},
         })

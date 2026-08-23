@@ -186,14 +186,11 @@ model AttachedFileDraft {
 /** Review-gated source scaffold; not a canonical form declaration. */
 @Form.meta(#{
   id: "draft/performanceSite",
-  formId: "3dac12c6-ef6f-573e-8958-fedd16b3a8d2",
   legacyFormId: 723,
   formName: "[Promotion draft] Project/Performance Site Location(s)",
   shortFormName: "PerformanceSite_4_0",
   formVersion: "4.0",
   agencyCode: "GRANTS_GOV",
-  formType: "PerformanceSite",
-  sggVersion: "1.0",
 })
 model PerformanceSiteDraft {
   // Source: PerformanceSite_4_0.PrimarySite (container/deterministic)

@@ -172,15 +172,12 @@ model MultiProjectStateReview {
 /** Research & Related Multi-Project Cover, Grants.gov form version 4.0. */
 @Form.meta(#{
   id: "rr-sf424-multi-project-cover",
-  formId: "6d1fcf04-63e9-5951-841f-8ff06071f40c",
   legacyFormId: 769,
   formName: "[Draft] Research & Related Multi-Project Cover",
   shortFormName: "RR_SF424_Multi_Project_Cover_4_0",
   formVersion: "4.0",
   agencyCode: "GRANTS_GOV",
   ombNumber: "4040-0001",
-  formType: "RRSF424MPCover",
-  sggVersion: "1.0",
 })
 @UI.sections(RRSF424Section)
 model RRSF424MultiProjectCover {

@@ -17,19 +17,16 @@ model QuestionMeta {
   classification?: BlockClassification;
 }
 
-/** Identity, lifecycle, and runtime metadata for a form. */
+/** Portable identity, lifecycle, and source metadata for a form. */
 model FormMeta {
   /** Semantic id — e.g. "key-contacts". */
   id: string;
-  formId: string;
   legacyFormId?: int32;
   formName: string;
   shortFormName: string;
   formVersion: string;
   agencyCode?: string;
   ombNumber?: string;
-  formType?: string;
-  sggVersion?: string;
 }
 
 /** Source-specific constraints applied where a reusable question is composed into a form. */

@@ -14,7 +14,6 @@ import json
 import re
 import subprocess
 import sys
-import uuid
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -426,7 +425,6 @@ def render_tsp(packet: dict[str, Any]) -> str:
         item = by_path[path]
         is_root = path == root
         if is_root:
-            form_uuid = uuid.uuid5(uuid.NAMESPACE_URL, f"promotion:{packet['form']['id']}:{packet['form']['version']}")
             fid = next((
                 evidence["sourceRecord"].get("fid")
                 for evidence in packet["behaviorEvidence"]
@@ -436,7 +434,6 @@ def render_tsp(packet: dict[str, Any]) -> str:
                 "/** Review-gated source scaffold; not a canonical form declaration. */",
                 "@Form.meta(#{",
                 f"  id: {tsp_string('draft/' + identifier(packet['form']['id']))},",
-                f"  formId: {tsp_string(str(form_uuid))},",
             ])
             if fid is not None:
                 lines.append(f"  legacyFormId: {int(fid)},")
@@ -445,8 +442,6 @@ def render_tsp(packet: dict[str, Any]) -> str:
                 f"  shortFormName: {tsp_string(packet['form']['sourceRoot'])},",
                 f"  formVersion: {tsp_string(packet['form']['version'])},",
                 '  agencyCode: "GRANTS_GOV",',
-                f"  formType: {tsp_string(packet['form']['id'])},",
-                '  sggVersion: "1.0",',
                 "})",
             ])
         lines.append(f"model {model_name(path)} {{")

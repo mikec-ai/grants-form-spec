@@ -55,15 +55,12 @@ model Sf424ShortContact extends QuestionPocDetails {
 /** Application for Federal Domestic Assistance-Short Organizational (SF-424) */
 @Form.meta(#{
   id: "sf424-short",
-  formId: "cf355a4d-d840-43fd-a78f-729edf41ab4c",
   legacyFormId: 711,
   formName: "Application for Federal Domestic Assistance-Short Organizational (SF-424)",
   shortFormName: "SF424_Short_3_0",
   formVersion: "3.0",
   agencyCode: "SGG",
   ombNumber: "4040-0003",
-  formType: "SF424_SHORT",
-  sggVersion: "1.0",
 })
 @UI.sections(Sf424ShortSection)
 // Box 9's certification is long, and the paper form prints it in full beneath the checkbox.

@@ -260,13 +260,12 @@ model KeyContactPerson extends QuestionBank.Poc.QuestionPocDetails {
  * KEY CONTACTS (Grants.gov FID 683, v2.0)
  */
 @Form.meta(#{
-  formId: "f140c7db-724d-4954-bebd-081c0527908c",
+  id: "key-contacts",
   legacyFormId: 683,
   formName: "KEY CONTACTS",
   shortFormName: "Key_Contacts",
   formVersion: "2.0",
   ombNumber: "4040-0010",
-  formType: "KEY_CONTACTS",
 })
 @UI.sections(KeyContactsSection)
 model KeyContacts {
@@ -1200,7 +1199,7 @@ is, and all a form is. One decorator decides which:
 
 ```typespec
 @Question.meta("poc/details")                        // → the bank, $ref-able, question catalogue
-@Form.meta(#{ formId: "f140c7db-…", legacyFormId: 683, … })   // → a deliverable form
+@Form.meta(#{ id: "key-contacts", legacyFormId: 683, … })      // → a deliverable form
 ```
 
 Everything else — `@UI.*`, `@Validation.*`, `@Catalog.*`, later `@Map.*` — applies identically
@@ -1340,14 +1339,14 @@ projection exists: a target's limitations are the target's business, not the mod
 | | Question | Form |
 |---|---|---|
 | identity | `@Question.meta` | `@Form.meta` |
-| runtime metadata (UUID, optional `legacyFormId`, `ombNumber`, `formType`, version) | — | yes |
+| portable form metadata (source identity, optional legacy id, OMB number, version) | — | yes |
 | `schema.json` / `ui.json` / `index.json` | yes | yes |
 | `$ref`-able from another block | yes | yes |
 | SGG projection + `sgg/` artifacts | — | yes |
 | becomes a `Form` row in SGG | — | yes |
 | catalogue | question bank | forms |
 
-**A form is a question with runtime metadata and a delivery target.** Which is exactly why
+**A form is a question with portable form metadata and one or more delivery targets.** Which is exactly why
 "forms are configurable collections of questions" works — a form embedding a question is the
 same operation as a question embedding a question.
 

@@ -52,15 +52,12 @@ model PrimaryPerformanceSiteDetails extends PerformanceSiteDetails {
 /** Project/Performance Site Location(s), Grants.gov version 4.0. */
 @Form.meta(#{
   id: "performance-site",
-  formId: "3dac12c6-ef6f-573e-8958-fedd16b3a8d2",
   legacyFormId: 723,
   formName: "Project/Performance Site Location(s)",
   shortFormName: "PerformanceSite_4_0",
   formVersion: "4.0",
   agencyCode: "GRANTS_GOV",
   ombNumber: "4040-0010",
-  formType: "PerformanceSite",
-  sggVersion: "1.0",
 })
 @UI.sections(PerformanceSiteSection)
 model PerformanceSite {
