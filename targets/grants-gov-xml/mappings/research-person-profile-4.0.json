@@ -1,0 +1,59 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "research-person-profile-4.0",
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_KeyPersonExpanded_4_0-V4.0.xsd",
+      "version": "4.0",
+      "sha256": "c1522304f37bb91a1fc18f2b84656c570581969f9c1795d18352bc273d691b8b",
+      "type": "RR_KeyPersonExpanded_4_0:PersonProfileDataType",
+      "path": "/xs:schema/xs:complexType[@name='PersonProfileDataType']/xs:sequence/xs:element[@name='Profile']"
+    }
+  },
+  "fields": {
+    "name": {
+      "element": "Name",
+      "kind": "object",
+      "namespace": "default",
+      "fields": { "$ref": "./global-library-v2-human-name.json#/fields" }
+    },
+    "title": { "element": "Title", "kind": "value", "namespace": "default" },
+    "address": {
+      "element": "Address",
+      "kind": "object",
+      "namespace": "default",
+      "fields": { "$ref": "./global-library-v2-address-v3.json#/fields" }
+    },
+    "phone": { "element": "Phone", "kind": "value", "namespace": "default" },
+    "fax": { "element": "Fax", "kind": "value", "namespace": "default" },
+    "email": { "element": "Email", "kind": "value", "namespace": "default" },
+    "organizationName": {
+      "element": "OrganizationName",
+      "kind": "value",
+      "namespace": "default"
+    },
+    "department": { "element": "Department", "kind": "value", "namespace": "default" },
+    "division": { "element": "Division", "kind": "value", "namespace": "default" },
+    "credential": { "element": "Credential", "kind": "value", "namespace": "default" },
+    "projectRole": { "element": "ProjectRole", "kind": "value", "namespace": "default" },
+    "otherProjectRole": {
+      "element": "OtherProjectRoleCategory",
+      "kind": "value",
+      "namespace": "default"
+    },
+    "degreeType": { "element": "DegreeType", "kind": "value", "namespace": "default" },
+    "degreeYear": { "element": "DegreeYear", "kind": "value", "namespace": "default" },
+    "biographicalSketch": {
+      "element": "BioSketchAttached",
+      "kind": "attachment",
+      "namespace": "default",
+      "container": { "element": "BioSketchsAttached", "namespace": "default" }
+    },
+    "currentPendingSupport": {
+      "element": "SupportAttached",
+      "kind": "attachment",
+      "namespace": "default",
+      "container": { "element": "SupportsAttached", "namespace": "default" }
+    }
+  }
+}

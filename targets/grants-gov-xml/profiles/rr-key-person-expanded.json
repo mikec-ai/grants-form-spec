@@ -1,0 +1,74 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "rr-key-person-expanded",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_KeyPersonExpanded_4_0-V4.0.xsd",
+    "sha256": "c1522304f37bb91a1fc18f2b84656c570581969f9c1795d18352bc273d691b8b"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/RR_KeyPersonExpanded_4_0-V4.0",
+    "RR_KeyPersonExpanded_4_0": "http://apply.grants.gov/forms/RR_KeyPersonExpanded_4_0-V4.0",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0",
+    "glob": "http://apply.grants.gov/system/Global-V1.0",
+    "att": "http://apply.grants.gov/system/Attachments-V1.0"
+  },
+  "root": {
+    "element": "RR_KeyPersonExpanded_4_0",
+    "namespacePrefix": "RR_KeyPersonExpanded_4_0",
+    "attributes": { "FormVersion": "4.0" }
+  },
+  "attachment": {
+    "fields": { "$ref": "../mappings/attached-file-data-1.0.json#/fields" }
+  },
+  "mapping": {
+    "fields": {
+      "principalInvestigator": {
+        "element": "PDPI",
+        "kind": "group",
+        "namespace": "default",
+        "fields": {
+          "profile": {
+            "element": "Profile",
+            "kind": "object",
+            "namespace": "default",
+            "source": "/principalInvestigator",
+            "fields": { "$ref": "../mappings/research-person-profile-4.0.json#/fields" }
+          }
+        }
+      },
+      "seniorKeyPersons": {
+        "element": "KeyPerson",
+        "kind": "array",
+        "itemElement": "Profile",
+        "itemNamespace": "default",
+        "items": {
+          "fields": { "$ref": "../mappings/research-person-profile-4.0.json#/fields" }
+        }
+      },
+      "additionalProfiles": {
+        "element": "AdditionalProfileAttached",
+        "kind": "attachment",
+        "namespace": "default",
+        "container": { "element": "AdditionalProfilesAttached", "namespace": "default" }
+      },
+      "additionalBiographicalSketches": {
+        "element": "BioSketchAttached",
+        "kind": "attachment",
+        "namespace": "default",
+        "container": { "element": "BioSketchsAttached", "namespace": "default" }
+      },
+      "additionalCurrentPendingSupport": {
+        "element": "SupportAttached",
+        "kind": "attachment",
+        "namespace": "default",
+        "container": { "element": "SupportsAttached", "namespace": "default" }
+      }
+    }
+  },
+  "evidence": {
+    "status": "source-bound-unreviewed",
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "artifact": "artifacts/proof/grantsgov-RRKeyPersonExpanded.jsonl.manifest.json"
+  }
+}

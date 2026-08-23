@@ -64,6 +64,19 @@ class RRKeyPersonExpandedTests(unittest.TestCase):
         self.assertEqual(len(schema["properties"]), 5)
         self.assertEqual(schema["required"], ["principalInvestigator"])
         self.assertEqual(schema["properties"]["seniorKeyPersons"]["maxItems"], 99)
+        address = schema["$defs"]["ResearchPersonAddress"]
+        us_constraint = next(
+            branch for branch in address["allOf"]
+            if branch.get("then", {}).get("properties", {}).get("zipCode")
+        )
+        self.assertEqual(
+            us_constraint["then"]["properties"]["zipCode"], {"minLength": 9}
+        )
+        self.assertEqual(
+            schema["$defs"]["PrincipalInvestigatorProfile"]["properties"]
+            ["projectRole"]["default"],
+            "PD/PI",
+        )
         self.assertEqual(len(fields), 57)
         self.assertEqual(len(conditions), 6)
         self.assertEqual(sum(c["when"]["op"] == "in" for c in conditions), 2)
@@ -103,7 +116,18 @@ class RRKeyPersonExpandedTests(unittest.TestCase):
         ))
 
         evidence = load(root / "evidence.json")
-        self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        review = evidence["semanticReview"]
+        self.assertEqual(review["status"], "proposed")
+        self.assertEqual(len(review["mappings"]), 3)
+        self.assertTrue(all(row["status"] == "proposed" for row in review["mappings"]))
+        self.assertEqual(
+            {row["sourcePath"] for row in review["mappings"]},
+            {
+                "Form DAT!row 25 (Field # 1-17), Business Rules",
+                "Form DAT!row 54 (Field # 2-17), Business Rules",
+                "Form DAT!row 30 (Field # 1-22), Business Rules",
+            },
+        )
 
 
 if __name__ == "__main__":

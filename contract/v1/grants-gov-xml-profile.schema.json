@@ -93,6 +93,15 @@
         }
       }
     },
+    "leafContainer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element", "namespace"],
+      "properties": {
+        "element": { "$ref": "#/$defs/xmlName" },
+        "namespace": { "type": "string", "minLength": 1 }
+      }
+    },
     "mapping": {
       "type": "object",
       "additionalProperties": false,
@@ -114,6 +123,7 @@
         "kind": { "enum": ["value", "object", "group", "array", "attachment"] },
         "flatten": { "type": "boolean" },
         "namespace": { "type": "string", "minLength": 1 },
+        "container": { "$ref": "#/$defs/leafContainer" },
         "source": { "type": "string", "pattern": "^/" },
         "fields": { "$ref": "#/$defs/mappingFields" },
         "items": {
@@ -145,7 +155,8 @@
                 { "properties": { "items": true }, "required": ["items"] },
                 { "properties": { "itemElement": true }, "required": ["itemElement"] },
                 { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
-                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] }
+                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] },
+                { "properties": { "container": true }, "required": ["container"] }
               ]
             }
           }
@@ -155,7 +166,12 @@
           "then": {
             "properties": { "element": true, "items": true },
             "required": ["element", "items"],
-            "not": { "properties": { "fields": true }, "required": ["fields"] }
+            "not": {
+              "anyOf": [
+                { "properties": { "fields": true }, "required": ["fields"] },
+                { "properties": { "container": true }, "required": ["container"] }
+              ]
+            }
           }
         },
         {

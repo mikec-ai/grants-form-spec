@@ -275,6 +275,12 @@ export async function validateArtifactGraph(inputDist) {
               xmlProfilePath,
             );
           }
+          if (node.container?.namespace && !(node.container.namespace in profile.namespaces)) {
+            throw new ArtifactError(
+              `mapping container names unknown namespace ${node.container.namespace}`,
+              xmlProfilePath,
+            );
+          }
         }
         if (nodes.some((node) => node.kind === "attachment") && !profile.attachment) {
           throw new ArtifactError(

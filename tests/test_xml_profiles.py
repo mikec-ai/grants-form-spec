@@ -66,6 +66,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "performance-site",
             "rr-other-project-information",
             "phs398-modular-budget",
+            "rr-key-person-expanded",
         }
         profiles = {
             form_id: _json(DIST_FORMS / form_id / "targets/grants-gov-xml.json")
@@ -122,6 +123,11 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                 "../mappings/attached-file-data-1.0.json#/fields",
                 "../mappings/phs398-modular-budget-1.2.json#/fields",
             ],
+            "rr-key-person-expanded": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/research-person-profile-4.0.json#/fields",
+                "../mappings/research-person-profile-4.0.json#/fields",
+            ],
             "rr-other-project-information": [
                 "../mappings/attached-file-data-1.0.json#/fields",
                 "../mappings/rr-other-project-information-1.4.json#/fields",
@@ -153,6 +159,28 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             self.assertEqual(
                 sorted(refs), sorted(expected_refs.get(profile["formId"], default_refs))
             )
+
+    def test_key_person_reuses_one_person_mapping_for_pi_and_repeated_people(self) -> None:
+        source = _json(SOURCE / "profiles/rr-key-person-expanded.json")
+        shared_ref = "../mappings/research-person-profile-4.0.json#/fields"
+        self.assertEqual(
+            source["mapping"]["fields"]["principalInvestigator"]
+            ["fields"]["profile"]["fields"],
+            {"$ref": shared_ref},
+        )
+        self.assertEqual(
+            source["mapping"]["fields"]["seniorKeyPersons"]["items"]["fields"],
+            {"$ref": shared_ref},
+        )
+        person = _json(SOURCE / "mappings/research-person-profile-4.0.json")
+        self.assertEqual(
+            person["fields"]["biographicalSketch"]["container"],
+            {"element": "BioSketchsAttached", "namespace": "default"},
+        )
+        self.assertEqual(
+            person["fields"]["currentPendingSupport"]["container"],
+            {"element": "SupportsAttached", "namespace": "default"},
+        )
 
     def test_rr_sf424_keeps_wire_only_grouping_out_of_the_question_model(self) -> None:
         profile = _json(DIST_FORMS / "rr-sf424/targets/grants-gov-xml.json")
