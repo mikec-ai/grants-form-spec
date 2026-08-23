@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:53:13.236Z'
+  at: '2026-08-23T20:55:14.654Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -35,8 +35,8 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 # Delivery receipt
 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
-- Commit: `fec0c2375` on `codex/sf424c-portable-parity`
-- Producer preflight: passed; 99 TypeScript tests and 102 Python tests passed, with one environment-dependent skip.
+- Rebasing completed after PR #47 merged; frozen head: `7d893d0dfe0cd56a94d7174a79cb0fe43fe1a886` on `codex/sf424c-portable-parity`.
+- Producer preflight after rebase: passed; 102 TypeScript tests and 133 Python tests passed, with one environment-dependent skip.
 - Source provenance pinned: official XSD, DAT, read-only PDF, instructions PDF, deterministic extraction revision/source set, and public SGG oracle revision/file digest.
 - Portable result: 18 semantic questions, a reused three-column construction-cost structure, 24 declarative calculations, SGG UI projection, and Grants.gov XML projection. No form-specific compiler or adapter branch was added.
 - XML evidence: a full response and a flattened federal-funding-only response validate against the pinned official XSD fixture.
@@ -46,7 +46,7 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 
 # Remaining gates
 
-- Rebase once after PR #47 merges, then obtain independent architectural review.
+- Obtain independent architectural review of the cleanly rebased PR.
 - Human semantic acceptance or revision for the 18 proposed mappings.
 - Human instruction-content and accessibility review.
 - Consuming-fork adapter tests for save/reload, locked, print, and submission lifecycle behavior.
