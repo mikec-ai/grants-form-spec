@@ -149,6 +149,26 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "cd511": [
                 "../mappings/global-library-v2-human-name.json#/fields",
             ],
+            "sf424b": [
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/authorizedRepresentative",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/applicantOrganization",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/signedDate",
+            ],
+            "rr-sf424b": [
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/authorizedRepresentative",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/applicantOrganization",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/signedDate",
+            ],
+            "mandatory-sf424b": [
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/authorizedRepresentative",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/applicantOrganization",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/signedDate",
+            ],
+            "individual-sf424b": [
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/authorizedRepresentative",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/applicantOrganization",
+                "../mappings/sf424b-assurance-shell-1.1.json#/fields/signedDate",
+            ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)

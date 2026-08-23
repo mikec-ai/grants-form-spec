@@ -1,0 +1,15 @@
+{
+  "fields": {
+    "authorizedRepresentative": {
+      "element": "AuthorizedRepresentative",
+      "kind": "group",
+      "namespace": "default",
+      "fields": {
+        "signature": { "element": "RepresentativeName", "kind": "value", "namespace": "default", "source": "/signature" },
+        "title": { "element": "RepresentativeTitle", "kind": "value", "namespace": "default", "source": "/title" }
+      }
+    },
+    "applicantOrganization": { "element": "ApplicantOrganizationName", "kind": "value", "namespace": "default" },
+    "signedDate": { "element": "SubmittedDate", "kind": "value", "namespace": "default" }
+  }
+}

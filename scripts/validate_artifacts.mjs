@@ -585,7 +585,7 @@ async function validateMappingCoverage(
 ) {
   const properties = await schemaProperties(schemaState, dist, cache);
   const mapped = new Set(Object.entries(fields)
-    .filter(([, node]) => node.kind !== "group")
+    .filter(([, node]) => node.kind !== "group" && !Object.hasOwn(node, "constant"))
     .map(([name]) => name));
   for (const node of Object.values(fields).filter((candidate) => candidate.kind === "group")) {
     for (const source of await groupSources(
