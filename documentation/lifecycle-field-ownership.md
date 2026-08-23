@@ -1,6 +1,6 @@
 # Lifecycle, attestation, and control field ownership
 
-Eighteen form-local occurrences require explicit lifecycle roles. Response role is orthogonal to
+Nineteen form-local occurrences have explicit lifecycle roles. Response role is orthogonal to
 semantic identity: an externally owned value can still have a source-bound canonical identity. The
 identities below are exploratory proposals only; this decision accepts no semantic mapping.
 
@@ -8,19 +8,24 @@ identities below are exploratory proposals only; this decision accepts no semant
 
 | Occurrences | Response role | Lifecycle owner | Analysis treatment |
 | --- | --- | --- | --- |
-| R&R `agencyRoutingNumber` in both covers | `systemValue` | Federal awarding agency | Proposed R&R-family canonical identity; exploratory and unpublished |
-| Multi-Project `grantsTrackingNumber` | `systemValue` | Grants.gov, with the applicant transcribing a prior identifier | Form-specific canonical identity; exploratory and unpublished |
-| SF-424 `stateReceiveDate` and `stateApplicationId`; R&R `stateReceivedDate` and `stateId` in both covers | `systemValue` | State review process, with the applicant able to transmit the assigned values | Proposed shared State-owned identities; exploratory and unpublished |
+| R&R `agencyRoutingNumber` in both covers | `applicantInput` | Applicant enters the identifier assigned by the Federal awarding agency | Proposed R&R-family canonical identity; exploratory and unpublished |
+| R&R `grantsGovTrackingId` and Multi-Project `grantsTrackingNumber` | `applicantInput` | Applicant transcribes the identifier Grants.gov assigned to the prior submission | Proposed shared R&R-family canonical identity; exploratory and unpublished |
+| R&R `stateReceivedDate` and `stateId` in both covers | `applicantInput` | Applicant enters the State-received date and State application identifier | Proposed shared identities with occurrence-level applicant ownership; exploratory and unpublished |
+| SF-424 `stateReceiveDate` and `stateApplicationId` | `systemValue` | State review process | Shared State identities with form-level read-only behavior; exploratory and unpublished |
 | Multi-Project `submittedDate` | `applicantInput` | Applicant or authorized representative | Canonical `application/submission-date-entered` question; included only in exploratory metrics until reviewed |
 | Multi-Project `aorSignature` and `aorSignedDate` | `attestation` | Authorized organization representative | Visible field occurrences; excluded pending accepted semantic identity |
 | SF-424 `certificationAgree`, SF-424 Short `applicationCertification`, and R&R `trustAgree` in both covers | `attestation` | Authorized organization representative | Visible field occurrences; excluded pending accepted semantic identity |
 | SF-424 Short `sameAsProjectDirector` | `technicalField` | Form interaction owned by the applicant runtime | Visible field occurrence; excluded |
 | SF-424A `confirmation` | `technicalField` | Simpler form-completion workflow | Visible field occurrence; excluded |
 
-The applicant-entry versus lifecycle-owner distinction is intentional. The R&R instructions tell
-an applicant to enter an agency-assigned routing identifier, a prior Grants.gov tracking identifier,
-and state-assigned values. The person operating the form is the capture actor; the agency, Grants.gov,
-or State remains the authority for the value.
+The applicant-entry versus lifecycle authority distinction is intentional. The standalone R&R
+instructions and Multi-Project DAT direct applicants to enter the State fields, agency routing
+identifier, and prior Grants.gov tracking identifier. Those eight response occurrences are
+`applicantInput`, while their State, agency, or Grants.gov origin remains in descriptions and
+evidence. Classic SF-424 instead says its State fields are to be filled out by the State and emits
+them read-only, so those two occurrences remain `systemValue`. Response role is thus authored at
+the occurrence when forms populate the same semantic identity differently. None of these decisions
+makes the prior tracking number equivalent to SF-424's Federal Award Identifier.
 
 The R&R 5.0 and Multi-Project 4.0 XSDs use the same elements for agency routing and State-owned
 values. SF-424 uses `StateReceiveDate` and `StateApplicationID`; the R&R sources use
@@ -28,6 +33,11 @@ values. SF-424 uses `StateReceiveDate` and `StateApplicationID`; the R&R sources
 the date the State received the application and the identifier assigned by that State. The shared
 State identities are therefore explicit proposals rather than conclusions drawn from labels. They
 remain unaccepted and cannot enter published similarity.
+
+The Multi-Project 4.0 DAT independently describes all four affected rows as `Field` controls and
+directs the applicant to enter the State-received date, State identifier, agency-assigned routing
+identifier, and previous Grants.gov tracking number. Its pinned hash is listed below. The role
+correction does not rely on the standalone form merely because the structures are siblings.
 
 ## Multi-Project signature review
 
@@ -79,7 +89,7 @@ mark the form complete. It is therefore a runtime completion control, not an SF-
 - SF-424 Short 3.0 DAT: `a905f905928a730b10d48d0b77cbb59397edb3ad3c99770391e1e160c3fb06df`
 - SF-424A 1.0 XSD: `d5a636733d72c1e4cc9087ffc59b3d10000ee51f80da0dde3150ff91bcad0b5c`
 
-The nine source-bound lifecycle mappings are `proposed`, never `accepted`, and have no reviewer
+The ten source-bound lifecycle mappings are `proposed`, never `accepted`, and have no reviewer
 attribution. They remain unpublished; other mapping states are unchanged. XML profiles, schemas, UI
 presentation, and legacy behavior are unchanged by these analytical classifications; the SF-424
 Short disable behavior remains an explicit parity gap.

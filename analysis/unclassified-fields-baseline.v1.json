@@ -94,6 +94,7 @@
     "rr-sf424-multi-project-cover:/submittedDate",
     "rr-sf424-multi-project-cover:/trustAgree",
     "rr-sf424:/agencyRoutingNumber",
+    "rr-sf424:/grantsGovTrackingId",
     "rr-sf424:/stateId",
     "rr-sf424:/stateReceivedDate",
     "rr-sf424:/trustAgree",

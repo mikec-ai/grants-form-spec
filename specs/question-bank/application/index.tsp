@@ -38,7 +38,7 @@ scalar ApplicantEnteredSubmissionDate extends plainDate;
 
 /** The routing identifier assigned by the Federal agency for an R&R application. */
 @Question.meta(#{ id: "application/federal-agency-routing-number" })
-@Response.role(ResponseRole.systemValue)
+@Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.identifier)
 @UI.label("Agency Routing Number")
@@ -62,7 +62,7 @@ scalar StateApplicationIdentifier extends string;
 
 /** The previous Grants.gov tracking number for a changed or corrected application. */
 @Question.meta(#{ id: "application/previous-grants-gov-tracking-number" })
-@Response.role(ResponseRole.systemValue)
+@Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.identifier)
 @UI.label("Grants.gov Identifier")
