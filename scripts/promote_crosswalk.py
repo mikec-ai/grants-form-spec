@@ -455,7 +455,10 @@ def render_tsp(packet: dict[str, Any]) -> str:
             name = identifier(child["path"].rsplit(".", 1)[-1])
             nested = bool(children.get(child["path"]))
             value_type = model_name(child["path"]) if nested else scalar_type(child)
-            repeated = (child["maxOccurs"] or 0) > 1
+            max_occurs = child["maxOccurs"]
+            repeated = max_occurs == "unbounded" or (
+                isinstance(max_occurs, int) and max_occurs > 1
+            )
             lines.append(f"  // Source: {child['path']} ({child['classification']['value']}/{child['classification']['status']})")
             if child["constraints"].get("enumeration"):
                 lines.append(
