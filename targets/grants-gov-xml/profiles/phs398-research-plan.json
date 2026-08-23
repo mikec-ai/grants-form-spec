@@ -48,9 +48,7 @@
             "itemNamespace": "att",
             "items": {
               "node": {
-                "element": "AttachedFile",
                 "kind": "attachment",
-                "namespace": "att",
                 "flatten": true
               }
             }

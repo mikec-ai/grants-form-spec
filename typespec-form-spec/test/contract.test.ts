@@ -256,6 +256,48 @@ describe("artifact contract v1", () => {
     ).toBe(true);
   });
 
+  it("bounds flattened attachment items to their exact declarative shape", async () => {
+    const valid = (await json(
+      resolve(
+        emittedFormsRoot,
+        "phs398-research-plan/targets/grants-gov-xml.json",
+      ),
+    )) as any;
+    expect(
+      validateGrantsGovXmlProfile(valid),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
+
+    const mutations: Record<string, unknown>[] = [
+      { element: "AttachedFile" },
+      { namespace: "att" },
+      { attributes: { status: { constant: "ignored" } } },
+      { source: "/appendix" },
+    ];
+    for (const mutation of mutations) {
+      const candidate = structuredClone(valid);
+      Object.assign(
+        candidate.mapping.fields.researchPlanAttachments.fields.appendix.items.node,
+        mutation,
+      );
+      expect(validateGrantsGovXmlProfile(candidate), JSON.stringify(mutation)).toBe(false);
+    }
+
+    const typo = structuredClone(valid);
+    const typoNode = typo.mapping.fields.researchPlanAttachments.fields.appendix.items.node;
+    delete typoNode.flatten;
+    typoNode.flaten = true;
+    expect(validateGrantsGovXmlProfile(typo)).toBe(false);
+
+    const missingItemElement = structuredClone(valid);
+    delete missingItemElement.mapping.fields.researchPlanAttachments.fields.appendix.itemElement;
+    expect(validateGrantsGovXmlProfile(missingItemElement)).toBe(false);
+
+    const illegalTopLevel = structuredClone(valid);
+    illegalTopLevel.mapping.fields.illegal = { kind: "attachment", flatten: true };
+    expect(validateGrantsGovXmlProfile(illegalTopLevel)).toBe(false);
+  });
+
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {
     const fixture = structuredClone(
       await json(resolve(contractRoot, "conformance/form-package.valid.json")),
