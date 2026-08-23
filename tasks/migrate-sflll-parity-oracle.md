@@ -6,11 +6,12 @@ description: >-
   Replace the legacy SGG SF-LLL definition with portable artifacts while using
   legacy schema, UI, rules, XML, XSD, and lifecycle behavior as a differential
   oracle.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:41.577Z'
+  at: '2026-08-23T19:24:22.339Z'
+assignee: codex
 ---
 # Goal
 
@@ -35,5 +36,16 @@ Replace the legacy SGG SF-LLL definition with portable declarative artifacts whi
 # Scope boundary
 
 SF-LLL remains distinct from the Grants.gov Lobbying Form. Shared identity and attestation primitives do not imply that the two disclosures are semantically interchangeable.
+
+# Progress (2026-08-23)
+
+- Producer: `mikec-ai/grants-form-spec#45`, commit `a3012227877b3219e7e09a904ae243a78b1c7d25`.
+- Consumer: `mikec-ai/simpler-grants-gov#40`, commit `eae8603c`, based on SGG oracle `26fb5f686b0d0555028eb50b0115e485ad699c1a`.
+- Factory evidence: `mikec-ai/grants-question-crosswalk@4312f6504b060e2b9ffdbd2307fc41130c3123a0`; source-set SHA-256 `86c5849f65a3f3d8fcdc7da17cfa6070c185008eae9916184e7d6c32cd098b05`.
+- Official SF-LLL 2.0 XSD SHA-256: `fff7449d00c715efb79d83b572bc7b1ef3e8171f6a9ba841436b26242e883664`.
+- Portable schema, UI, conditions, lifecycle population, evidence, and XML profile are declarative. The consumer additions are generic support for constants, value maps, dynamic attributes, and compile-time flattened wire groups; there is no SF-LLL-specific compiler or adapter branch.
+- Exact-XSD validation passes for a fully populated SubAwardee/material-change response with tier zero and two service individuals. The non-database regression selection passed 212 tests; Ruff and targeted mypy passed. DB-backed save/reload and submit tests are included for CI because the local PostgreSQL service was unavailable.
+- Classified source-correct differences from the legacy oracle include: one-to-ten service individuals instead of one, tier minimum zero instead of one, Federal Action Number maximum 110 instead of 120, and a corrected nested canonical-to-XML mapping.
+- Per user direction, production registration is intentionally unchanged. Cutover remains gated on CI, semantic/accessibility/instruction review, full legacy differential classification, and a compatibility or migration decision for persisted legacy response shapes.
 
 [depends on](release-rr-key-person-expanded-canary.md)
