@@ -1,7 +1,7 @@
 ---
 type: Roadmap
 title: Portable grants form specification
-superbee_updated_by: mikec-ai
+superbee_updated_by: codex
 ---
 [contains](../roadmap-items/contract-and-conformance.md)
 
@@ -10,3 +10,5 @@ superbee_updated_by: mikec-ai
 [contains](../roadmap-items/representative-form-expansion.md)
 
 [governed by](../decisions/canonical-form-architecture.md)
+
+[contains](../roadmap-items/architecture-leverage-pass.md)
