@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424d_family_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:41:57.610Z'
+  at: '2026-08-23T20:54:07.907Z'
 ---
 # Goal
 
@@ -51,12 +51,22 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 - One factored XML acceptance mapping is composed by three declarative profiles. Fully populated samples for all profiles validate against the exact official XSD bytes, including the profile-qualified root attributes and the base-only global version child.
 - The base SGG implementation oracle is pinned at `mikec-ai/simpler-grants-gov@30dd50cf0493146c32f89f78398979523e040080`, file SHA-256 `8236db821592dc3b36e3e95971b514af4657b3b41e781259f0797e46d091fb2a`.
 - Full producer preflight passes on the final restack: 99 TypeScript tests, 120 Python tests with 8 existing skips, artifact validation (145 blocks/859 artifacts), promotion validation, 589-artifact packaging, 20 XML profiles, and the unclassified-field ratchet (49 remaining, unchanged by this family).
-- The final D diff is three commits directly atop merged producer `main`; PR `#52` is mergeable. GitHub CI run `32665096478` passed from final producer commit `7b23153` (including independent TypeSpec compilation and portable-artifact publication).
+- The final D diff was three commits directly atop merged producer `main`; PR `#52` merged at immutable producer revision `e0b0fb24c421a7c70e395afedf5be3f37f366606`. GitHub CI run `32665096478` passed from the reviewed head (including independent TypeSpec compilation and portable-artifact publication).
+- A bounded comparison against the merged SF-424B contract found no competing policy/projector abstraction or form-specific adapter branch. The D policy, response ownership, and namespace/version deltas use the shared contracts as intended.
 - Forms remain `draft`, absent from production registration, and no HHS upstream worktree was mutated.
+
+## Generic SGG consumer canaries (2026-08-23)
+
+- Consumer PR `mikec-ai/simpler-grants-gov#47` merged at immutable revision `0738a54e4b372a25738fc5b79df251955815bbef`.
+- The complete 28-form consumer selection is pinned exactly to producer merge `e0b0fb24c421a7c70e395afedf5be3f37f366606`; 290 transitive runtime artifacts were selected by the atomic updater.
+- Base SF-424D preserves legacy SGG runtime UUID `fecdf956-0b63-480b-9b44-66541e059646`. Individual and Mandatory have distinct declarative SGG-owned runtime identities. All three use existing `FormType.SF424D` and remain absent from `registrations.json`.
+- One thin base projection maps canonical `signedDate` to legacy `date_signed` and the canonical acceptance section identifier to `signature`; the variants declaratively extend that projection. No SF-424D loader, policy, post-population, or XML code branch was added.
+- Exact official XSD SHA-256 checks pass for base (`22026ea7...`), Individual (`52187d42...`), and Mandatory (`6685f2c1...`). Generic XML generation validates all three wire profiles against those pinned bytes.
+- Focused artifact/provenance/registration/policy/post-population/locked-editability/XML canaries pass: 26/26. A broader portable-form and XML tranche passed 221 tests; its sole setup error was an existing SF-424A DB test attempting to resolve unavailable local host `grants-db`.
+- Six D-family DB save/reload/submission lifecycle cases are committed. They reached the same missing-local-DB fixture boundary and therefore still need execution in a provisioned DB test environment before the consumer lifecycle review gate is marked passed.
 
 # Remaining gates
 
-- Merge SF-424D producer PR `#52` after CI and review; `#50` is already merged and superseded stacked PR `#51` is closed.
 - Complete policy-owner/semantic and accessibility review. Source provenance and deterministic cross-profile policy equivalence are already passed; these reviews remain human gates.
-- Add generic SGG consumer canaries for lifecycle, locked/print, post-population, policy-section projection, and XML consumption without adding an SF-424D code branch.
-- Perform explicit production-registration and instruction-asset review only after the consumer gates pass; do not register implicitly.
+- Execute the six committed DB lifecycle canaries in a provisioned SGG test environment and record the result. The non-DB locked/print, post-population, policy, and exact-XSD consumer gates already pass.
+- Perform explicit production-registration and instruction-asset review only after the human and DB lifecycle gates pass; do not register implicitly.
