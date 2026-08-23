@@ -81,7 +81,7 @@ class PHS398ModularBudgetTests(unittest.TestCase):
         )
         self.assertEqual(
             rules["periods"]["budgetPeriodEndDate"]["gg_validation"],
-            {"rule": "date_not_before", "field": "@THIS.budgetPeriodStartDate"},
+            {"rule": "date_not_before", "fields": ["@THIS.budgetPeriodStartDate"]},
         )
 
         self.assertEqual(len(calculations), 8)
