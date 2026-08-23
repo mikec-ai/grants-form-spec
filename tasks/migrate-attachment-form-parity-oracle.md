@@ -9,7 +9,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:41.906Z'
+  at: '2026-08-23T21:33:00.114Z'
 ---
 # Goal
 
@@ -35,3 +35,7 @@ Replace SGG's legacy Attachment Form with a portable composition and use the leg
 Publish the reusable attachment composition and fixtures needed by PHS 398 Research Plan.
 
 [depends on](release-rr-key-person-expanded-canary.md)
+
+[depends on](build-generic-xml-xsd-conformance-harness.md)
+
+[depends on](enforce-rule-evidence-target-coverage.md)

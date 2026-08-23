@@ -1,15 +1,15 @@
 ---
 type: Context Note
 title: How the research repository informs portable form authoring
-timestamp: '2026-08-22T18:55:44.000Z'
 description: >-
-  Current handoff, evidence boundaries, and recommended agent workflow between
+  Current handoff, evidence boundaries, and agent workflow between
   grants-question-crosswalk and grants-form-spec.
 tags:
   - research
   - provenance
   - architecture
   - migration
+timestamp: '2026-08-23T21:29:18Z'
 superbee_updated_by: codex
 ---
 # Summary
@@ -18,11 +18,11 @@ The `grants-question-crosswalk` research repository is already informing this bu
 
 ## Current use
 
-- Nine form evidence sidecars in `grants-form-spec` identify `https://github.com/mikec-ai/grants-question-crosswalk` as their extraction repository.
-- Each sidecar pins extraction revision `dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef`, the originating proof-manifest path, and a form-specific source-set SHA-256.
-- The imported evidence currently covers Key Contacts, SF-424, SF-424A, SF-424 Short, R&R Budget, R&R Subaward Budget, and the three standalone narrative attachment forms.
+- The 30-form producer contains 30 exact evidence sidecars; 29 identify `https://github.com/mikec-ai/grants-question-crosswalk` as an extraction or reconciliation source.
+- Each sidecar pins its own extraction revision, originating artifact or manifest, exact official-source identities and hashes, and a form-specific source-set digest where available.
+- The imported evidence now spans the application, identity, budget, subaward, attachment, policy/attestation, assurance, and construction-budget foundations.
 - The research repository supplied deterministic XSD structure, source/version identity, DAT behavior records, PDF/XFA findings, XML-plan evidence, question candidates, and portfolio overlap hypotheses used during TypeSpec authoring and parity review.
-- All nine current semantic-review sidecars remain `unreviewed`; this is intentional and prevents extraction evidence or agent proposals from being mistaken for accepted semantic equivalence.
+- Semantic mappings remain proposed or unreviewed unless an explicit reviewer and publishing authority accepts them; this prevents extraction evidence or agent proposals from becoming published equivalence claims.
 
 ## Appropriate responsibility
 
@@ -46,11 +46,11 @@ Use `grants-question-crosswalk` as the evidence, extraction, reconciliation, and
 
 ## Immediate value
 
-The active R&R SF-424 task should start from the existing research corpus rather than re-extracting the form. That corpus already records 139 XSD records, 145 DAT behavior records, a source-pinned XML plan, PDF/XFA behavior findings, likely reuse candidates, and unresolved source conflicts. Agents still need to reconcile those findings into the current TypeSpec question bank and generic adapter; the old generated form package is evidence, not the new source of truth.
+Every new form should start from the existing research corpus rather than re-extracting sources unnecessarily. Agents must still reconcile those findings into the current declarative question bank and target profiles; generated research packages remain evidence, not the portable source of truth.
 
-## Improvement opportunity
+## Current promotion path
 
-The current handoff is source-pinned but mostly manual. A future research/design slice should define a generic, review-gated promotion report from `grants-question-crosswalk` into `grants-form-spec` evidence sidecars. It should compare source identities and hashes, enumerate deterministic facts, proposals, reviewed mappings, and unresolved gates, and never generate canonical semantic identities without review.
+The review-gated crosswalk promotion importer is implemented. It compares source identity and hashes, preserves deterministic facts, proposals, review state, and unresolved gates, and never creates accepted canonical semantic identities automatically. The research repository remains an optional authoring input rather than a runtime dependency.
 
 ## References
 

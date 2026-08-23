@@ -9,7 +9,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:41.742Z'
+  at: '2026-08-23T21:33:00.362Z'
 ---
 # Goal
 
@@ -37,3 +37,7 @@ Establish PHS Human Subjects and Clinical Trials as the next major portable foun
 Record which capabilities were genuinely new so PHS Inclusion Enrollment Report can prove reuse rather than reproduce the same model.
 
 [depends on](release-rr-key-person-expanded-canary.md)
+
+[depends on](build-generic-xml-xsd-conformance-harness.md)
+
+[depends on](enforce-rule-evidence-target-coverage.md)

@@ -2,35 +2,29 @@
 type: Roadmap Item
 title: Classify and normalize form-local fields
 description: >-
-  Resolve the emitted unclassified-field ledger without duplicate questions or
-  adapter-side form knowledge.
+  Thirty-form field normalization is complete and enforced by a permanent
+  zero-unclassified CI gate.
 sequence: '5'
-superbee_progress_status: active
-superbee_updated_by: correct_tracking_role
+superbee_progress_status: done
+superbee_updated_by: codex
 ---
 # Outcome
 
-Turn the current form-local-field ledger into an evidence-backed portable classification with no unknown occurrences, while preserving canonical question lineage and keeping SGG-specific delivery logic out of the form specification.
+The form-local-field ledger is fully resolved across the 30-form producer baseline without duplicate semantic questions or adapter-side form knowledge.
 
-# Baseline
+# Result
 
-At producer commit `46e71d5`, 90 emitted form/field occurrences appeared unclassified. The portable lineage implementation in grants-form-spec PR #41 proved that 14 were inherited/spread questions, leaving 76 genuine path-qualified occurrences: 58 likely semantic questions, 12 lifecycle-ownership decisions, and 6 attestation or UI/workflow controls.
+- Target-neutral response roles and emitted occurrence metadata distinguish applicant input, calculated output, system values, technical fields, attestations, and static content.
+- Canonical lineage accounting includes inherited and spread questions correctly.
+- The SF-424 cover family and residual reference-form questions compose canonical source-bound declarations while all semantic mappings remain proposed and unpublished.
+- Lifecycle, attestation, and technical controls are explicitly classified from evidence.
+- The temporary 76-row ratchet was replaced by a permanent zero-unclassified CI gate in producer PR 55, merged as `825ee6b1dc3c038e4dbacbb38ffab52e4b4f6100`.
+- The current 30-form analysis reports zero unclassified occurrences and an empty exception ledger.
+- Any future exception must resolve canonical repository evidence and carry a recognized Superbee task or GitHub issue/PR removal reference; silent allowlists fail.
 
-# Sequence
+# Continuing invariant
 
-1. **Complete:** add a target-neutral response-role vocabulary and emitted occurrence metadata.
-2. **Complete:** repair lineage accounting so inherited/spread questions are not reported as local debt.
-3. **Active next:** normalize the SF-424 cover family and the smaller reference-form semantic backlog.
-4. Resolve lifecycle-owned, attestation, and technical-control fields with source evidence.
-5. Replace the temporary exact-identity ratchet with the zero-unclassified gate after the remaining 76 reach zero.
-
-The immediate no-new-debt ratchet is complete in PR #41. It fails on additions, silent removals, and returned resolved debt, so form expansion can proceed without increasing this backlog while normalization continues.
-
-# Stop condition
-
-- Every currently emitted field is attributable to a canonical semantic question, capture mechanism, calculated/system value, technical field, attestation, or static content.
-- `unclassified-form-fields.csv` is empty for the 19-form baseline without duplicate canonical questions or adapter-side form profiles.
-- Reviewed reuse remains distinct from implementation-derived reuse.
+Every emitted field must have canonical semantic lineage or an explicit non-question response role. Similarity and marginal reuse continue to count only semantic questions and intended capture mechanisms. Only reviewed mappings may contribute to published coverage.
 
 [contains](../tasks/classify-portable-response-roles.md)
 
