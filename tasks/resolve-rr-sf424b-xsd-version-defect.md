@@ -7,10 +7,11 @@ description: >-
   Classify the official schema-level version mismatch as a tested upstream
   metadata defect, then bank the exact XSD and form in SGG without runtime
   enablement.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T23:42:44.531Z'
+  at: '2026-08-23T23:47:34.730Z'
+superbee_updated_by: Codex
 ---
 # Goal
 
@@ -43,9 +44,9 @@ Resolve the R&R SF-424B official-XSD version discrepancy as a narrow, evidence-b
 - Producer PR [mikec-ai/grants-form-spec#61](https://github.com/mikec-ai/grants-form-spec/pull/61) merged as `7089fa6b0cca70e63e805a971c192a1849394d20`.
 - Producer preflight passed: 198 Python tests, 104 TypeScript tests, artifact validation, promotion validation, bundle verification, and the classified-field gate.
 - The official XSD remains byte-identical at SHA-256 `511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296`.
-- Consumer commit `930302c0` on `codex/bank-rr-sf424b-20260823` banks the form from the producer merge commit and leaves runtime identity and registration absent.
+- Consumer PR [mikec-ai/simpler-grants-gov#53](https://github.com/mikec-ai/simpler-grants-gov/pull/53) merged as `12977071e36c041a5f469a28006fcb843b973f30`; its implementation commit is `e5917a8a857d6ea963eee4835f59f39434fd13d0`. It banks the form from the producer merge commit and leaves runtime identity and registration absent.
 - The consumer promotion updater now provisions a missing XSD only from the immutable producer checkout and only when its bytes match the declared digest; it does not fetch live bytes or overwrite a conflicting consumer XSD.
 - Focused consumer verification passed: Ruff plus 43 promotion/provenance/registration/SF-424B tests. The full portable-adapter directory produced 222 passes; its sole local error was the unrelated database lifecycle test because the non-container host `grants-db` was unavailable.
-- Consumer delivery remains stacked on `tasks/separate-banked-from-runtime-enabled-forms` / SGG PR #51 and is not complete until that prerequisite lands and this branch is rebased, opened as a focused PR, and merged.
+- The prerequisite banked-only/runtime-enabled split landed in SGG PR #51 as `d08e0c64f50a374e515a1f5184ae68f4600653ad` before the focused consumer PR was rebased and merged.
 
 [depends on](separate-banked-from-runtime-enabled-forms.md)
