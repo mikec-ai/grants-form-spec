@@ -5,11 +5,11 @@ priority: P1
 description: >-
   Prevent unknown field classifications from returning after the baseline
   normalization work is complete.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:58:29.322Z'
+  at: '2026-08-23T20:50:47.070Z'
 assignee: gate_assessment_agent
 ---
 # Objective
