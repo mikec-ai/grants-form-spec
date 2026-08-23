@@ -22,7 +22,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 32 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 28 forms at producer revision `e0b0fb24`; `rr-sf424b`, `sf424c`, `phs-assignment-request`, and `attachment-form` remain producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks 29 forms at producer revision `825ee6b1`; `rr-sf424b`, `phs-assignment-request`, and `attachment-form` remain producer-only. SF-424C is banked through the supervised promotion workflow. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 

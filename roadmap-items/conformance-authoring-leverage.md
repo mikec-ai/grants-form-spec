@@ -2,10 +2,10 @@
 type: Roadmap Item
 title: Reduce conformance and delivery cost for forms 31+
 description: >-
-  The producer authoring gates are complete; supervised consumer promotion
-  remains active in parallel.
+  The XML/XSD harness, exact rule-evidence gate, and supervised
+  consumer-promotion workflow are complete.
 superbee_updated_by: codex
-superbee_progress_status: active
+superbee_progress_status: done
 sequence: '6'
 ---
 # Outcome
