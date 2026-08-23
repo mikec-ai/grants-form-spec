@@ -4,6 +4,20 @@ title: Build a generic XML/XSD conformance harness
 description: >-
   Replace repeated producer XML rendering and exact-XSD helpers with one
   profile-driven reference harness.
+superbee_updated_by: xml_conformance_agent
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T21:43:03.890Z'
+superbee_progress_status: in_progress
+priority: P0
+assignee: xml_conformance_agent
+---
+---
+type: Task
+title: Build a generic XML/XSD conformance harness
+description: >-
+  Replace repeated producer XML rendering and exact-XSD helpers with one
+  profile-driven reference harness.
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
@@ -35,3 +49,15 @@ At least seven current producer test modules separately implement `render_xml` a
 This is conformance infrastructure. It does not decide form semantics, generate canonical questions, or replace the portable XML declarations.
 
 [depends on](migrate-sf424c-parity-oracle.md)
+
+# Delivery receipt
+
+- Open producer PR: [mikec-ai/grants-form-spec#56](https://github.com/mikec-ai/grants-form-spec/pull/56)
+- Branch: `codex/generic-xml-xsd-conformance`
+- Commit: `51b2b4b64`
+- Added one resolved-profile reference interpreter with no form IDs or form-specific branches.
+- Added digest-pinned offline XSD validation using `xmllint --nonet` and local dependency rewriting.
+- Migrated SF-424C, SF-LLL, and R&R Senior/Key Person Profile (Expanded), including repeated people and attachments.
+- Preserved form-specific representative responses, semantic XML assertions, exact source digests, and positive/negative XSD expectations.
+- Full `npm run preflight` passed: 102 TypeScript tests; 148 Python tests with one existing skip; 1,010 artifacts and 180 blocks validated; zero unclassified fields and zero exceptions.
+- Status remains `in_progress` until independent review and merge.

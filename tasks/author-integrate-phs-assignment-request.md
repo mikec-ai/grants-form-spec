@@ -9,7 +9,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:42.723Z'
+  at: '2026-08-23T21:42:53.398Z'
 ---
 # Goal
 
@@ -35,3 +35,9 @@ Author PHS Assignment Request as a small, high-volume, bounded review-routing pr
 Record whether this high-volume form landed without a runtime extension and its marginal implementation effort.
 
 [depends on](release-rr-key-person-expanded-canary.md)
+
+[depends on](build-generic-xml-xsd-conformance-harness.md)
+
+[depends on](enforce-rule-evidence-target-coverage.md)
+
+[depends on](automate-cross-repo-form-promotion.md)

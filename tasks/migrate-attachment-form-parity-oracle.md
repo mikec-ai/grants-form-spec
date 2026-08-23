@@ -9,7 +9,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:33:00.114Z'
+  at: '2026-08-23T21:42:52.833Z'
 ---
 # Goal
 
@@ -39,3 +39,5 @@ Publish the reusable attachment composition and fixtures needed by PHS 398 Resea
 [depends on](build-generic-xml-xsd-conformance-harness.md)
 
 [depends on](enforce-rule-evidence-target-coverage.md)
+
+[depends on](automate-cross-repo-form-promotion.md)

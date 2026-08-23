@@ -9,7 +9,7 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:33:00.362Z'
+  at: '2026-08-23T21:42:53.596Z'
 ---
 # Goal
 
@@ -41,3 +41,5 @@ Record which capabilities were genuinely new so PHS Inclusion Enrollment Report 
 [depends on](build-generic-xml-xsd-conformance-harness.md)
 
 [depends on](enforce-rule-evidence-target-coverage.md)
+
+[depends on](automate-cross-repo-form-promotion.md)
