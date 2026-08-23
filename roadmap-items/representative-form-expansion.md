@@ -2,14 +2,15 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Seventeen forms now compile through the portable specification and load
-  through the public Simpler adapter. R&R Senior/Key Person Profile (Expanded)
-  and Project/Performance Site Location(s) add reusable repeating person,
-  organization, role, address, credential, degree, and attachment foundations.
-  Their consumer canaries hardened generic item-scoped conditions, while the
-  concurrently merged XML-profile work now projects five budget families.
+  Eighteen forms now compile through the portable specification and load through
+  the public Simpler adapter. R&R Other Project Information adds reusable
+  human-subject, vertebrate-animal, environmental, historic-place,
+  international-activity, and semantically distinct supporting-document
+  foundations. Its nested conditional composition also hardened generic JSON
+  Forms scope rebasing. The next foundation is PHS 398 Modular Budget.
 sequence: '3'
 superbee_progress_status: active
+superbee_updated_by: codex
 ---
 # Strategy
 
