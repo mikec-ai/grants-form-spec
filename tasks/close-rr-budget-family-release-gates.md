@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:32:54.019Z'
+  at: '2026-08-23T19:37:11.109Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -74,10 +74,13 @@ architecture or silently claim human approval.
   revision pinned across all five family profiles. Presence resolution follows calculated
   dependencies to entered leaf inputs, including percentage calculations, so eagerly derived zeroes
   cannot make optional cumulative outputs appear. Unknown, incomplete, or non-calculation
-  materialization policies fail closed during artifact projection. The focused 140-test
-  rule-processing, root-budget, nested-subaward, provenance, and artifact-integrity suite passes
+  materialization policies fail closed during artifact projection. Materialized sums and
+  subtraction require nonempty string `fields`; PercentOf requires nonempty string `amount` and
+  `percentage` paths, so malformed artifacts cannot fall through to a swallowed runtime error. The
+  focused 148-test rule-processing, root-budget, nested-subaward, provenance, malformed-contract,
+  and artifact-integrity suite passes
   against the local test database; lint, formatting, and targeted mypy pass at adapter commit
-  `ee585ca58d6cef2802a07f2d2e70658fa72101e4`. This fork currently reports no GitHub checks for
+  `9298b8c3d7376dce2b37302b15a1909f139f779f`. This fork currently reports no GitHub checks for
   the branch.
 - Regression coverage proves that absent optional Other Personnel input leaves cumulative count and
   funds outputs absent, while explicitly entered integer and monetary zeroes materialize zero. The
