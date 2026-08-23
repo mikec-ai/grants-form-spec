@@ -160,6 +160,7 @@ model ResearchProjectPeriod {
   proposedStartDate: ProjectStartDate;
 
   @UI.label("Proposed End Date")
+  @Validation.notBefore(ResearchProjectPeriod.proposedStartDate)
   proposedEndDate: ProjectEndDate;
 }
 

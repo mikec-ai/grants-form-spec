@@ -54,6 +54,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Calculation path "${"path"}" does not resolve from ${"scope"}. Cross-boundary calculations must name real canonical data paths.`,
       },
     },
+    "date-order-source-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@Validation.notBefore on ${"target"} must reference a different sibling property; received ${"source"}.`,
+      },
+    },
     "required-but-unreachable": {
       severity: "error",
       messages: {
@@ -98,6 +104,7 @@ export const $lib = createTypeSpecLibrary({
     enabledWhen: {},
     readOnlyWhen: {},
     requiredWhen: {},
+    notBefore: {},
     validationConstraints: {},
     computed: {},
     computedFrom: {},

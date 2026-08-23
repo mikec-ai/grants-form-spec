@@ -2,7 +2,7 @@ import type { Model, ModelProperty, Program, Scalar } from "@typespec/compiler";
 import {
   Block, blockAncestry, childBlock, modelPrePopulate, modelProperties, propComputed, propComputedFrom,
   propEvaluationOrder, propOmit, propTotals,
-  readBlock, typeTags,
+  propNotBefore, readBlock, typeTags,
 } from "../model.js";
 
 const OP_RULE: Record<string, string> = {
@@ -168,6 +168,16 @@ function walk(
     const here = [...at, key];
     const path = dataPath ? `${dataPath}.${prop.name}` : prop.name;
     const child = childBlock(program, prop);
+
+    const notBefore = propNotBefore(program, prop);
+    if (notBefore) {
+      place(into, here, {
+        gg_validation: {
+          rule: "date_not_before",
+          fields: [atRoot ? notBefore.name : `@THIS.${notBefore.name}`],
+        },
+      });
+    }
 
     const totals = propTotals(program, prop);
     if (totals && child && !child.scalar && child.model.kind === "Model") {

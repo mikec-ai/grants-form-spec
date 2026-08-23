@@ -16,6 +16,9 @@ extern dec requiredWhen(target: ModelProperty, source: ModelProperty, equals: va
 /** Require a field from a condition on a nested sibling path, relative to the containing model. */
 extern dec requiredWhenPath(target: ModelProperty, sourcePath: valueof string, equals: valueof unknown);
 
+/** Require this date to be the same as or later than a sibling date. */
+extern dec notBefore(target: ModelProperty, source: ModelProperty);
+
 /** `operator` rather than `op`: `op` is a TypeSpec keyword and breaks the parser. */
 extern dec computed(target: ModelProperty, operator: valueof Op, ...refs: ModelProperty[]);
 
