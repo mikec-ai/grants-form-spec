@@ -22,7 +22,22 @@
     "extractedAt": "2026-08-18T20:59:38.044606Z"
   },
   "semanticReview": {
-    "status": "unreviewed",
-    "mappings": []
+    "status": "proposed",
+    "mappings": [
+      {
+        "canonicalPointer": "#/properties/applicantWebAddress",
+        "sourceId": "grantsgov-sf424-short-xsd-3.0",
+        "sourcePath": "SF424_Short_3_0.ApplicantWebAddress",
+        "status": "proposed",
+        "note": "The pinned XSD defines this optional applicant-organization value as xs:anyURI. The existing 250-character form-use limit remains an occurrence constraint."
+      },
+      {
+        "canonicalPointer": "#/properties/projectDescription",
+        "sourceId": "grantsgov-sf424-short-xsd-3.0",
+        "sourcePath": "SF424_Short_3_0.ProjectDescription",
+        "status": "proposed",
+        "note": "The pinned XSD defines this required project description as a string with length 1-1000. It remains distinct from project abstract and attachment questions."
+      }
+    ]
   }
 }

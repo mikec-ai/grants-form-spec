@@ -16,6 +16,55 @@ using QuestionBank.Generics;
  */
 namespace QuestionBank.Budget;
 
+/** Identify the grant program, function, or activity represented by a budget row. */
+@Question.meta(#{ id: "budget/activity-title" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.title)
+@UI.label("Grant program, function, or activity")
+@minLength(1)
+@maxLength(120)
+scalar BudgetActivityTitle extends string;
+
+/** Enter the Assistance Listing number associated with this budget activity, when applicable. */
+@Question.meta(#{ id: "budget/activity-assistance-listing-number" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.identifier)
+@UI.label("Assistance Listing number")
+@minLength(1)
+@maxLength(15)
+scalar BudgetActivityAssistanceListingNumber extends string;
+
+/** Explain direct-charge amounts that need additional context. */
+@Question.meta(#{ id: "budget/direct-charges-explanation" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.narrative)
+@UI.label("Direct Charges")
+@minLength(1)
+@maxLength(50)
+scalar DirectChargesExplanation extends string;
+
+/** Explain the indirect rate, its base, and the resulting indirect expense. */
+@Question.meta(#{ id: "budget/indirect-charges-explanation" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.narrative)
+@UI.label("Indirect Charges")
+@minLength(1)
+@maxLength(50)
+scalar IndirectChargesExplanation extends string;
+
+/** Provide any other explanation or comment needed for this budget. */
+@Question.meta(#{ id: "budget/remarks" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.money, TagName.narrative)
+@UI.label("Remarks")
+@minLength(1)
+@maxLength(250)
+scalar BudgetRemarks extends string;
+
 /** Provide the narrative explaining and supporting the proposed budget. */
 @Question.meta(#{ id: "budget/narrative" })
 @Catalog.entity(EntityName.project)

@@ -30,9 +30,7 @@ enum KeyContactsSection {
 model KeyContactPerson extends QuestionPocDetails {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
-  @minLength(1)
-  @maxLength(45)
-  projectRole: string;
+  projectRole: KeyContactProjectRole;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")

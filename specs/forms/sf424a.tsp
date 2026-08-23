@@ -36,15 +36,11 @@ enum Sf424aSection {
 model ActivityLineItem {
   @UI.label("Grant program, function, or activity")
   @UI.helpText("Enter the Assistance Listing title, notice of funding opportunity number, program code, or grant number.")
-  @minLength(0)
-  @maxLength(120)
-  activityTitle: string;
+  activityTitle: BudgetActivityTitle;
 
   @UI.label("Assistance Listing number")
   @UI.helpText("Enter the Assistance Listing number in ##.### format.")
-  @minLength(0)
-  @maxLength(15)
-  assistanceListingNumber?: string;
+  assistanceListingNumber?: BudgetActivityAssistanceListingNumber;
 
   budgetSummary?: QuestionBudgetSummary;
   budgetCategories?: QuestionBudgetCategories;
@@ -111,23 +107,17 @@ model SF424a {
   /** Use this space to explain amounts for individual direct object class cost categories that may appear to be out of the ordinary or to explain the details as required by the Federal grantor agency. */
   @UI.label("Direct Charges")
   @UI.section(Sf424aSection.SectionF)
-  @minLength(0)
-  @maxLength(50)
-  directChargesExplanation?: string;
+  directChargesExplanation?: DirectChargesExplanation;
 
   /** Enter the type of indirect rate (provisional, predetermined, final or fixed) that will be in effect during the funding period, the estimated amount of the base to which the rate is applied, and the total indirect expense. */
   @UI.label("Indirect Charges")
   @UI.section(Sf424aSection.SectionF)
-  @minLength(0)
-  @maxLength(50)
-  indirectChargesExplanation?: string;
+  indirectChargesExplanation?: IndirectChargesExplanation;
 
   /** Provide any other explanations or comments deemed necessary. */
   @UI.label("Remarks")
   @UI.section(Sf424aSection.SectionF)
-  @minLength(0)
-  @maxLength(250)
-  remarks?: string;
+  remarks?: BudgetRemarks;
 
   /** Is this form complete? */
   @UI.label("Confirmation")

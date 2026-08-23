@@ -123,9 +123,8 @@ model SF424Short {
   /** Enter the applicant's web address, if applicable. */
   @UI.label("Web Address")
   @UI.section(Sf424ShortSection.applicantInformation)
-  @minLength(1)
-  @maxLength(250)
-  applicantWebAddress?: string;
+  @Validation.constraints(#{ maxLength: 250 })
+  applicantWebAddress?: PrimaryOrgWebsite;
 
   /** Select a minimum of one applicant type or select up to three applicant types in accordance with agency instructions. If “Other” is selected, then specify Other Type of Applicant in text box. */
   @UI.label("Type of Applicant")
@@ -164,9 +163,7 @@ model SF424Short {
   /** Enter a brief description of the project. */
   @UI.label("Project Description")
   @UI.section(Sf424ShortSection.projectInformation)
-  @minLength(1)
-  @maxLength(1000)
-  projectDescription: string;
+  projectDescription: ProjectDescription;
 
   /** Enter the date in the format MM/DD/YYYY. */
   @UI.label("Project Start Date")

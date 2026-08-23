@@ -83,5 +83,14 @@
     "sf424a:/indirectChargesExplanation",
     "sf424a:/remarks"
   ],
-  "resolved": []
+  "resolved": [
+    "key-contacts:/keyContacts/[]/projectRole",
+    "sf424-short:/applicantWebAddress",
+    "sf424-short:/projectDescription",
+    "sf424a:/activityLineItems/[]/activityTitle",
+    "sf424a:/activityLineItems/[]/assistanceListingNumber",
+    "sf424a:/directChargesExplanation",
+    "sf424a:/indirectChargesExplanation",
+    "sf424a:/remarks"
+  ]
 }

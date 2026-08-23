@@ -7,6 +7,16 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.Project;
 
+/** Enter a brief description of the proposed project. */
+@Question.meta(#{ id: "project/description" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.narrative)
+@UI.label("Project Description")
+@minLength(1)
+@maxLength(1000)
+scalar ProjectDescription extends string;
+
 /** Provide the project narrative requested by the funding opportunity. */
 @Question.meta(#{ id: "project/narrative" })
 @Catalog.entity(EntityName.project)
