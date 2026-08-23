@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:31:35.604Z'
+  at: '2026-08-23T22:51:53.922Z'
 assignee: research_plan_agent
 ---
 # Goal
@@ -37,3 +37,28 @@ Author PHS 398 Research Plan as a declarative composition of typed attachment ro
 The Attachment Form runtime mechanism is reusable; each Research Plan attachment role remains independently reviewable policy content.
 
 [builds on producer output from](migrate-attachment-form-parity-oracle.md)
+
+# Implementation receipt
+
+Draft producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) at commit `d37db0953` implements the source-conformance slice and remains unmerged for independent review.
+
+- Authored thirteen role-qualified, draft semantic questions over the one shared `generics/attachment` capture mechanism.
+- Composed PHS 398 Research Plan FID 797 v5.0 with exact source order, identity, labels, sections, required Research Strategy, and ten-file applicant Appendix limit.
+- Pinned the official XSD, DAT, read-only PDF, XFA PDF, NIH Forms I instructions, and full transitive XSD closure with exact versions and hashes. No OCR was used.
+- Preserved the XSD prefix/target-namespace defect, the Specific Aims requiredness conflict, and the Appendix 10-applicant-versus-100-XSD boundary explicitly.
+- Preserved Introduction, renewal-publication-list, and vertebrate-animal requirements as structured `source-bound-unresolved-cross-form` evidence. The producer emits no fake local paths or unsupported rules.
+- Added one generic XML operation for flattening a shared attachment payload into an already-declared collection item. No form-specific compiler, adapter, renderer, or conformance branch was added.
+- Generated analysis reports thirteen semantic questions and one capture mechanism; all semantic associations remain proposed and unpublished.
+
+# Verification
+
+`npm run preflight` passes: 103 TypeSpec/Vitest tests, 195 Python tests with one existing skip, 202 blocks and 1,116 artifacts validated, plus promotion, provenance, packaging, exact-XSD, analysis, and zero-unclassified gates.
+
+# Remaining review and consumer gates
+
+- Independent architecture, source, and semantic review of PR #60.
+- Human acceptance before any mapping contributes to published coverage.
+- An application-level condition contract and consumer support for the three cross-form requirements.
+- NOFO-aware policy composition for Specific Aims requiredness.
+- Consumer validation of save/reload, locked/print views, attachment ownership and audit behavior, submission, accessibility, registration, and release approval.
+- No legacy Simpler implementation exists, so this slice proves official-source conformance rather than runtime parity.
