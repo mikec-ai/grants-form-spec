@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-import hashlib
 import json
-import shutil
-import subprocess
-import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
+
+from conformance.grants_gov_xml import (
+    ExactXsdFixture,
+    PinnedXsdFile,
+    render_profile_xml,
+    validate_exact_xsd,
+)
 
 
 ROOT = Path(__file__).parents[1]
@@ -18,80 +21,28 @@ DEPENDENCIES = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
 NORMALIZED_XSD_SHA256 = "9bffc07cef30336d4a6b320d6569bc5a93c4e48b4889c0de7cf7e46cab090af1"
 OFFICIAL_XSD_SHA256 = "a3ec5d6bae8173fce080709a8071787293dbe6271415d905d230c584c200982a"
 DEPENDENCY_NAMES = ["Global-V1.0.xsd", "GlobalLibrary-V2.0.xsd", "UniversalCodes-V2.0.xsd"]
-
-
-def qname(profile: dict[str, Any], prefix: str | None, name: str) -> str:
-    return f"{{{profile['namespaces'][prefix or 'default']}}}{name}"
-
-
-def add_fields(
-    parent: ET.Element,
-    profile: dict[str, Any],
-    fields: dict[str, Any],
-    response: dict[str, Any],
-) -> None:
-    for name, node in fields.items():
-        value = response.get(name)
-        if value is None and node.get("emitWhenParentPresent"):
-            value = {}
-        if value is None:
-            continue
-        if node["kind"] == "group" and node.get("flatten"):
-            add_fields(parent, profile, node["fields"], value)
-            continue
-        child = ET.SubElement(parent, qname(profile, node.get("namespace"), node["element"]))
-        if node["kind"] == "value":
-            child.text = str(value)
-        elif node["kind"] == "object":
-            add_fields(child, profile, node["fields"], value)
-        else:
-            raise AssertionError(f"unsupported SF-424C mapping kind: {node['kind']}")
-
-
-def render_xml(response: dict[str, Any]) -> bytes:
-    profile = json.loads(
-        (ROOT / "dist/forms/sf424c/targets/grants-gov-xml.json").read_text()
-    )
-    ET.register_namespace("SF424C_2_0", profile["namespaces"]["default"])
-    root = ET.Element(qname(profile, "default", profile["root"]["element"]))
-    for name, value in profile["root"]["attributes"].items():
-        root.set(qname(profile, "default", name), str(value))
-    add_fields(root, profile, profile["mapping"]["fields"], response)
-    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
-
-
-def validate_exact_xsd(xml: bytes) -> subprocess.CompletedProcess[str]:
-    xmllint = shutil.which("xmllint")
-    if xmllint is None:
-        raise AssertionError("xmllint is required to validate the pinned official XSD fixture")
-    if hashlib.sha256(XSD_FIXTURE.read_bytes()).hexdigest() != NORMALIZED_XSD_SHA256:
-        raise AssertionError("normalized SF-424C XSD fixture digest mismatch")
-    profile = json.loads(
-        (ROOT / "dist/forms/sf424c/targets/grants-gov-xml.json").read_text()
-    )
-    if profile["xsd"]["sha256"] != OFFICIAL_XSD_SHA256:
-        raise AssertionError("official SF-424C XSD source digest mismatch")
-
-    with tempfile.TemporaryDirectory() as directory:
-        temp = Path(directory)
-        paths = {"SF424C_2_0-V2.0.xsd": XSD_FIXTURE}
-        paths.update({name: DEPENDENCIES / name for name in DEPENDENCY_NAMES})
-        for name, path in paths.items():
-            source = path.read_text()
-            for dependency in DEPENDENCY_NAMES:
-                source = source.replace(
-                    f"https://apply07.grants.gov/apply/system/schemas/{dependency}",
-                    dependency,
-                )
-            (temp / name).write_text(source)
-        xml_path = temp / "response.xml"
-        xml_path.write_bytes(xml)
-        return subprocess.run(
-            ["xmllint", "--noout", "--schema", str(temp / "SF424C_2_0-V2.0.xsd"), str(xml_path)],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
+PROFILE = json.loads(
+    (ROOT / "dist/forms/sf424c/targets/grants-gov-xml.json").read_text()
+)
+XSD_SET = ExactXsdFixture(
+    entrypoint="SF424C_2_0-V2.0.xsd",
+    files=(
+        PinnedXsdFile("SF424C_2_0-V2.0.xsd", XSD_FIXTURE, NORMALIZED_XSD_SHA256),
+        *(
+            PinnedXsdFile(
+                name,
+                DEPENDENCIES / name,
+                {
+                    "Global-V1.0.xsd": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb",
+                    "GlobalLibrary-V2.0.xsd": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8",
+                    "UniversalCodes-V2.0.xsd": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a",
+                }[name],
+            )
+            for name in DEPENDENCY_NAMES
+        ),
+    ),
+    official_sha256=OFFICIAL_XSD_SHA256,
+)
 
 
 def full_response() -> dict[str, Any]:
@@ -127,8 +78,8 @@ class SF424CXmlTests(unittest.TestCase):
     def assert_partial_budget_valid(
         self, response: dict[str, Any], expected_optional_element: str | None
     ) -> None:
-        xml = render_xml(response)
-        validation = validate_exact_xsd(xml)
+        xml = render_profile_xml(PROFILE, response)
+        validation = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
         self.assertEqual(validation.returncode, 0, validation.stderr)
         root = ET.fromstring(xml)
         project_costs = root.find(f"{{{FORM_NS}}}ProjectCosts")
@@ -141,8 +92,8 @@ class SF424CXmlTests(unittest.TestCase):
             self.assertIn(expected_optional_element, names)
 
     def test_full_response_validates_against_pinned_official_xsd(self) -> None:
-        xml = render_xml(full_response())
-        validation = validate_exact_xsd(xml)
+        xml = render_profile_xml(PROFILE, full_response())
+        validation = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
         self.assertEqual(validation.returncode, 0, validation.stderr)
 
         root = ET.fromstring(xml)
@@ -163,10 +114,11 @@ class SF424CXmlTests(unittest.TestCase):
         self.assertEqual(root.findtext(f"{{{FORM_NS}}}FederalFundingShareValue"), "4800.00")
 
     def test_flattened_federal_fields_emit_without_ui_only_eligible_cost_copy(self) -> None:
-        xml = render_xml(
+        xml = render_profile_xml(
+            PROFILE,
             {"federalFunding": {"totalProjectCosts": "6000.00", "federalPercentageShare": 75, "federalFundingShare": "4500.00"}}
         )
-        validation = validate_exact_xsd(xml)
+        validation = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
         self.assertEqual(validation.returncode, 0, validation.stderr)
         root = ET.fromstring(xml)
         self.assertIsNone(root.find(f"{{{FORM_NS}}}ProjectCosts"))

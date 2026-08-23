@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-import hashlib
 import json
-import shutil
-import subprocess
-import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
+
+from conformance.grants_gov_xml import (
+    ExactXsdFixture,
+    PinnedXsdFile,
+    render_profile_xml,
+    validate_exact_xsd,
+)
 
 
 ROOT = Path(__file__).parents[1]
@@ -23,171 +26,17 @@ XSD_HASHES = {
     "GlobalLibrary-V2.0.xsd": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8",
     "UniversalCodes-V2.0.xsd": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a",
 }
-
-
-def _qname(profile: dict[str, Any], prefix: str | None, element: str) -> str:
-    namespace = profile["namespaces"][prefix or "default"]
-    return f"{{{namespace}}}{element}"
-
-
-def _pointer(response: dict[str, Any], pointer: str) -> Any:
-    value: Any = response
-    for step in pointer.removeprefix("/").split("/"):
-        value = value[step.replace("~1", "/").replace("~0", "~")]
-    return value
-
-
-def _add_attachment(
-    parent: ET.Element,
-    profile: dict[str, Any],
-    node: dict[str, Any],
-    attachment_id: str,
-    attachments: dict[str, dict[str, str]],
-) -> None:
-    attachment = attachments[attachment_id]
-    leaf_parent = parent
-    if container := node.get("container"):
-        leaf_parent = ET.SubElement(
-            parent, _qname(profile, container["namespace"], container["element"])
-        )
-    leaf = ET.SubElement(
-        leaf_parent, _qname(profile, node.get("namespace"), node["element"])
-    )
-    wire = profile["attachment"]["fields"]
-    for field_name in ("fileName", "mimeType", "fileLocation", "hashValue"):
-        declaration = wire[field_name]
-        child = ET.SubElement(
-            leaf,
-            _qname(profile, declaration["namespace"], declaration["element"]),
-        )
-        if field_name == "fileLocation":
-            child.set(
-                _qname(profile, declaration["namespace"], "href"),
-                attachment[field_name],
-            )
-        else:
-            child.text = attachment[field_name]
-        if field_name == "hashValue":
-            child.set(_qname(profile, declaration["namespace"], "hashAlgorithm"), "SHA-256")
-
-
-def _add_node(
-    parent: ET.Element,
-    profile: dict[str, Any],
-    node: dict[str, Any],
-    value: Any,
-    root_response: dict[str, Any],
-    attachments: dict[str, dict[str, str]],
-) -> None:
-    kind = node["kind"]
-    if kind == "attachment":
-        _add_attachment(parent, profile, node, value, attachments)
-        return
-    if kind == "value":
-        leaf_parent = parent
-        if container := node.get("container"):
-            leaf_parent = ET.SubElement(
-                parent, _qname(profile, container["namespace"], container["element"])
-            )
-        leaf = ET.SubElement(
-            leaf_parent, _qname(profile, node.get("namespace"), node["element"])
-        )
-        leaf.text = str(value).lower() if isinstance(value, bool) else str(value)
-        return
-    if kind in {"object", "group"}:
-        child = ET.SubElement(parent, _qname(profile, node.get("namespace"), node["element"]))
-        source = _pointer(root_response, node["source"]) if node.get("source") else value
-        _add_fields(child, profile, node["fields"], source, root_response, attachments)
-        return
-    if kind == "array":
-        item_element = node.get("itemElement")
-        repeat_outer = not item_element or node.get("repeatElementPerItem", False)
-        collection = None
-        if not repeat_outer:
-            collection = ET.SubElement(
-                parent, _qname(profile, node.get("namespace"), node["element"])
-            )
-        for item in value:
-            outer = (
-                ET.SubElement(parent, _qname(profile, node.get("namespace"), node["element"]))
-                if repeat_outer
-                else collection
-            )
-            assert outer is not None
-            item_parent = outer
-            if item_element:
-                item_parent = ET.SubElement(
-                    outer, _qname(profile, node.get("itemNamespace"), item_element)
-                )
-            _add_fields(
-                item_parent, profile, node["items"]["fields"], item, root_response, attachments
-            )
-        return
-    raise AssertionError(f"unsupported test mapping kind: {kind}")
-
-
-def _add_fields(
-    parent: ET.Element,
-    profile: dict[str, Any],
-    fields: dict[str, Any],
-    response: dict[str, Any],
-    root_response: dict[str, Any],
-    attachments: dict[str, dict[str, str]],
-) -> None:
-    for name, node in fields.items():
-        if node["kind"] == "group":
-            value: Any = response
-        elif node.get("source"):
-            value = _pointer(root_response, node["source"])
-        else:
-            value = response.get(name)
-        if value is not None:
-            _add_node(parent, profile, node, value, root_response, attachments)
-
-
-def render_xml(
-    response: dict[str, Any], attachments: dict[str, dict[str, str]]
-) -> bytes:
-    profile = json.loads(
-        (ROOT / "dist/forms/rr-key-person-expanded/targets/grants-gov-xml.json").read_text()
-    )
-    for prefix, namespace in profile["namespaces"].items():
-        if prefix not in {"default", profile["root"]["namespacePrefix"]}:
-            ET.register_namespace(prefix, namespace)
-    ET.register_namespace("rr", profile["namespaces"]["default"])
-    root = ET.Element(_qname(profile, "default", profile["root"]["element"]))
-    for name, value in profile["root"]["attributes"].items():
-        root.set(_qname(profile, "default", name), str(value))
-    _add_fields(root, profile, profile["mapping"]["fields"], response, response, attachments)
-    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
-
-
-def validate_exact_xsd(xml: bytes) -> subprocess.CompletedProcess[str]:
-    xmllint = shutil.which("xmllint")
-    if xmllint is None:
-        raise AssertionError("xmllint is required to validate the pinned official XSD fixture")
-    for name, expected in XSD_HASHES.items():
-        actual = hashlib.sha256((XSD_FIXTURES / name).read_bytes()).hexdigest()
-        if actual != expected:
-            raise AssertionError(f"pinned XSD digest mismatch for {name}: {actual}")
-    with tempfile.TemporaryDirectory() as directory:
-        temp = Path(directory)
-        for name in XSD_HASHES:
-            source = (XSD_FIXTURES / name).read_text()
-            for dependency in XSD_HASHES:
-                source = source.replace(
-                    f"https://apply07.grants.gov/apply/system/schemas/{dependency}",
-                    dependency,
-                )
-            (temp / name).write_text(source)
-        xml_path = temp / "response.xml"
-        xml_path.write_bytes(xml)
-        return subprocess.run(
-            [xmllint, "--noout", "--schema", str(temp / "RR_KeyPersonExpanded_4_0-V4.0.xsd"), str(xml_path)],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
+PROFILE = json.loads(
+    (ROOT / "dist/forms/rr-key-person-expanded/targets/grants-gov-xml.json").read_text()
+)
+XSD_SET = ExactXsdFixture(
+    entrypoint="RR_KeyPersonExpanded_4_0-V4.0.xsd",
+    files=tuple(
+        PinnedXsdFile(name, XSD_FIXTURES / name, digest)
+        for name, digest in XSD_HASHES.items()
+    ),
+    official_sha256=XSD_HASHES["RR_KeyPersonExpanded_4_0-V4.0.xsd"],
+)
 
 
 def _person(first_name: str, last_name: str, *, country: str, **address: str) -> dict[str, Any]:
@@ -295,7 +144,7 @@ class RRKeyPersonExpandedXmlTests(unittest.TestCase):
             "additionalCurrentPendingSupport": "overflow-support",
         }
 
-        xml = render_xml(response, self.attachments)
+        xml = render_profile_xml(PROFILE, response, self.attachments)
         root = ET.fromstring(xml)
         self.assertEqual(
             [child.tag for child in root],
@@ -385,7 +234,7 @@ class RRKeyPersonExpandedXmlTests(unittest.TestCase):
             root, "SupportsAttached", "SupportAttached", "overflow-support"
         )
 
-        result = validate_exact_xsd(xml)
+        result = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
 
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
@@ -397,43 +246,13 @@ class RRKeyPersonExpandedXmlTests(unittest.TestCase):
         pi["biographicalSketch"] = "pi-bio"
 
         result = validate_exact_xsd(
-            render_xml({"principalInvestigator": pi}, self.attachments)
+            render_profile_xml(PROFILE, {"principalInvestigator": pi}, self.attachments),
+            XSD_SET,
+            profile=PROFILE,
         )
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Province", result.stderr)
-
-    def test_array_with_item_element_defaults_to_one_collection_wrapper(self) -> None:
-        profile = {"namespaces": {"default": "urn:example"}}
-        node = {
-            "element": "Items",
-            "kind": "array",
-            "itemElement": "Item",
-            "itemNamespace": "default",
-            "items": {
-                "fields": {
-                    "name": {"element": "Name", "kind": "value", "namespace": "default"}
-                }
-            },
-        }
-        root = ET.Element("root")
-
-        _add_node(
-            root,
-            profile,
-            node,
-            [{"name": "first"}, {"name": "second"}],
-            {},
-            {},
-        )
-
-        self.assertEqual([child.tag for child in root], ["{urn:example}Items"])
-        self.assertEqual(
-            [child.tag for child in root[0]],
-            ["{urn:example}Item", "{urn:example}Item"],
-        )
-        self.assertEqual([item[0].text for item in root[0]], ["first", "second"])
-
 
 if __name__ == "__main__":
     unittest.main()
