@@ -23,13 +23,13 @@
       "sourceBehavior": "System generated after successful upload of the application package. Display \"Completed on submission to Grants.gov\"."
     },
     {
-      "canonicalName": "representativeTitle",
+      "canonicalName": "title",
       "wirePath": "AuthorizedRepresentative.RepresentativeTitle",
       "requiredByDat": true,
       "maxLength": 45
     },
     {
-      "canonicalName": "applicantOrganizationName",
+      "canonicalName": "applicantOrganization",
       "wirePath": "ApplicantOrganizationName",
       "requiredByDat": true,
       "maxLength": 60
@@ -93,12 +93,12 @@
       },
       "presentation": {
         "applicantLabel": "Applicant Organization",
-        "representativeTitleRole": "prefilled",
+        "titleRole": "prefilled",
         "applicantOrganizationRole": "prefilled"
       }
     },
     {
-      "id": "sf424d-individual",
+      "id": "individual-sf424d",
       "legacyFormId": 522,
       "formName": "Assurances for Construction Programs (SF-424D Individual)",
       "shortFormName": "Individual_SF424D",
@@ -142,12 +142,12 @@
       },
       "presentation": {
         "applicantLabel": "Applicant Name",
-        "representativeTitleRole": "applicantInput",
+        "titleRole": "applicantInput",
         "applicantOrganizationRole": "applicantInput"
       }
     },
     {
-      "id": "sf424d-mandatory",
+      "id": "mandatory-sf424d",
       "legacyFormId": 329,
       "formName": "Assurances for Construction Programs (SF-424D - Mandatory)",
       "shortFormName": "Mandatory_SF424D",
@@ -191,7 +191,7 @@
       },
       "presentation": {
         "applicantLabel": "Applicant Organization",
-        "representativeTitleRole": "prefilled",
+        "titleRole": "prefilled",
         "applicantOrganizationRole": "prefilled"
       }
     }
