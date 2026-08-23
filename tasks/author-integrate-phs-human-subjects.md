@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Establish the dimensional clinical-study foundation for deep conditions,
   nested repetition, enrollment, and HHS research behavior.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
   at: '2026-08-23T21:57:45.627Z'
+assignee: human_subjects_agent
 ---
 # Goal
 

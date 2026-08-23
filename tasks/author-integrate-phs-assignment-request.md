@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T23:44:52.184Z'
+  at: '2026-08-23T23:45:20.307Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -94,4 +94,4 @@ Public-fork formatting baseline [#52](https://github.com/mikec-ai/simpler-grants
 
 ### Hosted CI classification
 
-At PR #51 head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`, all hosted formatting, lint, migration, and security stages pass. The full API suite records 4,502 passed, 1 skipped, and 23 failures. Public-fork main at formatting baseline #52 records 4,499 passed, 1 skipped, and the exact same 23 failures; the three additional passing tests are the promotion’s banked-only fail-closed coverage. Both heads also fail before Playwright because the detached API server does not become ready within the workflow’s 800-second wait. No E2E assertion executes. These hosted failures are therefore classified as existing main-branch debt, not a promotion regression. After independent review and the baseline comparison, PR #51 was merged by the repository owner at  as public-fork main commit . The promotion agent did not issue the merge.
+At PR #51 head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`, all hosted formatting, lint, migration, and security stages pass. The full API suite records 4,502 passed, 1 skipped, and 23 failures. Public-fork main at formatting baseline #52 records 4,499 passed, 1 skipped, and the exact same 23 failures; the three additional passing tests are the promotion’s banked-only fail-closed coverage. Both heads also fail before Playwright because the detached API server does not become ready within the workflow’s 800-second wait. No E2E assertion executes. These hosted failures are therefore classified as existing main-branch debt, not a promotion regression. After independent review and the baseline comparison, PR #51 was merged by the repository owner at 2026-08-23T23:44:10Z as public-fork main commit d08e0c64f50a374e515a1f5184ae68f4600653ad. The promotion agent did not issue the merge.
