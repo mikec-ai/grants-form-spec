@@ -62,46 +62,6 @@ def bank_ref(value: str) -> str | None:
     return value.split("question-bank/", 1)[1].removesuffix("/schema.json")
 
 
-def form_local_leaves(schema: dict, defs: dict) -> set[str]:
-    """Field names a form declares itself rather than composing from the bank.
-
-    A field two forms both declare themselves is a question waiting to be named: the same
-    thing asked twice, with the labels and limits kept in step by hand. That number should
-    stay at zero, which is what makes the bank worth having rather than merely present.
-    """
-    out: set[str] = set()
-
-    def walk(node: object, path: tuple[str, ...]) -> bool:
-        """True when this subtree reaches the bank; collects the leaves that do not."""
-        if not isinstance(node, dict):
-            return False
-        ref = node.get("$ref")
-        if isinstance(ref, str):
-            if "question-bank/" in ref:
-                return True
-            if ref.startswith("#/$defs/"):
-                return walk(defs.get(ref.removeprefix("#/$defs/"), {}), path)
-        banked = any(
-            walk(branch, path)
-            for branch in node.get("allOf", [])
-            if isinstance(branch, dict) and "if" not in branch
-        )
-        properties = node.get("properties")
-        if properties:
-            for name, sub in properties.items():
-                walk(sub, (*path, name))
-            return True
-        items = node.get("items")
-        if isinstance(items, dict):
-            return walk(items, path) or banked
-        if path and not banked:
-            out.add(path[-1])
-        return banked
-
-    walk(schema, ())
-    return out
-
-
 def closure(direct: set[str], bank_refs: dict[str, set[str]]) -> set[str]:
     seen: set[str] = set()
     queue = list(direct)
@@ -202,6 +162,15 @@ def catalogue(kind: str, block_id: str) -> dict:
 
 def form_file(form_id: str, relative: str) -> dict:
     return read_json(DIST / "forms" / form_id / relative)
+
+
+def occurrence_index(form_index: dict) -> dict[str, dict]:
+    """Portable field attribution keyed by canonical response path."""
+    return {
+        row["path"]: row
+        for row in form_index.get("fieldOccurrences", [])
+        if isinstance(row, dict) and isinstance(row.get("path"), str)
+    }
 
 
 def canonical_pointer(path: str) -> str:
@@ -406,7 +375,7 @@ def write_workbook(output_dir: pathlib.Path, analysis: dict) -> None:
     specs = {
         "question-inventory.csv": (
             analysis["questionInventory"],
-            ["questionId", "name", "description", "entity", "tags", "classification", "formsCount", "forms", "reviewedFormsCount", "reviewedForms"],
+            ["questionId", "name", "description", "entity", "tags", "classification", "responseRole", "formsCount", "forms", "reviewedFormsCount", "reviewedForms"],
         ),
         "form-question-associations.csv": (
             analysis["formQuestionWorkbook"],
@@ -414,7 +383,7 @@ def write_workbook(output_dir: pathlib.Path, analysis: dict) -> None:
         ),
         "unclassified-form-fields.csv": (
             analysis["unclassifiedFormFields"],
-            ["formId", "fieldName", "classification", "countedAsQuestion", "reason"],
+            ["formId", "fieldPath", "fieldName", "responseRole", "classification", "countedAsQuestion", "reason"],
         ),
         "pairwise-exploratory.csv": (
             analysis["pairwiseExploratory"],
@@ -494,6 +463,10 @@ def main(argv: list[str] | None = None) -> int:
         form_id: form_file(form_id, "manifest.json").get("form", {})
         for form_id in forms
     }
+    form_indexes = {form_id: form_file(form_id, "index.json") for form_id in forms}
+    field_occurrences = {
+        form_id: occurrence_index(form_indexes[form_id]) for form_id in forms
+    }
     form_evidence = {form_id: form_file(form_id, "evidence.json") for form_id in forms}
     form_profiles = {
         form_id: form_file(form_id, "targets/grants-gov-xml.json")
@@ -530,7 +503,11 @@ def main(argv: list[str] | None = None) -> int:
             "entity": entry.get("entity"),
             "tags": entry.get("tags", []),
             "classification": entry.get("classification", "semanticQuestion"),
-            "responseRole": "unclassified",
+            "responseRole": (
+                field_occurrences[form_id].get(row["path"], {}).get("responseRole")
+                or entry.get("responseRole")
+                or "unclassified"
+            ),
             "occurrencePath": row["path"],
             "relationship": row["relationship"],
             **shape,
@@ -575,6 +552,7 @@ def main(argv: list[str] | None = None) -> int:
             "entity": entry.get("entity"),
             "tags": entry.get("tags", []),
             "classification": entry.get("classification", "semanticQuestion"),
+            "responseRole": entry.get("responseRole") or "unclassified",
             "formsCount": len(using),
             "forms": using,
             "reviewedFormsCount": len(reviewed_using),
@@ -610,17 +588,32 @@ def main(argv: list[str] | None = None) -> int:
         key=lambda row: (row["formId"], row["kind"], row["capabilityId"], row["path"])
     )
 
-    unclassified_form_fields = [
-        {
-            "formId": form_id,
-            "fieldName": field_name,
-            "classification": "unclassified",
-            "countedAsQuestion": False,
-            "reason": "Form-local field is not composed from a classified question-bank block.",
-        }
-        for form_id, schema in sorted(forms.items())
-        for field_name in sorted(form_local_leaves(schema, schema.get("$defs", {})))
-    ]
+    unclassified_form_fields = []
+    known_blocks = set(entries)
+    for form_id in sorted(forms):
+        occurrences_for_form = form_indexes[form_id].get("fieldOccurrences", [])
+        for occurrence in sorted(occurrences_for_form, key=lambda row: row.get("path", "")):
+            if not occurrence.get("leaf"):
+                continue
+            if set(occurrence.get("blockIds", [])) & known_blocks:
+                continue
+            response_role = occurrence.get("responseRole")
+            if response_role and response_role != "applicantInput":
+                continue
+            path = occurrence["path"]
+            unclassified_form_fields.append({
+                "formId": form_id,
+                "fieldPath": path,
+                "fieldName": path.rsplit("/", 1)[-1],
+                "responseRole": response_role or "unclassified",
+                "classification": "unclassified",
+                "countedAsQuestion": False,
+                "reason": (
+                    "Applicant input is not composed from a classified question-bank block."
+                    if response_role == "applicantInput"
+                    else "Form-local field has neither canonical question lineage nor an explicit response role."
+                ),
+            })
 
     sequence_contract = read_json(SEQUENCE)
     declared_sequence = sequence_contract.get("forms", [])
@@ -747,12 +740,12 @@ def main(argv: list[str] | None = None) -> int:
 
     print("\n## Fields not yet in the bank\n")
     local: dict[str, set[str]] = {}
-    for form_id, schema in sorted(forms.items()):
-        for name in form_local_leaves(schema, schema.get("$defs", {})):
-            local.setdefault(name, set()).add(form_id)
+    for row in unclassified_form_fields:
+        local.setdefault(row["fieldName"], set()).add(row["formId"])
     shared = {name: where for name, where in local.items() if len(where) > 1}
     print(
-        f"{len(local)} field names are declared by a form rather than composed from the bank; "
+        f"{len(unclassified_form_fields)} field occurrences ({len(local)} distinct names) "
+        "are not yet attributed to a canonical question or an explicit non-applicant role; "
         f"**{len(shared)}** of them by more than one form."
     )
     if shared:

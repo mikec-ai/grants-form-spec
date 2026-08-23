@@ -6,6 +6,51 @@ import { describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("SGG UI emission", () => {
+  it("emits portable field lineage and authored response roles", async () => {
+    const budgetIndex = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/rr-budget/index.json"), "utf8"),
+    );
+    const performanceIndex = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/performance-site/index.json"), "utf8"),
+    );
+    const contactsIndex = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/key-contacts/index.json"), "utf8"),
+    );
+    const sf424Index = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/sf424/index.json"), "utf8"),
+    );
+    const signatureIndex = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/question-bank/aor/signature/index.json"), "utf8"),
+    );
+
+    expect(
+      budgetIndex.fieldOccurrences.find((row: any) => row.path === "/budgetType"),
+    ).toEqual({
+      path: "/budgetType",
+      leaf: true,
+      blockIds: ["budget/research/details"],
+    });
+    expect(
+      performanceIndex.fieldOccurrences.find(
+        (row: any) => row.path === "/primarySite/address/state",
+      ),
+    ).toMatchObject({
+      leaf: true,
+      blockIds: ["generics/address", "project-site/details"],
+    });
+    expect(
+      contactsIndex.fieldOccurrences.find(
+        (row: any) => row.path === "/keyContacts/[]/projectRole",
+      ),
+    ).toMatchObject({ leaf: true, blockIds: [] });
+    expect(
+      sf424Index.fieldOccurrences.find(
+        (row: any) => row.path === "/totalEstimatedFunding",
+      ),
+    ).toMatchObject({ responseRole: "calculatedOutput" });
+    expect(signatureIndex.responseRole).toBe("systemValue");
+  });
+
   it("preserves form-local conditions on embedded models", async () => {
     const schema = JSON.parse(
       await readFile(

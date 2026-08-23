@@ -210,6 +210,7 @@ scalar Signature extends string;
 
 /** Completed by Grants.gov upon submission. */
 @Question.meta(#{ id: "generics/submitted-date" })
+@Response.role(ResponseRole.systemValue)
 @Catalog.entity(EntityName.generic)
 @Catalog.tag(TagName.date)
 @UI.label("Submitted Date")

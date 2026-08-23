@@ -48,12 +48,36 @@ Narrative the same question. Runtime behavior capabilities are derived from the 
 artifact and reported separately again. This permits a form to have low semantic overlap but low
 implementation cost.
 
-The current portable vocabulary does not yet classify every occurrence as applicant input,
-calculated output, system value, technical field, attestation, or static content. Such a role is
-therefore emitted as `responseRole: unclassified`, not guessed by this exporter. A source item that
-has not been authored as a semantic question does not enter question similarity: form-local leaves
-are emitted separately in `unclassified-form-fields.csv` with `countedAsQuestion: false`. Unknown
-information therefore remains visible rather than being silently omitted or misclassified.
+The portable `@Response.role` vocabulary classifies an authored block or occurrence as applicant
+input, calculated output, system value, technical field, attestation, or static content. Roles are
+emitted in block indexes and the form's path-qualified `fieldOccurrences`; the exporter reads those
+facts rather than inferring from `readOnly`, a widget, a label, or an XML path. An occurrence with no
+canonical block lineage and no explicit non-question role is emitted in
+`unclassified-form-fields.csv` with `countedAsQuestion: false`. Applicant input likewise requires a
+canonical semantic question before it enters similarity. Unknown information therefore remains
+visible rather than being silently omitted or misclassified.
+
+`analysis/unclassified-fields-baseline.v1.json` is the temporary debt ratchet. Its `initial` set is
+the 76 path-qualified occurrences remaining after canonical lineage repair; resolved identities move
+to `resolved`. CI rejects new identities, unresolved removals, and the return of resolved debt. When
+the remaining set reaches zero, the baseline can be replaced by the permanent zero-unclassified
+gate.
+
+## Resolving the ratchet
+
+For each new or existing form field, author one of the following facts:
+
+1. Type the field with an existing `@Question.meta` block when it asks an existing semantic
+   question.
+2. Add a source-evidenced canonical question block when the semantic requirement is genuinely new.
+3. Apply `@Response.role(ResponseRole.calculatedOutput)`, `systemValue`, `technicalField`,
+   `attestation`, or `staticContent` when the value is explicitly not an applicant question.
+
+`@Response.role(ResponseRole.applicantInput)` documents ownership but does not bypass canonical
+identity: applicant input without a question-bank block remains unclassified. Do not create a
+duplicate question merely to clear the report. When a baseline identity is legitimately resolved,
+move it from `initial` to `resolved` in the same pull request; the ratchet rejects both an unrecorded
+removal and a later return.
 
 ## Provenance and XML metadata
 

@@ -56,6 +56,7 @@ scalar AorFax extends PhoneNumber;
 
 /** Completed by Grants.gov upon submission. */
 @Question.meta(#{ id: "aor/signature" })
+@Response.role(ResponseRole.systemValue)
 @Catalog.entity(EntityName.authorizedRepresentative)
 @Catalog.tag(TagName.person, TagName.name)
 @UI.label("Signature of Authorized Representative")
@@ -63,6 +64,7 @@ scalar AorSignature extends Signature;
 
 /** Completed by Grants.gov upon submission. */
 @Question.meta(#{ id: "aor/date-signed" })
+@Response.role(ResponseRole.systemValue)
 @Catalog.entity(EntityName.authorizedRepresentative)
 @Catalog.tag(TagName.date)
 @UI.label("Date Signed")

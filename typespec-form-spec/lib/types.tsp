@@ -8,6 +8,22 @@ enum BlockClassification {
   captureMechanism,
 }
 
+/** Why a value exists in a form response, independent of its semantic identity and presentation. */
+enum ResponseRole {
+  /** Information supplied directly by an applicant or their representative. */
+  applicantInput,
+  /** A value derived from other response values by portable calculation rules. */
+  calculatedOutput,
+  /** A value supplied by a platform, agency, state, or another external lifecycle owner. */
+  systemValue,
+  /** A value used to drive authoring or runtime interaction rather than submitted semantics. */
+  technicalField,
+  /** An explicit certification, assurance, signature, or comparable affirmation. */
+  attestation,
+  /** Non-response content included for instructions or presentation. */
+  staticContent,
+}
+
 /** Identity, lifecycle, and analytical classification for a bank block. */
 model QuestionMeta {
   /** Semantic id, `entity/attribute` — e.g. "poc/details". */

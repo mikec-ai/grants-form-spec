@@ -18,10 +18,15 @@
     },
     "entity": { "type": "string", "minLength": 1 },
     "classification": { "enum": ["semanticQuestion", "captureMechanism"] },
+    "responseRole": { "$ref": "#/$defs/responseRole" },
     "composes": {
       "type": "array",
       "items": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9/-]*$" },
       "uniqueItems": true
+    },
+    "fieldOccurrences": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/fieldOccurrence" }
     }
   },
   "allOf": [
@@ -30,7 +35,38 @@
       "then": {
         "properties": { "classification": true, "composes": true },
         "required": ["classification", "composes"]
+      },
+      "else": {
+        "properties": { "fieldOccurrences": true },
+        "required": ["fieldOccurrences"]
       }
     }
-  ]
+  ],
+  "$defs": {
+    "responseRole": {
+      "enum": [
+        "applicantInput",
+        "calculatedOutput",
+        "systemValue",
+        "technicalField",
+        "attestation",
+        "staticContent"
+      ]
+    },
+    "fieldOccurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "leaf", "blockIds"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1, "pattern": "^/" },
+        "leaf": { "type": "boolean" },
+        "blockIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9/-]*$" },
+          "uniqueItems": true
+        },
+        "responseRole": { "$ref": "#/$defs/responseRole" }
+      }
+    }
+  }
 }

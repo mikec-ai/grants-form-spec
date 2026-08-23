@@ -6,5 +6,6 @@
   "tags": ["organization", "name"],
   "entity": "primaryOrg",
   "classification": "semanticQuestion",
+  "responseRole": "applicantInput",
   "composes": []
 }

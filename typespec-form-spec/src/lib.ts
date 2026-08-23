@@ -120,6 +120,7 @@ export const $lib = createTypeSpecLibrary({
     formMeta: {},
     tags: {},
     entity: {},
+    responseRole: {},
     label: {},
     helpText: {},
     widget: {},

@@ -547,17 +547,22 @@ specified here is the shape that site already assumes.
 dist/question-bank/v1/poc/details/
 ├── schema.json      # JSON Schema, $ref-ing generics
 ├── ui.json          # JSON Forms layout, scopes relative to THIS block's root
-└── index.json       # catalogue facets: id, name, description, tags, entity
+└── index.json       # catalogue facets, composition, and optional response role
 
 dist/forms/key-contacts/
 ├── schema.json      # same kind of artifact
 ├── ui.json          # same kind of artifact
-├── index.json       # same kind of artifact
+├── index.json       # catalogue plus path-qualified field lineage and response roles
 ├── sgg/ui-schema.json   # mechanical vocabulary transform, no per-form knowledge (§2.5)
 └── manifest.json
 ```
 
-The first three are identical in kind at every level.
+The first three remain portable at every level. A form index additionally records its resolved
+`fieldOccurrences`: canonical response paths, whether each path is a leaf, the question-bank blocks
+that own its semantics, and an explicitly authored response role when present. This is the one
+authoring fact JSON Schema cannot preserve through spreads and form-scoped subtype overrides. It is
+captured before emission so consumers never need the TypeSpec AST, and it does not add custom JSON
+Schema keywords.
 
 **Composition is UI-subtree incorporation.** A parent block's `ui.json` embeds each child
 block's `ui.json`, re-scoped under the property name. This is `rescopeUi` in
@@ -576,6 +581,7 @@ a target-specific projection and never a composition semantic — the same conta
 |---|---|---|
 | identity | `@Question.meta` | `@Form.meta` |
 | portable form metadata (source identity, optional legacy id, OMB number, version) | — | yes |
+| resolved field lineage and response roles in `index.json` | — | yes |
 | `schema.json` / `ui.json` / `index.json` | yes | yes |
 | `$ref`-able from another block | yes | yes |
 | SGG target artifacts and adapter projection | — | yes |

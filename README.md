@@ -71,6 +71,7 @@ npm run emit
 npm test
 npm run analyze
 python3 scripts/analyze.py --json --output-dir build/analysis
+npm run check-unclassified
 ```
 
 `npm run validate-artifacts` validates emitted questions, forms, presentation trees,
@@ -83,6 +84,11 @@ Source evidence is authored as a separate sidecar under `evidence/` and projecte
 block with `npm run project-evidence`. Each record pins public source URIs, versions, hashes,
 and deterministic extraction provenance. Semantic mappings carry an explicit review state;
 unreviewed or proposed mappings are never eligible for published coverage metrics.
+
+Every emitted form index includes path-qualified canonical field lineage and explicitly authored
+response roles. CI maintains a no-new-debt ratchet over fields that have neither canonical question
+lineage nor a declared non-question role. Removing debt is expected; introducing a new unexplained
+field is not.
 
 Generated `dist/` output is intentionally ignored. Build reports, large parity oracles, resolved snapshots, and analysis workbooks are CI artifacts rather than runtime source.
 
