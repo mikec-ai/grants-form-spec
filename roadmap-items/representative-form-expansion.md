@@ -170,3 +170,9 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/migrate-sf424c-parity-oracle.md)
 
 [contains](../tasks/author-integrate-phs398-cover-page-supplement.md)
+
+[contains](../tasks/complete-key-person-declaration-xml.md)
+
+[contains](../tasks/add-composable-presence-conditions.md)
+
+[contains](../tasks/prove-key-person-sgg-lifecycle.md)

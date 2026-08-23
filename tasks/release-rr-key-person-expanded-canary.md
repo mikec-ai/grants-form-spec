@@ -2,16 +2,16 @@
 type: Task
 title: Prove R&R Key Person Expanded through the full SGG lifecycle
 priority: P0
-assignee: canary_assessment_agent
+assignee: codex-team
 description: >-
   Use the existing Key Person form as the post-leverage vertical canary before
   authoring a twentieth form; validate registration, lifecycle, repeated
   structures, projection, XML/XSD, and explicit human gates.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:50:19.147Z'
+  at: '2026-08-23T16:06:47.667Z'
 ---
 # Goal
 
@@ -43,3 +43,9 @@ After this canary proves the bounded architecture and records its exceptions, re
 [depends on](separate-sgg-runtime-identity-metadata.md)
 
 [depends on](fix-repeated-attachment-audit.md)
+
+[depends on](complete-key-person-declaration-xml.md)
+
+[depends on](add-composable-presence-conditions.md)
+
+[depends on](prove-key-person-sgg-lifecycle.md)
