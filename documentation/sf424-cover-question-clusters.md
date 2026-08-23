@@ -48,5 +48,5 @@ occurrences instead of the flattened JSON Schema reference roots. This prevents 
 such as `/applicantType` from appearing as extra, unmapped associations beside their actual leaf
 questions. Tests require exactly the 50 intended source-bound occurrences to appear at their exact
 paths, remain proposed and unpublished, and retain `applicantInput` capture roles. The
-unclassified-field ratchet now resolves all 76 identities in its original baseline without
+historical unclassified-field ratchet resolved all 76 identities in its original baseline without
 deleting or rewriting the baseline.

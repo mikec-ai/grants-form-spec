@@ -380,10 +380,10 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             for row in self.analysis["unclassifiedFormFields"]
         }
         self.assertTrue(resolved.isdisjoint(unresolved))
-        baseline = json.loads(
-            (ROOT / "analysis" / "unclassified-fields-baseline.v1.json").read_text()
+        exceptions = json.loads(
+            (ROOT / "analysis" / "unclassified-field-exceptions.v1.json").read_text()
         )
-        self.assertTrue(resolved.issubset(set(baseline["resolved"])))
+        self.assertEqual(exceptions, {"version": 1, "exceptions": []})
 
     def test_system_owned_lifecycle_values_retain_canonical_identity(self) -> None:
         expected = {

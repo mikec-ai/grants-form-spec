@@ -62,13 +62,12 @@ canonical block lineage and no explicit non-question role is emitted in
 canonical semantic question before it enters similarity. Unknown information therefore remains
 visible rather than being silently omitted or misclassified.
 
-`analysis/unclassified-fields-baseline.v1.json` is the temporary debt ratchet. Its `initial` set is
-the 76 path-qualified occurrences remaining after canonical lineage repair; resolved identities move
-to `resolved`. CI rejects new identities, unresolved removals, and the return of resolved debt. When
-the remaining set reaches zero, the baseline can be replaced by the permanent zero-unclassified
-gate.
+The historical 76-occurrence debt baseline is fully resolved. CI now applies the permanent
+zero-unclassified gate through `npm run check-classified-fields`. Any temporary exception must be
+evidence-backed, owned, justified, and tied to a bounded removal condition in
+`analysis/unclassified-field-exceptions.v1.json`; stale exceptions fail the gate.
 
-## Resolving the ratchet
+## Resolving the gate
 
 For each new or existing form field, author one of the following facts:
 
@@ -80,9 +79,8 @@ For each new or existing form field, author one of the following facts:
 
 `@Response.role(ResponseRole.applicantInput)` documents ownership but does not bypass canonical
 identity: applicant input without a question-bank block remains unclassified. Do not create a
-duplicate question merely to clear the report. When a baseline identity is legitimately resolved,
-move it from `initial` to `resolved` in the same pull request; the ratchet rejects both an unrecorded
-removal and a later return.
+duplicate question merely to clear the report. The author workflow and temporary exception
+contract are documented in [`classified-form-field-gate.md`](classified-form-field-gate.md).
 
 ## Provenance and XML metadata
 
