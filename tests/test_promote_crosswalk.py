@@ -146,7 +146,7 @@ class PromotionImporterTests(unittest.TestCase):
         self.assertIsNone(unversioned["nativeVersion"])
 
     def test_import_rejects_unsupported_version_looking_xsd_uris(self) -> None:
-        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd"]:
+        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd", "SchemaV2.0.xsd"]:
             with self.subTest(filename=filename), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
                 repo, revision = self._repo(root)

@@ -29,7 +29,7 @@ function nativeVersionFromUri(source, rel) {
   const filename = new URL(source.uri).pathname.split("/").at(-1) ?? "";
   const match = /-V([0-9]+\.[0-9]+)\.xsd$/i.exec(filename);
   if (match) return match[1];
-  if (/(?:^|[-_])V[0-9]/i.test(filename)) {
+  if (/V[0-9]/i.test(filename)) {
     throw new Error(
       `${rel}: source ${source.id} uses unsupported version-looking XSD URI ${source.uri}; ` +
       "expected a filename ending in -V<major>.<minor>.xsd",

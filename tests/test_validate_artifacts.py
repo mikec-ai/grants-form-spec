@@ -256,7 +256,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertIn("version 2.0 stated by", result.stdout)
 
     def test_projector_rejects_unsupported_version_looking_xsd_uris(self) -> None:
-        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd"]:
+        for filename in ["Schema-V2.xsd", "Schema-V2_0.xsd", "SchemaV2.0.xsd"]:
             with self.subTest(filename=filename), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
                 dist = self._write_graph(root)

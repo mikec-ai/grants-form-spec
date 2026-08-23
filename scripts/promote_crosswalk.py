@@ -509,7 +509,7 @@ def native_source_version(uri: str, kind: str) -> str | None:
     match = re.search(r"-V([0-9]+\.[0-9]+)\.xsd$", filename, re.IGNORECASE)
     if match:
         return match.group(1)
-    if re.search(r"(?:^|[-_])V[0-9]", filename, re.IGNORECASE):
+    if re.search(r"V[0-9]", filename, re.IGNORECASE):
         raise PromotionError(
             f"unsupported version-looking XSD URI {uri}; expected a filename ending in "
             "-V<major>.<minor>.xsd"
