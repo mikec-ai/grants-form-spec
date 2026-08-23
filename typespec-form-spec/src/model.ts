@@ -7,9 +7,13 @@ import { stateKeys } from "./lib.js";
 interface ConditionBase {
   sourcePath: string[];
   sourceIsArray: boolean;
-  /** Declaring model for sibling-only predicates; checked once the target model is complete. */
-  sourceModelName?: string;
+  /** Compiler-only identity for sibling validation. Emitters never serialize this reference. */
+  sourceModel?: Model;
 }
+
+/** Model identity is compiler identity, not an unqualified name that namespaces may repeat. */
+export const sameModelIdentity = (left: Model | undefined, right: Model): boolean =>
+  left === undefined || left === right;
 export interface EqualsCondition extends ConditionBase {
   operator: "equals";
   value: string | number | boolean | null;

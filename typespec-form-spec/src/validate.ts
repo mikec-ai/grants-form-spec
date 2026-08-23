@@ -7,7 +7,7 @@ import {
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
-  propVisibleWhen,
+  propVisibleWhen, sameModelIdentity,
   propValidationConstraintsWhen,
 } from "./model.js";
 
@@ -433,7 +433,7 @@ function checkConditions(program: Program, prop: ModelProperty): void {
       ? condition.predicates
       : [condition];
   for (const condition of conditionsOf(program, prop).flatMap(atomic)) {
-    if (condition.sourceModelName && condition.sourceModelName !== model.name) {
+    if (!sameModelIdentity(condition.sourceModel, model)) {
       reportDiagnostic(program, {
         code: "condition-source-not-sibling",
         target: prop,

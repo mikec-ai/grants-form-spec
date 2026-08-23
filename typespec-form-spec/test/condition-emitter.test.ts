@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { expectDiagnostics } from "@typespec/compiler/testing";
+import type { Model } from "@typespec/compiler";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
 import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
-import { allBlocks } from "../src/model.js";
+import { allBlocks, sameModelIdentity } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
 
 describe("bounded presence conditions", () => {
@@ -133,6 +134,68 @@ describe("bounded presence conditions", () => {
     });
   });
 
+  it("rescopes a canonical root condition when a question is nested in a form", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        @Question.meta(#{ id: "test/nested-overflow" })
+        model NestedOverflow {
+          people?: string[];
+
+          @UI.enabledWhenCountOrPresent(NestedOverflow.people, 2)
+          upload?: string;
+        }
+
+        ${formMeta("nested-overflow-condition-check")}
+        model NestedOverflowConditionCheck {
+          nested?: NestedOverflow;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "nested-overflow-condition-check",
+    );
+    const canonical = emitBlockUi(instance.program, block!);
+
+    expect(canonical.elements?.[0].elements?.[1]).toMatchObject({
+      scope: "#/properties/nested/properties/upload",
+      rule: {
+        effect: "ENABLE",
+        condition: {
+          scope: "#",
+          schema: {
+            properties: {
+              nested: {
+                anyOf: [
+                  {
+                    properties: { people: { type: "array", minItems: 2 } },
+                    required: ["people"],
+                  },
+                  {
+                    properties: {
+                      upload: {
+                        not: {
+                          anyOf: [
+                            { type: "null" },
+                            { const: "" },
+                            { type: "array", maxItems: 0 },
+                          ],
+                        },
+                      },
+                    },
+                    required: ["upload"],
+                  },
+                ],
+              },
+            },
+            required: ["nested"],
+          },
+        },
+      },
+    });
+  });
+
   it("rejects a scalar count source for the existing count decorator", async () => {
     expectDiagnostics(
       await Tester.diagnose(
@@ -180,6 +243,15 @@ describe("bounded presence conditions", () => {
       ),
       { code: "@simpler-grants/form-spec/condition-source-not-sibling" },
     );
+  });
+
+  it("does not equate same-named models from different namespaces", () => {
+    const source = { kind: "Model", name: "Twin", namespace: { name: "Source" } } as unknown as Model;
+    const target = { kind: "Model", name: "Twin", namespace: { name: "Target" } } as unknown as Model;
+
+    expect(source.name).toBe(target.name);
+    expect(source.namespace?.name).not.toBe(target.namespace?.name);
+    expect(sameModelIdentity(source, target)).toBe(false);
   });
 
   it.each([0, -1])("rejects a non-positive count threshold (%s)", async (minimum) => {

@@ -232,7 +232,7 @@ function countCondition(
     operator: "countAtLeast" as const,
     sourcePath: [source.name],
     sourceIsArray: true,
-    sourceModelName: source.model?.name,
+    sourceModel: source.model,
     minimum: normalizedMinimum,
   };
 }
