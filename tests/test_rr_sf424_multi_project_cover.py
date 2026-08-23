@@ -111,7 +111,7 @@ class RRSF424MultiProjectCoverTests(unittest.TestCase):
         evidence = json.loads((root / "evidence.json").read_text())
         review = evidence["semanticReview"]
         self.assertEqual(review["status"], "proposed")
-        self.assertEqual(len(review["mappings"]), 4)
+        self.assertEqual(len(review["mappings"]), 22)
         self.assertTrue(all(mapping["status"] == "proposed" for mapping in review["mappings"]))
         self.assertTrue(all("reviewedBy" not in mapping for mapping in review["mappings"]))
 

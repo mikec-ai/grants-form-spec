@@ -7,6 +7,14 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.Poc;
 
+/** Enter the contact person's organization when it differs from the applicant organization. */
+@Question.meta(#{ id: "poc/organization-affiliation" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.poc)
+@Catalog.tag(TagName.organization, TagName.name)
+@UI.label("Organizational Affiliation")
+scalar PocOrganizationAffiliation extends OrganizationName;
+
 /** Enter the key contact's free-text role on this project. */
 @Question.meta(#{ id: "poc/project-role" })
 @Response.role(ResponseRole.applicantInput)

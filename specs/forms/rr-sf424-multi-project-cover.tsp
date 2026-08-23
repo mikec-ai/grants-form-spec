@@ -71,7 +71,7 @@ model MultiProjectAuthorizedRepresentative extends QuestionResearchAuthorizedRep
   address?: MultiProjectCountryControlledAddress;
 }
 
-model MultiProjectApplicationType {
+model MultiProjectApplicationType extends QuestionResearchApplicationType {
   @UI.label("Application Type")
   applicationTypeCode?: ResearchApplicationTypeCode;
 
@@ -115,7 +115,7 @@ model MultiProjectApplicationType {
   revisionCodeOtherExplanation?: string;
 }
 
-model MultiProjectApplicantType {
+model MultiProjectApplicantType extends QuestionResearchApplicantType {
   @UI.label("Applicant Type")
   applicantTypeCode?: ApplicantTypeCode;
 
@@ -127,7 +127,7 @@ model MultiProjectApplicantType {
 
   @UI.label("Small Business Organization Type")
   @UI.enabledWhen(MultiProjectApplicantType.applicantTypeCode, ApplicantTypeCode.R)
-  smallBusinessOrganizationType?: ResearchSmallBusinessType;
+  smallBusinessOrganizationType?: QuestionResearchSmallBusinessType;
 }
 
 model MultiProjectPeriod {
@@ -138,29 +138,7 @@ model MultiProjectPeriod {
   proposedEndDate?: ProjectEndDate;
 }
 
-model MultiProjectEstimatedFunding {
-  @UI.label("Total Federal Funds Requested")
-  @minValue(0)
-  @maxValue(9999999999999.99)
-  totalEstimatedAmount?: float64;
-
-  @UI.label("Total Non-Federal Funds")
-  @minValue(0)
-  @maxValue(9999999999999.99)
-  totalNonFederalRequested?: float64;
-
-  @UI.label("Total Federal and Non-Federal Funds")
-  @minValue(0)
-  @maxValue(9999999999999.99)
-  totalFederalNonFederalRequested?: float64;
-
-  @UI.label("Estimated Program Income")
-  @minValue(0)
-  @maxValue(9999999999999.99)
-  estimatedProgramIncome?: float64;
-}
-
-model MultiProjectStateReview {
+model MultiProjectStateReview extends QuestionResearchStateReview {
   @UI.label("State Review")
   stateReviewCodeType?: ResearchStateReviewCode;
 
@@ -181,9 +159,7 @@ model MultiProjectStateReview {
 })
 @UI.sections(RRSF424Section)
 model RRSF424MultiProjectCover {
-  @UI.label("Type of Submission")
-  @UI.section(RRSF424Section.submissionType)
-  submissionTypeCode?: ResearchSubmissionType;
+  ...QuestionResearchSubmissionType;
 
   @UI.label("Date Submitted")
   @UI.section(RRSF424Section.submittedDate)
@@ -191,9 +167,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Applicant Identifier")
   @UI.section(RRSF424Section.applicantIdentifier)
-  @minLength(1)
-  @maxLength(30)
-  applicantId?: string;
+  applicantId?: ResearchApplicantControlIdentifier;
 
   // The applicant enters the values assigned through the State review process.
   @UI.label("State Received Date")
@@ -210,9 +184,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Federal Identifier")
   @UI.section(RRSF424Section.stateUse)
-  @minLength(1)
-  @maxLength(30)
-  federalId?: string;
+  federalId?: ResearchFederalAwardIdentifier;
 
   @UI.label("Agency Routing Number")
   @UI.section(RRSF424Section.stateUse)
@@ -276,7 +248,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Estimated Project Funding")
   @UI.section(RRSF424Section.estimatedFunding)
-  estimatedProjectFunding?: MultiProjectEstimatedFunding;
+  estimatedProjectFunding?: QuestionResearchEstimatedFunding;
 
   @UI.label("State Review")
   @UI.section(RRSF424Section.stateReview)
@@ -318,3 +290,5 @@ model RRSF424MultiProjectCover {
   @UI.widget(WidgetName.Attachment)
   coverLetterAttachment?: ResearchCoverLetter;
 }
+
+@@UI.section(RRSF424MultiProjectCover.submissionTypeCode, RRSF424Section.submissionType);

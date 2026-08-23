@@ -71,6 +71,7 @@ export function emitFieldOccurrences(program: Program, form: Block): FieldOccurr
       const responseRole = firstDefined(
         propResponseRole(program, property),
         ...sources.map((source) => propResponseRole(program, source)),
+        ...sources.map((source) => roleForPropertyOwner(program, source)),
         ...matches.map((match) => propResponseRole(program, match.property)),
         roleForType(program, property.type),
         ...matches.map((match) => match.context.responseRole),
@@ -203,6 +204,16 @@ function sourceProperties(property: ModelProperty): ModelProperty[] {
 function blockIdsForPropertyOwner(program: Program, property: ModelProperty): string[] {
   const owner = property.model;
   return owner ? blockAncestry(program, owner) : [];
+}
+
+function roleForPropertyOwner(program: Program, property: ModelProperty): ResponseRole | undefined {
+  const owner = property.model;
+  if (!owner) return undefined;
+  for (let current: Model | undefined = owner; current; current = current.baseModel) {
+    const block = readBlock(program, current);
+    if (block?.responseRole) return block.responseRole;
+  }
+  return undefined;
 }
 
 function blockIdsForType(program: Program, type: Type): string[] {

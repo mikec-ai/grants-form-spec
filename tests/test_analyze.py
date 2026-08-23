@@ -209,15 +209,15 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 111)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 535)
+        self.assertEqual(len(self.analysis["questionInventory"]), 127)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 593)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 406)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 29)
-        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 49)
+        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 535)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 593)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
@@ -284,13 +284,10 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(short["reusedBehaviorCount"], short["behaviorCount"])
         self.assertEqual(short["measurementStatus"], "implementation-derived-unreviewed")
 
-    def test_unclassified_form_fields_are_visible_but_not_counted_as_questions(self) -> None:
+    def test_unclassified_baseline_is_fully_resolved(self) -> None:
         rows = self.analysis["unclassifiedFormFields"]
         self.assertEqual(len(rows), self.analysis["status"]["unclassifiedFormFieldCount"])
-        self.assertTrue(rows)
-        self.assertTrue(all(row["fieldPath"].startswith("/") for row in rows))
-        self.assertTrue(all(row["classification"] == "unclassified" for row in rows))
-        self.assertTrue(all(not row["countedAsQuestion"] for row in rows))
+        self.assertEqual(rows, [])
 
     def test_canonical_lineage_survives_spreads_inheritance_and_overrides(self) -> None:
         rows = self.analysis["unclassifiedFormFields"]
@@ -424,9 +421,9 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
                 self.assertIsNone(row["reviewedAt"])
 
         for form_id, count in {
-            "rr-sf424": 4,
-            "rr-sf424-multi-project-cover": 4,
-            "sf424": 2,
+            "rr-sf424": 22,
+            "rr-sf424-multi-project-cover": 22,
+            "sf424": 15,
         }.items():
             evidence = json.loads(
                 (ROOT / "dist" / "forms" / form_id / "evidence.json").read_text()
@@ -480,11 +477,16 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
 
         sf424_award = next(
             row
-            for row in self.analysis["unclassifiedFormFields"]
+            for row in self.analysis["formQuestionWorkbook"]
             if row["formId"] == "sf424"
-            and row["fieldPath"] == "/federalAwardIdentifier"
+            and row["occurrencePath"] == "/federalAwardIdentifier"
         )
-        self.assertFalse(sf424_award["countedAsQuestion"])
+        self.assertEqual(
+            sf424_award["questionId"], "application/federal-award-identifier"
+        )
+        self.assertEqual(sf424_award["responseRole"], "applicantInput")
+        self.assertEqual(sf424_award["mappingStatus"], "proposed")
+        self.assertFalse(sf424_award["publishable"])
 
         rr_evidence = json.loads(
             (ROOT / "dist/forms/rr-sf424/evidence.json").read_text()

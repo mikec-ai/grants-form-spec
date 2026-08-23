@@ -94,6 +94,9 @@ response roles. CI maintains a no-new-debt ratchet over fields that have neither
 lineage nor a declared non-question role. Removing debt is expected; introducing a new unexplained
 field is not.
 
+The [SF-424 cover cluster note](documentation/sf424-cover-question-clusters.md) records the
+conservative 50-occurrence partition, source boundary, and unpublished review status.
+
 Generated `dist/` output is intentionally ignored. Build reports, large parity oracles, resolved snapshots, and analysis workbooks are CI artifacts rather than runtime source.
 
 ## Project boundaries

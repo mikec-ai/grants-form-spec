@@ -43,48 +43,11 @@ enum RRSF424Section {
   coverLetter: "21. Cover Letter",
 }
 
-enum ResearchSubmissionType {
-  preapplication: "Preapplication",
-  application: "Application",
-  changedCorrected: "Change/Corrected Application",
-}
-
-enum ResearchApplicationTypeCode {
-  new: "New",
-  resubmission: "Resubmission",
-  renewal: "Renewal",
-  continuation: "Continuation",
-  revision: "Revision",
-}
-
-enum ResearchRevisionCode {
-  A: "A",
-  B: "B",
-  C: "C",
-  D: "D",
-  E: "E",
-  AC: "AC",
-  AD: "AD",
-  BC: "BC",
-  BD: "BD",
-}
-
-enum YesNoCode {
-  yes: "Y: Yes",
-  no: "N: No",
-}
-
 enum AffirmativeCertification {
   yes: "Y: Yes",
 }
 
-enum ResearchStateReviewCode {
-  yes: "Y: Yes",
-  notCovered: "Program is not covered by E.O. 12372",
-  notSelected: "Program has not been selected by state for review",
-}
-
-model ResearchApplicationType {
+model ResearchApplicationType extends QuestionResearchApplicationType {
   @UI.label("Application Type")
   applicationTypeCode: ResearchApplicationTypeCode;
 
@@ -131,15 +94,7 @@ model ResearchApplicationType {
   revisionCodeOtherExplanation?: string;
 }
 
-model ResearchSmallBusinessType {
-  @UI.label("Socially and Economically Disadvantaged")
-  sociallyEconomicallyDisadvantaged?: string;
-
-  @UI.label("Women Owned")
-  womenOwned?: string;
-}
-
-model ResearchApplicantType {
+model ResearchApplicantType extends QuestionResearchApplicantType {
   @UI.label("Applicant Type")
   applicantTypeCode: ApplicantTypeCode;
 
@@ -152,7 +107,7 @@ model ResearchApplicantType {
 
   @UI.label("Small Business Organization Type")
   @UI.visibleWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.R)
-  smallBusinessOrganizationType?: ResearchSmallBusinessType;
+  smallBusinessOrganizationType?: QuestionResearchSmallBusinessType;
 }
 
 model ResearchProjectPeriod {
@@ -164,7 +119,7 @@ model ResearchProjectPeriod {
   proposedEndDate: ProjectEndDate;
 }
 
-model ResearchEstimatedFunding {
+model ResearchEstimatedFunding extends QuestionResearchEstimatedFunding {
   @UI.label("Total Federal Funds Requested")
   @minValue(0)
   @maxValue(9999999999999.99)
@@ -186,7 +141,7 @@ model ResearchEstimatedFunding {
   estimatedProgramIncome: float64;
 }
 
-model ResearchStateReview {
+model ResearchStateReview extends QuestionResearchStateReview {
   @UI.label("State Review")
   stateReviewCodeType: ResearchStateReviewCode;
 
@@ -194,6 +149,10 @@ model ResearchStateReview {
   @Validation.requiredWhen(ResearchStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
   @UI.visibleWhen(ResearchStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
   stateReviewDate?: plainDate;
+}
+
+model RequiredResearchSubmissionType extends QuestionResearchSubmissionType {
+  submissionTypeCode: ResearchSubmissionType;
 }
 
 /** Research & Related Application for Federal Assistance, Grants.gov form version 5.0. */
@@ -214,9 +173,7 @@ model ResearchStateReview {
   `applicantInfo.organizationInfo.samUei`: SggPrePop.uei,
 })
 model RRSF424 {
-  @UI.label("Type of Submission")
-  @UI.section(RRSF424Section.submissionType)
-  submissionTypeCode: ResearchSubmissionType;
+  ...RequiredResearchSubmissionType;
 
   @UI.label("Date Submitted")
   @UI.section(RRSF424Section.submittedDate)
@@ -225,9 +182,7 @@ model RRSF424 {
 
   @UI.label("Applicant Identifier")
   @UI.section(RRSF424Section.applicantIdentifier)
-  @minLength(1)
-  @maxLength(30)
-  applicantId?: string;
+  applicantId?: ResearchApplicantControlIdentifier;
 
   @UI.label("State Received Date")
   @UI.section(RRSF424Section.stateUse)
@@ -243,12 +198,10 @@ model RRSF424 {
 
   @UI.label("Federal Identifier")
   @UI.section(RRSF424Section.stateUse)
-  @minLength(1)
-  @maxLength(30)
   @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.renewal)
   @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.continuation)
   @Validation.requiredWhenPath("applicationType.applicationTypeCode", ResearchApplicationTypeCode.revision)
-  federalId?: string;
+  federalId?: ResearchFederalAwardIdentifier;
 
   @UI.label("Agency Routing Number")
   @UI.section(RRSF424Section.stateUse)
@@ -415,3 +368,5 @@ model RRSF424 {
   @UI.widget(WidgetName.Attachment)
   coverLetterAttachment?: ResearchCoverLetter;
 }
+
+@@UI.section(RRSF424.submissionTypeCode, RRSF424Section.submissionType);

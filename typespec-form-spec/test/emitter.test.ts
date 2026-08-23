@@ -48,6 +48,25 @@ describe("SGG UI emission", () => {
         (row: any) => row.path === "/totalEstimatedFunding",
       ),
     ).toMatchObject({ responseRole: "calculatedOutput" });
+    expect(
+      sf424Index.fieldOccurrences.find(
+        (row: any) => row.path === "/submissionType",
+      ),
+    ).toMatchObject({
+      blockIds: ["application/standard-submission-type"],
+      responseRole: "applicantInput",
+    });
+    const rrSf424Index = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/rr-sf424/index.json"), "utf8"),
+    );
+    expect(
+      rrSf424Index.fieldOccurrences.find(
+        (row: any) => row.path === "/applicantType/applicantTypeCode",
+      ),
+    ).toMatchObject({
+      blockIds: ["primary-org/research-applicant-type"],
+      responseRole: "applicantInput",
+    });
     expect(signatureIndex.responseRole).toBe("systemValue");
   });
 
