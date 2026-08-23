@@ -48,7 +48,7 @@ class Sf424dFamilyAuditTests(unittest.TestCase):
         audit = load(AUDIT_ROOT / "official-source-audit.json")
         profiles = {profile["id"]: profile for profile in audit["profiles"]}
 
-        self.assertEqual(set(profiles), {"sf424d", "sf424d-individual", "sf424d-mandatory"})
+        self.assertEqual(set(profiles), {"sf424d", "individual-sf424d", "mandatory-sf424d"})
         self.assertEqual({profile["status"] for profile in profiles.values()}, {"Active"})
         self.assertEqual({profile["formVersion"] for profile in profiles.values()}, {"1.1"})
         self.assertEqual({profile["ombNumber"] for profile in profiles.values()}, {"4040-0009"})
@@ -91,23 +91,23 @@ class Sf424dFamilyAuditTests(unittest.TestCase):
             profiles["sf424d"]["presentation"],
             {
                 "applicantLabel": "Applicant Organization",
-                "representativeTitleRole": "prefilled",
+                "titleRole": "prefilled",
                 "applicantOrganizationRole": "prefilled",
             },
         )
         self.assertEqual(
-            profiles["sf424d-individual"]["presentation"],
+            profiles["individual-sf424d"]["presentation"],
             {
                 "applicantLabel": "Applicant Name",
-                "representativeTitleRole": "applicantInput",
+                "titleRole": "applicantInput",
                 "applicantOrganizationRole": "applicantInput",
             },
         )
         self.assertEqual(
-            profiles["sf424d-mandatory"]["presentation"],
+            profiles["mandatory-sf424d"]["presentation"],
             {
                 "applicantLabel": "Applicant Organization",
-                "representativeTitleRole": "prefilled",
+                "titleRole": "prefilled",
                 "applicantOrganizationRole": "prefilled",
             },
         )
