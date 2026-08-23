@@ -1,16 +1,16 @@
 ---
 type: Roadmap Item
-title: Reduce conformance authoring cost before forms 31+
+title: Reduce conformance and delivery cost for forms 31+
 description: >-
-  Factor repeated XML/XSD conformance and rule-evidence coverage into bounded
-  generic validation infrastructure.
+  The producer authoring gates are complete; supervised consumer promotion
+  remains active in parallel.
 superbee_updated_by: codex
 superbee_progress_status: active
 sequence: '6'
 ---
 # Outcome
 
-Reduce repeated conformance-test and evidence-audit work before portable forms 31 and later, without changing the portable authoring architecture or creating a second runtime.
+Reduce repeated conformance-test, evidence-audit, and consumer-promotion work for portable forms 31 and later, without changing the portable authoring architecture or creating a second runtime.
 
 # Why this is now justified
 
@@ -22,6 +22,7 @@ Reduce repeated conformance-test and evidence-audit work before portable forms 3
 
 1. Build one producer-side reference XML/XSD conformance harness driven by existing declarative XML profiles and per-form fixtures.
 2. Enforce exact rule-target-to-behavior-evidence disposition coverage generically.
+3. Automate supervised consumer promotion without making the consumer workflow a prerequisite for producer authoring.
 
 These changes must remain test and validation infrastructure. Do not add a new authoring language, compiler intermediate representation, workflow engine, policy DSL, form-specific branch, or production runtime.
 
@@ -30,7 +31,7 @@ These changes must remain test and validation infrastructure. Do not add a new a
 - At least three structurally different existing forms use the shared XML/XSD harness with unchanged conformance results.
 - Every emitted calculation and condition target is matched by exact-path official evidence, explicitly typed parity-only evidence, or an explicit unresolved disposition.
 - Full producer preflight remains green with 30 forms, zero unclassified fields, and zero field-classification exceptions.
-- After these two tasks, resume the Attachment Form and PHS Assignment Request lanes; let later forms drive any further generic capability only when demonstrated.
+- The two producer authoring gates are complete, so Attachment Form and PHS Assignment Request may resume. Consumer banking should use the promotion workflow once it lands; later forms drive any further generic capability only when demonstrated.
 
 [contains](../tasks/build-generic-xml-xsd-conformance-harness.md)
 

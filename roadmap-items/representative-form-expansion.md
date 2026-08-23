@@ -2,9 +2,9 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty portable forms are delivered; complete three bounded delivery-cost
-  tasks, then resume Attachment, Assignment Request, Research Plan, and PHS
-  foundation work.
+  Thirty producer forms are delivered; the authoring gates are complete, so
+  Attachment and Assignment Request can resume while supervised consumer
+  promotion proceeds in parallel.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
@@ -26,15 +26,14 @@ Current cross-repository snapshot: the public consumer fork banks 28 forms at pr
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
-# Immediate leverage gate before forms 31+
+# Immediate leverage work for forms 31+
 
-Complete three bounded, independent delivery-cost improvements:
+The two authoring gates are complete:
 
 1. A generic producer XML/XSD conformance harness.
 2. Exact rule-target-to-behavior-evidence coverage enforcement.
-3. A supervised, consumer-owned producer-to-SGG promotion workflow.
 
-These changes do not reopen the compiler, adapter, authoring language, or runtime architecture.
+Authoring can resume now. A supervised, consumer-owned producer-to-SGG promotion workflow proceeds in parallel and gates repeatable consumer banking, not portable form authoring. None of these changes reopens the compiler, adapter, authoring language, or runtime architecture.
 
 # Prioritization model
 
