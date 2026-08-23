@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: lifecycle_fields_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:18:43.608Z'
+  at: '2026-08-23T18:52:59.851Z'
 assignee: lifecycle_fields_agent
 ---
 # Objective
@@ -45,7 +45,7 @@ Resolve value ownership and response roles for 18 fields that should not be norm
 
 # Delivery
 
-Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `095f392d6`.
+Focused producer PR: [mikec-ai/grants-form-spec#43](https://github.com/mikec-ai/grants-form-spec/pull/43), commit `4f65c4526`.
 
 The evidence-backed disposition is:
 
@@ -59,13 +59,25 @@ The evidence-backed disposition is:
 - One `applicantInput`: Multi-Project `submittedDate`, represented by the new
   `application/submission-date-entered` canonical question.
 
+Response role is orthogonal to semantic identity. The nine externally assigned occurrences now
+retain canonical lineage through four source-neutral blocks: Federal agency routing number, State
+received date, State application identifier, and previous Grants.gov tracking number. Each emitted
+occurrence has both its canonical block id and `systemValue` role. The nine evidence mappings are
+proposal-only, have no reviewer attribution, and remain unpublished.
+
 The Multi-Project signature/date pair was reviewed independently using its pinned 4.0 XSD, DAT,
 and read-only PDF. It remains form-local because its applicant/AOR lifecycle differs from the
 submission-populated standalone R&R fields. Certification controls also remain form-local: their
-semantic identity and portable boolean-versus-source-code answer shape are not reviewed. All
-semantic sidecars therefore remain `unreviewed`, and no new association enters published metrics.
+semantic identity and portable boolean-versus-source-code answer shape are not reviewed.
 
-Verification: full `npm run preflight` passed with 91 TypeSpec tests, 78 Python tests, 119 validated
-blocks / 664 artifacts, and the monotonic ratchet at 76 initial / 18 resolved / 58 remaining. XML
-profiles and runtime presentation/validation behavior are unchanged. No HHS/upstream repository or
-issue was modified.
+The official SF-424 Short 3.0 DAT is pinned at
+`a905f905928a730b10d48d0b77cbb59397edb3ad3c99770391e1e160c3fb06df`. It requires
+`sameAsProjectDirector` to disable Primary Contact rows 8-04 through 8-20. The control remains a
+`technicalField`, while the portable runtime's missing disable behavior is recorded as an explicit
+source-parity gap.
+
+After rebasing on merged PR #42, full `npm run preflight` passed with 91 TypeSpec tests, 85 Python
+tests, 131 validated blocks / 712 artifacts, 107 canonical questions, 436 exploratory associations,
+zero reviewed associations, and the combined monotonic ratchet at 76 initial / 26 resolved / 50
+remaining. XML profiles and current runtime presentation/validation behavior are unchanged. No
+HHS/upstream repository or issue was modified.
