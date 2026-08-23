@@ -69,3 +69,23 @@ The current handoff is source-pinned but mostly manual. A future research/design
 [informs](../tasks/author-integrate-rr-subaward-budget.md)
 
 [informs](../tasks/spike-crosswalk-promotion-importer.md)
+
+[informs](../tasks/migrate-sflll-parity-oracle.md)
+
+[informs](../tasks/author-integrate-phs-human-subjects.md)
+
+[informs](../tasks/migrate-attachment-form-parity-oracle.md)
+
+[informs](../tasks/author-integrate-phs-inclusion-enrollment-report.md)
+
+[informs](../tasks/migrate-sf424b-parity-oracle.md)
+
+[informs](../tasks/author-integrate-phs398-research-plan.md)
+
+[informs](../tasks/migrate-gg-lobbying-parity-oracle.md)
+
+[informs](../tasks/author-integrate-phs-assignment-request.md)
+
+[informs](../tasks/migrate-sf424c-parity-oracle.md)
+
+[informs](../tasks/author-integrate-phs398-cover-page-supplement.md)
