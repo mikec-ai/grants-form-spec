@@ -10,7 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T17:35:28.270Z'
+  at: '2026-08-23T18:12:15.615Z'
 ---
 # Objective
 
@@ -31,6 +31,8 @@ The original producer report at commit `46e71d5` contained 90 form/field occurre
 
 # Result
 
-Implemented in grants-form-spec PR #41 at commit `6515f80`. `analysis/unclassified-fields-baseline.v1.json` records the exact 76 occurrence identities. CI and local preflight reject new identities, removals not explicitly moved to `resolved`, and any resolved identity that returns. A new field passes only with canonical question lineage or an explicit non-applicant response role; applicant input still requires semantic identity. The checker reports each added, silently removed, or returned identity. Full preflight passed with 118 blocks, 660 validated artifacts, 91 TypeScript tests, 75 Python tests, and a verified 440-artifact package.
+Implemented and merged in grants-form-spec PR #41 at commit `c0eaa1870`. `analysis/unclassified-fields-baseline.v1.json` records the exact 76 occurrence identities. The original sorted identity universe is pinned by a code-reviewed SHA-256 digest, so contributors may move identities to `resolved` but cannot silently expand the initial allowlist. CI and local preflight reject new identities, removals not explicitly moved to `resolved`, and any resolved identity that returns.
+
+A field is classified through lineage to a declared semantic-question or capture-mechanism block, or through an explicit non-applicant response role. Semantic-question and capture-mechanism classifications remain orthogonal in analysis: capture controls do not become questions. Purpose-specific overflow uploads therefore remain correctly classified capture mechanisms, while later parsing of attachment content remains a separate phase. The checker reports each added, silently removed, returned, or baseline-rewrite identity. Full preflight passed with 118 blocks, 660 validated artifacts, 91 TypeScript tests, 76 Python tests, and a verified 440-artifact package.
 
 [depends on](classify-portable-response-roles.md)
