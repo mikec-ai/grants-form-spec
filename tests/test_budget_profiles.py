@@ -75,7 +75,9 @@ class ResearchBudgetProfileTests(unittest.TestCase):
     def test_family_profiles_inherit_exact_f770_behavior_provenance(self) -> None:
         root_evidence = json.loads((FORMS / "rr-budget" / "evidence.json").read_text())
         root_paths = {
-            record["canonicalPath"] for record in root_evidence["behaviorEvidence"]
+            record["canonicalPath"]
+            for record in root_evidence["behaviorEvidence"]
+            if record["authority"] == "official_source"
         }
         for form_id in (
             "rr-budget",
@@ -95,9 +97,13 @@ class ResearchBudgetProfileTests(unittest.TestCase):
                     dat["sha256"],
                     "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035",
                 )
-                self.assertEqual(len(evidence["behaviorEvidence"]), 20)
+                self.assertEqual(len(evidence["behaviorEvidence"]), 56)
                 self.assertEqual(
-                    {record["sourceId"] for record in evidence["behaviorEvidence"]},
+                    {
+                        record["sourceId"]
+                        for record in evidence["behaviorEvidence"]
+                        if record["authority"] == "official_source"
+                    },
                     {"grantsgov-rr-budget-dat-3.0-f770"},
                 )
                 self.assertEqual(
@@ -114,7 +120,11 @@ class ResearchBudgetProfileTests(unittest.TestCase):
                     else ""
                 )
                 self.assertEqual(
-                    {record["canonicalPath"] for record in evidence["behaviorEvidence"]},
+                    {
+                        record["canonicalPath"]
+                        for record in evidence["behaviorEvidence"]
+                        if record["authority"] == "official_source"
+                    },
                     {f"{prefix}{path}" for path in root_paths},
                 )
                 if prefix:

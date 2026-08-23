@@ -59,5 +59,12 @@
       "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
       "nativeVersion": "2.0"
     }
+  ],
+  "behaviorEvidence": [
+    {"ruleKind":"condition","canonicalPath":"primarySite.address.state","authority":"unresolved","owner":"form-semantic-review","reason":"Exact official condition evidence has not yet been reconciled for this emitted target.","removalCondition":"Replace this record when an official source is pinned and reviewed for the exact condition target."},
+    {"ruleKind":"condition","canonicalPath":"primarySite.address.province","authority":"unresolved","owner":"form-semantic-review","reason":"Exact official condition evidence has not yet been reconciled for this emitted target.","removalCondition":"Replace this record when an official source is pinned and reviewed for the exact condition target."},
+    {"ruleKind":"condition","canonicalPath":"additionalSites[*].address.state","authority":"unresolved","owner":"form-semantic-review","reason":"Exact official condition evidence has not yet been reconciled for this emitted target.","removalCondition":"Replace this record when an official source is pinned and reviewed for the exact condition target."},
+    {"ruleKind":"condition","canonicalPath":"additionalSites[*].address.province","authority":"unresolved","owner":"form-semantic-review","reason":"Exact official condition evidence has not yet been reconciled for this emitted target.","removalCondition":"Replace this record when an official source is pinned and reviewed for the exact condition target."},
+    {"ruleKind":"condition","canonicalPath":"additionalLocations","authority":"unresolved","owner":"form-semantic-review","reason":"Exact official condition evidence has not yet been reconciled for this emitted target.","removalCondition":"Replace this record when an official source is pinned and reviewed for the exact condition target."}
   ]
 }

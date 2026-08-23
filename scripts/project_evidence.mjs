@@ -42,17 +42,92 @@ function mountCanonicalPath(mountPath, canonicalPath) {
   return mountPath ? `${mountPath}.${canonicalPath}` : canonicalPath;
 }
 
-function occurrencePath(canonicalPath) {
-  return `/${canonicalPath.replaceAll(".", "/").replaceAll("[*]", "/[]")}`;
+function canonicalOccurrence(path) {
+  return path
+    .split("/")
+    .filter(Boolean)
+    .map((part) => part === "[]" ? "[*]" : part)
+    .join(".")
+    .replaceAll(".[*]", "[*]");
 }
 
-function collectRuleTargets(node, path = [], targets = new Set()) {
+function canonicalUiDefinition(definition, context) {
+  if (typeof definition !== "string" || !definition.startsWith("/properties/")) {
+    throw new Error(`${context}: conditional target has unsupported definition ${JSON.stringify(definition)}`);
+  }
+  const tokens = definition.split("/").slice(1);
+  const path = [];
+  for (let i = 0; i < tokens.length;) {
+    if (tokens[i] === "properties" && tokens[i + 1]) {
+      path.push(tokens[i + 1]);
+      i += 2;
+      continue;
+    }
+    if (tokens[i] === "items") {
+      if (!path.length) throw new Error(`${context}: ambiguous conditional target ${definition}`);
+      path[path.length - 1] += "[*]";
+      i += 1;
+      continue;
+    }
+    throw new Error(`${context}: ambiguous conditional target ${definition}`);
+  }
+  return path.join(".");
+}
+
+function collectCalculationTargets(node, path = [], targets = []) {
   if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
-  if (node.gg_pre_population) targets.add(path.join("."));
+  // External lookups contain only a rule name. Portable calculations carry dependency or
+  // evaluation metadata in addition to their rule name. Classify by that emitted contract
+  // shape so a new calculation operator is covered without another form-specific allowlist.
+  const prePopulation = node.gg_pre_population;
+  if (
+    prePopulation &&
+    Object.keys(prePopulation).some((key) => key !== "rule")
+  ) targets.push(path.join("."));
   for (const [key, value] of Object.entries(node)) {
-    if (!key.startsWith("gg_")) collectRuleTargets(value, [...path, key], targets);
+    if (!key.startsWith("gg_")) collectCalculationTargets(value, [...path, key], targets);
   }
   return targets;
+}
+
+function collectConditionTargets(node, context, targets = []) {
+  if (!node || typeof node !== "object") return targets;
+  if (node.conditional) targets.push(canonicalUiDefinition(node.definition, context));
+  if (Array.isArray(node)) {
+    for (const value of node) collectConditionTargets(value, context, targets);
+  } else {
+    for (const value of Object.values(node)) collectConditionTargets(value, context, targets);
+  }
+  return targets;
+}
+
+function emittedRuleTargets(ruleSchema, uiSchema, occurrences, context) {
+  const canonicalOccurrences = [...occurrences].map(canonicalOccurrence);
+  const byRulePath = new Map();
+  for (const path of canonicalOccurrences) {
+    const normalized = path.replaceAll("[*]", "");
+    const candidates = byRulePath.get(normalized) ?? [];
+    candidates.push(path);
+    byRulePath.set(normalized, candidates);
+  }
+  const targets = [];
+  for (const rawPath of collectCalculationTargets(ruleSchema)) {
+    const candidates = byRulePath.get(rawPath) ?? [];
+    if (candidates.length !== 1) {
+      throw new Error(
+        `${context}: calculation target ${rawPath} has ${candidates.length || "no"} exact occurrence candidates` +
+        (candidates.length ? ` (${candidates.join(", ")})` : ""),
+      );
+    }
+    targets.push({ ruleKind: "calculation", canonicalPath: candidates[0] });
+  }
+  for (const canonicalPath of collectConditionTargets(uiSchema, context)) {
+    if (!canonicalOccurrences.includes(canonicalPath)) {
+      throw new Error(`${context}: condition target ${canonicalPath} is not an exact emitted occurrence`);
+    }
+    targets.push({ ruleKind: "condition", canonicalPath });
+  }
+  return new Map(targets.map((target) => [`${target.ruleKind}:${target.canonicalPath}`, target]));
 }
 
 export async function projectEvidence({ evidenceRoot, dist }) {
@@ -77,7 +152,9 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       const inherited = byBlock.get(inheritedId);
       if (!inherited) throw new Error(`${id}: inherited behavior evidence block ${inheritedId} does not exist`);
       const resolved = resolveBehaviorEvidence(inherited, new Set(visiting));
-      const behaviorSourceIds = new Set(resolved.behaviorEvidence.map((entry) => entry.sourceId));
+      const behaviorSourceIds = new Set(
+        resolved.behaviorEvidence.map((entry) => entry.sourceId).filter(Boolean),
+      );
       for (const source of resolved.sources.filter((candidate) => behaviorSourceIds.has(candidate.id))) {
         const existing = sources.find((candidate) => candidate.id === source.id);
         if (existing && JSON.stringify(existing) !== JSON.stringify(source)) {
@@ -113,11 +190,25 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       const detail = validate.errors.map((error) => `${error.instancePath || "/"} ${error.message}`).join("; ");
       throw new Error(`${relative(ROOT, sourcePath)} after behavior inheritance: ${detail}`);
     }
-    const sourceIds = new Set(document.sources.map((source) => source.id));
+    const sourceById = new Map(document.sources.map((source) => [source.id, source]));
     for (const behavior of document.behaviorEvidence) {
-      if (!sourceIds.has(behavior.sourceId)) {
+      if (behavior.authority === "unresolved") continue;
+      const source = sourceById.get(behavior.sourceId);
+      if (!source) {
         throw new Error(
           `${relative(ROOT, sourcePath)}: behavior ${behavior.canonicalPath} names missing source ${behavior.sourceId}`,
+        );
+      }
+      if (behavior.authority === "official_source" && source.type === "implementation") {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: ${behavior.ruleKind} target ${behavior.canonicalPath} ` +
+          `claims official_source authority from implementation source ${behavior.sourceId}`,
+        );
+      }
+      if (behavior.authority === "implementation_parity" && source.type !== "implementation") {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: ${behavior.ruleKind} target ${behavior.canonicalPath} ` +
+          `claims implementation_parity authority from ${source.type} source ${behavior.sourceId}`,
         );
       }
     }
@@ -145,16 +236,34 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       throw new Error(`${rel}: evidence block identity does not match ${relative(dist, indexPath)}`);
     }
     const occurrences = new Set((index.fieldOccurrences ?? []).map((entry) => entry.path));
-    const ruleTargets = kindRoot === "forms" && document.behaviorEvidence.length
-      ? collectRuleTargets(await json(resolve(targetDir, "sgg", "rule-schema.json")))
-      : new Set();
-    for (const behavior of document.behaviorEvidence) {
-      const formOccurrence = occurrencePath(behavior.canonicalPath);
-      const ruleTarget = behavior.canonicalPath.replaceAll("[*]", "");
-      if (!occurrences.has(formOccurrence) && !ruleTargets.has(ruleTarget)) {
-        throw new Error(
-          `${rel}: behavior ${behavior.canonicalPath} does not resolve to an emitted field occurrence or rule target`,
-        );
+    if (kindRoot === "forms") {
+      const ruleTargets = emittedRuleTargets(
+        await json(resolve(targetDir, "sgg", "rule-schema.json")),
+        await json(resolve(targetDir, "sgg", "ui-schema.json")),
+        occurrences,
+        rel,
+      );
+      const dispositions = new Map();
+      for (const behavior of document.behaviorEvidence ?? []) {
+        const key = `${behavior.ruleKind}:${behavior.canonicalPath}`;
+        if (dispositions.has(key)) {
+          throw new Error(
+            `${rel}: duplicate ${behavior.ruleKind} evidence disposition for target ${behavior.canonicalPath}`,
+          );
+        }
+        if (!ruleTargets.has(key)) {
+          throw new Error(
+            `${rel}: ${behavior.ruleKind} evidence ${behavior.canonicalPath} is not an exact emitted rule target`,
+          );
+        }
+        dispositions.set(key, behavior);
+      }
+      for (const [key, target] of ruleTargets) {
+        if (!dispositions.has(key)) {
+          throw new Error(
+            `${rel}: ${target.ruleKind} target ${target.canonicalPath} has no behavior evidence disposition`,
+          );
+        }
       }
     }
 
