@@ -13,8 +13,26 @@
       "required": ["id", "kind"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["question", "form"] }
-      }
+        "kind": { "enum": ["question", "form"] },
+        "formVersion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Canonical form version whose emitted artifact this evidence describes. This is not a source document's native version."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "form" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": { "formVersion": true },
+            "required": ["formVersion"]
+          },
+          "else": { "properties": { "formVersion": false } }
+        }
+      ]
     },
     "sources": {
       "type": "array",
@@ -22,12 +40,16 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "type", "uri", "version", "sha256"],
+        "required": ["id", "type", "uri", "nativeVersion", "sha256"],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
           "type": { "enum": ["xsd", "dat", "pdf", "instructions", "implementation"] },
           "uri": { "type": "string", "pattern": "^https://" },
-          "version": { "type": "string", "minLength": 1 },
+          "nativeVersion": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "description": "Version stated by this exact source. Null means the source does not state a version or the native version is unknown; never inherit the canonical form version."
+          },
           "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
         }
       }

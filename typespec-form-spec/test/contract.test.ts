@@ -176,6 +176,27 @@ describe("artifact contract v1", () => {
 
     expect(validatePackage(fixture), JSON.stringify(validatePackage.errors)).toBe(true);
   });
+
+  it("keeps canonical form and native source versions distinct in evidence", async () => {
+    const fixture = structuredClone(
+      await json(resolve(contractRoot, "conformance/evidence.valid.json")),
+    ) as {
+      block: { formVersion?: string };
+      sources: Array<{ uri: string; nativeVersion?: string | null; version?: string }>;
+    };
+
+    fixture.sources[0].uri = "https://example.gov/forms/unversioned-source.xsd";
+    fixture.sources[0].nativeVersion = null;
+    expect(validateEvidence(fixture), JSON.stringify(validateEvidence.errors)).toBe(true);
+
+    delete fixture.block.formVersion;
+    expect(validateEvidence(fixture)).toBe(false);
+
+    fixture.block.formVersion = "2.0";
+    delete fixture.sources[0].nativeVersion;
+    fixture.sources[0].version = "2.0";
+    expect(validateEvidence(fixture)).toBe(false);
+  });
 });
 
 function validateFixture(name: string, getValidator: () => ValidateFunction) {

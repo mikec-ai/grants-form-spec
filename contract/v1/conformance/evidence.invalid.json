@@ -6,7 +6,7 @@
       "id": "local-copy",
       "type": "xsd",
       "uri": "file:///Users/example/Downloads/example.xsd",
-      "version": "unknown",
+      "nativeVersion": "unknown",
       "sha256": "not-a-hash"
     }
   ],

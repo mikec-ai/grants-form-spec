@@ -1,20 +1,24 @@
 {
   "contract": "grants-form-evidence/v1",
-  "block": { "id": "rr-subaward-budget", "kind": "form" },
+  "block": {
+    "id": "rr-subaward-budget",
+    "kind": "form",
+    "formVersion": "3.0"
+  },
   "sources": [
     {
       "id": "grantsgov-rr-subaward-budget-xsd-3.0",
       "type": "xsd",
       "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_SubawardBudget_3_0-V3.0.xsd",
-      "version": "3.0",
-      "sha256": "e1ea95403a58ef1ade290952de3531c73e015308ca7aee6b426d4a9bcb794510"
+      "sha256": "e1ea95403a58ef1ade290952de3531c73e015308ca7aee6b426d4a9bcb794510",
+      "nativeVersion": "3.0"
     },
     {
       "id": "grantsgov-rr-subaward-budget-dat-3.0-f776",
       "type": "dat",
       "uri": "https://apply07.grants.gov/apply/forms/sample/RR_SubawardBudget_3_0-V3.0_F776.xls",
-      "version": "3.0",
-      "sha256": "4eab979aa62d4a4e79da6ee536140da7b76545a8fc20a9897c1c13527b3c56fd"
+      "sha256": "4eab979aa62d4a4e79da6ee536140da7b76545a8fc20a9897c1c13527b3c56fd",
+      "nativeVersion": "3.0"
     }
   ],
   "extraction": {
@@ -24,5 +28,8 @@
     "sourceSetSha256": "81bb4afbdde0bcf639b7451ca41b55966a5dae2d853fdf15e27c295db2e8f0a0",
     "extractedAt": "2026-08-18T17:10:55.921747Z"
   },
-  "semanticReview": { "status": "unreviewed", "mappings": [] }
+  "semanticReview": {
+    "status": "unreviewed",
+    "mappings": []
+  }
 }

@@ -501,6 +501,11 @@ def source_type(uri: str) -> str:
     return "implementation"
 
 
+def native_source_version(uri: str) -> str | None:
+    match = re.search(r"(?:^|[-_])V([0-9]+(?:\.[0-9]+)+)(?=[_.-]|$)", uri, re.IGNORECASE)
+    return match.group(1) if match else None
+
+
 def import_packet(packet: dict[str, Any], out: Path) -> dict[str, Any]:
     if packet.get("contract") != CONTRACT:
         raise PromotionError(f"unsupported promotion contract: {packet.get('contract')}")
@@ -512,12 +517,16 @@ def import_packet(packet: dict[str, Any], out: Path) -> dict[str, Any]:
             "id": f"source-{index}-{source['sha256'][:12]}",
             "type": source_type(source["uri"]),
             "uri": source["uri"],
-            "version": packet["form"]["version"],
+            "nativeVersion": native_source_version(source["uri"]),
             "sha256": source["sha256"],
         })
     evidence = {
         "contract": "grants-form-evidence/v1",
-        "block": {"id": form_slug, "kind": "form"},
+        "block": {
+            "id": form_slug,
+            "kind": "form",
+            "formVersion": packet["form"]["version"],
+        },
         "sources": evidence_sources,
         "extraction": {
             "repository": packet["extraction"]["repository"],

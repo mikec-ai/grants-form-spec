@@ -116,11 +116,33 @@ class PromotionImporterTests(unittest.TestCase):
             draft = (output / "draft.tsp").read_text(encoding="utf-8")
 
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(evidence["block"]["formVersion"], "1.0")
+        self.assertEqual(
+            {source["nativeVersion"] for source in evidence["sources"]}, {"1.0"},
+        )
         self.assertEqual(report["generated"]["sourceRecordsTranscribed"], 2)
         self.assertEqual(report["generated"]["semanticMappingsAccepted"], 0)
         self.assertIn("namespace PromotionDraft.Example", draft)
         self.assertIn("@minLength(1)", draft)
         self.assertIn("not a canonical form declaration", draft)
+
+    def test_import_does_not_invent_a_native_version_for_an_unversioned_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            repo, revision = self._repo(root)
+            packet = export_packet(repo, "Example", revision)
+            packet["sources"].append({
+                "uri": "https://example.gov/forms/instructions.pdf",
+                "sha256": "c" * 64,
+            })
+            output = root / "stage"
+            import_packet(packet, output)
+            evidence = json.loads((output / "evidence.json").read_text(encoding="utf-8"))
+
+        unversioned = next(
+            source for source in evidence["sources"] if source["uri"].endswith("instructions.pdf")
+        )
+        self.assertIsNone(unversioned["nativeVersion"])
 
     def test_import_preserves_unbounded_repetition_without_inventing_a_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
