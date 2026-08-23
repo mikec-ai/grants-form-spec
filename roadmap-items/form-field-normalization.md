@@ -47,3 +47,5 @@ At producer commit `46e71d5`, 90 emitted form/field occurrences are unclassified
 [contains](../tasks/resolve-lifecycle-attestation-control-fields.md)
 
 [contains](../tasks/enforce-classified-form-field-gate.md)
+
+[contains](../tasks/enforce-no-new-unclassified-debt-ratchet.md)

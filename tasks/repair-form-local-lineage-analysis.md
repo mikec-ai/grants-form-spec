@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Remove 14 false-positive unclassified occurrences caused by spreads,
   inheritance, and occurrence overrides.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:58:42.574Z'
+  at: '2026-08-23T17:14:42.395Z'
+assignee: codex
 ---
 # Objective
 

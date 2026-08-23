@@ -113,3 +113,5 @@ the legacy oracle, and source evidence.
 [creates work](../tasks/resolve-lifecycle-attestation-control-fields.md)
 
 [creates work](../tasks/enforce-classified-form-field-gate.md)
+
+[creates work](../tasks/enforce-no-new-unclassified-debt-ratchet.md)

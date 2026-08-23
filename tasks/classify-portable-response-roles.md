@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Add target-neutral occurrence roles so semantic questions, system values,
   calculations, attestations, controls, and static content remain distinct.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:58:42.381Z'
+  at: '2026-08-23T17:14:42.203Z'
+assignee: codex
 ---
 # Objective
 
