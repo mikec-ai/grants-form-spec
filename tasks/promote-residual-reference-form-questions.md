@@ -5,11 +5,11 @@ priority: P1
 description: >-
   Normalize eight likely semantic fields in Key Contacts, SF-424 Short, and
   SF-424A.
-superbee_progress_status: in_progress
-superbee_updated_by: residual_questions_agent
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:45:36.734Z'
+  at: '2026-08-23T18:47:55.302Z'
 assignee: residual_questions_agent
 ---
 # Objective
@@ -34,7 +34,7 @@ Classify and promote the eight likely semantic fields remaining in smaller refer
 
 # Delivery receipt
 
-Draft PR: [grants-form-spec #42](https://github.com/mikec-ai/grants-form-spec/pull/42)
+Merged PR: [grants-form-spec #42](https://github.com/mikec-ai/grants-form-spec/pull/42), main commit `71d755b32`.
 
 Eight semantic occurrences now have canonical lineage:
 
