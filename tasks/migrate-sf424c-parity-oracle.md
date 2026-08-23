@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:30:54.120Z'
+  at: '2026-08-23T20:53:13.236Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -32,8 +32,28 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 - Add only demonstrated generic calculation or projection capability and no SF-424C-specific compiler or adapter branch.
 - Register only after applicable semantic, calculation, accessibility, instruction, and release gates pass.
 
+# Delivery receipt
+
+- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
+- Commit: `fec0c2375` on `codex/sf424c-portable-parity`
+- Producer preflight: passed; 99 TypeScript tests and 102 Python tests passed, with one environment-dependent skip.
+- Source provenance pinned: official XSD, DAT, read-only PDF, instructions PDF, deterministic extraction revision/source set, and public SGG oracle revision/file digest.
+- Portable result: 18 semantic questions, a reused three-column construction-cost structure, 24 declarative calculations, SGG UI projection, and Grants.gov XML projection. No form-specific compiler or adapter branch was added.
+- XML evidence: a full response and a flattened federal-funding-only response validate against the pinned official XSD fixture.
+- Calculation evidence: representative values match the existing SGG oracle across cost rows, both subtotals, program income, total project costs, and federal funding share.
+- Safety boundary: all 18 source-to-question mappings remain `proposed` and are excluded from published coverage metrics.
+- Intentional bounded difference: empty drafts do not materialize the legacy implementation's phantom zero totals; populated results remain aligned.
+
+# Remaining gates
+
+- Rebase once after PR #47 merges, then obtain independent architectural review.
+- Human semantic acceptance or revision for the 18 proposed mappings.
+- Human instruction-content and accessibility review.
+- Consuming-fork adapter tests for save/reload, locked, print, and submission lifecycle behavior.
+- End-to-end submission XML verification, production registration, and release approval.
+
 # Exit evidence
 
-Record which existing budget abstractions survived unchanged and which genuinely reusable construction-budget capability was added.
+The generic portable compiler, rule operators (`Sum`, `Subtract`, and `PercentOf`), SGG projection, evidence projection, analysis gating, and XML profile projection survived unchanged. The only new reusable authoring capability is the declarative construction-budget question set and its shared three-column cost structure; the migration added no SF-424C-specific runtime machinery.
 
 [depends on](release-rr-key-person-expanded-canary.md)
