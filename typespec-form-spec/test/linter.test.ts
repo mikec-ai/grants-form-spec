@@ -335,4 +335,26 @@ describe("no-redeclared-property", () => {
       )
       .toBeValid();
   });
+
+  it("accepts a derived profile that adds a source-backed default", async () => {
+    const lint = await tester("no-redeclared-property");
+    await lint
+      .expect(
+        bank(`
+          enum Role { investigator: "Investigator" }
+
+          /** A base. */
+          @Question.meta(#{ id: "generics/base" })
+          @Catalog.tag(TagName.role)
+          model Base {
+            role: Role;
+          }
+
+          model DefaultedProfile extends Base {
+            role: Role = Role.investigator;
+          }
+        `),
+      )
+      .toBeValid();
+  });
 });

@@ -30,7 +30,11 @@
         "kind": "array",
         "items": {
           "fields": {
-            "file": { "element": "File", "kind": "attachment" }
+            "file": {
+              "element": "File",
+              "kind": "attachment",
+              "container": { "element": "FileContainer", "namespace": "default" }
+            }
           }
         }
       }

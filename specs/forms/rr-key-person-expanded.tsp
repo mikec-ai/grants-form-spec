@@ -26,6 +26,16 @@ model ResearchPersonAddress extends QuestionAddress {
   @maxLength(30)
   @UI.readOnlyWhen(ResearchPersonAddress.country, CountryCode.USA)
   province?: string;
+
+  @UI.label("Zip / Postal Code")
+  @minLength(1)
+  @maxLength(30)
+  @Validation.constraintsWhen(
+    ResearchPersonAddress.country,
+    CountryCode.USA,
+    #{ minLength: 9 }
+  )
+  zipCode?: string;
 }
 
 model ResearchPersonProfile extends QuestionResearchPersonProfile {
@@ -34,6 +44,9 @@ model ResearchPersonProfile extends QuestionResearchPersonProfile {
 }
 
 model PrincipalInvestigatorProfile extends ResearchPersonProfile {
+  @UI.label("Project Role")
+  projectRole: ResearchProjectRole = ResearchProjectRole.projectDirectorPrincipalInvestigator;
+
   @UI.label("Attach Biographical Sketch")
   @UI.widget(WidgetName.Attachment)
   biographicalSketch: ResearchPersonBiographicalSketch;

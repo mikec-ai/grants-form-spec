@@ -23,6 +23,11 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install exact-XSD validation dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libxml2-utils
+
       - run: npm ci
       - run: npm run build
       - run: npm run emit

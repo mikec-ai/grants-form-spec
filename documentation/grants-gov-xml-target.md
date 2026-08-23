@@ -49,6 +49,23 @@ The standard Grants.gov attached-file wire children are data as well. Profiles t
 the attachment reference and mechanically project those declared fields; they do not hardcode
 the Grants.gov child vocabulary.
 
+A `value` or `attachment` leaf may declare one `container` with an element and explicit
+namespace. The container is emitted only when the leaf is emitted, and wraps only that leaf.
+It does not select data, add a presence condition, or apply to objects, groups, or arrays. This
+small wire-only feature covers official contracts such as
+`BioSketchsAttached/BioSketchAttached` without changing a semantic attachment question into an
+object or teaching a consumer about a particular form. Deeper or conditional wire structures
+continue to use the separately declared group vocabulary.
+
+`globLib:AddressDataTypeV3` defines State and Province as an XSD choice. A portable profile
+maps both source-backed fields in their declared sequence and never silently chooses one when
+both are present. Normal form interaction disables State outside the United States and makes
+Province read-only for a United States address. The canonical schema can still retain a stale
+disabled value, so State and Province can coexist in stored canonical data. Until portable
+mutual-exclusion validation is implemented, every consumer must run mandatory validation
+against the exact pinned XSD before submission or release. That validation remains a consumer
+and release gate and rejects a payload containing both.
+
 Mappings address the canonical camelCase response shape. A consumer that stores another shape
 projects these source keys at its boundary. In particular, Simpler owns `samUei -> samuei` and
 the historical numbered-cost spellings; those aliases do not appear in the portable target.

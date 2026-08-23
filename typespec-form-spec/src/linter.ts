@@ -10,6 +10,7 @@ import {
   getMinLength,
   getSourceLocation,
   paramMessage,
+  serializeValueAsJson,
 } from "@typespec/compiler";
 import {
   allBlocks, modelOrder, orderedProps, propEnabledWhen, propOmit, propReadOnlyWhen,
@@ -220,7 +221,13 @@ const redeclaredProperty = createRule({
               getMinItems(context.program, base) === getMinItems(context.program, prop) &&
               getMaxItems(context.program, base) === getMaxItems(context.program, prop) &&
               getMinLength(context.program, base) === getMinLength(context.program, prop) &&
-              getMaxLength(context.program, base) === getMaxLength(context.program, prop);
+              getMaxLength(context.program, base) === getMaxLength(context.program, prop) &&
+              JSON.stringify(base.defaultValue
+                ? serializeValueAsJson(context.program, base.defaultValue, base.defaultValue.type)
+                : undefined) ===
+              JSON.stringify(prop.defaultValue
+                ? serializeValueAsJson(context.program, prop.defaultValue, prop.defaultValue.type)
+                : undefined);
           })
           .map((prop) => prop.name);
         if (!clashes.length) return;

@@ -13,8 +13,30 @@
     "sourceSetSha256": "8866396d99e32eeec6618ea63c52c2b205718dc481482b27ab61699ecd2efeb0"
   },
   "semanticReview": {
-    "mappings": [],
-    "status": "unreviewed"
+    "mappings": [
+      {
+        "canonicalPointer": "#/$defs/ResearchPersonAddress/properties/zipCode",
+        "sourceId": "source-1-5e24647ca453",
+        "sourcePath": "Form DAT!row 25 (Field # 1-17), Business Rules",
+        "status": "proposed",
+        "note": "Source-backed occurrence constraint: when Country is US, minimum length is 9. This does not assert semantic equivalence with another form."
+      },
+      {
+        "canonicalPointer": "#/$defs/ResearchPersonAddress/properties/zipCode",
+        "sourceId": "source-1-5e24647ca453",
+        "sourcePath": "Form DAT!row 54 (Field # 2-17), Business Rules",
+        "status": "proposed",
+        "note": "Source-backed repeated occurrence constraint: when Country is US, minimum length is 9. This does not assert semantic equivalence with another form."
+      },
+      {
+        "canonicalPointer": "#/$defs/PrincipalInvestigatorProfile/properties/projectRole",
+        "sourceId": "source-1-5e24647ca453",
+        "sourcePath": "Form DAT!row 30 (Field # 1-22), Business Rules",
+        "status": "proposed",
+        "note": "Source-backed form default: Project Role defaults to PD/PI. Semantic acceptance remains open."
+      }
+    ],
+    "status": "proposed"
   },
   "sources": [
     {
