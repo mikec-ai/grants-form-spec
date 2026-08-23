@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -28,7 +29,43 @@ def profile_with(fields: dict) -> dict:
     }
 
 
+def value_field() -> dict:
+    return {"element": "Value", "kind": "value", "namespace": "default"}
+
+
 class XmlXsdConformanceHarnessTests(unittest.TestCase):
+    def test_public_entrypoint_rejects_unsupported_contract_version(self) -> None:
+        profile = profile_with({"value": value_field()})
+        profile["contract"] = "grants-gov-xml-profile/v2"
+
+        with self.assertRaisesRegex(AssertionError, "unsupported.*contract"):
+            render_profile_xml(profile, {"value": "answer"})
+
+    def test_null_constant_and_value_map_outputs_are_rejected(self) -> None:
+        declarations = (
+            {
+                "element": "Value",
+                "kind": "value",
+                "namespace": "default",
+                "constant": None,
+            },
+            {
+                "element": "Value",
+                "kind": "value",
+                "namespace": "default",
+                "source": "/choice",
+                "valueMap": {"none": None},
+            },
+        )
+        for declaration in declarations:
+            with self.subTest(declaration=declaration):
+                with self.assertRaisesRegex(
+                    AssertionError, "declarative null emission is unsupported"
+                ):
+                    render_profile_xml(
+                        profile_with({"value": declaration}), {"choice": "none"}
+                    )
+
     def test_collection_array_uses_one_wrapper_and_declared_item_attributes(self) -> None:
         profile = profile_with(
             {
@@ -93,10 +130,39 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
             fixture = ExactXsdFixture(
                 entrypoint="fixture.xsd",
                 files=(PinnedXsdFile("fixture.xsd", xsd, "0" * 64),),
+                official_sha256="0" * 64,
             )
 
             with self.assertRaisesRegex(AssertionError, "pinned XSD digest mismatch"):
-                validate_exact_xsd(b"<fixture/>", fixture)
+                validate_exact_xsd(
+                    b"<fixture/>",
+                    fixture,
+                    profile=profile_with({"value": value_field()}),
+                )
+
+    def test_validation_requires_exact_profile_digest_and_entrypoint_linkage(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            xsd = Path(directory) / "fixture.xsd"
+            xsd.write_text("<not-an-xsd/>")
+            digest = hashlib.sha256(xsd.read_bytes()).hexdigest()
+            fixture = ExactXsdFixture(
+                entrypoint="fixture.xsd",
+                files=(PinnedXsdFile("fixture.xsd", xsd, digest),),
+                official_sha256=digest,
+            )
+            profile = profile_with({"value": value_field()})
+
+            with self.assertRaisesRegex(AssertionError, "official XSD digest mismatch"):
+                validate_exact_xsd(b"<fixture/>", fixture, profile=profile)
+
+            profile["xsd"] = {
+                "uri": "https://example.org/unrelated.xsd",
+                "sha256": digest,
+            }
+            with self.assertRaisesRegex(
+                AssertionError, "does not identify the pinned entrypoint"
+            ):
+                validate_exact_xsd(b"<fixture/>", fixture, profile=profile)
 
 
 if __name__ == "__main__":

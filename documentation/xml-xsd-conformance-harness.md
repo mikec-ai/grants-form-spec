@@ -4,7 +4,8 @@
 `grants-gov-xml-profile/v1` contract. It exists to verify producer artifacts. It is not a
 submission runtime and does not decide form semantics.
 
-The interpreter executes only declarations already present in a resolved profile: namespaces,
+The interpreter accepts only `grants-gov-xml-profile/v1` and executes declarations already present
+in a resolved profile: namespaces,
 root and item attributes, values, nested objects, flattened or wrapped groups, arrays,
 attachments, source pointers, constants, value maps, leaf containers, and required empty-object
 emission. It contains no form IDs or form-specific branches.
@@ -17,8 +18,11 @@ emission. It contains no form IDs or form-specific branches.
   normalized for local dependency resolution; and
 - any nonstandard remote dependency URI prefix used by the pinned XSD set.
 
-The harness verifies all digests, rewrites only declared dependency filenames to their pinned
-local copies, and invokes `xmllint --nonet`. It does not retrieve schemas during tests.
+The harness requires the profile's official XSD digest and URI filename to match the declared
+fixture set, verifies every local digest, rewrites only declared dependency filenames to their
+pinned local copies, and invokes `xmllint --nonet`. It does not retrieve schemas during tests.
+Declarative null constants and null value-map outputs fail closed until the profile contract defines
+their XML emission semantics.
 
 A new form test should therefore contain only representative canonical responses, attachment
 metadata when applicable, pinned XSD fixture declarations, expected validity, and semantic XML

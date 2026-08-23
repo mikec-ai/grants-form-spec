@@ -15,10 +15,12 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 
 
 _MISSING = object()
+_SUPPORTED_CONTRACT = "grants-gov-xml-profile/v1"
 
 
 @dataclass(frozen=True)
@@ -36,7 +38,7 @@ class ExactXsdFixture:
 
     entrypoint: str
     files: tuple[PinnedXsdFile, ...]
-    official_sha256: str | None = None
+    official_sha256: str
     dependency_uri_prefixes: tuple[str, ...] = (
         "https://apply07.grants.gov/apply/system/schemas/",
     )
@@ -45,6 +47,15 @@ class ExactXsdFixture:
 def _qname(profile: Mapping[str, Any], prefix: str | None, name: str) -> str:
     namespace = profile["namespaces"][prefix or "default"]
     return f"{{{namespace}}}{name}"
+
+
+def _assert_supported_profile(profile: Mapping[str, Any]) -> None:
+    contract = profile.get("contract")
+    if contract != _SUPPORTED_CONTRACT:
+        raise AssertionError(
+            f"unsupported Grants.gov XML profile contract: {contract!r}; "
+            f"expected {_SUPPORTED_CONTRACT!r}"
+        )
 
 
 def _pointer(document: Mapping[str, Any], pointer: str) -> Any:
@@ -78,7 +89,11 @@ def _resolved_value(
     if value is _MISSING:
         return value
     if value_map := declaration.get("valueMap"):
-        return value_map[_value_map_key(value)]
+        value = value_map[_value_map_key(value)]
+    if value is None:
+        raise AssertionError(
+            "declarative null emission is unsupported; omit the field or define explicit semantics"
+        )
     return value
 
 
@@ -299,6 +314,7 @@ def render_profile_xml(
 ) -> bytes:
     """Mechanically render a resolved portable profile for conformance testing."""
 
+    _assert_supported_profile(profile)
     root_prefix = profile["root"]["namespacePrefix"]
     for prefix, namespace in profile["namespaces"].items():
         if prefix != "default":
@@ -306,9 +322,7 @@ def render_profile_xml(
     if root_prefix not in profile["namespaces"]:
         raise AssertionError(f"unknown root namespace prefix: {root_prefix}")
 
-    root = ET.Element(
-        _qname(profile, root_prefix, profile["root"]["element"])
-    )
+    root = ET.Element(_qname(profile, root_prefix, profile["root"]["element"]))
     for name, value in profile["root"].get("attributes", {}).items():
         if ":" in name:
             prefix, local_name = name.split(":", 1)
@@ -330,14 +344,11 @@ def validate_exact_xsd(
     xml: bytes,
     fixture: ExactXsdFixture,
     *,
-    profile: Mapping[str, Any] | None = None,
+    profile: Mapping[str, Any],
 ) -> subprocess.CompletedProcess[str]:
     """Validate XML against digest-pinned local XSDs without network access."""
 
-    xmllint = shutil.which("xmllint")
-    if xmllint is None:
-        raise AssertionError("xmllint is required for exact-XSD conformance checks")
-
+    _assert_supported_profile(profile)
     files = {item.name: item for item in fixture.files}
     if len(files) != len(fixture.files):
         raise AssertionError("pinned XSD fixture names must be unique")
@@ -349,15 +360,22 @@ def validate_exact_xsd(
             raise AssertionError(
                 f"pinned XSD digest mismatch for {item.name}: expected {item.sha256}, got {actual}"
             )
-    if fixture.official_sha256 is not None:
-        if profile is None:
-            raise AssertionError("official XSD digest check requires the resolved profile")
-        actual = profile["xsd"]["sha256"]
-        if actual != fixture.official_sha256:
-            raise AssertionError(
-                "profile official XSD digest mismatch: "
-                f"expected {fixture.official_sha256}, got {actual}"
-            )
+    actual = profile["xsd"]["sha256"]
+    if actual != fixture.official_sha256:
+        raise AssertionError(
+            "profile official XSD digest mismatch: "
+            f"expected {fixture.official_sha256}, got {actual}"
+        )
+    profile_xsd_name = Path(urlparse(profile["xsd"]["uri"]).path).name
+    if profile_xsd_name != fixture.entrypoint:
+        raise AssertionError(
+            "profile XSD URI does not identify the pinned entrypoint: "
+            f"expected {fixture.entrypoint}, got {profile_xsd_name or '<missing>'}"
+        )
+
+    xmllint = shutil.which("xmllint")
+    if xmllint is None:
+        raise AssertionError("xmllint is required for exact-XSD conformance checks")
 
     with tempfile.TemporaryDirectory() as directory:
         temp = Path(directory)
