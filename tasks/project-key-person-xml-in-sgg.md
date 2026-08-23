@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T16:34:48.938Z'
+  at: '2026-08-23T16:44:53.538Z'
 ---
 # Goal
 
@@ -29,3 +29,5 @@ Complete the consumer half of the merged portable Key Person XML target without 
 # Boundary
 
 Mappings remain proposed/source-bound-unreviewed; technical conformance is not human semantic acceptance.
+
+[depends on](distinguish-xml-array-wrapper-cardinality.md)
