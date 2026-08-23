@@ -68,9 +68,42 @@ async function dereference(state, dist, cache, seen) {
 }
 
 async function resolveSteps(state, steps, dist, cache, seen) {
-  for (const step of steps) {
+  for (let index = 0; index < steps.length; index += 1) {
+    const step = steps[index];
     state = await dereference(state, dist, cache, seen);
     const { value, path } = state;
+    // A derived JSON Schema keeps inherited properties behind an `allOf` reference while
+    // UI and mapping pointers address the resolved response shape. If the local properties
+    // object does not own the requested field, resolve the property pair through a composed
+    // branch before descending into the local object and losing the parent `allOf` context.
+    const propertyName = step === "properties" ? steps[index + 1] : undefined;
+    if (
+      propertyName !== undefined
+      && value && typeof value === "object"
+      && !(propertyName in (value.properties ?? {}))
+      && Array.isArray(value.allOf)
+    ) {
+      let found;
+      for (const branch of value.allOf) {
+        try {
+          found = await resolveSteps(
+            { value: branch, path },
+            ["properties", propertyName],
+            dist,
+            cache,
+            new Set(seen),
+          );
+          break;
+        } catch {
+          // Try the next composed branch.
+        }
+      }
+      if (found !== undefined) {
+        state = found;
+        index += 1;
+        continue;
+      }
+    }
     if (value && typeof value === "object" && step in value) {
       state = { value: value[step], path };
       continue;
@@ -327,6 +360,17 @@ export async function validateArtifactGraph(inputDist) {
               xmlProfilePath,
             );
           }
+          for (const attribute of Object.values(node.attributes ?? {})) {
+            if (attribute.source) {
+              await validateSourcePointer(
+                attribute.source,
+                { value: schema, path: schemaPath },
+                dist,
+                cache,
+                xmlProfilePath,
+              );
+            }
+          }
         }
         if (nodes.some((node) => node.kind === "attachment") && !profile.attachment) {
           throw new ArtifactError(
@@ -513,6 +557,9 @@ async function groupSources(fields, rootSchemaState, dist, cache, profilePath) {
     } else if (node.source) {
       await validateSourcePointer(node.source, rootSchemaState, dist, cache, profilePath);
       sources.push(node.source);
+    } else if (Object.hasOwn(node, "constant")) {
+      // A constant is wire-only vocabulary and deliberately has no canonical source.
+      continue;
     } else {
       throw new ArtifactError("XML group child must declare an absolute source", profilePath);
     }

@@ -55,6 +55,39 @@
         ]
       }
     },
+    "literal": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "boolean" },
+        { "type": "null" }
+      ]
+    },
+    "valueMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/literal" }
+    },
+    "attributeValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "pattern": "^/" },
+        "constant": { "$ref": "#/$defs/literal" },
+        "valueMap": { "$ref": "#/$defs/valueMap" }
+      },
+      "oneOf": [
+        { "properties": { "source": true }, "required": ["source"] },
+        { "properties": { "constant": true }, "required": ["constant"] }
+      ],
+      "if": { "properties": { "valueMap": true }, "required": ["valueMap"] },
+      "then": { "properties": { "source": true }, "required": ["source"] }
+    },
+    "dynamicAttributes": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/xmlName" },
+      "additionalProperties": { "$ref": "#/$defs/attributeValue" }
+    },
     "sourceEvidence": {
       "type": "object",
       "additionalProperties": false,
@@ -125,6 +158,9 @@
         "namespace": { "type": "string", "minLength": 1 },
         "container": { "$ref": "#/$defs/leafContainer" },
         "source": { "type": "string", "pattern": "^/" },
+        "constant": { "$ref": "#/$defs/literal" },
+        "valueMap": { "$ref": "#/$defs/valueMap" },
+        "attributes": { "$ref": "#/$defs/dynamicAttributes" },
         "fields": { "$ref": "#/$defs/mappingFields" },
         "items": {
           "oneOf": [
@@ -143,6 +179,23 @@
         "repeatElementPerItem": { "type": "boolean" }
       },
       "allOf": [
+        {
+          "not": {
+            "properties": { "source": true, "constant": true },
+            "required": ["source", "constant"]
+          }
+        },
+        {
+          "if": { "properties": { "valueMap": true }, "required": ["valueMap"] },
+          "then": { "properties": { "source": true }, "required": ["source"] }
+        },
+        {
+          "if": { "properties": { "constant": true }, "required": ["constant"] },
+          "then": {
+            "properties": { "kind": { "const": "value" } },
+            "required": ["kind"]
+          }
+        },
         {
           "if": {
             "properties": { "kind": { "enum": ["object", "group"] } },

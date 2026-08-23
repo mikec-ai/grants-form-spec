@@ -24,10 +24,27 @@
   },
   "mapping": {
     "fields": {
-      "title": { "element": "Title", "kind": "value" },
+      "title": {
+        "element": "Title",
+        "kind": "value",
+        "source": "/title",
+        "valueMap": { "draft": "D", "final": "F" }
+      },
+      "metadata": {
+        "element": "Metadata",
+        "kind": "group",
+        "flatten": true,
+        "fields": {
+          "version": { "element": "Version", "kind": "value", "constant": "1.0" }
+        }
+      },
       "files": {
         "element": "Files",
         "kind": "array",
+        "attributes": {
+          "status": { "source": "/title", "valueMap": { "draft": "D", "final": "F" } },
+          "version": { "constant": "1.0" }
+        },
         "items": {
           "fields": {
             "file": {
