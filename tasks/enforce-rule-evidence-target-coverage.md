@@ -4,6 +4,20 @@ title: Enforce exact rule-to-evidence target coverage
 description: >-
   Require every calculation and condition target to have an exact-path evidence
   disposition with explicit authority class.
+superbee_updated_by: rule_evidence_agent
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T21:44:17.564Z'
+superbee_progress_status: in_progress
+priority: P0
+assignee: rule_evidence_agent
+---
+---
+type: Task
+title: Enforce exact rule-to-evidence target coverage
+description: >-
+  Require every calculation and condition target to have an exact-path evidence
+  disposition with explicit authority class.
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
@@ -34,3 +48,12 @@ SF-424C initially had 24 rule targets and 24 behavior records while still omitti
 # Boundary
 
 The gate verifies evidence coverage and authority class. It does not infer behavior, approve semantic equivalence, or require an official-source resolution where the evidence is genuinely unresolved.
+
+# Delivery receipt
+
+- Draft implementation: [grants-form-spec PR #57](https://github.com/mikec-ai/grants-form-spec/pull/57)
+- Commit: `107bf15c969495ea8200f0632aa8982e510e2e77`
+- Full local preflight passed: 102 TypeSpec tests, 155 Python tests with one skip, 1,010 artifact validations, artifact packaging verification, and zero unclassified occurrences or exceptions.
+- Coverage proof: SF-424C has 24 official-source calculation dispositions; the R&R Budget family inherits 56 exact calculation dispositions (20 official, 36 unresolved); R&R Other Project Information has 13 exact unresolved condition dispositions.
+- Negative regressions cover missing and duplicate dispositions, input-only/count substitution, ambiguous array normalization, and implementation evidence misclassified as official authority.
+- Status remains in progress until PR review and CI complete; the PR is intentionally unmerged.

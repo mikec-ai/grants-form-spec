@@ -3,14 +3,13 @@ type: Task
 title: Migrate SF-LLL through the portable parity oracle
 priority: P1
 description: >-
-  Replace the legacy SGG SF-LLL definition with portable artifacts while using
-  legacy schema, UI, rules, XML, XSD, and lifecycle behavior as a differential
-  oracle.
-superbee_progress_status: in_progress
+  The portable, unregistered SF-LLL implementation and public-fork consumer
+  canary are merged; remaining release gates are tracked separately.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:41:15.805Z'
+  at: '2026-08-23T21:43:37.021Z'
 assignee: codex
 ---
 # Goal

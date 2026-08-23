@@ -4,13 +4,13 @@ title: Migrate CD-511 through the portable parity oracle
 priority: P2
 assignee: codex
 description: >-
-  Bank the small Commerce lobbying-certification form through shared identity,
-  policy, attestation, lifecycle, and XML primitives.
-superbee_progress_status: in_progress
+  The portable, unregistered CD-511 implementation and public-fork consumer
+  canary are merged; remaining release gates are tracked separately.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:29:14.553Z'
+  at: '2026-08-23T21:43:37.198Z'
 ---
 # Goal
 

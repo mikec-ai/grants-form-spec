@@ -3,13 +3,14 @@ type: Task
 title: Migrate SF-424B through the portable parity oracle
 priority: P1
 description: >-
-  Replace legacy SF-424B with a portable versioned assurance-policy bundle and
-  differential SGG parity.
-superbee_progress_status: in_progress
-superbee_updated_by: sf424b_family_agent
+  The portable, unregistered SF-424B implementation and public-fork consumer
+  canary are merged; remaining human and release work is tracked in Close
+  policy-form release gates.
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:43:34.287Z'
+  at: '2026-08-23T21:43:36.435Z'
 assignee: sf424b_family_agent
 ---
 # Goal

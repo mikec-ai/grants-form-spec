@@ -22,6 +22,8 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 30 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
+Current cross-repository snapshot: the public consumer fork banks 28 forms at producer revision `e0b0fb24`; `rr-sf424b` and `sf424c` remain producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
 # Immediate leverage gate before forms 31+
@@ -195,3 +197,5 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/enforce-rule-evidence-target-coverage.md)
 
 [contains](../tasks/automate-cross-repo-form-promotion.md)
+
+[contains](../tasks/close-policy-form-release-gates.md)

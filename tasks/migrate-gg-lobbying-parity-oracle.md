@@ -3,13 +3,14 @@ type: Task
 title: Migrate Grants.gov Lobbying Form through the portable parity oracle
 priority: P1
 description: >-
-  Replace the legacy Grants.gov Lobbying Form while reusing reviewed identity
-  and attestation primitives without conflating it with SF-LLL.
-superbee_progress_status: in_progress
-superbee_updated_by: gate_assessment_agent
+  The portable, unregistered Grants.gov Lobbying Form implementation and
+  public-fork consumer canary are merged; remaining release gates are tracked
+  separately.
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:41:41.882Z'
+  at: '2026-08-23T21:43:37.379Z'
 assignee: gg_lobbying_agent
 ---
 # Goal

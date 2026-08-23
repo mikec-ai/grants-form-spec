@@ -4,13 +4,14 @@ title: Bank the SF-424B assurance profile family
 priority: P1
 assignee: sf424b_family_agent
 description: >-
-  Publish active R&R, Individual, and verified Mandatory SF-424B profiles over
-  one portable assurance bundle.
-superbee_progress_status: in_progress
-superbee_updated_by: sf424b_family_agent
+  The active R&R, Individual, and Mandatory SF-424B profiles are banked over one
+  portable assurance bundle; registration and human release gates are tracked
+  separately.
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:43:34.278Z'
+  at: '2026-08-23T21:43:36.640Z'
 ---
 # Goal
 

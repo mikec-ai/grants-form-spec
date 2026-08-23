@@ -4,13 +4,14 @@ title: Bank the SF-424D assurance profile family
 priority: P1
 assignee: sf424d_family_agent
 description: >-
-  Publish the active construction-assurance profiles over the shared portable
-  policy and attestation contract.
-superbee_progress_status: in_progress
-superbee_updated_by: sf424d_family_agent
+  The active SF-424D construction-assurance family is banked in the producer and
+  public fork; remaining DB, human, registration, and release gates are tracked
+  separately.
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:54:07.907Z'
+  at: '2026-08-23T21:43:36.839Z'
 ---
 # Goal
 
