@@ -3,9 +3,10 @@ type: Task
 title: Author and integrate PHS 398 Research Plan
 priority: P1
 description: >-
-  Compose thirteen source-bound research attachment roles from the portable
-  Attachment Form foundation.
-superbee_progress_status: in_progress
+  Producer delivery is complete for thirteen source-bound research attachment
+  roles composed from the portable Attachment Form foundation; consumer and
+  human release gates remain.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
@@ -40,7 +41,7 @@ The Attachment Form runtime mechanism is reusable; each Research Plan attachment
 
 # Implementation receipt
 
-Draft producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) at commit `6ec72f8a4` implements the source-conformance slice and remains unmerged for independent review.
+Producer PR [#60](https://github.com/mikec-ai/grants-form-spec/pull/60) merged as `bb9372c203ae99844613aaa3bed5447adc4ae587` after independent review at exact head `6ec72f8a4dd8e1d2ed20a5acc91a0b670e37cf59`.
 
 - Authored thirteen role-qualified, draft semantic questions over the one shared `generics/attachment` capture mechanism.
 - Composed PHS 398 Research Plan FID 797 v5.0 with exact source order, identity, labels, sections, required Research Strategy, and ten-file applicant Appendix limit.
@@ -64,9 +65,8 @@ The first independent review found that `flatten: true` attachment nodes could d
 - Negative contract and runtime tests mutate element, namespace, attributes, source, `flatten` spelling, top-level placement, and missing `itemElement`.
 - The positive Research Plan XML/XSD projection remains green.
 
-# Remaining review and consumer gates
+# Remaining consumer and human gates
 
-- Independent architecture, source, and semantic review of PR #60.
 - Human acceptance before any mapping contributes to published coverage.
 - An application-level condition contract and consumer support for the three cross-form requirements.
 - NOFO-aware policy composition for Specific Aims requiredness.
