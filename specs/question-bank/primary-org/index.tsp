@@ -7,6 +7,16 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.PrimaryOrg;
 
+/** Enter the applicant organization's website, if applicable. */
+@Question.meta(#{ id: "primary-org/website" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.primaryOrg)
+@Catalog.tag(TagName.organization, TagName.details)
+@UI.label("Web Address")
+@format("uri-reference")
+@minLength(1)
+scalar PrimaryOrgWebsite extends string;
+
 /** Enter the legal name of the applicant that will undertake the assistance activity. */
 @Question.meta(#{ id: "primary-org/legal-name" })
 @Catalog.entity(EntityName.primaryOrg)

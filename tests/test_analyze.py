@@ -209,15 +209,15 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 94)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 418)
+        self.assertEqual(len(self.analysis["questionInventory"]), 101)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 426)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 171)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 19)
-        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 76)
+        self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 68)
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 418)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 426)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
@@ -278,8 +278,8 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             for row in self.analysis["marginalCapabilityReuse"]
             if row["formId"] == "sf424-short"
         )
-        self.assertEqual(short["newQuestionCount"], 0)
-        self.assertEqual(short["reusedQuestionCount"], short["questionCount"])
+        self.assertEqual(short["newQuestionCount"], 2)
+        self.assertEqual(short["reusedQuestionCount"], short["questionCount"] - 2)
         self.assertEqual(short["newBehaviorCount"], 0)
         self.assertEqual(short["reusedBehaviorCount"], short["behaviorCount"])
         self.assertEqual(short["measurementStatus"], "implementation-derived-unreviewed")

@@ -7,6 +7,16 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.Poc;
 
+/** Enter the key contact's free-text role on this project. */
+@Question.meta(#{ id: "poc/project-role" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.poc)
+@Catalog.tag(TagName.person, TagName.role)
+@UI.label("Project Role")
+@minLength(1)
+@maxLength(45)
+scalar KeyContactProjectRole extends string;
+
 /**
  * The person to contact about the application.
  *

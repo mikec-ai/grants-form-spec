@@ -42,7 +42,7 @@ describe("SGG UI emission", () => {
       contactsIndex.fieldOccurrences.find(
         (row: any) => row.path === "/keyContacts/[]/projectRole",
       ),
-    ).toMatchObject({ leaf: true, blockIds: [] });
+    ).toMatchObject({ leaf: true, blockIds: ["poc/project-role"] });
     expect(
       sf424Index.fieldOccurrences.find(
         (row: any) => row.path === "/totalEstimatedFunding",
