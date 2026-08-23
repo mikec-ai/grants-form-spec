@@ -206,6 +206,22 @@ describe("artifact contract v1", () => {
     };
     expect(validateGrantsGovXmlProfile(objectContainer)).toBe(false);
 
+    const requiredEmptyObject = structuredClone(valid);
+    requiredEmptyObject.mapping.fields.title = {
+      element: "Title",
+      kind: "object",
+      emitWhenParentPresent: true,
+      fields: { value: { element: "Value", kind: "value" } },
+    };
+    expect(
+      validateGrantsGovXmlProfile(requiredEmptyObject),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
+
+    const requiredEmptyLeaf = structuredClone(valid);
+    requiredEmptyLeaf.mapping.fields.title.emitWhenParentPresent = true;
+    expect(validateGrantsGovXmlProfile(requiredEmptyLeaf)).toBe(false);
+
     const incompleteContainer = structuredClone(valid);
     incompleteContainer.mapping.fields.title = {
       element: "Title",
