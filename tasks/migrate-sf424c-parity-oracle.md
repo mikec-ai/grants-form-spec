@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:56:51.607Z'
+  at: '2026-08-23T21:08:29.583Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -35,19 +35,20 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 # Delivery receipt
 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
-- Rebasing completed after PR #47 merged; frozen head: `7d893d0dfe0cd56a94d7174a79cb0fe43fe1a886` on `codex/sf424c-portable-parity`.
-- Producer preflight after rebase: passed; 102 TypeScript tests and 133 Python tests passed, with one environment-dependent skip.
-- GitHub CI passed on the rebased head in 1m37s; GitHub reports the PR mergeable.
+- Rebasing completed after PR #47 merged; review-fixed frozen head: `b4cb440b74966dab0fb2ce11f0f7b920e678f3e6` on `codex/sf424c-portable-parity`.
+- Producer preflight after review fixes: passed; 102 TypeScript tests and 136 Python tests passed, with one environment-dependent skip.
+- GitHub CI passed on the review-fixed head in 1m36s; GitHub reports the PR clean and mergeable.
 - Source provenance pinned: official XSD, DAT, read-only PDF, instructions PDF, deterministic extraction revision/source set, and public SGG oracle revision/file digest.
 - Portable result: 18 semantic questions, a reused three-column construction-cost structure, 24 declarative calculations, SGG UI projection, and Grants.gov XML projection. No form-specific compiler or adapter branch was added.
-- XML evidence: a full response and a flattened federal-funding-only response validate against the pinned official XSD fixture.
+- XML evidence: full, flattened federal-funding-only, contingencies-only, program-income-only, and explicitly empty budget-object responses validate against the pinned official XSD fixture. The two required subtotal containers use generic declarative `emitWhenParentPresent` semantics.
 - Calculation evidence: representative values match the existing SGG oracle across cost rows, both subtotals, program income, total project costs, and federal funding share.
+- Behavior evidence reconciliation: the evidence target set exactly equals the 24 calculation-rule targets. It includes the calculated eligible-cost display copy and excludes the applicant-entered federal percentage.
 - Safety boundary: all 18 source-to-question mappings remain `proposed` and are excluded from published coverage metrics.
 - Intentional bounded difference: empty drafts do not materialize the legacy implementation's phantom zero totals; populated results remain aligned.
 
 # Remaining gates
 
-- Obtain independent architectural review of the cleanly rebased PR.
+- Independent review findings are addressed; freeze for review confirmation and merge coordination.
 - Human semantic acceptance or revision for the 18 proposed mappings.
 - Human instruction-content and accessibility review.
 - Consuming-fork adapter tests for save/reload, locked, print, and submission lifecycle behavior.
