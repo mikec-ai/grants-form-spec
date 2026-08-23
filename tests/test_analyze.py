@@ -228,6 +228,35 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             all(row["similarity"] is None for row in self.analysis["pairwiseReviewed"])
         )
 
+    def test_assignment_request_occurrences_are_applicant_input_but_not_publishable(self) -> None:
+        rows = [
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "phs-assignment-request"
+        ]
+        self.assertEqual(len(rows), 13)
+        self.assertEqual({row["responseRole"] for row in rows}, {"applicantInput"})
+        self.assertEqual(
+            {row["occurrencePath"] for row in rows},
+            {
+                "/suggestedAwardingComponent1",
+                "/suggestedAwardingComponent2",
+                "/suggestedAwardingComponent3",
+                "/suggestedStudySection1",
+                "/suggestedStudySection2",
+                "/suggestedStudySection3",
+                "/rationaleSuggestions",
+                "/expertise1",
+                "/expertise2",
+                "/expertise3",
+                "/expertise4",
+                "/expertise5",
+                "/notReview",
+            },
+        )
+        self.assertTrue(all(row["mappingStatus"] == "proposed" for row in rows))
+        self.assertTrue(all(not row["publishable"] for row in rows))
+
     def test_association_joins_question_xml_and_source_provenance(self) -> None:
         row = next(
             row

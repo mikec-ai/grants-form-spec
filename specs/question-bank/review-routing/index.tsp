@@ -10,6 +10,7 @@ namespace QuestionBank.ReviewRouting;
 @Question.meta(#{ id: "review-routing/suggested-awarding-component" })
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
+@Response.role(ResponseRole.applicantInput)
 @maxLength(7)
 scalar SuggestedAwardingComponent extends string;
 
@@ -17,6 +18,7 @@ scalar SuggestedAwardingComponent extends string;
 @Question.meta(#{ id: "review-routing/suggested-study-section" })
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
+@Response.role(ResponseRole.applicantInput)
 @maxLength(20)
 scalar SuggestedStudySection extends string;
 
@@ -24,6 +26,7 @@ scalar SuggestedStudySection extends string;
 @Question.meta(#{ id: "review-routing/assignment-suggestion-rationale" })
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.narrative)
+@Response.role(ResponseRole.applicantInput)
 @maxLength(1000)
 scalar AssignmentSuggestionRationale extends string;
 
@@ -31,6 +34,7 @@ scalar AssignmentSuggestionRationale extends string;
 @Question.meta(#{ id: "review-routing/reviewer-expertise" })
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
+@Response.role(ResponseRole.applicantInput)
 @maxLength(40)
 scalar ReviewerExpertise extends string;
 
@@ -38,5 +42,6 @@ scalar ReviewerExpertise extends string;
 @Question.meta(#{ id: "review-routing/excluded-reviewer-request" })
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.narrative)
+@Response.role(ResponseRole.applicantInput)
 @maxLength(1000)
 scalar ExcludedReviewerRequest extends string;

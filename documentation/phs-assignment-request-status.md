@@ -13,8 +13,11 @@ or renderer behavior.
   `e08625bf4ebaee23a66e1ef85346c83e86726a58e36a6c5705f66fffaf867255`.
 - Official Grants.gov readonly XFA PDF, retrieved 2026-08-23, SHA-256
   `0fdcbdd7bc136ae2872b76fc61a6cb719d8d02d9a1967257a7c9c2e957e4680a`.
-- NIH Forms I general instructions, section G.600, retrieved 2026-08-23, SHA-256
-  `e12101cdc12d38cfc9942744e25aec93e28d0a0bee1465cbf615e7187cb64c54`.
+- Deterministic normalized capture of NIH Forms I general instructions, section G.600, SHA-256
+  `6aef68689060890e9c3cc650a040ea8b36f893527049e582b9474032368b1120`.
+  The capture records the original live HTML retrieval on 2026-08-23, source SHA-256
+  `e12101cdc12d38cfc9942744e25aec93e28d0a0bee1465cbf615e7187cb64c54`,
+  selection method, whitespace normalization, and the fact that no OCR was used.
 - Deterministic crosswalk extraction: revision
   `4312f6504b060e2b9ffdbd2307fc41130c3123a0`, source-set SHA-256
   `63ef51469ecffd0b7a39bd58f827ebe88bc60e8d368ed0789e4608a862660b4b`.
@@ -41,8 +44,9 @@ composition.
 
 ## Explicitly unresolved
 
-- Crosswalk concept assignments remain agent-proposed. The evidence sidecar publishes no accepted
-  cross-form semantic mappings.
+- All thirteen occurrence-to-XSD correspondences are proposed and source-bound. Crosswalk concept
+  assignments remain agent-proposed, and the evidence sidecar publishes no accepted cross-form
+  semantic mappings.
 - Awarding-component and study-section entries remain constrained free strings. The sources do not
   define an enum or authorize this specification to select or validate participating components.
 - The DAT and readonly PDF disagree on one illustrative study-section code (`BP10` versus `B10`).

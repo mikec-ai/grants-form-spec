@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import unittest
 from collections import Counter
@@ -57,12 +58,19 @@ class PHSAssignmentRequestTests(unittest.TestCase):
         ui = load(root / "sgg/ui-schema.json")
         rules = load(root / "sgg/rule-schema.json")
         manifest = load(root / "manifest.json")
+        index = load(root / "index.json")
 
         self.assertEqual(schema.get("required", []), [])
         self.assertEqual(len(schema["properties"]), 13)
         refs = Counter(node["$ref"] for node in schema["properties"].values())
         self.assertEqual(sorted(refs.values()), [1, 1, 3, 3, 5])
         self.assertEqual(rules, None)
+        occurrences = index["fieldOccurrences"]
+        self.assertEqual(len(occurrences), 13)
+        self.assertEqual(
+            {occurrence["responseRole"] for occurrence in occurrences},
+            {"applicantInput"},
+        )
         self.assertEqual(
             [section["name"] for section in ui],
             ["awardingComponents", "studySections", "rationale", "expertise", "excludedReviewers"],
@@ -109,8 +117,64 @@ class PHSAssignmentRequestTests(unittest.TestCase):
         self.assertEqual(sources["xsd"]["sha256"], "7e697ee33ea6f72271c0d74fc48c61f4f81faa242a712a4c73e7898f6c4ab976")
         self.assertEqual(sources["dat"]["sha256"], "e08625bf4ebaee23a66e1ef85346c83e86726a58e36a6c5705f66fffaf867255")
         self.assertEqual(sources["pdf"]["sha256"], "0fdcbdd7bc136ae2872b76fc61a6cb719d8d02d9a1967257a7c9c2e957e4680a")
-        self.assertEqual(sources["instructions"]["sha256"], "e12101cdc12d38cfc9942744e25aec93e28d0a0bee1465cbf615e7187cb64c54")
-        self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(sources["instructions"]["sha256"], "6aef68689060890e9c3cc650a040ea8b36f893527049e582b9474032368b1120")
+        self.assertEqual(sources["instructions"]["nativeVersion"], "Forms I")
+        instruction_capture_path = (
+            ROOT / "research/phs-assignment-request/nih-forms-i-g600-instructions.json"
+        )
+        instruction_capture = load(instruction_capture_path)
+        self.assertEqual(
+            hashlib.sha256(instruction_capture_path.read_bytes()).hexdigest(),
+            sources["instructions"]["sha256"],
+        )
+        self.assertEqual(instruction_capture["source"]["retrievedDate"], "2026-08-23")
+        self.assertIn("no OCR used", instruction_capture["transformation"]["normalization"])
+        self.assertEqual(
+            instruction_capture["source"]["sha256"],
+            "e12101cdc12d38cfc9942744e25aec93e28d0a0bee1465cbf615e7187cb64c54",
+        )
+        self.assertEqual(instruction_capture["knownSourceConflict"]["status"], "unresolved")
+        self.assertIn("B10", instruction_capture["knownSourceConflict"]["detail"])
+        self.assertIn("BP10", instruction_capture["knownSourceConflict"]["detail"])
+
+        expected_paths = {
+            "suggestedAwardingComponent1": "SuggestedAwardingComponent1",
+            "suggestedAwardingComponent2": "SuggestedAwardingComponent2",
+            "suggestedAwardingComponent3": "SuggestedAwardingComponent3",
+            "suggestedStudySection1": "SuggestedStudySection1",
+            "suggestedStudySection2": "SuggestedStudySection2",
+            "suggestedStudySection3": "SuggestedStudySection3",
+            "rationaleSuggestions": "RationaleSuggestions",
+            "expertise1": "Expertise1",
+            "expertise2": "Expertise2",
+            "expertise3": "Expertise3",
+            "expertise4": "Expertise4",
+            "expertise5": "Expertise5",
+            "notReview": "NotReview",
+        }
+        review = evidence["semanticReview"]
+        self.assertEqual(review["status"], "proposed")
+        self.assertEqual(len(review["mappings"]), 13)
+        self.assertEqual(
+            {
+                mapping["canonicalPointer"]: mapping["sourcePath"]
+                for mapping in review["mappings"]
+            },
+            {
+                f"#/properties/{canonical}":
+                f"PHS_AssignmentRequestForm_4_0.{source}"
+                for canonical, source in expected_paths.items()
+            },
+        )
+        self.assertTrue(
+            all(
+                mapping["sourceId"] == "phs-assignment-request-xsd-v4-0"
+                and mapping["status"] == "proposed"
+                and "no cross-form semantic equivalence" in mapping["note"]
+                for mapping in review["mappings"]
+            )
+        )
+        self.assertEqual(sum(mapping["status"] == "accepted" for mapping in review["mappings"]), 0)
         self.assertEqual(evidence["behaviorEvidence"], [])
 
 
