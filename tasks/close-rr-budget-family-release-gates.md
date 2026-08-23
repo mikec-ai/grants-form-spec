@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:12:05.919Z'
+  at: '2026-08-23T19:12:53.042Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -73,7 +73,8 @@ architecture or silently claim human approval.
   outputs appear. Unknown or incomplete materialization policies fail closed during artifact
   projection. The focused 134-test rule-processing, root-budget, nested-subaward, provenance, and
   artifact-integrity suite passes against the local test database; lint, formatting, and targeted
-  mypy pass. This fork currently reports no GitHub checks for the branch.
+  mypy pass at adapter commit `374d30f2d8ac386336275d143e0ba2e5c0168ae6`. This fork currently
+  reports no GitHub checks for the branch.
 - Regression coverage proves that absent optional Other Personnel input leaves cumulative count and
   funds outputs absent, while explicitly entered integer and monetary zeroes materialize zero. The
   same assertion runs at the root and across independent nested subaward instances.
