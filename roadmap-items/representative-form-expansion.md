@@ -2,14 +2,11 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Nineteen forms now compile through the portable specification and load through
-  the public Simpler adapter. R&R Other Project Information adds reusable policy
-  and supporting-document questions; PHS 398 Modular Budget adds a materially
-  different budget model with nested rows and eight portable calculations. Both
-  also hardened generic infrastructure discovered through promotion.
+  Nineteen forms compile and load; finish the bounded leverage pass and prove
+  R&R Key Person Expanded vertically before authoring the twentieth form.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
+superbee_updated_by: Codex
 ---
 # Strategy
 
@@ -18,13 +15,25 @@ Use two complementary delivery lanes:
 1. **Harvest existing capability.** Finish and consume the reusable architecture already implemented. These forms should provide fast, visible evidence that marginal delivery cost is falling.
 2. **Build the next foundations.** Choose forms that add reusable domain concepts or runtime capabilities needed by many later forms.
 
-Alternate one foundation-building form with one inexpensive derivative after the three current priority forms are hardened. Similar wording, paths, or shapes remain proposed reuse until semantic review accepts them.
+Alternate one foundation-building form with one inexpensive derivative after the current priority forms are hardened. Similar wording, paths, or shapes remain proposed reuse until semantic review accepts them.
+
+# Expansion gate
+
+Before authoring a twentieth portable form:
+
+1. Complete the bounded architecture-leverage pass, including the SGG runtime-identity boundary.
+2. Take the already-authored R&R Senior/Key Person Profile (Expanded) through the full Simpler lifecycle as a vertical canary.
+3. Record marginal authoring cost, new reusable concepts, form-specific branch count, parity, XML/XSD, lifecycle, accessibility, and unresolved human gates.
+
+Human semantic or release review that remains explicitly blocked does not prevent architectural learning from continuing, but no form is registered for production until its applicable gates are accepted.
 
 # Current priority
 
-1. **R&R Budget:** finish production hardening and lifecycle validation for the implemented form.
-2. **SF-424A Budget:** finish save, reload, submission, print, browser accessibility, and human acceptance for the implemented guidance and navigation improvements.
-3. **R&R SF-424:** complete the first new high-value foundation form. It extends the existing SF-424 foundation across organizations, authorized representatives, principal investigators, project information, funding, certification, and attachments.
+1. **Architecture leverage:** finish the four bounded tasks and stop cleanup at their exit condition.
+2. **R&R Key Person Expanded:** prove the existing form through registration and lifecycle without inventing another architecture.
+3. **R&R Budget:** finish production hardening and lifecycle validation for the implemented form.
+4. **SF-424A Budget:** finish save, reload, submission, print, browser accessibility, and human acceptance for the implemented guidance and navigation improvements.
+5. **R&R SF-424:** finish its remaining human rendering, accessibility, and release gates.
 
 # Harvest lane
 
@@ -40,15 +49,11 @@ The Performance Site promotion spike may reduce deterministic authoring work for
 
 # Foundation lane
 
-After R&R SF-424, the directional sequence is:
+After the R&R Key Person Expanded vertical canary, the next new foundation is:
 
-1. **R&R Senior/Key Person Profile (Expanded):** establish reusable person, role, organization, address, credential, and repeated-person structures.
-2. **Project/Performance Site Location(s):** establish repeating organization and location blocks. This is also the canary for the review-gated crosswalk promotion importer.
-3. **R&R Other Project Information:** extend reusable project metadata, policy questions, conditions, and semantically distinct attachment roles.
-4. **PHS 398 Modular Budget:** extend the budget foundation into a materially different budget model.
-5. **PHS Human Subjects and Clinical Trials:** establish deeply nested, conditional, repeating behavior needed across NIH forms.
+1. **PHS Human Subjects and Clinical Trials:** establish deeply nested, conditional, repeating behavior needed across NIH forms.
 
-This ranking is directional. Portfolio mappings remain proposals unless reviewed, so proposed concept overlap supports sequencing but does not count as published coverage.
+Treat each new capability it exposes as evidence for the smallest generic extension, not as permission to create a general DSL.
 
 # Work governed by this roadmap item
 
@@ -97,3 +102,5 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/harvest-phs398-modular-budget.md)
 
 [contains](../tasks/close-rr-sf424-release-gates.md)
+
+[contains](../tasks/release-rr-key-person-expanded-canary.md)
