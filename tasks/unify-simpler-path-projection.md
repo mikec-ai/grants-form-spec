@@ -5,11 +5,11 @@ priority: P1
 description: >-
   Replace parallel UI and rule path-renaming traversal with one
   conformance-tested adapter primitive.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:36:36.600Z'
+  at: '2026-08-23T15:33:15.010Z'
 assignee: sf424a_semantic_review
 ---
 # Goal
