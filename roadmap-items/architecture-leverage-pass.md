@@ -6,11 +6,11 @@ description: >-
   stop condition before representative expansion resumes.
 sequence: '4'
 superbee_progress_status: active
-superbee_updated_by: Codex
+superbee_updated_by: codex
 ---
 # Outcome
 
-Make the next form expansion wave cheaper and easier to review by removing duplication at three proven seams and correcting one demonstrated target-identity leak, while preserving the portable artifact contract and current runtime behavior.
+Make the next form expansion wave cheaper and easier to review by removing duplication at three proven seams, correcting one demonstrated target-identity leak, and isolating one source-version provenance migration, while preserving the portable artifact contract and current runtime behavior.
 
 # Assessment
 
@@ -19,6 +19,7 @@ Make the next form expansion wave cheaper and easier to review by removing dupli
 - Grants.gov XML profiles already resolve ordinary JSON `$ref` fragments, but the two largest mapping files remain 681 and 823 lines. Repeated person, address, organization, contact, and attachment structures can use the mechanism that already works for budget profiles.
 - The Simpler adapter correctly quarantines consumer-specific naming, but its UI pointers and calculation references perform parallel path parsing and renaming. One tested path-projection primitive would reduce code and projection drift.
 - The canonical form-package contract currently requires SGG runtime identity fields such as `formType` and `sggVersion`. Real forms have already demonstrated that these values can disagree with the Simpler runtime enum, so they need a small explicit target boundary.
+- Evidence sidecars historically use one `version` field for both enclosing form context and native source versions. XML fragment review proved that this must become a separate, explicit provenance-contract task rather than a partial change hidden inside a mapping refactor.
 
 # Scope boundary
 
@@ -28,7 +29,7 @@ Defer the independent reference consumer, application-level cross-form condition
 
 # Exit condition
 
-Complete the four bounded tasks below, record before-and-after evidence, and require producer, Simpler parity, XML, and XSD tests to remain green with zero new form-specific compiler or adapter branches. Then stop architectural cleanup and run the existing R&R Key Person Expanded form as the vertical release canary.
+Complete the five bounded tasks below, record before-and-after evidence, and require producer, Simpler parity, XML, and XSD tests to remain green with zero new form-specific compiler or adapter branches. Then stop architectural cleanup and run the existing R&R Key Person Expanded form as the vertical release canary.
 
 If any task requires a general override language, application orchestration engine, new intermediate representation, or applicant-visible behavior change, stop and re-scope it instead of expanding the abstraction.
 
@@ -39,3 +40,5 @@ If any task requires a general override language, application orchestration engi
 [contains](../tasks/unify-simpler-path-projection.md)
 
 [contains](../tasks/separate-sgg-runtime-identity-metadata.md)
+
+[contains](../tasks/normalize-native-source-version-provenance.md)
