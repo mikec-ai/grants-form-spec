@@ -7,6 +7,8 @@ import { stateKeys } from "./lib.js";
 interface ConditionBase {
   sourcePath: string[];
   sourceIsArray: boolean;
+  /** Declaring model for sibling-only predicates; checked once the target model is complete. */
+  sourceModelName?: string;
 }
 export interface EqualsCondition extends ConditionBase {
   operator: "equals";

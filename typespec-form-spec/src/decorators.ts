@@ -3,7 +3,7 @@ import type {
 } from "@typespec/compiler";
 import { serializeValueAsJson, $summary } from "@typespec/compiler";
 import { $id as $jsonSchemaId } from "@typespec/json-schema";
-import { stateKeys } from "./lib.js";
+import { reportDiagnostic, stateKeys } from "./lib.js";
 
 /**
  * `valueof <Model>` arrives as a TypeSpec ObjectValue with parent back-references,
@@ -203,18 +203,49 @@ export const $enabledWhenAny = (
   });
 };
 
+function countCondition(
+  ctx: Ctx,
+  target: ModelProperty,
+  source: ModelProperty,
+  minimum: number,
+) {
+  let valid = true;
+  if (source.type.kind !== "Model" || !source.type.indexer) {
+    reportDiagnostic(ctx.program, {
+      code: "condition-count-source-not-array",
+      target,
+      format: { source: source.name },
+    });
+    valid = false;
+  }
+  const normalizedMinimum = Number(literal(minimum));
+  if (!Number.isInteger(normalizedMinimum) || normalizedMinimum <= 0) {
+    reportDiagnostic(ctx.program, {
+      code: "condition-count-minimum-invalid",
+      target,
+      format: { minimum: String(normalizedMinimum) },
+    });
+    valid = false;
+  }
+  if (!valid) return undefined;
+  return {
+    operator: "countAtLeast" as const,
+    sourcePath: [source.name],
+    sourceIsArray: true,
+    sourceModelName: source.model?.name,
+    minimum: normalizedMinimum,
+  };
+}
+
 export const $enabledWhenCount = (
   ctx: Ctx,
   target: ModelProperty,
   source: ModelProperty,
   minimum: number,
-) =>
-  push(ctx, stateKeys.enabledWhen, target, {
-    operator: "countAtLeast",
-    sourcePath: [source.name],
-    sourceIsArray: true,
-    minimum: Number(literal(minimum)),
-  });
+) => {
+  const count = countCondition(ctx, target, source, minimum);
+  if (count) push(ctx, stateKeys.enabledWhen, target, count);
+};
 
 /**
  * Enable a field once a sibling list reaches capacity, while keeping an already-saved value
@@ -226,16 +257,13 @@ export const $enabledWhenCountOrPresent = (
   target: ModelProperty,
   source: ModelProperty,
   minimum: number,
-) =>
+) => {
+  const count = countCondition(ctx, target, source, minimum);
+  if (!count) return;
   push(ctx, stateKeys.enabledWhen, target, {
     operator: "any",
     predicates: [
-      {
-        operator: "countAtLeast",
-        sourcePath: [source.name],
-        sourceIsArray: true,
-        minimum: Number(literal(minimum)),
-      },
+      count,
       {
         operator: "present",
         sourcePath: [target.name],
@@ -243,6 +271,7 @@ export const $enabledWhenCountOrPresent = (
       },
     ],
   });
+};
 
 export const $readOnlyWhen = (ctx: Ctx, target: ModelProperty, source: ModelProperty, equals: unknown) =>
   push(ctx, stateKeys.readOnlyWhen, target, condition(source, equals));

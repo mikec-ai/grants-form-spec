@@ -433,6 +433,14 @@ function checkConditions(program: Program, prop: ModelProperty): void {
       ? condition.predicates
       : [condition];
   for (const condition of conditionsOf(program, prop).flatMap(atomic)) {
+    if (condition.sourceModelName && condition.sourceModelName !== model.name) {
+      reportDiagnostic(program, {
+        code: "condition-source-not-sibling",
+        target: prop,
+        format: { source: condition.sourcePath.join("."), target: prop.name },
+      });
+      continue;
+    }
     const source = conditionSource(model, condition.sourcePath);
     if (!source) {
       reportDiagnostic(program, {

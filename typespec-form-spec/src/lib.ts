@@ -36,6 +36,24 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Condition path "${"path"}" does not resolve from ${"model"}.`,
       },
     },
+    "condition-count-source-not-array": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Count condition source ${"source"} must be an array property.`,
+      },
+    },
+    "condition-count-minimum-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Count condition minimum must be a positive integer; received ${"minimum"}.`,
+      },
+    },
+    "condition-source-not-sibling": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Condition source ${"source"} must be a sibling of target ${"target"} in the same model.`,
+      },
+    },
     "cardinality-path-unresolved": {
       severity: "error",
       messages: {

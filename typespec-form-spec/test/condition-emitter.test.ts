@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { expectDiagnostics } from "@typespec/compiler/testing";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
 import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
 import { allBlocks } from "../src/model.js";
@@ -83,5 +84,101 @@ describe("bounded presence conditions", () => {
         },
       },
     });
+  });
+
+  it("scopes both sides of the disjunction to the current repeated item", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum RepeatedSection { entries: "Entries" }
+        model RepeatedOverflow {
+          people?: string[];
+
+          @UI.enabledWhenCountOrPresent(RepeatedOverflow.people, 2)
+          upload?: string;
+        }
+
+        ${formMeta("repeated-overflow-condition-check")}
+        @UI.sections(RepeatedSection)
+        model RepeatedOverflowConditionCheck {
+          @UI.section(RepeatedSection.entries)
+          entries?: RepeatedOverflow[];
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "repeated-overflow-condition-check",
+    );
+    const upload = emitSggUi(instance.program, block!)[0].children[0];
+    const fields = upload.type === "fieldList" ? upload.children : [];
+
+    expect(fields.find((field) => field.definition.endsWith("/upload"))).toMatchObject({
+      conditional: {
+        when: {
+          op: "any",
+          predicates: [
+            {
+              op: "countAtLeast",
+              ref: { scope: "item", pointer: "/people" },
+              minimum: 2,
+            },
+            {
+              op: "present",
+              ref: { scope: "item", pointer: "/upload" },
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it("rejects a scalar count source for the existing count decorator", async () => {
+    expectDiagnostics(
+      await Tester.diagnose(
+        form(`
+          ${formMeta("scalar-count-source")}
+          model ScalarCountSource {
+            people?: string;
+            @UI.enabledWhenCount(ScalarCountSource.people, 1)
+            upload?: string;
+          }
+        `),
+      ),
+      { code: "@simpler-grants/form-spec/condition-count-source-not-array" },
+    );
+  });
+
+  it("rejects a count source from another model instead of rebinding it by name", async () => {
+    expectDiagnostics(
+      await Tester.diagnose(
+        form(`
+          model OtherPeople { people?: string[]; }
+          ${formMeta("foreign-count-source")}
+          model ForeignCountSource {
+            people?: string[];
+            @UI.enabledWhenCountOrPresent(OtherPeople.people, 1)
+            upload?: string;
+          }
+        `),
+      ),
+      { code: "@simpler-grants/form-spec/condition-source-not-sibling" },
+    );
+  });
+
+  it.each([0, -1])("rejects a non-positive count threshold (%s)", async (minimum) => {
+    expectDiagnostics(
+      await Tester.diagnose(
+        form(`
+          ${formMeta(`invalid-count-minimum-${minimum}`)}
+          model InvalidCountMinimum {
+            people?: string[];
+            @UI.enabledWhenCountOrPresent(InvalidCountMinimum.people, ${minimum})
+            upload?: string;
+          }
+        `),
+      ),
+      { code: "@simpler-grants/form-spec/condition-count-minimum-invalid" },
+    );
   });
 });
