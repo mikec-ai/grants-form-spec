@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:33:15.010Z'
+  at: '2026-08-23T15:34:46.790Z'
 assignee: sf424a_semantic_review
 ---
 # Goal
@@ -27,3 +27,7 @@ Consolidate canonical-to-Simpler path projection so UI JSON Pointers and rule re
 # Design constraint
 
 Keep consumer projection in the Simpler adapter. This task simplifies that boundary; it does not push legacy naming into canonical artifacts.
+
+# Result
+
+Merged as `mikec-ai/simpler-grants-gov` PR #30 at commit `31139a235ee5962d36cd7628bae035cd86b1ce0c` after independent review and correction of item ancestry, numeric pointer segments, regex keys, and unsupported selectors. UI pointers, rule references, and XML source pointers now share one ancestry-aware field-segment projector. The final branch passed 117 form-spec tests, 34 focused API tests, 82 frontend tests with one skip, Ruff, mypy, isort, Black, and diff checks. A prerequisite baseline repair was separately merged as PR #31 so main remained green.

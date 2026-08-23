@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:18:52.046Z'
+  at: '2026-08-23T15:34:46.627Z'
 assignee: rr_budget_semantic_review
 ---
 # Goal
@@ -27,3 +27,7 @@ Factor repeated Grants.gov XML mapping structures into reusable JSON fragments u
 # Design constraint
 
 Use the existing target-local `$ref` mechanism. Do not move Grants.gov wire semantics into the canonical question bank or add form-specific projector code.
+
+# Result
+
+Merged as `mikec-ai/grants-form-spec` PR #32 at commit `b992a9ee9c5811ef565f3b0cecaf72f53d5ce08c` after independent source/provenance review. Three exact `HumanNameDataType` occurrences and four exact `AddressDataTypeV3` occurrences now use target-local JSON references, eliminating 34 duplicate mapping nodes while keeping resolved R&R SF-424 output byte-identical. Non-identical contact, organization, budget-name, and attachment structures were deliberately left separate. Native-source version normalization remains the separate `normalize-native-source-version-provenance` task.
