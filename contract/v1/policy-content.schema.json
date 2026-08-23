@@ -85,10 +85,10 @@
         }
       },
       "anyOf": [
-        { "required": ["text"] },
-        { "required": ["items"] },
-        { "required": ["note"] },
-        { "required": ["preamble"] }
+        { "required": ["text"], "properties": { "text": {} } },
+        { "required": ["items"], "properties": { "items": {} } },
+        { "required": ["note"], "properties": { "note": {} } },
+        { "required": ["preamble"], "properties": { "preamble": {} } }
       ]
     }
   }

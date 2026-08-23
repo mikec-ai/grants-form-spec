@@ -46,12 +46,12 @@ function assertUnique(values, label, path) {
 
 function sectionDescription(section) {
   const parts = [];
-  if (section.note) parts.push(section.note);
   if (section.preamble) parts.push(section.preamble);
   if (section.text) parts.push(section.text);
   if (section.items) {
     parts.push(...section.items.map((item) => `${item.ordinal ?? item.label ?? ""}. ${item.text}`.replace(/^\. /, "")));
   }
+  if (section.note) parts.push(section.note);
   return parts.join("\n\n");
 }
 
