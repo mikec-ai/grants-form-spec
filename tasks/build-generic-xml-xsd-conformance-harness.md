@@ -2,13 +2,13 @@
 type: Task
 title: Build a generic XML/XSD conformance harness
 description: >-
-  Replace repeated producer XML rendering and exact-XSD helpers with one
-  profile-driven reference harness.
-superbee_updated_by: xml_conformance_agent
+  The reviewed generic XML/XSD conformance harness is merged, with mandatory
+  official-digest linkage and fail-closed contract handling.
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:53:10.170Z'
-superbee_progress_status: in_progress
+  at: '2026-08-23T21:54:52.143Z'
+superbee_progress_status: done
 priority: P0
 assignee: xml_conformance_agent
 ---
