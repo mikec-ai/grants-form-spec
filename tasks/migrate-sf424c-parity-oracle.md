@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:12:35.828Z'
+  at: '2026-08-23T21:13:50.503Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -34,7 +34,7 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 
 # Delivery receipt
 
-- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/53
+- Merged PR: https://github.com/mikec-ai/grants-form-spec/pull/53; squash merge `c508ec23e478ffe8892a00fb3c0862218fc0d2d9` contains the exact final SF-424C files from head `78f2e19689158615e2799db454294d167751fe38`.
 - Rebasing completed after PR #47 merged; final review-fixed frozen head: `78f2e19689158615e2799db454294d167751fe38` on `codex/sf424c-portable-parity`.
 - Producer preflight after review fixes: passed; 102 TypeScript tests and 136 Python tests passed, with one environment-dependent skip.
 - GitHub CI passed on the final review-fixed head in 1m21s; GitHub reports the PR clean and mergeable.
