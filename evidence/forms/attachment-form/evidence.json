@@ -35,6 +35,13 @@
       "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8"
     },
     {
+      "id": "universal-codes-xsd-2.0",
+      "type": "xsd",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
+      "nativeVersion": "2.0",
+      "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a"
+    },
+    {
       "id": "attachment-form-dat-540",
       "type": "dat",
       "uri": "https://apply07.grants.gov/apply/forms/sample/AttachmentForm_1_2-V1.2_F540.xls",

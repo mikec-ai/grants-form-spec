@@ -51,6 +51,16 @@ class AttachmentFormTests(unittest.TestCase):
             "e5d664667c014948b9cc6f35d3b0b61e26b3b9c247d42fbace3067588d013586",
         )
         self.assertEqual(
+            sources["universal-codes-xsd-2.0"],
+            {
+                "id": "universal-codes-xsd-2.0",
+                "type": "xsd",
+                "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
+                "nativeVersion": "2.0",
+                "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a",
+            },
+        )
+        self.assertEqual(
             sources["legacy-sgg-oracle-f843134"]["uri"],
             "https://github.com/HHS/simpler-grants-gov/blob/"
             "f84313418e237526adb90c5e57edef0b1bef0490/"
