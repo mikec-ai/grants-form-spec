@@ -289,6 +289,39 @@ class PromotionImporterTests(unittest.TestCase):
             item["kind"] == "behavior_semantics" for item in packet["reviewGates"]
         ))
 
+    def test_export_preserves_scalar_runtime_source_value_as_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo, _ = self._repo(Path(directory))
+            runtime_path = (
+                repo
+                / "artifacts/authoring/runtime-rule-ast-resolved-v1/forms/Example.json"
+            )
+            runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+            runtime["rules"][0].update({
+                "mechanism": "evaluation_order",
+                "execution_class": "evidence",
+                "source_value": "Example_1_0.Name",
+                "target": None,
+                "dependencies": [],
+            })
+            self._write(runtime_path, runtime)
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(
+                ["git", "-C", str(repo), "commit", "-qm", "scalar source evidence"],
+                check=True,
+            )
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+
+            packet = export_packet(repo, "Example", revision)
+
+        self.assertEqual(packet["runtimeRules"][0]["sourceValue"], "Example_1_0.Name")
+        self.assertEqual(packet["runtimeRules"][0]["provenance"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
