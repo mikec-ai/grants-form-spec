@@ -6,10 +6,10 @@ description: >-
   Normalize 50 likely semantic occurrences across SF-424 and the two R&R cover
   variants using accepted evidence.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: prepare_cover_clusters
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:02:43.957Z'
+  at: '2026-08-23T20:42:09.380Z'
 assignee: prepare_cover_clusters
 ---
 # Objective
@@ -42,3 +42,14 @@ Multi-Project Cover into evidence-backed canonical question composition.
 - Both R&R covers compose shared definitions for genuinely shared clusters instead of maintaining
   parallel local models.
 - Producer tests, XML goldens, and SGG oracle parity remain green.
+
+# Delivery receipt
+
+- Pull request: `mikec-ai/grants-form-spec#47`
+- Producer base: `bc1d60325e52fbffd782756ec40c9dba232fd978`
+- Verified head: `f78c96c4a5699ffe6ec1f08b86e09ab7d6b348b7`
+- Review state: cleanly mergeable and frozen for independent re-review
+- Verification: full preflight passed with 102 TypeScript tests, 111 Python tests (1 skipped),
+  158 blocks and 887 artifacts validated, 34 promotion records, and the honest `76/76/0`
+  unclassified-field ratchet.
+- Publication boundary: all 50 source-bound mappings remain proposed and unpublished.
