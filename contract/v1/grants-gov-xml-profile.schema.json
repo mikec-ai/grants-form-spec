@@ -139,7 +139,8 @@
         },
         "itemElement": { "$ref": "#/$defs/xmlName" },
         "itemNamespace": { "type": "string", "minLength": 1 },
-        "itemAttributes": { "$ref": "#/$defs/staticAttributes" }
+        "itemAttributes": { "$ref": "#/$defs/staticAttributes" },
+        "repeatElementPerItem": { "type": "boolean" }
       },
       "allOf": [
         {
@@ -156,6 +157,7 @@
                 { "properties": { "itemElement": true }, "required": ["itemElement"] },
                 { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
                 { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] },
+                { "properties": { "repeatElementPerItem": true }, "required": ["repeatElementPerItem"] },
                 { "properties": { "container": true }, "required": ["container"] }
               ]
             }
@@ -176,6 +178,13 @@
         },
         {
           "if": {
+            "properties": { "repeatElementPerItem": { "const": true } },
+            "required": ["repeatElementPerItem"]
+          },
+          "then": { "required": ["itemElement"] }
+        },
+        {
+          "if": {
             "properties": { "kind": { "enum": ["value", "attachment"] } },
             "required": ["kind"]
           },
@@ -188,7 +197,8 @@
                 { "properties": { "items": true }, "required": ["items"] },
                 { "properties": { "itemElement": true }, "required": ["itemElement"] },
                 { "properties": { "itemNamespace": true }, "required": ["itemNamespace"] },
-                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] }
+                { "properties": { "itemAttributes": true }, "required": ["itemAttributes"] },
+                { "properties": { "repeatElementPerItem": true }, "required": ["repeatElementPerItem"] }
               ]
             }
           }

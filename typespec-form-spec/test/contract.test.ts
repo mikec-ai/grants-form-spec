@@ -204,6 +204,22 @@ describe("artifact contract v1", () => {
       container: { element: "Container", namespace: "default" },
     };
     expect(validateGrantsGovXmlProfile(groupContainer)).toBe(false);
+
+    const leafRepeatMode = structuredClone(valid);
+    leafRepeatMode.mapping.fields.title.repeatElementPerItem = true;
+    expect(validateGrantsGovXmlProfile(leafRepeatMode)).toBe(false);
+
+    const repeatWithoutItemElement = structuredClone(valid);
+    repeatWithoutItemElement.mapping.fields.files.repeatElementPerItem = true;
+    expect(validateGrantsGovXmlProfile(repeatWithoutItemElement)).toBe(false);
+
+    const repeatedOuter = structuredClone(valid);
+    repeatedOuter.mapping.fields.files.itemElement = "FileItem";
+    repeatedOuter.mapping.fields.files.repeatElementPerItem = true;
+    expect(
+      validateGrantsGovXmlProfile(repeatedOuter),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
   });
 
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {

@@ -37,6 +37,12 @@ Profiles contain only data: root element and attributes, namespaces, a pinned XS
 digest, and the mapping. An array may additionally declare an imported item element,
 namespace, and fixed attributes. Consumers must not branch on a form id.
 
+When `itemElement` is present, the default wire shape is one `element` collection wrapper
+containing one `itemElement` for each array item. An array may set
+`repeatElementPerItem: true` when the XSD instead repeats `element` and gives each occurrence
+one `itemElement`. The distinction is explicit profile data; consumers must not infer it from
+element names, namespaces, or form identity.
+
 A mapping node may declare an absolute `source` JSON pointer. This is primarily used inside
 `group` nodes when the official XSD introduces structure that applicants never answer as an
 object. For example, R&R SF-424 asks for one applicant congressional district while its XML

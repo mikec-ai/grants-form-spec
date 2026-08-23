@@ -100,10 +100,22 @@ def _add_node(
         _add_fields(child, profile, node["fields"], source, root_response, attachments)
         return
     if kind == "array":
+        item_element = node.get("itemElement")
+        repeat_outer = not item_element or node.get("repeatElementPerItem", False)
+        collection = None
+        if not repeat_outer:
+            collection = ET.SubElement(
+                parent, _qname(profile, node.get("namespace"), node["element"])
+            )
         for item in value:
-            outer = ET.SubElement(parent, _qname(profile, node.get("namespace"), node["element"]))
+            outer = (
+                ET.SubElement(parent, _qname(profile, node.get("namespace"), node["element"]))
+                if repeat_outer
+                else collection
+            )
+            assert outer is not None
             item_parent = outer
-            if item_element := node.get("itemElement"):
+            if item_element:
                 item_parent = ET.SubElement(
                     outer, _qname(profile, node.get("itemNamespace"), item_element)
                 )
@@ -390,6 +402,37 @@ class RRKeyPersonExpandedXmlTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Province", result.stderr)
+
+    def test_array_with_item_element_defaults_to_one_collection_wrapper(self) -> None:
+        profile = {"namespaces": {"default": "urn:example"}}
+        node = {
+            "element": "Items",
+            "kind": "array",
+            "itemElement": "Item",
+            "itemNamespace": "default",
+            "items": {
+                "fields": {
+                    "name": {"element": "Name", "kind": "value", "namespace": "default"}
+                }
+            },
+        }
+        root = ET.Element("root")
+
+        _add_node(
+            root,
+            profile,
+            node,
+            [{"name": "first"}, {"name": "second"}],
+            {},
+            {},
+        )
+
+        self.assertEqual([child.tag for child in root], ["{urn:example}Items"])
+        self.assertEqual(
+            [child.tag for child in root[0]],
+            ["{urn:example}Item", "{urn:example}Item"],
+        )
+        self.assertEqual([item[0].text for item in root[0]], ["first", "second"])
 
 
 if __name__ == "__main__":
