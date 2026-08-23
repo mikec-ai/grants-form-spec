@@ -41,6 +41,7 @@
         "kind": "array",
         "itemElement": "Profile",
         "itemNamespace": "default",
+        "repeatElementPerItem": true,
         "items": {
           "fields": { "$ref": "../mappings/research-person-profile-4.0.json#/fields" }
         }
