@@ -5,12 +5,12 @@ priority: P1
 description: >-
   Normalize 50 likely semantic occurrences across SF-424 and the two R&R cover
   variants using accepted evidence.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:12:56.600Z'
-assignee: codex
+  at: '2026-08-23T19:02:43.957Z'
+assignee: prepare_cover_clusters
 ---
 # Objective
 
