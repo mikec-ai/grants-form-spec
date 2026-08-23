@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T19:32:12.501Z'
+  at: '2026-08-23T20:26:49.771Z'
 assignee: codex
 ---
 # Goal
@@ -67,6 +67,12 @@ modify HHS upstream.
 - Focused ESLint, Next type generation, TypeScript, the five-test Section A Jest suite, and
   Playwright discovery pass locally. The authenticated browser scenarios remain environment-run
   evidence because this workspace has no configured application session.
+- Merged fork PR [mikec-ai/simpler-grants-gov#44](https://github.com/mikec-ai/simpler-grants-gov/pull/44),
+  commit `f0a0aabd3308b4d0bddd1bae5ce881ea8e17309b`, corrects the DB lifecycle test fixture by
+  supplying nonempty direct-charge explanation, indirect-charge explanation, and remarks values.
+  The schema and validation remain strict, and the C-F = 10 / G = 100 intent is unchanged. The
+  focused DB lifecycle and SF-424A parity suites pass all seven tests against localhost PostgreSQL;
+  Ruff, isort, and Black pass.
 - Human accessibility and guidance acceptance, semantic and policy decisions, instruction-asset
   and identifier acceptance, operational submission evidence, and production registration remain
   open gates. Technical automation does not resolve or approve them.
