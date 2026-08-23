@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Replace legacy SF-424B with a portable versioned assurance-policy bundle and
   differential SGG parity.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:42.231Z'
+  at: '2026-08-23T19:52:13.094Z'
+assignee: sf424b_family_agent
 ---
 # Goal
 

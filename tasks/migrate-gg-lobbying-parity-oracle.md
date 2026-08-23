@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Replace the legacy Grants.gov Lobbying Form while reusing reviewed identity
   and attestation primitives without conflating it with SF-LLL.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:42.558Z'
+  at: '2026-08-23T19:52:12.751Z'
+assignee: gg_lobbying_agent
 ---
 # Goal
 

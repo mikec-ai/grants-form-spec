@@ -188,3 +188,9 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/close-sf424a-release-gates.md)
 
 [contains](../tasks/close-rr-budget-family-release-gates.md)
+
+[contains](../tasks/migrate-sf424b-profile-family.md)
+
+[contains](../tasks/migrate-sf424d-assurance-family.md)
+
+[contains](../tasks/migrate-cd511-parity-oracle.md)
