@@ -24,6 +24,18 @@ JSON array of assurance text has SHA-256
 assurances belong in one separately versioned policy bundle; they are not ordinary question-bank
 questions and do not appear in the XML payload.
 
+The per-profile normalized arrays and exact DAT provenance are preserved in
+`research/sf424d-family/profile-policy-extract-v1.1.json`. Tests recompute each profile hash from
+those source-bound extracts and compare the arrays; the audit no longer relies on a declared
+equality boolean. The result is deterministic equality evidence, not human policy approval.
+
+Every active DAT also contains a `View Burden Statement` interaction. Its source text reports a
+30-minute estimate under OMB 4040-0009, while the printed fields 00-3/00-4 report 15 minutes and
+cite OMB project 0348-0042. Both source facts are preserved. Which statement should be presented,
+and whether the interaction remains separate, is explicitly unresolved pending policy-owner
+review. The current policy projection continues to reproduce the printed statement and makes no
+release claim.
+
 The response surface is also shared: platform signature, representative title, applicant
 organization name, and platform submission date. The DAT workbooks mark all four required. The
 signature and date are generated at submission. The official instructions establish that title and
@@ -46,4 +58,6 @@ semantics.
 The prior research repository is pinned at
 `4312f6504b060e2b9ffdbd2307fc41130c3123a0`. Its cached DAT files match fresh downloads from the
 official URLs byte for byte. The policy text in the staged JSON was independently checked against
-the official read-only PDFs and current Form Items Description data.
+the official read-only PDFs and current Form Items Description data. All three active DAT source
+hashes, normalized assurance arrays, and normalized burden-interaction text are recorded in the
+profile extract.

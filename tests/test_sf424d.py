@@ -166,6 +166,7 @@ class Sf424dFamilyTests(unittest.TestCase):
             gates = {gate["id"]: gate["status"] for gate in binding["release"]["gates"]}
             self.assertEqual(gates["official-source-provenance"], "passed")
             self.assertEqual(gates["cross-profile-policy-equivalence"], "passed")
+            self.assertEqual(gates["burden-statement-policy-review"], "pending")
             self.assertEqual(gates["semantic-review"], "pending")
             self.assertEqual(gates["accessibility-review"], "pending")
             self.assertEqual(gates["consumer-lifecycle-review"], "pending")

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -33,6 +34,10 @@ def sha256(path: Path) -> str:
 
 def canonical_json(value: object) -> bytes:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode()
+
+
+def normalize_source_text(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
 
 
 def xsd_type(path: Path, name: str) -> ET.Element:
@@ -81,7 +86,85 @@ class Sf424dFamilyAuditTests(unittest.TestCase):
             hashlib.sha256(canonical_json(texts)).hexdigest(),
             audit["sharedPolicy"]["canonicalTextArraySha256"],
         )
-        self.assertTrue(audit["sharedPolicy"]["identicalAcrossProfiles"])
+
+    def test_policy_equivalence_is_derived_for_each_pinned_profile(self) -> None:
+        audit = load(AUDIT_ROOT / "official-source-audit.json")
+        extract = load(AUDIT_ROOT / audit["sharedPolicy"]["profileExtractArtifact"])
+        research = load(AUDIT_ROOT / audit["sharedPolicy"]["artifact"])
+        profiles = {profile["id"]: profile for profile in audit["profiles"]}
+        expected = [item["text"] for item in research["items"]]
+        derived: dict[str, list[str]] = {}
+
+        self.assertEqual(extract["status"], "source-bound-unreviewed")
+        self.assertEqual(
+            extract["assuranceFieldOrder"],
+            [item["fieldId"] for item in extract["profiles"][0]["assuranceItems"]],
+        )
+        for profile in extract["profiles"]:
+            form_id = profile["formId"]
+            source = profile["source"]
+            self.assertEqual(profile["formVersion"], profiles[form_id]["formVersion"])
+            self.assertEqual(source["uri"], profiles[form_id]["artifacts"]["dat"]["uri"])
+            self.assertEqual(
+                source["sha256"], profiles[form_id]["artifacts"]["dat"]["sha256"]
+            )
+            texts = [
+                normalize_source_text(item["text"])
+                for item in profile["assuranceItems"]
+            ]
+            digest = hashlib.sha256(canonical_json(texts)).hexdigest()
+            self.assertEqual(digest, profile["normalizedTextArraySha256"])
+            self.assertEqual(
+                digest,
+                audit["sharedPolicy"]["perProfileNormalizedTextArraySha256"][form_id],
+            )
+            self.assertEqual(texts, expected)
+            derived[form_id] = texts
+
+        self.assertEqual(
+            audit["sharedPolicy"]["equivalenceStatus"],
+            "deterministic-match-unreviewed",
+        )
+        self.assertEqual(len({tuple(items) for items in derived.values()}), 1)
+
+    def test_current_burden_interaction_is_preserved_but_not_silently_resolved(self) -> None:
+        audit = load(AUDIT_ROOT / "official-source-audit.json")
+        extract = load(AUDIT_ROOT / audit["burdenInteraction"]["profileExtractArtifact"])
+        profiles = {profile["id"]: profile for profile in audit["profiles"]}
+        texts = []
+
+        for profile in extract["profiles"]:
+            form_id = profile["formId"]
+            burden = profile["burdenInteraction"]
+            text = normalize_source_text(burden["text"])
+            self.assertEqual(burden["label"], "View Burden Statement")
+            self.assertEqual(
+                hashlib.sha256(text.encode()).hexdigest(),
+                burden["normalizedTextSha256"],
+            )
+            self.assertEqual(
+                profile["source"]["sha256"],
+                profiles[form_id]["artifacts"]["dat"]["sha256"],
+            )
+            self.assertIn("4040-0009", text)
+            self.assertIn("30 minutes per response", text)
+            self.assertIn("U.S. Department of Health & Human Services", text)
+            texts.append(text)
+
+        self.assertEqual(len(set(texts)), 1)
+        self.assertEqual(
+            hashlib.sha256(texts[0].encode()).hexdigest(),
+            audit["burdenInteraction"]["normalizedTextSha256"],
+        )
+        self.assertEqual(
+            audit["burdenInteraction"]["presentationDisposition"],
+            "unresolved-pending-policy-owner-review",
+        )
+        printed = load(ROOT / "policies/construction-assurances-1.1.json")[
+            "sections"
+        ][0]["text"]
+        self.assertIn("15 minutes per response", printed)
+        self.assertNotEqual(printed, texts[0])
 
     def test_profile_ownership_differences_are_explicit(self) -> None:
         audit = load(AUDIT_ROOT / "official-source-audit.json")
