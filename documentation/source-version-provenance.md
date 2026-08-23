@@ -21,3 +21,18 @@ A `V` token in a DAT, PDF, instruction, or implementation filename is not enough
 source's native version; it may describe the containing form or another publication context. The
 importer emits null for those source types unless independent evidence supplies an exact native
 version. These checks concern source identity only; they do not accept or alter semantic mappings.
+
+## Known R&R SF-424B schema metadata defect
+
+The official `RRSF424_SF424B-V1.1.xsd` is retained byte-for-byte at SHA-256
+`511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296`. Its
+`xsd:schema/@version` value is `1.0`, while its official URL and filename, target namespace,
+fixed root `FormVersion`, and required `FormVersionIdentifier` all identify version `1.1`.
+
+This discrepancy is treated as an upstream schema-document metadata defect rather than a wire
+version conflict. The XML Schema specification defines the schema `version` attribute as a token
+for user convenience and assigns it no validation semantics. Generated R&R SF-424B XML uses the
+1.1 namespace and version values and validates against the exact pinned official XSD. The source
+bytes must not be edited to make the metadata internally consistent.
+
+Specification: <https://www.w3.org/TR/xmlschema-1/#declare-schema>
