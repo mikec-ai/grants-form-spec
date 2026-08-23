@@ -72,7 +72,14 @@ class PerformanceSiteTests(unittest.TestCase):
         self.assertEqual(len(details["allOf"]), 1)
 
         evidence = load(root / "evidence.json")
+        manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c",
+        )
 
 
 if __name__ == "__main__":

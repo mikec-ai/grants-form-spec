@@ -315,7 +315,10 @@ function* mappingNodes(fields) {
   for (const node of Object.values(fields ?? {})) {
     yield node;
     if (node.kind === "object" || node.kind === "group") yield* mappingNodes(node.fields);
-    if (node.kind === "array") yield* mappingNodes(node.items?.fields);
+    if (node.kind === "array") {
+      if (node.items?.fields) yield* mappingNodes(node.items.fields);
+      if (node.items?.node) yield node.items.node;
+    }
   }
 }
 
@@ -484,15 +487,27 @@ async function validateMappingCoverage(
       if (!items) {
         throw new ArtifactError(`XML array mapping has no schema items at ${childPath}`, profilePath);
       }
-      await validateMappingCoverage(
-        node.items.fields,
-        items,
-        dist,
-        cache,
-        profilePath,
-        `${childPath}[*]`,
-        rootSchemaState,
-      );
+      if (node.items.fields) {
+        await validateMappingCoverage(
+          node.items.fields,
+          items,
+          dist,
+          cache,
+          profilePath,
+          `${childPath}[*]`,
+          rootSchemaState,
+        );
+      } else if (node.items.node.kind === "object") {
+        await validateMappingCoverage(
+          node.items.node.fields,
+          items,
+          dist,
+          cache,
+          profilePath,
+          `${childPath}[*]`,
+          rootSchemaState,
+        );
+      }
     }
   }
 }

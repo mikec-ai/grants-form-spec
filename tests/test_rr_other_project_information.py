@@ -82,7 +82,14 @@ class RROtherProjectInformationTests(unittest.TestCase):
         )
 
         evidence = load(root / "evidence.json")
+        manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "b2144c290ed5ad6d942e70815d195d7d6aa4e8e6c82fc3932d8540e3aa303ef5",
+        )
 
 
 if __name__ == "__main__":

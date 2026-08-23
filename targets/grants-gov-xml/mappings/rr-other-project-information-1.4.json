@@ -1,0 +1,95 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "rr-other-project-information-1.4",
+  "fields": {
+    "humanSubjects": {
+      "element": "HumanSubjects", "kind": "group", "flatten": true,
+      "fields": {
+        "involvesHumanSubjects": { "element": "HumanSubjectsIndicator", "kind": "value", "source": "/humanSubjects/involvesHumanSubjects" },
+        "humanSubjectsSupplement": {
+          "element": "HumanSubjectsSupplement", "kind": "group",
+          "fields": {
+            "exemptFromFederalRegulations": { "element": "ExemptFedReg", "kind": "value", "source": "/humanSubjects/exemptFromFederalRegulations" },
+            "exemptions": { "element": "ExemptionNumbers", "kind": "array", "source": "/humanSubjects/exemptions", "items": { "node": { "element": "ExemptionNumber", "kind": "value" } } },
+            "irbReviewPending": { "element": "HumanSubjectIRBReviewIndicator", "kind": "value", "source": "/humanSubjects/irbReviewPending" },
+            "irbApprovalDate": { "element": "HumanSubjectIRBReviewDate", "kind": "value", "source": "/humanSubjects/irbApprovalDate" },
+            "assuranceNumber": { "element": "HumanSubjectAssuranceNumber", "kind": "value", "source": "/humanSubjects/assuranceNumber" }
+          }
+        }
+      }
+    },
+    "vertebrateAnimals": {
+      "element": "VertebrateAnimals", "kind": "group", "flatten": true,
+      "fields": {
+        "involvesVertebrateAnimals": { "element": "VertebrateAnimalsIndicator", "kind": "value", "source": "/vertebrateAnimals/involvesVertebrateAnimals" },
+        "vertebrateAnimalsSupplement": {
+          "element": "VertebrateAnimalsSupplement", "kind": "group",
+          "fields": {
+            "iacucReviewPending": { "element": "VertebrateAnimalsIACUCReviewIndicator", "kind": "value", "source": "/vertebrateAnimals/iacucReviewPending" },
+            "iacucApprovalDate": { "element": "VertebrateAnimalsIACUCApprovalDateReviewDate", "kind": "value", "source": "/vertebrateAnimals/iacucApprovalDate" },
+            "assuranceNumber": { "element": "AssuranceNumber", "kind": "value", "source": "/vertebrateAnimals/assuranceNumber" }
+          }
+        }
+      }
+    },
+    "proprietaryInformation": {
+      "element": "ProprietaryInformation", "kind": "group", "flatten": true,
+      "fields": {
+        "includesProprietaryInformation": { "element": "ProprietaryInformationIndicator", "kind": "value", "source": "/proprietaryInformation/includesProprietaryInformation" }
+      }
+    },
+    "environmentalImpact": {
+      "element": "EnvironmentalImpact", "kind": "object",
+      "fields": {
+        "hasEnvironmentalImpact": { "element": "EnvironmentalImpactIndicator", "kind": "value" },
+        "environmentalImpactExplanation": { "element": "EnvironmentalImpactExplanation", "kind": "value" },
+        "environmentalExemption": {
+          "element": "EnvironmentalExemption", "kind": "group",
+          "fields": {
+            "hasEnvironmentalExemptionOrAssessment": { "element": "EnvironmentalExemptionIndicator", "kind": "value", "source": "/environmentalImpact/hasEnvironmentalExemptionOrAssessment" },
+            "environmentalExemptionOrAssessmentExplanation": { "element": "EnvironmentalExemptionExplanation", "kind": "value", "source": "/environmentalImpact/environmentalExemptionOrAssessmentExplanation" }
+          }
+        }
+      }
+    },
+    "historicPlaces": {
+      "element": "HistoricPlaces", "kind": "group", "flatten": true,
+      "fields": {
+        "hasHistoricDesignation": { "element": "HistoricDesignation", "kind": "value", "source": "/historicPlaces/hasHistoricDesignation" },
+        "explanation": { "element": "HistoricDesignationExplanation", "kind": "value", "source": "/historicPlaces/explanation" }
+      }
+    },
+    "internationalActivities": {
+      "element": "InternationalActivities", "kind": "object",
+      "fields": {
+        "involvesInternationalActivities": { "element": "InternationalActivitiesIndicator", "kind": "value" },
+        "countries": { "element": "ActivitiesPartnershipsCountries", "kind": "value" },
+        "explanation": { "element": "InternationalActivitiesExplanation", "kind": "value" }
+      }
+    },
+    "projectSummaryAbstract": {
+      "element": "AbstractAttachments", "kind": "group",
+      "fields": { "abstractAttachment": { "element": "AbstractAttachment", "kind": "attachment", "source": "/projectSummaryAbstract" } }
+    },
+    "projectNarrative": {
+      "element": "ProjectNarrativeAttachments", "kind": "group",
+      "fields": { "projectNarrativeAttachment": { "element": "ProjectNarrativeAttachment", "kind": "attachment", "source": "/projectNarrative" } }
+    },
+    "bibliographyReferences": {
+      "element": "BibliographyAttachments", "kind": "group",
+      "fields": { "bibliographyAttachment": { "element": "BibliographyAttachment", "kind": "attachment", "source": "/bibliographyReferences" } }
+    },
+    "facilitiesResources": {
+      "element": "FacilitiesAttachments", "kind": "group",
+      "fields": { "facilitiesAttachment": { "element": "FacilitiesAttachment", "kind": "attachment", "source": "/facilitiesResources" } }
+    },
+    "equipment": {
+      "element": "EquipmentAttachments", "kind": "group",
+      "fields": { "equipmentAttachment": { "element": "EquipmentAttachment", "kind": "attachment", "source": "/equipment" } }
+    },
+    "otherAttachments": {
+      "element": "OtherAttachments", "kind": "array",
+      "items": { "node": { "element": "OtherAttachment", "kind": "attachment" } }
+    }
+  }
+}

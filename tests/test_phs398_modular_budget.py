@@ -97,8 +97,13 @@ class PHS398ModularBudgetTests(unittest.TestCase):
 
         evidence = load(root / "evidence.json")
         manifest = load(root / "manifest.json")
+        profile = load(root / "targets/grants-gov-xml.json")
         self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
-        self.assertNotIn("targets/grants-gov-xml.json", manifest["artifacts"])
+        self.assertEqual(manifest["artifacts"]["targets/grants-gov-xml.json"], "generated")
+        self.assertEqual(
+            profile["xsd"]["sha256"],
+            "f166abebd40e6912861dca5c5c4a83c7a82779f1ae67a2c0fa8b4aafc25d5bff",
+        )
 
 
 if __name__ == "__main__":

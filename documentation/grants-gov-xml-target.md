@@ -26,6 +26,13 @@ The source mapping vocabulary contains five node kinds:
 - `attachment`: a consumer resolves an attachment reference into the standard Grants.gov
   attachment wire structure.
 
+Wire structure is also data. Groups may nest to declare XSD-only parent elements without
+forcing those containers into the canonical response model. A flattened group collects
+explicitly sourced values but emits no wrapper of its own, which lets one canonical object
+produce ordered sibling elements. Arrays may map either object fields or one scalar/attachment
+`node`. These generic composition features cover nested supplements, shared justification
+containers, and repeated scalar or attachment elements without form-specific adapter code.
+
 Profiles contain only data: root element and attributes, namespaces, a pinned XSD URI and
 digest, and the mapping. An array may additionally declare an imported item element,
 namespace, and fixed attributes. Consumers must not branch on a form id.
