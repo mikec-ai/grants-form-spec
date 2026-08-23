@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Replace legacy SF-424C with portable construction-budget composition,
   calculations, and differential XML/lifecycle parity.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: sf424c_parity
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T15:53:42.888Z'
+  at: '2026-08-23T20:30:54.120Z'
+assignee: sf424c_parity
 ---
 # Goal
 
