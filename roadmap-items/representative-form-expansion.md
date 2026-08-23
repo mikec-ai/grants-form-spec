@@ -10,7 +10,6 @@ description: >-
   concurrently merged XML-profile work now projects five budget families.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
 ---
 # Strategy
 
@@ -92,3 +91,7 @@ This ranking is directional. Portfolio mappings remain proposals unless reviewed
 [contains](../tasks/harvest-performance-site.md)
 
 [contains](../tasks/grants-form-data-driven-registration.md)
+
+[contains](../tasks/harvest-rr-other-project-information.md)
+
+[contains](../tasks/harvest-phs398-modular-budget.md)
