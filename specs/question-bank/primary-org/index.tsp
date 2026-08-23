@@ -19,6 +19,9 @@ scalar LegalName extends OrganizationName;
 @Catalog.entity(EntityName.primaryOrg)
 @Catalog.tag(TagName.address)
 @UI.label("Address")
+@Validation.requiredPaths("street1", "city", "country")
+@Validation.requiredPathWhen("state", "country", CountryCode.USA)
+@Validation.requiredPathWhen("zipCode", "country", CountryCode.USA)
 model QuestionPrimaryOrgAddress extends QuestionAddress {}
 
 /** UEI of the applicant organization. */

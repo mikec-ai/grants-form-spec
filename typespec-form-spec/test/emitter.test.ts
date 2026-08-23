@@ -498,6 +498,12 @@ describe("SGG UI emission", () => {
   });
 
   it("projects inherited enabled and read-only behavior for optional multi-project groups", async () => {
+    const schema = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/rr-sf424-multi-project-cover/schema.json"),
+        "utf8",
+      ),
+    );
     const ui = JSON.parse(
       await readFile(
         resolve(packageRoot, "dist/forms/rr-sf424-multi-project-cover/sgg/ui-schema.json"),
@@ -505,6 +511,38 @@ describe("SGG UI emission", () => {
       ),
     );
     const fields = ui.flatMap((section: any) => section.children);
+
+    expect(schema.properties.applicantInfo).toMatchObject({
+      $ref: "#/$defs/MultiProjectApplicant",
+    });
+    expect(schema.properties.principalInvestigator).toMatchObject({
+      $ref: "#/$defs/MultiProjectPrincipalInvestigator",
+    });
+    expect(schema.properties.authorizedRepresentative).toMatchObject({
+      $ref: "#/$defs/MultiProjectAuthorizedRepresentative",
+    });
+    expect(schema.properties.applicantInfo).not.toHaveProperty("required");
+    expect(schema.$defs.MultiProjectApplicant.allOf).toEqual([
+      { $ref: "../../question-bank/research-application/applicant/schema.json" },
+    ]);
+    expect(schema.$defs.MultiProjectPrincipalInvestigator.allOf).toEqual([
+      { $ref: "../../question-bank/research-application/principal-investigator/schema.json" },
+    ]);
+    expect(schema.$defs.MultiProjectAuthorizedRepresentative.allOf).toEqual([
+      { $ref: "../../question-bank/research-application/authorized-representative/schema.json" },
+    ]);
+
+    const standalone = JSON.parse(
+      await readFile(resolve(packageRoot, "dist/forms/rr-sf424/schema.json"), "utf8"),
+    );
+    expect(standalone.properties.applicantInfo).toMatchObject({
+      $ref: "../../question-bank/research-application/applicant/schema.json",
+      required: ["organizationInfo", "contactPersonInfo"],
+      properties: {
+        organizationInfo: { required: ["organizationName", "address", "samUei"] },
+        contactPersonInfo: { required: ["name", "address", "phone", "email"] },
+      },
+    });
 
     expect(
       fields.find((field: any) =>

@@ -31,6 +31,9 @@ model QuestionProjectSiteDetails {
   samUei?: SamUei;
 
   @UI.label("Address")
+  @Validation.requiredPaths("street1", "city", "country")
+  @Validation.requiredPathWhen("state", "country", CountryCode.USA)
+  @Validation.requiredPathWhen("zipCode", "country", CountryCode.USA)
   address: QuestionAddress;
 
   @UI.label("Project / Performance Site Congressional District")

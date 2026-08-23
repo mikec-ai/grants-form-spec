@@ -212,6 +212,7 @@ model SF424 {
   /** Enter information about the contact person. */
   @UI.label("Contact Person")
   @UI.section(Sf424Section.contactPerson)
+  @Validation.requiredPaths("firstName", "lastName")
   contactPerson: QuestionPersonName;
 
   /** Enter the position title. */

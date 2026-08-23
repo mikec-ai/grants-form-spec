@@ -27,75 +27,10 @@ scalar MultiProjectSignature extends string;
 
 // Version 4.0 has the same 139-node XSD inventory as the standalone R&R cover except
 // for its root and Grants.gov tracking field names. Its material form delta is that the
-// application, person, organization, and address values are optional. These local shapes
-// express that source-specific cardinality without weakening the reusable questions used
-// by the standalone form.
-model MultiProjectOptionalPersonName {
-  @UI.label("Prefix")
-  @minLength(1)
-  @maxLength(10)
-  prefix?: string;
-
-  @UI.label("First Name")
-  @minLength(1)
-  @maxLength(35)
-  firstName?: string;
-
-  @UI.label("Middle Name")
-  @minLength(1)
-  @maxLength(25)
-  middleName?: string;
-
-  @UI.label("Last Name")
-  @minLength(1)
-  @maxLength(60)
-  lastName?: string;
-
-  @UI.label("Suffix")
-  @minLength(1)
-  @maxLength(10)
-  suffix?: string;
-}
-
-model MultiProjectOptionalAddress {
-  @UI.label("Street 1")
-  @minLength(1)
-  @maxLength(55)
-  street1?: string;
-
-  @UI.label("Street 2")
-  @minLength(1)
-  @maxLength(55)
-  street2?: string;
-
-  @UI.label("City")
-  @minLength(1)
-  @maxLength(35)
-  city?: string;
-
-  @UI.label("County/Parish")
-  @minLength(1)
-  @maxLength(30)
-  county?: string;
-
-  @UI.label("State")
-  state?: StateCode;
-
-  @UI.label("Province")
-  @minLength(1)
-  @maxLength(30)
-  province?: string;
-
-  @UI.label("Country")
-  country?: CountryCode;
-
-  @UI.label("Zip / Postal Code")
-  @minLength(1)
-  @maxLength(30)
-  zipCode?: string;
-}
-
-model MultiProjectCountryControlledAddress extends MultiProjectOptionalAddress {
+// application, person, organization, and address values are optional. The shared semantic
+// blocks carry that least-restrictive cardinality; the standalone form narrows its own
+// occurrences with `@Validation.requiredPaths`.
+model MultiProjectCountryControlledAddress extends QuestionAddress {
   @UI.label("State")
   @UI.enabledWhen(MultiProjectCountryControlledAddress.country, CountryCode.USA)
   state?: StateCode;
@@ -107,7 +42,7 @@ model MultiProjectCountryControlledAddress extends MultiProjectOptionalAddress {
   province?: string;
 }
 
-model MultiProjectProvinceControlledAddress extends MultiProjectOptionalAddress {
+model MultiProjectProvinceControlledAddress extends QuestionAddress {
   @UI.label("Province")
   @minLength(1)
   @maxLength(30)
@@ -115,124 +50,25 @@ model MultiProjectProvinceControlledAddress extends MultiProjectOptionalAddress 
   province?: string;
 }
 
-model MultiProjectApplicantOrganization {
-  @UI.label("Organization Name")
-  organizationName?: LegalName;
-
-  @UI.label("Address")
+model MultiProjectApplicantOrganization extends ResearchApplicantOrganization {
   address?: MultiProjectCountryControlledAddress;
-
-  @UI.label("Department")
-  @minLength(1)
-  @maxLength(100)
-  department?: string;
-
-  @UI.label("Division")
-  @minLength(1)
-  @maxLength(100)
-  division?: string;
-
-  @UI.label("SAM UEI")
-  samUei?: SamUei;
-
-  @UI.omit
-  @minLength(9)
-  @maxLength(30)
-  employerId?: string;
 }
 
-model MultiProjectApplicationContact {
-  @UI.label("Name")
-  name?: MultiProjectOptionalPersonName;
-
-  @UI.label("Address")
+model MultiProjectApplicationContact extends ResearchApplicationContact {
   address?: MultiProjectCountryControlledAddress;
-
-  @UI.label("Title")
-  title?: ContactTitle;
-
-  @UI.label("Telephone Number")
-  phone?: PhoneNumber;
-
-  @UI.label("Fax Number")
-  fax?: PhoneNumber;
-
-  @UI.label("Email")
-  email?: EmailAddress;
 }
 
-model MultiProjectApplicant {
-  @UI.label("Organization Information")
+model MultiProjectApplicant extends QuestionResearchApplicant {
   organizationInfo?: MultiProjectApplicantOrganization;
-
-  @UI.label("Contact Person Information")
   contactPersonInfo?: MultiProjectApplicationContact;
 }
 
-model MultiProjectPrincipalInvestigator {
-  @UI.label("Name")
-  name?: MultiProjectOptionalPersonName;
-
-  @UI.label("Position / Title")
-  title?: ContactTitle;
-
-  @UI.label("Organization Name")
-  organizationName?: OrganizationName;
-
-  @UI.label("Department")
-  @minLength(1)
-  @maxLength(100)
-  department?: string;
-
-  @UI.label("Division")
-  @minLength(1)
-  @maxLength(100)
-  division?: string;
-
-  @UI.label("Address")
+model MultiProjectPrincipalInvestigator extends QuestionPrincipalInvestigator {
   address?: MultiProjectProvinceControlledAddress;
-
-  @UI.label("Telephone Number")
-  phone?: PhoneNumber;
-
-  @UI.label("Fax Number")
-  fax?: PhoneNumber;
-
-  @UI.label("Email")
-  email?: EmailAddress;
 }
 
-model MultiProjectAuthorizedRepresentative {
-  @UI.label("Name")
-  name?: MultiProjectOptionalPersonName;
-
-  @UI.label("Position / Title")
-  title?: AorTitle;
-
-  @UI.label("Organization Name")
-  organizationName?: OrganizationName;
-
-  @UI.label("Department")
-  @minLength(1)
-  @maxLength(100)
-  department?: string;
-
-  @UI.label("Division")
-  @minLength(1)
-  @maxLength(100)
-  division?: string;
-
-  @UI.label("Address")
+model MultiProjectAuthorizedRepresentative extends QuestionResearchAuthorizedRepresentative {
   address?: MultiProjectCountryControlledAddress;
-
-  @UI.label("Telephone Number")
-  phone?: AorPhone;
-
-  @UI.label("Fax Number")
-  fax?: AorFax;
-
-  @UI.label("Email")
-  email?: AorEmail;
 }
 
 model MultiProjectApplicationType {

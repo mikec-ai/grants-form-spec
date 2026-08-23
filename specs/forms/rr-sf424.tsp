@@ -268,6 +268,40 @@ model RRSF424 {
 
   @UI.label("Applicant Information")
   @UI.section(RRSF424Section.applicantInformation)
+  @Validation.requiredPaths(
+    "organizationInfo.organizationName",
+    "organizationInfo.address.street1",
+    "organizationInfo.address.city",
+    "organizationInfo.address.country",
+    "organizationInfo.samUei",
+    "contactPersonInfo.name.firstName",
+    "contactPersonInfo.name.lastName",
+    "contactPersonInfo.address.street1",
+    "contactPersonInfo.address.city",
+    "contactPersonInfo.address.country",
+    "contactPersonInfo.phone",
+    "contactPersonInfo.email"
+  )
+  @Validation.requiredPathWhen(
+    "organizationInfo.address.state",
+    "organizationInfo.address.country",
+    CountryCode.USA
+  )
+  @Validation.requiredPathWhen(
+    "organizationInfo.address.zipCode",
+    "organizationInfo.address.country",
+    CountryCode.USA
+  )
+  @Validation.requiredPathWhen(
+    "contactPersonInfo.address.state",
+    "contactPersonInfo.address.country",
+    CountryCode.USA
+  )
+  @Validation.requiredPathWhen(
+    "contactPersonInfo.address.zipCode",
+    "contactPersonInfo.address.country",
+    CountryCode.USA
+  )
   applicantInfo: QuestionResearchApplicant;
 
   @UI.label("Employer Identification Number")
@@ -313,6 +347,18 @@ model RRSF424 {
 
   @UI.label("Project Director / Principal Investigator")
   @UI.section(RRSF424Section.principalInvestigator)
+  @Validation.requiredPaths(
+    "name.firstName",
+    "name.lastName",
+    "organizationName",
+    "address.street1",
+    "address.city",
+    "address.country",
+    "phone",
+    "email"
+  )
+  @Validation.requiredPathWhen("address.state", "address.country", CountryCode.USA)
+  @Validation.requiredPathWhen("address.zipCode", "address.country", CountryCode.USA)
   principalInvestigator: QuestionPrincipalInvestigator;
 
   @UI.label("Estimated Project Funding")
@@ -334,6 +380,19 @@ model RRSF424 {
 
   @UI.label("Authorized Representative")
   @UI.section(RRSF424Section.authorizedRepresentative)
+  @Validation.requiredPaths(
+    "name.firstName",
+    "name.lastName",
+    "title",
+    "organizationName",
+    "address.street1",
+    "address.city",
+    "address.country",
+    "phone",
+    "email"
+  )
+  @Validation.requiredPathWhen("address.state", "address.country", CountryCode.USA)
+  @Validation.requiredPathWhen("address.zipCode", "address.country", CountryCode.USA)
   authorizedRepresentative: QuestionResearchAuthorizedRepresentative;
 
   @UI.label("Signature of Authorized Representative")

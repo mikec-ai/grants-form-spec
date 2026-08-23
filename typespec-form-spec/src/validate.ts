@@ -3,7 +3,7 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, childBlock, modelMultiFields, orderedProps, propComputed,
+  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, modelMultiFields, orderedProps, propComputed,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
@@ -40,8 +40,99 @@ export function $onValidate(program: Program): void {
   }
 
   checkDateOrders(program);
+  checkCardinalityPaths(program);
   checkCalculationCycles(program, blocks);
   checkComputedPaths(program, blocks);
+}
+
+function checkCardinalityPaths(program: Program): void {
+  const visit = (namespace: Namespace): void => {
+    for (const model of namespace.models.values()) {
+      checkCardinalityTarget(program, model, model);
+      for (const property of model.properties.values()) {
+        const root = objectBehind(program, property);
+        if (!root) {
+          for (const path of [
+            ...cardinalityRequiredPaths(program, property),
+            ...cardinalityRequiredWhen(program, property).flatMap((entry) => [entry.targetPath, entry.sourcePath]),
+          ]) {
+            reportDiagnostic(program, {
+              code: "cardinality-path-unresolved",
+              target: property,
+              format: { path, model: property.name, reason: "the decorated value is not an object" },
+            });
+          }
+          continue;
+        }
+        checkCardinalityTarget(program, property, root);
+      }
+    }
+    for (const child of namespace.namespaces.values()) visit(child);
+  };
+  visit(program.getGlobalNamespaceType());
+}
+
+function checkCardinalityTarget(
+  program: Program,
+  target: Model | ModelProperty,
+  root: Model,
+): void {
+  const modelName = root.name || (target.kind === "ModelProperty" ? target.name : "the model");
+  for (const path of cardinalityRequiredPaths(program, target)) {
+    reportCardinalityPath(program, target, root, modelName, path);
+  }
+  for (const entry of cardinalityRequiredWhen(program, target)) {
+    reportCardinalityPath(program, target, root, modelName, entry.targetPath);
+    const source = resolvedProperty(root, entry.sourcePath.split("."));
+    if (!source) {
+      reportCardinalityPath(program, target, root, modelName, entry.sourcePath);
+      continue;
+    }
+    const enumeration = enumOf(source.type);
+    if (!enumeration) continue;
+    const members = [...enumeration.members.values()].map((member) => member.value ?? member.name);
+    if (!members.includes(entry.value as string | number)) {
+      reportDiagnostic(program, {
+        code: "condition-value-not-in-enum",
+        target,
+        format: {
+          value: String(entry.value),
+          enumName: enumeration.name,
+          members: members.slice(0, 6).join(", ") + (members.length > 6 ? ", ..." : ""),
+        },
+      });
+    }
+  }
+}
+
+function reportCardinalityPath(
+  program: Program,
+  target: Model | ModelProperty,
+  root: Model,
+  modelName: string,
+  path: string,
+): void {
+  const reason = resolvePath(program, root, path.split("."));
+  if (!reason) return;
+  reportDiagnostic(program, {
+    code: "cardinality-path-unresolved",
+    target,
+    format: { path, model: modelName, reason },
+  });
+}
+
+function resolvedProperty(model: Model, steps: string[]): ModelProperty | undefined {
+  let current: Model = model;
+  let property: ModelProperty | undefined;
+  for (const [index, step] of steps.entries()) {
+    property = allProperties(current).get(step);
+    if (!property) return undefined;
+    if (index === steps.length - 1) return property;
+    const next = property.type;
+    if (next.kind !== "Model" || next.indexer) return undefined;
+    current = next;
+  }
+  return property;
 }
 
 function checkDateOrders(program: Program): void {

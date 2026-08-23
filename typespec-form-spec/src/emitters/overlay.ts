@@ -1,6 +1,8 @@
 import type { Model, ModelProperty, Program, Type } from "@typespec/compiler";
 import {
   Block,
+  cardinalityRequiredPaths,
+  cardinalityRequiredWhen,
   orderedProps,
   propHelpText,
   propEncodedCheckboxGroup,
@@ -32,8 +34,9 @@ export function emitSchemaOverlay(
   const readOnly = readOnlyAnnotations(program, model);
   const helpText = helpTextAnnotations(program, model);
   const constraints = constraintAnnotations(program, model);
+  const cardinality = cardinalityAnnotations(program, model);
   const encodedCheckboxes = encodedCheckboxAnnotations(program, model);
-  const parts = [conditionals, patches, readOnly, helpText, constraints, encodedCheckboxes].filter(Boolean) as Record<string, unknown>[];
+  const parts = [conditionals, patches, readOnly, helpText, constraints, cardinality, encodedCheckboxes].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
 }
@@ -48,9 +51,73 @@ export function emitModelOverlay(
     readOnlyAnnotations(program, model),
     helpTextAnnotations(program, model),
     constraintAnnotations(program, model),
+    cardinalityAnnotations(program, model),
     encodedCheckboxAnnotations(program, model),
   ].filter(Boolean) as Record<string, unknown>[];
   return parts.length ? parts.reduce(merge, {}) : undefined;
+}
+
+/**
+ * Add occurrence-specific requiredness beside a reusable block's `$ref`.
+ *
+ * JSON Schema composition can add constraints but cannot subtract them. Reusable object
+ * blocks therefore carry their least-restrictive source-backed cardinality, and a form that
+ * requires more narrows that occurrence with this overlay.
+ */
+function cardinalityAnnotations(
+  program: Program,
+  model: Model,
+  seen = new Set<Model>(),
+): Record<string, unknown> | undefined {
+  if (seen.has(model)) return undefined;
+  seen.add(model);
+
+  let own: Record<string, unknown> = requiredPathPatch(cardinalityRequiredPaths(program, model));
+  own = merge(own, conditionalPathPatch(cardinalityRequiredWhen(program, model)));
+
+  const properties: Record<string, unknown> = {};
+  for (const property of model.properties.values()) {
+    let patch = requiredPathPatch(cardinalityRequiredPaths(program, property));
+    patch = merge(patch, conditionalPathPatch(cardinalityRequiredWhen(program, property)));
+    const child = childModel(property.type);
+    if (child) {
+      const nested = cardinalityAnnotations(program, child.model, new Set(seen));
+      if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
+    }
+    if (Object.keys(patch).length) properties[property.name] = patch;
+  }
+  if (Object.keys(properties).length) own = merge(own, { properties });
+  return Object.keys(own).length ? own : undefined;
+}
+
+function requiredPathPatch(paths: string[]): Record<string, unknown> {
+  let out: Record<string, unknown> = {};
+  for (const path of paths) {
+    const steps = path.split(".").filter(Boolean);
+    if (!steps.length) continue;
+    out = merge(out, requirePath(steps));
+  }
+  return out;
+}
+
+function conditionalPathPatch(
+  entries: { targetPath: string; sourcePath: string; value: string | number | boolean | null }[],
+): Record<string, unknown> {
+  if (!entries.length) return {};
+  return {
+    allOf: entries.map((entry) => ({
+      if: conditionSchema(entry.sourcePath.split(".").filter(Boolean), false, entry.value),
+      then: requirePath(entry.targetPath.split(".").filter(Boolean)),
+    })),
+  };
+}
+
+function requirePath([head, ...rest]: string[]): Record<string, unknown> {
+  if (!head) return {};
+  return {
+    required: [head],
+    ...(rest.length ? { properties: { [head]: requirePath(rest) } } : {}),
+  };
 }
 
 /** Carry the declarative choice-to-wire mapping beside the enum it governs. */
@@ -256,11 +323,13 @@ function merge(
   const out: Record<string, unknown> = { ...a };
   for (const [key, value] of Object.entries(b)) {
     const existing = out[key];
-    out[key] = key === "required" && Array.isArray(existing) && Array.isArray(value)
-      ? [...new Set([...existing, ...value])]
-      : isRecord(existing) && isRecord(value)
-        ? merge(existing, value)
-        : value;
+    if (key === "required" && Array.isArray(existing) && Array.isArray(value)) {
+      out[key] = [...new Set([...existing, ...value])];
+    } else if (key === "allOf" && Array.isArray(existing) && Array.isArray(value)) {
+      out[key] = [...existing, ...value];
+    } else {
+      out[key] = isRecord(existing) && isRecord(value) ? merge(existing, value) : value;
+    }
   }
   return out;
 }

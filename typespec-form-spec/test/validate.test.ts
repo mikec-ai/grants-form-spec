@@ -7,6 +7,42 @@ import { Tester, bank, form, formMeta } from "./tester.js";
  * is worse than no check: it reads as coverage and provides none.
  */
 describe("$onValidate", () => {
+  describe("cardinality-path-unresolved", () => {
+    it("rejects a required descendant path that is not in the composed object", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          model SharedDetails { name?: string; }
+          ${formMeta("cardinality-check")}
+          model CardinalityCheck {
+            @Validation.requiredPaths("missing")
+            details: SharedDetails;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/cardinality-path-unresolved",
+      });
+    });
+
+    it("accepts nested required and conditional paths on one occurrence", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            enum Country { usa: "USA", other: "Other" }
+            model Address { country?: Country; state?: string; }
+            model SharedDetails { address?: Address; }
+            ${formMeta("cardinality-check")}
+            model CardinalityCheck {
+              @Validation.requiredPaths("address.country")
+              @Validation.requiredPathWhen("address.state", "address.country", Country.usa)
+              details: SharedDetails;
+            }
+          `),
+        ),
+      );
+    });
+  });
+
   describe("date-order-source-invalid", () => {
     it("rejects a date-order source outside the target model", async () => {
       const diagnostics = await Tester.diagnose(

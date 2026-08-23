@@ -126,6 +126,12 @@ export const propValidationConstraintsWhen = (p: Program, prop: ModelProperty) =
     condition: Condition;
     patch: Record<string, unknown>;
   }[] | undefined) ?? [];
+export const cardinalityRequiredPaths = (p: Program, target: Model | ModelProperty) =>
+  (g(p, stateKeys.requiredPaths, target) as string[] | undefined) ?? [];
+export const cardinalityRequiredWhen = (p: Program, target: Model | ModelProperty) =>
+  (g(p, stateKeys.requiredPathWhen, target) as {
+    targetPath: string; sourcePath: string; value: string | number | boolean | null;
+  }[] | undefined) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.computed, prop) as { operator: string; refs: string[] } | undefined;
 export const propComputedFrom = (p: Program, prop: ModelProperty) =>

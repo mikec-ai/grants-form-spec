@@ -36,6 +36,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`Condition path "${"path"}" does not resolve from ${"model"}.`,
       },
     },
+    "cardinality-path-unresolved": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Cardinality path "${"path"}" does not resolve from ${"model"}: ${"reason"}.`,
+      },
+    },
     "encoded-checkbox-contract-invalid": {
       severity: "error",
       messages: {
@@ -107,6 +113,8 @@ export const $lib = createTypeSpecLibrary({
     notBefore: {},
     validationConstraints: {},
     validationConstraintsWhen: {},
+    requiredPaths: {},
+    requiredPathWhen: {},
     computed: {},
     computedFrom: {},
     evaluationOrder: {},
