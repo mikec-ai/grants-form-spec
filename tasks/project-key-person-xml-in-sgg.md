@@ -7,6 +7,21 @@ description: >-
   Consume the merged portable Key Person XML profile through a generic
   leaf-container projection and validate assembled submission XML against the
   pinned official XSD.
+superbee_progress_status: done
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-23T17:20:26.301Z'
+---
+---
+type: Task
+title: Project Key Person XML through SGG
+priority: P0
+assignee: key_person_xml_agent
+description: >-
+  Consume the merged portable Key Person XML profile through a generic
+  leaf-container projection and validate assembled submission XML against the
+  pinned official XSD.
 superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
@@ -29,5 +44,18 @@ Complete the consumer half of the merged portable Key Person XML target without 
 # Boundary
 
 Mappings remain proposed/source-bound-unreviewed; technical conformance is not human semantic acceptance.
+
+# Result
+
+Delivered and merged in mikec-ai/simpler-grants-gov PR #36, merge commit 5b16ea30628936fbe4bf0637838e07ccb30505d2.
+
+- Artifacts pin stable merged producer commit 3ba1c1c25a111c91085bec9ca89ab1fc2be645ef.
+- Generic leaf container and explicit repeated-array wrapper modes project without a form branch.
+- Technical submission XML contains PI, two repeated people, ordinary person values, eight nested/overflow attachments, exact QNames/order/data, and passes the official XSD.
+- The complete five-file imported XSD closure is byte-pinned and hash-verified; all 33 vendored XSDs compile.
+- Existing subaward budget wrapper behavior remains locked by exact-XSD regression.
+- Independent review closed provenance and value-assertion gaps before merge.
+
+Production registration remains disabled. Mappings remain proposed/source-bound-unreviewed, and exact XSD validation plus semantic, accessibility, instruction, identifier, and release acceptance remain explicit gates.
 
 [depends on](distinguish-xml-array-wrapper-cardinality.md)
