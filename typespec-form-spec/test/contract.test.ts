@@ -1,4 +1,5 @@
 import Ajv2020, { type ValidateFunction } from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
 import { readdir, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -41,9 +42,12 @@ describe("artifact contract v1", () => {
   let validatePackage: ValidateFunction;
   let validateEvidence: ValidateFunction;
   let validateGrantsGovXmlProfile: ValidateFunction;
+  let validatePolicyContent: ValidateFunction;
+  let validatePolicyBinding: ValidateFunction;
 
   beforeAll(async () => {
     const ajv = new Ajv2020({ allErrors: true, strict: true });
+    addFormats(ajv);
     validateQuestion = ajv.compile(
       await json(resolve(contractRoot, "question.schema.json")),
     );
@@ -54,6 +58,12 @@ describe("artifact contract v1", () => {
     validateEvidence = ajv.compile(await json(resolve(contractRoot, "evidence.schema.json")));
     validateGrantsGovXmlProfile = ajv.compile(
       await json(resolve(contractRoot, "grants-gov-xml-profile.schema.json")),
+    );
+    validatePolicyContent = ajv.compile(
+      await json(resolve(contractRoot, "policy-content.schema.json")),
+    );
+    validatePolicyBinding = ajv.compile(
+      await json(resolve(contractRoot, "policy-binding.schema.json")),
     );
   });
 
@@ -129,6 +139,14 @@ describe("artifact contract v1", () => {
       [
         await namedArtifacts(emittedFormsRoot, "grants-gov-xml.json"),
         () => validateGrantsGovXmlProfile,
+      ],
+      [
+        await namedArtifacts(emittedFormsRoot, "policy-content.json"),
+        () => validatePolicyContent,
+      ],
+      [
+        await namedArtifacts(emittedFormsRoot, "policy-binding.json"),
+        () => validatePolicyBinding,
       ],
     ];
 
