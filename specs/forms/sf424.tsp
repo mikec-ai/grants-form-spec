@@ -162,7 +162,7 @@ model SF424 {
   @UI.label("Date Received By State")
   @UI.section(Sf424Section.dateReceivedByState)
   @UI.readOnly
-  stateReceiveDate?: plainDate;
+  stateReceiveDate?: StateReceivedDate;
 
   /** Leave blank, to be filled out by state. */
   @UI.label("State Application Identifier")
@@ -170,7 +170,7 @@ model SF424 {
   @UI.readOnly
   @minLength(0)
   @maxLength(30)
-  stateApplicationId?: string;
+  stateApplicationId?: StateApplicationIdentifier;
 
   /** Enter the legal name of the applicant that will undertake the assistance activity. This is the organization that has registered with the System for Award Management (SAM). Information on registering with SAM may be obtained by visiting SAM.gov. */
   @UI.label("Legal Name")
@@ -402,6 +402,7 @@ model SF424 {
   /** By signing this application, I certify (1) to the statements contained in the list of certifications* and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances** and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001) */
   @UI.label("Certification Agree")
   @UI.section(Sf424Section.authorizedRepresentative)
+  @Response.role(ResponseRole.attestation)
   certificationAgree: boolean;
 
   @UI.label("Authorized Representative")

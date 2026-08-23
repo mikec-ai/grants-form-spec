@@ -20,9 +20,9 @@ using QuestionBank.ResearchApplication;
 
 namespace Forms.RRSF424MultiProjectCover;
 
-// These three values are source fields in the multi-project exchange form. The standalone
-// R&R cover's same-looking fields are runtime-populated in Simpler. Keep them local until
-// semantic review confirms whether the multi-project workflow has the same lifecycle owner.
+// The official multi-project DAT treats signature and signed date as applicant-entered, and the
+// read-only PDF omits the standalone form's "Completed on submission" text. They remain local
+// because their lifecycle differs from Simpler's submission-populated standalone fields.
 scalar MultiProjectSignature extends string;
 
 // Version 4.0 has the same 139-node XSD inventory as the standalone R&R cover except
@@ -187,7 +187,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Date Submitted")
   @UI.section(RRSF424Section.submittedDate)
-  submittedDate?: plainDate;
+  submittedDate?: ApplicantEnteredSubmissionDate;
 
   @UI.label("Applicant Identifier")
   @UI.section(RRSF424Section.applicantIdentifier)
@@ -195,15 +195,16 @@ model RRSF424MultiProjectCover {
   @maxLength(30)
   applicantId?: string;
 
+  // The State owns these values even when the applicant transcribes them into the exchange form.
   @UI.label("State Received Date")
   @UI.section(RRSF424Section.stateUse)
-  stateReceivedDate?: plainDate;
+  stateReceivedDate?: StateReceivedDate;
 
   @UI.label("State Application Identifier")
   @UI.section(RRSF424Section.stateUse)
   @minLength(1)
   @maxLength(30)
-  stateId?: string;
+  stateId?: StateApplicationIdentifier;
 
   @UI.label("Federal Identifier")
   @UI.section(RRSF424Section.stateUse)
@@ -213,15 +214,17 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Agency Routing Number")
   @UI.section(RRSF424Section.stateUse)
+  // Assigned by the Federal agency and entered according to agency-specific instructions.
   @minLength(1)
   @maxLength(75)
-  agencyRoutingNumber?: string;
+  agencyRoutingNumber?: FederalAgencyRoutingNumber;
 
   @UI.label("Grants.gov Identifier")
   @UI.section(RRSF424Section.stateUse)
+  // Assigned by Grants.gov; the applicant may transcribe the previous submission's identifier.
   @minLength(13)
   @maxLength(15)
-  grantsTrackingNumber?: string;
+  grantsTrackingNumber?: PreviousGrantsGovTrackingNumber;
 
   @UI.label("Applicant Information")
   @UI.section(RRSF424Section.applicantInformation)
@@ -279,6 +282,7 @@ model RRSF424MultiProjectCover {
 
   @UI.label("I agree")
   @UI.section(RRSF424Section.certification)
+  @Response.role(ResponseRole.attestation)
   trustAgree?: AffirmativeCertification;
 
   @UI.label("SF-LLL or Other Explanatory Documentation")
@@ -292,12 +296,14 @@ model RRSF424MultiProjectCover {
 
   @UI.label("Signature of Authorized Representative")
   @UI.section(RRSF424Section.authorizedRepresentative)
+  @Response.role(ResponseRole.attestation)
   @minLength(1)
   @maxLength(144)
   aorSignature?: MultiProjectSignature;
 
   @UI.label("Date Signed")
   @UI.section(RRSF424Section.authorizedRepresentative)
+  @Response.role(ResponseRole.attestation)
   aorSignedDate?: plainDate;
 
   @UI.label("Pre-application")

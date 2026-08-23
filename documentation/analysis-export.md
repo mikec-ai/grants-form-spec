@@ -40,6 +40,11 @@ The question inventory likewise reports `formsCount` separately from `reviewedFo
 each association carries `mappingStatus` and `publishable`. Similar wording, matching JSON types,
 or shared rendering never establishes semantic equivalence.
 
+`mappingStatus` preserves the exact path-qualified evidence state: `proposed` or `accepted` when a
+mapping exists, `unmapped` when a form is under proposal review but that occurrence has no mapping,
+and `unreviewed` when the form has not entered semantic review. Only `accepted` is publishable and
+eligible for reviewed metrics.
+
 ## What is counted
 
 Semantic similarity counts only blocks classified as `semanticQuestion`. Capture mechanisms are

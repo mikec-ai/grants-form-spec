@@ -181,6 +181,7 @@ model SF424Short {
 
   @UI.label("Same as Project Director (if checked, fill in information same as Project Director above)")
   @UI.section(Sf424ShortSection.contactPerson)
+  @Response.role(ResponseRole.technicalField)
   sameAsProjectDirector?: boolean;
 
   @UI.label("Primary Contact/Grants Administrator")
@@ -190,6 +191,7 @@ model SF424Short {
   /** ** The list of certifications and assurances, or an internet site where you may obtain this list, is contained in the announcement or agency specific instructions. By signing this application, I certify (1) to the statements contained in the list of certifications and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001) */
   @UI.label("** I Agree")
   @UI.section(Sf424ShortSection.authorizedRepresentative)
+  @Response.role(ResponseRole.attestation)
   applicationCertification: boolean;
 
   /** Enter the name of the authorized representative. */

@@ -232,13 +232,13 @@ model RRSF424 {
   @UI.label("State Received Date")
   @UI.section(RRSF424Section.stateUse)
   @UI.readOnly
-  stateReceivedDate?: plainDate;
+  stateReceivedDate?: StateReceivedDate;
 
   @UI.label("State Application Identifier")
   @UI.section(RRSF424Section.stateUse)
   @minLength(1)
   @maxLength(30)
-  stateId?: string;
+  stateId?: StateApplicationIdentifier;
 
   @UI.label("Federal Identifier")
   @UI.section(RRSF424Section.stateUse)
@@ -251,9 +251,10 @@ model RRSF424 {
 
   @UI.label("Agency Routing Number")
   @UI.section(RRSF424Section.stateUse)
+  // Assigned by the Federal agency and entered according to agency-specific instructions.
   @minLength(1)
   @maxLength(75)
-  agencyRoutingNumber?: string;
+  agencyRoutingNumber?: FederalAgencyRoutingNumber;
 
   @UI.label("Previous Grants.gov Tracking ID")
   @UI.section(RRSF424Section.stateUse)
@@ -368,6 +369,7 @@ model RRSF424 {
 
   @UI.label("I agree")
   @UI.section(RRSF424Section.certification)
+  @Response.role(ResponseRole.attestation)
   trustAgree: AffirmativeCertification;
 
   @UI.label("SF-LLL or Other Explanatory Documentation")
