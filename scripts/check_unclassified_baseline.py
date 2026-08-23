@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -12,6 +13,13 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_ANALYSIS = ROOT / "build" / "analysis" / "form-analysis.json"
 DEFAULT_BASELINE = ROOT / "analysis" / "unclassified-fields-baseline.v1.json"
+# This pins the original debt universe. Normal work may only move entries from `initial` to
+# `resolved`; changing the universe requires an explicit code review of this constant.
+INITIAL_IDENTITIES_SHA256 = "e235feaf5210850c5af46d274ef0e18d3e1d98a16df69e936be09a6d14fa3f1e"
+
+
+def identities_sha256(identities: list[str]) -> str:
+    return hashlib.sha256(("\n".join(identities) + "\n").encode()).hexdigest()
 
 
 def read_json(path: pathlib.Path) -> dict:
@@ -55,6 +63,11 @@ def baseline_sets(baseline: dict) -> tuple[set[str], set[str]]:
         raise ValueError("baseline initial must be sorted")
     if resolved_list != sorted(resolved_list):
         raise ValueError("baseline resolved must be sorted")
+    if identities_sha256(initial_list) != INITIAL_IDENTITIES_SHA256:
+        raise ValueError(
+            "baseline initial identities differ from the pinned original universe; "
+            "only the resolved list may change"
+        )
     unknown_resolutions = resolved - initial
     if unknown_resolutions:
         raise ValueError(
