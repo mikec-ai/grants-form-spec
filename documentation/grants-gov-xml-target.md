@@ -16,6 +16,10 @@ self-contained targets/grants-gov-xml.json
 generic consumer adapter -> XML
 ```
 
+Producer-side artifact checks use the target-neutral
+[XML/XSD conformance harness](xml-xsd-conformance-harness.md). That reference interpreter is
+test infrastructure, not a production adapter.
+
 The source mapping vocabulary contains five node kinds:
 
 - `value`: one response value becomes one XML element;
