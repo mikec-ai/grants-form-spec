@@ -35,3 +35,5 @@ These changes must remain test and validation infrastructure. Do not add a new a
 [contains](../tasks/build-generic-xml-xsd-conformance-harness.md)
 
 [contains](../tasks/enforce-rule-evidence-target-coverage.md)
+
+[contains](../tasks/automate-cross-repo-form-promotion.md)
