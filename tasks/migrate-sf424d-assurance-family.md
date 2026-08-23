@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: sf424d_family_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:37:36.371Z'
+  at: '2026-08-23T20:40:21.360Z'
 ---
 # Goal
 
@@ -38,10 +38,10 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 ## Producer implementation and exact-source gates (2026-08-23)
 
 - Producer branch: `codex/sf424d-family-20260823`
-- Stacked producer PR: `mikec-ai/grants-form-spec#51`
-- Stable SF-424B policy-contract foundation after the GG Lobbying/main advance: `f2125e2c6c5be9363f6dfbda36999dd89ad85e57` (`#50`)
-- Final rebased audit commits: `922f50b` (source audit) and `dc652a0` (wire/XSD canaries)
-- Final declarative producer commit: `9d95c13dfd42e761e3f6a6eea7559a4d2e6975be` (`Bank declarative SF-424D assurance profiles`)
+- Producer PR: `mikec-ai/grants-form-spec#52` against `main`. It supersedes `#51`, which GitHub automatically closed when its temporary stacked base branch was deleted after `#50` merged.
+- Merged SF-424B policy-contract foundation: `bc1d60325e52fbffd782756ec40c9dba232fd978` (`#50`; producer tip `f2125e2c6c5be9363f6dfbda36999dd89ad85e57`)
+- Final main-based audit commits: `aa3a077` (source audit) and `a7f83a2` (wire/XSD canaries)
+- Final declarative producer commit: `7b23153b0decf2c0d744f70083942cbccbb88c76` (`Bank declarative SF-424D assurance profiles`)
 - All three official FID records were independently checked and are currently Active at v1.1: base FID 238, Individual FID 522, Mandatory FID 329.
 - Exact XSD, DAT, instructions, sample-PDF, and read-only-PDF URLs and SHA-256 digests are pinned under `research/sf424d-family/official-source-audit.json` and the three emitted evidence sidecars.
 - The twenty policy items are identical across all three profiles and are authored once as `grants-gov/construction-assurances@1.1`; they are not question-bank questions. Canonical source text-array SHA-256: `89c82c4e717dab69a9a751259e9148b97d6b092e88d1a57e8537953c5ee1c4be`.
@@ -51,12 +51,12 @@ Bank the SF-424D construction-assurance family as versioned profiles over the sh
 - One factored XML acceptance mapping is composed by three declarative profiles. Fully populated samples for all profiles validate against the exact official XSD bytes, including the profile-qualified root attributes and the base-only global version child.
 - The base SGG implementation oracle is pinned at `mikec-ai/simpler-grants-gov@30dd50cf0493146c32f89f78398979523e040080`, file SHA-256 `8236db821592dc3b36e3e95971b514af4657b3b41e781259f0797e46d091fb2a`.
 - Full producer preflight passes on the final restack: 99 TypeScript tests, 120 Python tests with 8 existing skips, artifact validation (145 blocks/859 artifacts), promotion validation, 589-artifact packaging, 20 XML profiles, and the unclassified-field ratchet (49 remaining, unchanged by this family).
-- The final D diff is three commits directly atop the stable B tip; PR `#51` remains stacked on the B branch until `#50` merges. GitHub CI run `32664964953` was queued from the final producer commit when this receipt was written.
+- The final D diff is three commits directly atop merged producer `main`; PR `#52` is mergeable. GitHub CI run `32665096478` was queued from the final producer commit when this receipt was written.
 - Forms remain `draft`, absent from production registration, and no HHS upstream worktree was mutated.
 
 # Remaining gates
 
-- Merge the stacked SF-424B foundation (`#50`), then retarget/merge SF-424D producer PR `#51`.
+- Merge SF-424D producer PR `#52` after CI and review; `#50` is already merged and superseded stacked PR `#51` is closed.
 - Complete policy-owner/semantic and accessibility review. Source provenance and deterministic cross-profile policy equivalence are already passed; these reviews remain human gates.
 - Add generic SGG consumer canaries for lifecycle, locked/print, post-population, policy-section projection, and XML consumption without adding an SF-424D code branch.
 - Perform explicit production-registration and instruction-asset review only after the consumer gates pass; do not register implicitly.
