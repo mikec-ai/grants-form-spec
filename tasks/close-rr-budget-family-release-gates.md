@@ -6,11 +6,12 @@ description: >-
   Close shared DAT-condition, lifecycle, browser, accessibility,
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:06:33.283Z'
+  at: '2026-08-23T18:10:12.126Z'
+assignee: gate_assessment_agent
 ---
 # Goal
 
