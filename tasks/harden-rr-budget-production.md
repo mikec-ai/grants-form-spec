@@ -6,11 +6,11 @@ assignee: codex-team
 description: >-
   Source-grounded semantic and behavioral hardening of the existing portable R&R
   Budget form.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:16:14.360Z'
+  at: '2026-08-23T18:06:43.127Z'
 ---
 # Objective
 
@@ -43,11 +43,13 @@ Move the portable R&R Budget 3.0 implementation from reference parity toward pro
 - Public Simpler fork PR 8 executes the complete graph and validates key-person totals, direct costs, cumulative totals, and integer personnel counts.
 - Agent semantic findings remain proposals. The evidence sidecar stays `unreviewed` until human semantic acceptance.
 
-# Remaining production gates
+# Completion
 
-- Define optional calculated-output materialization when every operand is absent versus explicitly zero.
-- Model and test the 56 non-empty DAT conditions.
-- Complete browser rendering, save/reload, locked state, submission/print, accessibility, and XML or REST delivery validation.
+This source-grounded hardening slice is complete. Producer PRs #12 and #21 and Simpler PRs #8 and
+#15 subsequently completed the shared 56-calculation graph, nested rendering support, and portable
+XSD-valid XML delivery for the R&R Budget family. Remaining policy, DAT-condition, lifecycle,
+browser, accessibility, review, and production-registration work is tracked separately in
+`tasks/close-rr-budget-family-release-gates`.
 
 # Acceptance criteria
 

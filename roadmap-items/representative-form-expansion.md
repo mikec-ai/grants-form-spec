@@ -184,3 +184,7 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/distinguish-xml-array-wrapper-cardinality.md)
 
 [contains](../tasks/integrate-key-person-overflow-gating.md)
+
+[contains](../tasks/close-sf424a-release-gates.md)
+
+[contains](../tasks/close-rr-budget-family-release-gates.md)

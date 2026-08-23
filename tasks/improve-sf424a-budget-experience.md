@@ -6,11 +6,11 @@ assignee: codex-team
 description: >-
   Implement source-grounded SF-424A improvements in our portable producer and
   public Simpler fork, using upstream issues only as read-only guidance.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:33:30.361Z'
+  at: '2026-08-23T18:06:42.938Z'
 ---
 # Objective
 
@@ -61,4 +61,10 @@ Column G rows 1 through 4 are manually entered for this delivery slice. Legacy b
 - Full producer preflight passes: 52 compiler tests, 13 analysis tests, 71 blocks, and 370 validated artifacts.
 - Adapter PR #9 is merged to the public fork's main branch. It consumes the portable descriptions, removes misleading hard-coded sum copy, adds semantic table headers and row-aware accessible names, preserves manual Column G entry, applies locked state to every input, and hardens generic section navigation: https://github.com/mikec-ai/simpler-grants-gov/pull/9
 - Verified locally: 12 portable artifact/parity tests, 23 focused frontend tests, TypeScript, targeted ESLint, Ruff lint, and Ruff formatting. DB-backed calculation tests await the CI database service; this is an environment boundary rather than a known behavioral failure.
-- Remaining production work: save/reload, submission, print, browser-level keyboard and accessibility checks, and human acceptance of guidance and behavior.
+
+# Completion
+
+The scoped producer and adapter hardening is complete in producer PR #13 and Simpler PR #9. The
+remaining save/reload, submission, print, browser-level accessibility, human-acceptance, and
+production-registration work is tracked separately in `tasks/close-sf424a-release-gates` so this
+delivered implementation slice is not left perpetually in progress.

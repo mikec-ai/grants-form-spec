@@ -6,11 +6,11 @@ assignee: codex-team
 description: >-
   Next R&R sibling proving declarative reuse from R&R Budget through the generic
   Simpler adapter.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-22T19:03:46.362Z'
+  at: '2026-08-23T18:06:43.318Z'
 ---
 # Objective
 
@@ -42,12 +42,13 @@ Author R&R Subaward Budget as the next sibling of R&R Budget, using the existing
 - Implementation analysis reports 14 of 15 declarative blocks reused, one new composition block, and 93.3 percent pairwise similarity. This is an implementation-level measure pending semantic acceptance, not published reviewed coverage.
 - The generic compiler now supports parent-scoped calculation paths, emitted as `@PARENT` references when a reused block is nested.
 
-# Remaining production work
+# Completion
 
-- Public Simpler fork integration is implemented in `mikec-ai/simpler-grants-gov` PR 8.
-- Generic recursive `fieldList` rendering is implemented with nested value updates, required/minimum metadata resolution, and focused frontend tests.
-- Reconcile the remaining source calculations and conditions rather than inferring them.
-- Validate save/reload, read-only, print, accessibility, and submission behavior.
+The author-and-integrate objective is complete. Public Simpler PR #8 consumes the form through the
+generic adapter and renders nested repeaters, producer PR #12 applies the complete shared
+56-calculation graph, and producer PR #21 plus Simpler PR #15 deliver generic XSD-valid XML. The
+remaining condition, lifecycle, browser, accessibility, semantic-review, and production gates are
+tracked separately in `tasks/close-rr-budget-family-release-gates`.
 
 # Coordination
 
