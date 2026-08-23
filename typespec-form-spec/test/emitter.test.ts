@@ -6,6 +6,32 @@ import { describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("SGG UI emission", () => {
+  it("re-scopes a composed question's JSON Forms conditions with its fields", async () => {
+    const ui = JSON.parse(
+      await readFile(
+        resolve(packageRoot, "dist/forms/rr-other-project-information/ui.json"),
+        "utf8",
+      ),
+    );
+    const allObjects = (value: unknown): Record<string, any>[] => {
+      if (Array.isArray(value)) return value.flatMap(allObjects);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, any>;
+      return [object, ...Object.values(object).flatMap(allObjects)];
+    };
+    const conditionalScopes = allObjects(ui)
+      .map((node) => node.rule?.condition?.scope)
+      .filter(Boolean);
+
+    expect(conditionalScopes).toContain(
+      "#/properties/humanSubjects/properties/involvesHumanSubjects",
+    );
+    expect(conditionalScopes).toContain(
+      "#/properties/environmentalImpact/properties/hasEnvironmentalImpact",
+    );
+    expect(conditionalScopes).not.toContain("#/properties/involvesHumanSubjects");
+  });
+
   it("projects nested research-budget lists and all source-resolved sums generically", async () => {
     const root = resolve(packageRoot, "dist/forms/rr-budget");
     const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));

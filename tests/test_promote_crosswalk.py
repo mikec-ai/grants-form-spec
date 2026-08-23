@@ -122,6 +122,36 @@ class PromotionImporterTests(unittest.TestCase):
         self.assertIn("@minLength(1)", draft)
         self.assertIn("not a canonical form declaration", draft)
 
+    def test_import_preserves_unbounded_repetition_without_inventing_a_limit(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            repo, _ = self._repo(root)
+            records_path = repo / "artifacts/proof/grantsgov-Example.jsonl"
+            records = [
+                json.loads(line)
+                for line in records_path.read_text(encoding="utf-8").splitlines()
+            ]
+            records[1]["max_occurs"] = "unbounded"
+            self._write(records_path, records, jsonl=True)
+            subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+            subprocess.run(
+                ["git", "-C", str(repo), "commit", "-qm", "unbounded repetition"],
+                check=True,
+            )
+            revision = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            packet = export_packet(repo, "Example", revision)
+            output = root / "stage"
+            import_packet(packet, output)
+            draft = (output / "draft.tsp").read_text(encoding="utf-8")
+
+        self.assertIn("name: string[];", draft)
+        self.assertNotIn("@maxItems", draft)
+
     def test_export_uses_family_ledger_when_separate_behavior_artifact_is_absent(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             repo, _ = self._repo(Path(directory))
