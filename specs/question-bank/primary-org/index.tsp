@@ -52,6 +52,25 @@ scalar SamUei extends string;
 @maxLength(30)
 scalar EmployerIdentificationNumber extends string;
 
+/** Identify the applicant organizational unit undertaking the assistance activity. */
+@Question.meta(#{ id: "primary-org/organizational-unit" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.primaryOrg)
+@Catalog.tag(TagName.organization, TagName.name)
+model QuestionOrganizationalUnit {
+  /** Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity. */
+  @UI.label("Department Name")
+  @minLength(1)
+  @maxLength(30)
+  departmentName?: string;
+
+  /** Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity. */
+  @UI.label("Division Name")
+  @minLength(1)
+  @maxLength(100)
+  divisionName?: string;
+}
+
 // Both SF-424 and SF-424-Short ask this with the same twenty-four codes and the same
 // cardinality. The list is shared; the wording and the "other" box stay with each form,
 // because the forms word them differently.

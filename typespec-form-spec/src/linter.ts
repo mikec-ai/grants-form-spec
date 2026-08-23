@@ -54,6 +54,13 @@ const orphanQuestion = createRule({
           if (type.kind !== "Model") return;
           for (const prop of type.properties.values()) {
             for (const target of held(prop)) reach(target, true);
+            for (
+              let source = prop.sourceProperty;
+              source;
+              source = source.sourceProperty
+            ) {
+              if (source.model) reach(source.model, true);
+            }
           }
         };
         for (const block of blocks) reach(block.model, false);

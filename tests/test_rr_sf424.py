@@ -79,7 +79,7 @@ class RRSF424Tests(unittest.TestCase):
             if row["formId"] == "rr-sf424"
         ]
         question_ids = {row["questionId"] for row in associations}
-        self.assertEqual(len(associations), 52)
+        self.assertEqual(len(associations), 70)
         self.assertTrue({
             "generics/address",
             "generics/person-name",
@@ -96,7 +96,7 @@ class RRSF424Tests(unittest.TestCase):
         evidence = json.loads((ROOT / "dist/forms/rr-sf424/evidence.json").read_text())
         review = evidence["semanticReview"]
         self.assertEqual(review["status"], "proposed")
-        self.assertEqual(len(review["mappings"]), 4)
+        self.assertEqual(len(review["mappings"]), 22)
         self.assertTrue(all(mapping["status"] == "proposed" for mapping in review["mappings"]))
         self.assertTrue(all("reviewedBy" not in mapping for mapping in review["mappings"]))
 

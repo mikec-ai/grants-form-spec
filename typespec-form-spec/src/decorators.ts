@@ -143,8 +143,24 @@ function sectionRef(v: unknown): { name: string; label?: string } {
   return { name: String(v) };
 }
 
+function overridePlain(value: unknown): unknown {
+  const candidate = value as any;
+  if (
+    candidate
+    && typeof candidate === "object"
+    && candidate.entityKind === "Value"
+  ) return literal(candidate);
+  if (Array.isArray(value)) return value.map(overridePlain);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, nested]) => [key, overridePlain(nested)]),
+    );
+  }
+  return value;
+}
+
 export const $overrides = (ctx: Ctx, target: Model | ModelProperty, patch: unknown) =>
-  set(ctx, stateKeys.overrides, target, plain(ctx, patch));
+  set(ctx, stateKeys.overrides, target, overridePlain(plain(ctx, patch)));
 
 /**
  * A field label. Also delegated to `@summary`, which the JSON Schema emitter maps to

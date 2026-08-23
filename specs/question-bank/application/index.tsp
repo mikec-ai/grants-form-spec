@@ -7,6 +7,127 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.Application;
 
+/** SF-424's exact submission vocabulary. */
+enum Sf424SubmissionType {
+  preapplication: "Preapplication",
+  application: "Application",
+  changedCorrected: "Changed/Corrected Application",
+}
+
+/** SF-424's application lifecycle vocabulary. */
+enum Sf424ApplicationType {
+  new: "New",
+  continuation: "Continuation",
+  revision: "Revision",
+}
+
+/** SF-424's encoded revision choices. */
+enum Sf424RevisionType {
+  A: "A: Increase Award",
+  B: "B: Decrease Award",
+  C: "C: Increase Duration",
+  D: "D: Decrease Duration",
+  E: "E: Other (specify)",
+  AC: "AC: Increase Award, Increase Duration",
+  AD: "AD: Increase Award, Decrease Duration",
+  BC: "BC: Decrease Award, Increase Duration",
+  BD: "BD: Decrease Award, Decrease Duration",
+}
+
+/** SF-424's exact Executive Order 12372 response vocabulary. */
+enum Sf424StateReviewCode {
+  madeAvailable: "a. This application was made available to the state under the Executive Order 12372 Process for review on",
+  notSelected: "b. Program is subject to E.O. 12372 but has not been selected by the state for review.",
+  notCovered: "c. Program is not covered by E.O. 12372.",
+}
+
+/** Select the kind of SF-424 submission being made. */
+@Question.meta(#{ id: "application/standard-submission-type" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details)
+model QuestionSf424SubmissionType {
+  /** Select one type of submission in accordance with agency instructions. */
+  @UI.label("Submission Type")
+  submissionType: Sf424SubmissionType;
+}
+
+/** Describe the SF-424 application lifecycle and any revision. */
+@Question.meta(#{ id: "application/standard-application-type" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details)
+model QuestionSf424ApplicationType {
+  /** Select one type of application in accordance with agency instructions. */
+  @UI.label("Application Type")
+  applicationType: Sf424ApplicationType;
+
+  /** Select a revision type from the list provided. A selection is required if Type of Application is Revision. */
+  @UI.label("Revision Type")
+  @Validation.requiredWhen(QuestionSf424ApplicationType.applicationType, Sf424ApplicationType.revision)
+  revisionType?: Sf424RevisionType;
+
+  /** Please specify the type of revision. This field is required if E. Other is checked. */
+  @UI.label("Other Explanation")
+  @Validation.requiredWhen(QuestionSf424ApplicationType.revisionType, Sf424RevisionType.E)
+  revisionOtherSpecify?: string;
+}
+
+/** Enter the applicant's control number, if applicable, on the SF-424. */
+@Question.meta(#{ id: "application/standard-applicant-control-identifier" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.identifier)
+@minLength(1)
+@maxLength(30)
+scalar Sf424ApplicantControlIdentifier extends string;
+
+/** Enter the Federal entity identifier assigned to the applicant organization. */
+@Question.meta(#{ id: "application/federal-entity-identifier" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.identifier)
+@minLength(1)
+@maxLength(30)
+scalar FederalEntityIdentifier extends string;
+
+/** Enter the previously assigned Federal award identifier on the SF-424. */
+@Question.meta(#{ id: "application/federal-award-identifier" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.identifier)
+@minLength(1)
+@maxLength(25)
+scalar Sf424FederalAwardIdentifier extends string;
+
+/** Record whether and when the SF-424 was made available for State review. */
+@Question.meta(#{ id: "application/standard-state-review" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details, TagName.date)
+model QuestionSf424StateReview {
+  /** One selection is required. */
+  @UI.label("Is Application Subject to Review By State Under Executive Order 12372 Process?")
+  stateReview: Sf424StateReviewCode;
+
+  /** If 'a' is selected, enter the date the application was submitted to the State. */
+  @UI.label("State Review Date")
+  @Validation.requiredWhen(QuestionSf424StateReview.stateReview, Sf424StateReviewCode.madeAvailable)
+  stateReviewAvailableDate?: plainDate;
+}
+
+/** Report whether the SF-424 applicant is delinquent on Federal debt. */
+@Question.meta(#{ id: "application/delinquent-federal-debt-status" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details)
+model QuestionFederalDebtStatus {
+  /** If 'Yes,' provide explanation in attachment. */
+  @UI.label("Applicant Delinquent on Federal Debt")
+  @UI.widget(WidgetName.Radio)
+  delinquentFederalDebt: boolean;
+}
+
 /** Provide other narrative information requested for the application. */
 @Question.meta(#{ id: "application/other-narrative" })
 @Catalog.entity(EntityName.application)

@@ -14,7 +14,11 @@ extern dec sections(target: Model, sections: Enum);
 /** Assign a property (and everything under it) to one section. */
 extern dec section(target: ModelProperty, section: valueof EnumMember);
 
-/** Form-scoped override table, keyed by dotted path relative to the target. */
+/**
+ * Form-scoped override table, keyed by dotted path relative to the target.
+ * Presentation keys stay local to the form. `enabledWhen` may name an exact sibling/root
+ * response path and equality value when a form applies behavior to a shared question.
+ */
 extern dec overrides(target: Model | ModelProperty, patch: valueof Record<unknown>);
 
 extern dec label(target: Model | Scalar | ModelProperty, text: valueof string);

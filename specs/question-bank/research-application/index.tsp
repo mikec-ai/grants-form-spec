@@ -12,6 +12,186 @@ using QuestionBank.PrimaryOrg;
 /** Reusable questions introduced by the Research and Related application cover forms. */
 namespace QuestionBank.ResearchApplication;
 
+/** Exact R&R submission vocabulary shared by the standalone and Multi-Project covers. */
+enum ResearchSubmissionType {
+  preapplication: "Preapplication",
+  application: "Application",
+  changedCorrected: "Change/Corrected Application",
+}
+
+/** R&R application lifecycle vocabulary. */
+enum ResearchApplicationTypeCode {
+  new: "New",
+  resubmission: "Resubmission",
+  renewal: "Renewal",
+  continuation: "Continuation",
+  revision: "Revision",
+}
+
+/** R&R's encoded revision choices. */
+enum ResearchRevisionCode {
+  A: "A",
+  B: "B",
+  C: "C",
+  D: "D",
+  E: "E",
+  AC: "AC",
+  AD: "AD",
+  BC: "BC",
+  BD: "BD",
+}
+
+enum YesNoCode {
+  yes: "Y: Yes",
+  no: "N: No",
+}
+
+enum ResearchStateReviewCode {
+  yes: "Y: Yes",
+  notCovered: "Program is not covered by E.O. 12372",
+  notSelected: "Program has not been selected by state for review",
+}
+
+/** Select the kind of R&R submission being made. */
+@Question.meta(#{ id: "research-application/submission-type" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details)
+model QuestionResearchSubmissionType {
+  @UI.label("Type of Submission")
+  submissionTypeCode?: ResearchSubmissionType;
+}
+
+/** Enter the applicant's control number for an R&R application, if applicable. */
+@Question.meta(#{ id: "research-application/applicant-control-identifier" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.identifier)
+@minLength(1)
+@maxLength(30)
+scalar ResearchApplicantControlIdentifier extends string;
+
+/** Enter the previously assigned Federal identifier for an R&R application. */
+@Question.meta(#{ id: "research-application/previous-federal-award-identifier" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.identifier)
+@minLength(1)
+@maxLength(30)
+scalar ResearchFederalAwardIdentifier extends string;
+
+model QuestionResearchSmallBusinessType {
+  @UI.label("Socially and Economically Disadvantaged")
+  sociallyEconomicallyDisadvantaged?: string;
+
+  @UI.label("Women Owned")
+  womenOwned?: string;
+}
+
+/** Identify the applicant category and any R&R small-business characteristics. */
+@Question.meta(#{ id: "primary-org/research-applicant-type" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.primaryOrg)
+@Catalog.tag(TagName.organization, TagName.role)
+model QuestionResearchApplicantType {
+  @UI.label("Applicant Type")
+  applicantTypeCode?: ApplicantTypeCode;
+
+  @UI.label("Other Applicant Type Explanation")
+  @minLength(1)
+  @maxLength(50)
+  applicantTypeCodeOtherExplanation?: string;
+
+  @UI.label("Small Business Organization Type")
+  smallBusinessOrganizationType?: QuestionResearchSmallBusinessType;
+}
+
+/** Describe the R&R application lifecycle, revision, and other-agency submission. */
+@Question.meta(#{ id: "research-application/application-type" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details)
+model QuestionResearchApplicationType {
+  @UI.label("Application Type")
+  applicationTypeCode?: ResearchApplicationTypeCode;
+
+  @UI.label("Is this application being submitted to another agency?")
+  isOtherAgencySubmission?: YesNoCode;
+
+  @UI.label("Other Agency Submission Explanation")
+  @minLength(1)
+  @maxLength(20)
+  otherAgencySubmissionExplanation?: string;
+
+  @UI.label("Revision Code")
+  @UI.encodedCheckboxGroup(#{
+    choices: #[
+      #{ code: "A", label: "A. Increase Award" },
+      #{ code: "B", label: "B. Decrease Award" },
+      #{ code: "C", label: "C. Increase Duration" },
+      #{ code: "D", label: "D. Decrease Duration" },
+      #{ code: "E", label: "E. Other" },
+    ],
+    combinations: #[
+      #{ value: "A", members: #["A"] },
+      #{ value: "B", members: #["B"] },
+      #{ value: "C", members: #["C"] },
+      #{ value: "D", members: #["D"] },
+      #{ value: "E", members: #["E"] },
+      #{ value: "AC", members: #["A", "C"] },
+      #{ value: "AD", members: #["A", "D"] },
+      #{ value: "BC", members: #["B", "C"] },
+      #{ value: "BD", members: #["B", "D"] },
+    ],
+  })
+  revisionCode?: ResearchRevisionCode;
+
+  @UI.label("Other Revision Explanation")
+  @minLength(1)
+  @maxLength(45)
+  revisionCodeOtherExplanation?: string;
+}
+
+/** Enter estimated funding for the complete R&R project period. */
+@Question.meta(#{ id: "research-application/estimated-project-funding" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.money)
+model QuestionResearchEstimatedFunding {
+  @UI.label("Total Federal Funds Requested")
+  @minValue(0)
+  @maxValue(9999999999999.99)
+  totalEstimatedAmount?: float64;
+
+  @UI.label("Total Non-Federal Funds")
+  @minValue(0)
+  @maxValue(9999999999999.99)
+  totalNonFederalRequested?: float64;
+
+  @UI.label("Total Federal and Non-Federal Funds")
+  @minValue(0)
+  @maxValue(9999999999999.99)
+  totalFederalNonFederalRequested?: float64;
+
+  @UI.label("Estimated Program Income")
+  @minValue(0)
+  @maxValue(9999999999999.99)
+  estimatedProgramIncome?: float64;
+}
+
+/** Record whether and when the R&R application was submitted for State review. */
+@Question.meta(#{ id: "research-application/state-review" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.application)
+@Catalog.tag(TagName.details, TagName.date)
+model QuestionResearchStateReview {
+  @UI.label("State Review")
+  stateReviewCodeType?: ResearchStateReviewCode;
+
+  @UI.label("State Review Date")
+  stateReviewDate?: plainDate;
+}
+
 /** The applicant organization information required by an R&R cover form. */
 model ResearchApplicantOrganization {
   /** Enter the applicant organization's legal name. */

@@ -442,14 +442,66 @@ def main(argv: list[str] | None = None) -> int:
         block_id: refs(schema) | set(entries[block_id].get("composes", []))
         for block_id, schema in bank.items()
     }
-    direct = {form_id: refs(schema) for form_id, schema in forms.items()}
+    form_indexes = {form_id: form_file(form_id, "index.json") for form_id in forms}
+    lineage = {
+        form_id: {
+            block_id
+            for occurrence in form_indexes[form_id].get("fieldOccurrences", [])
+            for block_id in occurrence.get("blockIds", [])
+            if block_id in entries
+        }
+        for form_id in forms
+    }
+    schema_direct = {form_id: refs(schema) for form_id, schema in forms.items()}
+    schema_used = {
+        form_id: closure(blocks_used, bank_refs)
+        for form_id, blocks_used in schema_direct.items()
+    }
+    missing_lineage = {
+        form_id: {
+            block_id
+            for block_id in lineage[form_id] - schema_used[form_id]
+            if entries[block_id].get("responseRole")
+        }
+        for form_id in forms
+    }
+    direct = {
+        form_id: schema_direct[form_id] | missing_lineage[form_id]
+        for form_id in forms
+    }
     used = {form_id: closure(blocks_used, bank_refs) for form_id, blocks_used in direct.items()}
     asked = {form_id: block_ids & semantic for form_id, block_ids in used.items()}
     capture = {form_id: block_ids & mechanisms for form_id, block_ids in used.items()}
     direct_questions = {form_id: block_ids & semantic for form_id, block_ids in direct.items()}
-    occurrence_rows = {
-        form_id: occurrences(schema, bank, entries) for form_id, schema in forms.items()
-    }
+    occurrence_rows = {}
+    for form_id, schema in forms.items():
+        authoritative = {
+            (block_id, occurrence["path"])
+            for occurrence in form_indexes[form_id].get("fieldOccurrences", [])
+            if occurrence.get("leaf")
+            for block_id in occurrence.get("blockIds", [])
+            if entries.get(block_id, {}).get("responseRole")
+        }
+        authoritative_blocks = {block_id for block_id, _ in authoritative}
+        rows = [
+            row
+            for row in occurrences(schema, bank, entries)
+            if row["blockId"] not in authoritative_blocks
+            or (row["blockId"], row["path"]) in authoritative
+        ]
+        seen = {(row["blockId"], row["path"]) for row in rows}
+        for block_id, path in sorted(authoritative):
+            key = (block_id, path)
+            if key not in seen:
+                rows.append({
+                    "blockId": block_id,
+                    "path": path,
+                    "relationship": "direct",
+                })
+                seen.add(key)
+        occurrence_rows[form_id] = sorted(
+            rows, key=lambda row: (row["blockId"], row["path"], row["relationship"])
+        )
     question_associations = [
         {"formId": form_id, "questionId": row["blockId"], **{k: row[k] for k in ("path", "relationship")}}
         for form_id, rows in occurrence_rows.items()
@@ -469,7 +521,6 @@ def main(argv: list[str] | None = None) -> int:
         form_id: form_file(form_id, "manifest.json").get("form", {})
         for form_id in forms
     }
-    form_indexes = {form_id: form_file(form_id, "index.json") for form_id in forms}
     field_occurrences = {
         form_id: occurrence_index(form_indexes[form_id]) for form_id in forms
     }

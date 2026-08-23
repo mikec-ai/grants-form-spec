@@ -4,6 +4,7 @@ import "../question-bank/aor/index.tsp";
 import "../question-bank/application/index.tsp";
 import "../question-bank/generics/index.tsp";
 import "../question-bank/opportunity/index.tsp";
+import "../question-bank/poc/index.tsp";
 import "../question-bank/primary-org/index.tsp";
 import "../question-bank/project/index.tsp";
 
@@ -12,6 +13,7 @@ using QuestionBank.Aor;
 using QuestionBank.Application;
 using QuestionBank.Generics;
 using QuestionBank.Opportunity;
+using QuestionBank.Poc;
 using QuestionBank.PrimaryOrg;
 using QuestionBank.Project;
 
@@ -45,40 +47,6 @@ enum Sf424Section {
   authorizedRepresentative: "21. Authorized Representative",
 }
 
-/** Select one type of submission in accordance with agency instructions. */
-enum SubmissionType {
-  preapplication: "Preapplication",
-  application: "Application",
-  changedCorrected: "Changed/Corrected Application",
-}
-
-/** Select one type of application in accordance with agency instructions. */
-enum ApplicationType {
-  new: "New",
-  continuation: "Continuation",
-  revision: "Revision",
-}
-
-/** The kind of change a revision makes to an existing award. */
-enum RevisionType {
-  A: "A: Increase Award",
-  B: "B: Decrease Award",
-  C: "C: Increase Duration",
-  D: "D: Decrease Duration",
-  E: "E: Other (specify)",
-  AC: "AC: Increase Award, Increase Duration",
-  AD: "AD: Increase Award, Decrease Duration",
-  BC: "BC: Decrease Award, Increase Duration",
-  BD: "BD: Decrease Award, Decrease Duration",
-}
-
-/** Whether Executive Order 12372 review applies, and if so what happened. */
-enum StateReview {
-  madeAvailable: "a. This application was made available to the state under the Executive Order 12372 Process for review on",
-  notSelected: "b. Program is subject to E.O. 12372 but has not been selected by the state for review.",
-  notCovered: "c. Program is not covered by E.O. 12372.",
-}
-
 /** APPLICATION FOR FEDERAL ASSISTANCE (SF-424) */
 @Form.meta(#{
   id: "sf424",
@@ -107,27 +75,9 @@ enum StateReview {
   `competitionIdentificationTitle`: SggPrePop.competitionTitle,
 })
 model SF424 {
-  /** Select one type of submission in accordance with agency instructions. */
-  @UI.label("Submission Type")
-  @UI.section(Sf424Section.submissionType)
-  submissionType: SubmissionType;
+  ...QuestionSf424SubmissionType;
 
-  /** Select one type of application in accordance with agency instructions. */
-  @UI.label("Application Type")
-  @UI.section(Sf424Section.applicationTypeAndRevision)
-  applicationType: ApplicationType;
-
-  /** Select a revision type from the list provided. A selection is required if Type of Application is Revision. */
-  @UI.label("Revision Type")
-  @UI.section(Sf424Section.applicationTypeAndRevision)
-  @Validation.requiredWhen(SF424.applicationType, ApplicationType.revision)
-  revisionType?: RevisionType;
-
-  /** Please specify the type of revision. This field is required if E. Other is checked. */
-  @UI.label("Other Explanation")
-  @UI.section(Sf424Section.applicationTypeAndRevision)
-  @Validation.requiredWhen(SF424.revisionType, RevisionType.E)
-  revisionOtherSpecify?: string;
+  ...QuestionSf424ApplicationType;
 
   /** Completed by Grants.gov upon submission. */
   @UI.label("Date Received")
@@ -138,25 +88,19 @@ model SF424 {
   /** Enter the applicant's control number, if applicable. */
   @UI.label("Applicant Identifier")
   @UI.section(Sf424Section.applicantIdentifier)
-  @minLength(1)
-  @maxLength(30)
-  applicantId?: string;
+  applicantId?: Sf424ApplicantControlIdentifier;
 
   /** Enter the number assigned to your organization by the Federal agency. */
   @UI.label("Federal Entity Identifier")
   @UI.section(Sf424Section.federalIdentifiers)
-  @minLength(1)
-  @maxLength(30)
-  federalEntityIdentifier?: string;
+  federalEntityIdentifier?: FederalEntityIdentifier;
 
   /** For new applications leave blank. For a continuation or revision to an existing award, enter the previously assigned Federal award identifier number. If a changed/corrected application, enter the Federal Identifier in accordance with agency instructions. */
   @UI.label("Federal Award Identifier")
   @UI.section(Sf424Section.federalAward)
-  @minLength(1)
-  @maxLength(25)
-  @Validation.requiredWhen(SF424.applicationType, ApplicationType.revision)
-  @Validation.requiredWhen(SF424.applicationType, ApplicationType.continuation)
-  federalAwardIdentifier?: string;
+  @Validation.requiredWhen(SF424.applicationType, Sf424ApplicationType.revision)
+  @Validation.requiredWhen(SF424.applicationType, Sf424ApplicationType.continuation)
+  federalAwardIdentifier?: Sf424FederalAwardIdentifier;
 
   /** Leave blank, to be filled out by state. */
   @UI.label("Date Received By State")
@@ -192,19 +136,7 @@ model SF424 {
   @UI.section(Sf424Section.applicantInformation)
   applicant: QuestionPrimaryOrgAddress;
 
-  /** Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity. */
-  @UI.label("Department Name")
-  @UI.section(Sf424Section.organizationalUnit)
-  @minLength(1)
-  @maxLength(30)
-  departmentName?: string;
-
-  /** Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity. */
-  @UI.label("Division Name")
-  @UI.section(Sf424Section.organizationalUnit)
-  @minLength(1)
-  @maxLength(100)
-  divisionName?: string;
+  ...QuestionOrganizationalUnit;
 
   /** Enter information about the contact person. */
   @UI.label("Contact Person")
@@ -220,9 +152,7 @@ model SF424 {
   /** Enter the organization if different from the applicant organization. */
   @UI.label("Organizational Affiliation")
   @UI.section(Sf424Section.contactPerson)
-  @minLength(1)
-  @maxLength(60)
-  organizationAffiliation?: string;
+  organizationAffiliation?: PocOrganizationAffiliation;
 
   /** Enter the daytime Telephone Number. */
   @UI.label("Telephone Number")
@@ -376,22 +306,9 @@ model SF424 {
   )
   totalEstimatedFunding: MonetaryAmount;
 
-  /** One selection is required. */
-  @UI.label("Is Application Subject to Review By State Under Executive Order 12372 Process?")
-  @UI.section(Sf424Section.stateReview)
-  stateReview: StateReview;
+  ...QuestionSf424StateReview;
 
-  /** If 'a' is selected, enter the date the application was submitted to the State. */
-  @UI.label("State Review Date")
-  @UI.section(Sf424Section.stateReview)
-  @Validation.requiredWhen(SF424.stateReview, StateReview.madeAvailable)
-  stateReviewAvailableDate?: plainDate;
-
-  /** If 'Yes,' provide explanation in attachment. */
-  @UI.label("Applicant Delinquent on Federal Debt")
-  @UI.section(Sf424Section.federalDebt)
-  @UI.widget(WidgetName.Radio)
-  delinquentFederalDebt: boolean;
+  ...QuestionFederalDebtStatus;
 
   @UI.label("Debt Explanation")
   @UI.section(Sf424Section.federalDebt)
@@ -440,3 +357,13 @@ model SF424 {
   @UI.readOnly
   dateSigned?: AorDateSigned;
 }
+
+@@UI.section(SF424.submissionType, Sf424Section.submissionType);
+@@UI.section(SF424.applicationType, Sf424Section.applicationTypeAndRevision);
+@@UI.section(SF424.revisionType, Sf424Section.applicationTypeAndRevision);
+@@UI.section(SF424.revisionOtherSpecify, Sf424Section.applicationTypeAndRevision);
+@@UI.section(SF424.departmentName, Sf424Section.organizationalUnit);
+@@UI.section(SF424.divisionName, Sf424Section.organizationalUnit);
+@@UI.section(SF424.stateReview, Sf424Section.stateReview);
+@@UI.section(SF424.stateReviewAvailableDate, Sf424Section.stateReview);
+@@UI.section(SF424.delinquentFederalDebt, Sf424Section.federalDebt);
