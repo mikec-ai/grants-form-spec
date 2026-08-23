@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gg_lobbying_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:13:18.585Z'
+  at: '2026-08-23T20:39:19.897Z'
 assignee: gg_lobbying_agent
 ---
 # Goal
@@ -34,14 +34,16 @@ Replace SGG's legacy Grants.gov Lobbying Form with portable artifacts as a sibli
 
 # Delivery receipt — 2026-08-23
 
-## Producer
+## Producer — merged
 
-- PR: https://github.com/mikec-ai/grants-form-spec/pull/49
-- Head: `852123c0da5c0cfff90787154831aaf9f5bcf444`
-- The generic documented-static-section behavior is isolated at `c0e74de9e718ba7ab47d9a90f5084ebc867cf98c` so it can be dropped or rebased onto the SF-424B owner's shared policy contract.
+- PR 49: https://github.com/mikec-ai/grants-form-spec/pull/49
+- Immutable merge commit: `7ebb2033de2cd7c31a6039fd3b7f492adb70aeed`.
 - Grants.gov Lobbying remains form id `gg-lobbying`, FID 255, version 1.1, distinct from `sflll`.
 - The form composes `primary-org/legal-name`, `aor/name`, `aor/title`, `aor/signature`, and `aor/date-signed`; all ten measured question occurrences have existing bank lineage and the form adds no unclassified field debt.
-- The form owns a portable Grants.gov XML target and versioned certification text. No form-specific compiler behavior was added.
+- Immutable certification text is `policy-content/v1` (`grants-gov/lobbying-certification@1.1`); submission attestation and response pointers are `form-policy-binding/v1`.
+- The shared policy projector from PR 48 emits the static SGG presentation. The temporary documented-empty-section behavior and its commit are absent from merged history.
+- The form owns a portable Grants.gov XML target and exact official-XSD fixture. No form-specific compiler behavior was added.
+- Emitted policy artifact digests: `policy-content.json` = `21f0e972f0a7b7929bfa3644d4efeebdfddd344994772c3ad1725d3f4e8ef403`; `policy-binding.json` = `59f49779ba7e942353ab118c54313e94e3f2ee1db11b3ff55f638ba985a7ab7a`.
 
 ## Exact provenance
 
@@ -54,34 +56,34 @@ Replace SGG's legacy Grants.gov Lobbying Form with portable artifacts as a sibli
 - Legacy SGG oracle revision: `30dd50cf0493146c32f89f78398979523e040080`
 - Legacy `form_json.py` digest: `bdf73a05a75b5020218f06864118f4c1e9ccc396934feaccc49e9acbbe406ad8`
 
-## Consumer
+## Consumer — merged
 
-- PR: https://github.com/mikec-ai/simpler-grants-gov/pull/42
-- Head: `cc1fb36bd67836a284e439992b444972f7f6ea5c`
-- The adapter vendors producer head `852123c0da5c0cfff90787154831aaf9f5bcf444` and uses only declarative legacy UI identifier projection plus the existing SGG runtime-identity target.
-- Required-field, nested representative, signature/date, submitter application-context, JSON save/reload, browser/print UI-input, XML, exact-XSD, evidence, and legacy-oracle parity canaries pass.
-- The portable XML output is canonically equal to the legacy output and validates against the exact official XSD.
-- `gg-lobbying` is explicitly absent from `registrations.json`; no production cutover or HHS upstream change is included.
+- PR 42: https://github.com/mikec-ai/simpler-grants-gov/pull/42
+- Immutable merge commit: `9a912428ba6cf5c33f417f95d0a4207fe68e3d7a`.
+- The adapter pins immutable merged producer revision `7ebb2033de2cd7c31a6039fd3b7f492adb70aeed` in a 22-form, 242-artifact selection.
+- The already-shared artifact selector retains declared `policy-content.json` and `policy-binding.json`; GG Lobbying adds only declarative legacy UI identifier projection and the existing SGG runtime identity.
+- Required-field, nested representative, signature/date, submitter application-context, JSON save/reload, browser/print UI-input, XML, exact-XSD, policy, evidence, and legacy-oracle parity canaries pass.
+- Portable XML is canonically equal to legacy output and validates against the exact official XSD.
+- `gg-lobbying` remains absent from `registrations.json`; no production cutover or HHS upstream change was made.
 
 ## Validation
 
-- Producer preflight passed: 95 TypeScript tests and 94 Python tests, with 8 environment/source-checkout skips.
-- Producer artifact validation passed for 137 blocks and 760 artifacts; unclassified-field ratchet remains 49.
-- Consumer GG Lobbying canary: 7 passed.
-- Consumer artifact/integrity/registration/XML tranche: 33 passed.
-- Broader consumer form-spec tranche reached 116 passing tests; the remaining DB-backed lifecycle test could not run because the local `grants-db` hostname is unavailable.
-- Producer PR 49 CI passed in 1m34s; consumer PR 42 has no configured/reported checks.
+- Producer preflight at the immutable merged revision passed: 99 TypeScript tests and 98 Python tests, with 8 environment/source-checkout skips.
+- Producer artifact validation passed for 138 blocks and 774 artifacts; package verification covered 519 artifacts; the unclassified-field ratchet remains 49.
+- Consumer focused GG Lobbying/CD-511/selector/provenance/integrity/registration/XML tranche: 48 passed.
+- Consumer portable-form tranche excluding the database-backed SF-424A lifecycle module: 187 passed.
+- Ruff passed for the changed consumer test surface.
+- Both repository PRs are merged; no configured consumer CI checks were reported.
 
-# Remaining gates
+# Remaining release gates
 
-- Reconcile the isolated documented-static-section commit with the generic policy/attestation contract owned by the SF-424B family agent; do not create a competing abstraction.
-- Obtain semantic/policy approval for the exact certification text and proposed question reuse.
+- Obtain semantic and policy-owner approval for the exact certification text and proposed question reuse.
 - Complete accessibility and instruction review.
-- After those gates, explicitly approve registration/cutover and run the registered browser, locked-state, print, and full submission route against an available DB/browser environment.
-- Merge producer before refreshing/merging the consumer pin if the producer head changes during policy-contract convergence.
+- Explicitly approve production registration/cutover.
+- With an available DB/browser environment, run the registered browser, locked-state, print, persistence, and full submission route before production registration.
 
 # Exit evidence
 
-Actual reuse is ten question occurrences with existing canonical lineage, five direct shared question compositions, one portable XML profile, and one declarative consumer identifier projection. The remaining differences are the versioned lobbying certification content and its official wire/root identity; SF-LLL disclosure questions and filing behavior are not imported.
+The portable, unregistered bank implementation is landed end to end. Actual reuse is ten question occurrences with existing canonical lineage, five direct shared question compositions, one generic versioned policy binding, one portable XML profile, and one declarative consumer identifier projection. The remaining differences are the versioned lobbying certification content and official wire/root identity; SF-LLL disclosure questions and filing behavior are not imported.
 
 [depends on](migrate-sflll-parity-oracle.md)
