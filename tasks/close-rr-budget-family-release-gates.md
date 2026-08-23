@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T18:44:21.686Z'
+  at: '2026-08-23T18:45:21.107Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -61,8 +61,8 @@ architecture or silently claim human approval.
 - Producer implementation is ready in [grants-form-spec PR 44](https://github.com/mikec-ai/grants-form-spec/pull/44):
   one declarative decorator, generic SGG projection, exactly 20 source-bound annotations,
   diagnostic coverage, and a source-bound decision record. Producer preflight passes (93 TypeSpec
-  tests, 76 Python tests, 660 artifact validations, and the unclassified-field ratchet). CI is
-  pending.
+  tests, 76 Python tests, 660 artifact validations, and the unclassified-field ratchet). GitHub CI
+  passed in 1m17s.
 - Adapter implementation is ready in [simpler-grants-gov PR 38](https://github.com/mikec-ai/simpler-grants-gov/pull/38):
   generic monetary-sum, integer-sum, and subtraction handling plus the exact producer commit pinned
   across all five family profiles. The focused 104-test rule-processing, root-budget,
