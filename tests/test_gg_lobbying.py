@@ -93,6 +93,8 @@ class GgLobbyingTests(unittest.TestCase):
         ui = load(FORM / "sgg/ui-schema.json")
         rules = load(FORM / "sgg/rule-schema.json")
         index = load(FORM / "index.json")
+        policy = load(FORM / "policy-content.json")
+        binding = load(FORM / "policy-binding.json")
 
         self.assertEqual(schema["required"], [
             "organizationName",
@@ -119,9 +121,29 @@ class GgLobbyingTests(unittest.TestCase):
         self.assertEqual(occurrences["/authorizedRepresentativeSignature"]["responseRole"], "systemValue")
         self.assertEqual(occurrences["/submittedDate"]["responseRole"], "systemValue")
 
+        self.assertEqual(policy["contract"], "policy-content/v1")
+        self.assertEqual(policy["id"], "grants-gov/lobbying-certification")
+        self.assertEqual(policy["version"], "1.1")
+        self.assertEqual(policy["kind"], "certification")
+        self.assertEqual(binding["contract"], "form-policy-binding/v1")
+        self.assertEqual(binding["policy"], {"id": policy["id"], "version": policy["version"]})
+        self.assertEqual(binding["acceptance"]["event"], "submission")
+        self.assertEqual(binding["acceptance"]["actor"], "authorizedRepresentative")
+        self.assertEqual(binding["acceptance"]["attestsTo"], ["certification"])
+        self.assertEqual(
+            {field["role"]: field["pointer"] for field in binding["acceptance"]["fields"]},
+            {
+                "signature": "/authorizedRepresentativeSignature",
+                "signerTitle": "/authorizedRepresentativeTitle",
+                "applicantOrganization": "/organizationName",
+                "acceptedAt": "/submittedDate",
+            },
+        )
+
         certification = ui[0]
         self.assertEqual(certification["name"], "certification")
         self.assertEqual(certification["children"], [])
+        self.assertEqual(certification["description"], policy["sections"][0]["text"])
         self.assertIn("No Federal appropriated funds", certification["description"])
         self.assertIn("Statement for Loan Guarantees and Loan Insurance", certification["description"])
 
