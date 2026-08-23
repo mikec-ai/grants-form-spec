@@ -7,7 +7,6 @@ description: >-
   five high-value portable foundations or derivatives.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
 ---
 # Strategy
 
@@ -194,3 +193,5 @@ Keep these immediately behind the cohort rather than silently expanding scope:
 [contains](../tasks/migrate-sf424d-assurance-family.md)
 
 [contains](../tasks/migrate-cd511-parity-oracle.md)
+
+[contains](../tasks/automate-cross-repo-form-promotion.md)
