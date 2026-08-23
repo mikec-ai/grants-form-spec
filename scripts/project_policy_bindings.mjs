@@ -45,13 +45,21 @@ function assertUnique(values, label, path) {
 }
 
 function sectionDescription(section) {
-  const parts = [];
-  if (section.preamble) parts.push(section.preamble);
-  if (section.text) parts.push(section.text);
-  if (section.items) {
-    parts.push(...section.items.map((item) => `${item.ordinal ?? item.label ?? ""}. ${item.text}`.replace(/^\. /, "")));
+  const present = ["preamble", "text", "items", "note"].filter((name) => section[name]);
+  const order = section.presentationOrder ?? ["preamble", "text", "items", "note"].filter((name) => section[name]);
+  if (order.length !== present.length || order.some((name) => !present.includes(name))) {
+    throw new Error(
+      `policy section ${section.id} presentationOrder must contain each present content block exactly once`,
+    );
   }
-  if (section.note) parts.push(section.note);
+  const parts = [];
+  for (const name of order) {
+    if (name === "items") {
+      parts.push(...section.items.map((item) => `${item.ordinal ?? item.label ?? ""}. ${item.text}`.replace(/^\. /, "")));
+    } else {
+      parts.push(section[name]);
+    }
+  }
   return parts.join("\n\n");
 }
 
