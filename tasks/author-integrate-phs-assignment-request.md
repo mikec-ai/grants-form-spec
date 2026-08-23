@@ -6,10 +6,10 @@ description: >-
   Deliver the small high-volume assignment-preference profile without
   introducing a PHS-specific workflow engine.
 superbee_progress_status: in_progress
-superbee_updated_by: assignment_request_agent
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:23:36.984Z'
+  at: '2026-08-23T22:50:24.510Z'
 assignee: assignment_request_agent
 ---
 # Goal
@@ -81,3 +81,9 @@ The producer form landed in a focused PR without a runtime extension. Its source
 [depends on](enforce-rule-evidence-target-coverage.md)
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
+
+# Consumer banking receipt
+
+Consumer PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) banks PHS Assignment Request from immutable producer revision `2fde5118f440f31c7527fde784d573bb3ab3d912` without inventing workflow behavior, a runtime identity, compatibility projection, or registration. The 31-form selection contains 342 digest-verified artifacts and pins producer bundle SHA-256 `72aee82f3d5d04ff7862a978a5953e876489622c219d9482f2b712347e5a622e`. The exact official XSD is vendored at SHA-256 `7e697ee33ea6f72271c0d74fc48c61f4f81faa242a712a4c73e7898f6c4ab976`.
+
+Generic artifact/XSD integrity, 25 focused tests, 225 non-DB form-spec and legacy Attachment XML tests, Ruff, and changed-loader mypy pass. `registrations.json` is unchanged. The form remains banked-only, unavailable to runtime projection or preview, and unregistered pending explicit consumer identity/projection plus semantic, privacy, policy, instruction, accessibility, operational, and release review.

@@ -6,10 +6,10 @@ description: >-
   Replace the legacy SGG Attachment Form with portable ordered-attachment
   composition and differential XML/lifecycle parity.
 superbee_progress_status: in_progress
-superbee_updated_by: attachment_form_agent
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T22:29:22.622Z'
+  at: '2026-08-23T22:50:24.230Z'
 assignee: attachment_form_agent
 ---
 # Goal
@@ -80,3 +80,11 @@ Publish the reusable attachment composition and fixtures needed by PHS 398 Resea
 [depends on](enforce-rule-evidence-target-coverage.md)
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
+
+# Consumer banking receipt
+
+Consumer PR [#51](https://github.com/mikec-ai/simpler-grants-gov/pull/51) banks Attachment Form from immutable producer revision `2fde5118f440f31c7527fde784d573bb3ab3d912` without adding a runtime identity or registration. The 31-form selection contains 342 digest-verified artifacts and pins producer bundle SHA-256 `72aee82f3d5d04ff7862a978a5953e876489622c219d9482f2b712347e5a622e`.
+
+The first hosted promotion run [32670976757](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32670976757) failed closed because the consumer stored an LF-normalized copy of the Attachment XSD (`ac392f51bdeb17ffe734f3008e2c2ad67a71a46c9051829f39ee02ce136a4a20`) while the producer correctly pins official raw bytes `c6b7f40614a2077818f5f3b5df72959f867611b887c5b888005df8adeaa5e8e9`. PR #51 vendors the exact official bytes and preserves them as binary; the producer offline conformance fixture remains a separately declared reformatted lineage (`dc3ae0af03a52b3a062dc74745b2e355a6c6ce1cc1b53a6c955cd2f972f11466`). No provenance check was weakened.
+
+Generic artifact/XSD integrity, 25 focused tests, 225 non-DB form-spec and legacy Attachment XML tests, Ruff, and changed-loader mypy pass. `registrations.json` is unchanged. The form remains banked-only, unavailable to runtime projection or preview, and unregistered pending explicit consumer identity/projection plus the existing human and release gates.
