@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -140,15 +142,49 @@ class Sf424bFamilyTests(unittest.TestCase):
             )
             self.assertNotIn("formVersionIdentifier", profiles[form_id]["mapping"]["fields"])
 
-    def test_release_gates_keep_operational_work_explicit(self) -> None:
+    def test_rr_xsd_metadata_defect_has_an_explicit_tested_disposition(self) -> None:
         rr = load(ROOT / "policy-bindings/forms/rr-sf424b.json")
-        self.assertEqual(rr["release"]["status"], "blocked")
+        self.assertEqual(rr["release"]["status"], "draft")
         mismatch = next(
             gate for gate in rr["release"]["gates"]
             if gate["id"] == "official-xsd-version-consistency"
         )
-        self.assertEqual(mismatch["status"], "blocked")
-        self.assertIn("schema version attribute is 1.0", mismatch["note"])
+        self.assertEqual(mismatch["status"], "passed")
+        self.assertIn("upstream metadata defect", mismatch["note"])
+        self.assertIn("xsd:schema/@version is 1.0", mismatch["note"])
+        self.assertIn("no defined validation semantics", mismatch["note"])
+        self.assertIn(XSD_HASHES["rr-sf424b"], mismatch["note"])
+
+        fixture = (
+            ROOT
+            / "tests/fixtures/grants-gov-xsd/sf424b-1.1/RRSF424_SF424B-V1.1.xsd"
+        )
+        fixture_bytes = fixture.read_bytes()
+        self.assertEqual(hashlib.sha256(fixture_bytes).hexdigest(), XSD_HASHES["rr-sf424b"])
+
+        schema = ET.fromstring(fixture_bytes)
+        xsd = {"xsd": "http://www.w3.org/2001/XMLSchema"}
+        self.assertEqual(schema.attrib["version"], "1.0")
+        self.assertEqual(
+            schema.attrib["targetNamespace"],
+            "http://apply.grants.gov/forms/RRSF424_SF424B-V1.1",
+        )
+        form_version = schema.find(
+            ".//xsd:complexType[@name='AssuranceType']/xsd:attribute[@name='FormVersion']",
+            xsd,
+        )
+        self.assertIsNotNone(form_version)
+        self.assertEqual(form_version.attrib["fixed"], "1.1")
+
+        profile = load(ROOT / "targets/grants-gov-xml/profiles/rr-sf424b.json")
+        self.assertTrue(profile["xsd"]["uri"].endswith("RRSF424_SF424B-V1.1.xsd"))
+        self.assertEqual(profile["root"]["attributes"]["FormVersion"], "1.1")
+        self.assertEqual(
+            profile["mapping"]["fields"]["formVersionIdentifier"]["constant"],
+            "1.1",
+        )
+
+    def test_release_gates_keep_operational_work_explicit(self) -> None:
         for form_id in FORM_IDS:
             binding = load(ROOT / f"policy-bindings/forms/{form_id}.json")
             gate_status = {gate["id"]: gate["status"] for gate in binding["release"]["gates"]}

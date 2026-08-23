@@ -21,9 +21,9 @@
     ]
   },
   "release": {
-    "status": "blocked",
+    "status": "draft",
     "gates": [
-      { "id": "official-xsd-version-consistency", "status": "blocked", "note": "The official V1.1 URL currently serves an XSD whose schema version attribute is 1.0, while its namespace and fixed FormVersion are 1.1." },
+      { "id": "official-xsd-version-consistency", "status": "passed", "note": "Accepted as an upstream metadata defect without altering the pinned official bytes: xsd:schema/@version is 1.0, but that attribute has no defined validation semantics; the official URL and filename, target namespace, fixed FormVersion, and FormVersionIdentifier are all 1.1, and emitted XML validates against the exact official XSD (SHA-256 511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296)." },
       { "id": "policy-owner-review", "status": "pending" },
       { "id": "accessibility-review", "status": "pending" },
       { "id": "instructions-review", "status": "pending" },
