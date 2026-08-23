@@ -75,7 +75,7 @@ npm run emit
 npm test
 npm run analyze
 python3 scripts/analyze.py --json --output-dir build/analysis
-npm run check-unclassified
+npm run check-classified-fields
 ```
 
 `npm run validate-artifacts` validates emitted questions, forms, presentation trees,
@@ -90,9 +90,9 @@ and deterministic extraction provenance. Semantic mappings carry an explicit rev
 unreviewed or proposed mappings are never eligible for published coverage metrics.
 
 Every emitted form index includes path-qualified canonical field lineage and explicitly authored
-response roles. CI maintains a no-new-debt ratchet over fields that have neither canonical question
-lineage nor a declared non-question role. Removing debt is expected; introducing a new unexplained
-field is not.
+response roles. CI requires zero fields without canonical question lineage or a declared
+non-question role. Any temporary exception must carry evidence, an owner, a reason, and a bounded
+removal condition; see [the classified form-field gate](documentation/classified-form-field-gate.md).
 
 The [SF-424 cover cluster note](documentation/sf424-cover-question-clusters.md) records the
 conservative 50-occurrence partition, source boundary, and unpublished review status.

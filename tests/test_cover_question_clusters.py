@@ -262,10 +262,9 @@ class CoverQuestionClusterTests(unittest.TestCase):
         self.assertNotIn("minLength", revision_other)
         self.assertNotIn("maxLength", revision_other)
 
-    def test_ratchet_and_analysis_report_no_forced_residual(self) -> None:
-        baseline = load(ROOT / "analysis/unclassified-fields-baseline.v1.json")
-        self.assertEqual(len(baseline["initial"]), 76)
-        self.assertEqual(baseline["resolved"], baseline["initial"])
+    def test_permanent_gate_and_analysis_report_no_forced_residual(self) -> None:
+        exceptions = load(ROOT / "analysis/unclassified-field-exceptions.v1.json")
+        self.assertEqual(exceptions, {"version": 1, "exceptions": []})
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
         self.assertEqual(self.analysis["unclassifiedFormFields"], [])
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
