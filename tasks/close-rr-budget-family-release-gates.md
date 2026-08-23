@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: gate_assessment_agent
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T20:28:19.045Z'
+  at: '2026-08-23T20:32:22.850Z'
 assignee: gate_assessment_agent
 ---
 # Goal
@@ -77,12 +77,16 @@ architecture or silently claim human approval.
   materialization policies fail closed during artifact projection. Materialized sums and
   subtraction require nonempty string `fields`; PercentOf requires nonempty string `amount` and
   `percentage` paths, so malformed artifacts cannot fall through to a swallowed runtime error. The
-  focused 149-test rule-processing, root-budget, nested-subaward, provenance, malformed-contract,
+  focused 164-test rule-processing, root-budget, nested-subaward, provenance, malformed-contract,
   and artifact-integrity suite passes
   against the local test database; lint, formatting, and targeted mypy pass at adapter commit
-  `a029d1aaf2c053fc4075bffa6c2a8dd19b1fe75b`. The branch is rebased on fork main
-  `f0a0aabd3308b4d0bddd1bae5ce881ea8e17309b`; the corrected SF-424A lifecycle fixture passes in
-  the same focused run. This fork currently reports no GitHub checks for
+  `68c001cc62dac7cf8d0d957f48407c2ce9f08f25`. The branch is rebased on fork main
+  `f6affacded160c1585a9e148091b27d45eb7689c`, preserving its generic CD-511 consumer.
+  The fork's 21-form artifact selection is pinned to producer
+  `a7f900c636d8eeaad68a4069e745e397593c9459`; budget artifacts therefore include the merged
+  materialization contract without carrying a stale generated-manifest commit. The corrected
+  SF-424A lifecycle fixture and the CD-511 focused suites pass in the same run. This fork currently
+  reports no GitHub checks for
   the branch.
 - Regression coverage proves that absent optional Other Personnel input leaves cumulative count and
   funds outputs absent, while explicitly entered integer and monetary zeroes materialize zero. The
