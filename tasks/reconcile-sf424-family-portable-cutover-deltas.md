@@ -6,10 +6,10 @@ description: >-
   Resolve the producer, declaration, and reviewed compatibility differences
   exposed by PR63 while production remains fail-closed on legacy definitions.
 superbee_progress_status: in_progress
-superbee_updated_by: implement_operational_evidence
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:16:30.056Z'
+  at: '2026-08-24T05:16:49.507Z'
 assignee: codex-cardinality-emitter
 ---
 # Goal
@@ -132,3 +132,8 @@ Required differential tests should cover each path independently and together: o
 ### Review boundary
 
 This audit resolves the blank-value mechanics from exact sources. It does not accept the three semantic question mappings for published reuse metrics, change production registration, or authorize a production cutover. The existing mapping status remains proposed until the separate semantic-review workflow accepts those identities.
+
+## PR #72 review follow-up
+
+- Review found R&R Personal Data as the third emitted form affected by the same generic correction. The regression now proves both its direct `projectDirector` reference and repeated `coProjectDirectors.items` reference do not copy nested name cardinality, while both shared question artifacts retain required first and last names.
+- Full preflight passed again at exact amended head `f4cf21eb8326d92872efe5e4d7f3a58786217172`: 116 TypeScript tests and 291 Python tests with 2 skipped, plus every producer artifact and conformance gate. Draft PR #72 remains unmerged; hosted CI is running on the amended head.
