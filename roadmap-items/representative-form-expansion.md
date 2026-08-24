@@ -2,9 +2,9 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-three producer forms are delivered; Research Plan now consumes the
-  Attachment Form foundation while supervised consumer promotion proceeds in
-  parallel.
+  Thirty-three producer forms and thirty-two banked consumer forms are
+  delivered; Research Plan consumer promotion and a measured cheap-form lane
+  now test whether marginal delivery cost is falling.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: codex
@@ -22,7 +22,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 33 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 29 forms at producer revision `825ee6b1`; `rr-sf424b`, `phs-assignment-request`, `attachment-form`, and `phs398-research-plan` remain producer-only. SF-424C is banked through the supervised promotion workflow. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. Consumer PR #51 proposes banking Attachment Form and PHS Assignment Request without inventing runtime identities; it remains unmerged until its isolated formatting prerequisite and hosted CI gates pass.
+Current cross-repository snapshot: the public consumer fork banks 32 forms at consumer revision `12977071e`. PHS Assignment Request, Attachment Form, and R&R SF-424B have landed since the prior snapshot. `phs398-research-plan` is the only form on the current 33-form producer main that remains producer-only. PHS Human Subjects and Clinical Trials is in an open producer PR with green automated gates. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -58,6 +58,17 @@ The weights determine the cohort, not semantic equivalence. Submission counts ar
 
 Do not pre-build a general workflow engine, policy DSL, new intermediate representation, or generalized PHS framework. A concrete form must demonstrate any additional generic capability.
 
+# Cheap, high-use banking lane
+
+Run this bounded lane alongside—not instead of—the committed sequence:
+
+1. **Bank PHS 398 Research Plan in SGG.** The producer work is complete; promotion should now be a short generic consumer operation.
+2. **Author NIFA Supplemental.** This is the genuinely missing bounded candidate: 18,405 recorded two-year instances, 32 source structure records, 31 behaviors, and only four conditions.
+3. **Author R&R Personal Data.** Its 39,237 instances make it valuable, but source-conformant banking must remain separate from privacy-gated runtime release.
+4. **Author SBIR/STTR Information.** Its 22,853 instances and moderate conditional surface make it a useful follow-on composition test, not an excuse for a general policy engine.
+
+Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the committed sequence above and are not duplicated in this lane. Each lane task must record elapsed effort and reuse so the roadmap measures marginal economics instead of merely accumulating form count.
+
 # Oracle protocol
 
 For every oracle-backed migration:
@@ -90,10 +101,9 @@ Keep these behind the committed next sequence rather than silently expanding sco
 
 1. PHS Fellowship Supplemental
 2. SF-425 Federal Financial Report
-3. SBIR/STTR Information
-4. EPA Key Contacts as an identity/contact oracle migration
-5. R&R Federal/Non-Federal Budget
-6. R&R Personal Data after privacy and policy review
+3. EPA Key Contacts as an identity/contact oracle migration
+4. R&R Federal/Non-Federal Budget
+5. PHS Career Development Supplemental
 
 # Work governed by this roadmap item
 
@@ -159,6 +169,8 @@ Keep these behind the committed next sequence rather than silently expanding sco
 
 [contains](../tasks/author-integrate-phs398-research-plan.md)
 
+[contains](../tasks/bank-phs398-research-plan-in-sgg.md)
+
 [contains](../tasks/migrate-gg-lobbying-parity-oracle.md)
 
 [contains](../tasks/author-integrate-phs-assignment-request.md)
@@ -166,6 +178,12 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/migrate-sf424c-parity-oracle.md)
 
 [contains](../tasks/author-integrate-phs398-cover-page-supplement.md)
+
+[contains](../tasks/author-integrate-nifa-supplemental.md)
+
+[contains](../tasks/author-integrate-rr-personal-data.md)
+
+[contains](../tasks/author-integrate-sbir-sttr-information.md)
 
 [contains](../tasks/complete-key-person-declaration-xml.md)
 
