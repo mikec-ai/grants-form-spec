@@ -11,6 +11,6 @@ superbee_progress_status: in_progress
 superbee_updated_by: parity_delta_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T18:59:13.218Z'
+  at: '2026-08-24T19:15:54.762Z'
 ---
-Producer contract merged through PR #84 at 5a374664e100551e900b041866f56ca0fe86af28. The ledger contains 50 atomic targets: all remain proposed; 16 have verified source support and 34 remain unverified. Consumer PR #79 consumes the ledger through the digest-pinned artifact promotion path and reports 1 exact-parity gate pass, 6 mechanically bounded proposed gate blocks, and 0 unexplained failures. Final steps: merge consumer PR after checks, then correct the proof-package claim and reconcile durable board language.
+Producer PRs 82 through 85 define and harden the portable parity-delta ledger through merge `2a316a832a343f3830c4b6a8948fd746c3dd8c56`. Consumer PR 79 merged at `29fafef5c1f1032b559b519d73387475932297fd` and consumes the exact producer pin generically. The ledger has 50 exact targets: 16 source-verified, 34 unverified, all 50 proposed, and 0 accepted. One form passes because all supported dimensions match exactly; six forms remain blocked because their mechanically bounded differences are proposed and unaccepted; zero unexplained failures remain. Schema validation, offline evidence receipt joins, stale and unused entry detection, and the independent decision-artifact boundary all fail closed. Producer PR 86 corrects the public proof-package claim to these governed results.

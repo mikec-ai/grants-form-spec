@@ -7,10 +7,10 @@ description: >-
   Package reproducible parity, source-validation, reuse, and demonstration
   evidence for the initial proof.
 superbee_progress_status: in_progress
-superbee_updated_by: uniform_cohort_proof
+superbee_updated_by: parity_delta_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T18:00:09.485Z'
+  at: '2026-08-24T19:15:54.456Z'
 ---
 # Goal
 
@@ -98,26 +98,24 @@ ignored build artifacts.
 
 # Uniform seven-form comparison proof
 
-[grants-form-spec PR 81](https://github.com/mikec-ai/grants-form-spec/pull/81), merged at
-`42070f20c1a755e624eebbfe284050976b050088`, adds the bounded proof-package claim for the uniform
-portable-versus-existing comparator merged in consumer PR 76 at
-`1e4cdb8b6481a0e34946df7b380e8cf306d552cd`.
+[simpler-grants-gov PR 79](https://github.com/mikec-ai/simpler-grants-gov/pull/79), merged at
+`29fafef5c1f1032b559b519d73387475932297fd`, moves all delta decisions out of the consumer cohort
+and consumes the portable, digest-pinned parity ledger generically. Producer PRs 82 through 85
+define and harden that ledger contract. [grants-form-spec PR 86](https://github.com/mikec-ai/grants-form-spec/pull/86)
+corrects the proof-package claim to the governed result.
 
-- One form-agnostic mechanism compares SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract
-  Summary, Project Narrative Attachments, and SF-424B; all seven comparison gates pass.
-- Across 28 supported form-dimension results, 15 report parity, 12 report evidence-linked
-  intentional differences, one is not applicable, and none fail. Project Narrative Attachments
-  reports exact parity in the supported schema, UI, validation, and rule-declaration dimensions.
-- The claim pins final consumer merge `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`, while separately
-  recording that the hosted receipt was generated at PR merge-ref
-  `35d63c39db0d7dfae2dd83d36b4aba52011e064f`. GitHub resolves both revisions to the identical tree
-  `9a765873ee4ba8e7057c6bf156d6ac14df39c329`. It also records stable cohort/comparator/test paths,
-  generated summary path, successful workflow run `32756098657`, artifact ID `9531875033`, and
-  exact artifact name. The downloaded hosted summary reports seven passed and zero failed.
+- One form passes because all supported dimensions match exactly. Six forms are blocked because
+  their observed differences are mechanically bounded but remain proposed and unaccepted. There
+  are zero unexplained failures.
+- Across 28 supported form-dimension results, 15 report parity, 12 report proposed deltas, one is
+  not applicable, and zero report reviewed deltas.
+- The ledger contains 50 exact-key records. Sixteen are source-verified, all 50 remain proposed,
+  and zero are accepted. The current contract rejects every accepted record until an independent,
+  offline-verifiable decision-artifact receipt exists.
 - Serialized XML, rule outcomes, and runtime lifecycle remain explicitly unavailable in this static
   mechanism. Existing Simpler behavior remains a compatibility oracle rather than semantic
   authority. The claim is not release readiness, semantic acceptance, accessibility review, policy
   approval, or production registration.
-- Focused proof tests pass, and full producer preflight is green at amended PR head `32c25739b` with 121
-  TypeScript tests and 325 Python tests, two skipped. Generated receipts, proof index, and manifest
-  remain ignored build artifacts.
+- At PR 86 head `593671d7d`, focused proof tests and full producer preflight pass: 121 TypeScript
+  tests and 334 Python tests, two skipped. Generated receipts, proof index, and manifest remain
+  ignored build artifacts.

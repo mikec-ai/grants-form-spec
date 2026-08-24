@@ -8,7 +8,7 @@ description: >-
   then extend it across every overlap form.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.443Z'
-superbee_updated_by: legacy_diff_cohort
+superbee_updated_by: parity_delta_contract
 assignee: legacy_diff_cohort
 ---
 # Goal
@@ -49,24 +49,25 @@ Existing behavior is a compatibility oracle, not semantic authority. A differenc
 
 ## Implementation checkpoint: initial seven-form cohort
 
-Merged consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), durable merge revision `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`, implements the first uniform cohort on top of merged PR 77 (`9f9ffcb1cd5fd7705bcbd0160df63d2227ffb08c`). The reviewed PR head was `b7ca42548d018a65b11430a4f618ddec5a08d8b2`.
+Consumer PR [mikec-ai/simpler-grants-gov#79](https://github.com/mikec-ai/simpler-grants-gov/pull/79), durable merge revision `29fafef5c1f1032b559b519d73387475932297fd`, governs the initial cohort through the portable producer ledger and replaces the earlier inline consumer allowances.
 
-The cohort is SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. The same generic comparator runs every form; form-specific declarations are limited to existing-oracle identity and exact intentional-delta keys with a reason and durable evidence path. It has no form-ID branches.
+The cohort is SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. The same generic comparator runs every form. Exact delta targets, classifications, evidence, source-support state, and review state live in the producer ledger rather than adapter control flow.
 
 Current reproducible result:
 
-- 7 comparison-gated receipts passed and 0 failed;
-- schema: 1 parity and 6 evidence-linked intentional deltas;
-- UI: 3 parity and 4 evidence-linked intentional deltas;
-- validation: 5 parity and 2 evidence-linked intentional deltas;
+- 1 exact-parity gate passes and 6 proposed gates remain blocked;
+- schema: 1 parity and 6 proposed deltas;
+- UI: 3 parity and 4 proposed deltas;
+- validation: 5 parity and 2 proposed deltas;
 - rules: 6 declaration parity and 1 not applicable;
-- 46 focused and related tests passed;
-- direct isort, Black, Ruff, and full API mypy passed.
+- zero unexplained failures and zero reviewed deltas;
+- 50 exact-key ledger records: 16 source-verified, 50 proposed, and 0 accepted;
+- 26 focused comparator, promotion, and provenance tests passed; Ruff and focused mypy passed.
 
 The static mechanism deliberately reports XML, rule outcomes, and runtime lifecycle as `unavailable`. It does not convert an unsupported comparison into zero differences or parity. Project Narrative Attachments is exact parity across all four supported dimensions. Generated receipts remain ignored and are published as a CI build artifact.
 
 Receipt provenance does not depend on Git being installed in the runtime container. CI injects and strictly validates the full GitHub commit SHA; local runs may use the same option or fall back to the local Git HEAD. Tests reject invalid revisions and assert the injected revision is preserved in every receipt.
 
-Hosted merge evidence: the full API suite, the in-container seven-receipt build, and build-artifact publication all passed before merge. The generated receipts are reproducible from merge revision `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`; they are build artifacts rather than checked-in runtime files.
+The generated receipts are reproducible from merge revision `29fafef5c1f1032b559b519d73387475932297fd`; they remain build artifacts rather than checked-in runtime files. Proposed records block the comparison gate and cannot be reported as accepted parity.
 
 The next extension should add further overlap forms only when their existing implementation is a stable compatibility oracle. Diagnostic runs against SF-LLL and Performance Site Locations exposed broad source or structural divergence, so they were not normalized into large intentional-delta allowlists merely to increase the cohort count. They remain candidates for source reconciliation before cohort admission.
