@@ -71,7 +71,7 @@ Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the co
 
 The first measured lightweight banking proof completed on PHS Inclusion Enrollment Report. The automation built, verified, ingested, committed, and pushed the 34-form/370-artifact bundle in 1 minute 49 seconds. After two one-time CI/repository configuration defects were repaired, the corrected hosted bank-only lane reached green in 43 seconds from refreshed-branch update and the promotion merged 8 minutes 27 seconds after the original timer start. No full API or E2E execution occurred on the successful pass.
 
-The steady-state follow-up is PHS 398 Cover Page Supplement. Draft consumer PR #60 now pins producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, builds on the automated R&R Personal Data promotion, adds only Cover Page Supplement through an artifact/XSD-only diff, and moves the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. Its original hosted pass demonstrated the lightweight lane; a fresh hosted pass at the rebased head is required before review.
+The steady-state follow-up is PHS 398 Cover Page Supplement. Draft consumer PR #60 pins producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, builds on the automated R&R Personal Data promotion, adds only Cover Page Supplement through an artifact/XSD-only diff, and moves the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped.
 
 # Oracle protocol
 
