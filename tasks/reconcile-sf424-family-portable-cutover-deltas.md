@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:06:32.883Z'
+  at: '2026-08-24T05:10:56.424Z'
 assignee: codex-cardinality-emitter
 ---
 # Goal
@@ -63,3 +63,11 @@ Do not weaken the shared bank questions solely to satisfy legacy fixtures. First
 # Boundary
 
 No HHS upstream writes. Do not edit or merge PR #63 or PR #65 from this task. Similar behavior is not semantic equivalence, and proposed evidence does not count as reviewed acceptance.
+
+# Producer correction receipt
+
+- Draft producer PR [mikec-ai/grants-form-spec#72](https://github.com/mikec-ai/grants-form-spec/pull/72), exact head `06a7f875b1f32702591531109ec4fd4a5b9e8761`, implements root cause A only.
+- The generic emitter now stops recursive cardinality projection at published question boundaries while preserving decorators declared directly on a form occurrence. No form-id or consumer branches were added.
+- A generic TypeSpec regression proves intrinsic question cardinality stays in the question and explicit occurrence narrowing remains beside the form reference. Emitted-artifact tests prove SF-424 and SF-424 Short reference `primary-org/address` without copying its `required` or conditional `allOf` branches.
+- Full producer preflight passed on base `ec2c34f0a8d5dceeb0043dff13378457b0b5242f`: 116 TypeScript tests, 290 Python tests with 2 skipped, artifact validation, promotion validation, exact-XSD fixture checks, package creation/verification, analysis, independent TypeSpec compilation, and the classified-field gate.
+- The task remains in progress because the SF-424 Short `readOnly` decision and SF-424A optional-blank semantic review are intentionally unresolved.
