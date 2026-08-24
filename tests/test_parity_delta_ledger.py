@@ -70,6 +70,15 @@ class ParityDeltaLedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "duplicate or incomplete exact delta target"):
             validate_ledger(ROOT, self._write(duplicate))
 
+    def test_rejects_rule_target_until_exact_rule_resolution_exists(self) -> None:
+        unsupported = copy.deepcopy(self.ledger)
+        unsupported["records"][0]["target"]["semanticTarget"] = {
+            "kind": "rule_path",
+            "value": "/rules/example",
+        }
+        with self.assertRaisesRegex(ValueError, "semantic target is absent"):
+            validate_ledger(ROOT, self._write(unsupported))
+
     def test_rejects_missing_evidence_and_assertion(self) -> None:
         missing = copy.deepcopy(self.ledger)
         missing["records"][0]["evidenceReferences"] = []

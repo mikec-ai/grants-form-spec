@@ -18,6 +18,11 @@ Review is also explicit. Proposed records are not accepted differences. An accep
 an accountable reviewer, review timestamp, and durable decision evidence. Unresolved mismatches are
 classified separately and cannot be accepted.
 
+Classification and source support describe what evidence currently says; neither is acceptance.
+For example, an `authoritative_source_correction` with verified source support still remains proposed
+until its review record is accepted. Rule-path targets are reserved by the schema but fail validation
+until the compiler can resolve them exactly against emitted rule artifacts.
+
 Consumers vendor the exact producer ledger, pin its producer revision and SHA-256 digest, and use a
 generic comparator to join observed `(formId, dimension, differenceKey)` tuples to ledger records.
 Unexpected observations, unused records, absent semantic targets, unreviewed proposals, and
