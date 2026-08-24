@@ -1,7 +1,7 @@
 ---
 type: Task
 title: Build uniform portable-versus-legacy differential parity
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 priority: P0
 description: >-
   Prove one generic compatibility harness across an initial 7-10 form cohort,
@@ -9,6 +9,7 @@ description: >-
 actor: Codex
 timestamp: '2026-08-23T22:26:31.443Z'
 superbee_updated_by: codex-root
+assignee: legacy_diff_cohort
 ---
 # Goal
 
