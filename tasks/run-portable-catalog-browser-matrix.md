@@ -131,4 +131,13 @@ The two Prettier-only canary changes inherited by consumer main are isolated in 
 
 Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete.
 
+## First complete hosted Stage A run, 2026-08-24
+
+- Manually dispatched run: https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32774754108
+- Exact consumer revision: `99709f19e45cddbc58d8d5be4d72610fdbe5e61b`.
+- Invocation used the explicit `@portable-catalog` tag and API-failure logging. The generated manifest selection contains 39 forms; no form-specific selector, runtime registration, or production identity was added.
+- The run has cleared classification, API/frontend revision resolution, API image construction, and Playwright caching. All four hosted shards cleared the repaired API startup boundary and reached the real Playwright E2E step.
+- Current status at handoff: `in_progress`; shard jobs `97583759643`, `97583759654`, `97583759656`, and `97583759682` are executing the catalog browser tests. Final per-form receipts and catalog summaries remain CI artifacts and must be read after completion before any pass/fail claim.
+- A parallel-work bottleneck was identified during execution: bounded one-form requests previously expanded to the complete selection. Consumer PR 87, owned separately, adds the already-supported fail-closed selector to hosted CI and reduces bounded runs to one shard. This task did not duplicate that change.
+
 [depends on](repair-shared-api-startup-for-browser-conformance.md)
