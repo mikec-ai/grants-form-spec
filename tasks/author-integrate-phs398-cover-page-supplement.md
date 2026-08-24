@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:15:04.653Z'
+  at: '2026-08-24T03:47:39.407Z'
 assignee: cover_page_supplement_agent
 ---
 # Goal
@@ -33,4 +33,4 @@ Author PHS 398 Cover Page Supplement as a versioned HHS research-policy profile 
 
 # Consumer banking receipt
 
-Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/60 banks this producer package from immutable revision `778e9b04cd01886593cbbafab1f34b8c8753c2a9`. The artifact/XSD-only delta adds no runtime identity, registration, preview, or form-specific consumer code. Runtime human semantic, policy, instruction, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/60 banks this producer package from immutable revision `6b5717763d5769efd8b92a3cdbb61bc6935909fb`. It is rebased over consumer PR #61, so its artifact/XSD-only delta adds only Cover Page Supplement while preserving the already-banked R&R Personal Data form. It adds no runtime identity, registration, preview, or form-specific consumer code. Runtime human semantic, policy, instruction, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
