@@ -6,21 +6,23 @@ description: >-
   Producer capability merged in grants-form-spec at
   4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer draft PR #67 is rebased on
   preview-enabled public-fork main 4c8b331798c0f31552cff2759a868ba25cd795b6 at
-  exact head 665f0c21af8b0dd23995187b1beebe79ea12181d. The generic adapter
+  exact head fd6f0000cb58667bbe086a5abeac78a765dc3662. The generic adapter
   verifies and projects exact reviewed pointers, normalizes copied responses
   before rules, canonical validation, and XML, preserves raw capture blanks
   while retaining rule writes, and carries the policy through manifest-driven
-  previews with no form-ID branches or DB migration. Preliminary review findings
-  are addressed: consumer target eligibility now rejects all producer-forbidden
-  conditional/alternative composition, accepts numeric object-property names,
-  and allows required parent objects while still rejecting required target
-  leaves. Focused isort, Black, Ruff, mypy, and 32 normalization tests are
-  green; hosted CI and remaining independent review are pending.
+  previews with no form-ID branches or DB migration. Review findings addressed:
+  producer-forbidden schema composition fails closed; numeric object-property
+  names and required parents match producer acceptance; empty RFC 6901 tokens
+  fail before traversal; projected normalization paths cannot overlap
+  pre/post-population rule mutation targets, preventing intentional null
+  deletion from being mistaken for capture-only omission. Focused isort, Black,
+  Ruff, mypy, and 50 normalization/SF-424A/preview tests are green; hosted CI
+  and final independent review are pending.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T07:04:05.918Z'
+  at: '2026-08-24T07:08:22.834Z'
 assignee: codex-operational-evidence
 ---
 # Goal
