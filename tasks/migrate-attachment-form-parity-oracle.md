@@ -3,13 +3,13 @@ type: Task
 title: Migrate Attachment Form through the portable parity oracle
 priority: P1
 description: >-
-  Replace the legacy SGG Attachment Form with portable ordered-attachment
-  composition and differential XML/lifecycle parity.
-superbee_progress_status: in_progress
-superbee_updated_by: promote_new_forms
+  Portable ordered-attachment composition and unregistered consumer banking are
+  complete; downstream parity and release gates are tracked separately.
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T23:45:20.024Z'
+  at: '2026-08-24T04:02:45.137Z'
 assignee: attachment_form_agent
 ---
 # Goal
@@ -96,3 +96,7 @@ Public-fork formatting baseline [#52](https://github.com/mikec-ai/simpler-grants
 ### Hosted CI classification
 
 At PR #51 head `b2c647a395dc8b133fec92941e9b3a60eec84ef2`, all hosted formatting, lint, migration, and security stages pass. The full API suite records 4,502 passed, 1 skipped, and 23 failures. Public-fork main at formatting baseline #52 records 4,499 passed, 1 skipped, and the exact same 23 failures; the three additional passing tests are the promotion’s banked-only fail-closed coverage. Both heads also fail before Playwright because the detached API server does not become ready within the workflow’s 800-second wait. No E2E assertion executes. These hosted failures are therefore classified as existing main-branch debt, not a promotion regression. After independent review and the baseline comparison, PR #51 was merged by the repository owner at 2026-08-23T23:44:10Z as public-fork main commit d08e0c64f50a374e515a1f5184ae68f4600653ad. The promotion agent did not issue the merge.
+
+# Scope completion
+
+Portable authoring, exact XML/XSD validation, and unregistered consumer banking are complete, so this migration task is done. Differential lifecycle, browser, accessibility, semantic, instruction, registration, and release approval now continue in [Close Attachment Form release gates](close-attachment-form-release-gates.md).

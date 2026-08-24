@@ -8,7 +8,7 @@ description: >-
 sequence: '7'
 actor: Codex
 timestamp: '2026-08-23T22:26:31.769Z'
-superbee_updated_by: Codex
+superbee_updated_by: codex
 ---
 # Outcome
 
@@ -56,3 +56,9 @@ The 35-form bank is therefore a conformance corpus, not an assertion that all 35
 [contains](../tasks/separate-banked-from-runtime-enabled-forms.md)
 
 [contains](../tasks/resolve-rr-sf424b-xsd-version-defect.md)
+
+[contains](../tasks/close-phs-assignment-request-release-gates.md)
+
+[contains](../tasks/close-attachment-form-release-gates.md)
+
+[contains](../tasks/close-sf424c-release-gates.md)

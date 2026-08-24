@@ -3,14 +3,13 @@ type: Task
 title: Migrate SF-424C through the portable parity oracle
 priority: P1
 description: >-
-  The producer-side portable SF-424C declaration is merged; the task remains
-  active for public-fork consumer promotion, lifecycle, exact-XML integration,
-  registration, and release gates.
-superbee_progress_status: in_progress
+  Portable SF-424C authoring and consumer banking are complete; downstream
+  calculation parity and release gates are tracked separately.
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:45:30.665Z'
+  at: '2026-08-24T04:02:45.296Z'
 assignee: sf424c_parity
 ---
 # Goal
@@ -60,3 +59,7 @@ Replace SGG's legacy SF-424C with portable construction-budget composition while
 The generic portable compiler, rule operators (`Sum`, `Subtract`, and `PercentOf`), SGG projection, evidence projection, analysis gating, and XML profile projection survived unchanged. The only new reusable authoring capability is the declarative construction-budget question set and its shared three-column cost structure; the migration added no SF-424C-specific runtime machinery.
 
 [depends on](release-rr-key-person-expanded-canary.md)
+
+# Scope completion
+
+Portable authoring and producer validation are complete, and SF-424C is present in the current 38-form consumer bank. This migration task is therefore done at the banking boundary. Differential calculation/lifecycle parity, browser conformance, human review, registration, and release approval now continue in [Close SF-424C release gates](close-sf424c-release-gates.md).
