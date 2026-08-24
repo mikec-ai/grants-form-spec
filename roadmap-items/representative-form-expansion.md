@@ -2,16 +2,15 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-eight producer forms and all thirty-eight consumer-bank forms are
-  delivered; corrected Personal Data promotion is under independent consumer
-  review.
+  Thirty-nine producer forms and thirty-eight consumer-bank forms are
+  delivered; SBIR/STTR consumer promotion remains a separate reviewed step.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: promote_new_forms
 ---
 # Strategy
 
-Use two complementary delivery lanes across the current 38-form producer baseline and the next expansion sequence:
+Use two complementary delivery lanes across the current 39-form producer baseline and the next expansion sequence:
 
 1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
 2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
@@ -20,7 +19,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 # Delivered baseline
 
-The producer now contains 38 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations, and form 38 delivered source-bound R&R Personal Data. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
+The producer now contains 39 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations, form 38 delivered source-bound R&R Personal Data, and form 39 delivered source-bound SBIR/STTR Information with 27 distinct semantic questions, three attachment roles over one shared capture mechanism, 11 compiled portable conditional-required targets, and zero calculations. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
 Current cross-repository snapshot: the public consumer fork banks all 38 producer forms at consumer revision `aa46719f794e114e31f9c503e1ed7bda9d2d54a0`. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. The R&R Personal Data corrective audit merged in producer revision `14b08b8cbd6016778a8f0688ed924a7ede4c8d2d`, lifting the promotion hold for that exact revision. Draft consumer PR #62 refreshes the corrected artifacts while preserving the 38-form bank and all runtime boundaries; its exact-head lightweight CI is green and it remains unmerged for independent review. Later producer revisions still require their own reviewed promotion point.
 
