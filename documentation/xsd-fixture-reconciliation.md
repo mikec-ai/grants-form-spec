@@ -19,7 +19,7 @@ retains source-set SHA-256 `cccce03554424d59b5958e4443a54db12a5a10780fbdc5df2ec2
 Neither digest is rewritten to resemble the other.
 
 All source URIs below use `https://apply07.grants.gov/apply/forms/schemas/` followed by the
-listed filename. The table is the 28-profile reconciliation; the gate regenerates its judgment from emitted
+listed filename. The table is the 29-profile reconciliation; the gate regenerates its judgment from emitted
 profiles and fixture bytes on every preflight.
 
 | Form | Version | Official XSD | Physical SHA-256 | Byte-exact fixture |
@@ -43,6 +43,7 @@ profiles and fixture bytes on every preflight.
 | `rr-budget` | `3.0` | `RR_Budget_3_0-V3.0.xsd` | `d474010f85819549990de65fc51292bed08ba98ac0895d0dde9513fbe855cdbc` | `rr-budget-3.0/RR_Budget_3_0-V3.0.xsd` |
 | `rr-key-person-expanded` | `4.0` | `RR_KeyPersonExpanded_4_0-V4.0.xsd` | `c1522304f37bb91a1fc18f2b84656c570581969f9c1795d18352bc273d691b8b` | `rr-key-person-expanded-4.0/RR_KeyPersonExpanded_4_0-V4.0.xsd` |
 | `rr-other-project-information` | `1.4` | `RR_OtherProjectInfo_1_4-V1.4.xsd` | `b2144c290ed5ad6d942e70815d195d7d6aa4e8e6c82fc3932d8540e3aa303ef5` | `rr-other-project-information-1.4/RR_OtherProjectInfo_1_4-V1.4.xsd` |
+| `rr-personal-data` | `1.2` | `RR_PersonalData_1_2-V1.2.xsd` | `5f766d46d573da1f6bb326bcbc13338439ba75399ad09dee2380f65e892402cb` | `rr-personal-data-1.2/RR_PersonalData_1_2-V1.2.xsd` |
 | `rr-sf424` | `5.0` | `RR_SF424_5_0-V5.0.xsd` | `f140f32afed9d7efbe30fc8f299542bbbc3121dbc87a79aa351fcf096163d3bc` | `rr-sf424-5.0/RR_SF424_5_0-V5.0.xsd` |
 | `rr-sf424b` | `1.1` | `RRSF424_SF424B-V1.1.xsd` | `511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296` | `sf424b-1.1/RRSF424_SF424B-V1.1.xsd` |
 | `rr-subaward-budget-10yr-30` | `3.0` | `RR_SubawardBudget10_30_3_0-V3.0.xsd` | `0ed112b2e50f0e0c43423f690201b207f5b9c5a85349335260e4fd999f3a611a` | `rr-subaward-budget-10yr-30-3.0/RR_SubawardBudget10_30_3_0-V3.0.xsd` |

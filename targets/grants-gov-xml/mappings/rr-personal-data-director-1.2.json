@@ -1,0 +1,36 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "rr-personal-data-director-1.2",
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_PersonalData_1_2-V1.2.xsd",
+      "version": "1.2",
+      "sha256": "5f766d46d573da1f6bb326bcbc13338439ba75399ad09dee2380f65e892402cb",
+      "type": "RR_PersonalData_1_2:DirectorType",
+      "path": "/xsd:schema/xsd:complexType[@name='DirectorType']"
+    }
+  },
+  "fields": {
+    "name": {
+      "element": "Name",
+      "kind": "object",
+      "namespace": "default",
+      "fields": { "$ref": "./global-library-v2-human-name.json#/fields" }
+    },
+    "sex": { "element": "Gender", "kind": "value", "namespace": "default" },
+    "race": {
+      "element": "Race",
+      "kind": "array",
+      "namespace": "default",
+      "items": { "node": { "kind": "value", "flatten": true } }
+    },
+    "ethnicity": { "element": "Ethnicity", "kind": "value", "namespace": "default" },
+    "disabilityStatus": {
+      "element": "DisabilityStatus",
+      "kind": "array",
+      "namespace": "default",
+      "items": { "node": { "kind": "value", "flatten": true } }
+    },
+    "citizenship": { "element": "Citizenship", "kind": "value", "namespace": "default" }
+  }
+}

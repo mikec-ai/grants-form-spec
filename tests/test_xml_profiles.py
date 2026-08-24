@@ -208,6 +208,10 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "phs398-cover-page-supplement": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
+            "rr-personal-data": [
+                "../mappings/rr-personal-data-director-1.2.json#/fields",
+                "../mappings/rr-personal-data-director-1.2.json#/fields",
+            ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)
