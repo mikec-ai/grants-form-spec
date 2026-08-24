@@ -31,7 +31,72 @@ def collect_rules(node: object, rule_name: str) -> list[dict]:
     return matches
 
 
+def collect_property_schemas(node: object, property_name: str) -> list[dict]:
+    matches: list[dict] = []
+    if isinstance(node, dict):
+        properties = node.get("properties")
+        if isinstance(properties, dict):
+            candidate = properties.get(property_name)
+            if isinstance(candidate, dict):
+                matches.append(candidate)
+        for value in node.values():
+            matches.extend(collect_property_schemas(value, property_name))
+    elif isinstance(node, list):
+        for value in node:
+            matches.extend(collect_property_schemas(value, property_name))
+    return matches
+
+
 class ResearchBudgetSourceContentTests(unittest.TestCase):
+    def test_fixed_personnel_roles_are_source_exact_defaults_and_read_only(self) -> None:
+        schema = load(QUESTIONS / "other-personnel" / "schema.json")
+        definitions = schema["$defs"]
+        expected = {
+            "ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates": "Post Doctoral Associates",
+            "ResearchBudgetBudgetYearOtherPersonnelGraduateStudents": "Graduate Students",
+            "ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents": "Undergraduate Students",
+            "ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical": "Secretarial/Clerical",
+        }
+
+        for model_name, value in expected.items():
+            with self.subTest(model_name=model_name):
+                self.assertEqual(
+                    definitions[model_name]["properties"]["projectRole"],
+                    {
+                        "type": "string",
+                        "const": value,
+                        "default": value,
+                        "title": f"Project Role {value}",
+                        "readOnly": True,
+                    },
+                )
+
+        self.assertEqual(
+            definitions["ResearchBudgetBudgetYearOtherPersonnelOther"]["properties"]["projectRole"],
+            {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100,
+                "title": "Additional Project Role Description",
+            },
+        )
+
+        for form_id in (
+            "rr-budget",
+            "rr-budget-10yr",
+            "rr-subaward-budget",
+            "rr-subaward-budget-30",
+            "rr-subaward-budget-10yr-30",
+        ):
+            with self.subTest(form_id=form_id):
+                project_roles = collect_property_schemas(
+                    load(FORMS / form_id / "schema.json"), "projectRole"
+                )
+                self.assertEqual(
+                    [item for item in project_roles if item.get("readOnly") is True],
+                    [{"readOnly": True}] * 4,
+                )
+
     def test_attachment_pair_labels_and_help_are_exact_f770_records(self) -> None:
         equipment = load(QUESTIONS / "equipment" / "schema.json")["properties"]
         key_personnel = load(QUESTIONS / "key-personnel" / "schema.json")["properties"]
@@ -117,10 +182,20 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
         audit = load(AUDIT)
         self.assertEqual(audit["source"]["sha256"], DAT_SHA256)
         self.assertEqual(audit["source"]["nativeVersion"], "3.0")
-        self.assertEqual(len(audit["implementedCorrections"]), 5)
+        self.assertEqual(len(audit["implementedCorrections"]), 9)
         self.assertEqual(
             {item["sourcePath"] for item in audit["implementedCorrections"]},
-            {"0-11", "A-2-1", "A-3-1", "C-2-0", "C-2-1"},
+            {
+                "0-11",
+                "A-2-1",
+                "A-3-1",
+                "B-1-2",
+                "B-2-2",
+                "B-3-2",
+                "B-4-2",
+                "C-2-0",
+                "C-2-1",
+            },
         )
         self.assertEqual(audit["semanticReview"]["status"], "unreviewed")
         self.assertEqual(
@@ -131,6 +206,7 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                 "requiredness": "partial",
                 "section-and-group-semantics": "bounded",
                 "attachment-positive-total-pairs": "complete-for-two-source-pairs",
+                "fixed-values-and-response-ownership": "complete-for-four-source-records",
             },
         )
         unresolved_dimensions = {
@@ -146,7 +222,7 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
         )
         self.assertEqual(
             {path for item in audit["unresolved"] for path in item["sourcePaths"]},
-            {"B-1-2", "B-2-2", "B-3-2", "B-4-2", "0-06", "0-07", "0-08", "0-10", "L-1-1"},
+            {"0-06", "0-07", "0-08", "0-10", "L-1-1"},
         )
 
 

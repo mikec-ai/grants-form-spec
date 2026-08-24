@@ -14,14 +14,16 @@
       "help-and-instructions",
       "requiredness",
       "section-and-group-semantics",
-      "attachment-positive-total-pairs"
+      "attachment-positive-total-pairs",
+      "fixed-values-and-response-ownership"
     ],
     "dimensionStatus": {
       "applicant-visible-labels": "partial",
       "help-and-instructions": "partial",
       "requiredness": "partial",
       "section-and-group-semantics": "bounded",
-      "attachment-positive-total-pairs": "complete-for-two-source-pairs"
+      "attachment-positive-total-pairs": "complete-for-two-source-pairs",
+      "fixed-values-and-response-ownership": "complete-for-four-source-records"
     }
   },
   "source": {
@@ -57,6 +59,30 @@
       "implementation": "source-exact help text on the existing compiled condition"
     },
     {
+      "canonicalPath": "budgetYear[*].otherPersonnel.postDocAssociates.projectRole",
+      "sourcePath": "B-1-2",
+      "sourceRecord": "Read-only text. Default to Post Doctoral Associates",
+      "implementation": "source-exact literal type with matching default and generic read-only annotation"
+    },
+    {
+      "canonicalPath": "budgetYear[*].otherPersonnel.graduateStudents.projectRole",
+      "sourcePath": "B-2-2",
+      "sourceRecord": "Read-only text. Default to Graduate Students",
+      "implementation": "source-exact literal type with matching default and generic read-only annotation"
+    },
+    {
+      "canonicalPath": "budgetYear[*].otherPersonnel.undergraduateStudents.projectRole",
+      "sourcePath": "B-3-2",
+      "sourceRecord": "Read-only text. Default to Undergraduate Students",
+      "implementation": "source-exact literal type with matching default and generic read-only annotation"
+    },
+    {
+      "canonicalPath": "budgetYear[*].otherPersonnel.secretarialClerical.projectRole",
+      "sourcePath": "B-4-2",
+      "sourceRecord": "Read-only text. Default to Secretarial/Clerical",
+      "implementation": "source-exact literal type with matching default and generic read-only annotation"
+    },
+    {
       "canonicalPath": "budgetYear[*].equipment.additionalEquipmentsAttachment",
       "sourcePath": "C-2-0",
       "sourceRecord": "One possible attachment per budget period. Required if TotalFundForAttachedEquipment is entered and greater than zero.",
@@ -84,14 +110,14 @@
       "dimension": "attachment-positive-total-pairs",
       "finding": "The two bidirectional attachment and positive-total pairs retain their four exact DAT records and compile through generic JSON Schema conditions.",
       "limit": "The evidence sidecar remains semantically unreviewed."
+    },
+    {
+      "dimension": "fixed-values-and-response-ownership",
+      "finding": "The four named other-personnel project roles compile as source-exact JSON Schema const and default values with readOnly annotations through the shared research-budget declaration.",
+      "limit": "This confirms only DAT paths B-1-2 through B-4-2; the additional project-role row remains applicant-entered and no broader response-ownership claim is made."
     }
   ],
   "unresolved": [
-    {
-      "sourcePaths": ["B-1-2", "B-2-2", "B-3-2", "B-4-2"],
-      "sourceRecord": "Read-only text. Default to the named personnel category.",
-      "reason": "The current declaration models each project role as a required string. Changing ownership or introducing fixed defaults requires a reviewed portable fixed-value or externally-derived response contract; this audit does not infer one."
-    },
     {
       "sourcePaths": ["0-06", "0-07", "0-08", "0-10", "L-1-1"],
       "sourceRecord": "The DAT describes prefill or first-period-only lifecycle behavior.",
