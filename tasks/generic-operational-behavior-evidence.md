@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Represent prefill, protected/read-only, and externally derived behavior
   generically and project it into analysis.
-superbee_progress_status: todo
-superbee_updated_by: implement_rr_personal_data
+superbee_progress_status: in_progress
+superbee_updated_by: review_cover_page
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:01:02.724Z'
+  at: '2026-08-24T04:10:20.367Z'
+assignee: review_cover_page
 ---
 # Goal
 

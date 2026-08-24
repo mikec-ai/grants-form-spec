@@ -6,10 +6,10 @@ description: >-
   Bank a high-use, bounded person-data form using role-qualified identity reuse
   while keeping privacy-sensitive semantics and production release gated.
 superbee_progress_status: done
-superbee_updated_by: codex
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:28:52.023Z'
+  at: '2026-08-24T04:11:10.686Z'
 assignee: codex
 ---
 # Goal
@@ -85,3 +85,7 @@ Accessibility acceptance must cover semantic fieldsets and legends for race/disa
 ## Recommended implementation slice
 
 Proceed with a producer-only declarative canary after rebasing on the exact-XSD gate: exact evidence and source audit; one new personal-data question-bank profile; one form composing that profile for the two roles; a generic XML profile and exact fixture closure; source-bound unresolved records for the four exclusivity instances; representative schema, XML/XSD, mapping, and evidence tests. Do not register or expose the form. A separate architecture task may add the generic exclusive-array-values primitive if the team chooses production interaction parity now; otherwise it is a named release dependency, not a blocker to banking.
+
+# Corrective consumer receipt
+
+Producer correction PR #69 merged as `14b08b8cbd6016778a8f0688ed924a7ede4c8d2d`. Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/62 pins that exact revision and refreshes only the Personal Data artifacts plus the exact regenerated manifest. The 38-form/442-artifact selection, Cover Page Supplement, runtime identities, and registrations are preserved. Personal Data remains runtime-disabled and unregistered pending privacy, policy, accessibility, lifecycle, and production-release gates.

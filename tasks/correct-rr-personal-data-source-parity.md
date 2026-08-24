@@ -5,10 +5,10 @@ priority: P0
 assignee: implement_rr_personal_data
 description: Correct verified source-parity and evidence defects in merged producer PR68.
 superbee_progress_status: done
-superbee_updated_by: implement_rr_personal_data
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:06:20.904Z'
+  at: '2026-08-24T04:11:10.542Z'
 ---
 # Goal
 
@@ -41,6 +41,10 @@ Correct the merged R&R Personal Data producer artifacts so portable validation, 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/69
 - Local verification: full `npm run preflight` passed with 114 TypeScript tests, 272 Python tests (2 skipped), 29 exact-XSD fixture/profile checks, 258 blocks / 1,412 artifacts, and zero unclassified fields or exceptions.
 - CI status: passed at https://github.com/mikec-ai/grants-form-spec/actions/runs/32688654215 (job `97318232245`, 1m37s).
-- Merge status: intentionally unmerged.
+- Producer PR #69 independently approved and merged as `14b08b8cbd6016778a8f0688ed924a7ede4c8d2d`, lifting the promotion hold for this exact revision only.
+- Draft consumer correction PR: https://github.com/mikec-ai/simpler-grants-gov/pull/62, base `aa46719f794e114e31f9c503e1ed7bda9d2d54a0`, head `91be21d224d2294643d28695e6720c5f5bf94434`.
+- Consumer bundle SHA-256: `055e85435d25c6301d4026a5230542e9723dfd5ee01a0b00fe49edb2e23cbf6d`; selection remains all 38 forms and 442 artifacts, including Cover Page Supplement.
+- Consumer delta is the exact regenerated manifest plus five corrected Personal Data artifacts. Runtime identities and registrations remain byte-identical; Personal Data remains bank-only.
+- Local consumer classifier reports `bankOnly=true`; focused integrity/provenance/registration/updater tests passed 29/29. Hosted lightweight CI is running; PR remains unmerged for independent review.
 
 [depends on](author-integrate-rr-personal-data.md)
