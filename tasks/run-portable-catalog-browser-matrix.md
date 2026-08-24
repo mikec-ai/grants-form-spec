@@ -12,7 +12,7 @@ superbee_updated_by: Codex-browser-matrix
 ---
 # Goal
 
-Run every form selected by the consumer's verified portable artifact manifest through Simpler's real application-form and print frontend, without production registration or form-specific runtime code. The current consumer bank contains 38 forms; the suite must always use the manifest's live selection rather than pinning that count.
+Run every form selected by the consumer's verified portable artifact manifest through Simpler's real application-form and print frontend, without production registration or form-specific runtime code. The suite must always use the manifest's live selection rather than pinning a portfolio count in source or durable planning language.
 
 # Dependency and safety boundary
 
@@ -110,3 +110,9 @@ Every product failure must resolve to one of the first three. Infrastructure unc
 Reuse the existing Playwright authentication/application helpers, form navigation, save/status utilities, attachment fixture and upload path, print helpers, `ApplyForm` and `PrintForm` routes, lifecycle utilities, and existing jest-axe conventions. Consolidate receipt/event capture once instead of copying the current form-specific `loadOpportunityConfig` and field-definition registries.
 
 [depends on](add-portable-form-preview-registration.md)
+
+# Implementation progress
+
+The first consumer slice is implemented on a clean branch stacked on the exact preview dependency head. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
+
+Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete. The branch must be rebased onto consumer main after the preview dependency lands, reviewed, and run through hosted browser CI before a draft PR is opened.
