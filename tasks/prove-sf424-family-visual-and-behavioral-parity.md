@@ -9,10 +9,10 @@ description: >-
   SF-424 through the real Simpler frontend, keeps generated evidence outside
   git, and provides a reusable pattern for SF-424 Short and SF-424A.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-sf424-video
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T14:38:32.427Z'
+  at: '2026-08-24T19:17:41.473Z'
 ---
 # Goal
 
@@ -51,3 +51,5 @@ Existing behavior is a compatibility oracle rather than semantic authority. Sour
 [depends on](reconcile-sf424-family-portable-cutover-deltas.md)
 
 [depends on](add-portable-form-preview-registration.md)
+
+[depends on](prove-sf424-short-browser-compatibility.md)
