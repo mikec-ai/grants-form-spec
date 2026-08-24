@@ -1,0 +1,82 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "sbir-sttr-information",
+  "method": {
+    "ocrUsed": false,
+    "pdfTextMethod": "embedded text extraction only",
+    "xfaMethod": "deterministic packet extraction from pinned official sample PDF",
+    "reviewStatus": "agent-reviewed"
+  },
+  "inventory": {
+    "xsdApplicantQuestions": 27,
+    "xsdTechnicalAttachmentLeaves": 12,
+    "xsdStructureRecords": 1,
+    "datRows": 78,
+    "datBusinessRuleRows": 16,
+    "declarativeConditionalRequiredTargets": 11,
+    "consumerConditionTargets": 10,
+    "calculations": 0
+  },
+  "executionPartitions": {
+    "portableJsonSchema": {
+      "compiledConditionalRequiredTargets": 11,
+      "sourceBoundUncompiledTargets": 5
+    },
+    "consumerConditionProjection": {
+      "compiledEnablementTargets": 10,
+      "sourceBoundUncompiledRequiredOnlyTargets": 1,
+      "gap": "Agency Topic/Subtopic is conditionally required in portable JSON Schema. The current consumer condition evidence projection has no required-only representation, so only that projection remains uncompiled."
+    }
+  },
+  "sourceArtifacts": {
+    "rootXsdSha256": "32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf",
+    "datSha256": "c0e8d91e583b9f7e6339cc6239f1e4d51e9d93299b893b34efd1bbbc435c6e9b",
+    "grantsGovXfaPdfSha256": "bd36dbc83d8fcfcd309cd45236d496a5f34f1401b4cf51d5aaeac2f22e45ce1e",
+    "xfaTemplatePacketSha256": "cd8a6f6570fefe639ffe1196933bdb02195558097a03508c786c9445807b7c6b",
+    "nihHistoricalPdfSha256": "87529b99eba4ea08b10035f60c5d4fdd4629b4c6e9324c00559205a2e776754a",
+    "nihHistoricalXfaTemplateSha256": "b5d1e86a63b545c19386434bba6f47442dab9b123ea9296c400bf8002640cd97",
+    "formsIG440HtmlObservedSha256": "b7a3db230317e52c34be840fef12fcc845b004388755d2400a9f5961c2918929",
+    "formsISbirSttrGuideSha256": "e5525ea946e4ed84c5037351a6b7c574430d37ce26cfd8913a656ec8c2491c84"
+  },
+  "dependencyClosure": [
+    { "name": "Attachments-V1.0", "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d" },
+    { "name": "Global-V1.0", "sha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb" },
+    { "name": "GlobalLibrary-V2.0", "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8" },
+    { "name": "UniversalCodes-V2.0", "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a" }
+  ],
+  "sourceConflicts": [
+    "The XSD and DAT require a nine-character, nine-digit SBC Control ID; current NIH prose shows an example with an SBC_ prefix. The portable applicant constraint follows the exact XSD and DAT and preserves the instruction conflict.",
+    "The cross-agency form permits Program Type Both and eight application types. Current HHS instructions disallow Both, Phase IIA, and Phase IIC, disallow Direct Phase II for STTR, and make other choices NOFO-dependent. These remain agency and opportunity policy overlays.",
+    "The DAT requires a Commercialization Plan for Phase I plus DOE, Phase II, or Fast-Track. Current NIH instructions require it for a different HHS set. No universal condition is compiled.",
+    "The current Grants.gov XFA carries the 01/31/2029 expiration. The NIH-hosted reference PDF carries 11/30/2025 and is retained only as conflict and history evidence."
+  ],
+  "unresolvedBehavior": [
+    "Clear Other Agency when Agency is not Other.",
+    "Clear Federal laboratory and agency names when Subcontracts Included is No.",
+    "Remove the non-domestic performance attachment when Domestic Performance is Yes.",
+    "Clear equivalent-work Federal agency names when Equivalent Work is No.",
+    "Adjudicate the cross-agency and HHS commercialization-plan policies before compiling a condition.",
+    "Verify conditional stale-value non-emission, attachment lifecycle, locked and print behavior, and application-level policy overlays in the consumer."
+  ],
+  "semanticBoundary": {
+    "status": "proposed-human-review-gate",
+    "newQuestionIdentities": 27,
+    "captureMechanismsReused": ["generics/attachment"],
+    "notEquivalent": ["primary-org/uei", "person identity blocks", "applicant organization blocks", "subaward recipient organizations"]
+  },
+  "privacySecurityBoundary": {
+    "status": "unresolved-human-consumer-gate",
+    "sensitiveContent": ["disclosure permission", "commercialization history", "commercialization plan", "equivalent Federal work", "attachments"],
+    "notVerified": ["access controls", "logs", "analytics", "exports", "retention", "attachment malware and content checks", "disclosure workflow"]
+  },
+  "accessibilityBoundary": {
+    "status": "unresolved-human-consumer-gate",
+    "verified": "Stable labels, three sections, exact enumerations and constraints, conditional targets, and attachment controls are emitted for deterministic consumer testing.",
+    "notVerified": ["radio fieldset and legend semantics", "long-question reading order", "conditional enablement and required-state announcements", "attachment status and focus", "error summary", "keyboard order", "save and reload", "locked and print presentation"]
+  },
+  "releaseBoundary": {
+    "status": "unresolved-human-release-gate",
+    "notVerified": ["semantic approval", "agency and NOFO policy approval", "consumer behavior", "round trip and submission", "production approval"]
+  },
+  "parityClaim": "The implementation proves the 27-question declarative boundary, exact schema and XML envelope, three distinct attachment semantics over one capture mechanism, and simple local conditions. It does not claim clear/remove behavior, agency policy, PDF/XFA visual parity, accessibility, privacy/security, or production readiness."
+}

@@ -19,7 +19,7 @@ retains source-set SHA-256 `cccce03554424d59b5958e4443a54db12a5a10780fbdc5df2ec2
 Neither digest is rewritten to resemble the other.
 
 All source URIs below use `https://apply07.grants.gov/apply/forms/schemas/` followed by the
-listed filename. The table is the 29-profile reconciliation; the gate regenerates its judgment from emitted
+listed filename. The table is the 30-profile reconciliation; the gate regenerates its judgment from emitted
 profiles and fixture bytes on every preflight.
 
 | Form | Version | Official XSD | Physical SHA-256 | Byte-exact fixture |
@@ -49,6 +49,7 @@ profiles and fixture bytes on every preflight.
 | `rr-subaward-budget-10yr-30` | `3.0` | `RR_SubawardBudget10_30_3_0-V3.0.xsd` | `0ed112b2e50f0e0c43423f690201b207f5b9c5a85349335260e4fd999f3a611a` | `rr-subaward-budget-10yr-30-3.0/RR_SubawardBudget10_30_3_0-V3.0.xsd` |
 | `rr-subaward-budget-30` | `3.0` | `RR_SubawardBudget30_3_0-V3.0.xsd` | `d5d534326e8f7e4416baf98c95c1f9234c0a23628259ee2d7e3199181a24e08a` | `rr-subaward-budget-30-3.0/RR_SubawardBudget30_3_0-V3.0.xsd` |
 | `rr-subaward-budget` | `3.0` | `RR_SubawardBudget_3_0-V3.0.xsd` | `e1ea95403a58ef1ade290952de3531c73e015308ca7aee6b426d4a9bcb794510` | `rr-subaward-budget-3.0/RR_SubawardBudget_3_0-V3.0.xsd` |
+| `sbir-sttr-information` | `3.0` | `SBIR_STTR_Information_3_0-V3.0.xsd` | `32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf` | `sbir-sttr-information-3.0/SBIR_STTR_Information_3_0-V3.0.xsd` |
 | `sf424b` | `1.1` | `SF424B-V1.1.xsd` | `b0da616d262329e869b7c2a12146396fd8a279d2a1723521271c519f4571075d` | `sf424b-1.1/SF424B-V1.1.xsd` |
 | `sf424c` | `2.0` | `SF424C_2_0-V2.0.xsd` | `a3ec5d6bae8173fce080709a8071787293dbe6271415d905d230c584c200982a` | `sf424c-2.0/SF424C_2_0-V2.0.xsd` |
 | `sf424d` | `1.1` | `SF424D-V1.1.xsd` | `22026ea7130a01b8674e1c3ce1668e1b57d5be65498b5a76042eb80d38de77f1` | `sf424d-family-1.1/SF424D-V1.1.xsd` |
