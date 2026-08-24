@@ -128,7 +128,48 @@ class SF424CTests(unittest.TestCase):
 
     def test_ui_preserves_table_and_read_only_federal_outputs(self) -> None:
         budget, federal = self.ui
-        self.assertEqual(budget["children"][0]["widget"], "Table")
+        table = budget["children"][0]
+        self.assertEqual(table["widget"], "Table")
+        self.assertEqual(table["definition"], ["/properties/budgetInformation"])
+        self.assertEqual(
+            [column["columnHeader"] for column in table["children"]["columns"]],
+            [
+                "Cost Classification",
+                "Total Cost",
+                "Costs Not Allowable for Participation",
+                "Total Allowable Costs (Columns a - b)",
+            ],
+        )
+        rows = table["children"]["rows"]
+        self.assertEqual(len(rows), 16)
+        self.assertTrue(all(len(row["cells"]) == 4 for row in rows))
+        self.assertEqual(
+            rows[0]["cells"],
+            [
+                {"type": "plainText", "staticContent": "Administrative and legal expenses"},
+                {
+                    "type": "input",
+                    "definition": "/properties/administrativeAndLegalExpenses/properties/totalCost",
+                    "format": "dollar",
+                },
+                {
+                    "type": "input",
+                    "definition": "/properties/administrativeAndLegalExpenses/properties/nonAllowableCost",
+                    "format": "dollar",
+                },
+                {
+                    "type": "readOnly",
+                    "definition": "/properties/administrativeAndLegalExpenses/properties/totalAllowableCost",
+                    "format": "dollar",
+                },
+            ],
+        )
+        self.assertTrue(
+            all(
+                cell["type"] == "readOnly"
+                for cell in rows[-1]["cells"][1:]
+            )
+        )
         self.assertEqual(
             [child["type"] for child in federal["children"]],
             ["null", "field", "null"],
