@@ -6,6 +6,34 @@ import { describe, expect, it } from "vitest";
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("SGG UI emission", () => {
+  it("distinguishes visible read-only references from hidden technical identifiers", async () => {
+    const root = resolve(packageRoot, "dist/forms/phs-human-subjects");
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
+    const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
+    const nodes = (value: unknown): Record<string, any>[] => {
+      if (Array.isArray(value)) return value.flatMap(nodes);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, any>;
+      return [object, ...Object.values(object).flatMap(nodes)];
+    };
+    const byDefinition = new Map(
+      nodes(ui)
+        .filter((node) => typeof node.definition === "string")
+        .map((node) => [node.definition, node]),
+    );
+    for (const name of ["involvesHumanSubjects", "exemptFromFederalRegulations", "exemptions"]) {
+      expect(byDefinition.get(`/properties/${name}`)).toMatchObject({ type: "field" });
+      expect(schema.properties[name]).toMatchObject({ allOf: [{ readOnly: true }] });
+    }
+    expect(byDefinition.get("/properties/applicationId")).toMatchObject({ type: "null" });
+    expect(
+      [...byDefinition.entries()].find(([definition]) => definition.endsWith("/properties/studyId"))?.[1],
+    ).toMatchObject({ type: "null" });
+    expect(
+      [...byDefinition.entries()].find(([definition]) => definition.endsWith("/properties/reportId"))?.[1],
+    ).toMatchObject({ type: "null" });
+  });
+
   it("emits portable field lineage and authored response roles", async () => {
     const budgetIndex = JSON.parse(
       await readFile(resolve(packageRoot, "dist/forms/rr-budget/index.json"), "utf8"),

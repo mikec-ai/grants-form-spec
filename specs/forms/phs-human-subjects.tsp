@@ -26,9 +26,9 @@ enum PHSHumanSubjectsSection {
 @UI.sections(PHSHumanSubjectsSection)
 @Response.role(ResponseRole.systemValue)
 @UI.overrides(#{
-  `involvesHumanSubjects`: #{ readOnly: true, section: "overview" },
-  `exemptFromFederalRegulations`: #{ readOnly: true, section: "overview" },
-  `exemptions`: #{ readOnly: true, section: "overview" },
+  `involvesHumanSubjects`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
+  `exemptFromFederalRegulations`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
+  `exemptions`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
 })
 model PHSHumanSubjects extends QuestionBank.ResearchProject.HumanSubjectDeterminations {
   @UI.section(PHSHumanSubjectsSection.overview)

@@ -39,7 +39,8 @@
     "semanticQuestionId": "clinical-study/inclusion-enrollment-report",
     "axes": ["reportingPeriod", "ethnicity", "sexOrGender", "race"],
     "disposition": "One semantic composite with 115 coordinate-qualified leaf occurrences. Coordinates are not independent question-bank identities.",
-    "analysisGap": "First-class dimension metadata is not yet part of the emitted analysis contract; unique canonical occurrence paths preserve the coordinates in the interim."
+    "analysisGap": "First-class dimension metadata is not yet part of the emitted analysis contract; unique canonical occurrence paths preserve the coordinates in the interim.",
+    "accessibilityGate": "Unresolved consumer and human review: dimensional grid headers, keyboard navigation, focus/error behavior, and screen-reader context have not been established by the producer artifacts."
   },
   "calculationDecision": {
     "status": "source-bound-unresolved",

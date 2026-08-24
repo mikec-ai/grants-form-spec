@@ -540,7 +540,14 @@ function checkOverridePaths(program: Program, block: Block): void {
     ...Object.keys(block.overrides),
     ...Object.keys(modelPrePopulate(program, block.model as Model)),
   ];
-  for (const override of Object.values(block.overrides)) {
+  for (const [overridePath, override] of Object.entries(block.overrides)) {
+    if (override.visibleReadOnly === true && override.readOnly !== true) {
+      reportDiagnostic(program, {
+        code: "visible-read-only-without-read-only",
+        target: block.model,
+        format: { path: overridePath },
+      });
+    }
     const condition = override.enabledWhen;
     const enabledWhen = condition as Record<string, unknown> | undefined;
     if (

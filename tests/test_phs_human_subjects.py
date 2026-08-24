@@ -40,7 +40,23 @@ class PHSHumanSubjectsTests(unittest.TestCase):
             "exemptFromFederalRegulations",
             "exemptions",
         ):
-            self.assertEqual(overview_fields[f"/properties/{name}"]["type"], "null")
+            self.assertEqual(overview_fields[f"/properties/{name}"]["type"], "field")
+
+        def nodes(value: object) -> list[dict[str, object]]:
+            if isinstance(value, dict):
+                return [value, *[row for child in value.values() for row in nodes(child)]]
+            if isinstance(value, list):
+                return [row for child in value for row in nodes(child)]
+            return []
+
+        hidden = {
+            str(row["definition"])
+            for row in nodes(ui)
+            if row.get("type") == "null" and "definition" in row
+        }
+        self.assertIn("/properties/applicationId", hidden)
+        self.assertTrue(any(path.endswith("/properties/studyId") for path in hidden))
+        self.assertTrue(any(path.endswith("/properties/reportId") for path in hidden))
 
     def test_narrow_human_subject_determinations_are_reused_with_occurrence_roles(self) -> None:
         expected = {
@@ -84,7 +100,7 @@ class PHSHumanSubjectsTests(unittest.TestCase):
         }
         self.assertEqual(semantic_ids, {"clinical-study/inclusion-enrollment-report"})
 
-    def test_enrollment_ui_preserves_coordinate_context_for_keyboard_and_error_routing(self) -> None:
+    def test_enrollment_ui_preserves_coordinate_paths_for_error_routing(self) -> None:
         ui = load(FORM / "sgg/ui-schema.json")
         fields: list[dict[str, object]] = []
 
@@ -111,7 +127,9 @@ class PHSHumanSubjectsTests(unittest.TestCase):
         self.assertTrue(any("/planned/" in path for path in coordinates))
         self.assertTrue(any("/cumulativeActual/" in path for path in coordinates))
         # Each control retains period, ethnicity, sex, and race in its pointer so a
-        # generic renderer can associate headers, focus, and errors without a form branch.
+        # generic renderer can route validation errors without a form branch. Rendering
+        # accessible headers, keyboard navigation, and screen-reader context remains an
+        # explicit consumer/human gate rather than a producer-side claim.
         sample = next(path for path in coordinates if path.endswith("/properties/asian"))
         self.assertIn("/planned/properties/notHispanicLatino/properties/female", sample)
 

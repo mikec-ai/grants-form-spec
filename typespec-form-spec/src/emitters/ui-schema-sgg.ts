@@ -208,7 +208,11 @@ function field(
   itemPath?: string[],
 ): SggField {
   const f: SggField = {
-    type: override.readOnly === true || propReadOnly(program, prop) ? "null" : "field",
+    type: override.visibleReadOnly === true
+      ? "field"
+      : override.readOnly === true || propReadOnly(program, prop)
+        ? "null"
+        : "field",
     definition,
   };
   const widget = (override.widget as string | undefined) ?? propWidget(program, prop);
