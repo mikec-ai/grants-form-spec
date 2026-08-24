@@ -1,0 +1,249 @@
+{
+  "contract": "grants-form-proof-package-source/v1",
+  "title": "Portable grants form architecture: initial proof package",
+  "summary": "A compact index of reproducible technical evidence for portable declarative forms. It separates observed compatibility from semantic, accessibility, policy, and release acceptance.",
+  "repositories": {
+    "producer": {
+      "url": "https://github.com/mikec-ai/grants-form-spec",
+      "revision": "4229eca2e5902ea99c917271963be6bd0edf3027"
+    },
+    "consumer": {
+      "url": "https://github.com/mikec-ai/simpler-grants-gov"
+    }
+  },
+  "claims": [
+    {
+      "id": "sf424-runtime-comparison",
+      "title": "SF-424 has a bounded real-runtime comparison and compatibility receipt",
+      "statement": "A generic lower-environment path creates existing and portable applications, exercises render, conditional interaction, validation, save and reload, and print, and emits a pinned side-by-side receipt and recording.",
+      "status": "observed_reproducible",
+      "evidence": [
+        {
+          "kind": "consumer_pull_request",
+          "label": "Bounded SF-424 compatibility receipt",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/71",
+          "revision": "3087b7be0d30c05be5558159208afb7201cfd9e0",
+          "state": "merged",
+          "generatedReceipt": "frontend/test-results/portable-catalog/sf424-chrome.json"
+        },
+        {
+          "kind": "consumer_pull_request",
+          "label": "Side-by-side SF-424 comparison recording",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/71",
+          "revision": "3087b7be0d30c05be5558159208afb7201cfd9e0",
+          "state": "merged",
+          "generatedReceipt": "frontend/test-results/portable-comparison/sf424-side-by-side-receipt.json"
+        }
+      ],
+      "reproduce": [
+        "git clone https://github.com/mikec-ai/simpler-grants-gov.git",
+        "git checkout 3087b7be0d30c05be5558159208afb7201cfd9e0",
+        "Follow api/src/form_schema/form_spec/README.md under 'side-by-side SF-424 demonstration'"
+      ],
+      "limitations": [
+        "The generated receipt and video are build outputs, not versioned source files.",
+        "The merged fork evidence is not a production registration or approval."
+      ]
+    },
+    {
+      "id": "sf424-short-runtime-receipt",
+      "title": "SF-424 Short passes the same six generic Stage A browser probes",
+      "statement": "The bounded receipt covers preview registration, adapter API preflight, real Apply rendering, deterministic edit and save/reload, automated accessibility scanning, and print rendering without a form-specific adapter branch.",
+      "status": "observed_reproducible",
+      "evidence": [
+        {
+          "kind": "consumer_pull_request",
+          "label": "SF-424 Short browser compatibility receipt",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/73",
+          "revision": "f033c234d30994b6d235aba30818ad16f1c89044",
+          "state": "merged",
+          "generatedReceipt": "frontend/test-results/portable-catalog/sf424-short-chrome.json"
+        }
+      ],
+      "reproduce": [
+        "git clone https://github.com/mikec-ai/simpler-grants-gov.git",
+        "git checkout f033c234d30994b6d235aba30818ad16f1c89044",
+        "Generate a bounded plan with PORTABLE_BROWSER_FORM_IDS=sf424-short and run the @portable-catalog Chrome test documented in api/src/form_schema/form_spec/README.md"
+      ],
+      "limitations": [
+        "The receipt is generated and ignored by Git; rerun the pinned branch to reproduce it.",
+        "Zero automated Axe violations is not a human accessibility approval."
+      ]
+    },
+    {
+      "id": "sf424a-runtime-receipt",
+      "title": "SF-424A passes the same six probes with its declarative budget tables and calculations",
+      "statement": "The bounded plan observes six specialized budget interaction surfaces, 13 editable schema bindings, and 35 calculation declarations; the real application path preserves 116 editable controls through save and reload and reaches locked print rendering.",
+      "status": "observed_reproducible",
+      "evidence": [
+        {
+          "kind": "consumer_pull_request",
+          "label": "SF-424A browser compatibility receipt",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/74",
+          "revision": "35c2a5932e4371a68c7320eae32a6384b3f75a4a",
+          "state": "merged",
+          "generatedReceipt": "frontend/test-results/portable-catalog/sf424a-chrome.json"
+        },
+        {
+          "kind": "producer_path",
+          "label": "SF-424A source evidence",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "evidence/forms/sf424a/evidence.json"
+        }
+      ],
+      "reproduce": [
+        "git clone https://github.com/mikec-ai/simpler-grants-gov.git",
+        "git checkout 35c2a5932e4371a68c7320eae32a6384b3f75a4a",
+        "Generate a bounded plan with PORTABLE_BROWSER_FORM_IDS=sf424a and run the @portable-catalog Chrome test documented in api/src/form_schema/form_spec/README.md"
+      ],
+      "limitations": [
+        "The receipt proves observed runtime compatibility, not human acceptance of source semantics or production release readiness."
+      ]
+    },
+    {
+      "id": "rr-sf424-lifecycle-xsd",
+      "title": "R&R SF-424 executes generic lifecycle rules, validates XML, and passes the bounded runtime probes",
+      "statement": "The portable declaration supplies date ordering and XML structure; the generic consumer executes lifecycle validation, validates representative submit-populated XML against the exact RR_SF424 5.0 XSD, and preserves 89 controls through the six generic browser probes.",
+      "status": "merged_technical_proof",
+      "evidence": [
+        {
+          "kind": "producer_path",
+          "label": "R&R SF-424 source evidence",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "evidence/forms/rr-sf424/evidence.json"
+        },
+        {
+          "kind": "producer_path",
+          "label": "Pinned official XSD fixture manifest",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "tests/fixtures/grants-gov-xsd/root-fixture-manifest.json"
+        },
+        {
+          "kind": "consumer_pull_request",
+          "label": "Representative R&R SF-424 XML validated against official XSD",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/27",
+          "revision": "27851f79fbba25aec0a9070249bdb9d2e7701ab1",
+          "state": "merged"
+        },
+        {
+          "kind": "consumer_pull_request",
+          "label": "Declarative date-order validation through the lifecycle",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/28",
+          "revision": "5ef1589b971cb685780f902b782c3cf6ef65e953",
+          "state": "merged"
+        },
+        {
+          "kind": "consumer_pull_request",
+          "label": "R&R SF-424 bounded browser compatibility receipt",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/75",
+          "revision": "1f74d451fdc950b4c6430e9c665360af50551e3d",
+          "state": "merged",
+          "generatedReceipt": "frontend/test-results/portable-catalog/rr-sf424-Chrome.json"
+        }
+      ],
+      "reproduce": [
+        "In grants-form-spec at 4229eca2e5902ea99c917271963be6bd0edf3027, run npm ci && npm run preflight",
+        "In simpler-grants-gov at 5ef1589b971cb685780f902b782c3cf6ef65e953, run the focused R&R SF-424 lifecycle, rule, and XML tests listed in PR 28",
+        "In simpler-grants-gov at 1f74d451fdc950b4c6430e9c665360af50551e3d, generate a bounded plan with PORTABLE_BROWSER_FORM_IDS=rr-sf424 and run the @portable-catalog Chrome test documented in api/src/form_schema/form_spec/README.md"
+      ],
+      "limitations": [
+        "The XML mapping remains source-bound and unreviewed for human semantic acceptance.",
+        "The automated browser and Axe receipt is not human accessibility, policy, or production-registration approval."
+      ]
+    },
+    {
+      "id": "rr-budget-family-reuse",
+      "title": "Five R&R Budget-family profiles reuse one declarative structure, calculation graph, and XML mapping",
+      "statement": "The family publishes five duration and subaward profiles without a form-family compiler or adapter branch; all 56 DAT-defined calculations are declared, and representative maximal XML for each profile validates against its pinned official XSD.",
+      "status": "merged_technical_proof",
+      "evidence": [
+        {
+          "kind": "producer_path",
+          "label": "R&R Budget family profile tests",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "tests/test_budget_profiles.py"
+        },
+        {
+          "kind": "producer_path",
+          "label": "R&R Budget source evidence",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "evidence/forms/rr-budget/evidence.json"
+        },
+        {
+          "kind": "producer_pull_request",
+          "label": "Complete 56-calculation graph",
+          "url": "https://github.com/mikec-ai/grants-form-spec/pull/12",
+          "revision": "f82c772fd8204f1fab8065f451d87a15a7484597",
+          "state": "merged"
+        },
+        {
+          "kind": "producer_pull_request",
+          "label": "Shared declarative XML target across five profiles",
+          "url": "https://github.com/mikec-ai/grants-form-spec/pull/21",
+          "revision": "fe8461f944394d604e5644fe029ccb3474498af0",
+          "state": "merged"
+        },
+        {
+          "kind": "consumer_pull_request",
+          "label": "Generic Simpler XML execution and exact-XSD validation",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/15",
+          "revision": "e2510ac9df1aeaabab5e3e534cde1384d696bac1",
+          "state": "merged"
+        }
+      ],
+      "reproduce": [
+        "In grants-form-spec at 4229eca2e5902ea99c917271963be6bd0edf3027, run npm ci && npm run preflight",
+        "Inspect tests/test_budget_profiles.py and the five emitted form target profiles produced by npm run emit"
+      ],
+      "limitations": [
+        "The family evidence remains explicitly unreviewed for semantic acceptance.",
+        "Human accessibility, remaining DAT conditions, policy, and production-registration gates remain open."
+      ]
+    },
+    {
+      "id": "reviewed-pairwise-similarity-boundary",
+      "title": "Reviewed pairwise similarity is currently unavailable; exploratory similarity remains separate",
+      "statement": "The analysis export reports zero accepted form-question occurrence mappings. It therefore leaves every reviewed pairwise count and similarity value blank while publishing implementation-derived exploratory similarity in a separate artifact.",
+      "status": "merged_technical_proof",
+      "evidence": [
+        {
+          "kind": "producer_path",
+          "label": "Analysis export contract and review boundary",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "documentation/analysis-export.md"
+        },
+        {
+          "kind": "producer_path",
+          "label": "Analysis projection implementation",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "scripts/analyze.py"
+        },
+        {
+          "kind": "producer_path",
+          "label": "Reviewed-only denominator regression",
+          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "path": "tests/test_analyze.py"
+        }
+      ],
+      "reproduce": [
+        "Clone grants-form-spec with full Git history and check out 4229eca2e5902ea99c917271963be6bd0edf3027",
+        "Run npm ci && npm run emit && npm run project-evidence",
+        "Run python3 scripts/analyze.py --json --output-dir build/analysis > /dev/null",
+        "Inspect build/analysis/pairwise-reviewed.csv, build/analysis/pairwise-exploratory.csv, and build/analysis/form-analysis.json"
+      ],
+      "limitations": [
+        "Reviewed semantic similarity is unavailable because the current evidence has zero accepted occurrence mappings; blank reviewed values must not be read as zero similarity.",
+        "Exploratory similarity uses implementation-derived canonical identities and is not published semantic coverage.",
+        "The analysis files are generated build outputs and are not committed to the runtime source tree."
+      ]
+    }
+  ],
+  "pendingInputs": [],
+  "releaseBoundaries": [
+    "Technical compatibility evidence is not human semantic acceptance.",
+    "Automated accessibility checks are not human accessibility approval.",
+    "Existing runtime behavior is a compatibility oracle, not semantic authority.",
+    "No evidence in this package constitutes policy approval or production registration.",
+    "Proposed or unreviewed mappings do not contribute to published coverage metrics."
+  ]
+}
