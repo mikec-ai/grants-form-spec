@@ -455,3 +455,18 @@ registration are not closed.
 - This is executable fork-level technical evidence, not production registration, semantic
   acceptance, accessibility approval, or an HHS upstream proposal. Browser proof and broader
   release gates remain open.
+
+## 2026-08-24: next claimed 10-year reuse proof
+
+- `root_budget_10yr_cross_form_population` claims a bounded derivative slice for R&R Budget 10YR.
+  The source review must establish whether its pinned extraction and explicit R&R Budget behavior
+  inheritance cover the exact 0-06, 0-07, and 0-10 prefill records; structural similarity alone is
+  insufficient.
+- If supported, the producer will inherit or declare the same closed operational policy through a
+  target-neutral data contract, and the Simpler fork will consume it through the already-merged
+  generic lifecycle service with no form id or field path branch. Tests must prove the 10-year
+  target receives the three values, skips missing sources, and preserves applicant edits.
+- The browser proof may add R&R Budget 10YR only if the existing generic harness can exercise the
+  sibling-response transition without a form-specific route. Generated recordings and receipts
+  remain build artifacts. No HHS upstream write, registration, semantic acceptance, accessibility
+  approval, or production claim is authorized.
