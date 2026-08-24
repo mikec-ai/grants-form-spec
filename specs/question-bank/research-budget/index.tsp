@@ -809,9 +809,8 @@ model ResearchBudgetBudgetYearOtherPersonnelGraduateStudents {
   numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Graduate Students")
-  @minLength(1)
-  @maxLength(100)
-  projectRole: string;
+  @UI.readOnly
+  projectRole: "Graduate Students" = "Graduate Students";
 
   @UI.label("Requested Salary Graduate Students")
   requestedSalary: ResearchBudgetDecimal14;
@@ -874,9 +873,8 @@ model ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates {
   numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Post Doctoral Associates")
-  @minLength(1)
-  @maxLength(100)
-  projectRole: string;
+  @UI.readOnly
+  projectRole: "Post Doctoral Associates" = "Post Doctoral Associates";
 
   @UI.label("Requested Salary Post Doctoral Associates")
   requestedSalary: ResearchBudgetDecimal14;
@@ -906,9 +904,8 @@ model ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical {
   numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Secretarial/Clerical")
-  @minLength(1)
-  @maxLength(100)
-  projectRole: string;
+  @UI.readOnly
+  projectRole: "Secretarial/Clerical" = "Secretarial/Clerical";
 
   @UI.label("Requested Salary Secretarial/Clerical")
   requestedSalary: ResearchBudgetDecimal14;
@@ -938,9 +935,8 @@ model ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents {
   numberOfPersonnel: ResearchBudgetCount3;
 
   @UI.label("Project Role Undergraduate Students")
-  @minLength(1)
-  @maxLength(100)
-  projectRole: string;
+  @UI.readOnly
+  projectRole: "Undergraduate Students" = "Undergraduate Students";
 
   @UI.label("Requested Salary Undergraduate Students")
   requestedSalary: ResearchBudgetDecimal14;
