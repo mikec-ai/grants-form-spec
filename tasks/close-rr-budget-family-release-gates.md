@@ -367,10 +367,10 @@ registration are not closed.
   response safely, the deliverable will be a tested feasibility boundary rather than an
   approximation.
 
-## 2026-08-24: cross-form prefill adapter projection published
+## 2026-08-24: cross-form prefill adapter projection merged
 
-- Draft [simpler-grants-gov PR 92](https://github.com/mikec-ai/simpler-grants-gov/pull/92)
-  pins the 39-form bank to producer merge
+- [simpler-grants-gov PR 92](https://github.com/mikec-ai/simpler-grants-gov/pull/92), merged at
+  `91a612ddaac5020d6c9ca9efc1f7645478c23247`, pins the 39-form bank to producer merge
   `bac08000460ef457b5970647d0c9019559398e42` and projects portable operational evidence into
   typed Simpler coordinates.
 - The generic projection applies the target form's naming rules to destination pointers, the
@@ -394,7 +394,10 @@ registration are not closed.
 - Local verification: 340 non-database form-spec tests, 37 promotion/synchronization/classifier/
   provenance/projection tests, focused Ruff and formatting, and targeted mypy pass. Two unrelated
   SF-424A database lifecycle tests remain unavailable locally because `grants-db` does not resolve.
-  Hosted full-lane CI is running.
+  The fork accepted the squash merge before its non-required hosted lanes completed. Hosted API
+  format, lint, migration, and security checks passed before merge; the full API test step and
+  unrelated repository-wide E2E fanout were still running at the merge receipt and must not be
+  described as green until their final results are recorded.
 
 [depends on](harden-rr-budget-production.md)
 
