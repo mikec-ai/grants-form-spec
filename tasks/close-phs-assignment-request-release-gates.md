@@ -6,10 +6,10 @@ description: >-
   Prove the banked PHS Assignment Request through consumer lifecycle, privacy,
   accessibility, and release gates.
 superbee_progress_status: in_progress
-superbee_updated_by: phs_assignment_release
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:43:57.308Z'
+  at: '2026-08-24T22:43:18.337Z'
 assignee: phs_assignment_release
 ---
 # Goal
@@ -66,3 +66,10 @@ A manually dispatched real-browser run is in progress at [workflow run 327752572
 [depends on](add-portable-form-preview-registration.md)
 
 [depends on](run-portable-catalog-browser-matrix.md)
+
+## Hosted closure receipt — 2026-08-24
+
+- Consumer evidence PR [86](https://github.com/mikec-ai/simpler-grants-gov/pull/86) merged at `2026-08-24T22:42:10Z`.
+- Bounded cohort run [32783661425](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32783661425) proved preview registration, adapter/API preflight, apply render, and print render in Chrome, Firefox, WebKit, and mobile Chrome.
+- The save probe persisted through the ordinary application path but the harness incorrectly required every bounded save to produce validation errors; the generic correction is isolated in consumer PR [94](https://github.com/mikec-ai/simpler-grants-gov/pull/94). The run's Axe failure was likewise the developer-only test-user selector outside the form surface.
+- Human semantic, instruction, accessibility, policy, and release approvals remain open; the merge records automated handoff evidence and does not imply those approvals.
