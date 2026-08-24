@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:59:00.827Z'
+  at: '2026-08-24T03:06:56.854Z'
 assignee: human_subjects_agent
 ---
 # Goal
@@ -66,4 +66,4 @@ Record which capabilities were genuinely new so PHS Inclusion Enrollment Report 
 
 # Consumer banking receipt
 
-Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. After rebasing over concurrent automated promotion PR #56, PR #58 adds only PHS Human Subjects and Clinical Trials plus PHS 398 Research Plan; its current base is `9fa568e1e6eb04e7218a9685cdf255215080cafb` and head is `11038593df1e125c62ce43fad8273144f3cf93ed`. It remains bank-only with no runtime identity or registration. Consumer human semantic, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. After rebasing over automated promotion PR #56 and manifest-derived boundary PR #59, PR #58 adds only PHS Human Subjects and Clinical Trials plus PHS 398 Research Plan; its final base is `c7a3a9e9da217131bc38a9b1bc7d57d3a273796d` and head is `b0ab837dc1be0f1af89cd95a2439ddad0f2fa40c`. The delta is artifact/XSD-only and classifies as bank-only. It adds no runtime identity or registration. Consumer human semantic, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
