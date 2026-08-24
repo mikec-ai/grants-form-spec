@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Add a moderately sized, high-value small-business supplemental form after the
   immediate PHS tranche, reusing shared application and organization concepts.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: audit_sbir_sttr
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T00:38:09.000Z'
+  at: '2026-08-24T03:49:21.468Z'
+assignee: audit_sbir_sttr
 ---
 # Goal
 
