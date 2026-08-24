@@ -55,9 +55,9 @@ class ProofPackageTests(unittest.TestCase):
                 claim for claim in package["claims"] if claim["id"] == "rr-budget-family-reuse"
             )
             self.assertIn("64 conditioned occurrences", budget_claim["statement"])
-            self.assertIn("50 represented", budget_claim["statement"])
-            self.assertIn("10 compiled", budget_claim["statement"])
-            self.assertIn("four explicitly source-bound and uncompiled", budget_claim["statement"])
+            self.assertIn("50 by existing declarations", budget_claim["statement"])
+            self.assertIn("10 through one generic cross-section", budget_claim["statement"])
+            self.assertIn("four through generic positive-decimal-string", budget_claim["statement"])
             inventory_evidence = next(
                 evidence
                 for evidence in budget_claim["evidence"]
@@ -81,8 +81,8 @@ class ProofPackageTests(unittest.TestCase):
                 inventory["counts"]["byDisposition"],
                 {
                     "compiled-by-at-least-one-path-when-present": 10,
+                    "compiled-by-positive-decimal-string-conditions": 4,
                     "represented-by-existing-declaration": 50,
-                    "source-bound-uncompiled": 4,
                 },
             )
             self.assertEqual(inventory["reviewStatus"], "unreviewed")
