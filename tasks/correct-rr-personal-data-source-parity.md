@@ -8,6 +8,18 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_rr_personal_data
 generated:
   by: 'process:superbee'
+  at: '2026-08-24T03:54:11.893Z'
+---
+---
+type: Task
+title: Correct R&R Personal Data source parity
+priority: P0
+assignee: implement_rr_personal_data
+description: Correct verified source-parity and evidence defects in merged producer PR68.
+superbee_progress_status: in_progress
+superbee_updated_by: implement_rr_personal_data
+generated:
+  by: 'process:superbee'
   at: '2026-08-24T03:48:44.078Z'
 ---
 # Goal
@@ -29,5 +41,14 @@ Correct the merged R&R Personal Data producer artifacts so portable validation, 
 - Exact official source/version/hash closure includes UniversalCodes.
 - Privacy, policy, accessibility, lifecycle, and runtime registration gates remain closed.
 - Full producer preflight passes and a focused draft PR is opened without merging.
+
+# Delivery receipt
+
+- Producer branch: `codex/fix-rr-personal-data-source-parity`
+- Exact head: `7d724fe1d`
+- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/69
+- Local verification: full `npm run preflight` passed with 113 TypeScript tests, 272 Python tests (2 skipped), 29 exact-XSD fixture/profile checks, and zero unclassified fields or exceptions.
+- CI status: pending.
+- Merge status: intentionally unmerged.
 
 [depends on](author-integrate-rr-personal-data.md)
