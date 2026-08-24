@@ -4,23 +4,23 @@ title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
   Producer capability merged in grants-form-spec at
-  4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer implementation is complete
-  and rebased onto preview-enabled public-fork main
-  4c8b331798c0f31552cff2759a868ba25cd795b6 on branch
-  codex/response-normalization-consumer, exact head
-  8845ee7c7e0609bfb9ef2d0bd3fa61b6016d20a0. Draft consumer PR #67 verifies and
-  projects exact reviewed pointers generically, normalizes copied responses
+  4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer draft PR #67 is rebased on
+  preview-enabled public-fork main 4c8b331798c0f31552cff2759a868ba25cd795b6 at
+  exact head 665f0c21af8b0dd23995187b1beebe79ea12181d. The generic adapter
+  verifies and projects exact reviewed pointers, normalizes copied responses
   before rules, canonical validation, and XML, preserves raw capture blanks
   while retaining rule writes, and carries the policy through manifest-driven
-  previews with no form-ID branches or DB migration. Local gates are green:
-  isort, Black, Ruff, full mypy, 259 portable-form tests, and 3 database/XSD
-  lifecycle tests. Hosted CI is running; independent review remains before
-  merge.
+  previews with no form-ID branches or DB migration. Preliminary review findings
+  are addressed: consumer target eligibility now rejects all producer-forbidden
+  conditional/alternative composition, accepts numeric object-property names,
+  and allows required parent objects while still rejecting required target
+  leaves. Focused isort, Black, Ruff, mypy, and 32 normalization tests are
+  green; hosted CI and remaining independent review are pending.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T06:52:26.287Z'
+  at: '2026-08-24T07:04:05.918Z'
 assignee: codex-operational-evidence
 ---
 # Goal
