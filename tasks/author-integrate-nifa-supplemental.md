@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Add a bounded, high-use supplemental form that should compose mostly from
   existing application, organization, attachment, and form-shell foundations.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T00:38:09.000Z'
+  at: '2026-08-24T00:52:58.679Z'
+assignee: codex
 ---
 # Goal
 
