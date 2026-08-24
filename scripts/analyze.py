@@ -440,7 +440,7 @@ def write_workbook(output_dir: pathlib.Path, analysis: dict) -> None:
             analysis["operationalBehaviorOccurrences"],
             [
                 "formId", "canonicalPath", "operationKind", "editability",
-                "authority", "executionStatus", "valueSourceKind",
+                "authority", "executionStatus", "targetArrayPath", "targetArrayIndex", "valueSourceKind",
                 "valueSourceBlockId", "valueSourceNamespace", "valueSourcePath",
                 "sourceId", "sourcePath", "sourceRecord",
             ],
@@ -571,6 +571,7 @@ def main(argv: list[str] | None = None) -> int:
     for form_id in sorted(forms):
         for record in form_evidence[form_id].get("operationalBehaviorEvidence", []):
             value_source = record.get("valueSource", {})
+            target_selection = record.get("targetSelection", {})
             operational_behavior_occurrences.append({
                 "formId": form_id,
                 "canonicalPath": record["canonicalPath"],
@@ -578,6 +579,8 @@ def main(argv: list[str] | None = None) -> int:
                 "editability": record["editability"],
                 "authority": record["authority"],
                 "executionStatus": record["executionStatus"],
+                "targetArrayPath": target_selection.get("arrayPath"),
+                "targetArrayIndex": target_selection.get("index"),
                 "valueSourceKind": value_source.get("kind"),
                 "valueSourceBlockId": value_source.get("blockId"),
                 "valueSourceNamespace": value_source.get("namespace"),

@@ -261,6 +261,23 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             self.analysis["status"]["operationalBehaviorOccurrenceCount"],
             len(self.analysis["operationalBehaviorOccurrences"]),
         )
+        rr_budget_rows = [
+            row for row in self.analysis["operationalBehaviorOccurrences"]
+            if row["formId"] == "rr-budget"
+        ]
+        self.assertEqual(len(rr_budget_rows), 3)
+        self.assertEqual({row["operationKind"] for row in rr_budget_rows}, {"prefill"})
+        self.assertEqual({row["valueSourceBlockId"] for row in rr_budget_rows}, {"rr-sf424"})
+        first_period = next(
+            row for row in rr_budget_rows
+            if row["canonicalPath"] == "/budgetYear/[]/budgetPeriodStartDate"
+        )
+        self.assertEqual(first_period["targetArrayPath"], "/budgetYear")
+        self.assertEqual(first_period["targetArrayIndex"], 0)
+        self.assertEqual(
+            {row["editability"] for row in rr_budget_rows},
+            {"editable", "unspecified"},
+        )
         self.assertTrue(
             all(
                 row["kind"] != "operationalBehavior"

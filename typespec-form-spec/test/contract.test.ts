@@ -143,6 +143,8 @@ describe("artifact contract v1", () => {
         ...base,
         operationKind: "prefill",
         valueSource: { kind: "canonical", blockId: "source-form", path: "/source" },
+        editability: "unspecified",
+        targetSelection: { arrayPath: "/items", index: 0 },
       },
       {
         ...base,
@@ -181,6 +183,9 @@ describe("artifact contract v1", () => {
       { ...records[3], valueSource: undefined },
       { ...records[0], operationKind: "copy" },
       { ...records[0], editability: "locked" },
+      { ...records[0], targetSelection: { arrayPath: "/items", index: -1 } },
+      { ...records[0], targetSelection: { arrayPath: "/items" } },
+      { ...records[0], targetSelection: { arrayPath: "/items", index: 0, mode: "first" } },
       { ...records[0], executionStatus: "runtime-verified" },
       { ...records[0], executionStatus: "adapter-projected" },
     ];

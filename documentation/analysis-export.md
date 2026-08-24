@@ -58,7 +58,10 @@ implementation cost.
 
 Operational behavior evidence is a fourth, explicitly separate table. It records exact destination
 paths, canonical or external value-source coordinates, editability, authority, execution status,
-and source provenance. These rows are not questions or compiled rules. They therefore do not enter
+source provenance, and an optional zero-based array-item selection for position-specific behavior.
+When an official source establishes an operation but does not state editability, the record says
+`unspecified` rather than inferring editable or protected behavior. These rows are not questions or
+compiled rules. They therefore do not enter
 semantic similarity, reviewed coverage, capability reuse, or marginal reuse metrics. A declaration
 such as `readOnly`, `systemValue`, or a consumer pre-population annotation is never promoted into
 source evidence by inference.

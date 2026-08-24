@@ -15,7 +15,8 @@
       "requiredness",
       "section-and-group-semantics",
       "attachment-positive-total-pairs",
-      "fixed-values-and-response-ownership"
+      "fixed-values-and-response-ownership",
+      "lifecycle-and-prefill"
     ],
     "dimensionStatus": {
       "applicant-visible-labels": "partial",
@@ -23,7 +24,8 @@
       "requiredness": "partial",
       "section-and-group-semantics": "bounded",
       "attachment-positive-total-pairs": "complete-for-two-source-pairs",
-      "fixed-values-and-response-ownership": "complete-for-four-source-records"
+      "fixed-values-and-response-ownership": "complete-for-four-source-records",
+      "lifecycle-and-prefill": "bounded"
     }
   },
   "source": {
@@ -115,13 +117,42 @@
       "dimension": "fixed-values-and-response-ownership",
       "finding": "The four named other-personnel project roles compile as source-exact JSON Schema const and default values with readOnly annotations through the shared research-budget declaration.",
       "limit": "This confirms only DAT paths B-1-2 through B-4-2; the additional project-role row remains applicant-entered and no broader response-ownership claim is made."
+    },
+    {
+      "dimension": "lifecycle-and-prefill",
+      "finding": "DAT path 0-08 is represented once at the budget root, rather than once per budget period, so its first-period-only entry boundary is structural. DAT path L-1-1 is likewise one required root attachment for the entire project period.",
+      "limit": "This structural finding does not establish or execute the separate cross-form prefill operations at 0-06, 0-07, or 0-10."
+    }
+  ],
+  "sourceBoundOperationalEvidence": [
+    {
+      "canonicalPath": "/samUei",
+      "sourcePath": "0-06",
+      "valueSource": "rr-sf424:/applicantInfo/organizationInfo/samUei",
+      "editability": "editable",
+      "executionStatus": "source-bound-uncompiled"
+    },
+    {
+      "canonicalPath": "/organizationName",
+      "sourcePath": "0-07",
+      "valueSource": "rr-sf424:/applicantInfo/organizationInfo/organizationName",
+      "editability": "unspecified",
+      "executionStatus": "source-bound-uncompiled"
+    },
+    {
+      "canonicalPath": "/budgetYear/[]/budgetPeriodStartDate",
+      "sourcePath": "0-10",
+      "valueSource": "rr-sf424:/proposedProjectPeriod/proposedStartDate",
+      "targetSelection": {"arrayPath": "/budgetYear", "index": 0},
+      "editability": "unspecified",
+      "executionStatus": "source-bound-uncompiled"
     }
   ],
   "unresolved": [
     {
-      "sourcePaths": ["0-06", "0-07", "0-08", "0-10", "L-1-1"],
-      "sourceRecord": "The DAT describes prefill or first-period-only lifecycle behavior.",
-      "reason": "These are operational ownership and presentation rules, not safe question-bank semantics. They remain outside this bounded content correction."
+      "sourcePaths": ["0-06", "0-07", "0-10"],
+      "sourceRecord": "The DAT directs values to be prefilled from exact R&R SF-424 occurrences, with the start date limited to the first budget period.",
+      "reason": "The portable evidence now preserves the exact sources, target selection, and known editability without inferring missing facts. Execution remains uncompiled because the current SGG prepopulation runtime has no cross-form response-copy rule."
     },
     {
       "dimension": "applicant-visible-labels",

@@ -110,7 +110,10 @@ and deterministic extraction provenance. Semantic mappings carry an explicit rev
 unreviewed or proposed mappings are never eligible for published coverage metrics.
 Source-backed prefill, external derivation, discard, replacement, and editability evidence uses
 the separate `operationalBehaviorEvidence` contract. The projector validates its exact canonical
-destinations and value-source coordinates, but does not compile it into runtime rules.
+destinations and value-source coordinates, including a selected array item when the source limits
+an operation to one occurrence. Editability remains `unspecified` when the source does not state
+it; the evidence contract does not force an inference. These records are not compiled into runtime
+rules.
 
 Every emitted form index includes path-qualified canonical field lineage and explicitly authored
 response roles. CI requires zero fields without canonical question lineage or a declared
