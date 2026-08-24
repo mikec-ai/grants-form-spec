@@ -18,7 +18,6 @@ description: >-
   publishes receipts.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: codex-root
 ---
 # Goal
 
@@ -138,3 +137,5 @@ Final restack verification against main `0a5b10f6e` produced the same stable agg
 The two Prettier-only canary changes inherited by consumer main are isolated in [ready PR 68](https://github.com/mikec-ai/simpler-grants-gov/pull/68) at `eae8d42fcb225bcc39d0c8b0a3bbc3fbeceb481f`. That hotfix changes only `FieldListWidget.test.tsx` and `rrKeyPersonPrintCanary.test.tsx`; PR 66 remains independent and unchanged.
 
 Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete.
+
+[depends on](repair-shared-api-startup-for-browser-conformance.md)
