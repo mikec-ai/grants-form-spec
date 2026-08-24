@@ -49,13 +49,13 @@ Existing behavior is a compatibility oracle, not semantic authority. A differenc
 
 ## Implementation checkpoint: initial seven-form cohort
 
-Draft consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), exact head `31f0f60951ab2ea65ae8f9b28f00cc206dd6afe9`, implements the first uniform cohort from fork `main` after merged PR 75.
+Draft consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), exact head `4fb897aefc2f2491121c7b2a239ebe4125f6b861`, implements the first uniform cohort from fork `main` after merged PR 75.
 
 The cohort is SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. The same generic comparator runs every form; form-specific declarations are limited to existing-oracle identity and exact intentional-delta keys with a reason and durable evidence path. It has no form-ID branches.
 
 Current reproducible result:
 
-- 7 release-gated receipts passed and 0 failed;
+- 7 comparison-gated receipts passed and 0 failed;
 - schema: 1 parity and 6 evidence-linked intentional deltas;
 - UI: 3 parity and 4 evidence-linked intentional deltas;
 - validation: 5 parity and 2 evidence-linked intentional deltas;
