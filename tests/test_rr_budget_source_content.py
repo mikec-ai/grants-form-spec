@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FORMS = ROOT / "dist" / "forms"
 QUESTIONS = ROOT / "dist" / "question-bank" / "budget" / "research"
 AUDIT = ROOT / "analysis" / "rr-budget-source-content-audit.v1.json"
+EVIDENCE = ROOT / "dist" / "forms" / "rr-budget" / "evidence.json"
 
 DAT_SHA256 = "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035"
 
@@ -48,6 +49,63 @@ def collect_property_schemas(node: object, property_name: str) -> list[dict]:
 
 
 class ResearchBudgetSourceContentTests(unittest.TestCase):
+    def test_first_period_only_budget_type_and_justification_are_single_root_fields(self) -> None:
+        form_schema = load(FORMS / "rr-budget" / "schema.json")
+        self.assertIn("budgetType", form_schema["required"])
+        self.assertIn("budgetJustificationAttachment", form_schema["required"])
+        self.assertIn("budgetType", form_schema["properties"])
+        self.assertIn("budgetJustificationAttachment", form_schema["properties"])
+
+        period_schema = load(QUESTIONS / "period" / "schema.json")
+        self.assertNotIn("budgetType", period_schema["properties"])
+        self.assertNotIn("budgetJustificationAttachment", period_schema["properties"])
+
+    def test_cross_form_prefill_evidence_preserves_exact_sources_and_boundaries(self) -> None:
+        records = load(EVIDENCE)["operationalBehaviorEvidence"]
+        self.assertEqual(len(records), 3)
+        by_path = {record["canonicalPath"]: record for record in records}
+        self.assertEqual(
+            by_path["/samUei"]["valueSource"],
+            {
+                "kind": "canonical",
+                "blockId": "rr-sf424",
+                "path": "/applicantInfo/organizationInfo/samUei",
+            },
+        )
+        self.assertEqual(by_path["/samUei"]["editability"], "editable")
+        self.assertEqual(
+            by_path["/organizationName"]["valueSource"],
+            {
+                "kind": "canonical",
+                "blockId": "rr-sf424",
+                "path": "/applicantInfo/organizationInfo/organizationName",
+            },
+        )
+        self.assertEqual(by_path["/organizationName"]["editability"], "unspecified")
+        self.assertEqual(
+            by_path["/budgetYear/[]/budgetPeriodStartDate"],
+            {
+                "canonicalPath": "/budgetYear/[]/budgetPeriodStartDate",
+                "operationKind": "prefill",
+                "valueSource": {
+                    "kind": "canonical",
+                    "blockId": "rr-sf424",
+                    "path": "/proposedProjectPeriod/proposedStartDate",
+                },
+                "targetSelection": {"arrayPath": "/budgetYear", "index": 0},
+                "editability": "unspecified",
+                "authority": "official_source",
+                "executionStatus": "source-bound-uncompiled",
+                "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
+                "sourcePath": "0-10",
+                "sourceRecord": (
+                    "Prefill the Start Date for the first budget year from "
+                    "ProposedStartDate on the R&R SF424. Start Date cannot be after End Date."
+                ),
+            },
+        )
+        self.assertEqual({record["executionStatus"] for record in records}, {"source-bound-uncompiled"})
+
     def test_fixed_personnel_roles_are_source_exact_defaults_and_read_only(self) -> None:
         schema = load(QUESTIONS / "other-personnel" / "schema.json")
         definitions = schema["$defs"]
@@ -207,6 +265,7 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                 "section-and-group-semantics": "bounded",
                 "attachment-positive-total-pairs": "complete-for-two-source-pairs",
                 "fixed-values-and-response-ownership": "complete-for-four-source-records",
+                "lifecycle-and-prefill": "bounded",
             },
         )
         unresolved_dimensions = {
@@ -222,7 +281,11 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
         )
         self.assertEqual(
             {path for item in audit["unresolved"] for path in item["sourcePaths"]},
-            {"0-06", "0-07", "0-08", "0-10", "L-1-1"},
+            {"0-06", "0-07", "0-10"},
+        )
+        self.assertEqual(
+            {item["sourcePath"] for item in audit["sourceBoundOperationalEvidence"]},
+            {"0-06", "0-07", "0-10"},
         )
 
 

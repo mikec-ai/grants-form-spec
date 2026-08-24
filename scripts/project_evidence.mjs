@@ -472,6 +472,22 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       }
       operationalIdentities.add(identity);
 
+      if (behavior.targetSelection) {
+        const { arrayPath } = behavior.targetSelection;
+        if (!occurrences.has(arrayPath)) {
+          throw new Error(
+            `${rel}: operational behavior ${behavior.canonicalPath} selects missing array ` +
+            `occurrence ${arrayPath}`,
+          );
+        }
+        if (!behavior.canonicalPath.startsWith(`${arrayPath}/[]/`)) {
+          throw new Error(
+            `${rel}: operational behavior ${behavior.canonicalPath} target selection ` +
+            `${arrayPath} does not contain that field occurrence`,
+          );
+        }
+      }
+
       if (behavior.valueSource?.kind === "canonical") {
         const sourceBlock = byBlock.get(behavior.valueSource.blockId);
         if (!sourceBlock) {

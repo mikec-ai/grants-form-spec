@@ -754,6 +754,55 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(projected["operationalBehaviorEvidence"], [record])
         self.assertEqual(rules, {})
 
+    def test_projector_preserves_a_valid_array_item_target_selection(self) -> None:
+        record = self._official_prefill("/items/[]/name")
+        record["editability"] = "unspecified"
+        record["targetSelection"] = {"arrayPath": "/items", "index": 0}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            index_path = dist / "forms/example/index.json"
+            index = json.loads(index_path.read_text())
+            index["fieldOccurrences"].extend([
+                {"path": "/items", "leaf": False, "blockIds": []},
+                {
+                    "path": "/items/[]/name",
+                    "leaf": True,
+                    "blockIds": ["generics/name"],
+                },
+            ])
+            self._json(index_path, index)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            projected = json.loads((dist / "forms/example/evidence.json").read_text())
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(projected["operationalBehaviorEvidence"], [record])
+
+    def test_projector_rejects_target_selection_outside_destination_path(self) -> None:
+        record = self._official_prefill()
+        record["targetSelection"] = {"arrayPath": "/name", "index": 0}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("target selection /name does not contain that field occurrence", result.stdout)
+
     def test_projector_rejects_operational_destination_outside_emitted_occurrences(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

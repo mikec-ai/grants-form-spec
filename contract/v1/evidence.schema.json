@@ -234,7 +234,8 @@
         "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
         "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
         "valueSource": { "$ref": "#/$defs/operationalValueSource" },
-        "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+        "editability": { "enum": ["editable", "read-only", "protected", "not-applicable", "unspecified"] },
+        "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
         "authority": { "enum": ["official_source", "implementation_parity", "unresolved"] },
         "executionStatus": { "const": "source-bound-uncompiled" }
       },
@@ -258,6 +259,15 @@
         { "$ref": "#/$defs/canonicalOperationalValueSource" },
         { "$ref": "#/$defs/externalOperationalValueSource" }
       ]
+    },
+    "operationalTargetSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["arrayPath", "index"],
+      "properties": {
+        "arrayPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
+        "index": { "type": "integer", "minimum": 0 }
+      }
     },
     "canonicalOperationalValueSource": {
       "type": "object",
@@ -299,7 +309,8 @@
             "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
             "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
             "valueSource": { "$ref": "#/$defs/operationalValueSource" },
-            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable", "unspecified"] },
+            "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
             "authority": { "enum": ["official_source", "implementation_parity"] },
             "executionStatus": { "const": "source-bound-uncompiled" },
             "sourceId": { "type": "string", "minLength": 1 },
@@ -329,7 +340,8 @@
             "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
             "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
             "valueSource": { "$ref": "#/$defs/operationalValueSource" },
-            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable", "unspecified"] },
+            "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
             "authority": { "const": "unresolved" },
             "executionStatus": { "const": "source-bound-uncompiled" },
             "owner": { "type": "string", "minLength": 1 },
