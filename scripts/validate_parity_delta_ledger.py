@@ -68,7 +68,9 @@ def _semantic_target_exists(root: Path, record: dict[str, Any]) -> bool:
             if document.get("id") == policy_id and document.get("version") == version:
                 return section_id in {section.get("id") for section in document.get("sections", [])}
         return False
-    return semantic["kind"] == "rule_path"
+    # Rule-path identity needs exact resolution against the emitted rule artifact. Until that
+    # resolver exists, accepting a nonempty string would recreate a blanket allowance.
+    return False
 
 
 def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
