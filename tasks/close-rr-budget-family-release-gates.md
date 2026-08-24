@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T17:19:04.590Z'
+  at: '2026-08-24T17:20:05.875Z'
 assignee: rr_budget_condition_contract
 ---
 # Goal
@@ -166,8 +166,9 @@ architecture or silently claim human approval.
   with two repository-default skips. Tests cover absent trigger, missing alternatives, incomplete
   target rows, and a valid non-sequential tenth row. The generic evidence projector now follows
   local emitted `$ref` graphs and fails closed for escaping or unresolved references.
-- [simpler-grants-gov PR 77](https://github.com/mikec-ai/simpler-grants-gov/pull/77) pins the consumer
-  artifact bank to the exact producer merge revision and proves direct R&R Budget and nested R&R
+- [simpler-grants-gov PR 77](https://github.com/mikec-ai/simpler-grants-gov/pull/77), merged at
+  `9f9ffcb1cd5fd7705bcbd0160df63d2227ffb08c`, pins the consumer artifact bank to the exact producer
+  merge revision and proves direct R&R Budget and nested R&R
   Subaward Budget conformance. No Simpler compiler, projector, renderer, or form-specific adapter
   code changed. The focused consumer suite passes 31 tests; Ruff and repository Black checks pass
   at amended head `9d4f4df43`. Hosted API format, lint, migrations, security lint, and the full API
