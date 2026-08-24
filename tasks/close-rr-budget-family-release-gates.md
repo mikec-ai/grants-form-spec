@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:55:37.602Z'
+  at: '2026-08-24T17:19:04.590Z'
 assignee: rr_budget_condition_contract
 ---
 # Goal
@@ -170,7 +170,11 @@ architecture or silently claim human approval.
   artifact bank to the exact producer merge revision and proves direct R&R Budget and nested R&R
   Subaward Budget conformance. No Simpler compiler, projector, renderer, or form-specific adapter
   code changed. The focused consumer suite passes 31 tests; Ruff and repository Black checks pass
-  at amended head `9d4f4df43`.
+  at amended head `9d4f4df43`. Hosted API format, lint, migrations, security lint, and the full API
+  suite pass. The fork's unrelated full-repository E2E workflow remains red across broad attachment,
+  performance-site, SF-424, and SF-424A smoke tests; those failures do not exercise the changed R&R
+  Budget artifacts or focused conformance tests and are recorded as an external CI boundary rather
+  than attributed to this slice.
 - [grants-form-spec PR 80](https://github.com/mikec-ai/grants-form-spec/pull/80), merged at
   `a667b9fa6904f9b12bdf424ac354c66935462631`, refreshes the authored proof-package source to the same
   producer evidence revision and exact 50/10/4 boundary. Four focused
