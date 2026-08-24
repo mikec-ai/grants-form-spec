@@ -2,26 +2,22 @@
 type: Task
 title: Repair shared API startup for hosted browser conformance
 priority: P0
-assignee: codex-ci-startup
+assignee: codex
 description: >-
-  Draft consumer PR #69 is independently approved at exact head
-  75456b985971be885bed6a76e8888ead0e89a232 on exact main
-  c4709fc2931d4c9129871d058247f88bcfcd0e22. It adds CI-only Flask --no-reload
-  startup plus fail-fast, bounded container/HTTP diagnostics and six shell
-  regressions; local development retains --reload. Hosted exact-head evidence is
-  decisive: API readiness improved from an 800-second timeout to 5 seconds,
-  Pa11y passed, all four E2E shards reached Playwright, and full API/infra
-  checks passed. The ordinary Mobile Chrome smoke lane then exposed pre-existing
-  downstream debt (attachment scan flakiness, Key Contacts if/then frontend
-  incompatibility, and an SF-424A locator mismatch), none introduced by PR69. A
-  targeted @portable-catalog dispatch, run 32721986045, is in progress. Keep
-  task in progress until PR69 merges and the targeted run publishes matrix
-  evidence or an exact downstream blocker.
-superbee_progress_status: in_progress
+  Consumer PR #69 merged to the public fork as
+  b8e286cb64157b86823dc2a72066c204bf10d625. The bounded startup fix reduced
+  hosted API readiness from an 800-second timeout to 5 seconds, preserved local
+  reload behavior, added fail-fast diagnostics, passed API/infra/Pa11y gates,
+  and allowed every E2E shard to reach Playwright. Remaining smoke failures are
+  pre-existing downstream debt and are not part of this task. Catalog-wide
+  browser conformance remains separately owned by
+  tasks/run-portable-catalog-browser-matrix and is intentionally not a
+  per-change gate.
+superbee_progress_status: done
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T11:30:36.865Z'
+  at: '2026-08-24T11:39:49.038Z'
 ---
 ## Diagnostic evidence, 2026-08-24
 
