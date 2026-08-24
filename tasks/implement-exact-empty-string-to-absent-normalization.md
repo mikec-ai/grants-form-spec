@@ -3,17 +3,20 @@ type: Task
 title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
-  Producer step remains in draft grants-form-spec PR #74, amended at head
-  a6a3f6c4b63d4efd5a537131534348356aa4b5a1. Independent review findings are
-  addressed: artifact validation independently closes evidence and canonical
-  eligibility, duplicate form declarations fail before writes, and mixed
-  help/unknown flags exit 2. Full local preflight and hosted CI are green.
-  Consumer execution design remains in progress.
+  Producer step remains in draft grants-form-spec PR #74 at amended head
+  0e9204800f624ad04d67952ddbb2443a42c2d268. All review findings are addressed,
+  including exact closure from normalization citations to declared
+  non-implementation official sources. Full local preflight is green; refreshed
+  hosted CI is pending. Consumer design is complete against simpler-grants-gov
+  main 534a36b74201baa2f28d35f138e64e03efb0e348: optional artifact selection,
+  existing pointer projection, copied canonical working data before
+  rules/validation, raw-capture-preserving rule merge, and pre-XML
+  normalization, all generic and form-ID-free.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:46:12.513Z'
+  at: '2026-08-24T06:18:02.778Z'
 assignee: codex-operational-evidence
 ---
 # Goal
