@@ -25,6 +25,7 @@
     "validate-artifacts": "node scripts/validate_artifacts.mjs",
     "validate-promotion": "node scripts/validate_promotion.mjs",
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",
+    "proof-package": "python3 scripts/build_proof_package.py",
     "test-python": "python3 -m unittest discover -s tests",
     "test": "npm test -w @simpler-grants/form-spec",
     "preflight": "./scripts/preflight.sh"
