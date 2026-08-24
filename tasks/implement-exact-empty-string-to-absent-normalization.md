@@ -3,15 +3,17 @@ type: Task
 title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
-  Add one portable, exact-path normalization contract and generic
-  producer/consumer execution path so legacy capture payloads containing exact
-  empty strings can become source-valid omission without weakening canonical
-  schemas or adding form-specific adapter branches.
+  Producer step is implemented in draft grants-form-spec PR #74 at head
+  6589465b08f72fe07e26f7e77ba6be621dc44552 with full preflight green. The
+  versioned exact-path policy, reviewed SF-424A evidence, generic fail-closed
+  projector, manifest hash, and test matrix are complete. Consumer execution
+  before canonical validation and XML remains pending, so the cross-repository
+  task stays in progress.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:20:09.289Z'
+  at: '2026-08-24T05:34:53.786Z'
 assignee: codex-operational-evidence
 ---
 # Goal
