@@ -397,7 +397,10 @@ registration are not closed.
   The fork accepted the squash merge before its non-required hosted lanes completed. Hosted API
   format, lint, migration, and security checks passed before merge; the full API test step and
   unrelated repository-wide E2E fanout were still running at the merge receipt and must not be
-  described as green until their final results are recorded.
+  described as green until their final results are recorded. The E2E lane later failed before
+  exercising form behavior: its only active shard stopped on a Git checkout exit 128, the remaining
+  shards were canceled, and report assembly found no shard artifacts. This is recorded as CI
+  infrastructure evidence, not a form or adapter failure.
 
 [depends on](harden-rr-budget-production.md)
 
