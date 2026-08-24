@@ -61,7 +61,7 @@ legacy field names, and runtime rule mappings belong in consumer adapters. Optio
 wire targets are isolated under `targets/` and may be ignored by consumers that do not need
 them.
 
-Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
+Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [R&R Budget DAT condition inventory](documentation/rr-budget-dat-condition-inventory.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
 The [response normalization boundary](documentation/response-normalization.md) defines how reviewed
 legacy capture representations become source-valid canonical responses without weakening shared
