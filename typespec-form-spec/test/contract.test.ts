@@ -41,6 +41,7 @@ describe("artifact contract v1", () => {
   let validateIndex: ValidateFunction;
   let validatePackage: ValidateFunction;
   let validateEvidence: ValidateFunction;
+  let validateOperationalBehavior: ValidateFunction;
   let validateResponseNormalization: ValidateFunction;
   let validateGrantsGovXmlProfile: ValidateFunction;
   let validatePolicyContent: ValidateFunction;
@@ -57,6 +58,9 @@ describe("artifact contract v1", () => {
     validateIndex = ajv.compile(await json(resolve(contractRoot, "block-index.schema.json")));
     validatePackage = ajv.compile(await json(resolve(contractRoot, "form-package.schema.json")));
     validateEvidence = ajv.compile(await json(resolve(contractRoot, "evidence.schema.json")));
+    validateOperationalBehavior = ajv.compile(
+      await json(resolve(contractRoot, "operational-behavior.schema.json")),
+    );
     validateResponseNormalization = ajv.compile(
       await json(resolve(contractRoot, "response-normalization.schema.json")),
     );
@@ -172,6 +176,20 @@ describe("artifact contract v1", () => {
       JSON.stringify(validateEvidence.errors),
     ).toBe(true);
 
+    const compiled = {
+      ...records[0],
+      executionStatus: "compiled",
+      executionPolicy: {
+        trigger: "source-response-updated",
+        writePolicy: "until-target-user-modified",
+        missingSourcePolicy: "skip",
+      },
+    };
+    expect(
+      validateEvidence({ ...fixture, operationalBehaviorEvidence: [compiled] }),
+      JSON.stringify(validateEvidence.errors),
+    ).toBe(true);
+
     const poisoned = [
       { ...records[0], canonicalPath: undefined },
       { ...records[0], sourceId: undefined },
@@ -188,6 +206,10 @@ describe("artifact contract v1", () => {
       { ...records[0], targetSelection: { arrayPath: "/items", index: 0, mode: "first" } },
       { ...records[0], executionStatus: "runtime-verified" },
       { ...records[0], executionStatus: "adapter-projected" },
+      { ...records[0], executionStatus: "compiled" },
+      { ...compiled, executionPolicy: undefined },
+      { ...compiled, executionPolicy: { ...compiled.executionPolicy, trigger: "form-opened" } },
+      { ...compiled, executionPolicy: { ...compiled.executionPolicy, writePolicy: "always" } },
     ];
     for (const record of poisoned) {
       const candidate = JSON.parse(JSON.stringify({
@@ -255,6 +277,10 @@ describe("artifact contract v1", () => {
       ],
       [await namedArtifacts(emittedFormsRoot, "manifest.json"), () => validatePackage],
       [await namedArtifacts(emittedFormsRoot, "evidence.json"), () => validateEvidence],
+      [
+        await namedArtifacts(emittedFormsRoot, "operational-behavior.json"),
+        () => validateOperationalBehavior,
+      ],
       [
         await namedArtifacts(emittedFormsRoot, "response-normalization.json"),
         () => validateResponseNormalization,

@@ -754,6 +754,53 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(projected["operationalBehaviorEvidence"], [record])
         self.assertEqual(rules, {})
 
+    def test_projector_emits_compiled_operational_behavior_as_a_runtime_artifact(self) -> None:
+        record = self._official_prefill()
+        record["executionStatus"] = "compiled"
+        record["executionPolicy"] = {
+            "trigger": "source-response-updated",
+            "writePolicy": "until-target-user-modified",
+            "missingSourcePolicy": "skip",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            runtime = json.loads(
+                (dist / "forms/example/operational-behavior.json").read_text()
+            )
+            manifest = json.loads((dist / "forms/example/manifest.json").read_text())
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(runtime["contract"], "grants-form-operational-behavior/v1")
+        self.assertEqual(runtime["formId"], "example")
+        self.assertEqual(
+            manifest["artifacts"]["operational-behavior.json"], "generated"
+        )
+        self.assertEqual(
+            runtime["behaviors"],
+            [
+                {
+                    "canonicalPath": "/name",
+                    "operationKind": "prefill",
+                    "valueSource": {
+                        "kind": "canonical",
+                        "blockId": "example",
+                        "path": "/name",
+                    },
+                    "editability": "protected",
+                    "executionPolicy": record["executionPolicy"],
+                }
+            ],
+        )
+
     def test_projector_preserves_a_valid_array_item_target_selection(self) -> None:
         record = self._official_prefill("/items/[]/name")
         record["editability"] = "unspecified"

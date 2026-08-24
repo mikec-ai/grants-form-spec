@@ -113,7 +113,11 @@ the separate `operationalBehaviorEvidence` contract. The projector validates its
 destinations and value-source coordinates, including a selected array item when the source limits
 an operation to one occurrence. Editability remains `unspecified` when the source does not state
 it; the evidence contract does not force an inference. These records are not compiled into runtime
-rules.
+rules unless they also declare the closed initial-population execution policy. Compiled records
+emit `operational-behavior.json`, a target-neutral runtime artifact that runs when its source
+response changes, skips unavailable source values, and stops automatic writes after the target
+form's first user modification. Continuous synchronization and unconditional overwrite are not
+part of the contract.
 
 Every emitted form index includes path-qualified canonical field lineage and explicitly authored
 response roles. CI requires zero fields without canonical question lineage or a declared
