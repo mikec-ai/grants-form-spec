@@ -101,6 +101,23 @@ class ParityDeltaLedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "accepted review lacks"):
             validate_ledger(ROOT, self._write(accepted))
 
+    def test_accepted_review_requires_resolved_classification(self) -> None:
+        accepted = copy.deepcopy(self.ledger)
+        accepted["records"][0]["review"] = {
+            "status": "accepted",
+            "reviewer": "accountable-reviewer",
+            "reviewedAt": "2026-08-24T12:00:00Z",
+            "decisionEvidence": [accepted["records"][0]["evidenceReferences"][0]],
+        }
+        with self.assertRaisesRegex(ValueError, "lacks a resolved classification"):
+            validate_ledger(ROOT, self._write(accepted))
+
+    def test_authoritative_source_classification_requires_verified_support(self) -> None:
+        unsupported = copy.deepcopy(self.ledger)
+        unsupported["records"][0]["classification"] = "authoritative_source_correction"
+        with self.assertRaisesRegex(ValueError, "lacks verified source support"):
+            validate_ledger(ROOT, self._write(unsupported))
+
     def test_cli_rejects_unknown_flags_with_usage_exit(self) -> None:
         result = subprocess.run(
             [sys.executable, "scripts/validate_parity_delta_ledger.py", "--unknown"],
