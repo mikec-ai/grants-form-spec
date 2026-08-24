@@ -6,10 +6,9 @@ description: >-
   Prove the banked SF-424C through calculation parity, consumer lifecycle,
   accessibility, and release gates.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:38:21.676Z'
+  at: '2026-08-24T23:56:13.462Z'
 assignee: codex_root_sf424c
 ---
 # Goal
@@ -53,3 +52,13 @@ This task validates and releases the existing portable design; it does not reope
 [depends on](build-uniform-legacy-differential-parity.md)
 
 [depends on](enforce-evidence-backed-parity-deltas.md)
+
+## Declarative Table closure — 2026-08-24
+
+- Producer PR [mikec-ai/grants-form-spec#95](https://github.com/mikec-ai/grants-form-spec/pull/95) merged as `d75d511d19f5c790442049d7ed6b1aa47949982f` at `2026-08-24T23:53:38Z`.
+- The generic SGG Table projector now derives columns, rows, cell paths, monetary display, and input/read-only state from a regular object-of-objects model. SF-424C supplies only its form-local table heading; no form-id branch or copied 16-row generator was added.
+- The producer's complete preflight passed: 124 TypeSpec tests, 346 Python tests with 10 skips, 30 exact-XSD fixtures, 1,536 validated artifacts, and zero unclassified field occurrences or exceptions.
+- Consumer PR [mikec-ai/simpler-grants-gov#97](https://github.com/mikec-ai/simpler-grants-gov/pull/97) pins the merged producer revision and recursively projects nested Table cell definitions through the existing canonical-to-Simpler rename map. The generated 16-row, four-column SF-424C UI artifact passes Simpler's frontend AJV contract and focused Table/FormFields tests.
+- Local consumer receipts: 35 focused projection, SF-424C, integrity, and provenance tests passed; 48 frontend Table, UI-schema, and FormFields tests passed. Five additional legacy calculation tests require the local `grants-db` service and were unable to initialize outside the composed environment.
+- Bounded four-browser run [32791482621](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791482621) is executing at consumer head `c954ec151dd0838917d8d8457305cffa0281e4ee`. Do not claim browser closure until its receipts are read.
+- Production registration remains unchanged. Human semantic, instruction, accessibility, policy, and release approvals remain open.
