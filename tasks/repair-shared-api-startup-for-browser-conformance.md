@@ -14,7 +14,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-ci-startup
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T10:01:05.405Z'
+  at: '2026-08-24T10:07:37.071Z'
 ---
 ## Diagnostic evidence, 2026-08-24
 
@@ -30,3 +30,11 @@ generated:
 3. Start the API in CI without Flask's development reloader, which otherwise creates a second import/process and is unnecessary for an immutable checkout.
 4. Add focused shell tests for success, exited-container fail-fast, timeout diagnostics, and actionable exit behavior.
 5. Run the hosted browser workflow and only close this task after the browser matrix begins and publishes its CI-only artifacts, or after the diagnostics identify a precisely evidenced external blocker.
+
+## Implementation in progress, 2026-08-24
+
+- Fresh consumer worktree and branch: `codex/repair-shared-api-startup`, based on exact `mikec-ai/simpler-grants-gov` main `c4709fc2931d4c9129871d058247f88bcfcd0e22`.
+- The bounded waiter now uses `GET /health`, keeps curl exit/status/body evidence, stops at the `>=` deadline, and fails immediately when `grants-api` is not running.
+- Failure output includes `docker compose ps -a`, container state/exit/OOM/error fields, the bounded health body, and the last 300 API log lines.
+- A CI-only compose override removes Flask reload for hosted E2E and Pa11y while preserving ordinary local reload behavior.
+- Focused shell cases cover readiness, stopped-container fail-fast, a running HTTP 503 response/body, and the exact deadline boundary. Local compose and workflow validation are underway before a draft PR is opened.
