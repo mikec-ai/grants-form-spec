@@ -11,6 +11,7 @@ import {
   propRequiredWhen,
   propValidationConstraints,
   propValidationConstraintsWhen,
+  readBlock,
 } from "../model.js";
 
 /**
@@ -97,7 +98,11 @@ function cardinalityAnnotations(
     let patch = requiredPathPatch(cardinalityRequiredPaths(program, property));
     patch = merge(patch, conditionalPathPatch(cardinalityRequiredWhen(program, property)));
     const child = childModel(property.type);
-    if (child) {
+    // A published question owns its intrinsic cardinality in its own schema. Crossing
+    // that reference boundary would copy the same constraints beside every occurrence
+    // `$ref`, causing validators to report each missing path twice. Local unpublished
+    // models still need recursive projection because they have no standalone artifact.
+    if (child && !readBlock(program, child.model)) {
       const nested = cardinalityAnnotations(program, child.model, new Set(seen));
       if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
     }
