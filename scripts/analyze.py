@@ -22,6 +22,7 @@ import itertools
 import json
 import pathlib
 import sys
+from collections.abc import Iterable
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 DIST = REPO / "dist"
@@ -199,6 +200,20 @@ def mapping_for_path(evidence: dict, path: str) -> dict | None:
     )
 
 
+def reviewed_question_sets(
+    form_ids: Iterable[str],
+    associations: list[dict[str, str]],
+    form_evidence: dict[str, dict],
+) -> dict[str, set[str]]:
+    """Accepted question identities by form, joined at the exact occurrence path."""
+    reviewed = {str(form_id): set() for form_id in form_ids}
+    for row in associations:
+        mapping = mapping_for_path(form_evidence.get(row["formId"], {}), row["path"])
+        if mapping and mapping.get("status") == "accepted":
+            reviewed[row["formId"]].add(row["questionId"])
+    return reviewed
+
+
 def primary_xsd(evidence: dict, profile: dict) -> dict:
     target = profile.get("xsd", {})
     sources = evidence.get("sources", [])
@@ -359,18 +374,19 @@ def pairwise_rows(asked: dict[str, set[str]], *, scope: str, null_empty: bool = 
     for a, b in itertools.combinations(sorted(asked), 2):
         qa, qb = asked[a], asked[b]
         both, either = qa & qb, qa | qb
-        empty = not either
+        eligible = bool(qa and qb)
+        unavailable = null_empty and not eligible
         rows.append({
             "formA": a,
             "formB": b,
             "scope": scope,
-            "similarity": None if empty and null_empty else (len(both) / len(either) if either else 0.0),
-            "questionsInCommon": len(both),
-            "questionsInA": len(qa),
-            "questionsInB": len(qb),
-            "shareOfA": None if not qa and null_empty else (len(both) / len(qa) if qa else 0.0),
-            "shareOfB": None if not qb and null_empty else (len(both) / len(qb) if qb else 0.0),
-            "eligible": bool(either),
+            "similarity": None if unavailable else (len(both) / len(either) if either else 0.0),
+            "questionsInCommon": None if unavailable else len(both),
+            "questionsInA": None if unavailable else len(qa),
+            "questionsInB": None if unavailable else len(qb),
+            "shareOfA": None if unavailable else (len(both) / len(qa) if qa else 0.0),
+            "shareOfB": None if unavailable else (len(both) / len(qb) if qb else 0.0),
+            "eligible": eligible,
         })
     return rows
 
@@ -579,7 +595,7 @@ def main(argv: list[str] | None = None) -> int:
     }
 
     workbook_associations: list[dict] = []
-    reviewed_asked: dict[str, set[str]] = {form_id: set() for form_id in forms}
+    reviewed_asked = reviewed_question_sets(forms, question_associations, form_evidence)
     for row in question_associations:
         form_id = row["formId"]
         question_id = row["questionId"]
@@ -588,8 +604,6 @@ def main(argv: list[str] | None = None) -> int:
         profile = form_profiles[form_id]
         mapping = mapping_for_path(evidence, row["path"])
         accepted = mapping if mapping and mapping.get("status") == "accepted" else None
-        if accepted:
-            reviewed_asked[form_id].add(question_id)
         review = evidence.get("semanticReview", {})
         extraction = evidence.get("extraction", {})
         xsd = primary_xsd(evidence, profile)

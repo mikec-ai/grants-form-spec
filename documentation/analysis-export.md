@@ -33,9 +33,11 @@ The output directory contains:
 The two pairwise exports are intentionally separate. `pairwise-exploratory.csv` is useful for
 architecture learning and prioritization, but its scope is
 `implementation-derived-unreviewed`. `pairwise-reviewed.csv` includes only occurrence mappings
-whose evidence record has `status: accepted` at the exact canonical pointer. When neither form in
-a pair has accepted occurrences, similarity and directional coverage are blank rather than zero:
-absence of reviewed evidence is not evidence of dissimilarity.
+whose evidence record has `status: accepted` at the exact canonical pointer. A pair is eligible
+only when both forms have accepted occurrences. When either form lacks accepted occurrences, every
+count and similarity measure is blank rather than zero: absence of reviewed evidence is not
+evidence of dissimilarity. A true zero appears only when two eligible forms have accepted questions
+and their accepted sets do not intersect.
 
 The question inventory likewise reports `formsCount` separately from `reviewedFormsCount`, and
 each association carries `mappingStatus` and `publishable`. Similar wording, matching JSON types,
