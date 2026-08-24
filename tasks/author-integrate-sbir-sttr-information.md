@@ -7,11 +7,11 @@ description: >-
   and condition-operation reuse; retain its program, eligibility, ownership,
   affiliation, disclosure, and partner-role semantics as distinct.
 superbee_progress_status: in_progress
-superbee_updated_by: audit_sbir_sttr
+superbee_updated_by: implement_sbir_sttr
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:58:03.425Z'
-assignee: audit_sbir_sttr
+  at: '2026-08-24T03:59:17.979Z'
+assignee: implement_sbir_sttr
 ---
 # Goal
 
