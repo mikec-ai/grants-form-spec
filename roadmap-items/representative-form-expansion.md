@@ -2,8 +2,8 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-nine producer forms and thirty-eight consumer-bank forms are delivered;
-  SBIR/STTR consumer promotion remains a separate reviewed step.
+  Thirty-nine producer forms and thirty-eight banked consumer forms are
+  delivered; SBIR/STTR artifact-only promotion is under consumer review.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: promote_new_forms
@@ -21,7 +21,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 39 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations, form 38 delivered source-bound R&R Personal Data, and form 39 delivered source-bound SBIR/STTR Information with 27 distinct semantic questions, three attachment roles over one shared capture mechanism, 11 compiled portable conditional-required targets, and zero calculations. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks all 38 producer forms at consumer revision `aa46719f794e114e31f9c503e1ed7bda9d2d54a0`. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. The R&R Personal Data corrective audit merged in producer revision `14b08b8cbd6016778a8f0688ed924a7ede4c8d2d`, lifting the promotion hold for that exact revision. Draft consumer PR #62 refreshes the corrected artifacts while preserving the 38-form bank and all runtime boundaries; its exact-head lightweight CI is green and it remains unmerged for independent review. Later producer revisions still require their own reviewed promotion point.
+Current cross-repository snapshot: the public consumer fork banks 38 forms at consumer revision `262d7d86be3d447ba6881c2fe283fb368321e667`, including the corrected R&R Personal Data package. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. Draft consumer PR #64 adds only SBIR/STTR Information from exact producer revision `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, producing a 39-form/475-artifact bank while preserving all runtime boundaries.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -71,6 +71,8 @@ Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the co
 The first measured lightweight banking proof completed on PHS Inclusion Enrollment Report. The automation built, verified, ingested, committed, and pushed the 34-form/370-artifact bundle in 1 minute 49 seconds. After two one-time CI/repository configuration defects were repaired, the corrected hosted bank-only lane reached green in 43 seconds from refreshed-branch update and the promotion merged 8 minutes 27 seconds after the original timer start. No full API or E2E execution occurred on the successful pass.
 
 The steady-state follow-up completed with PHS 398 Cover Page Supplement. Consumer PR #60 pinned producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, built on the automated R&R Personal Data promotion, added only Cover Page Supplement through an artifact/XSD-only diff, and moved the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped. It merged as `aa46719f794e114e31f9c503e1ed7bda9d2d54a0` after independent approval.
+
+The next additive proof is SBIR/STTR Information. Draft consumer PR #64 pins producer `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, adds one form through an artifact/XSD-only diff, and moves the bank to 39 forms/475 artifacts while preserving 29 runtime-enabled and 5 registered forms. Its local classifier selects the bank-only lane; hosted results remain part of the promotion receipt.
 
 # Oracle protocol
 

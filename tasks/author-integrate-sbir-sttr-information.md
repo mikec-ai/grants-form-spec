@@ -7,10 +7,10 @@ description: >-
   and condition-operation reuse; retain its program, eligibility, ownership,
   affiliation, disclosure, and partner-role semantics as distinct.
 superbee_progress_status: done
-superbee_updated_by: implement_sbir_sttr
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:29:58.456Z'
+  at: '2026-08-24T04:53:30.118Z'
 assignee: implement_sbir_sttr
 ---
 ---
@@ -197,3 +197,7 @@ The audit shows no new generic architecture capability is required for the minim
 - Producer PR #70 merged to `main` as `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b` after the independent exact-head review found no actionable issues and hosted CI run `32689957291` passed.
 - The merged producer baseline now contains 39 portable forms. This receipt closes producer authoring only; consumer banking, runtime registration, human semantic and policy acceptance, accessibility review, privacy/security review, and production release remain separate gates.
 - No consumer or HHS/upstream repository was changed as part of this task. Consumer promotion continues under the linked cross-repository promotion task.
+
+# Consumer banking receipt
+
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/64 banks this producer package from immutable revision `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`. Its artifact/XSD-only delta adds no runtime identity, registration, preview, or form-specific consumer code. Human semantic, policy, privacy/security, accessibility, lifecycle, and production-release gates remain open and are not implied by artifact banking.
