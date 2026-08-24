@@ -300,8 +300,8 @@ registration are not closed.
 
 ## 2026-08-24: fixed personnel-role slice published
 
-- [grants-form-spec PR 91](https://github.com/mikec-ai/grants-form-spec/pull/91), commit
-  `3cb623ad2`, captures the four exact F770 records B-1-2 through B-4-2 as declarative string
+- [grants-form-spec PR 91](https://github.com/mikec-ai/grants-form-spec/pull/91), merged at
+  `6ff6048f1061842a7f0f6b184f89e0631e1762a3`, captures the four exact F770 records B-1-2 through B-4-2 as declarative string
   literals with matching defaults and generic read-only annotations in the shared research-budget
   question bank.
 - The emitted contract is exact for `Post Doctoral Associates`, `Graduate Students`,
@@ -312,9 +312,8 @@ registration are not closed.
   target-specific branch, or form-specific generator was added. All five R&R Budget-family
   profiles inherit the read-only presentation contract.
 - Full producer preflight passed: 123 TypeScript tests and 338 Python tests (10 skipped), plus
-  artifact, promotion, parity-ledger, classified-field, XSD-fixture, and package verification.
-  The proof-package workflow is green; the main CI check is still running at the time of this
-  update.
+  artifact, promotion, parity-ledger, classified-field, XSD-fixture, package, and independent
+  TypeSpec-file verification. Both required GitHub workflows passed before merge.
 - Semantic review remains `unreviewed`, and this closes only the four fixed-role source records.
   Lifecycle/prefill ownership, browser confirmation, human semantic/accessibility acceptance,
   operational readiness, and production registration remain outside this increment.
