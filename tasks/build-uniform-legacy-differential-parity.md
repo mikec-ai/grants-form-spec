@@ -49,7 +49,7 @@ Existing behavior is a compatibility oracle, not semantic authority. A differenc
 
 ## Implementation checkpoint: initial seven-form cohort
 
-Draft consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), exact head `b7ca42548d018a65b11430a4f618ddec5a08d8b2`, implements the first uniform cohort from fork `main` after merged PR 77 (`9f9ffcb1cd5fd7705bcbd0160df63d2227ffb08c`).
+Merged consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), durable merge revision `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`, implements the first uniform cohort on top of merged PR 77 (`9f9ffcb1cd5fd7705bcbd0160df63d2227ffb08c`). The reviewed PR head was `b7ca42548d018a65b11430a4f618ddec5a08d8b2`.
 
 The cohort is SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. The same generic comparator runs every form; form-specific declarations are limited to existing-oracle identity and exact intentional-delta keys with a reason and durable evidence path. It has no form-ID branches.
 
@@ -66,5 +66,7 @@ Current reproducible result:
 The static mechanism deliberately reports XML, rule outcomes, and runtime lifecycle as `unavailable`. It does not convert an unsupported comparison into zero differences or parity. Project Narrative Attachments is exact parity across all four supported dimensions. Generated receipts remain ignored and are published as a CI build artifact.
 
 Receipt provenance does not depend on Git being installed in the runtime container. CI injects and strictly validates the full GitHub commit SHA; local runs may use the same option or fall back to the local Git HEAD. Tests reject invalid revisions and assert the injected revision is preserved in every receipt.
+
+Hosted merge evidence: the full API suite, the in-container seven-receipt build, and build-artifact publication all passed before merge. The generated receipts are reproducible from merge revision `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`; they are build artifacts rather than checked-in runtime files.
 
 The next extension should add further overlap forms only when their existing implementation is a stable compatibility oracle. Diagnostic runs against SF-LLL and Performance Site Locations exposed broad source or structural divergence, so they were not normalized into large intentional-delta allowlists merely to increase the cohort count. They remain candidates for source reconciliation before cohort admission.
