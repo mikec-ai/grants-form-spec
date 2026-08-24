@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Prove the banked SF-424C through calculation parity, consumer lifecycle,
   accessibility, and release gates.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:02:34.034Z'
+  at: '2026-08-24T20:34:41.049Z'
+assignee: codex_root_sf424c
 ---
 # Goal
 
