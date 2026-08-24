@@ -5,16 +5,15 @@ priority: P0
 description: >-
   Producer step remains in draft grants-form-spec PR #74, amended at head
   a6a3f6c4b63d4efd5a537131534348356aa4b5a1. Independent review findings are
-  addressed: artifact validation now independently closes evidence and canonical
+  addressed: artifact validation independently closes evidence and canonical
   eligibility, duplicate form declarations fail before writes, and mixed
-  help/unknown flags exit 2. Full local preflight is green with 118 TypeScript
-  and 308 Python tests; hosted CI is rerunning. Consumer execution design
-  remains in progress.
+  help/unknown flags exit 2. Full local preflight and hosted CI are green.
+  Consumer execution design remains in progress.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:44:38.341Z'
+  at: '2026-08-24T05:46:12.513Z'
 assignee: codex-operational-evidence
 ---
 # Goal
