@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: proof_package
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:13:42.076Z'
+  at: '2026-08-24T16:15:57.084Z'
 ---
 # Goal
 
@@ -61,5 +61,6 @@ Local verification at the PR head: full `npm run preflight` passed (118 TypeScri
 Python tests with 2 skips), all pinned producer paths resolve at exact revision
 `4229eca2e5902ea99c917271963be6bd0edf3027`, the focused builder tests passed, deterministic output
 was verified, a worktree-only evidence regression passed, unknown flags return exit 2 with stderr
-diagnostics, and `git diff --check` passed. Hosted CI is pending. This increment does not complete
-the broader seven-to-ten-form or catalog-metrics scope, so the task remains in progress.
+diagnostics, and `git diff --check` passed. Hosted form-spec CI and the dedicated proof-package
+artifact job both passed at the exact head. This increment does not complete the broader
+seven-to-ten-form or catalog-metrics scope, so the task remains in progress.
