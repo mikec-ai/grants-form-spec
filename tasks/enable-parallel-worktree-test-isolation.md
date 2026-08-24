@@ -7,6 +7,20 @@ description: >-
   Remove local Compose collisions so multiple form-evidence agents can run
   repository-native tests concurrently.
 superbee_progress_status: in_progress
+superbee_updated_by: codex-root-fork
+generated:
+  by: 'process:superbee'
+  at: '2026-08-24T22:12:02.451Z'
+---
+---
+type: Task
+title: Enable parallel worktree test isolation
+priority: P1
+assignee: codex_root_parallel_tests
+description: >-
+  Remove local Compose collisions so multiple form-evidence agents can run
+  repository-native tests concurrently.
+superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
@@ -46,3 +60,13 @@ This task improves execution isolation. It does not redesign the application run
 - Independent review found and the same PR corrected two cold-path hazards: bounded shard 1 now installs Firefox and WebKit, and a bounded selector now implies `@portable-catalog` rather than accidentally running the entire E2E suite.
 - Invalid or whitespace-bearing selectors fail before expensive downstream jobs; the Python selector remains authoritative for membership in the live manifest.
 - A second independent review found reusable-workflow event precedence and changed-test overrides could bypass the catalog tag. PR #87 now routes a selector before pull-request/push logic and suppresses all-test and changed-spec paths, structurally guaranteeing that bounded execution runs only `@portable-catalog`.
+
+# Progress — parallel local stacks
+
+- Consumer PR [mikec-ai/simpler-grants-gov#93](https://github.com/mikec-ai/simpler-grants-gov/pull/93) adds an opt-in `bin/run-isolated-api-test` command.
+- Ordinary single-worktree Compose project names and host ports remain the defaults when isolation is not requested.
+- Isolated runs derive separate API/database project identities, shared network names, volumes, and deterministic host ports from a validated stack ID.
+- Global `container_name` declarations were removed from API, database, and frontend Compose definitions; readiness and teardown now address Compose services through explicit project identities.
+- Five focused CLI/configuration tests and six readiness-script tests pass. Ruff, Black, isort, Compose configuration rendering, and `git diff --check` pass.
+- Real Docker proof ran two PostgreSQL stacks concurrently with distinct containers, networks, volumes, and ports. Tearing down the first stack and its volume/network left the second accepting connections.
+- The remaining proof frontier is a pair of concurrent full targeted API test commands, which is intentionally deferred to hosted CI or a machine with sufficient Docker capacity after PR review.
