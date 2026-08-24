@@ -2,16 +2,16 @@
 type: Task
 title: Close R&R SF-424 release gates
 priority: P0
-assignee: codex
+assignee: rr_sf424_browser
 description: >-
   Build generic lifecycle conformance evidence for R&R SF-424; close
   high-confidence conditional validation, save/reload, locked/print, XML/XSD,
   and accessibility gates; register only after the relevant gates pass.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T14:17:27.052Z'
+  at: '2026-08-24T15:54:11.053Z'
 ---
 # Scope
 
