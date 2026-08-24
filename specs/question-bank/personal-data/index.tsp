@@ -1,9 +1,9 @@
 import "@simpler-grants/form-spec";
 import "../index.tsp";
-import "../research-person/index.tsp";
+import "../generics/index.tsp";
 
 using SimplerForms;
-using QuestionBank.ResearchPerson;
+using QuestionBank.Generics;
 
 namespace QuestionBank.PersonalData;
 
@@ -27,8 +27,8 @@ enum PersonalDataRace {
 /** Ethnicity vocabulary carried by the active R&R Personal Data 1.2 wire contract. */
 enum PersonalDataEthnicity {
   hispanicLatino: "Hispanic or Latino",
-  notHispanicLatino: "Not Hispanic or Latino",
-  withheld: "Do Not Wish To Provide",
+  notHispanicLatino: "Non-Hispanic or Latino",
+  withheld: "Do Not Wish to Provide",
 }
 
 /** Disability vocabulary carried by the active R&R Personal Data 1.2 wire contract. */
@@ -54,7 +54,8 @@ enum PersonalDataCitizenship {
 model PersonalDataDirectorCapture {
   /** Enter the person's name. First and last name are required. */
   @UI.label("Name")
-  name: QuestionResearchPersonName;
+  @Validation.requiredPaths("firstName", "lastName")
+  name: QuestionPersonName;
 
   /** Select the person's sex, or decline to provide it. */
   @UI.label("Sex")

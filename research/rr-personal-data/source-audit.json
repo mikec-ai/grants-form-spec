@@ -31,11 +31,12 @@
   "dependencyClosure": [
     { "name": "Attachments-V1.0", "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d" },
     { "name": "Global-V1.0", "sha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb" },
-    { "name": "GlobalLibrary-V2.0", "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8" }
+    { "name": "GlobalLibrary-V2.0", "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8" },
+    { "name": "UniversalCodes-V2.0", "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a" }
   ],
   "sourceConflicts": [
     "The XSD wire element is Gender while the active read-only PDF and instructions label the field Sex. Canonical presentation follows the active applicant-facing sources and the XML profile preserves the legacy wire element.",
-    "The DAT says the second ethnicity option is displayed as Non-Hispanic or Latino while the XSD wire value is Not Hispanic or Latino. The canonical enum preserves the exact wire value until a generic display-label mechanism is justified.",
+    "The DAT and XFA display the second ethnicity option as Non-Hispanic or Latino while the XSD wire value is Not Hispanic or Latino. The canonical enum preserves the current display label and the generic XML valueMap emits the exact wire value.",
     "The XSD schema document declares version 1.0 while its official filename, namespace, fixed FormVersion attribute, active Grants.gov record, PDFs, DAT, and instructions identify form version 1.2. Exact source bytes and the 1.2 wire identity are retained."
   ],
   "behaviorInventory": {

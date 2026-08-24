@@ -42,7 +42,7 @@ class RRPersonalDataTests(unittest.TestCase):
             "Native Hawaiian or Other Pacific Islander", "White", "Do Not Wish to Provide",
         ])
         self.assertEqual(defs["PersonalDataEthnicity"]["enum"], [
-            "Hispanic or Latino", "Not Hispanic or Latino", "Do Not Wish To Provide",
+            "Hispanic or Latino", "Non-Hispanic or Latino", "Do Not Wish to Provide",
         ])
         self.assertEqual(defs["PersonalDataDisabilityStatus"]["enum"], [
             "Hearing", "Visual", "Mobility/Orthopedic Impairment", "Other", "None",
@@ -62,11 +62,11 @@ class RRPersonalDataTests(unittest.TestCase):
         )
         self.assertEqual(
             occurrences["/projectDirector/name/firstName"]["blockIds"],
-            ["personal-data/project-director", "research-person/name"],
+            ["generics/person-name", "personal-data/project-director"],
         )
         self.assertEqual(
             occurrences["/coProjectDirectors/[]/name/firstName"]["blockIds"],
-            ["personal-data/co-project-director", "research-person/name"],
+            ["generics/person-name", "personal-data/co-project-director"],
         )
         self.assertNotEqual(
             set(occurrences["/projectDirector/sex"]["blockIds"]),
@@ -90,9 +90,20 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertEqual(co_fields["/properties/coProjectDirectors/items/properties/race"]["widget"], "MultiSelect")
         self.assertEqual(co_fields["/properties/coProjectDirectors/items/properties/citizenship"]["widget"], "Select")
 
-    def test_non_rule_behavior_is_audited_and_no_rule_execution_is_claimed(self) -> None:
+    def test_four_source_bound_exclusivity_rules_are_preserved_without_execution(self) -> None:
         evidence = load(FORM / "evidence.json")
-        self.assertEqual(evidence["behaviorEvidence"], [])
+        behaviors = evidence["behaviorEvidence"]
+        self.assertEqual(len(behaviors), 4)
+        self.assertEqual({row["ruleKind"] for row in behaviors}, {"condition"})
+        self.assertEqual({row["authority"] for row in behaviors}, {"official_source"})
+        self.assertEqual({row["executionStatus"] for row in behaviors}, {"source-bound-uncompiled"})
+        self.assertEqual(
+            {row["canonicalPath"] for row in behaviors},
+            {
+                "/projectDirector/race", "/projectDirector/disabilityStatus",
+                "/coProjectDirectors/[]/race", "/coProjectDirectors/[]/disabilityStatus",
+            },
+        )
         audit = load(ROOT / "research/rr-personal-data/source-audit.json")
         behavior = audit["behaviorInventory"]
         self.assertEqual(behavior["privacyNotice"]["implementation"], "compiled into the portable section description")
@@ -107,6 +118,25 @@ class RRPersonalDataTests(unittest.TestCase):
         )
         self.assertTrue(all(row["implementation"] == "source-bound-uncompiled" for row in behavior["selectionConstraints"]))
         self.assertNotIn("gg_calculation", json.dumps(load(FORM / "sgg/rule-schema.json")))
+        self.assertNotIn("conditional", json.dumps(load(FORM / "sgg/ui-schema.json")))
+
+    def test_generic_name_accepts_source_valid_free_text_prefix_and_suffix(self) -> None:
+        schema_path = ROOT / "dist/question-bank/generics/person-name/schema.json"
+        payload = {"prefix": "Mx", "firstName": "Ada", "lastName": "Lovelace", "suffix": "III"}
+        script = """
+const fs = require('fs'); const Ajv = require('ajv/dist/2020');
+const schema = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
+const payload = JSON.parse(process.argv[2]);
+const validate = new Ajv({strict: false}).compile(schema);
+if (!validate(payload)) { console.error(JSON.stringify(validate.errors)); process.exit(1); }
+"""
+        subprocess.run(
+            ["node", "-e", script, str(schema_path), json.dumps(payload)],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
 
     def test_exact_sources_no_ocr_and_bounded_operational_gates(self) -> None:
         evidence = load(FORM / "evidence.json")
@@ -115,6 +145,7 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertEqual(sources["rr-personal-data-dat-f357"]["sha256"], "2c0eaf828c93162854bf1488e4687f0b1d85ab4d5b5ca7c922acdf87229ceaf7")
         self.assertEqual(sources["rr-personal-data-readonly-pdf-v1-2"]["sha256"], "51a52f3f8ee2528e26bbed64819d7992e4ff96645fe970676d12138aa7205417")
         self.assertEqual(sources["rr-personal-data-xfa-pdf-v1-2"]["sha256"], "2b95182ff1078f3f27c44025e9210755c6613aefa016811b69141fc04992f227")
+        self.assertEqual(sources["universal-codes-xsd-v2-0"]["sha256"], "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a")
         audit = load(ROOT / "research/rr-personal-data/source-audit.json")
         self.assertFalse(audit["method"]["ocrUsed"])
         self.assertEqual(audit["inventory"]["xsdQuestionAndStructureRecords"], 25)
@@ -133,7 +164,7 @@ class RRPersonalDataTests(unittest.TestCase):
         asks = set(report["asks"]["rr-personal-data"])
         self.assertEqual(
             asks,
-            {"personal-data/project-director", "personal-data/co-project-director", "research-person/name"},
+            {"personal-data/project-director", "personal-data/co-project-director", "generics/person-name"},
         )
         self.assertEqual(report["usesCaptureMechanisms"]["rr-personal-data"], [])
         self.assertEqual(load(FORM / "evidence.json")["semanticReview"]["status"], "proposed")

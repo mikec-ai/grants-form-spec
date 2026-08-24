@@ -208,10 +208,6 @@
           }
         },
         {
-          "if": { "properties": { "valueMap": true }, "required": ["valueMap"] },
-          "then": { "properties": { "source": true }, "required": ["source"] }
-        },
-        {
           "if": { "properties": { "constant": true }, "required": ["constant"] },
           "then": {
             "properties": { "kind": { "const": "value" } },

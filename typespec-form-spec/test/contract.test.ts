@@ -335,6 +335,28 @@ describe("artifact contract v1", () => {
     expect(validateGrantsGovXmlProfile(illegalTopLevel)).toBe(false);
   });
 
+  it("accepts a local value map inside object and repeating-object mappings", async () => {
+    const profile = (await json(
+      resolve(emittedFormsRoot, "rr-personal-data/targets/grants-gov-xml.json"),
+    )) as any;
+    const projectDirector = profile.mapping.fields.projectDirector.fields.ethnicity;
+    const coProjectDirector =
+      profile.mapping.fields.coProjectDirectors.items.fields.ethnicity;
+
+    for (const declaration of [projectDirector, coProjectDirector]) {
+      expect(declaration.source).toBeUndefined();
+      expect(declaration.valueMap).toEqual({
+        "Hispanic or Latino": "Hispanic or Latino",
+        "Non-Hispanic or Latino": "Not Hispanic or Latino",
+        "Do Not Wish to Provide": "Do Not Wish To Provide",
+      });
+    }
+    expect(
+      validateGrantsGovXmlProfile(profile),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
+  });
+
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {
     const fixture = structuredClone(
       await json(resolve(contractRoot, "conformance/form-package.valid.json")),
