@@ -1,14 +1,14 @@
 ---
 type: Task
 title: Run the banked portable catalog through browser conformance
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 priority: P0
 description: >-
   Generate manifest-driven real-frontend browser and lifecycle conformance for
   every currently banked portable form.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: Codex
+superbee_updated_by: Codex-browser-matrix
 ---
 # Goal
 
