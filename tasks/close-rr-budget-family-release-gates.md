@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:31:03.377Z'
+  at: '2026-08-24T16:48:30.240Z'
 assignee: rr_budget_condition_contract
 ---
 # Goal
@@ -147,6 +147,32 @@ architecture or silently claim human approval.
   manifest remain build artifacts.
 - Focused proof-package tests and full producer preflight pass at PR head `4f28d50d1` (118
   TypeScript tests and 323 Python tests, two skipped). The broader release gates remain open.
+
+## 2026-08-24: cross-section condition contract and consumer conformance
+
+- [grants-form-spec PR 79](https://github.com/mikec-ai/grants-form-spec/pull/79) merged at
+  `563e7d8b5a38c7b5d66723bfbc1607caeeff4aad`. It compiles the ten exact F-8-1 path occurrences
+  through one target-neutral `atLeastOnePathWhenPresent` declaration. The portable artifact uses
+  standard JSON Schema `if` plus `then.anyOf`; no form-specific compiler branch was added.
+- The exact condition boundary is now 64 conditioned occurrences: 50 represented by existing
+  declarations, 10 compiled through the new cross-section primitive, and four source-bound and
+  uncompiled. The four unavailable occurrences are two bidirectional attachment/positive-total
+  pairs over XSD decimals represented as strings; they require a generic, source-exact
+  numeric-string comparison contract rather than a presence-only approximation.
+- Every compiled occurrence retains the pinned F770 DAT source URI, version, SHA-256, literal
+  extraction provenance, source path, and source record. All mappings and the family semantic
+  review remain `unreviewed`; compilation does not claim semantic acceptance.
+- Producer full preflight passes at the merged revision: 121 TypeScript tests and 325 Python tests,
+  with two repository-default skips. Tests cover absent trigger, missing alternatives, incomplete
+  target rows, and a valid non-sequential tenth row. The generic evidence projector now follows
+  local emitted `$ref` graphs and fails closed for escaping or unresolved references.
+- [simpler-grants-gov PR 77](https://github.com/mikec-ai/simpler-grants-gov/pull/77) pins the consumer
+  artifact bank to the exact producer merge revision and proves direct R&R Budget and nested R&R
+  Subaward Budget conformance. No Simpler compiler, projector, renderer, or form-specific adapter
+  code changed. The focused consumer suite passes 31 tests; Ruff check and formatting pass.
+- Generated analysis, proof indexes, manifests, and promotion receipts remain build artifacts. The
+  checked consumer artifact bank is the integrity-pinned runtime input documented by the adapter
+  contract.
 
 ## Merge receipt
 
