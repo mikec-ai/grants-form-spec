@@ -222,3 +222,7 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/close-rr-other-project-information-release-gates.md)
 
 [contains](../tasks/close-phs398-modular-budget-release-gates.md)
+
+[contains](../tasks/enforce-exact-producer-xsd-fixture-digests.md)
+
+[contains](../tasks/make-form-banking-safe-and-measured-by-default.md)

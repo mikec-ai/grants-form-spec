@@ -37,4 +37,20 @@ Author NIFA Supplemental as a source-bound declarative form and use it as a near
 
 Do not generalize a NIFA policy framework from one form. Promote only reusable capabilities demonstrated by at least one concrete second consumer.
 
+# Measured run receipt — 2026-08-23
+
+- Explicit start: 20:52 ET.
+- Producer package merged at 21:19 ET in PR #63 as `c1c2150f54fff4131119857ae46950cf2fd6ed22`.
+- Byte-exact XSD correction merged at 21:25 ET in PR #65 as `3a6e51127e66d5555f3ef677cb21c4b9f7751e9a`.
+- Consumer banking PR #54 opened at approximately 21:34 ET and remains intentionally unregistered.
+- Research import: about 0.4 seconds for 32 source records, 31 source behaviors, 22 applicant fields, eight presentation groups, four runtime effects from two source conditions, 32 semantic proposals, zero accepted mappings, and 39 open gates.
+- Portable result: nine canonical questions, two reused and seven new; one reused attachment capture mechanism; three reused behavior capabilities; zero unclassified fields; zero classification exceptions; no form-specific compiler, adapter, loader, renderer, or conformance branch.
+- Producer verification: 109 TypeScript tests and 226 Python tests passed after rebase.
+- Consumer verification: 38 focused tests and 225 non-DB form-spec tests passed; the DB-backed local suite requires the unavailable `grants-db` environment.
+- Remaining source gate: DAT-specific H-option narrowing remains explicit and unclaimed for release.
+
+The full cost analysis and next-run procedure are recorded in [the NIFA banking retrospective](../context-notes/nifa-supplemental-banking-retrospective.md).
+
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
+
+[measured by](../context-notes/nifa-supplemental-banking-retrospective.md)
