@@ -62,3 +62,5 @@ The 35-form bank is therefore a conformance corpus, not an assertion that all 35
 [contains](../tasks/close-attachment-form-release-gates.md)
 
 [contains](../tasks/close-sf424c-release-gates.md)
+
+[contains](../tasks/project-flattened-scalar-array-xml-in-sgg.md)
