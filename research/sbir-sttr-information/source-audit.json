@@ -15,8 +15,18 @@
     "datBusinessRuleRows": 16,
     "declarativeConditionalRequiredTargets": 11,
     "consumerConditionTargets": 10,
-    "requiredOnlyTargetsNotInConsumerConditionProjection": 1,
     "calculations": 0
+  },
+  "executionPartitions": {
+    "portableJsonSchema": {
+      "compiledConditionalRequiredTargets": 11,
+      "sourceBoundUncompiledTargets": 5
+    },
+    "consumerConditionProjection": {
+      "compiledEnablementTargets": 10,
+      "sourceBoundUncompiledRequiredOnlyTargets": 1,
+      "gap": "Agency Topic/Subtopic is conditionally required in portable JSON Schema. The current consumer condition evidence projection has no required-only representation, so only that projection remains uncompiled."
+    }
   },
   "sourceArtifacts": {
     "rootXsdSha256": "32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf",

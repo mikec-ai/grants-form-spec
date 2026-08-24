@@ -115,7 +115,7 @@ model QuestionSbirSttrSmallBusinessEligibility {
 @Question.meta(#{ id: "sbir-sttr/anticipated-employee-count" })
 @Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.application)
-@Catalog.tag(TagName.details)
+@Catalog.tag(TagName.count)
 @minValue(1)
 @maxValue(999)
 scalar QuestionSbirSttrEmployeeCount extends int32;
@@ -224,7 +224,7 @@ model QuestionSbirSttrDisclosurePermission {
 @Question.meta(#{ id: "sbir-sttr/taba-funding-request" })
 @Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.application)
-@Catalog.tag(TagName.money)
+@Catalog.tag(TagName.details)
 model QuestionSbirSttrTabaFundingRequest {
   @UI.label("Does the application include a request of SBIR or STTR funds for Technical and Business Assistance (TABA)? If yes, please follow the agency specific instructions to provide the budget request and justification. (Please answer no if you plan to use the agency TABA vendor, which does not require you to include a request for TABA funds in your application.)")
   @UI.widget(WidgetName.Radio)
@@ -262,7 +262,7 @@ scalar QuestionSbirSttrCommercializationHistory extends AttachmentRef;
 @Catalog.entity(EntityName.application)
 @Catalog.tag(TagName.details)
 model QuestionSbirSttrPdpiPrimaryEmployment {
-  @UI.label("Will the Project Director/Principal Investigator have primary employment with the small business at the time of award?")
+  @UI.label("Will the Project Director/Principal Investigator have his/her primary employment with the small business at the time of award?")
   @UI.widget(WidgetName.Radio)
   value: YesNoCode;
 }
