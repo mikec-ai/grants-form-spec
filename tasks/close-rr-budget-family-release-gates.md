@@ -7,10 +7,9 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:03:39.801Z'
+  at: '2026-08-24T20:39:19.932Z'
 assignee: root_budget_numeric_string
 ---
 # Goal
@@ -233,6 +232,43 @@ Three isolated, independently mergeable slices are claimed under this P0 task:
 
 Each slice uses a fresh branch in the appropriate public fork. Generated receipts remain build
 artifacts, and no HHS upstream repository or issue is modified.
+
+## 2026-08-24: AI-only hardening receipts
+
+- [grants-form-spec PR 89](https://github.com/mikec-ai/grants-form-spec/pull/89), merged at
+  `e2e257b2723c5d347cee1c6b3067fb0d6835238c`, adds the exact F770 attachment/positive-total help
+  text and compiles the source end-date ordering rule through the existing generic
+  `date_not_before` contract across all five profiles. Producer preflight passed 123 TypeScript
+  tests and 337 Python tests (two skipped).
+- Independent review found that PR 89's initial audit artifact overstated untested broad label and
+  requiredness coverage. [grants-form-spec PR 90](https://github.com/mikec-ai/grants-form-spec/pull/90),
+  merged at `401473c91635f9b28f06e51fb7c311409deb07ec`, narrows the proven label result to the four
+  path-specific controls asserted by emitted-artifact tests and marks broader label and requiredness
+  reconciliation explicitly unresolved. No semantic mapping was accepted.
+- [simpler-grants-gov PR 83](https://github.com/mikec-ai/simpler-grants-gov/pull/83), merged at
+  `33f8ac3eec6d22ff6c88b048ee1b1363dfe3142d`, adds one shared 44-case family matrix plus 20
+  existing XML canaries. It covers minimal and fully populated lifecycle/XML payloads, explicit
+  zero calculations, 20 bidirectional attachment/total failures, independent nested subawards,
+  acceptance at every declared period/subaward maximum, and rejection at maximum plus one.
+  Every valid XML scenario is checked against its pinned official XSD. The combined 64-test suite,
+  isort, Black, Ruff, and mypy passed. The change is test/helper-only; its unrelated full E2E
+  fanout was intentionally canceled.
+- [simpler-grants-gov PR 84](https://github.com/mikec-ai/simpler-grants-gov/pull/84), merged at
+  `ae35fe3bfd0383f3ab5734aefedae80a53cd5332`, promotes the exact PR 89 producer revision across
+  all five consumer profiles. Fifty-three focused tests prove source guidance visibility, direct
+  and nested date-order scoping, artifact integrity, and immutable provenance. Repository isort,
+  Ruff, mypy, and diff checks passed after a review-found import-order defect was corrected. The
+  promotion adds no adapter, compiler, renderer, frontend, registration, or form-specific branch.
+- [simpler-grants-gov PR 82](https://github.com/mikec-ai/simpler-grants-gov/pull/82) remains in
+  progress for the browser lane. Its generic plan discovers JSON Schema implications without form
+  identifiers; frontend build, unit/type/format checks, Storybook, and Pa11y are green. A bounded
+  direct-profile real-stack run is replacing the slow full-repository E2E fanout as the attributable
+  completion gate. Nested two-repeater browser execution remains an explicit open capability.
+
+The independent cross-PR review found no form-specific architecture branch in PRs 82, 83, or 84.
+The broader task remains in progress because nested browser execution, human semantic and
+accessibility acceptance, lifecycle/prefill ownership, fixed personnel-role defaults, operational
+readiness, and production registration are not closed.
 
 [depends on](harden-rr-budget-production.md)
 
