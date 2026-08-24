@@ -30,13 +30,13 @@
     },
     "byDisposition": {
       "compiled-by-at-least-one-path-when-present": 10,
-      "represented-by-existing-declaration": 50,
-      "source-bound-uncompiled": 4
+      "compiled-by-positive-decimal-string-conditions": 4,
+      "represented-by-existing-declaration": 50
     }
   },
   "genericPrimitiveDecision": {
-    "status": "partial-generic-primitive",
-    "reason": "Fifty source occurrences are already represented by optional-object member requiredness or the existing calculated-output materialization declaration. Ten path occurrences of one cross-section rule compile through the bounded atLeastOnePathWhenPresent contract. The remaining four attachment/total rules require a positive comparison over an XSD numeric-string wire type and remain explicitly unavailable pending a consumer-validated numeric-string contract."
+    "status": "complete-generic-primitives",
+    "reason": "Fifty source occurrences are already represented by optional-object member requiredness or the existing calculated-output materialization declaration. Ten path occurrences of one cross-section rule compile through the bounded atLeastOnePathWhenPresent contract. Four attachment/total rules compile through two generic positive-decimal-string condition declarations expressed as ordinary JSON Schema and verified by consumers."
   },
   "reviewStatus": "unreviewed",
   "patterns": [
@@ -52,7 +52,7 @@
         "Required and must be greater than zero if an AdditionalEquipmentsAttachment exists.",
         "Required and must be greater than zero if an AttachedKeyPersons attachment exists."
       ],
-      "implementationDisposition": "source-bound-uncompiled"
+      "implementationDisposition": "compiled-by-positive-decimal-string-conditions"
     },
     {
       "conditionClass": "calculated-output-materialization",
@@ -129,7 +129,7 @@
       "dataType": "FILE",
       "condition": "One possible attachment per budget period. Required if TotalFundForAttachedKeyPersons is entered and greater than zero.",
       "conditionClass": "attachment-total-positive-bidirectional",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-positive-decimal-string-conditions",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -148,7 +148,7 @@
       "dataType": "$",
       "condition": "Required and must be greater than zero if an AttachedKeyPersons attachment exists.",
       "conditionClass": "attachment-total-positive-bidirectional",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-positive-decimal-string-conditions",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -604,7 +604,7 @@
       "dataType": "FILE",
       "condition": "One possible attachment per budget period. Required if TotalFundForAttachedEquipment is entered and greater than zero.",
       "conditionClass": "attachment-total-positive-bidirectional",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-positive-decimal-string-conditions",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -623,7 +623,7 @@
       "dataType": "$",
       "condition": "Required and must be greater than zero if an AdditionalEquipmentsAttachment exists.",
       "conditionClass": "attachment-total-positive-bidirectional",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-positive-decimal-string-conditions",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",

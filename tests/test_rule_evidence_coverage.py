@@ -32,19 +32,19 @@ class RuleEvidenceCoverageTests(unittest.TestCase):
             record["canonicalPath"]
             for record in load("rr-budget", "evidence.json")["behaviorEvidence"]
         }
-        self.assertEqual(len(expected_paths), 66)
+        self.assertEqual(len(expected_paths), 70)
 
         for form_id in ("rr-budget", "rr-budget-10yr"):
             with self.subTest(form_id=form_id):
                 evidence = load(form_id, "evidence.json")
                 records = evidence["behaviorEvidence"]
-                self.assertEqual(len(records), 66)
+                self.assertEqual(len(records), 70)
                 self.assertEqual(
                     {record["canonicalPath"] for record in records}, expected_paths,
                 )
                 self.assertEqual(
                     sum(record["authority"] == "official_source" for record in records),
-                    30,
+                    34,
                 )
                 self.assertEqual(
                     sum(record["authority"] == "unresolved" for record in records),
@@ -56,14 +56,14 @@ class RuleEvidenceCoverageTests(unittest.TestCase):
                         and record["executionStatus"] == "compiled"
                         for record in records
                     ),
-                    10,
+                    14,
                 )
                 self.assertEqual(evidence["semanticReview"], {
                     "status": "unreviewed", "mappings": [],
                 })
 
         subaward = load("rr-subaward-budget", "evidence.json")["behaviorEvidence"]
-        self.assertEqual(len(subaward), 66)
+        self.assertEqual(len(subaward), 70)
         self.assertTrue(
             all(record["canonicalPath"].startswith("budgetAttachments[*].") for record in subaward)
         )

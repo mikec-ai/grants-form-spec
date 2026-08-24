@@ -44,6 +44,20 @@ extern dec atLeastOnePathWhenPresent(
   ...targetPaths: valueof string[],
 );
 
+/** Require one path when another path contains a decimal string strictly greater than zero. */
+extern dec requiredPathWhenPositiveDecimalString(
+  target: Model | ModelProperty,
+  targetPath: valueof string,
+  sourcePath: valueof string,
+);
+
+/** Require a positive decimal string at one path when another path is present. */
+extern dec positiveDecimalStringWhenPathPresent(
+  target: Model | ModelProperty,
+  targetPath: valueof string,
+  sourcePath: valueof string,
+);
+
 /** Require a value for at least one of the named sibling properties. */
 extern dec atLeastOneOf(target: Model, ...properties: ModelProperty[]);
 

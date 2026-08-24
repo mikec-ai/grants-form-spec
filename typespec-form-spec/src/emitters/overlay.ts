@@ -2,7 +2,9 @@ import type { Model, ModelProperty, Program, Type } from "@typespec/compiler";
 import {
   Block,
   cardinalityAtLeastOnePathWhenPresent,
+  cardinalityPositiveDecimalStringWhenPathPresent,
   cardinalityRequiredPaths,
+  cardinalityRequiredPathWhenPositiveDecimalString,
   cardinalityRequiredWhen,
   modelAtLeastOneOf,
   orderedProps,
@@ -94,6 +96,10 @@ function cardinalityAnnotations(
   let own: Record<string, unknown> = requiredPathPatch(cardinalityRequiredPaths(program, model));
   own = merge(own, conditionalPathPatch(cardinalityRequiredWhen(program, model)));
   own = merge(own, conditionalAtLeastOnePathPatch(cardinalityAtLeastOnePathWhenPresent(program, model)));
+  own = merge(own, positiveDecimalStringPathPatch(
+    cardinalityRequiredPathWhenPositiveDecimalString(program, model),
+    cardinalityPositiveDecimalStringWhenPathPresent(program, model),
+  ));
 
   const properties: Record<string, unknown> = {};
   for (const property of model.properties.values()) {
@@ -103,6 +109,10 @@ function cardinalityAnnotations(
       patch,
       conditionalAtLeastOnePathPatch(cardinalityAtLeastOnePathWhenPresent(program, property)),
     );
+    patch = merge(patch, positiveDecimalStringPathPatch(
+      cardinalityRequiredPathWhenPositiveDecimalString(program, property),
+      cardinalityPositiveDecimalStringWhenPathPresent(program, property),
+    ));
     const child = childModel(property.type);
     // A published question owns its intrinsic cardinality in its own schema. Crossing
     // that reference boundary would copy the same constraints beside every occurrence
@@ -116,6 +126,44 @@ function cardinalityAnnotations(
   }
   if (Object.keys(properties).length) own = merge(own, { properties });
   return Object.keys(own).length ? own : undefined;
+}
+
+// The intersected source schema owns precision, scale, and length. This portable pattern adds
+// only the strict > 0 predicate: an unsigned decimal lexical form containing a non-zero digit.
+const POSITIVE_DECIMAL_STRING_PATTERN = "^(?=.*[1-9])\\d+(?:\\.\\d+)?$";
+
+function positiveDecimalStringPathPatch(
+  requiredTargets: { targetPath: string; sourcePath: string }[],
+  positiveTargets: { targetPath: string; sourcePath: string }[],
+): Record<string, unknown> {
+  const conditions = [
+    ...requiredTargets.map((entry) => ({
+      if: constrainPath(entry.sourcePath.split(".").filter(Boolean), {
+        pattern: POSITIVE_DECIMAL_STRING_PATTERN,
+      }),
+      then: requirePath(entry.targetPath.split(".").filter(Boolean)),
+    })),
+    ...positiveTargets.map((entry) => ({
+      if: requirePath(entry.sourcePath.split(".").filter(Boolean)),
+      then: constrainPath(entry.targetPath.split(".").filter(Boolean), {
+        pattern: POSITIVE_DECIMAL_STRING_PATTERN,
+      }),
+    })),
+  ];
+  return conditions.length ? { allOf: conditions } : {};
+}
+
+function constrainPath(
+  [head, ...rest]: string[],
+  constraint: Record<string, unknown>,
+): Record<string, unknown> {
+  if (!head) return constraint;
+  return {
+    required: [head],
+    properties: {
+      [head]: rest.length ? constrainPath(rest, constraint) : constraint,
+    },
+  };
 }
 
 function conditionalAtLeastOnePathPatch(

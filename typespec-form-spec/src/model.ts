@@ -182,6 +182,20 @@ export const cardinalityAtLeastOnePathWhenPresent = (
   (g(p, stateKeys.atLeastOnePathWhenPresent, target) as {
     sourcePath: string; targetPaths: string[];
   }[] | undefined) ?? [];
+export const cardinalityRequiredPathWhenPositiveDecimalString = (
+  p: Program,
+  target: Model | ModelProperty,
+) =>
+  (g(p, stateKeys.requiredPathWhenPositiveDecimalString, target) as {
+    targetPath: string; sourcePath: string;
+  }[] | undefined) ?? [];
+export const cardinalityPositiveDecimalStringWhenPathPresent = (
+  p: Program,
+  target: Model | ModelProperty,
+) =>
+  (g(p, stateKeys.positiveDecimalStringWhenPathPresent, target) as {
+    targetPath: string; sourcePath: string;
+  }[] | undefined) ?? [];
 export const modelAtLeastOneOf = (p: Program, model: Model) =>
   (g(p, stateKeys.atLeastOneOf, model) as string[][] | undefined) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>

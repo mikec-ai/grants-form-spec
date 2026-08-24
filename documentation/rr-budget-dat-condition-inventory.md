@@ -54,13 +54,14 @@ object conditionally requires at least one of the ten exact Other Direct Cost de
 The portable emitter expresses this as ordinary JSON Schema `if` plus `then.anyOf`; the rule stays
 visible and active, as the source requires, and remains unreviewed for semantic acceptance.
 
-Four occurrences remain source-bound and uncompiled:
+The remaining four occurrences now compile through two bounded, target-neutral declarations:
 
-- Four attachment/total rules are two bidirectional pairs. Each pair combines presence with a
-  strict greater-than-zero comparison over an XSD decimal represented portably as a string. A
-  presence-only rule would weaken the source condition, while ordinary numeric JSON Schema keywords
-  do not apply to the wire string.
-The current portable vocabulary still cannot express that numeric-string boundary exactly. A
-presence-only approximation would weaken the official rule. Those four occurrences therefore stay
-explicitly unreviewed and uncompiled pending a generic numeric-string comparison contract and
-consumer conformance.
+- Four attachment/total rules are two bidirectional pairs. `requiredPathWhenPositiveDecimalString`
+  requires the attachment only when its total is strictly positive, while
+  `positiveDecimalStringWhenPathPresent` requires a strictly positive total whenever the attachment
+  exists. The emitted JSON Schema intersects the field's source-wire precision and scale pattern
+  with a portable unsigned-decimal pattern containing at least one non-zero digit.
+
+All 64 condition occurrences are now represented without changing their explicitly unreviewed
+semantic status. Consumer conformance proves the same schema behavior at root and nested subaward
+occurrences; no budget-family adapter branch is required.

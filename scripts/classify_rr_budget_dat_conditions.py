@@ -79,7 +79,10 @@ def classify_condition(condition: str) -> tuple[str, str]:
     if condition in PAIRED_REQUIRED:
         return "optional-object-paired-requiredness", "represented-by-existing-declaration"
     if condition in ATTACHMENT_POSITIVE:
-        return "attachment-total-positive-bidirectional", "source-bound-uncompiled"
+        return (
+            "attachment-total-positive-bidirectional",
+            "compiled-by-positive-decimal-string-conditions",
+        )
     if condition == CROSS_SECTION_MINIMUM:
         return (
             "cross-section-minimum-one-row",
@@ -178,14 +181,14 @@ def inventory(input_path: pathlib.Path) -> dict:
             "byDisposition": dict(sorted(by_disposition.items())),
         },
         "genericPrimitiveDecision": {
-            "status": "partial-generic-primitive",
+            "status": "complete-generic-primitives",
             "reason": (
                 "Fifty source occurrences are already represented by optional-object member "
                 "requiredness or the existing calculated-output materialization declaration. "
                 "Ten path occurrences of one cross-section rule compile through the bounded "
-                "atLeastOnePathWhenPresent contract. The remaining four attachment/total rules "
-                "require a positive comparison over an XSD numeric-string wire type and remain "
-                "explicitly unavailable pending a consumer-validated numeric-string contract."
+                "atLeastOnePathWhenPresent contract. Four attachment/total rules compile through "
+                "two generic positive-decimal-string condition declarations expressed as ordinary "
+                "JSON Schema and verified by consumers."
             ),
         },
         "reviewStatus": "unreviewed",

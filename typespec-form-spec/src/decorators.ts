@@ -398,6 +398,26 @@ export const $atLeastOnePathWhenPresent = (
   });
 };
 
+export const $requiredPathWhenPositiveDecimalString = (
+  ctx: Ctx,
+  target: Model | ModelProperty,
+  targetPath: unknown,
+  sourcePath: unknown,
+) => push(ctx, stateKeys.requiredPathWhenPositiveDecimalString, target, {
+  targetPath: String(literal(targetPath)),
+  sourcePath: String(literal(sourcePath)),
+});
+
+export const $positiveDecimalStringWhenPathPresent = (
+  ctx: Ctx,
+  target: Model | ModelProperty,
+  targetPath: unknown,
+  sourcePath: unknown,
+) => push(ctx, stateKeys.positiveDecimalStringWhenPathPresent, target, {
+  targetPath: String(literal(targetPath)),
+  sourcePath: String(literal(sourcePath)),
+});
+
 /** Record a portable JSON Schema any-of-required constraint on sibling properties. */
 export const $atLeastOneOf = (
   ctx: Ctx,

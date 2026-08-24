@@ -3,12 +3,13 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, cardinalityAtLeastOnePathWhenPresent, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propCalculationMaterialization, propComputed, readBlock,
+  Block, Condition, allBlocks, cardinalityAtLeastOnePathWhenPresent, cardinalityPositiveDecimalStringWhenPathPresent, cardinalityRequiredPaths, cardinalityRequiredPathWhenPositiveDecimalString, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propCalculationMaterialization, propComputed, readBlock,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
   propVisibleWhen,
   propValidationConstraintsWhen,
+  scalarType,
 } from "./model.js";
 
 /**
@@ -52,7 +53,11 @@ function checkCardinalityPaths(program: Program): void {
       const modelPaths = cardinalityRequiredPaths(program, model);
       const modelConditions = cardinalityRequiredWhen(program, model);
       const modelAlternatives = cardinalityAtLeastOnePathWhenPresent(program, model);
-      if ((modelPaths.length || modelConditions.length || modelAlternatives.length) && !readBlock(program, model)) {
+      const modelPositiveConditions = [
+        ...cardinalityRequiredPathWhenPositiveDecimalString(program, model),
+        ...cardinalityPositiveDecimalStringWhenPathPresent(program, model),
+      ];
+      if ((modelPaths.length || modelConditions.length || modelAlternatives.length || modelPositiveConditions.length) && !readBlock(program, model)) {
         reportDiagnostic(program, {
           code: "cardinality-model-not-emitted",
           target: model,
@@ -69,6 +74,12 @@ function checkCardinalityPaths(program: Program): void {
             ...cardinalityRequiredWhen(program, property).flatMap((entry) => [entry.targetPath, entry.sourcePath]),
             ...cardinalityAtLeastOnePathWhenPresent(program, property).flatMap(
               (entry) => [entry.sourcePath, ...entry.targetPaths],
+            ),
+            ...cardinalityRequiredPathWhenPositiveDecimalString(program, property).flatMap(
+              (entry) => [entry.targetPath, entry.sourcePath],
+            ),
+            ...cardinalityPositiveDecimalStringWhenPathPresent(program, property).flatMap(
+              (entry) => [entry.targetPath, entry.sourcePath],
             ),
           ]) {
             reportDiagnostic(program, {
@@ -124,6 +135,34 @@ function checkCardinalityTarget(
       reportCardinalityPath(program, target, root, modelName, path);
     }
   }
+  for (const entry of cardinalityRequiredPathWhenPositiveDecimalString(program, target)) {
+    reportCardinalityPath(program, target, root, modelName, entry.targetPath);
+    reportCardinalityPath(program, target, root, modelName, entry.sourcePath);
+    reportPositiveDecimalStringTarget(program, target, root, modelName, entry.sourcePath);
+  }
+  for (const entry of cardinalityPositiveDecimalStringWhenPathPresent(program, target)) {
+    reportCardinalityPath(program, target, root, modelName, entry.targetPath);
+    reportCardinalityPath(program, target, root, modelName, entry.sourcePath);
+    reportPositiveDecimalStringTarget(program, target, root, modelName, entry.targetPath);
+  }
+}
+
+function reportPositiveDecimalStringTarget(
+  program: Program,
+  target: Model | ModelProperty,
+  root: Model,
+  modelName: string,
+  path: string,
+): void {
+  const property = resolvedProperty(root, path.split("."));
+  if (!property || (property.type.kind === "Scalar" && scalarType(property.type) === "string")) {
+    return;
+  }
+  reportDiagnostic(program, {
+    code: "positive-decimal-string-target-invalid",
+    target,
+    format: { path, model: modelName, type: property.type.kind },
+  });
 }
 
 function reportCardinalityPath(

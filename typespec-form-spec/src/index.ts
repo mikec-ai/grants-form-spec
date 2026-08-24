@@ -35,6 +35,8 @@ export const $decorators = {
     requiredPaths: d.$requiredPaths,
     requiredPathWhen: d.$requiredPathWhen,
     atLeastOnePathWhenPresent: d.$atLeastOnePathWhenPresent,
+    requiredPathWhenPositiveDecimalString: d.$requiredPathWhenPositiveDecimalString,
+    positiveDecimalStringWhenPathPresent: d.$positiveDecimalStringWhenPathPresent,
     atLeastOneOf: d.$atLeastOneOf,
     requiredWhen: d.$requiredWhen,
     requiredWhenPath: d.$requiredWhenPath,

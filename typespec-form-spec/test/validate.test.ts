@@ -130,6 +130,21 @@ describe("$onValidate", () => {
     });
   });
 
+  describe("positive-decimal-string-target-invalid", () => {
+    it("rejects a numeric target because the portable comparison contract is lexical", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          ${formMeta("positive-decimal-string-check")}
+          @Validation.positiveDecimalStringWhenPathPresent("total", "attachment")
+          model PositiveDecimalStringCheck { attachment?: string; total?: decimal; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/positive-decimal-string-target-invalid",
+      });
+    });
+  });
+
   describe("date-order-source-invalid", () => {
     it("rejects a date-order source outside the target model", async () => {
       const diagnostics = await Tester.diagnose(
