@@ -471,6 +471,28 @@ registration are not closed.
   remain build artifacts. No HHS upstream write, registration, semantic acceptance, accessibility
   approval, or production claim is authorized.
 
+## 2026-08-24: 10-year declarative inheritance and consumer projection
+
+- [grants-form-spec PR 94](https://github.com/mikec-ai/grants-form-spec/pull/94), merged at
+  `fbb2554f19de604db3a3a7ea330e323327a0532c`, adds a closed
+  `inheritsOperationalBehaviorEvidenceFrom` edge and opts in only R&R Budget 10YR. The generic
+  projector transfers the exact used source records, mounts destination pointers, preserves the
+  canonical source pointer, records the inheritance edge, and emits the same three compiled
+  prefills. Subaward profiles do not inherit prime-applicant behavior.
+- Producer preflight passed at the merge revision: 124 TypeScript tests, 346 Python tests with ten
+  skips, 1,536 artifact validations, all 30 pinned XSD fixtures, package verification, classified
+  field checks, and independent TypeSpec-file compilation. Both hosted producer checks passed.
+- [simpler-grants-gov PR 96](https://github.com/mikec-ai/simpler-grants-gov/pull/96) consumes that
+  immutable revision. No runtime or form-specific adapter code changes: the existing generic
+  lifecycle service loads the newly generated R&R Budget 10YR operational artifact. The same
+  source-save, missing-value, and applicant-modification tests now execute for both the 5-year and
+  10-year profiles.
+- Consumer-local verification passes 23 focused adapter, artifact, projection, and lifecycle unit
+  tests plus isort, Black, Ruff, and mypy. Database-backed lifecycle cases are committed for both
+  profiles; their local run was unavailable because the Docker-only `grants-db` hostname was not
+  running, so hosted API CI remains the authority for that result. Browser execution remains the
+  next bounded receipt after PR 96 merges.
+
 ## Bounded four-browser runtime receipt — 2026-08-24
 
 - Main run [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690) passed the generic R&R Budget catalog plan in Chrome, Firefox, WebKit, and mobile Chrome.
