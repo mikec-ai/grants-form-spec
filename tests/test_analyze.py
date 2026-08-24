@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from scripts.analyze import pairwise_rows, reviewed_question_sets
+
 
 ROOT = Path(__file__).resolve().parent.parent
 ANALYZER = ROOT / "scripts" / "analyze.py"
@@ -321,6 +323,81 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertTrue(
             all(row["similarity"] is None for row in self.analysis["pairwiseReviewed"])
         )
+        for row in self.analysis["pairwiseReviewed"]:
+            self.assertIsNone(row["questionsInCommon"])
+            self.assertIsNone(row["questionsInA"])
+            self.assertIsNone(row["questionsInB"])
+            self.assertIsNone(row["shareOfA"])
+            self.assertIsNone(row["shareOfB"])
+
+    def test_reviewed_pairwise_requires_evidence_on_both_sides(self) -> None:
+        associations = [
+            {"formId": form_id, "questionId": question_id, "path": f"/{path}"}
+            for form_id, question_id, path in (
+                ("reviewed-a", "shared", "shared"),
+                ("reviewed-a", "only-a", "only-a"),
+                ("reviewed-b", "shared", "shared"),
+                ("reviewed-b", "only-b", "only-b"),
+                ("reviewed-zero", "only-zero", "only-zero"),
+                ("unreviewed", "shared", "shared"),
+            )
+        ]
+        evidence = {
+            form_id: {
+                "semanticReview": {
+                    "mappings": [
+                        {
+                            "canonicalPointer": f"#/properties/{row['path'].removeprefix('/')}",
+                            "status": "proposed" if form_id == "unreviewed" else "accepted",
+                        }
+                        for row in associations
+                        if row["formId"] == form_id
+                    ]
+                }
+            }
+            for form_id in {row["formId"] for row in associations}
+        }
+        reviewed = reviewed_question_sets(evidence, associations, evidence)
+
+        self.assertEqual(reviewed["reviewed-a"], {"shared", "only-a"})
+        self.assertEqual(reviewed["reviewed-b"], {"shared", "only-b"})
+        self.assertEqual(reviewed["reviewed-zero"], {"only-zero"})
+        self.assertEqual(reviewed["unreviewed"], set())
+
+        rows = pairwise_rows(
+            reviewed,
+            scope="accepted-semantic-mappings-only",
+            null_empty=True,
+        )
+        by_pair = {(row["formA"], row["formB"]): row for row in rows}
+
+        overlap = by_pair[("reviewed-a", "reviewed-b")]
+        self.assertTrue(overlap["eligible"])
+        self.assertEqual(overlap["questionsInCommon"], 1)
+        self.assertEqual(overlap["questionsInA"], 2)
+        self.assertEqual(overlap["questionsInB"], 2)
+        self.assertEqual(overlap["similarity"], 1 / 3)
+        self.assertEqual(overlap["shareOfA"], 1 / 2)
+        self.assertEqual(overlap["shareOfB"], 1 / 2)
+
+        legitimate_zero = by_pair[("reviewed-a", "reviewed-zero")]
+        self.assertTrue(legitimate_zero["eligible"])
+        self.assertEqual(legitimate_zero["questionsInCommon"], 0)
+        self.assertEqual(legitimate_zero["similarity"], 0.0)
+        self.assertEqual(legitimate_zero["shareOfA"], 0.0)
+        self.assertEqual(legitimate_zero["shareOfB"], 0.0)
+
+        unavailable = by_pair[("reviewed-a", "unreviewed")]
+        self.assertFalse(unavailable["eligible"])
+        for metric in (
+            "similarity",
+            "questionsInCommon",
+            "questionsInA",
+            "questionsInB",
+            "shareOfA",
+            "shareOfB",
+        ):
+            self.assertIsNone(unavailable[metric])
 
     def test_assignment_request_occurrences_are_applicant_input_but_not_publishable(self) -> None:
         rows = [
