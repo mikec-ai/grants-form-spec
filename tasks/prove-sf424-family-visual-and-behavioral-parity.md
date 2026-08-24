@@ -2,15 +2,15 @@
 type: Task
 title: Prove SF-424 family visual and behavioral parity
 priority: P0
-assignee: unassigned
+assignee: codex-root
 description: >-
-  Deep manual and automated compatibility proof for SF-424, SF-424 Short, and
-  SF-424A.
-superbee_progress_status: todo
+  Current bounded slice: produce the first complete SF-424 compatibility receipt
+  before expanding to sibling forms.
+superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T13:02:13.085Z'
+  at: '2026-08-24T13:08:10.095Z'
 ---
 # Goal
 
