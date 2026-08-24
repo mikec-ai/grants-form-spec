@@ -1,7 +1,7 @@
 ---
 type: Task
 title: Add test-only portable form registration and preview
-superbee_progress_status: in_progress
+superbee_progress_status: done
 priority: P0
 description: >-
   Expose every SGG-banked portable form through the real SGG frontend in
@@ -9,7 +9,7 @@ description: >-
 actor: Codex
 timestamp: '2026-08-23T22:26:30.965Z'
 assignee: codex
-superbee_updated_by: codex
+superbee_updated_by: codex-root
 ---
 # Goal
 
@@ -31,3 +31,13 @@ Add a test/dev-only registration and preview mechanism that can load every SGG-b
 - Adding a conforming banked form requires no hand-authored frontend registration branch.
 
 [depends on](grants-form-data-driven-registration.md)
+
+# Completion receipt
+
+- Consumer PR: `https://github.com/mikec-ai/simpler-grants-gov/pull/63`
+- Reviewed exact head: `de383aec1831adefddbf35505005abf780e21570`
+- Consumer main merge: `4c8b331798c0f31552cff2759a868ba25cd795b6`
+- The implementation discovers the live artifact manifest without an allowlist and built all 39 selected packages at the time of merge through Simpler's real registry.
+- Preview identities are deterministic UUIDv5 values reserved for lower-environment previews and collision-checked against the production registry.
+- Enablement requires both an explicit flag and a local, test, or dev environment. Production identities, registrations, `FormType`, instructions, and XML remain unchanged or unavailable.
+- Independent exact-head review found no actionable issues. The full 4,519-test API suite passed. The separate E2E workflow failed before Playwright because the shared API readiness probe timed out identically on consumer main; this did not exercise preview behavior.
