@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Compose a source-bound, versioned HHS research-policy profile from shared
   application, identity, budget, and attachment foundations.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
   at: '2026-08-23T15:53:43.053Z'
+assignee: cover_page_supplement_agent
 ---
 # Goal
 

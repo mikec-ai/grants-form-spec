@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Promote the already-delivered Research Plan artifact closure into the SGG
   consumer bank without inventing a runtime identity or reopening architecture.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
   at: '2026-08-24T00:38:09.000Z'
+assignee: consumer_promotion_agent
 ---
 # Goal
 
