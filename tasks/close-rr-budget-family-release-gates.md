@@ -411,13 +411,45 @@ registration are not closed.
 ## 2026-08-24: next claimed executable vertical proof
 
 - `root_budget_initial_cross_form_population` claims one bounded producer-and-consumer slice that
-  makes the three source-exact R&R Budget mappings executable only during initial form creation.
-- The contract must be declarative and target-neutral, must preserve applicant edits after initial
-  creation, and must fail closed when the sibling form, source response, source path, target path,
-  or selected array item is unavailable. It may populate only an absent destination.
-- Verification must cover initial population from R&R SF-424, an unavailable sibling/source value,
-  preservation across save/reload, and no overwrite after either applicant edits or later source
-  changes. Browser proof will be added if the existing harness can exercise the application-level
+  makes the three source-exact R&R Budget mappings executable while the target remains untouched by
+  an applicant. Simpler creates application-form records before sibling responses exist, so the
+  bounded lifecycle trigger is a declared source-response save rather than form-record creation.
+- The contract must be declarative and target-neutral, must preserve applicant edits after the
+  target's first user modification, and must fail closed when the sibling form, source response,
+  source path, target path, or selected array item is unavailable. Before the edit boundary, later
+  source saves may refresh the declared target values; after that boundary, no target value is
+  overwritten.
+- Verification must cover population from R&R SF-424, unavailable source values, preservation
+  across persistence, and no overwrite after applicant edits and later source changes. Browser
+  proof remains a separate follow-on if the existing harness can exercise the application-level
   transition without a form-specific path.
 - This claim does not authorize continuous synchronization, inferred editability, form-specific
   consumer branches, registration, production approval, or HHS upstream changes.
+
+## 2026-08-24: executable cross-form initial-population proof published
+
+- [grants-form-spec PR 93](https://github.com/mikec-ai/grants-form-spec/pull/93), merged at
+  `9f0107e01265a7cb7a8263e0619b76ac434911ca`, compiles the three exact R&R Budget prefill records
+  into a generated, target-neutral `grants-form-operational-behavior/v1` runtime artifact. The
+  closed policy triggers on a source-response update, writes only until the target's first user
+  modification, and skips a missing source. Unsupported policies and uncompiled evidence fail
+  closed. The evidence sidecar remains the provenance-bearing source; the runtime artifact is a
+  mechanical projection, not a new semantic mapping.
+- Producer preflight passed at the exact merge revision: 123 TypeScript tests, 343 Python tests
+  (10 skipped), 1,535 artifact validations, 30 pinned XSD fixtures, proof-package verification,
+  classified-field checks, and independent TypeSpec-file verification. Both GitHub workflows
+  passed before merge.
+- [simpler-grants-gov PR 95](https://github.com/mikec-ai/simpler-grants-gov/pull/95) consumes that
+  immutable producer revision through the generic adapter. Saving R&R SF-424 populates R&R Budget
+  SAM UEI, organization name, and first-period start date. Missing values are skipped. Simpler's
+  existing audit history supplies the durable target-user-modified boundary, so later source saves
+  cannot overwrite applicant work. The service contains no form id, field path, semantic match, or
+  policy choice; those remain in the portable declaration.
+- Local consumer verification passes 20 focused contract and unit tests, two database-backed
+  end-to-end lifecycle tests, and an ordered nine-test regression slice covering SF-424A lifecycle,
+  the new population lifecycle, and the existing application-update service. Ruff, isort, Black,
+  targeted mypy, and `git diff --check` pass. Consumer hosted checks remain pending and must be
+  recorded before merge.
+- This is executable fork-level technical evidence, not production registration, semantic
+  acceptance, accessibility approval, or an HHS upstream proposal. Browser proof and broader
+  release gates remain open.
