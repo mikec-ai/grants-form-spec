@@ -119,7 +119,25 @@ function overrideEnabledWhen(
   if (!condition || typeof condition !== "object" || Array.isArray(condition)) return [];
   const path = (condition as Record<string, unknown>).path;
   const value = (condition as Record<string, unknown>).equals;
+  const values = (condition as Record<string, unknown>).in;
   if (typeof path !== "string" || !path) return [];
+  if (
+    Array.isArray(values)
+    && values.length > 0
+    && values.every((item) => (
+      item === null
+      || typeof item === "string"
+      || typeof item === "number"
+      || typeof item === "boolean"
+    ))
+  ) {
+    return [{
+      scope: "root",
+      sourcePath: path.split(".").filter(Boolean),
+      operator: "in",
+      values,
+    }];
+  }
   if (
     value !== null
     && typeof value !== "string"

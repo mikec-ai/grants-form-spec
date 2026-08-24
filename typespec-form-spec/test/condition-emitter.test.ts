@@ -515,4 +515,47 @@ describe("form-scoped behavior overrides", () => {
       },
     });
   });
+
+  it("emits a one-of enabled condition against a nested shared question", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Mode { first: "First", second: "Second", disabled: "Disabled" }
+        enum OverrideSection { details: "Details" }
+        model SharedDetails { mode: Mode; }
+
+        ${formMeta("behavior-override-in-check")}
+        @UI.sections(OverrideSection)
+        @UI.overrides(#{
+          \`explanation\`: #{
+            enabledWhen: #{ path: "details.mode", in: #[Mode.first, Mode.second] }
+          },
+        })
+        model BehaviorOverrideInCheck {
+          @UI.section(OverrideSection.details)
+          details: SharedDetails;
+
+          @UI.section(OverrideSection.details)
+          explanation?: string;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "behavior-override-in-check",
+    );
+    expect(block).toBeDefined();
+    const fields = emitSggUi(instance.program, block!)[0].children;
+    expect(fields.find((field) => field.definition.endsWith("/explanation"))).toMatchObject({
+      conditional: {
+        when: {
+          op: "in",
+          ref: { scope: "root", pointer: "/details/mode" },
+          values: ["First", "Second"],
+        },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
+      },
+    });
+  });
 });
