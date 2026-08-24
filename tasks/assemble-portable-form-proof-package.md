@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: uniform_cohort_proof
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T17:57:29.180Z'
+  at: '2026-08-24T18:00:09.485Z'
 ---
 # Goal
 
@@ -98,8 +98,9 @@ ignored build artifacts.
 
 # Uniform seven-form comparison proof
 
-[grants-form-spec PR 81](https://github.com/mikec-ai/grants-form-spec/pull/81) adds the bounded
-proof-package claim for the uniform portable-versus-existing comparator merged in consumer PR 76 at
+[grants-form-spec PR 81](https://github.com/mikec-ai/grants-form-spec/pull/81), merged at
+`42070f20c1a755e624eebbfe284050976b050088`, adds the bounded proof-package claim for the uniform
+portable-versus-existing comparator merged in consumer PR 76 at
 `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`.
 
 - One form-agnostic mechanism compares SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract
