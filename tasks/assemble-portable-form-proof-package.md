@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: uniform_cohort_proof
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T17:50:29.790Z'
+  at: '2026-08-24T17:54:59.198Z'
 ---
 # Goal
 
@@ -95,3 +95,25 @@ semantic acceptance and the broader human/release gates remain open.
 The focused four-test proof suite and full producer preflight pass at PR head `4cc63b49d` (121
 TypeScript tests and 325 Python tests, two skipped). Generated proof index and manifest remain
 ignored build artifacts.
+
+# Uniform seven-form comparison proof
+
+[grants-form-spec PR 81](https://github.com/mikec-ai/grants-form-spec/pull/81) adds the bounded
+proof-package claim for the uniform portable-versus-existing comparator merged in consumer PR 76 at
+`1e4cdb8b6481a0e34946df7b380e8cf306d552cd`.
+
+- One form-agnostic mechanism compares SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract
+  Summary, Project Narrative Attachments, and SF-424B; all seven comparison gates pass.
+- Across 28 supported form-dimension results, 15 report parity, 12 report evidence-linked
+  intentional differences, one is not applicable, and none fail. Project Narrative Attachments
+  reports exact parity in the supported schema, UI, validation, and rule-declaration dimensions.
+- The claim pins the consumer merge, stable cohort/comparator/test paths, generated summary path,
+  successful workflow run `32756098657`, artifact ID `9531875033`, and exact artifact name. The
+  downloaded hosted summary reports seven passed and zero failed.
+- Serialized XML, rule outcomes, and runtime lifecycle remain explicitly unavailable in this static
+  mechanism. Existing Simpler behavior remains a compatibility oracle rather than semantic
+  authority. The claim is not release readiness, semantic acceptance, accessibility review, policy
+  approval, or production registration.
+- Focused proof tests pass, and full producer preflight is green at PR head `28cb51f63` with 121
+  TypeScript tests and 325 Python tests, two skipped. Generated receipts, proof index, and manifest
+  remain ignored build artifacts.
