@@ -2,15 +2,15 @@
 type: Task
 title: Assemble the portable form proof package
 priority: P0
-assignee: proof_package
+assignee: uniform_cohort_proof
 description: >-
   Package reproducible parity, source-validation, reuse, and demonstration
   evidence for the initial proof.
 superbee_progress_status: in_progress
-superbee_updated_by: rr_budget_condition_contract
+superbee_updated_by: uniform_cohort_proof
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:55:37.449Z'
+  at: '2026-08-24T17:50:29.790Z'
 ---
 # Goal
 
