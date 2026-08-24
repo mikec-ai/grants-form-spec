@@ -18,6 +18,11 @@ Review is also explicit. Proposed records are not accepted differences. An accep
 an accountable reviewer, review timestamp, and durable decision evidence. Unresolved mismatches are
 classified separately and cannot be accepted.
 
+The current v1 package has no independent decision-artifact receipt. The validator therefore
+rejects every `accepted` record, even when it cites comparator or source evidence. `accepted` and
+the downstream `reviewed_delta` status are reserved until a distinct, offline-verifiable decision
+artifact contract is added; differential tests cannot stand in for an acceptance decision.
+
 Classification and source support describe what evidence currently says; neither is acceptance.
 For example, an `authoritative_source_correction` with verified source support still remains proposed
 until its review record is accepted. Rule-path targets are reserved by the schema but fail validation
