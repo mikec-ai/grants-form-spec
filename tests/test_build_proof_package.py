@@ -92,40 +92,34 @@ class ProofPackageTests(unittest.TestCase):
                 for claim in package["claims"]
                 if claim["id"] == "uniform-seven-form-static-differential"
             )
-            self.assertIn("All seven comparison gates pass", cohort_claim["statement"])
-            self.assertIn("15 report parity", cohort_claim["statement"])
             self.assertIn(
-                "12 report evidence-linked intentional differences",
+                "One form passes because all supported dimensions match exactly",
                 cohort_claim["statement"],
             )
-            self.assertIn("none fail", cohort_claim["statement"])
+            self.assertIn("Six forms are blocked", cohort_claim["statement"])
+            self.assertIn(
+                "mechanically bounded but remain proposed and unaccepted",
+                cohort_claim["statement"],
+            )
+            self.assertIn("15 report parity", cohort_claim["statement"])
+            self.assertIn("12 report proposed deltas", cohort_claim["statement"])
+            self.assertIn("zero unexplained failures", cohort_claim["statement"])
+            self.assertIn("16 are source-verified", cohort_claim["statement"])
+            self.assertIn("zero are accepted", cohort_claim["statement"])
             self.assertIn(
                 "Project Narrative Attachments has exact parity",
                 cohort_claim["statement"],
             )
             self.assertEqual(
                 cohort_claim["evidence"][0]["revision"],
-                "1e4cdb8b6481a0e34946df7b380e8cf306d552cd",
+                "29fafef5c1f1032b559b519d73387475932297fd",
             )
             self.assertEqual(
                 cohort_claim["evidence"][0]["generatedReceipt"],
                 "api/test-results/legacy-differential/summary.json",
             )
-            self.assertEqual(
-                cohort_claim["evidence"][0]["artifactRevision"],
-                "35d63c39db0d7dfae2dd83d36b4aba52011e064f",
-            )
-            self.assertEqual(
-                cohort_claim["evidence"][0]["sharedTreeSha"],
-                "9a765873ee4ba8e7057c6bf156d6ac14df39c329",
-            )
-            self.assertEqual(cohort_claim["evidence"][0]["artifactId"], 9531875033)
-            self.assertEqual(
-                cohort_claim["evidence"][0]["artifactName"],
-                "portable-legacy-differential-35d63c39db0d7dfae2dd83d36b4aba52011e064f",
-            )
-            self.assertIn("PR merge-ref revision", cohort_claim["statement"])
-            self.assertIn("Git tree is identical", cohort_claim["statement"])
+            self.assertNotIn("artifactRevision", cohort_claim["evidence"][0])
+            self.assertNotIn("artifactId", cohort_claim["evidence"][0])
             limitations = " ".join(cohort_claim["limitations"])
             self.assertIn("Serialized XML", limitations)
             self.assertIn("rule outcomes", limitations)

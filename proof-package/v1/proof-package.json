@@ -208,39 +208,35 @@
     },
     {
       "id": "uniform-seven-form-static-differential",
-      "title": "Seven forms pass one uniform portable-versus-existing comparison gate",
-      "statement": "At the pinned consumer merge, one form-agnostic mechanism compares SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. All seven comparison gates pass. The hosted receipt was generated at the PR merge-ref revision, whose Git tree is identical to the final consumer merge. Across 28 supported form-dimension results, 15 report parity, 12 report evidence-linked intentional differences, one is not applicable, and none fail. Project Narrative Attachments has exact parity in the supported schema, UI, validation, and rule-declaration dimensions; unexpected differences or stale allowances fail the gate.",
+      "title": "Seven forms use one uniform comparison; one passes and six remain blocked",
+      "statement": "At the pinned consumer merge, one form-agnostic mechanism compares SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. One form passes because all supported dimensions match exactly. Six forms are blocked because their observed differences are mechanically bounded but remain proposed and unaccepted. There are zero unexplained failures. Across 28 supported form-dimension results, 15 report parity, 12 report proposed deltas, one is not applicable, and zero report reviewed deltas. The portable ledger contains 50 exact-key records: 16 are source-verified, all 50 remain proposed, and zero are accepted. Project Narrative Attachments has exact parity in the supported schema, UI, validation, and rule-declaration dimensions; unexpected differences, stale allowances, or unverified acceptance fail closed.",
       "status": "merged_technical_proof",
       "evidence": [
         {
           "kind": "consumer_pull_request",
           "label": "Uniform cohort declaration, comparator, and fail-closed tests",
-          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/76",
-          "revision": "1e4cdb8b6481a0e34946df7b380e8cf306d552cd",
+          "url": "https://github.com/mikec-ai/simpler-grants-gov/pull/79",
+          "revision": "29fafef5c1f1032b559b519d73387475932297fd",
           "state": "merged",
           "sourcePaths": [
             "api/src/form_schema/form_spec/differential-cohort.json",
             "api/src/form_schema/form_spec/differential.py",
-            "api/tests/src/form_schema/form_spec/test_differential.py"
+            "api/tests/src/form_schema/form_spec/test_differential.py",
+            "api/src/form_schema/form_spec/artifacts/governance/parity/legacy-deltas.v1.json",
+            "api/src/form_schema/form_spec/artifacts/governance/parity/consumer-evidence-verification.v1.json"
           ],
-          "generatedReceipt": "api/test-results/legacy-differential/summary.json",
-          "artifactRevision": "35d63c39db0d7dfae2dd83d36b4aba52011e064f",
-          "sharedTreeSha": "9a765873ee4ba8e7057c6bf156d6ac14df39c329",
-          "workflowRun": "https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32756098657",
-          "artifactId": 9531875033,
-          "artifactName": "portable-legacy-differential-35d63c39db0d7dfae2dd83d36b4aba52011e064f"
+          "generatedReceipt": "api/test-results/legacy-differential/summary.json"
         }
       ],
       "reproduce": [
-        "Clone simpler-grants-gov and check out 1e4cdb8b6481a0e34946df7b380e8cf306d552cd",
-        "From api, run uv run python bin/build_portable_legacy_differential.py --consumer-revision 1e4cdb8b6481a0e34946df7b380e8cf306d552cd --output-dir test-results/legacy-differential",
-        "Inspect api/test-results/legacy-differential/summary.json and the seven adjacent per-form receipts; the successful PR verification generated its hosted receipts at merge-ref 35d63c39db0d7dfae2dd83d36b4aba52011e064f and published them in workflow run 32756098657 as artifact portable-legacy-differential-35d63c39db0d7dfae2dd83d36b4aba52011e064f",
-        "Verify that consumer merge 1e4cdb8b6481a0e34946df7b380e8cf306d552cd and receipt revision 35d63c39db0d7dfae2dd83d36b4aba52011e064f both resolve to Git tree 9a765873ee4ba8e7057c6bf156d6ac14df39c329"
+        "Clone simpler-grants-gov and check out 29fafef5c1f1032b559b519d73387475932297fd",
+        "From api, run uv run python bin/build_portable_legacy_differential.py --consumer-revision 29fafef5c1f1032b559b519d73387475932297fd --output-dir test-results/legacy-differential",
+        "Inspect api/test-results/legacy-differential/summary.json and the seven adjacent per-form receipts; inspect the vendored parity ledger to confirm 16 of 50 records are source-verified and all 50 remain proposed"
       ],
       "limitations": [
         "The comparison gate covers applicant-visible schema constraints and requiredness, the UI declaration, validation verdicts over a mechanically generated mutation corpus, and rule-schema declarations only.",
         "Serialized XML, rule outcomes, and runtime lifecycle behavior are explicitly unavailable in this static mechanism; rule-declaration parity is not rule-outcome parity.",
-        "Existing Simpler behavior is a compatibility oracle rather than source or semantic authority, and an evidence-linked intentional difference is not semantic acceptance.",
+        "Existing Simpler behavior is a compatibility oracle rather than source or semantic authority, and a mechanically bounded proposed difference is not semantic acceptance.",
         "This technical receipt is not release readiness, human accessibility review, policy approval, or production registration."
       ]
     },
