@@ -1,7 +1,7 @@
 ---
 type: Task
 title: Require evidence-backed intentional parity deltas
-superbee_progress_status: in_progress
+superbee_progress_status: done
 priority: P0
 description: >-
   Govern every accepted portable-versus-legacy difference as narrow, reviewed,
@@ -9,7 +9,7 @@ description: >-
 actor: Codex
 timestamp: '2026-08-23T22:26:31.285Z'
 assignee: codex-root
-superbee_updated_by: codex-root
+superbee_updated_by: parity_delta_contract
 ---
 # Goal
 
@@ -40,3 +40,9 @@ Each delta must identify:
 [depends on](design-parity-delta-ledger-contract.md)
 
 [depends on](audit-seven-form-parity-deltas.md)
+
+# Delivered result
+
+Producer PRs 82 through 85 established the portable ledger contract and fail-closed validator through merge `2a316a832a343f3830c4b6a8948fd746c3dd8c56`. Consumer PR 79 merged at `29fafef5c1f1032b559b519d73387475932297fd` and consumes the exact producer pin without form-specific adapter decisions. Producer PR 86 merged at `884936fe89f95757ce9435eabf73757144252709` and corrected the proof package.
+
+The validator rejects blanket targets, missing or unstable semantic targets, undocumented differences, stale and unused entries, missing evidence, broken receipt joins, unsupported rule paths, and every accepted record until an independent decision-artifact receipt exists. Reports separate exact parity, proposed deltas, unresolved mismatches, reviewed deltas, and actual failures. The current ledger contains 50 exact targets: 16 source-verified, 34 unverified, all 50 proposed, and 0 accepted.

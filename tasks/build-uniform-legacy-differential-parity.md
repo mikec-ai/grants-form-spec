@@ -70,4 +70,6 @@ Receipt provenance does not depend on Git being installed in the runtime contain
 
 The generated receipts are reproducible from merge revision `29fafef5c1f1032b559b519d73387475932297fd`; they remain build artifacts rather than checked-in runtime files. Proposed records block the comparison gate and cannot be reported as accepted parity.
 
+Producer PR 86 merged at `884936fe89f95757ce9435eabf73757144252709` and pins these exact results in the proof package, replacing the obsolete all-seven-pass claim.
+
 The next extension should add further overlap forms only when their existing implementation is a stable compatibility oracle. Diagnostic runs against SF-LLL and Performance Site Locations exposed broad source or structural divergence, so they were not normalized into large intentional-delta allowlists merely to increase the cohort count. They remain candidates for source reconciliation before cohort admission.

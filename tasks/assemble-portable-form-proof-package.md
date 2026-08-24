@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: parity_delta_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T19:15:54.456Z'
+  at: '2026-08-24T19:18:25.947Z'
 ---
 # Goal
 
@@ -101,8 +101,8 @@ ignored build artifacts.
 [simpler-grants-gov PR 79](https://github.com/mikec-ai/simpler-grants-gov/pull/79), merged at
 `29fafef5c1f1032b559b519d73387475932297fd`, moves all delta decisions out of the consumer cohort
 and consumes the portable, digest-pinned parity ledger generically. Producer PRs 82 through 85
-define and harden that ledger contract. [grants-form-spec PR 86](https://github.com/mikec-ai/grants-form-spec/pull/86)
-corrects the proof-package claim to the governed result.
+define and harden that ledger contract. [grants-form-spec PR 86](https://github.com/mikec-ai/grants-form-spec/pull/86),
+merged at `884936fe89f95757ce9435eabf73757144252709`, corrects the proof-package claim to the governed result.
 
 - One form passes because all supported dimensions match exactly. Six forms are blocked because
   their observed differences are mechanically bounded but remain proposed and unaccepted. There
