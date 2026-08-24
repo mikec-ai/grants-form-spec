@@ -153,47 +153,20 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
         review = record.get("review", {})
         status = review.get("status")
         decision_evidence = review.get("decisionEvidence")
-        if status == "accepted":
-            if not review.get("reviewer") or not review.get("reviewedAt") or not decision_evidence:
-                raise ValueError(
-                    f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
-                )
-            for reference in decision_evidence:
-                repository = reference.get("repository")
-                revision = reference.get("revision")
-                path = reference.get("path")
-                if repository == verification.get("repository") and revision == verification.get(
-                    "revision"
-                ):
-                    if path not in verified:
-                        raise ValueError(
-                            f"{record_id} decision evidence is absent from the offline receipt"
-                        )
-                    used_verified_paths.add(path)
-                elif repository == "https://github.com/mikec-ai/grants-form-spec.git" and re.fullmatch(
-                    r"[0-9a-f]{40}", str(revision)
-                ):
-                    exists = subprocess.run(
-                        ["git", "cat-file", "-e", f"{revision}:{path}"],
-                        cwd=root,
-                        check=False,
-                        capture_output=True,
-                        text=True,
-                    )
-                    if exists.returncode != 0:
-                        raise ValueError(
-                            f"{record_id} decision evidence is absent at its producer revision"
-                        )
-                else:
-                    raise ValueError(
-                        f"{record_id} decision evidence has no offline-verifiable immutable source"
-                    )
-        elif status not in {"proposed", "rejected"}:
+        if status not in {"proposed", "accepted", "rejected"}:
             raise ValueError(f"{record_id} has unsupported review status {status!r}")
         if record.get("classification") == "unresolved_mismatch" and status == "accepted":
             raise ValueError(f"{record_id} cannot accept an unresolved mismatch")
         if status == "accepted" and record.get("classification") == "unclassified":
             raise ValueError(f"{record_id} accepted review lacks a resolved classification")
+        if status == "accepted":
+            if not review.get("reviewer") or not review.get("reviewedAt") or not decision_evidence:
+                raise ValueError(
+                    f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
+                )
+            raise ValueError(
+                f"{record_id} accepted review requires an independent decision-artifact receipt"
+            )
         if (
             record.get("classification") == "authoritative_source_correction"
             and source_support.get("status") != "verified"

@@ -118,7 +118,7 @@ class ParityDeltaLedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "lacks verified source support"):
             validate_ledger(ROOT, self._write(unsupported))
 
-    def test_accepted_review_requires_offline_verifiable_decision_evidence(self) -> None:
+    def test_accepted_review_requires_independent_decision_artifact_receipt(self) -> None:
         accepted = copy.deepcopy(self.ledger)
         record = next(
             row
@@ -131,13 +131,7 @@ class ParityDeltaLedgerTests(unittest.TestCase):
             "reviewedAt": "2026-08-24T12:00:00Z",
             "decisionEvidence": [record["evidenceReferences"][0]],
         }
-        validate_ledger(ROOT, self._write(accepted))
-
-        record["review"]["decisionEvidence"][0] = {
-            **record["review"]["decisionEvidence"][0],
-            "path": "api/tests/not-a-real-decision.py",
-        }
-        with self.assertRaisesRegex(ValueError, "absent from the offline receipt"):
+        with self.assertRaisesRegex(ValueError, "independent decision-artifact receipt"):
             validate_ledger(ROOT, self._write(accepted))
 
     def test_cli_rejects_unknown_flags_with_usage_exit(self) -> None:
