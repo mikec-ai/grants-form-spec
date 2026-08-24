@@ -56,7 +56,8 @@ class ProofPackageTests(unittest.TestCase):
             )
             self.assertIn("64 conditioned occurrences", budget_claim["statement"])
             self.assertIn("50 represented", budget_claim["statement"])
-            self.assertIn("14 explicitly source-bound and uncompiled", budget_claim["statement"])
+            self.assertIn("10 compiled", budget_claim["statement"])
+            self.assertIn("four explicitly source-bound and uncompiled", budget_claim["statement"])
             inventory_evidence = next(
                 evidence
                 for evidence in budget_claim["evidence"]
@@ -79,8 +80,9 @@ class ProofPackageTests(unittest.TestCase):
             self.assertEqual(
                 inventory["counts"]["byDisposition"],
                 {
+                    "compiled-by-at-least-one-path-when-present": 10,
                     "represented-by-existing-declaration": 50,
-                    "source-bound-uncompiled": 14,
+                    "source-bound-uncompiled": 4,
                 },
             )
             self.assertEqual(inventory["reviewStatus"], "unreviewed")
