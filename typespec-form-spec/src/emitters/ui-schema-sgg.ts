@@ -3,7 +3,7 @@ import { getDoc } from "@typespec/compiler";
 import {
   AtomicCondition, Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
   propLabel, propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propWidget,
-  propEnabledWhen, propSggFieldList, propVisibleWhen,
+  propEnabledWhen, propSggFieldList, propVisibleWhen, readBlock,
 } from "../model.js";
 import { normalizedOverrideEnabledWhen } from "./override-condition.js";
 
@@ -30,6 +30,18 @@ export interface SggMultiField {
   name: string;
   widget: string;
   definition: string[];
+  children?: SggTableChildren;
+}
+export interface SggTableColumn {
+  columnHeader: string;
+  width?: number;
+}
+export type SggTableCell =
+  | { type: "input" | "readOnly"; definition: string; format?: "dollar" }
+  | { type: "plainText"; staticContent: string };
+export interface SggTableChildren {
+  columns: SggTableColumn[];
+  rows: { cells: SggTableCell[] }[];
 }
 export interface SggSection {
   type: "section";
@@ -396,6 +408,78 @@ function gridProperties(program: Program, block: Block, members: ModelProperty[]
   return names;
 }
 
+/**
+ * Project a regular object-of-objects grid into Simpler's declarative Table contract.
+ *
+ * The section identifies the table root, the root model's properties identify rows, and
+ * each row model's properties identify columns. Labels and read-only state therefore stay
+ * attached to the same authored model that supplies schema and calculation behavior. The
+ * projector rejects irregular grids instead of inventing missing cells or form-specific
+ * branches.
+ */
+function tableChildren(program: Program, members: ModelProperty[]): SggTableChildren {
+  if (members.length !== 1) {
+    throw new Error(
+      `Table multiField requires exactly one object property; received ${members.length}`,
+    );
+  }
+  const root = objectBehind(program, members[0]);
+  if (!root) {
+    throw new Error(`Table multiField property ${members[0].name} must contain an object`);
+  }
+
+  const rowProperties = allProperties(program, root);
+  if (!rowProperties.length) {
+    throw new Error(`Table multiField property ${members[0].name} has no rows`);
+  }
+  const rowModels = rowProperties.map((row) => ({ row, model: objectBehind(program, row) }));
+  const invalidRow = rowModels.find(({ model }) => !model);
+  if (invalidRow) {
+    throw new Error(`Table row ${invalidRow.row.name} must contain an object`);
+  }
+
+  const columnNames = allProperties(program, rowModels[0].model!).map((column) => column.name);
+  if (!columnNames.length) {
+    throw new Error(`Table row ${rowModels[0].row.name} has no columns`);
+  }
+  for (const { row, model } of rowModels.slice(1)) {
+    const names = allProperties(program, model!).map((column) => column.name);
+    if (names.length !== columnNames.length || names.some((name, index) => name !== columnNames[index])) {
+      throw new Error(
+        `Table row ${row.name} columns ${names.join(", ")} do not match ${columnNames.join(", ")}`,
+      );
+    }
+  }
+
+  const firstColumns = allProperties(program, rowModels[0].model!);
+  const valueWidth = 60 / firstColumns.length;
+  return {
+    columns: [
+      { columnHeader: modelLabel(program, root) ?? "Field", width: 40 },
+      ...firstColumns.map((column) => ({
+        columnHeader: propLabel(program, column) ?? column.name,
+        width: valueWidth,
+      })),
+    ],
+    rows: rowModels.map(({ row, model }) => {
+      const money = (readBlock(program, model!)?.tags ?? []).includes("money");
+      return {
+        cells: [
+          {
+            type: "plainText" as const,
+            staticContent: modelLabel(program, model!) ?? propLabel(program, row) ?? row.name,
+          },
+          ...allProperties(program, model!).map((column) => ({
+            type: propReadOnly(program, column) ? "readOnly" as const : "input" as const,
+            definition: `/properties/${row.name}/properties/${column.name}`,
+            ...(money ? { format: "dollar" as const } : {}),
+          })),
+        ],
+      };
+    }),
+  };
+}
+
 export function emitSggUi(program: Program, block: Block): SggSection[] {
   if (!block.sections || block.model.kind !== "Model") return [];
 
@@ -437,12 +521,14 @@ export function emitSggUi(program: Program, block: Block): SggSection[] {
     const widget = widgets.get(name);
     if (widget) {
       if (!members.length) continue;
-      bucket.push({
+      const multiField: SggMultiField = {
         type: "multiField",
         name: widget,
         widget,
         definition: gridProperties(program, block, members).map((p) => `/properties/${p}`),
-      });
+      };
+      if (widget === "Table") multiField.children = tableChildren(program, members);
+      bucket.push(multiField);
       continue;
     }
 

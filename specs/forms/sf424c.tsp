@@ -14,6 +14,7 @@ enum SF424CSection {
 }
 
 /** The sixteen cost-classification rows on SF-424C. */
+@UI.label("Cost Classification")
 model ConstructionBudgetInformation {
   administrativeAndLegalExpenses?: QuestionConstructionAdministrationAndLegalExpenses;
   landStructuresRightsOfWay?: QuestionConstructionLandStructuresRightsOfWay;
