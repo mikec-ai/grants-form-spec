@@ -37,6 +37,13 @@ extern dec requiredPathWhen(
   equals: valueof unknown,
 );
 
+/** Require at least one named descendant path when the source descendant path is present. */
+extern dec atLeastOnePathWhenPresent(
+  target: Model | ModelProperty,
+  sourcePath: valueof string,
+  ...targetPaths: valueof string[],
+);
+
 /** Require a value for at least one of the named sibling properties. */
 extern dec atLeastOneOf(target: Model, ...properties: ModelProperty[]);
 

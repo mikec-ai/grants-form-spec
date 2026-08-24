@@ -175,6 +175,13 @@ export const cardinalityRequiredWhen = (p: Program, target: Model | ModelPropert
   (g(p, stateKeys.requiredPathWhen, target) as {
     targetPath: string; sourcePath: string; value: string | number | boolean | null;
   }[] | undefined) ?? [];
+export const cardinalityAtLeastOnePathWhenPresent = (
+  p: Program,
+  target: Model | ModelProperty,
+) =>
+  (g(p, stateKeys.atLeastOnePathWhenPresent, target) as {
+    sourcePath: string; targetPaths: string[];
+  }[] | undefined) ?? [];
 export const modelAtLeastOneOf = (p: Program, model: Model) =>
   (g(p, stateKeys.atLeastOneOf, model) as string[][] | undefined) ?? [];
 export const propComputed = (p: Program, prop: ModelProperty) =>

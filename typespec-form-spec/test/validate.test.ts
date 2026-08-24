@@ -96,6 +96,38 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("rejects an unresolved conditional alternative path", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          ${formMeta("conditional-alternative-check")}
+          @Validation.atLeastOnePathWhenPresent("trigger", "first", "missing")
+          model ConditionalAlternativeCheck {
+            trigger?: string;
+            first?: string;
+            second?: string;
+          }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/cardinality-path-unresolved",
+      });
+    });
+  });
+
+  describe("conditional-at-least-one-path-invalid", () => {
+    it("rejects fewer than two distinct target paths", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          ${formMeta("conditional-alternative-check")}
+          @Validation.atLeastOnePathWhenPresent("trigger", "first", "first")
+          model ConditionalAlternativeCheck { trigger?: string; first?: string; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/conditional-at-least-one-path-invalid",
+      });
+    });
   });
 
   describe("date-order-source-invalid", () => {

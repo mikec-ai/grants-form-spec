@@ -46,8 +46,9 @@ class RrBudgetDatConditionInventoryTests(unittest.TestCase):
                     "optional-row-required-members": 16,
                 },
                 "byDisposition": {
+                    "compiled-by-at-least-one-path-when-present": 10,
                     "represented-by-existing-declaration": 50,
-                    "source-bound-uncompiled": 14,
+                    "source-bound-uncompiled": 4,
                 },
             },
         )
@@ -105,22 +106,35 @@ class RrBudgetDatConditionInventoryTests(unittest.TestCase):
             for row in self.inventory["occurrences"]
             if row["implementationDisposition"] == "source-bound-uncompiled"
         ]
-        self.assertEqual(len(unresolved), 14)
+        self.assertEqual(len(unresolved), 4)
         self.assertEqual(
             {row["condition"] for row in unresolved},
-            {*ATTACHMENT_POSITIVE, CROSS_SECTION_MINIMUM},
+            ATTACHMENT_POSITIVE,
         )
         self.assertEqual(
             {row["conditionClass"] for row in unresolved},
             {
                 "attachment-total-positive-bidirectional",
-                "cross-section-minimum-one-row",
             },
         )
         self.assertEqual(
             self.inventory["genericPrimitiveDecision"]["status"],
-            "no-new-primitive",
+            "partial-generic-primitive",
         )
+
+    def test_cross_section_rule_is_compiled_without_changing_review_status(self) -> None:
+        compiled = [
+            row
+            for row in self.inventory["occurrences"]
+            if row["implementationDisposition"]
+            == "compiled-by-at-least-one-path-when-present"
+        ]
+        self.assertEqual(len(compiled), 10)
+        self.assertEqual({row["condition"] for row in compiled}, {CROSS_SECTION_MINIMUM})
+        self.assertEqual({row["behaviorKey"] for row in compiled}, {
+            "behavior:sha256:558d6e3e22862b8dfefaa17770a96a96874e25f8af1e7e58d2ddd2758d0948f9"
+        })
+        self.assertEqual(self.inventory["reviewStatus"], "unreviewed")
 
     def test_pattern_summary_reconciles_to_occurrences_and_unique_records(self) -> None:
         patterns = self.inventory["patterns"]

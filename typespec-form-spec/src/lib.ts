@@ -72,6 +72,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`@Validation.atLeastOneOf on ${"model"} must name at least two distinct properties owned by that model; received ${"properties"}.`,
       },
     },
+    "conditional-at-least-one-path-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@Validation.atLeastOnePathWhenPresent on ${"model"} must name a source path and at least two distinct target paths; received ${"paths"}.`,
+      },
+    },
     "encoded-checkbox-contract-invalid": {
       severity: "error",
       messages: {
@@ -158,6 +164,7 @@ export const $lib = createTypeSpecLibrary({
     validationConstraintsWhen: {},
     requiredPaths: {},
     requiredPathWhen: {},
+    atLeastOnePathWhenPresent: {},
     atLeastOneOf: {},
     computed: {},
     computedFrom: {},

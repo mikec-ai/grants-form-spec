@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { expectDiagnostics } from "@typespec/compiler/testing";
+import Ajv2020 from "ajv/dist/2020.js";
 import { emitBlockUi } from "../src/emitters/block-ui.js";
 import { emitFieldOccurrences } from "../src/emitters/field-occurrences.js";
 import { emitSggUi } from "../src/emitters/ui-schema-sgg.js";
@@ -74,7 +75,8 @@ describe("bounded presence conditions", () => {
     const block = allBlocks(instance.program).find(
       (candidate) => candidate.id === "alternative-check",
     );
-    expect(emitSchemaOverlay(instance.program, block!)).toMatchObject({
+    const overlay = emitSchemaOverlay(instance.program, block!);
+    expect(overlay).toMatchObject({
       allOf: [{
         anyOf: [
           { required: ["awardNumber"] },
@@ -82,6 +84,77 @@ describe("bounded presence conditions", () => {
         ],
       }],
     });
+  });
+
+  it("emits a presence-triggered choice across nested paths", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        model Trigger { value: string; }
+        model Choice { first?: { value: string }; second?: { value: string }; }
+        ${formMeta("conditional-alternative-check")}
+        @Validation.atLeastOnePathWhenPresent(
+          "trigger.value",
+          "choices.first.value",
+          "choices.second.value"
+        )
+        model ConditionalAlternativeCheck {
+          trigger?: Trigger;
+          choices?: Choice;
+        }
+      `),
+    );
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "conditional-alternative-check",
+    );
+    const overlay = emitSchemaOverlay(instance.program, block!);
+    expect(overlay).toMatchObject({
+      allOf: [{
+        if: {
+          required: ["trigger"],
+          properties: {
+            trigger: { required: ["value"] },
+          },
+        },
+        then: {
+          anyOf: [
+            {
+              required: ["choices"],
+              properties: {
+                choices: {
+                  required: ["first"],
+                  properties: { first: { required: ["value"] } },
+                },
+              },
+            },
+            {
+              required: ["choices"],
+              properties: {
+                choices: {
+                  required: ["second"],
+                  properties: { second: { required: ["value"] } },
+                },
+              },
+            },
+          ],
+        },
+      }],
+    });
+    const validate = new Ajv2020({ strict: false }).compile(overlay!);
+    expect(validate({})).toBe(true);
+    expect(validate({ trigger: { value: "entered" } })).toBe(false);
+    expect(validate({
+      trigger: { value: "entered" },
+      choices: { first: { value: "selected" } },
+    })).toBe(true);
+    expect(validate({
+      trigger: { value: "entered" },
+      choices: { first: {} },
+    })).toBe(false);
+    expect(validate({
+      trigger: { value: "entered" },
+      choices: { second: { value: "non-sequential" } },
+    })).toBe(true);
   });
 
   it("keeps inherited question lineage and sections when a form extends a question", async () => {
