@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:48:30.240Z'
+  at: '2026-08-24T16:51:46.146Z'
 assignee: rr_budget_condition_contract
 ---
 # Goal
@@ -169,7 +169,12 @@ architecture or silently claim human approval.
 - [simpler-grants-gov PR 77](https://github.com/mikec-ai/simpler-grants-gov/pull/77) pins the consumer
   artifact bank to the exact producer merge revision and proves direct R&R Budget and nested R&R
   Subaward Budget conformance. No Simpler compiler, projector, renderer, or form-specific adapter
-  code changed. The focused consumer suite passes 31 tests; Ruff check and formatting pass.
+  code changed. The focused consumer suite passes 31 tests; Ruff and repository Black checks pass
+  at amended head `9d4f4df43`.
+- [grants-form-spec PR 80](https://github.com/mikec-ai/grants-form-spec/pull/80) refreshes the authored
+  proof-package source to the same producer merge revision and exact 50/10/4 boundary. Four focused
+  proof tests and full producer preflight pass at head `4cc63b49d`; generated proof files remain
+  build artifacts.
 - Generated analysis, proof indexes, manifests, and promotion receipts remain build artifacts. The
   checked consumer artifact bank is the integrity-pinned runtime input documented by the adapter
   contract.
