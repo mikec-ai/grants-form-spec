@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: attachment_release
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:35:00.440Z'
+  at: '2026-08-24T20:51:34.789Z'
 assignee: attachment_release
 ---
 # Goal
@@ -45,3 +45,25 @@ Official sources remain semantic authority; the legacy implementation is a diffe
 [depends on](build-uniform-legacy-differential-parity.md)
 
 [depends on](enforce-evidence-backed-parity-deltas.md)
+
+# Automated handoff evidence (2026-08-24)
+
+Consumer PR: [mikec-ai/simpler-grants-gov#88](https://github.com/mikec-ai/simpler-grants-gov/pull/88), commit `b33a9b485`.
+
+- One shared, source-shaped fixture corpus covers empty, single, sparse/out-of-order, maximum, invalid, and replacement responses.
+- The banked portable package matches the existing Simpler Attachment Form oracle for UI schema, rules, rendered fields, and tested behavior. Raw schema differences are mechanically bounded to portable `description` metadata.
+- DB-backed consumer tests cover save/reload, slots 1/5/15, replacement, removal, attachment deletion state, exact add/delete audit events, foreign-attachment ownership warnings, successful submission, and post-submission update lockout.
+- XML evidence proves out-of-order input serializes as `ATT1`, `ATT5`, `ATT15` and validates against the exact bundled `AttachmentForm_1_2-V1.2.xsd`.
+- Bounded lower-environment browser automation covers 15 ordered controls, source instructions, upload, save/reload persistence, replacement/removal, read-only print output and section order, keyboard reachability, and Axe WCAG 2 A/AA plus 2.1 A/AA scanning.
+- No production registration, shared runtime, compiler, or adapter changes were made.
+
+Local receipts: five parity/XML tests passed; three DB lifecycle tests passed; Black, Ruff, targeted mypy, frontend Prettier, and frontend ESLint passed; Playwright discovered the test in Chromium, Firefox, WebKit, and Mobile Chrome. Hosted CI is running on PR #88 and remains the full browser execution receipt.
+
+# Gates deliberately still open
+
+- Human keyboard and screen-reader review.
+- Human instruction, semantic, policy, and release review.
+- Final catalog browser receipt and hosted CI confirmation.
+- Any registration cutover decision; production registration remains unchanged.
+
+Automated checks support handoff but do not constitute human semantic, accessibility, policy, or release approval.
