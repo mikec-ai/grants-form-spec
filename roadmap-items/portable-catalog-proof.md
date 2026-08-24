@@ -8,7 +8,7 @@ description: >-
 sequence: '7'
 actor: Codex
 timestamp: '2026-08-23T22:26:31.769Z'
-superbee_updated_by: parity_delta_contract
+superbee_updated_by: codex-root
 ---
 # Outcome
 
@@ -117,3 +117,5 @@ Continue adding forms and run the optional full browser matrix after the proof-f
 [contains](../tasks/audit-seven-form-parity-deltas.md)
 
 [contains](../tasks/define-independent-parity-decision-receipt.md)
+
+[contains](../tasks/enable-parallel-worktree-test-isolation.md)
