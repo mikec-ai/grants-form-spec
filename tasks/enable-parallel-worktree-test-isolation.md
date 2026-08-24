@@ -2,15 +2,15 @@
 type: Task
 title: Enable parallel worktree test isolation
 priority: P1
-assignee: unassigned
+assignee: codex_root_parallel_tests
 description: >-
   Remove local Compose collisions so multiple form-evidence agents can run
   repository-native tests concurrently.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:40:18.857Z'
+  at: '2026-08-24T20:40:31.174Z'
 ---
 # Goal
 
