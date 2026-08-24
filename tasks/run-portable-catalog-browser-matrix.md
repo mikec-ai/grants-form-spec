@@ -113,7 +113,7 @@ Reuse the existing Playwright authentication/application helpers, form navigatio
 
 # Implementation progress
 
-The first consumer slice is published as [draft consumer PR 66](https://github.com/mikec-ai/simpler-grants-gov/pull/66) at exact head `573b83024f589e954c17867b21338071068954ed`, rebased onto the merged preview dependency on consumer main. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
+The first consumer slice is published as [draft consumer PR 66](https://github.com/mikec-ai/simpler-grants-gov/pull/66) at exact head `f321adc6cd6da183ef6403ca670cf73bdf7044ad`, rebased onto the merged preview dependency on consumer main. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
 
 Focused verification after rebase: 14 API tests and 3 frontend contract tests pass; Black, Ruff, Prettier, ESLint, TypeScript checks, YAML parsing, and Playwright discovery across Chrome, Firefox, WebKit, and mobile Chrome pass. The hosted database-backed browser run remains the next PR validation gate.
 
