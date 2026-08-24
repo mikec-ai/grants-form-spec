@@ -6,8 +6,8 @@ description: >-
   Producer step remains in draft grants-form-spec PR #74 at amended head
   0e9204800f624ad04d67952ddbb2443a42c2d268. All review findings are addressed,
   including exact closure from normalization citations to declared
-  non-implementation official sources. Full local preflight is green; refreshed
-  hosted CI is pending. Consumer design is complete against simpler-grants-gov
+  non-implementation official sources. Full local preflight and hosted CI run
+  32696720397 are green. Consumer design is complete against simpler-grants-gov
   main 534a36b74201baa2f28d35f138e64e03efb0e348: optional artifact selection,
   existing pointer projection, copied canonical working data before
   rules/validation, raw-capture-preserving rule merge, and pre-XML
@@ -16,7 +16,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T06:18:02.778Z'
+  at: '2026-08-24T06:20:01.796Z'
 assignee: codex-operational-evidence
 ---
 # Goal
