@@ -298,6 +298,27 @@ registration are not closed.
   proof-package, SF-424-family, R&R SF-424, SF-424C, PHS Assignment, or Attachment Form work already
   claimed by other agents. No HHS upstream writes are permitted.
 
+## 2026-08-24: fixed personnel-role slice published
+
+- [grants-form-spec PR 91](https://github.com/mikec-ai/grants-form-spec/pull/91), commit
+  `3cb623ad2`, captures the four exact F770 records B-1-2 through B-4-2 as declarative string
+  literals with matching defaults and generic read-only annotations in the shared research-budget
+  question bank.
+- The emitted contract is exact for `Post Doctoral Associates`, `Graduate Students`,
+  `Undergraduate Students`, and `Secretarial/Clerical`. The applicant-entered Additional Project
+  Role remains a free-form string, so the change does not infer semantic equivalence or broaden
+  source ownership.
+- The existing TypeSpec and JSON Schema vocabulary was sufficient. No compiler feature,
+  target-specific branch, or form-specific generator was added. All five R&R Budget-family
+  profiles inherit the read-only presentation contract.
+- Full producer preflight passed: 123 TypeScript tests and 338 Python tests (10 skipped), plus
+  artifact, promotion, parity-ledger, classified-field, XSD-fixture, and package verification.
+  The proof-package workflow is green; the main CI check is still running at the time of this
+  update.
+- Semantic review remains `unreviewed`, and this closes only the four fixed-role source records.
+  Lifecycle/prefill ownership, browser confirmation, human semantic/accessibility acceptance,
+  operational readiness, and production registration remain outside this increment.
+
 [depends on](harden-rr-budget-production.md)
 
 [depends on](author-integrate-rr-subaward-budget.md)
