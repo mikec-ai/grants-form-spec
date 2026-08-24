@@ -9,7 +9,7 @@ tags:
   - form-authoring
   - promotion
   - provenance
-timestamp: '2026-08-24T01:38:10Z'
+timestamp: '2026-08-24T01:38:10.000Z'
 superbee_updated_by: codex
 ---
 # Summary
@@ -87,3 +87,5 @@ The run falsified the idea that NIFA was “almost free” at the semantic-quest
 [motivates](../tasks/enforce-exact-producer-xsd-fixture-digests.md)
 
 [motivates](../tasks/make-form-banking-safe-and-measured-by-default.md)
+
+[motivates](../decisions/tiered-portable-form-ci.md)
