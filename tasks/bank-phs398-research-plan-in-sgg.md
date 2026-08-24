@@ -5,6 +5,20 @@ priority: P0
 description: >-
   Promote the already-delivered Research Plan artifact closure into the SGG
   consumer bank without inventing a runtime identity or reopening architecture.
+superbee_progress_status: done
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
+  at: '2026-08-24T03:12:34.733Z'
+assignee: consumer_promotion_agent
+---
+---
+type: Task
+title: Bank PHS 398 Research Plan in SGG
+priority: P0
+description: >-
+  Promote the already-delivered Research Plan artifact closure into the SGG
+  consumer bank without inventing a runtime identity or reopening architecture.
 superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
@@ -58,4 +72,6 @@ This task proves low-cost cross-repository banking. It does not claim production
 - Exact root XSDs and transitive artifact closure were vendored and verified for the two additions. No identity, registration, preview, compiler, adapter, renderer, or form-specific consumer branch was added.
 - Local gates: producer preflight passed 109 TypeScript and 250 Python tests; consumer non-DB form-spec suite passed 233 tests before the final infrastructure rebase; focused integrity/provenance/registration/updater suite passed 29 tests after it; repository-native format, Ruff, and mypy gates passed.
 - Infrastructure PR #59 merged as `c7a3a9e9da217131bc38a9b1bc7d57d3a273796d`. PR #58 was rebased over it and all three overlapping test-file edits were dropped. Its final delta is limited to portable artifacts and exact XSD fixtures; the local classifier reports `bankOnly=true`, two added forms, 36 selected forms, and 418 artifacts.
-- Hosted lightweight CI passed at exact head `b0ab837dc1be0f1af89cd95a2439ddad0f2fa40c`: both classifiers and Portable Form Bank Checks succeeded; full API lint/tests, API build, Playwright cache, E2E infrastructure/tests, and report aggregation all skipped. PR #58 is mergeable and clean but remains draft/unmerged for independent review.
+- Hosted lightweight CI passed at exact head `b0ab837dc1be0f1af89cd95a2439ddad0f2fa40c`: both classifiers and Portable Form Bank Checks succeeded; full API lint/tests, API build, Playwright cache, E2E infrastructure/tests, and report aggregation all skipped.
+- Independent review verified the exact 418-artifact subset against the producer CI bundle, both official XSD byte digests, unchanged runtime and registration boundaries, and fail-closed loading for both new bank-only forms.
+- Consumer PR #58 merged to public-fork main as `558570a048feec37cf3ec460f4ec17745435b1fa` on 2026-08-23. No HHS repository changed.
