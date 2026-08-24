@@ -439,8 +439,9 @@ registration are not closed.
   (10 skipped), 1,535 artifact validations, 30 pinned XSD fixtures, proof-package verification,
   classified-field checks, and independent TypeSpec-file verification. Both GitHub workflows
   passed before merge.
-- [simpler-grants-gov PR 95](https://github.com/mikec-ai/simpler-grants-gov/pull/95) consumes that
-  immutable producer revision through the generic adapter. Saving R&R SF-424 populates R&R Budget
+- [simpler-grants-gov PR 95](https://github.com/mikec-ai/simpler-grants-gov/pull/95), merged at
+  `e712a1a9e335faa98099c788f0d7689b142818ea`, consumes that immutable producer revision through the
+  generic adapter. Saving R&R SF-424 populates R&R Budget
   SAM UEI, organization name, and first-period start date. Missing values are skipped. Simpler's
   existing audit history supplies the durable target-user-modified boundary, so later source saves
   cannot overwrite applicant work. The service contains no form id, field path, semantic match, or
@@ -448,8 +449,9 @@ registration are not closed.
 - Local consumer verification passes 20 focused contract and unit tests, two database-backed
   end-to-end lifecycle tests, and an ordered nine-test regression slice covering SF-424A lifecycle,
   the new population lifecycle, and the existing application-update service. Ruff, isort, Black,
-  targeted mypy, and `git diff --check` pass. Consumer hosted checks remain pending and must be
-  recorded before merge.
+  targeted mypy, and `git diff --check` pass. Before the fork merge, hosted API format, lint,
+  migrations, and security lint passed; the monolithic full API test step was still running. The
+  non-required hosted result remains pending and must not be described as green until it completes.
 - This is executable fork-level technical evidence, not production registration, semantic
   acceptance, accessibility approval, or an HHS upstream proposal. Browser proof and broader
   release gates remain open.
