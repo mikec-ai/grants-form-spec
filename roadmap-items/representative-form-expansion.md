@@ -72,7 +72,7 @@ The first measured lightweight banking proof completed on PHS Inclusion Enrollme
 
 The steady-state follow-up completed with PHS 398 Cover Page Supplement. Consumer PR #60 pinned producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, built on the automated R&R Personal Data promotion, added only Cover Page Supplement through an artifact/XSD-only diff, and moved the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped. It merged as `aa46719f794e114e31f9c503e1ed7bda9d2d54a0` after independent approval.
 
-The next additive proof is SBIR/STTR Information. Draft consumer PR #64 pins producer `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, adds one form through an artifact/XSD-only diff, and moves the bank to 39 forms/475 artifacts while preserving 29 runtime-enabled and 5 registered forms. Its local classifier selects the bank-only lane; hosted results remain part of the promotion receipt.
+The next additive proof is SBIR/STTR Information. Draft consumer PR #64 pins producer `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, adds one form through an artifact/XSD-only diff, and moves the bank to 39 forms/475 artifacts while preserving 29 runtime-enabled and 5 registered forms. Both hosted classifiers and Portable Form Bank Checks passed at the exact head; workflows completed in 32 and 19 seconds while full API and E2E work skipped. The PR remains unmerged for independent review.
 
 # Oracle protocol
 

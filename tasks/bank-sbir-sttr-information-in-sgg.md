@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:53:29.967Z'
+  at: '2026-08-24T04:54:06.468Z'
 ---
 # Goal
 
@@ -41,4 +41,5 @@ Bank SBIR/STTR Information in the public SGG consumer from the exact reviewed pr
 - Exact root XSD SHA-256: `32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf`, matching the producer evidence pin and physical vendored bytes.
 - The bank becomes 39 forms and 475 selected artifacts while preserving all 38 prior forms. Runtime-enabled forms remain 29 and registered forms remain 5. Runtime-identity SHA-256 remains `7e85abbd0796bf80396483e0eb9381b2159da94f0923b7b5e7967f6b559810cc`; registration SHA-256 remains `01b1d451dee808b1f6241ae63841d1bd90839b73cda701765b407f3ae98b7ff6`.
 - Producer main-push CI passed in 2m1s and published the exact bundle. Local consumer classifier reports `bankOnly=true`; focused integrity/provenance/registration/updater tests passed 29/29.
-- Hosted lightweight CI is running. PR remains draft/unmerged pending independent review.
+- Hosted lightweight CI passed at exact head `276aeff173a2ce0b0907564734aad849cd01a55c`: both classifiers and Portable Form Bank Checks succeeded; full API lint/tests, API build, Playwright cache, E2E infrastructure/tests, and report aggregation all skipped. The two workflows completed in 32 and 19 seconds.
+- PR #64 is mergeable and clean but remains draft/unmerged pending independent review.
