@@ -5,12 +5,12 @@ priority: P1
 description: >-
   Bank a high-use, bounded person-data form using role-qualified identity reuse
   while keeping privacy-sensitive semantics and production release gated.
-superbee_progress_status: in_progress
-superbee_updated_by: audit_rr_personal_data
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:08:19.721Z'
-assignee: audit_rr_personal_data
+  at: '2026-08-24T03:28:52.023Z'
+assignee: codex
 ---
 # Goal
 
