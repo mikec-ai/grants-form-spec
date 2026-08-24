@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simpler.grants.gov/form-spec/contract/v1/response-normalization.schema.json",
+  "title": "Portable response normalization policy",
+  "description": "Exact-path, source-reviewed compatibility operations applied before canonical validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "form", "operations"],
+  "properties": {
+    "contract": { "const": "grants-form-response-normalization/v1" },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "formVersion"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "formVersion": { "type": "string", "minLength": 1 }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "operation", "evidenceRef"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$"
+          },
+          "operation": { "const": "empty-string-to-absent" },
+          "evidenceRef": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

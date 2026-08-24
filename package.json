@@ -18,6 +18,7 @@
     "project-policy": "node scripts/project_policy_bindings.mjs",
     "project-xml": "node scripts/project_xml_profiles.mjs",
     "project-evidence": "node scripts/project_evidence.mjs",
+    "project-response-normalization": "node scripts/project_response_normalizations.mjs",
     "analyze": "python3 scripts/analyze.py",
     "check-classified-fields": "python3 scripts/check_classified_form_fields.py",
     "check-xsd-fixtures": "python3 scripts/check_xml_profile_fixtures.py",

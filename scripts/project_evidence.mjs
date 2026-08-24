@@ -281,6 +281,7 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       sources: resolvedEvidence.sources,
       behaviorEvidence: resolvedEvidence.behaviorEvidence,
       operationalBehaviorEvidence: [...(authoredDocument.operationalBehaviorEvidence ?? [])],
+      responseNormalizationEvidence: [...(authoredDocument.responseNormalizationEvidence ?? [])],
     };
     delete document.inheritsBehaviorEvidenceFrom;
     if (!validate(document)) {
@@ -329,6 +330,23 @@ export async function projectEvidence({ evidenceRoot, dist }) {
           `${relative(ROOT, sourcePath)}: operational behavior ${behavior.canonicalPath} ` +
           `claims implementation_parity authority from ${source.type} source ${behavior.sourceId}`,
         );
+      }
+    }
+    for (const normalization of document.responseNormalizationEvidence) {
+      for (const citation of normalization.sourceEvidence) {
+        const source = sourceById.get(citation.sourceId);
+        if (!source) {
+          throw new Error(
+            `${relative(ROOT, sourcePath)}: response normalization ${normalization.id} ` +
+            `names missing source ${citation.sourceId}`,
+          );
+        }
+        if (source.type === "implementation") {
+          throw new Error(
+            `${relative(ROOT, sourcePath)}: response normalization ${normalization.id} ` +
+            `claims official-source authority from implementation source ${citation.sourceId}`,
+          );
+        }
       }
     }
 
@@ -393,6 +411,28 @@ export async function projectEvidence({ evidenceRoot, dist }) {
           );
         }
       }
+    }
+    const normalizationIds = new Set();
+    const normalizationIdentities = new Set();
+    for (const normalization of document.responseNormalizationEvidence) {
+      if (!occurrences.has(normalization.canonicalPath)) {
+        throw new Error(
+          `${rel}: response normalization evidence ${normalization.id} destination ` +
+          `${normalization.canonicalPath} is not an exact emitted field occurrence`,
+        );
+      }
+      if (normalizationIds.has(normalization.id)) {
+        throw new Error(`${rel}: duplicate response normalization evidence id ${normalization.id}`);
+      }
+      normalizationIds.add(normalization.id);
+      const identity = `${normalization.operation}:${normalization.canonicalPath}`;
+      if (normalizationIdentities.has(identity)) {
+        throw new Error(
+          `${rel}: duplicate ${normalization.operation} normalization evidence for ` +
+          normalization.canonicalPath,
+        );
+      }
+      normalizationIdentities.add(identity);
     }
     if (kindRoot === "forms") {
       const ruleTargets = emittedRuleTargets(

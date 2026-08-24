@@ -41,6 +41,7 @@ describe("artifact contract v1", () => {
   let validateIndex: ValidateFunction;
   let validatePackage: ValidateFunction;
   let validateEvidence: ValidateFunction;
+  let validateResponseNormalization: ValidateFunction;
   let validateGrantsGovXmlProfile: ValidateFunction;
   let validatePolicyContent: ValidateFunction;
   let validatePolicyBinding: ValidateFunction;
@@ -56,6 +57,9 @@ describe("artifact contract v1", () => {
     validateIndex = ajv.compile(await json(resolve(contractRoot, "block-index.schema.json")));
     validatePackage = ajv.compile(await json(resolve(contractRoot, "form-package.schema.json")));
     validateEvidence = ajv.compile(await json(resolve(contractRoot, "evidence.schema.json")));
+    validateResponseNormalization = ajv.compile(
+      await json(resolve(contractRoot, "response-normalization.schema.json")),
+    );
     validateGrantsGovXmlProfile = ajv.compile(
       await json(resolve(contractRoot, "grants-gov-xml-profile.schema.json")),
     );
@@ -109,6 +113,10 @@ describe("artifact contract v1", () => {
     ["block-index", validateFixture("block-index", () => validateIndex)],
     ["form-package", validateFixture("form-package", () => validatePackage)],
     ["evidence", validateFixture("evidence", () => validateEvidence)],
+    [
+      "response-normalization",
+      validateFixture("response-normalization", () => validateResponseNormalization),
+    ],
     [
       "grants-gov-xml-profile",
       validateFixture("grants-gov-xml-profile", () => validateGrantsGovXmlProfile),
@@ -185,6 +193,44 @@ describe("artifact contract v1", () => {
     }
   });
 
+  it("requires reviewed, exact-source response normalization evidence", async () => {
+    const fixture = (await json(
+      resolve(contractRoot, "conformance/evidence.valid.json"),
+    )) as Record<string, unknown>;
+    const record = {
+      id: "example-empty-string-omission",
+      canonicalPath: "/destination",
+      operation: "empty-string-to-absent",
+      authority: "official_source",
+      reviewStatus: "reviewed",
+      sourceEvidence: [{
+        sourceId: "example-xsd",
+        sourcePath: "Example.Destination",
+        sourceRecord: "The optional element requires at least one character when present.",
+      }],
+      disposition: "Normalize the exact legacy empty string to omission.",
+    };
+    expect(
+      validateEvidence({ ...fixture, responseNormalizationEvidence: [record] }),
+      JSON.stringify(validateEvidence.errors),
+    ).toBe(true);
+
+    const poisoned = [
+      { ...record, canonicalPath: "destination" },
+      { ...record, operation: "trim-empty-string" },
+      { ...record, authority: "implementation_parity" },
+      { ...record, reviewStatus: "proposed" },
+      { ...record, sourceEvidence: [] },
+      { ...record, disposition: "" },
+    ];
+    for (const candidate of poisoned) {
+      expect(
+        validateEvidence({ ...fixture, responseNormalizationEvidence: [candidate] }),
+        JSON.stringify(candidate),
+      ).toBe(false);
+    }
+  });
+
   it("accepts all emitted form, UI, index, and package artifacts", async () => {
     const groups: [string[], () => ValidateFunction][] = [
       [await schemaArtifacts(emittedFormsRoot), () => validateForm],
@@ -204,6 +250,10 @@ describe("artifact contract v1", () => {
       ],
       [await namedArtifacts(emittedFormsRoot, "manifest.json"), () => validatePackage],
       [await namedArtifacts(emittedFormsRoot, "evidence.json"), () => validateEvidence],
+      [
+        await namedArtifacts(emittedFormsRoot, "response-normalization.json"),
+        () => validateResponseNormalization,
+      ],
       [
         await namedArtifacts(emittedFormsRoot, "grants-gov-xml.json"),
         () => validateGrantsGovXmlProfile,

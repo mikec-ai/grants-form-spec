@@ -63,6 +63,10 @@ them.
 
 Read the [architecture](documentation/architecture.md), [worked authoring model](documentation/authoring-model.md), [delivery-target runtime identity boundary](documentation/runtime-target-identity.md), [attachment semantics](documentation/attachment-semantics.md), [form analysis export](documentation/analysis-export.md), [Grants.gov XML target](documentation/grants-gov-xml-target.md), and [deferred design boundaries](documentation/deferred-designs.md) before changing the contract.
 
+The [response normalization boundary](documentation/response-normalization.md) defines how reviewed
+legacy capture representations become source-valid canonical responses without weakening shared
+question schemas or adding form-specific consumer branches.
+
 The [PHS 398 Research Plan status](documentation/phs398-research-plan-status.md) records how thirteen
 semantic attachment roles reuse one capture mechanism while preserving cross-form applicability and
 the Appendix 10-versus-100 source boundary.
