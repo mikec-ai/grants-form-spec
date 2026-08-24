@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Reuse the Human Subjects dimensional enrollment model as a derivative form and
   resolve its source-backed conditions and calculations.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
   at: '2026-08-23T15:53:42.070Z'
+assignee: enrollment_derivative_agent
 ---
 # Goal
 
