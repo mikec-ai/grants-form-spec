@@ -6,10 +6,10 @@ description: >-
   Promote the already-delivered Research Plan artifact closure into the SGG
   consumer bank without inventing a runtime identity or reopening architecture.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T00:38:09.000Z'
+  at: '2026-08-24T02:21:17.109Z'
 assignee: consumer_promotion_agent
 ---
 # Goal
@@ -34,6 +34,15 @@ Bank PHS 398 Research Plan in the public SGG consumer from an exact immutable pr
 # Scope boundary
 
 This task proves low-cost cross-repository banking. It does not claim production readiness, runtime parity, or resolution of the documented cross-form policy conditions.
+
+# Promotion attempt receipt, 2026-08-23
+
+- Consumer baseline: public fork `mikec-ai/simpler-grants-gov` main at `12977071e36c041a5f469a28006fcb843b973f30`.
+- Attempted immutable producer revision: `a237bc9bdbc34784652840946faf46d53e10e3a4`.
+- Requested additive selection: `phs398-research-plan`, `phs-human-subjects`, `nifa-supplemental`, and `phs-inclusion-enrollment-report` over the existing 32-form bank.
+- Producer preflight passed, but consumer promotion failed closed before mutation because Research Plan pinned official XSD SHA `6e7171465d1f...` while the producer fixture was normalized SHA `9fb4f0f4be97...`.
+- Producer repair is draft PR https://github.com/mikec-ai/grants-form-spec/pull/66. Consumer work remains unchanged until that PR is independently reviewed and merged; promotion will repin to the producer merge SHA.
+- No runtime identity, registration, preview, compatibility projection, or HHS repository was changed.
 
 [depends on](author-integrate-phs398-research-plan.md)
 
