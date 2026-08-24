@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: proof_package
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:11:44.335Z'
+  at: '2026-08-24T16:13:42.076Z'
 ---
 # Goal
 
@@ -40,7 +40,7 @@ Assemble a concise, reproducible evidence package showing what the portable form
 # First increment
 
 PR [mikec-ai/grants-form-spec#76](https://github.com/mikec-ai/grants-form-spec/pull/76) at exact head
-`4ad2b1384efeab604a1ddd0f1171294355850125` adds a generated proof-package contract and index for
+`e26107c0a32bfc4555aa1a778fedeb76d057b996` adds a generated proof-package contract and index for
 the evidence already available:
 
 - SF-424 comparison and runtime receipts;
@@ -52,7 +52,8 @@ the evidence already available:
 
 Each claim records pinned revisions, reproducibility steps, and explicit limitations. Producer files
 are read from their exact Git revisions and hashed. Generated outputs remain ignored and are
-published as a lightweight CI artifact. The corrected analysis now records that reviewed pairwise
+published as a lightweight CI artifact. The four browser receipts use stable fork merge commits for
+consumer PRs 71, 73, 74, and 75. The corrected analysis now records that reviewed pairwise
 similarity is unavailable because there are zero accepted occurrence mappings. Reviewed values are
 blank rather than zero, and implementation-derived exploratory similarity remains separate.
 
