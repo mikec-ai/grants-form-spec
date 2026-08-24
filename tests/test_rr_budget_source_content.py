@@ -48,19 +48,43 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
             },
         )
         self.assertEqual(
-            equipment["totalFundForAttachedEquipment"]["description"],
-            "Required and must be greater than zero if an AdditionalEquipmentsAttachment exists.",
+            {
+                "title": equipment["totalFundForAttachedEquipment"]["title"],
+                "description": equipment["totalFundForAttachedEquipment"]["description"],
+            },
+            {
+                "title": "Total funds requested for all equipment listed in the attached file",
+                "description": (
+                    "Required and must be greater than zero if an "
+                    "AdditionalEquipmentsAttachment exists."
+                ),
+            },
         )
         self.assertEqual(
-            key_personnel["attachedKeyPersons"]["description"],
-            (
-                "One possible attachment per budget period. Required if "
-                "TotalFundForAttachedKeyPersons is entered and greater than zero."
-            ),
+            {
+                "title": key_personnel["attachedKeyPersons"]["title"],
+                "description": key_personnel["attachedKeyPersons"]["description"],
+            },
+            {
+                "title": "Additional Senior Key Persons:",
+                "description": (
+                    "One possible attachment per budget period. Required if "
+                    "TotalFundForAttachedKeyPersons is entered and greater than zero."
+                ),
+            },
         )
         self.assertEqual(
-            key_personnel["totalFundForAttachedKeyPersons"]["description"],
-            "Required and must be greater than zero if an AttachedKeyPersons attachment exists.",
+            {
+                "title": key_personnel["totalFundForAttachedKeyPersons"]["title"],
+                "description": key_personnel["totalFundForAttachedKeyPersons"]["description"],
+            },
+            {
+                "title": "Total Funds requested for all Senior Key Persons in the attached file",
+                "description": (
+                    "Required and must be greater than zero if an "
+                    "AttachedKeyPersons attachment exists."
+                ),
+            },
         )
 
     def test_end_date_source_rule_compiles_once_in_every_family_profile(self) -> None:
@@ -99,6 +123,27 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
             {"0-11", "A-2-1", "A-3-1", "C-2-0", "C-2-1"},
         )
         self.assertEqual(audit["semanticReview"]["status"], "unreviewed")
+        self.assertEqual(
+            audit["scope"]["dimensionStatus"],
+            {
+                "applicant-visible-labels": "partial",
+                "help-and-instructions": "partial",
+                "requiredness": "partial",
+                "section-and-group-semantics": "bounded",
+                "attachment-positive-total-pairs": "complete-for-two-source-pairs",
+            },
+        )
+        unresolved_dimensions = {
+            item["dimension"] for item in audit["unresolved"] if "dimension" in item
+        }
+        self.assertEqual(
+            unresolved_dimensions,
+            {"applicant-visible-labels", "requiredness"},
+        )
+        self.assertNotIn(
+            "All 64 unique non-empty DAT label strings",
+            json.dumps(audit),
+        )
         self.assertEqual(
             {path for item in audit["unresolved"] for path in item["sourcePaths"]},
             {"B-1-2", "B-2-2", "B-3-2", "B-4-2", "0-06", "0-07", "0-08", "0-10", "L-1-1"},
