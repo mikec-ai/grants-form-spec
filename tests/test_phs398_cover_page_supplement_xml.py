@@ -16,7 +16,7 @@ PROFILE = json.loads((ROOT / "dist/forms/phs398-cover-page-supplement/targets/gr
 FORM_XSD = ROOT / "tests/fixtures/grants-gov-xsd/phs398-cover-page-supplement-5.0/PHS398_CoverPageSupplement_5_0-V5.0.xsd"
 SHARED = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
 FILES = {
-    "PHS398_CoverPageSupplement_5_0-V5.0.xsd": (FORM_XSD, "4136191cf2d709645627cd7fde9b463df370c3b3487ccaca4bead00f2a2f97df"),
+    "PHS398_CoverPageSupplement_5_0-V5.0.xsd": (FORM_XSD, "ec538c9bb5fd233c36ac73ca567d31e60779ee3df2f3c7b456d9395b3ec2dc26"),
     "Attachments-V1.0.xsd": (SHARED / "Attachments-V1.0.xsd", "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d"),
     "Global-V1.0.xsd": (SHARED / "Global-V1.0.xsd", "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb"),
     "GlobalLibrary-V2.0.xsd": (SHARED / "GlobalLibrary-V2.0.xsd", "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8"),
