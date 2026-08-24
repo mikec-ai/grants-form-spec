@@ -8,6 +8,60 @@ import { allBlocks } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
 
 describe("bounded presence conditions", () => {
+  it("keeps intrinsic cardinality in a published question while preserving occurrence narrowing", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Country { usa: "USA", other: "Other" }
+
+        /** A reusable address with intrinsic source-backed cardinality. */
+        @Question.meta(#{ id: "test/address" })
+        @Catalog.tag(TagName.address)
+        @Validation.requiredPaths("street", "city", "country")
+        @Validation.requiredPathWhen("state", "country", Country.usa)
+        model SharedAddress {
+          street?: string;
+          city?: string;
+          country?: Country;
+          state?: string;
+          suite?: string;
+        }
+
+        ${formMeta("shared-cardinality-check")}
+        model SharedCardinalityCheck {
+          applicant: SharedAddress;
+
+          @Validation.requiredPaths("suite")
+          mailing: SharedAddress;
+        }
+      `),
+    );
+
+    const blocks = allBlocks(instance.program);
+    const question = blocks.find((candidate) => candidate.id === "test/address");
+    const formBlock = blocks.find(
+      (candidate) => candidate.id === "shared-cardinality-check",
+    );
+
+    expect(emitSchemaOverlay(instance.program, question!)).toMatchObject({
+      required: ["street", "city", "country"],
+      allOf: [
+        {
+          if: {
+            properties: { country: { const: "USA" } },
+            required: ["country"],
+          },
+          then: { required: ["state"] },
+        },
+      ],
+    });
+    expect(emitSchemaOverlay(instance.program, formBlock!)).toEqual({
+      properties: {
+        mailing: { required: ["suite"] },
+      },
+    });
+  });
+
   it("emits at-least-one alternatives as portable JSON Schema", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(
