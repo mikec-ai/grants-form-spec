@@ -18,7 +18,6 @@ ROOT = Path(__file__).parents[1]
 FORM_NS = "http://apply.grants.gov/forms/SF424C_2_0-V2.0"
 XSD_FIXTURE = ROOT / "tests/fixtures/grants-gov-xsd/sf424c-2.0/SF424C_2_0-V2.0.xsd"
 DEPENDENCIES = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
-NORMALIZED_XSD_SHA256 = "9bffc07cef30336d4a6b320d6569bc5a93c4e48b4889c0de7cf7e46cab090af1"
 OFFICIAL_XSD_SHA256 = "a3ec5d6bae8173fce080709a8071787293dbe6271415d905d230c584c200982a"
 DEPENDENCY_NAMES = ["Global-V1.0.xsd", "GlobalLibrary-V2.0.xsd", "UniversalCodes-V2.0.xsd"]
 PROFILE = json.loads(
@@ -27,7 +26,7 @@ PROFILE = json.loads(
 XSD_SET = ExactXsdFixture(
     entrypoint="SF424C_2_0-V2.0.xsd",
     files=(
-        PinnedXsdFile("SF424C_2_0-V2.0.xsd", XSD_FIXTURE, NORMALIZED_XSD_SHA256),
+        PinnedXsdFile("SF424C_2_0-V2.0.xsd", XSD_FIXTURE, OFFICIAL_XSD_SHA256),
         *(
             PinnedXsdFile(
                 name,

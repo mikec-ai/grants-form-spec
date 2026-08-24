@@ -15,7 +15,6 @@ ROOT = Path(__file__).parents[1]
 FORM_NS = "http://apply.grants.gov/forms/CD511-V1.1"
 XSD_FIXTURE = ROOT / "tests/fixtures/grants-gov-xsd/cd511-1.1/CD511-V1.1.xsd"
 DEPENDENCIES = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
-NORMALIZED_XSD_SHA256 = "39288644f29c625fa1e0ec657c8bf9323d3e3a2dd0fd3007994342e65411fdac"
 OFFICIAL_XSD_SHA256 = "f13c05b8e62fe1e7cf0198053f79fdd34efe4b7d10b56974d27a7dd45d013fde"
 DEPENDENCY_NAMES = [
     "Attachments-V1.0.xsd",
@@ -65,8 +64,8 @@ def validate_exact_xsd(xml: bytes) -> subprocess.CompletedProcess[str]:
     xmllint = shutil.which("xmllint")
     if xmllint is None:
         raise AssertionError("xmllint is required to validate the pinned official XSD fixture")
-    if hashlib.sha256(XSD_FIXTURE.read_bytes()).hexdigest() != NORMALIZED_XSD_SHA256:
-        raise AssertionError("normalized CD-511 XSD fixture digest mismatch")
+    if hashlib.sha256(XSD_FIXTURE.read_bytes()).hexdigest() != OFFICIAL_XSD_SHA256:
+        raise AssertionError("official CD-511 XSD fixture digest mismatch")
     profile = json.loads(
         (ROOT / "dist/forms/cd511/targets/grants-gov-xml.json").read_text()
     )

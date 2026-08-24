@@ -7,6 +7,7 @@ cd "$(dirname "$0")/.."
 npm run build
 npm run emit
 npm run project-evidence
+npm run check-xsd-fixtures
 npm run validate-artifacts
 npm run validate-promotion
 npm test
