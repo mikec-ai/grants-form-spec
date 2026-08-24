@@ -303,6 +303,15 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       );
       const dispositions = new Map();
       for (const behavior of document.behaviorEvidence ?? []) {
+        if (behavior.executionStatus === "source-bound-uncompiled") {
+          if (!occurrences.has(behavior.canonicalPath)) {
+            throw new Error(
+              `${rel}: uncompiled ${behavior.ruleKind} evidence ${behavior.canonicalPath} ` +
+              `is not an exact emitted field occurrence`,
+            );
+          }
+          continue;
+        }
         const key = `${behavior.ruleKind}:${behavior.canonicalPath}`;
         if (dispositions.has(key)) {
           throw new Error(

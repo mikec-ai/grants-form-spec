@@ -298,6 +298,43 @@ describe("artifact contract v1", () => {
     expect(validateGrantsGovXmlProfile(illegalTopLevel)).toBe(false);
   });
 
+  it("bounds flattened scalar array items to their exact declarative shape", async () => {
+    const valid = (await json(
+      resolve(
+        emittedFormsRoot,
+        "phs-human-subjects/targets/grants-gov-xml.json",
+      ),
+    )) as any;
+    expect(
+      validateGrantsGovXmlProfile(valid),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
+
+    const mutations: Record<string, unknown>[] = [
+      { element: "ExemptionNumber" },
+      { namespace: "default" },
+      { attributes: { status: { constant: "ignored" } } },
+      { source: "/exemptions" },
+      { constant: "E1" },
+      { valueMap: { E1: "E1" } },
+    ];
+    for (const mutation of mutations) {
+      const candidate = structuredClone(valid);
+      Object.assign(candidate.mapping.fields.exemptions.items.node, mutation);
+      expect(validateGrantsGovXmlProfile(candidate), JSON.stringify(mutation)).toBe(false);
+    }
+
+    const typo = structuredClone(valid);
+    const typoNode = typo.mapping.fields.exemptions.items.node;
+    delete typoNode.flatten;
+    typoNode.flaten = true;
+    expect(validateGrantsGovXmlProfile(typo)).toBe(false);
+
+    const illegalTopLevel = structuredClone(valid);
+    illegalTopLevel.mapping.fields.illegal = { kind: "value", flatten: true };
+    expect(validateGrantsGovXmlProfile(illegalTopLevel)).toBe(false);
+  });
+
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {
     const fixture = structuredClone(
       await json(resolve(contractRoot, "conformance/form-package.valid.json")),

@@ -1,0 +1,49 @@
+{
+  "planned": {
+    "element": "Planned", "kind": "object", "namespace": "study",
+    "fields": {
+      "notHispanicLatino": { "element": "NotHispanic", "kind": "object", "namespace": "study", "fields": {
+        "female": { "element": "Female", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/plannedRaceFields" } },
+        "male": { "element": "Male", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/plannedRaceFields" } }
+      } },
+      "hispanicLatino": { "element": "Hispanic", "kind": "object", "namespace": "study", "fields": {
+        "female": { "element": "Female", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/plannedRaceFields" } },
+        "male": { "element": "Male", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/plannedRaceFields" } }
+      } },
+      "total": { "element": "Total", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/plannedRaceFields" } }
+    }
+  },
+  "cumulativeActual": {
+    "element": "Cumulative", "kind": "object", "namespace": "study",
+    "fields": {
+      "notHispanicLatino": { "element": "NotHispanic", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeSexFields" } },
+      "hispanicLatino": { "element": "Hispanic", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeSexFields" } },
+      "unknownNotReportedEthnicity": { "element": "UnknownEthnicity", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeSexFields" } },
+      "total": { "element": "Total", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeRaceFields" } }
+    }
+  },
+  "cumulativeSexFields": {
+    "female": { "element": "Female", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeRaceFields" } },
+    "male": { "element": "Male", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeRaceFields" } },
+    "unknownNotReportedSex": { "element": "UnknownGender", "kind": "object", "namespace": "study", "fields": { "$ref": "inclusion-enrollment-report-3.0.json#/cumulativeRaceFields" } }
+  },
+  "plannedRaceFields": {
+    "americanIndianAlaskaNative": { "element": "AmericanIndian", "kind": "value", "namespace": "study" },
+    "asian": { "element": "Asian", "kind": "value", "namespace": "study" },
+    "nativeHawaiianPacificIslander": { "element": "Hawaiian", "kind": "value", "namespace": "study" },
+    "blackAfricanAmerican": { "element": "Black", "kind": "value", "namespace": "study" },
+    "white": { "element": "White", "kind": "value", "namespace": "study" },
+    "moreThanOneRace": { "element": "MultipleRace", "kind": "value", "namespace": "study" },
+    "total": { "element": "Total", "kind": "value", "namespace": "study" }
+  },
+  "cumulativeRaceFields": {
+    "americanIndianAlaskaNative": { "element": "AmericanIndian", "kind": "value", "namespace": "study" },
+    "asian": { "element": "Asian", "kind": "value", "namespace": "study" },
+    "nativeHawaiianPacificIslander": { "element": "Hawaiian", "kind": "value", "namespace": "study" },
+    "blackAfricanAmerican": { "element": "Black", "kind": "value", "namespace": "study" },
+    "white": { "element": "White", "kind": "value", "namespace": "study" },
+    "moreThanOneRace": { "element": "MultipleRace", "kind": "value", "namespace": "study" },
+    "unknownNotReported": { "element": "UnknownRace", "kind": "value", "namespace": "study" },
+    "total": { "element": "Total", "kind": "value", "namespace": "study" }
+  }
+}

@@ -67,6 +67,12 @@ export function emitFieldOccurrences(program: Program, form: Block): FieldOccurr
         ...directIds,
         ...sourceIds,
         ...matches.flatMap((match) => match.context.blockIds),
+        ...matches.flatMap((match) => [
+          ...blockIdsForPropertyOwner(program, match.property),
+          ...sourceProperties(match.property).flatMap((source) =>
+            blockIdsForPropertyOwner(program, source)
+          ),
+        ]),
       ]);
       const responseRole = firstDefined(
         propResponseRole(program, property),
@@ -116,11 +122,10 @@ export function emitFieldOccurrences(program: Program, form: Block): FieldOccurr
   const inheritedTemplates: TemplateContext[] = [];
   for (let base = form.model.baseModel; base; base = base.baseModel) {
     const block = readBlock(program, base);
-    if (!block || block.kind !== "question") continue;
     inheritedTemplates.push({
       model: base,
-      blockIds: blockAncestry(program, base),
-      responseRole: block.responseRole,
+      blockIds: block?.kind === "question" ? blockAncestry(program, base) : [],
+      responseRole: block?.responseRole,
     });
   }
   walkModel(form.model, "", inheritedTemplates, form.responseRole, new Set());
@@ -194,9 +199,19 @@ function templateContextsForChild(
 function sourceProperties(property: ModelProperty): ModelProperty[] {
   const found: ModelProperty[] = [];
   const seen = new Set<ModelProperty>();
-  for (let current = property.sourceProperty; current && !seen.has(current); current = current.sourceProperty) {
-    found.push(current);
-    seen.add(current);
+  const addChain = (candidate: ModelProperty | undefined): void => {
+    for (let current = candidate; current && !seen.has(current); current = current.sourceProperty) {
+      found.push(current);
+      seen.add(current);
+    }
+  };
+  addChain(property.sourceProperty);
+  // A derived model may deliberately narrow or decorate an inherited member by
+  // redeclaring it. TypeSpec does not retain that base member in sourceProperty, so
+  // recover the same-named declaration through the base chain to preserve its semantic
+  // question lineage in portable occurrence analysis.
+  for (let base = property.model?.baseModel; base; base = base.baseModel) {
+    addChain(base.properties.get(property.name));
   }
   return found;
 }

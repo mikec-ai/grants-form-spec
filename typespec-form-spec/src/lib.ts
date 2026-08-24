@@ -114,6 +114,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`@UI.overrides path "${"path"}" does not resolve: ${"reason"}.`,
       },
     },
+    "visible-read-only-without-read-only": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@UI.overrides path "${"path"}" requests visibleReadOnly without readOnly. A visible read-only control must also be marked readOnly so schema and UI cannot disagree.`,
+      },
+    },
     "section-orphan": {
       severity: "error",
       messages: {

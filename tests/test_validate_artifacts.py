@@ -431,6 +431,51 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("calculation target name has no behavior evidence disposition", result.stdout)
 
+    def test_projector_preserves_uncompiled_source_evidence_without_emitting_a_rule(self) -> None:
+        record = {
+            "canonicalPath": "/name",
+            "ruleKind": "condition",
+            "authority": "official_source",
+            "executionStatus": "source-bound-uncompiled",
+            "sourceId": "example-source",
+            "sourcePath": "F-1",
+            "sourceRecord": "Required when a cross-form value is Yes.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(root, behavior_evidence=[record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            projected = json.loads((dist / "forms/example/evidence.json").read_text())
+            rules = json.loads((dist / "forms/example/sgg/rule-schema.json").read_text())
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(projected["behaviorEvidence"], [record])
+        self.assertEqual(rules, {})
+
+    def test_projector_rejects_uncompiled_evidence_for_a_nonexistent_occurrence(self) -> None:
+        record = {
+            "canonicalPath": "/missing",
+            "ruleKind": "condition",
+            "authority": "official_source",
+            "executionStatus": "source-bound-uncompiled",
+            "sourceId": "example-source",
+            "sourcePath": "F-1",
+            "sourceRecord": "Required when a cross-form value is Yes.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(root, behavior_evidence=[record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("is not an exact emitted field occurrence", result.stdout)
+
     def test_projector_rejects_count_substitution_with_an_input_only_path(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

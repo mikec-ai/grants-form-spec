@@ -47,6 +47,20 @@ containing one `itemElement` for each array item. An array may set
 one `itemElement`. The distinction is explicit profile data; consumers must not infer it from
 element names, namespaces, or form identity.
 
+A scalar array item may declare exactly `{ "kind": "value", "flatten": true }`. The
+consumer writes each scalar directly into the array-created element instead of inventing a
+nested value element. PHS Human Subjects 3.0 demonstrates both official source shapes that
+require this generic operation: `EnrollmentCountry` and `StudyConditions` repeat directly,
+while `ExemptionNumbers` is one wrapper containing repeated `ExemptionNumber` values. The
+profile still declares the wrapper and item element where the XSD has them; `flatten` changes
+only where the scalar text is written.
+
+Flattened scalar items are valid only in an array `items.node`. They cannot declare an
+element, namespace, source, constant, value map, attributes, children, or item metadata.
+The contract schema rejects those additions, and the reference runtime independently rejects
+illegal context or ignored properties. This is a versioned, fail-closed operation; consumers
+must not interpret `flatten` on any other value node or infer it from a form id.
+
 A mapping node may declare an absolute `source` JSON pointer. This is primarily used inside
 `group` nodes when the official XSD introduces structure that applicants never answer as an
 object. For example, R&R SF-424 asks for one applicant congressional district while its XML

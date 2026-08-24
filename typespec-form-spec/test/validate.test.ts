@@ -638,6 +638,44 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("accepts an inherited field assigned by a form-local section override", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            enum Section { only: "Only" }
+
+            /** A reusable question. */
+            @Question.meta(#{ id: "shared/answer" })
+            @Catalog.tag(TagName.details)
+            model SharedAnswer { answer: string; }
+
+            /** A form. */
+            ${formMeta("override-section")}
+            @UI.sections(Section)
+            @UI.overrides(#{ answer: #{ section: "only", readOnly: true, visibleReadOnly: true } })
+            model OverrideSection extends SharedAnswer {}
+          `),
+        ),
+      );
+    });
+
+    it("rejects visible read-only rendering without a read-only schema occurrence", async () => {
+      const diagnostics = await Tester.diagnose(
+        form(`
+          enum Section { only: "Only" }
+
+          /** A form. */
+          ${formMeta("unsafe-visible-read-only")}
+          @UI.sections(Section)
+          @UI.overrides(#{ answer: #{ section: "only", visibleReadOnly: true } })
+          model UnsafeVisibleReadOnly { answer: string; }
+        `),
+      );
+      expectDiagnostics(diagnostics, {
+        code: "@simpler-grants/form-spec/visible-read-only-without-read-only",
+      });
+    });
   });
 
   describe("override-path-unresolved", () => {
