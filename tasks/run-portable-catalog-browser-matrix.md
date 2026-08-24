@@ -4,8 +4,8 @@ title: Run the banked portable catalog through browser conformance
 superbee_progress_status: todo
 priority: P0
 description: >-
-  Generate real-frontend browser and lifecycle conformance for the expected
-  35-form SGG bank.
+  Generate manifest-driven real-frontend browser and lifecycle conformance for
+  every currently banked portable form.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
 superbee_updated_by: Codex
