@@ -4,19 +4,20 @@ title: Prove SF-424 family visual and behavioral parity
 priority: P0
 assignee: codex-root
 description: >-
-  SF-424 slice complete locally on codex/sf424-compatibility-receipt: the
-  generic Simpler adapter now expands portable JSON Schema references, one-form
-  browser selections use isolated deterministic seeds, and the Chrome receipt
-  passes registration, adapter API preflight, Apply render, edited save/reload
-  across 70 controls, Axe accessibility with keyboard focus, and print. Focused
-  verification: 30 API tests, 5 frontend contract tests, TypeScript, ESLint,
-  Ruff. Next increment is publish the fork PR and attach the generated receipt
-  as a build artifact; SF-424 Short and SF-424A remain in task scope.
+  SF-424 increment delivered in fork PR
+  https://github.com/mikec-ai/simpler-grants-gov/pull/71 (commit d8684d29b).
+  Generic adapter expansion preserves portable refs as source while compiling
+  for Simpler. One-form isolated canary passes all six Chrome probes in 17
+  seconds: registration, API preflight, Apply render, edited save/reload with 70
+  persisted controls, zero Axe violations plus keyboard focus, and print.
+  Focused checks: 30 API tests, 5 frontend contract tests, TypeScript, ESLint,
+  Ruff. Receipts/screenshots/traces remain generated artifacts; SF-424 Short and
+  SF-424A remain next increments.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T13:41:35.175Z'
+  at: '2026-08-24T13:42:36.211Z'
 ---
 # Goal
 
