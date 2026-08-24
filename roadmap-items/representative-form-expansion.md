@@ -2,12 +2,12 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-six producer forms and thirty-four banked consumer forms are
-  delivered; Research Plan and Human Subjects consumer promotion plus a measured
-  cheap-form lane now test whether marginal delivery cost is falling.
+  Thirty-six producer forms and thirty-four banked consumer forms are delivered;
+  Research Plan and Human Subjects consumer promotion plus a measured cheap-form
+  lane now test whether marginal delivery cost is falling.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: codex
+superbee_updated_by: promote_new_forms
 ---
 # Strategy
 
@@ -232,3 +232,5 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/encode-tiered-portable-form-ci.md)
 
 [contains](../tasks/bank-phs-inclusion-enrollment-report-in-sgg.md)
+
+[contains](../tasks/bank-phs398-cover-page-supplement-in-sgg.md)

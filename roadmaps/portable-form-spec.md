@@ -20,5 +20,3 @@ timestamp: '2026-08-23T22:26:12.549Z'
 [contains](../roadmap-items/conformance-authoring-leverage.md)
 
 [contains](../roadmap-items/portable-catalog-proof.md)
-
-[contains](../tasks/bank-phs398-cover-page-supplement-in-sgg.md)
