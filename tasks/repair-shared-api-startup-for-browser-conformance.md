@@ -11,9 +11,22 @@ description: >-
   summary/receipt/trace artifacts, or the task records a precisely evidenced
   external blocker without claiming conformance.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
+superbee_updated_by: codex-ci-startup
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T09:35:07.408Z'
+  at: '2026-08-24T10:01:05.405Z'
 ---
+## Diagnostic evidence, 2026-08-24
 
+- Exact consumer main: `c4709fc2931d4c9129871d058247f88bcfcd0e22`.
+- Hosted run `32712258368`, failing job `97386828860`: the generic browser plan compiled 39 manifest-selected forms, database seeding and search indexing completed, and Docker reported `grants-api` started. The health waiter then received no successful response for 800 seconds. The workflow captured no container state or service logs.
+- A clean local worktree at the same commit, using the same source and preview flag, reached both `HEAD /health` and `GET /health` with HTTP 200. Registry construction completed in about eight seconds after the interpreter began. Observed memory was about 567 MiB for the API and 1.06 GiB for OpenSearch.
+- This makes a deterministic form-registry, import, or HTTP-method defect unlikely. The remaining failure boundary is the hosted detached service process/runtime. Exact cause is not yet observable because the current failure path discards container status and logs.
+
+## Smallest next test and repair
+
+1. Make the health waiter fail immediately if the API container exits.
+2. On failure, always print `docker compose ps -a`, the API container state, bounded API logs, and both GET and HEAD health results.
+3. Start the API in CI without Flask's development reloader, which otherwise creates a second import/process and is unnecessary for an immutable checkout.
+4. Add focused shell tests for success, exited-container fail-fast, timeout diagnostics, and actionable exit behavior.
+5. Run the hosted browser workflow and only close this task after the browser matrix begins and publishes its CI-only artifacts, or after the diagnostics identify a precisely evidenced external blocker.
