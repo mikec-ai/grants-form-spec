@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:34:41.049Z'
+  at: '2026-08-24T20:38:21.676Z'
 assignee: codex_root_sf424c
 ---
 # Goal
@@ -34,6 +34,15 @@ Close the remaining calculation, lifecycle, differential-parity, and release gat
 # Boundary
 
 This task validates and releases the existing portable design; it does not reopen the construction-budget architecture without a demonstrated generic defect.
+
+# Automated handoff progress — 2026-08-24
+
+- Consumer PR [mikec-ai/simpler-grants-gov#85](https://github.com/mikec-ai/simpler-grants-gov/pull/85) separates representative applicant input from calculated output and exercises the ordinary application services.
+- Save/reload materializes and persists all 24 source-backed calculations from applicant-entered values.
+- The calculated response passes the real submission service and records the submitted application state.
+- Seven targeted portable, lifecycle, XML, and exact-XSD tests pass locally; Ruff format and lint pass.
+- No SF-424C-specific runtime, compiler, loader, renderer, or adapter branch was added, and production registration remains unchanged.
+- Catalog browser/print evidence is being produced by the shared catalog-matrix task. Human semantic, instruction, accessibility, policy, and release approval remain open and must not be inferred from these automated receipts.
 
 [depends on](migrate-sf424c-parity-oracle.md)
 
