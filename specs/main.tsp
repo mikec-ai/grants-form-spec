@@ -7,6 +7,7 @@ import "./forms/sf424-short.tsp";
 import "./forms/standalone-attachments.tsp";
 import "./forms/attachment-form.tsp";
 import "./forms/phs398-research-plan.tsp";
+import "./forms/phs398-cover-page-supplement.tsp";
 import "./forms/phs-human-subjects.tsp";
 import "./forms/phs-inclusion-enrollment-report.tsp";
 import "./forms/rr-budget.tsp";
