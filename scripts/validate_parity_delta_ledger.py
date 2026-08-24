@@ -88,6 +88,7 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
     verified = {entry["path"]: entry["sha256"] for entry in receipt.get("files", [])}
     if not verified or any(not re.fullmatch(r"[0-9a-f]{64}", digest) for digest in verified.values()):
         raise ValueError("evidence verification receipt has no valid file digests")
+    used_verified_paths: set[str] = set()
 
     records = ledger.get("records")
     if not isinstance(records, list):
@@ -118,6 +119,7 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
             path = reference.get("path")
             if path not in verified:
                 raise ValueError(f"{record_id} evidence path is absent from the verification receipt")
+            used_verified_paths.add(path)
             reference_ids.add(reference.get("id"))
         assertion = record.get("differentialAssertion", {})
         if assertion.get("evidenceReferenceId") not in reference_ids or not assertion.get("testId"):
@@ -156,6 +158,36 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
                 raise ValueError(
                     f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
                 )
+            for reference in decision_evidence:
+                repository = reference.get("repository")
+                revision = reference.get("revision")
+                path = reference.get("path")
+                if repository == verification.get("repository") and revision == verification.get(
+                    "revision"
+                ):
+                    if path not in verified:
+                        raise ValueError(
+                            f"{record_id} decision evidence is absent from the offline receipt"
+                        )
+                    used_verified_paths.add(path)
+                elif repository == "https://github.com/mikec-ai/grants-form-spec.git" and re.fullmatch(
+                    r"[0-9a-f]{40}", str(revision)
+                ):
+                    exists = subprocess.run(
+                        ["git", "cat-file", "-e", f"{revision}:{path}"],
+                        cwd=root,
+                        check=False,
+                        capture_output=True,
+                        text=True,
+                    )
+                    if exists.returncode != 0:
+                        raise ValueError(
+                            f"{record_id} decision evidence is absent at its producer revision"
+                        )
+                else:
+                    raise ValueError(
+                        f"{record_id} decision evidence has no offline-verifiable immutable source"
+                    )
         elif status not in {"proposed", "rejected"}:
             raise ValueError(f"{record_id} has unsupported review status {status!r}")
         if record.get("classification") == "unresolved_mismatch" and status == "accepted":
@@ -171,6 +203,9 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
             )
         if status == "proposed" and (review.get("reviewer") or review.get("reviewedAt")):
             raise ValueError(f"{record_id} proposed review cannot claim completed review")
+    unused_verified_paths = sorted(set(verified) - used_verified_paths)
+    if unused_verified_paths:
+        raise ValueError(f"evidence verification receipt has unused paths: {unused_verified_paths}")
     return ledger
 
 
