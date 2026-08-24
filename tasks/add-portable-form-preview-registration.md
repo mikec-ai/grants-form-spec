@@ -1,13 +1,15 @@
 ---
 type: Task
 title: Add test-only portable form registration and preview
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 priority: P0
 description: >-
   Expose every SGG-banked portable form through the real SGG frontend in
   test/dev without changing production registration.
 actor: Codex
 timestamp: '2026-08-23T22:26:30.965Z'
+assignee: codex
+superbee_updated_by: codex
 ---
 # Goal
 
