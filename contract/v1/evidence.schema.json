@@ -237,7 +237,8 @@
         "editability": { "enum": ["editable", "read-only", "protected", "not-applicable", "unspecified"] },
         "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
         "authority": { "enum": ["official_source", "implementation_parity", "unresolved"] },
-        "executionStatus": { "const": "source-bound-uncompiled" }
+        "executionStatus": { "enum": ["compiled", "source-bound-uncompiled"] },
+        "executionPolicy": { "$ref": "#/$defs/operationalExecutionPolicy" }
       },
       "allOf": [
         {
@@ -251,8 +252,29 @@
             "properties": { "valueSource": true },
             "required": ["valueSource"]
           }
+        },
+        {
+          "if": {
+            "properties": { "executionStatus": { "const": "compiled" } },
+            "required": ["executionStatus"]
+          },
+          "then": {
+            "properties": { "executionPolicy": true },
+            "required": ["executionPolicy"]
+          },
+          "else": { "not": { "required": ["executionPolicy"] } }
         }
       ]
+    },
+    "operationalExecutionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trigger", "writePolicy", "missingSourcePolicy"],
+      "properties": {
+        "trigger": { "const": "source-response-updated" },
+        "writePolicy": { "const": "until-target-user-modified" },
+        "missingSourcePolicy": { "const": "skip" }
+      }
     },
     "operationalValueSource": {
       "oneOf": [
@@ -312,7 +334,8 @@
             "editability": { "enum": ["editable", "read-only", "protected", "not-applicable", "unspecified"] },
             "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
             "authority": { "enum": ["official_source", "implementation_parity"] },
-            "executionStatus": { "const": "source-bound-uncompiled" },
+            "executionStatus": { "enum": ["compiled", "source-bound-uncompiled"] },
+            "executionPolicy": { "$ref": "#/$defs/operationalExecutionPolicy" },
             "sourceId": { "type": "string", "minLength": 1 },
             "sourcePath": { "type": "string", "minLength": 1 },
             "sourceRecord": { "type": "string", "minLength": 1 }

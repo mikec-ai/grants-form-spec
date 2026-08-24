@@ -95,7 +95,12 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                 "targetSelection": {"arrayPath": "/budgetYear", "index": 0},
                 "editability": "unspecified",
                 "authority": "official_source",
-                "executionStatus": "source-bound-uncompiled",
+                "executionStatus": "compiled",
+                "executionPolicy": {
+                    "trigger": "source-response-updated",
+                    "writePolicy": "until-target-user-modified",
+                    "missingSourcePolicy": "skip",
+                },
                 "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
                 "sourcePath": "0-10",
                 "sourceRecord": (
@@ -104,7 +109,17 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                 ),
             },
         )
-        self.assertEqual({record["executionStatus"] for record in records}, {"source-bound-uncompiled"})
+        self.assertEqual({record["executionStatus"] for record in records}, {"compiled"})
+        self.assertEqual(
+            {tuple(record["executionPolicy"].items()) for record in records},
+            {
+                (
+                    ("trigger", "source-response-updated"),
+                    ("writePolicy", "until-target-user-modified"),
+                    ("missingSourcePolicy", "skip"),
+                )
+            },
+        )
 
     def test_fixed_personnel_roles_are_source_exact_defaults_and_read_only(self) -> None:
         schema = load(QUESTIONS / "other-personnel" / "schema.json")

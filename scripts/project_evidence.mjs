@@ -312,8 +312,12 @@ export async function projectEvidence({ evidenceRoot, dist }) {
   evidenceRoot = resolve(evidenceRoot);
   dist = resolve(dist);
   const schema = await json(resolve(ROOT, "contract/v1/evidence.schema.json"));
+  const operationalSchema = await json(
+    resolve(ROOT, "contract/v1/operational-behavior.schema.json"),
+  );
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const validate = ajv.compile(schema);
+  const validateOperational = ajv.compile(operationalSchema);
   const files = await evidenceFiles(evidenceRoot);
 
   const records = await Promise.all(files.map(async (sourcePath) => ({ sourcePath, document: await json(sourcePath) })));
@@ -509,6 +513,21 @@ export async function projectEvidence({ evidenceRoot, dist }) {
           );
         }
       }
+
+      if (behavior.executionStatus === "compiled") {
+        if (behavior.operationKind !== "prefill") {
+          throw new Error(
+            `${rel}: compiled operational behavior ${behavior.canonicalPath} has unsupported ` +
+            `operation kind ${behavior.operationKind}`,
+          );
+        }
+        if (behavior.valueSource?.kind !== "canonical") {
+          throw new Error(
+            `${rel}: compiled operational behavior ${behavior.canonicalPath} requires a ` +
+            "canonical value source",
+          );
+        }
+      }
     }
     const normalizationIds = new Set();
     const normalizationIdentities = new Set();
@@ -580,6 +599,33 @@ export async function projectEvidence({ evidenceRoot, dist }) {
 
     await writeFile(resolve(targetDir, "evidence.json"), `${JSON.stringify(document, null, 2)}\n`);
     if (kindRoot === "forms") {
+      const compiledOperationalBehaviors = document.operationalBehaviorEvidence
+        .filter((behavior) => behavior.executionStatus === "compiled")
+        .map((behavior) => ({
+          canonicalPath: behavior.canonicalPath,
+          operationKind: behavior.operationKind,
+          valueSource: behavior.valueSource,
+          ...(behavior.targetSelection ? { targetSelection: behavior.targetSelection } : {}),
+          editability: behavior.editability,
+          executionPolicy: behavior.executionPolicy,
+        }));
+      if (compiledOperationalBehaviors.length) {
+        const operationalDocument = {
+          contract: "grants-form-operational-behavior/v1",
+          formId: document.block.id,
+          behaviors: compiledOperationalBehaviors,
+        };
+        if (!validateOperational(operationalDocument)) {
+          const detail = validateOperational.errors
+            .map((error) => `${error.instancePath || "/"} ${error.message}`)
+            .join("; ");
+          throw new Error(`${rel}: compiled operational behavior is invalid: ${detail}`);
+        }
+        await writeFile(
+          resolve(targetDir, "operational-behavior.json"),
+          `${JSON.stringify(operationalDocument, null, 2)}\n`,
+        );
+      }
       const manifestPath = resolve(targetDir, "manifest.json");
       const manifest = await json(manifestPath);
       if (manifest.form.formVersion !== document.block.formVersion) {
@@ -589,6 +635,9 @@ export async function projectEvidence({ evidenceRoot, dist }) {
         );
       }
       manifest.artifacts["evidence.json"] = "passthrough";
+      if (compiledOperationalBehaviors.length) {
+        manifest.artifacts["operational-behavior.json"] = "generated";
+      }
       await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
     }
   }
