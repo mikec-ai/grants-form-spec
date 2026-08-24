@@ -8,7 +8,7 @@ description: >-
   every currently banked portable form.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: Codex-browser-matrix
+superbee_updated_by: codex-browser-matrix
 ---
 # Goal
 
@@ -113,6 +113,8 @@ Reuse the existing Playwright authentication/application helpers, form navigatio
 
 # Implementation progress
 
-The first consumer slice is implemented on a clean branch stacked on the exact preview dependency head. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
+The first consumer slice is published as [draft consumer PR 66](https://github.com/mikec-ai/simpler-grants-gov/pull/66) at exact head `573b83024f589e954c17867b21338071068954ed`, rebased onto the merged preview dependency on consumer main. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
 
-Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete. The branch must be rebased onto consumer main after the preview dependency lands, reviewed, and run through hosted browser CI before a draft PR is opened.
+Focused verification after rebase: 14 API tests and 3 frontend contract tests pass; Black, Ruff, Prettier, ESLint, TypeScript checks, YAML parsing, and Playwright discovery across Chrome, Firefox, WebKit, and mobile Chrome pass. The hosted database-backed browser run remains the next PR validation gate.
+
+Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete.
