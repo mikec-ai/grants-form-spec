@@ -15,7 +15,14 @@
       "requiredness",
       "section-and-group-semantics",
       "attachment-positive-total-pairs"
-    ]
+    ],
+    "dimensionStatus": {
+      "applicant-visible-labels": "partial",
+      "help-and-instructions": "partial",
+      "requiredness": "partial",
+      "section-and-group-semantics": "bounded",
+      "attachment-positive-total-pairs": "complete-for-two-source-pairs"
+    }
   },
   "source": {
     "id": "grantsgov-rr-budget-dat-3.0-f770",
@@ -65,8 +72,8 @@
   "confirmedWithoutChange": [
     {
       "dimension": "applicant-visible-labels",
-      "finding": "All 64 unique non-empty DAT label strings occur verbatim in the shared research-budget declaration.",
-      "limit": "Vocabulary coverage does not by itself establish path-level semantic equivalence."
+      "finding": "The four labels for the two attachment and positive-total pairs match their exact DAT label strings and are asserted in emitted-artifact tests.",
+      "limit": "No deterministic path-qualified inventory supports a broader label-coverage claim."
     },
     {
       "dimension": "section-and-group-semantics",
@@ -89,6 +96,18 @@
       "sourcePaths": ["0-06", "0-07", "0-08", "0-10", "L-1-1"],
       "sourceRecord": "The DAT describes prefill or first-period-only lifecycle behavior.",
       "reason": "These are operational ownership and presentation rules, not safe question-bank semantics. They remain outside this bounded content correction."
+    },
+    {
+      "dimension": "applicant-visible-labels",
+      "sourcePaths": [],
+      "sourceRecord": "The complete path-qualified DAT label inventory is not stored in this repository.",
+      "reason": "Only the four attachment and positive-total labels are proven by this audit. Broader label coverage remains unresolved until a deterministic, provenance-bound inventory can be generated and tested."
+    },
+    {
+      "dimension": "requiredness",
+      "sourcePaths": [],
+      "sourceRecord": "The complete path-qualified XSD and DAT requiredness inventory is not stored in this audit.",
+      "reason": "The two bidirectional attachment conditions and end-date ordering rule are tested, but no full source-to-artifact requiredness comparison supports a portfolio-wide result. Requiredness outside those bounded rules remains unresolved."
     }
   ],
   "semanticReview": {
