@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Teach the generic Simpler XML adapter to execute the producer's fail-closed
   flattened scalar-array item contract without form-specific branches.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:31:21.090Z'
+  at: '2026-08-24T18:28:14.265Z'
+assignee: flattened_xml
 ---
 # Goal
 

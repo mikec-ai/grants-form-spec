@@ -1,13 +1,15 @@
 ---
 type: Task
 title: Require evidence-backed intentional parity deltas
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 priority: P0
 description: >-
   Govern every accepted portable-versus-legacy difference as narrow, reviewed,
   evidence-backed data.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.285Z'
+assignee: codex-root
+superbee_updated_by: codex-root
 ---
 # Goal
 
@@ -34,3 +36,7 @@ Each delta must identify:
 [depends on](add-source-evidence-sidecars.md)
 
 [depends on](enforce-rule-evidence-target-coverage.md)
+
+[depends on](design-parity-delta-ledger-contract.md)
+
+[depends on](audit-seven-form-parity-deltas.md)
