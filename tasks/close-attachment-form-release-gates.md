@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: attachment_release
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:51:34.789Z'
+  at: '2026-08-24T20:57:56.156Z'
 assignee: attachment_release
 ---
 # Goal
@@ -48,7 +48,7 @@ Official sources remain semantic authority; the legacy implementation is a diffe
 
 # Automated handoff evidence (2026-08-24)
 
-Consumer PR: [mikec-ai/simpler-grants-gov#88](https://github.com/mikec-ai/simpler-grants-gov/pull/88), commit `b33a9b485`.
+Consumer PR: [mikec-ai/simpler-grants-gov#88](https://github.com/mikec-ai/simpler-grants-gov/pull/88), head `e54b80587`.
 
 - One shared, source-shaped fixture corpus covers empty, single, sparse/out-of-order, maximum, invalid, and replacement responses.
 - The banked portable package matches the existing Simpler Attachment Form oracle for UI schema, rules, rendered fields, and tested behavior. Raw schema differences are mechanically bounded to portable `description` metadata.
@@ -57,7 +57,7 @@ Consumer PR: [mikec-ai/simpler-grants-gov#88](https://github.com/mikec-ai/simple
 - Bounded lower-environment browser automation covers 15 ordered controls, source instructions, upload, save/reload persistence, replacement/removal, read-only print output and section order, keyboard reachability, and Axe WCAG 2 A/AA plus 2.1 A/AA scanning.
 - No production registration, shared runtime, compiler, or adapter changes were made.
 
-Local receipts: five parity/XML tests passed; three DB lifecycle tests passed; Black, Ruff, targeted mypy, frontend Prettier, and frontend ESLint passed; Playwright discovered the test in Chromium, Firefox, WebKit, and Mobile Chrome. Hosted CI is running on PR #88 and remains the full browser execution receipt.
+Local receipts: five parity/XML tests passed; three DB lifecycle tests passed; isort, Black, Ruff, targeted mypy, frontend Prettier, and frontend ESLint passed; Playwright discovered the test in Chromium, Firefox, WebKit, and Mobile Chrome. Current hosted CI has passed frontend build, lint/type/format/tests, Storybook build, change classification, API image build, and Playwright caching. API checks, Pa11y, and four E2E shards are still running; hosted CI remains the full browser execution receipt.
 
 # Gates deliberately still open
 
