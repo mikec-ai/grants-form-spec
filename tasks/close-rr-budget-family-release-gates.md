@@ -353,6 +353,20 @@ registration are not closed.
   and production registration remain open; the broader release-gate task therefore remains in
   progress.
 
+## 2026-08-24: next claimed cross-form prefill consumer slice
+
+- `root_budget_cross_form_prefill` claims a bounded Simpler-fork investigation and implementation
+  for the three source-exact R&R Budget prefill records delivered in grants-form-spec PR 92.
+- The slice may add only a target-neutral consumer mechanism that resolves canonical values from
+  another form response in the same application context. It must fail closed when the source form,
+  path, target selection, or lifecycle context is unavailable, and it must preserve the producer's
+  `source-bound-uncompiled` boundary unless execution is proven end to end.
+- The slice will not add an R&R Budget identifier branch, infer editability, modify producer
+  semantics, touch HHS upstream, or overlap the active browser, test-isolation, proof-package, or
+  other form-release claims. If the existing application model cannot expose the exact source
+  response safely, the deliverable will be a tested feasibility boundary rather than an
+  approximation.
+
 [depends on](harden-rr-budget-production.md)
 
 [depends on](author-integrate-rr-subaward-budget.md)
