@@ -10,8 +10,8 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T11:51:12.051Z'
-assignee: unassigned
+  at: '2026-08-24T16:09:14.292Z'
+assignee: rr_budget_conditions
 ---
 # Goal
 
