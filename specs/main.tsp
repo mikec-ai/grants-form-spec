@@ -8,6 +8,7 @@ import "./forms/standalone-attachments.tsp";
 import "./forms/attachment-form.tsp";
 import "./forms/phs398-research-plan.tsp";
 import "./forms/phs-human-subjects.tsp";
+import "./forms/phs-inclusion-enrollment-report.tsp";
 import "./forms/rr-budget.tsp";
 import "./forms/rr-budget-10yr.tsp";
 import "./forms/rr-subaward-budget.tsp";

@@ -6,7 +6,7 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes 35 reference forms, spanning:
+The repository currently includes 36 reference forms, spanning:
 
 - Key Contacts
 - SF-424
@@ -31,6 +31,7 @@ The repository currently includes 35 reference forms, spanning:
 - PHS 398 Research Plan
 - PHS Human Subjects and Clinical Trials Information
 - NIFA Supplemental Information
+- PHS Inclusion Enrollment Report
 - SF-LLL, CD-511, and Grants.gov Lobbying Form
 - the SF-424B and SF-424D profile families
 - SF-424C and R&R SF-424B

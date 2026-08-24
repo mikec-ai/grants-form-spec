@@ -247,11 +247,6 @@ model CumulativeEnrollmentMatrix {
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.count, TagName.details)
 model InclusionEnrollmentReport {
-  @Response.role(ResponseRole.systemValue)
-  @UI.readOnly
-  @maxLength(40)
-  @minLength(1)
-  reportId?: string;
   @maxLength(600)
   @minLength(1)
   title: string;
@@ -267,6 +262,15 @@ model InclusionEnrollmentReport {
   comments?: string;
   planned?: PlannedEnrollmentMatrix;
   cumulativeActual?: CumulativeEnrollmentMatrix;
+}
+
+/** Embedded-study occurrence of the shared report with its source-owned technical identifier. */
+model EmbeddedInclusionEnrollmentReport extends InclusionEnrollmentReport {
+  @Response.role(ResponseRole.systemValue)
+  @UI.readOnly
+  @maxLength(40)
+  @minLength(1)
+  reportId?: string;
 }
 
 /** Population, eligibility, inclusion, recruitment, and enrollment information for one study. */
@@ -288,7 +292,7 @@ model StudyPopulationCharacteristics {
   studyTimeline?: StudyTimelineDocument;
   firstSubjectEnrollment?: FirstSubjectEnrollment;
   @maxItems(20)
-  inclusionEnrollmentReports?: InclusionEnrollmentReport[];
+  inclusionEnrollmentReports?: EmbeddedInclusionEnrollmentReport[];
 }
 
 /** Protection and monitoring plans for one human-subject study. */
