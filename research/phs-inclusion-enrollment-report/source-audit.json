@@ -1,0 +1,35 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "phs-inclusion-enrollment-report",
+  "method": { "ocrUsed": false, "pdfTextMethod": "embedded text extraction only", "reviewStatus": "agent-reviewed" },
+  "inventory": {
+    "xsdQuestionAndStructureRecords": 145,
+    "datBehaviorRecords": 177,
+    "semanticContextOccurrences": 6,
+    "dimensionalCoordinateOccurrences": 115,
+    "sourceBoundConditions": 8,
+    "sourceBoundCalculationTargets": 28
+  },
+  "reuseDecision": {
+    "sharedBlockId": "clinical-study/inclusion-enrollment-report",
+    "standaloneReportCardinality": { "minimum": 1, "maximum": 20 },
+    "embeddedReportCardinality": { "minimum": 0, "maximum": 20 },
+    "wireDifference": "IER_id exists only in the embedded Human Subject Study occurrence. The shared core excludes it; the embedded wrapper adds it as a technical system value.",
+    "mappingStatus": "proposed"
+  },
+  "behaviorDecision": {
+    "compiledConditions": 0,
+    "compiledCalculations": 0,
+    "reason": "The DAT identifies 8 capture/navigation conditions and 28 row/column sum targets, while exact operands, blank handling, and navigation state semantics remain unpinned. All are retained as source-bound uncompiled evidence without inferred rules."
+  },
+  "provenanceConflicts": [
+    "The physical root XSD digest is 3263bbfa8881c7d428958cf91de470cd19f0f6cbc11818c4752d5266bb0f53a4; legacy extraction lineage records 3b13a57e6407c53f1124f4a5400bed6b065d013e09cda0eaf02b6ea4bdda138a and is not treated as the byte digest.",
+    "Registries name PDF candidates both with and without F791. The pinned official F791 URLs resolve to the same respective read-only and sample bytes as their no-FID aliases.",
+    "The portfolio dependency manifest is a superset. Exact import closure for this form is GlobalLibrary V2.0 and UniversalCodes V2.0 only."
+  ],
+  "accessibilityBoundary": {
+    "status": "unresolved-human-consumer-gate",
+    "verified": "Unique coordinate-qualified schema and UI definitions preserve deterministic error-routing paths.",
+    "notVerified": ["visual row and column headers", "keyboard navigation and order", "screen-reader coordinate context", "focus movement after validation errors", "repeat-report controls", "save/reload, locked, and print presentation"]
+  }
+}

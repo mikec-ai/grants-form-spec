@@ -201,6 +201,10 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "nifa-supplemental": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
+            "phs-inclusion-enrollment-report": [
+                "../mappings/inclusion-enrollment-report-3.0.json#/cumulativeActual",
+                "../mappings/inclusion-enrollment-report-3.0.json#/planned",
+            ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)

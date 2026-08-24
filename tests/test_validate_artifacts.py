@@ -339,6 +339,85 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("XML mapping source does not resolve: /missing", result.stdout)
 
+    def test_non_emitting_xml_paths_must_be_unmapped_exact_scalar_leaves(self) -> None:
+        for response_path, expected in (
+            ("/name", "overlaps a mapped or declared path"),
+            ("/technical", "status: passed"),
+            ("/unmappedContainer", "must resolve to an exact canonical scalar leaf"),
+        ):
+            with self.subTest(response_path=response_path), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                dist = self._write_graph(root)
+                form = dist / "forms/example"
+                schema_path = form / "schema.json"
+                schema = json.loads(schema_path.read_text())
+                schema["properties"].update({
+                    "technical": {"type": "string"},
+                    "container": {
+                        "type": "object",
+                        "properties": {"value": {"type": "string"}},
+                    },
+                    "unmappedContainer": {
+                        "type": "object",
+                        "properties": {"value": {"type": "string"}},
+                    },
+                })
+                self._json(schema_path, schema)
+                index_path = form / "index.json"
+                index = json.loads(index_path.read_text())
+                index["fieldOccurrences"].extend([
+                    {"path": "/technical", "leaf": True, "blockIds": ["generics/name"]},
+                    {"path": "/container", "leaf": False, "blockIds": ["generics/name"]},
+                    {"path": "/container/value", "leaf": True, "blockIds": ["generics/name"]},
+                    {"path": "/unmappedContainer", "leaf": False, "blockIds": ["generics/name"]},
+                    {"path": "/unmappedContainer/value", "leaf": True, "blockIds": ["generics/name"]},
+                ])
+                self._json(index_path, index)
+                target = form / "targets/grants-gov-xml.json"
+                target.parent.mkdir()
+                self._json(target, {
+                    "contract": "grants-gov-xml-profile/v1",
+                    "formId": "example",
+                    "xsd": {
+                        "uri": "https://example.gov/forms/Example-V1.0.xsd",
+                        "sha256": "a" * 64,
+                    },
+                    "namespaces": {"default": "https://example.gov/forms/Example-V1.0"},
+                    "root": {
+                        "element": "Example", "namespacePrefix": "default",
+                        "attributes": {"FormVersion": "1.0"},
+                    },
+                    "mapping": {
+                        "nonEmittingResponsePaths": [response_path] + (
+                            [] if response_path == "/unmappedContainer"
+                            else ["/unmappedContainer/value"]
+                        ),
+                        "fields": {
+                            "name": {"element": "Name", "kind": "value"},
+                            "wireGroup": {
+                                "element": "WireGroup", "kind": "group",
+                                "fields": {
+                                    "wireContainer": {
+                                        "element": "Container", "kind": "object", "source": "/container",
+                                        "fields": {"value": {"element": "Value", "kind": "value"}},
+                                    },
+                                },
+                            },
+                        },
+                    },
+                })
+                manifest_path = form / "manifest.json"
+                manifest = json.loads(manifest_path.read_text())
+                manifest["artifacts"]["targets/grants-gov-xml.json"] = "generated"
+                self._json(manifest_path, manifest)
+                result = self._run("--dist", str(dist))
+
+            if response_path == "/technical":
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            else:
+                self.assertEqual(result.returncode, 1)
+            self.assertIn(expected, result.stdout)
+
     def test_rejects_an_xml_leaf_container_with_an_unknown_namespace(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

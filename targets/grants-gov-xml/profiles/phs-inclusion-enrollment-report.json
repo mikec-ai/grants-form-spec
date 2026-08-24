@@ -1,0 +1,41 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "phs-inclusion-enrollment-report",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/PHSInclusionEnrollmentReport-V1.0.xsd",
+    "sha256": "3263bbfa8881c7d428958cf91de470cd19f0f6cbc11818c4752d5266bb0f53a4"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/PHSInclusionEnrollmentReport-V1.0",
+    "ier": "http://apply.grants.gov/forms/PHSInclusionEnrollmentReport-V1.0",
+    "study": "http://apply.grants.gov/forms/PHSInclusionEnrollmentReport-V1.0",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0",
+    "codes": "http://apply.grants.gov/system/UniversalCodes-V2.0"
+  },
+  "root": {
+    "element": "PHSInclusionEnrollmentReport",
+    "namespacePrefix": "ier",
+    "attributes": { "FormVersion": "1.0" }
+  },
+  "mapping": {
+    "fields": {
+      "reports": {
+        "element": "InclusionEnrollmentReport",
+        "kind": "array",
+        "namespace": "default",
+        "items": {
+          "fields": {
+            "title": { "element": "InclusionEnrollmentReportTitle", "kind": "value", "namespace": "default" },
+            "usesExistingDatasetOrResource": { "element": "ExistingDatasetOrResource", "kind": "value", "namespace": "default" },
+            "locationType": { "element": "EnrollmentLocationType", "kind": "value", "namespace": "default" },
+            "enrollmentCountries": { "element": "EnrollmentCountry", "kind": "array", "namespace": "default", "items": { "node": { "kind": "value", "flatten": true } } },
+            "enrollmentLocations": { "element": "EnrollmentLocations", "kind": "value", "namespace": "default" },
+            "comments": { "element": "Comments", "kind": "value", "namespace": "default" },
+            "planned": { "$ref": "../mappings/inclusion-enrollment-report-3.0.json#/planned" },
+            "cumulativeActual": { "$ref": "../mappings/inclusion-enrollment-report-3.0.json#/cumulativeActual" }
+          }
+        }
+      }
+    }
+  }
+}
