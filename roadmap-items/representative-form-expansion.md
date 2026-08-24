@@ -2,9 +2,8 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-eight producer forms and thirty-seven banked consumer forms are
-  delivered; rebased Cover Page Supplement promotion tests the steady-state
-  artifact-only banking lane.
+  Thirty-eight producer forms and all thirty-eight consumer-bank forms are
+  delivered; Personal Data remains bank-only under focused corrective audit.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: promote_new_forms
@@ -22,7 +21,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 38 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations, and form 38 delivered source-bound R&R Personal Data. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 37 forms at consumer revision `dd2da405ac63b2221e1966b5f3192fd24744dcfe`, including R&R Personal Data. PHS 398 Cover Page Supplement is the one producer-only form, with artifact-only consumer promotion in draft PR #60. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks all 38 producer forms at consumer revision `aa46719f794e114e31f9c503e1ed7bda9d2d54a0`. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. R&R Personal Data remains bank-only and is undergoing a focused corrective audit, so later producer revisions must not be automatically promoted until that correction is reviewed and merged.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -71,7 +70,7 @@ Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the co
 
 The first measured lightweight banking proof completed on PHS Inclusion Enrollment Report. The automation built, verified, ingested, committed, and pushed the 34-form/370-artifact bundle in 1 minute 49 seconds. After two one-time CI/repository configuration defects were repaired, the corrected hosted bank-only lane reached green in 43 seconds from refreshed-branch update and the promotion merged 8 minutes 27 seconds after the original timer start. No full API or E2E execution occurred on the successful pass.
 
-The steady-state follow-up is PHS 398 Cover Page Supplement. Draft consumer PR #60 pins producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, builds on the automated R&R Personal Data promotion, adds only Cover Page Supplement through an artifact/XSD-only diff, and moves the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped.
+The steady-state follow-up completed with PHS 398 Cover Page Supplement. Consumer PR #60 pinned producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, built on the automated R&R Personal Data promotion, added only Cover Page Supplement through an artifact/XSD-only diff, and moved the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped. It merged as `aa46719f794e114e31f9c503e1ed7bda9d2d54a0` after independent approval.
 
 # Oracle protocol
 
