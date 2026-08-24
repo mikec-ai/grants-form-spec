@@ -7,10 +7,10 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
+superbee_updated_by: rr_budget_conditions
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:09:14.292Z'
+  at: '2026-08-24T16:21:30.123Z'
 assignee: rr_budget_conditions
 ---
 # Goal
@@ -31,8 +31,10 @@ their published duration/cardinality profiles while preserving one portable budg
 
 - Decide and source the materialization policy for calculated outputs when every operand is absent
   versus explicitly zero; implement it generically and test both root and nested contexts.
-- Classify, author, and exhaustively test the 56 non-empty DAT conditions without treating similar
-  wording as accepted semantic equivalence or introducing a form-specific expression engine.
+- Reconcile and classify all non-empty DAT conditions, then author and exhaustively test only the
+  source-exact executable subset without treating similar wording as accepted semantic equivalence
+  or introducing a form-specific expression engine. The deterministic inventory corrects the
+  earlier conflation of 56 calculated behaviors with conditioned records.
 - Exercise calculations, validation, nested attachment auditing, save/reload, locked/print,
   submission, and official-XSD XML for representative minimal, maximal, invalid, and nested
   subaward payloads across every published family profile.
@@ -101,6 +103,36 @@ architecture or silently claim human approval.
 - SGG executes this portable calculation contract in its server-side rule processor. This slice does
   not add or claim a client-side calculation implementation.
 - This slice has no lifecycle/residual-normalization overlap and adds no budget-family branch.
+
+## 2026-08-24: deterministic DAT condition inventory
+
+- [grants-form-spec PR 77](https://github.com/mikec-ai/grants-form-spec/pull/77) corrects the count
+  model and publishes a provenance-pinned machine-readable inventory. The official F770 DAT has
+  159 behavior occurrences, including 56 calculated behaviors. Across all roles, 64 path
+  occurrences have non-empty conditions, representing 46 unique behavior-key records and 27 exact
+  condition texts. Twenty calculated behaviors have conditions. The 18 occurrence-to-record delta
+  comes only from F-8-1 and F-8-2, each expanded deterministically over ten Other Direct Cost paths.
+- Closed exact-text classification identifies five recurring operator/path shapes. Unknown wording
+  fails rather than falling into a nearest-looking class. Every occurrence retains the official DAT
+  URI, version, SHA-256, literal extraction provenance, extraction repository/revision/artifact,
+  behavior key, DAT field number, and occurrence path. Every disposition remains `unreviewed`.
+- Fifty occurrences need no new primitive: 20 use the existing calculated-output materialization
+  declaration, 16 are optional-row member requiredness, and 14 are paired-member requiredness
+  within an optional object.
+- Fourteen occurrences remain precisely source-bound and uncompiled. Four attachment/total rules
+  require bidirectional presence plus a strict positive comparison over an XSD decimal represented
+  portably as a string. Ten occurrence paths from one F-8-1 record require a cross-section minimum
+  of one among ten distinct optional objects. Implementing either exactly requires an explicit,
+  consumer-validated portable contract; a producer-only presence approximation would weaken the
+  source rule. No new primitive was introduced in this slice.
+- Producer commit `80b80a58a` passes eight focused regression tests and full preflight: 118
+  TypeScript tests and 319 Python tests (two skipped), all artifact and fixture gates, and
+  `git diff --check`. The source enriched-JSONL input digest is
+  `0f3e71fd70e470e3b2ce3e35be300bc8c7f240369a51aca855ea618c83d508bb`; the official DAT digest is
+  `c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035`.
+- This closes the deterministic inventory/classification sub-slice only. Consumer conformance for
+  any future numeric-string or cross-object aggregate primitive, human semantic acceptance,
+  accessibility, instruction, operational, and production-registration gates remain open.
 
 ## Merge receipt
 
