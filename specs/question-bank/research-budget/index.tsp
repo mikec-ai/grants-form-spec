@@ -379,6 +379,14 @@ model ResearchBudgetBudgetYearEquipmentEquipmentList {
 @Question.meta(#{ id: "budget/research/equipment" })
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.money)
+@Validation.requiredPathWhenPositiveDecimalString(
+  "additionalEquipmentsAttachment",
+  "totalFundForAttachedEquipment"
+)
+@Validation.positiveDecimalStringWhenPathPresent(
+  "totalFundForAttachedEquipment",
+  "additionalEquipmentsAttachment"
+)
 model ResearchBudgetBudgetYearEquipment {
   @UI.label("Additional Equipment:")
   @UI.widget(WidgetName.Attachment)
@@ -499,6 +507,14 @@ model ResearchBudgetBudgetYearKeyPersonsKeyPerson {
 @Question.meta(#{ id: "budget/research/key-personnel" })
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.person)
+@Validation.requiredPathWhenPositiveDecimalString(
+  "attachedKeyPersons",
+  "totalFundForAttachedKeyPersons"
+)
+@Validation.positiveDecimalStringWhenPathPresent(
+  "totalFundForAttachedKeyPersons",
+  "attachedKeyPersons"
+)
 model ResearchBudgetBudgetYearKeyPersons {
   @UI.label("Additional Senior Key Persons:")
   @UI.widget(WidgetName.Attachment)

@@ -47,8 +47,8 @@ class RrBudgetDatConditionInventoryTests(unittest.TestCase):
                 },
                 "byDisposition": {
                     "compiled-by-at-least-one-path-when-present": 10,
+                    "compiled-by-positive-decimal-string-conditions": 4,
                     "represented-by-existing-declaration": 50,
-                    "source-bound-uncompiled": 4,
                 },
             },
         )
@@ -100,26 +100,27 @@ class RrBudgetDatConditionInventoryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unclassified exact DAT condition"):
             classify_condition("Required if this wording merely looks similar.")
 
-    def test_uncompiled_boundary_is_exact_and_bounded(self) -> None:
-        unresolved = [
+    def test_positive_decimal_string_boundary_is_exact_and_bounded(self) -> None:
+        compiled = [
             row
             for row in self.inventory["occurrences"]
-            if row["implementationDisposition"] == "source-bound-uncompiled"
+            if row["implementationDisposition"]
+            == "compiled-by-positive-decimal-string-conditions"
         ]
-        self.assertEqual(len(unresolved), 4)
+        self.assertEqual(len(compiled), 4)
         self.assertEqual(
-            {row["condition"] for row in unresolved},
+            {row["condition"] for row in compiled},
             ATTACHMENT_POSITIVE,
         )
         self.assertEqual(
-            {row["conditionClass"] for row in unresolved},
+            {row["conditionClass"] for row in compiled},
             {
                 "attachment-total-positive-bidirectional",
             },
         )
         self.assertEqual(
             self.inventory["genericPrimitiveDecision"]["status"],
-            "partial-generic-primitive",
+            "complete-generic-primitives",
         )
 
     def test_cross_section_rule_is_compiled_without_changing_review_status(self) -> None:

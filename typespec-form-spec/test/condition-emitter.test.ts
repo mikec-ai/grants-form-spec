@@ -157,6 +157,56 @@ describe("bounded presence conditions", () => {
     })).toBe(true);
   });
 
+  it("emits bidirectional attachment and positive decimal-string conditions", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        scalar MoneyString extends string;
+        ${formMeta("positive-decimal-string-check")}
+        @Validation.requiredPathWhenPositiveDecimalString("attachment", "total")
+        @Validation.positiveDecimalStringWhenPathPresent("total", "attachment")
+        model PositiveDecimalStringCheck {
+          attachment?: string;
+          total?: MoneyString;
+        }
+      `),
+    );
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "positive-decimal-string-check",
+    );
+    const overlay = emitSchemaOverlay(instance.program, block!);
+    expect(overlay).toEqual({
+      allOf: [
+        {
+          if: {
+            required: ["total"],
+            properties: {
+              total: { pattern: "^(?=.*[1-9])\\d+(?:\\.\\d+)?$" },
+            },
+          },
+          then: { required: ["attachment"] },
+        },
+        {
+          if: { required: ["attachment"] },
+          then: {
+            required: ["total"],
+            properties: {
+              total: { pattern: "^(?=.*[1-9])\\d+(?:\\.\\d+)?$" },
+            },
+          },
+        },
+      ],
+    });
+    const validate = new Ajv2020({ strict: false }).compile(overlay!);
+    expect(validate({})).toBe(true);
+    expect(validate({ total: "0.00" })).toBe(true);
+    expect(validate({ total: "1.00" })).toBe(false);
+    expect(validate({ attachment: "file-id" })).toBe(false);
+    expect(validate({ attachment: "file-id", total: "0.00" })).toBe(false);
+    expect(validate({ attachment: "file-id", total: "0.01" })).toBe(true);
+    expect(validate({ attachment: "file-id", total: "000.10" })).toBe(true);
+  });
+
   it("keeps inherited question lineage and sections when a form extends a question", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(

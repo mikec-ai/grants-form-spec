@@ -78,6 +78,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`@Validation.atLeastOnePathWhenPresent on ${"model"} must name a source path and at least two distinct target paths; received ${"paths"}.`,
       },
     },
+    "positive-decimal-string-target-invalid": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Positive decimal-string condition target "${"path"}" on ${"model"} must resolve to a string scalar; received ${"type"}.`,
+      },
+    },
     "encoded-checkbox-contract-invalid": {
       severity: "error",
       messages: {
@@ -165,6 +171,8 @@ export const $lib = createTypeSpecLibrary({
     requiredPaths: {},
     requiredPathWhen: {},
     atLeastOnePathWhenPresent: {},
+    requiredPathWhenPositiveDecimalString: {},
+    positiveDecimalStringWhenPathPresent: {},
     atLeastOneOf: {},
     computed: {},
     computedFrom: {},
