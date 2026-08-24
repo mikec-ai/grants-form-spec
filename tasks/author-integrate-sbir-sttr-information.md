@@ -3,13 +3,14 @@ type: Task
 title: Author and integrate SBIR/STTR Information
 priority: P1
 description: >-
-  Add a moderately sized, high-value small-business supplemental form after the
-  immediate PHS tranche, reusing shared application and organization concepts.
+  Add the source-bound SBIR/STTR supplement using only proven attachment-wire
+  and condition-operation reuse; retain its program, eligibility, ownership,
+  affiliation, disclosure, and partner-role semantics as distinct.
 superbee_progress_status: in_progress
 superbee_updated_by: audit_sbir_sttr
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:57:48.932Z'
+  at: '2026-08-24T03:58:03.425Z'
 assignee: audit_sbir_sttr
 ---
 # Goal
