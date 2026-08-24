@@ -5,11 +5,12 @@ priority: P0
 description: >-
   Resolve the producer, declaration, and reviewed compatibility differences
   exposed by PR63 while production remains fail-closed on legacy definitions.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:05:44.858Z'
+  at: '2026-08-24T05:06:32.883Z'
+assignee: codex-cardinality-emitter
 ---
 # Goal
 
