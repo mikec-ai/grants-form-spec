@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:11:36.232Z'
+  at: '2026-08-24T03:15:04.521Z'
 ---
 # Goal
 
@@ -32,3 +32,13 @@ Prove the steady-state cheap banking lane by promoting PHS 398 Cover Page Supple
 - Open a draft PR only in `mikec-ai/simpler-grants-gov`; do not change HHS upstream and do not merge before independent review.
 
 [depends on](author-integrate-phs398-cover-page-supplement.md)
+
+# Promotion receipt, 2026-08-23
+
+- Draft consumer PR: https://github.com/mikec-ai/simpler-grants-gov/pull/60
+- Consumer base: `558570a048feec37cf3ec460f4ec17745435b1fa`; consumer head: `ec729a3c14670a3db2fd0c924deb0db2f9380be2`.
+- Immutable producer revision: `778e9b04cd01886593cbbafab1f34b8c8753c2a9`; source bundle SHA-256: `d99df6298cd28f0ce8fe20449418b7772d2dff0f851b99d00e8d66d2d76c10f1`.
+- Exact root XSD SHA-256: `ec538c9bb5fd233c36ac73ca567d31e60779ee3df2f3c7b456d9395b3ec2dc26`, matching the producer evidence pin and physical vendored bytes.
+- The bank becomes 37 forms and 434 selected artifacts. Runtime-enabled forms remain 29 and registered forms remain 5. Runtime-identity SHA-256 remains `7e85abbd0796bf80396483e0eb9381b2159da94f0923b7b5e7967f6b559810cc`; registration SHA-256 remains `01b1d451dee808b1f6241ae63841d1bd90839b73cda701765b407f3ae98b7ff6`.
+- Final consumer diff contains only the portable artifact closure and exact XSD fixture. Local classifier reports `bankOnly=true`; focused integrity/provenance/registration/updater tests passed 29/29.
+- Hosted lightweight CI is running. PR remains draft/unmerged pending independent review.

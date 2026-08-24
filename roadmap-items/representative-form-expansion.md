@@ -2,16 +2,16 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-six producer forms and thirty-four banked consumer forms are delivered;
-  Research Plan and Human Subjects consumer promotion plus a measured cheap-form
-  lane now test whether marginal delivery cost is falling.
+  Thirty-seven producer forms and thirty-six banked consumer forms are
+  delivered; Cover Page Supplement now tests the steady-state artifact-only
+  banking lane.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: promote_new_forms
 ---
 # Strategy
 
-Use two complementary delivery lanes across the current 36-form producer baseline and the next expansion sequence:
+Use two complementary delivery lanes across the current 37-form producer baseline and the next expansion sequence:
 
 1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
 2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
@@ -20,9 +20,9 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 # Delivered baseline
 
-The producer now contains 36 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, and form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
+The producer now contains 37 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, and form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 34 forms at consumer revision `9fa568e1e6eb04e7218a9685cdf255215080cafb`. PHS Assignment Request, Attachment Form, R&R SF-424B, NIFA Supplemental, and PHS Inclusion Enrollment Report have landed since the prior snapshot. `phs398-research-plan` and `phs-human-subjects` are producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks 36 forms at consumer revision `558570a048feec37cf3ec460f4ec17745435b1fa`. PHS 398 Research Plan and PHS Human Subjects and Clinical Trials are now banked but intentionally runtime-disabled and unregistered. PHS 398 Cover Page Supplement is the one producer-only form, with artifact-only consumer promotion in draft PR #60. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -70,6 +70,8 @@ Run this bounded lane alongside—not instead of—the committed sequence:
 Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the committed sequence above and are not duplicated in this lane. Each lane task must record elapsed effort and reuse so the roadmap measures marginal economics instead of merely accumulating form count.
 
 The first measured lightweight banking proof completed on PHS Inclusion Enrollment Report. The automation built, verified, ingested, committed, and pushed the 34-form/370-artifact bundle in 1 minute 49 seconds. After two one-time CI/repository configuration defects were repaired, the corrected hosted bank-only lane reached green in 43 seconds from refreshed-branch update and the promotion merged 8 minutes 27 seconds after the original timer start. No full API or E2E execution occurred on the successful pass.
+
+The steady-state follow-up is PHS 398 Cover Page Supplement. Draft consumer PR #60 pins producer `778e9b04cd01886593cbbafab1f34b8c8753c2a9`, adds one form through an artifact/XSD-only diff, and moves the bank to 37 forms/434 artifacts while preserving 29 runtime-enabled and 5 registered forms. Its local classifier selects the bank-only lane; hosted timing is recorded in the task receipt once complete.
 
 # Oracle protocol
 
