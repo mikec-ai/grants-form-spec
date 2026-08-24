@@ -39,6 +39,52 @@ class ProofPackageTests(unittest.TestCase):
             self.assertIn("zero accepted occurrence mappings", index)
             self.assertNotIn("corrected-reviewed-pairwise-question-analysis", index)
 
+            producer_revision = package["source"]["producerRevision"]
+            producer_paths = [
+                evidence
+                for claim in package["claims"]
+                for evidence in claim["evidence"]
+                if evidence["kind"] == "producer_path"
+            ]
+            self.assertTrue(producer_paths)
+            self.assertTrue(
+                all(evidence["revision"] == producer_revision for evidence in producer_paths)
+            )
+
+            budget_claim = next(
+                claim for claim in package["claims"] if claim["id"] == "rr-budget-family-reuse"
+            )
+            self.assertIn("64 conditioned occurrences", budget_claim["statement"])
+            self.assertIn("50 represented", budget_claim["statement"])
+            self.assertIn("14 explicitly source-bound and uncompiled", budget_claim["statement"])
+            inventory_evidence = next(
+                evidence
+                for evidence in budget_claim["evidence"]
+                if evidence.get("path") == "analysis/rr-budget-dat-conditions.v1.json"
+            )
+            inventory = json.loads(
+                subprocess.run(
+                    [
+                        "git",
+                        "show",
+                        f"{inventory_evidence['revision']}:{inventory_evidence['path']}",
+                    ],
+                    cwd=ROOT,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout
+            )
+            self.assertEqual(inventory["counts"]["nonEmptyConditionOccurrences"], 64)
+            self.assertEqual(
+                inventory["counts"]["byDisposition"],
+                {
+                    "represented-by-existing-declaration": 50,
+                    "source-bound-uncompiled": 14,
+                },
+            )
+            self.assertEqual(inventory["reviewStatus"], "unreviewed")
+
     def test_claim_without_limitations_is_rejected(self) -> None:
         revision = subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -134,6 +180,53 @@ class ProofPackageTests(unittest.TestCase):
             source.write_text(json.dumps(source_document))
             with self.assertRaisesRegex(ValueError, "producer evidence is not available"):
                 build_package(root=ROOT, source_path=source, output_dir=Path(evidence_dir) / "out")
+
+    def test_producer_path_revision_must_match_package_revision(self) -> None:
+        revision = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        source_document = {
+            "contract": "grants-form-proof-package-source/v1",
+            "title": "Pinned producer test",
+            "summary": "Producer evidence must use one revision.",
+            "repositories": {
+                "producer": {
+                    "url": "https://github.com/mikec-ai/grants-form-spec",
+                    "revision": revision,
+                },
+                "consumer": {"url": "https://github.com/mikec-ai/simpler-grants-gov"},
+            },
+            "claims": [
+                {
+                    "id": "mismatched-producer-revision",
+                    "title": "Mismatched revision",
+                    "statement": "This producer evidence points elsewhere.",
+                    "status": "observed_reproducible",
+                    "evidence": [
+                        {
+                            "kind": "producer_path",
+                            "label": "README",
+                            "revision": "1" * 40,
+                            "path": "README.md",
+                        }
+                    ],
+                    "reproduce": ["Attempt to build"],
+                    "limitations": ["Test-only claim"],
+                }
+            ],
+            "pendingInputs": [],
+            "releaseBoundaries": ["Test-only package"],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            temporary = Path(directory)
+            source = temporary / "source.json"
+            source.write_text(json.dumps(source_document))
+            with self.assertRaisesRegex(ValueError, "must match repositories.producer.revision"):
+                build_package(root=ROOT, source_path=source, output_dir=temporary / "out")
 
 
 if __name__ == "__main__":
