@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-root-fork
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T22:12:02.451Z'
+  at: '2026-08-24T22:40:08.750Z'
 ---
 ---
 type: Task
@@ -67,6 +67,10 @@ This task improves execution isolation. It does not redesign the application run
 - Ordinary single-worktree Compose project names and host ports remain the defaults when isolation is not requested.
 - Isolated runs derive separate API/database project identities, shared network names, volumes, and deterministic host ports from a validated stack ID.
 - Global `container_name` declarations were removed from API, database, and frontend Compose definitions; readiness and teardown now address Compose services through explicit project identities.
-- Five focused CLI/configuration tests and six readiness-script tests pass. Ruff, Black, isort, Compose configuration rendering, and `git diff --check` pass.
+- Six focused CLI/configuration tests and six readiness-script tests pass. Mypy, Ruff, Black, isort, ShellCheck, Compose configuration rendering, and `git diff --check` pass.
 - Real Docker proof ran two PostgreSQL stacks concurrently with distinct containers, networks, volumes, and ports. Tearing down the first stack and its volume/network left the second accepting connections.
-- The remaining proof frontier is a pair of concurrent full targeted API test commands, which is intentionally deferred to hosted CI or a machine with sufficient Docker capacity after PR review.
+- The full runtime proof is complete on consumer commit `1c79aca3e`: `proof-a` and `proof-b` each initialized independent PostgreSQL, OpenSearch, S3Mock, SQS, DynamoDB, OAuth, SOAP, and Mailpit services, and the same repository-native API test passed concurrently in both stacks (`1 passed` in 6.05 seconds and 6.10 seconds).
+- Tearing down `proof-a` left all seven long-running `proof-b` API-side services healthy; the same API test passed again in `proof-b` in 4.94 seconds before its scoped teardown.
+- The proof surfaced and fixed one shared Docker Desktop defect: S3Mock's mutable host bind mount could not be chowned in a clean worktree. PR #93 now uses a Compose-scoped named volume and tests that contract.
+- A simultaneous clean build of two amd64 API images on this arm64 Mac exceeded the host/QEMU envelope and one `uv build` process segfaulted. Staging the same immutable image once, then initializing and testing both isolated runtime stacks, succeeded. This is a local build-capacity constraint rather than a Compose namespace collision.
+- Remaining work is PR review and completion of hosted checks; the concurrent runtime-isolation acceptance criterion is satisfied.
