@@ -7,10 +7,10 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
-superbee_updated_by: root_budget_numeric_string
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T19:56:10.303Z'
+  at: '2026-08-24T20:03:39.801Z'
 assignee: root_budget_numeric_string
 ---
 # Goal
@@ -217,6 +217,22 @@ architecture or silently claim human approval.
 - This completes the technical DAT-condition representation gate. Semantic acceptance, human
   accessibility review, instruction/policy decisions, operational readiness, and production
   registration remain open, so the broader release-gate task remains in progress.
+
+## 2026-08-24: parallel AI-only hardening wave
+
+Three isolated, independently mergeable slices are claimed under this P0 task:
+
+- `budget_browser_lifecycle`: real-browser direct/nested budget behavior, attachment/positive-total
+  validation, save/reload, locked/print, keyboard navigation, error focus, and automated Axe checks.
+- `budget_source_content`: deterministic DAT/XSD reconciliation of applicant-visible labels,
+  help/instructions, requiredness, grouping, and attachment semantics; only source-exact corrections
+  may land, with uncertain items remaining explicit.
+- `budget_payload_xml`: shared minimal, maximal, explicit-zero, invalid, and independently nested
+  payload corpus across all five profiles, including calculations, XML generation, and pinned
+  official-XSD validation.
+
+Each slice uses a fresh branch in the appropriate public fork. Generated receipts remain build
+artifacts, and no HHS upstream repository or issue is modified.
 
 [depends on](harden-rr-budget-production.md)
 
