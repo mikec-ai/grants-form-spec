@@ -155,7 +155,6 @@ describe("artifact contract v1", () => {
         operationKind: "replace",
         valueSource: { kind: "external", namespace: "application", path: "summary" },
         editability: "editable",
-        executionStatus: "adapter-projected",
       },
     ];
     expect(
@@ -175,6 +174,7 @@ describe("artifact contract v1", () => {
       { ...records[0], operationKind: "copy" },
       { ...records[0], editability: "locked" },
       { ...records[0], executionStatus: "runtime-verified" },
+      { ...records[0], executionStatus: "adapter-projected" },
     ];
     for (const record of poisoned) {
       const candidate = JSON.parse(JSON.stringify({

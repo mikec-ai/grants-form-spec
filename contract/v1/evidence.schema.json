@@ -193,7 +193,7 @@
         "valueSource": { "$ref": "#/$defs/operationalValueSource" },
         "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
         "authority": { "enum": ["official_source", "implementation_parity", "unresolved"] },
-        "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] }
+        "executionStatus": { "const": "source-bound-uncompiled" }
       },
       "allOf": [
         {
@@ -258,7 +258,7 @@
             "valueSource": { "$ref": "#/$defs/operationalValueSource" },
             "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
             "authority": { "enum": ["official_source", "implementation_parity"] },
-            "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] },
+            "executionStatus": { "const": "source-bound-uncompiled" },
             "sourceId": { "type": "string", "minLength": 1 },
             "sourcePath": { "type": "string", "minLength": 1 },
             "sourceRecord": { "type": "string", "minLength": 1 }
@@ -288,7 +288,7 @@
             "valueSource": { "$ref": "#/$defs/operationalValueSource" },
             "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
             "authority": { "const": "unresolved" },
-            "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] },
+            "executionStatus": { "const": "source-bound-uncompiled" },
             "owner": { "type": "string", "minLength": 1 },
             "reason": { "type": "string", "minLength": 1 },
             "removalCondition": { "type": "string", "minLength": 1 }

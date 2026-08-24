@@ -648,6 +648,25 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("example:/missing is not an exact emitted field occurrence", result.stdout)
 
+    def test_projector_rejects_unverified_adapter_projected_status(self) -> None:
+        record = self._official_prefill()
+        record["executionStatus"] = "adapter-projected"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("must be equal to constant", result.stdout)
+        self.assertIn("operationalBehaviorEvidence", result.stdout)
+
     def test_projector_rejects_uncompiled_evidence_for_a_nonexistent_occurrence(self) -> None:
         record = {
             "canonicalPath": "/missing",
