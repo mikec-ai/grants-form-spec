@@ -3,11 +3,6 @@ type: Architecture Decision
 title: Risk-tiered CI for portable form banking
 superbee_updated_by: codex-root
 ---
----
-type: Architecture Decision
-title: Risk-tiered CI for portable form banking
-superbee_updated_by: codex
----
 # Decision
 
 Portable-form delivery uses risk-tiered CI. A pull request that only adds or updates vendored portable artifacts and exact XSD fixtures may use a lightweight bank-only lane. The classifier is fail-closed: any consumer code, test, registration, runtime identity, projection, workflow, unexpected path, or deletion selects full API and browser CI.

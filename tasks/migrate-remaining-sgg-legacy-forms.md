@@ -4,10 +4,12 @@ title: Migrate the remaining four SGG legacy forms
 superbee_progress_status: todo
 priority: P1
 description: >-
-  Add the four legacy-only SGG forms to the portable architecture after the
-  uniform proof machinery is ready.
+  Migrate four legacy-only Simpler forms after uniform parity machinery is
+  ready; EPA Key Contacts is not yet portable or banked and is the named
+  later-candidate oracle migration.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.600Z'
+superbee_updated_by: codex-root
 ---
 # Goal
 

@@ -7,11 +7,11 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:41:43.358Z'
-assignee: gate_assessment_agent
+  at: '2026-08-24T11:51:12.051Z'
+assignee: unassigned
 ---
 # Goal
 

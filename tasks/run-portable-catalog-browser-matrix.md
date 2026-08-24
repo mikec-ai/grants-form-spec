@@ -1,21 +1,16 @@
 ---
 type: Task
 title: Run the banked portable catalog through browser conformance
-superbee_progress_status: in_progress
-priority: P0
+superbee_progress_status: todo
+priority: P2
 description: >-
-  Harness implementation merged in consumer PR #66 as
-  c4709fc2931d4c9129871d058247f88bcfcd0e22. Startup repair PR #69 at
-  independently approved head 75456b985971be885bed6a76e8888ead0e89a232 reduced
-  hosted API readiness from 800 seconds to 5 seconds; Pa11y passed and all four
-  shards reached Playwright. PR-event CI selected @smoke, so it produced no
-  portable receipts and exposed separate pre-existing downstream failures.
-  Targeted generic workflow dispatch 32721986045 is now running with
-  playwright_tags=@portable-catalog against the exact PR69 head. No browser
-  conformance is claimed until its artifacts are reviewed.
+  Optional, manually dispatched catalog-wide browser evidence. The harness is
+  merged, but the targeted run was intentionally canceled; do not treat this as
+  a per-form or current foundation gate.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
 superbee_updated_by: codex-root
+assignee: unassigned
 ---
 # Goal
 
@@ -126,7 +121,7 @@ Independent review hardening now places catalog setup inside evidence-preserving
 
 The plan load itself is also protected. Missing, malformed, empty, duplicate, or unsupported consumer plans emit a harness-inconclusive catalog failure summary and trace status; producer ownership is reserved for a distinct artifact-integrity or portable self-consistency failure. When safe candidate records remain recoverable, the harness emits one blocked receipt per unique candidate without trusting the invalid plan as executable input. Summaries and form receipts record both first-failure boundary and ownership.
 
-Focused verification after hardening: 16 API tests and 5 frontend contract tests pass; Black, Ruff, Prettier, ESLint, TypeScript checks, YAML/actionlint validation, and Playwright discovery across Chrome, Firefox, WebKit, and mobile Chrome pass. The hosted database-backed browser run remains the next PR validation gate.
+Focused verification after hardening: 16 API tests and 5 frontend contract tests pass; Black, Ruff, Prettier, ESLint, TypeScript checks, YAML/actionlint validation, and Playwright discovery across Chrome, Firefox, WebKit, and mobile Chrome pass. The previously launched targeted hosted run was intentionally canceled after CI priorities were reassessed. A catalog-wide hosted run is now optional, manually dispatched evidence and is not a prerequisite for parity tooling, adapter foundations, or additional form authoring.
 
 Rebase verification removed the unrelated canary-formatting commit from the old stack. The resulting diff contains only the browser plan, lower-environment seed seam, matrix/receipt code, CI wiring, documentation, dependency, and focused tests.
 

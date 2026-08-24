@@ -2,11 +2,12 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-nine producer forms and thirty-eight banked consumer forms are
-  delivered; SBIR/STTR artifact-only promotion is under consumer review.
+  Thirty-nine producer forms and thirty-nine banked consumer forms are
+  delivered; the next candidate cohort is explicitly queued behind current
+  parity and adapter foundations.
 sequence: '3'
 superbee_progress_status: active
-superbee_updated_by: promote_new_forms
+superbee_updated_by: codex-root
 ---
 # Strategy
 
@@ -21,7 +22,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 39 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions, form 37 delivered PHS 398 Cover Page Supplement through existing application, identity, budget, attachment, and versioned-policy foundations, form 38 delivered source-bound R&R Personal Data, and form 39 delivered source-bound SBIR/STTR Information with 27 distinct semantic questions, three attachment roles over one shared capture mechanism, 11 compiled portable conditional-required targets, and zero calculations. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 38 forms at consumer revision `262d7d86be3d447ba6881c2fe283fb368321e667`, including the corrected R&R Personal Data package. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. Draft consumer PR #64 adds only SBIR/STTR Information from exact producer revision `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, producing a 39-form/475-artifact bank while preserving all runtime boundaries.
+Current cross-repository snapshot: the public consumer fork banks all 39 producer forms at consumer revision `270f438ef47c4f0a0567598a482c620421d74f0e`, using producer revision `4e69e3fb25f8ee9554ee5e40ad84348ec99599dc`. Its manifest contains 476 files. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered. SBIR/STTR Information merged through artifact-only consumer PR #64 as `534a36b74201baa2f28d35f138e64e03efb0e348`, preserving the runtime boundary.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -72,7 +73,7 @@ The first measured lightweight banking proof completed on PHS Inclusion Enrollme
 
 The steady-state follow-up completed with PHS 398 Cover Page Supplement. Consumer PR #60 pinned producer `6b5717763d5769efd8b92a3cdbb61bc6935909fb`, built on the automated R&R Personal Data promotion, added only Cover Page Supplement through an artifact/XSD-only diff, and moved the bank to 38 forms/442 artifacts while preserving 29 runtime-enabled and 5 registered forms. The rebased hosted pass selected the bank-only lane again: Portable Form Bank Checks passed in two seconds, complete workflows finished in 25 and 28 seconds, and full API and E2E work skipped. It merged as `aa46719f794e114e31f9c503e1ed7bda9d2d54a0` after independent approval.
 
-The next additive proof is SBIR/STTR Information. Draft consumer PR #64 pins producer `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`, adds one form through an artifact/XSD-only diff, and moves the bank to 39 forms/475 artifacts while preserving 29 runtime-enabled and 5 registered forms. Both hosted classifiers and Portable Form Bank Checks passed at the exact head; workflows completed in 32 and 19 seconds while full API and E2E work skipped. The PR remains unmerged for independent review.
+The next additive proof, SBIR/STTR Information, is complete. Consumer PR #64 added one form through an artifact/XSD-only diff, moved the bank to 39 forms, and preserved runtime and registration boundaries. Both hosted classifiers and Portable Form Bank Checks passed while full API and E2E work skipped; the PR merged as `534a36b74201baa2f28d35f138e64e03efb0e348`.
 
 # Oracle protocol
 
@@ -102,13 +103,13 @@ The next sequence validates next-form economics when its final forms require no 
 
 # Later candidates
 
-Keep these behind the committed next sequence rather than silently expanding scope:
+All five candidates below are absent from the current 39-form portable producer catalog and consumer bank. Keep them queued behind the active parity and adapter foundations rather than silently expanding scope:
 
-1. PHS Fellowship Supplemental
-2. SF-425 Federal Financial Report
-3. EPA Key Contacts as an identity/contact oracle migration
-4. R&R Federal/Non-Federal Budget
-5. PHS Career Development Supplemental
+1. **PHS Fellowship Supplemental**: not authored or banked; tracked by `author-integrate-phs-fellowship-supplemental`.
+2. **SF-425 Federal Financial Report**: not authored or banked; tracked by `author-integrate-sf425-federal-financial-report`. Its reporting lifecycle must be established rather than assumed to match an application form.
+3. **EPA Key Contacts**: not portable or banked, but present as a hand-written legacy Simpler implementation and therefore covered as an oracle migration by `migrate-remaining-sgg-legacy-forms`.
+4. **R&R Federal/Non-Federal Budget**: not authored or banked; tracked by `author-integrate-rr-federal-non-federal-budget` after the existing budget-family gates.
+5. **PHS Career Development Supplemental**: not authored or banked; tracked by `author-integrate-phs-career-development-supplemental`.
 
 # Work governed by this roadmap item
 
@@ -239,3 +240,11 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/bank-phs398-cover-page-supplement-in-sgg.md)
 
 [contains](../tasks/bank-sbir-sttr-information-in-sgg.md)
+
+[contains](../tasks/author-integrate-phs-fellowship-supplemental.md)
+
+[contains](../tasks/author-integrate-sf425-federal-financial-report.md)
+
+[contains](../tasks/author-integrate-rr-federal-non-federal-budget.md)
+
+[contains](../tasks/author-integrate-phs-career-development-supplemental.md)
