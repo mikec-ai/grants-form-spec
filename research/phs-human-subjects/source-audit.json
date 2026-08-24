@@ -56,7 +56,7 @@
   },
   "sourceBoundConditions": [
     { "sourcePath": "1-07", "target": "exemptFromFederalRegulations", "literal": "Required if HumanSubjectsIndicator is yes." },
-    { "sourcePath": "1-08", "target": "exemptionNumbers", "literal": "One selection required if ExemptFedReg is yes." },
+    { "sourcePath": "1-08", "target": "exemptions", "literal": "One selection required if ExemptFedReg is yes." },
     { "sourcePath": "1-14", "target": "legacySaveStudyControl", "literal": "Disabled if HumanSubjectsIndicator is not Yes." },
     { "sourcePath": "1-15-1", "target": "studyDeleteControl", "literal": "Disabled if only one entry exists. Disabled if HumanSubjectsIndicator is not Yes." },
     { "sourcePath": "1-15-2", "target": "studyRows", "literal": "1 to 150 rows with Add, Delete and View features. Disabled if HumanSubjectsIndicator is not Yes." },

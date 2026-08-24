@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import subprocess
 import unittest
@@ -24,12 +23,43 @@ class PHSHumanSubjectsTests(unittest.TestCase):
         self.assertEqual(overview["properties"]["studies"]["maxItems"], 150)
         self.assertEqual(overview["properties"]["delayedOnsetStudies"]["maxItems"], 150)
         for name in (
-            "humanSubjectsInvolved",
+            "involvesHumanSubjects",
             "exemptFromFederalRegulations",
-            "exemptionNumbers",
-            "applicationId",
+            "exemptions",
         ):
-            self.assertTrue(overview["properties"][name]["readOnly"])
+            self.assertEqual(overview["properties"][name]["allOf"], [{"readOnly": True}])
+        self.assertTrue(overview["properties"]["applicationId"]["readOnly"])
+
+        ui = load(FORM / "sgg/ui-schema.json")
+        overview_fields = {
+            row["definition"]: row
+            for row in ui[0]["children"]
+        }
+        for name in (
+            "involvesHumanSubjects",
+            "exemptFromFederalRegulations",
+            "exemptions",
+        ):
+            self.assertEqual(overview_fields[f"/properties/{name}"]["type"], "null")
+
+    def test_narrow_human_subject_determinations_are_reused_with_occurrence_roles(self) -> None:
+        expected = {
+            "involvesHumanSubjects": "research-project/human-subjects-indicator",
+            "exemptFromFederalRegulations": "research-project/human-subjects-exemption-status",
+            "exemptions": "research-project/human-subjects-exemption-numbers",
+        }
+        phs = load(FORM / "index.json")
+        other = load(ROOT / "dist/forms/rr-other-project-information/index.json")
+        for name, block_id in expected.items():
+            phs_row = next(row for row in phs["fieldOccurrences"] if row["path"] == f"/{name}")
+            self.assertIn(block_id, phs_row["blockIds"])
+            self.assertEqual(phs_row["responseRole"], "systemValue")
+            other_row = next(
+                row
+                for row in other["fieldOccurrences"]
+                if row["path"] == f"/humanSubjects/{name}"
+            )
+            self.assertIn(block_id, other_row["blockIds"])
 
     def test_enrollment_is_one_semantic_composite_with_115_unique_coordinates(self) -> None:
         index = load(FORM / "index.json")
@@ -53,6 +83,37 @@ class PHSHumanSubjectsTests(unittest.TestCase):
             if block_id == "clinical-study/inclusion-enrollment-report"
         }
         self.assertEqual(semantic_ids, {"clinical-study/inclusion-enrollment-report"})
+
+    def test_enrollment_ui_preserves_coordinate_context_for_keyboard_and_error_routing(self) -> None:
+        ui = load(FORM / "sgg/ui-schema.json")
+        fields: list[dict[str, object]] = []
+
+        def walk(node: object) -> None:
+            if isinstance(node, dict):
+                if node.get("type") == "field" and "definition" in node:
+                    fields.append(node)
+                for value in node.values():
+                    walk(value)
+            elif isinstance(node, list):
+                for value in node:
+                    walk(value)
+
+        walk(ui)
+        coordinates = [
+            str(row["definition"])
+            for row in fields
+            if "inclusionEnrollmentReports" in str(row["definition"])
+            and ("/planned/" in str(row["definition"]) or "/cumulativeActual/" in str(row["definition"]))
+        ]
+        self.assertEqual(len(coordinates), 115)
+        self.assertEqual(len(set(coordinates)), 115)
+        self.assertTrue(all("/properties/" in path for path in coordinates))
+        self.assertTrue(any("/planned/" in path for path in coordinates))
+        self.assertTrue(any("/cumulativeActual/" in path for path in coordinates))
+        # Each control retains period, ethnicity, sex, and race in its pointer so a
+        # generic renderer can associate headers, focus, and errors without a form branch.
+        sample = next(path for path in coordinates if path.endswith("/properties/asian"))
+        self.assertIn("/planned/properties/notHispanicLatino/properties/female", sample)
 
     def test_total_like_coordinates_are_inputs_with_no_inferred_arithmetic(self) -> None:
         index = load(FORM / "index.json")
@@ -135,18 +196,90 @@ if (!validate(payload)) { console.error(JSON.stringify(validate.errors)); proces
             sources["human-subject-study-xsd-v3-0"]["sha256"],
             "799205dea5eddcf13f926cc39d5fc7de27c6a6cdcc68eff4d49e1b629d4351cf",
         )
-        audit_path = ROOT / "research/phs-human-subjects/source-audit.json"
         self.assertEqual(
-            hashlib.sha256(audit_path.read_bytes()).hexdigest(),
-            sources["phs-human-subjects-source-audit"]["sha256"],
+            sources["nih-forms-i-general-application-guide"]["sha256"],
+            "97b323be4e8ca90a0a5f69fe46b7762e45188088dc220efd846e008df3c13588",
         )
+        self.assertNotIn("phs-human-subjects-source-audit", sources)
+        audit_path = ROOT / "research/phs-human-subjects/source-audit.json"
         audit = load(audit_path)
         self.assertFalse(audit["method"]["ocrUsed"])
         self.assertEqual(len(audit["sourceBoundConditions"]), 11)
         self.assertEqual(audit["conditionDecision"]["compiledCount"], 0)
         self.assertEqual(audit["inventory"]["totalLikeCoordinates"], 28)
         self.assertEqual(audit["calculationDecision"]["status"], "source-bound-unresolved")
+        conditions = [
+            row for row in evidence["behaviorEvidence"]
+            if row["ruleKind"] == "condition"
+        ]
+        calculations = [
+            row for row in evidence["behaviorEvidence"]
+            if row["ruleKind"] == "calculation"
+        ]
+        self.assertEqual(len(conditions), 11)
+        self.assertEqual(
+            {row["sourcePath"] for row in conditions},
+            {"1-07", "1-08", "1-14", "1-15-1", "1-15-2", "1-16",
+             "1-19-1", "1-19-2", "1-19-3", "1-19-4", "1-20"},
+        )
+        self.assertTrue(all(
+            row["executionStatus"] == "source-bound-uncompiled"
+            and row["authority"] == "official_source"
+            for row in conditions
+        ))
+        self.assertEqual(len(calculations), 1)
+        self.assertEqual(calculations[0]["authority"], "unresolved")
+        self.assertIn("28 total-like", calculations[0]["reason"])
+        runtime_rules = load(FORM / "sgg/rule-schema.json")
+        self.assertNotIn("gg_condition", json.dumps(runtime_rules))
+        self.assertNotIn("gg_calculation", json.dumps(runtime_rules))
         self.assertEqual(evidence["semanticReview"]["status"], "proposed")
+
+    def test_source_string_and_nested_repeat_boundaries_are_exact(self) -> None:
+        schemas = {
+            name: load(ROOT / f"dist/question-bank/clinical-study/{name}/schema.json")
+            for name in (
+                "study-record", "population-characteristics", "design",
+                "protocol-synopsis", "inclusion-enrollment-report",
+            )
+        }
+        self.assertEqual(
+            schemas["study-record"]["properties"]["exemptionNumbers"],
+            {
+                "type": "array",
+                "items": {"$ref": "#/$defs/HumanSubjectExemptionCode"},
+                "minItems": 1,
+                "maxItems": 8,
+            },
+        )
+        self.assertEqual(
+            schemas["population-characteristics"]["properties"]["conditionsOrFocus"]["maxItems"], 20,
+        )
+        self.assertEqual(
+            schemas["population-characteristics"]["properties"]["inclusionEnrollmentReports"]["maxItems"], 20,
+        )
+        self.assertEqual(schemas["design"]["properties"]["interventions"]["maxItems"], 20)
+        self.assertEqual(schemas["protocol-synopsis"]["properties"]["outcomeMeasures"]["maxItems"], 50)
+        self.assertEqual(
+            schemas["inclusion-enrollment-report"]["properties"]["enrollmentCountries"]["maxItems"], 200,
+        )
+        self.assertEqual(
+            schemas["study-record"]["properties"]["otherClinicalTrialAttachments"]["maxItems"], 100,
+        )
+
+        def assert_strings(node: object, path: str = "") -> None:
+            if isinstance(node, dict):
+                if "maxLength" in node:
+                    self.assertEqual(node.get("minLength"), 1, path)
+                for key, value in node.items():
+                    assert_strings(value, f"{path}/{key}")
+            elif isinstance(node, list):
+                for index, value in enumerate(node):
+                    assert_strings(value, f"{path}/{index}")
+
+        assert_strings(load(FORM / "schema.json"))
+        for name, schema in schemas.items():
+            assert_strings(schema, name)
 
 
 if __name__ == "__main__":

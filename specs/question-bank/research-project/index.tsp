@@ -26,15 +26,44 @@ enum HumanSubjectExemptionCode {
   exemption8: "E8",
 }
 
+/** Whether the project involves human subjects. */
+@Question.meta(#{ id: "research-project/human-subjects-indicator" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.details)
+model QuestionHumanSubjectsIndicator {
+  @UI.label("Does the proposed project involve human subjects?")
+  involvesHumanSubjects: ResearchProjectYesNoCode;
+}
+
+/** Whether the human-subject research is exempt from federal regulations. */
+@Question.meta(#{ id: "research-project/human-subjects-exemption-status" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.details)
+model QuestionHumanSubjectsExemptionStatus {
+  exemptFromFederalRegulations?: ResearchProjectYesNoCode;
+}
+
+/** The set of federal human-subject exemption identifiers that applies. */
+@Question.meta(#{ id: "research-project/human-subjects-exemption-numbers" })
+@Catalog.entity(EntityName.project)
+@Catalog.tag(TagName.details)
+model QuestionHumanSubjectsExemptionNumbers {
+  @minItems(1)
+  @maxItems(8)
+  exemptions?: HumanSubjectExemptionCode[];
+}
+
+model HumanSubjectDeterminations {
+  ...QuestionHumanSubjectsIndicator;
+  ...QuestionHumanSubjectsExemptionStatus;
+  ...QuestionHumanSubjectsExemptionNumbers;
+}
+
 /** Human-subject protections and institutional review information for the project. */
 @Question.meta(#{ id: "research-project/human-subjects" })
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.details)
-model QuestionHumanSubjects {
-  /** Does the proposed project involve human subjects? */
-  @UI.label("Does the proposed project involve human subjects?")
-  involvesHumanSubjects: ResearchProjectYesNoCode;
-
+model QuestionHumanSubjects extends HumanSubjectDeterminations {
   /** Is the project exempt from federal regulations governing human subjects research? */
   @UI.label("Is the project exempt from federal regulations?")
   @UI.visibleWhen(QuestionHumanSubjects.involvesHumanSubjects, ResearchProjectYesNoCode.yes)

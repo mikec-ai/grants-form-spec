@@ -401,10 +401,14 @@ export function emitSggUi(program: Program, block: Block): SggSection[] {
   const props = new Map<string, ModelProperty[]>(order.map((name) => [name, []]));
   const overrides = block.overrides as Overrides;
   for (const prop of orderedProps(program, block)) {
-    const sec = propSection(program, prop);
-    if (!sec) continue;
+    const declared = propSection(program, prop);
+    const overridden = at(overrides, prop.name).section;
+    const sectionName = typeof overridden === "string"
+      ? overridden
+      : declared?.name;
+    if (!sectionName) continue;
     if (at(overrides, prop.name).omit === true) continue;
-    props.get(sec.name)?.push(prop);
+    props.get(sectionName)?.push(prop);
   }
 
   const widgets = new Map(

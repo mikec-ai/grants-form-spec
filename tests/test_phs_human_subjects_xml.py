@@ -61,10 +61,14 @@ class PHSHumanSubjectsXmlTests(unittest.TestCase):
         result = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def assert_invalid(self, xml: bytes) -> None:
+        result = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
+        self.assertNotEqual(result.returncode, 0, "source XSD unexpectedly accepted XML")
+
     def test_minimal_no_human_subjects_payload_validates(self) -> None:
         xml = render_profile_xml(
             PROFILE,
-            {"involvesHumanSpecimensOrData": "N: No", "humanSubjectsInvolved": "N: No"},
+            {"involvesHumanSpecimensOrData": "N: No", "involvesHumanSubjects": "N: No"},
         )
         root = ET.fromstring(xml)
         self.assertEqual(root.tag, f"{{{FORM_NS}}}PHSHumanSubjectsAndClinicalTrialsInfo_3_0")
@@ -79,7 +83,7 @@ class PHSHumanSubjectsXmlTests(unittest.TestCase):
             PROFILE,
             {
                 "involvesHumanSpecimensOrData": "N: No",
-                "humanSubjectsInvolved": "Y: Yes",
+                "involvesHumanSubjects": "Y: Yes",
                 "delayedOnsetStudies": [{
                     "studyTitle": "Future study",
                     "anticipatedClinicalTrial": "Y: Yes",
@@ -129,7 +133,7 @@ class PHSHumanSubjectsXmlTests(unittest.TestCase):
             PROFILE,
             {
                 "involvesHumanSpecimensOrData": "N: No",
-                "humanSubjectsInvolved": "Y: Yes",
+                "involvesHumanSubjects": "Y: Yes",
                 "studies": [study],
             },
         )
@@ -142,12 +146,194 @@ class PHSHumanSubjectsXmlTests(unittest.TestCase):
         self.assertIsNotNone(study_node.find(f".//{{{STUDY_NS}}}Cumulative"))
         self.assert_valid(xml)
 
+    def test_both_exemption_wrappers_enforce_nonempty_items(self) -> None:
+        base = {"involvesHumanSpecimensOrData": "N: No", "involvesHumanSubjects": "Y: Yes"}
+        # The wrapper is optional, but if present its source sequence requires at least one item.
+        self.assert_valid(render_profile_xml(PROFILE, base))
+        self.assert_valid(render_profile_xml(PROFILE, {**base, "exemptions": ["E1"]}))
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "exemptions": []}))
+
+        study = {
+            "studyTitle": "Exempt study",
+            "exemptFromFederalRegulations": "Y: Yes",
+            "clinicalTrialQuestionnaire": {
+                "humanParticipants": "Y: Yes",
+                "prospectivelyAssignedIntervention": "N: No",
+                "evaluatesIntervention": "N: No",
+                "healthRelatedOutcome": "N: No",
+            },
+        }
+        self.assert_valid(render_profile_xml(PROFILE, {**base, "studies": [{**study, "exemptionNumbers": ["E2"]}]}))
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "studies": [{**study, "exemptionNumbers": []}]}))
+
+    def test_source_bounded_strings_reject_empty_values(self) -> None:
+        base = {"involvesHumanSpecimensOrData": "N: No", "involvesHumanSubjects": "N: No"}
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "applicationId": ""}))
+        study = {
+            "studyTitle": "",
+            "exemptFromFederalRegulations": "N: No",
+            "clinicalTrialQuestionnaire": {
+                "humanParticipants": "N: No",
+                "prospectivelyAssignedIntervention": "N: No",
+                "evaluatesIntervention": "N: No",
+                "healthRelatedOutcome": "N: No",
+            },
+        }
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "studies": [study]}))
+
+    def test_comprehensive_structured_study_preserves_all_groups_and_sequence(self) -> None:
+        study = {
+            "studyId": "study-1",
+            "studyTitle": "Comprehensive study",
+            "exemptFromFederalRegulations": "Y: Yes",
+            "exemptionNumbers": ["E1", "E2"],
+            "clinicalTrialQuestionnaire": {
+                "humanParticipants": "Y: Yes",
+                "prospectivelyAssignedIntervention": "Y: Yes",
+                "evaluatesIntervention": "Y: Yes",
+                "healthRelatedOutcome": "Y: Yes",
+            },
+            "clinicalTrialsGovIdentifier": "NCT12345678",
+            "populationCharacteristics": {
+                "conditionsOrFocus": ["Condition one", "Condition two"],
+                "eligibilityCriteria": "Adults meeting the source criteria",
+                "ageLimits": {
+                    "minimum": {"value": 18, "unit": "Years"},
+                    "maximum": {"value": 65, "unit": "Years"},
+                },
+                "inclusionAcrossLifespan": "inclusionAcrossLifespan",
+                "inclusionWomenMinorities": "inclusionWomenMinorities",
+                "recruitmentRetentionPlan": "recruitmentRetentionPlan",
+                "recruitmentStatus": "Recruiting",
+                "studyTimeline": "studyTimeline",
+                "firstSubjectEnrollment": {"date": "2026-01-01", "anticipatedActual": "Actual"},
+                "inclusionEnrollmentReports": [{
+                    "reportId": "ier-1", "title": "Enrollment report",
+                    "usesExistingDatasetOrResource": "N: No", "locationType": "Domestic",
+                    "enrollmentCountries": ["USA: UNITED STATES"],
+                    "enrollmentLocations": "Baltimore, Maryland", "comments": "Source-aligned note",
+                    "planned": {"notHispanicLatino": {"female": {"asian": 1, "total": 3}}},
+                    "cumulativeActual": {"total": {"asian": 2, "total": 4, "unknownNotReported": 1}},
+                }],
+            },
+            "protectionMonitoringPlans": {
+                "protectionOfHumanSubjects": "protectionOfHumanSubjects",
+                "multiSiteStudy": "Y: Yes", "singleIrbPlan": "singleIrbPlan",
+                "dataSafetyMonitoringPlan": "dataSafetyMonitoringPlan",
+                "monitoringBoardAppointed": "Y: Yes", "studyTeamStructure": "studyTeamStructure",
+            },
+            "protocolSynopsis": {
+                "studyDesign": {
+                    "detailedDescription": "Detailed design", "primaryPurpose": "Other",
+                    "otherPrimaryPurpose": "Other purpose",
+                    "interventions": [{"type": "Drug (including placebo)", "name": "Drug A", "description": "Description"}],
+                    "phase": "Phase 2", "nihDefinedPhase3": "N: No",
+                    "interventionModel": "Other", "otherInterventionModel": "Adaptive",
+                    "masking": "Y: Yes",
+                    "maskingParties": {"participant": "Y: Yes", "careProvider": "N: No", "investigator": "Y: Yes", "outcomesAssessor": "N: No"},
+                    "allocation": "Randomized",
+                },
+                "outcomeMeasures": [{"name": "Outcome", "type": "Primary", "timeFrame": "Week 12", "description": "Primary outcome"}],
+                "statisticalDesignAndPower": "statisticalDesignAndPower",
+                "subjectParticipationDuration": "12 weeks", "fdaRegulatedIntervention": "Y: Yes",
+                "investigationalProductAvailability": "investigationalProductAvailability",
+                "applicableClinicalTrial": "Y: Yes", "disseminationPlan": "disseminationPlan",
+            },
+            "otherClinicalTrialAttachments": ["otherClinicalTrialAttachments"],
+        }
+        attachment_names = {
+            "specimensExplanation", "otherRequestedInformation", "inclusionAcrossLifespan",
+            "inclusionWomenMinorities", "recruitmentRetentionPlan", "studyTimeline",
+            "protectionOfHumanSubjects", "singleIrbPlan", "dataSafetyMonitoringPlan",
+            "studyTeamStructure", "statisticalDesignAndPower",
+            "investigationalProductAvailability", "disseminationPlan",
+            "otherClinicalTrialAttachments", "justification",
+        }
+        attachments = {name: attachment(index) for index, name in enumerate(sorted(attachment_names), 1)}
+        payload = {
+            "involvesHumanSpecimensOrData": "Y: Yes", "specimensExplanation": "specimensExplanation",
+            "involvesHumanSubjects": "Y: Yes", "exemptFromFederalRegulations": "Y: Yes",
+            "exemptions": ["E1"], "otherRequestedInformation": "otherRequestedInformation",
+            "delayedOnsetStudies": [{"studyTitle": "Later study", "anticipatedClinicalTrial": "Y: Yes", "justification": "justification"}],
+            "studies": [study], "applicationId": "application-1",
+        }
+        xml = render_profile_xml(PROFILE, payload, attachments)
+        root = ET.fromstring(xml)
+        study_node = root.find(f".//{{{STUDY_NS}}}HumanSubjectStudy_3_0")
+        self.assertIsNotNone(study_node)
+        self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}StudyConditions")), 2)
+        self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}EnrollmentCountry")), 1)
+        self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}Interventions")), 1)
+        self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}OutcomesMeasures")), 1)
+        self.assert_valid(xml)
+
     def test_study_and_delayed_onset_wrapper_cardinalities_are_distinct(self) -> None:
         form_schema = json.loads((ROOT / "dist/forms/phs-human-subjects/schema.json").read_text())
         self.assertEqual(form_schema["properties"]["studies"]["maxItems"], 150)
         self.assertEqual(form_schema["properties"]["delayedOnsetStudies"]["maxItems"], 150)
         study_schema = json.loads((ROOT / "dist/question-bank/clinical-study/study-record/schema.json").read_text())
         self.assertEqual(study_schema["properties"]["otherClinicalTrialAttachments"]["maxItems"], 100)
+
+    def test_every_nested_repeat_accepts_its_maximum_and_rejects_maximum_plus_one(self) -> None:
+        questionnaire = {
+            "humanParticipants": "N: No", "prospectivelyAssignedIntervention": "N: No",
+            "evaluatesIntervention": "N: No", "healthRelatedOutcome": "N: No",
+        }
+
+        def base_study() -> dict[str, object]:
+            return {
+                "studyTitle": "Boundary study",
+                "exemptFromFederalRegulations": "N: No",
+                "clinicalTrialQuestionnaire": questionnaire,
+            }
+
+        base = {"involvesHumanSpecimensOrData": "N: No", "involvesHumanSubjects": "Y: Yes"}
+
+        def check_study_array(path: str, maximum: int, item: object) -> None:
+            def payload(count: int) -> dict[str, object]:
+                study = base_study()
+                cursor: dict[str, object] = study
+                parts = path.split(".")
+                for part in parts[:-1]:
+                    child: dict[str, object] = {}
+                    cursor[part] = child
+                    cursor = child
+                cursor[parts[-1]] = [item for _ in range(count)]
+                return {**base, "studies": [study]}
+
+            self.assert_valid(render_profile_xml(PROFILE, payload(maximum), {
+                str(value): attachment(index)
+                for index, value in enumerate([item] if isinstance(item, str) else [], 1)
+            }))
+            self.assert_invalid(render_profile_xml(PROFILE, payload(maximum + 1), {
+                str(value): attachment(index)
+                for index, value in enumerate([item] if isinstance(item, str) else [], 1)
+            }))
+
+        check_study_array("populationCharacteristics.conditionsOrFocus", 20, "Condition")
+        report = {
+            "title": "Report", "usesExistingDatasetOrResource": "N: No", "locationType": "Domestic",
+        }
+        check_study_array("populationCharacteristics.inclusionEnrollmentReports", 20, report)
+        report_countries = {**report, "enrollmentCountries": ["USA: UNITED STATES"] * 200}
+        self.assert_valid(render_profile_xml(PROFILE, {**base, "studies": [{**base_study(), "populationCharacteristics": {"inclusionEnrollmentReports": [report_countries]}}]}))
+        report_countries["enrollmentCountries"] = ["USA: UNITED STATES"] * 201
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "studies": [{**base_study(), "populationCharacteristics": {"inclusionEnrollmentReports": [report_countries]}}]}))
+        check_study_array("protocolSynopsis.studyDesign.interventions", 20, {
+            "type": "Drug (including placebo)", "name": "Drug", "description": "Description",
+        })
+        check_study_array("protocolSynopsis.outcomeMeasures", 50, {
+            "name": "Outcome", "type": "Primary", "timeFrame": "Week 1", "description": "Description",
+        })
+        check_study_array("otherClinicalTrialAttachments", 100, "other")
+
+        minimal = base_study()
+        self.assert_valid(render_profile_xml(PROFILE, {**base, "studies": [minimal] * 150}))
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "studies": [minimal] * 151}))
+        delayed = {"studyTitle": "Later", "justification": "justification"}
+        attachments = {"justification": attachment(1)}
+        self.assert_valid(render_profile_xml(PROFILE, {**base, "delayedOnsetStudies": [delayed] * 150}, attachments))
+        self.assert_invalid(render_profile_xml(PROFILE, {**base, "delayedOnsetStudies": [delayed] * 151}, attachments))
 
 
 if __name__ == "__main__":

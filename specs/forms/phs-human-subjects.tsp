@@ -24,24 +24,17 @@ enum PHSHumanSubjectsSection {
   ombNumber: "0925-0001",
 })
 @UI.sections(PHSHumanSubjectsSection)
-model PHSHumanSubjects {
+@Response.role(ResponseRole.systemValue)
+@UI.overrides(#{
+  `involvesHumanSubjects`: #{ readOnly: true, section: "overview" },
+  `exemptFromFederalRegulations`: #{ readOnly: true, section: "overview" },
+  `exemptions`: #{ readOnly: true, section: "overview" },
+})
+model PHSHumanSubjects extends QuestionBank.ResearchProject.HumanSubjectDeterminations {
   @UI.section(PHSHumanSubjectsSection.overview)
   involvesHumanSpecimensOrData: QuestionInvolvesHumanSpecimensOrData;
   @UI.section(PHSHumanSubjectsSection.overview)
   specimensExplanation?: HumanSpecimensExplanation;
-  @Response.role(ResponseRole.systemValue)
-  @UI.readOnly
-  @UI.section(PHSHumanSubjectsSection.overview)
-  humanSubjectsInvolved: ClinicalYesNo;
-  @Response.role(ResponseRole.systemValue)
-  @UI.readOnly
-  @UI.section(PHSHumanSubjectsSection.overview)
-  exemptFromFederalRegulations?: ClinicalYesNo;
-  @Response.role(ResponseRole.systemValue)
-  @UI.readOnly
-  @maxItems(8)
-  @UI.section(PHSHumanSubjectsSection.overview)
-  exemptionNumbers?: QuestionBank.ResearchProject.HumanSubjectExemptionCode[];
   @UI.section(PHSHumanSubjectsSection.overview)
   otherRequestedInformation?: HumanSubjectsOtherRequestedInformation;
   @maxItems(150)
@@ -53,6 +46,7 @@ model PHSHumanSubjects {
   @Response.role(ResponseRole.systemValue)
   @UI.readOnly
   @maxLength(40)
+  @minLength(1)
   @UI.section(PHSHumanSubjectsSection.overview)
   applicationId?: string;
 }

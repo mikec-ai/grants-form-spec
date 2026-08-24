@@ -24,9 +24,9 @@
     "fields": {
           "involvesHumanSpecimensOrData": { "element": "InvolveHumanSpecimens", "kind": "value", "namespace": "default" },
           "specimensExplanation": { "element": "attFile", "kind": "attachment", "namespace": "default", "container": { "element": "Explanation", "namespace": "default" } },
-          "humanSubjectsInvolved": { "element": "HumanSubjectsIndicator", "kind": "value", "namespace": "default" },
+          "involvesHumanSubjects": { "element": "HumanSubjectsIndicator", "kind": "value", "namespace": "default" },
           "exemptFromFederalRegulations": { "element": "ExemptFedReg", "kind": "value", "namespace": "default" },
-          "exemptionNumbers": {
+          "exemptions": {
             "element": "ExemptionNumbers", "kind": "array", "namespace": "default",
             "itemElement": "ExemptionNumber", "itemNamespace": "default",
             "items": { "node": { "kind": "value", "flatten": true } }

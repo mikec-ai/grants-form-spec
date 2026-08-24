@@ -314,18 +314,18 @@ describe("artifact contract v1", () => {
       { element: "ExemptionNumber" },
       { namespace: "default" },
       { attributes: { status: { constant: "ignored" } } },
-      { source: "/exemptionNumbers" },
+      { source: "/exemptions" },
       { constant: "E1" },
       { valueMap: { E1: "E1" } },
     ];
     for (const mutation of mutations) {
       const candidate = structuredClone(valid);
-      Object.assign(candidate.mapping.fields.exemptionNumbers.items.node, mutation);
+      Object.assign(candidate.mapping.fields.exemptions.items.node, mutation);
       expect(validateGrantsGovXmlProfile(candidate), JSON.stringify(mutation)).toBe(false);
     }
 
     const typo = structuredClone(valid);
-    const typoNode = typo.mapping.fields.exemptionNumbers.items.node;
+    const typoNode = typo.mapping.fields.exemptions.items.node;
     delete typoNode.flatten;
     typoNode.flaten = true;
     expect(validateGrantsGovXmlProfile(typo)).toBe(false);

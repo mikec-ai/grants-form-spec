@@ -307,14 +307,15 @@ function overriddenPresentation(block: Block): Record<string, unknown> | undefin
     const presentation: Record<string, unknown> = {};
     if (typeof override.label === "string") presentation.title = override.label;
     if (typeof override.helpText === "string") presentation.description = override.helpText;
+    if (override.readOnly === true) presentation.readOnly = true;
     if (!Object.keys(presentation).length) continue;
 
     const [head, ...rest] = path.split(".");
-    if (!rest.length) {
+    if (!rest.length && override.readOnly !== true) {
       // A root property is declared in this block, so `@UI.label` already covers it.
       continue;
     }
-    const patch = nest(rest, presentation);
+    const patch = rest.length ? nest(rest, presentation) : presentation;
     patches[head] = merge(patches[head] ?? {}, patch);
   }
   if (!Object.keys(patches).length) return undefined;

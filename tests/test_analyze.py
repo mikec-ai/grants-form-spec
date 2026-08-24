@@ -227,7 +227,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 187)
+        self.assertEqual(len(self.analysis["questionInventory"]), 190)
         self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 1134)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 561)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 34)
@@ -690,6 +690,20 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(row["mappingStatus"], "unmapped")
         self.assertEqual(row["formSemanticReviewStatus"], "proposed")
         self.assertFalse(row["publishable"])
+
+    def test_external_bank_local_refs_preserve_enrollment_coordinate_shape(self) -> None:
+        row = next(
+            row
+            for row in self.analysis["formQuestionWorkbook"]
+            if row["formId"] == "phs-human-subjects"
+            and row["questionId"] == "clinical-study/inclusion-enrollment-report"
+            and row["occurrencePath"].endswith(
+                "/planned/notHispanicLatino/female/asian"
+            )
+        )
+        self.assertEqual(row["schemaType"], "integer")
+        self.assertEqual(row["minimum"], 0)
+        self.assertEqual(row["maximum"], 999999999)
 
 
 if __name__ == "__main__":

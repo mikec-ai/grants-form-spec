@@ -255,55 +255,72 @@ def occurrence_shape(form_schema: dict, path: str, bank: dict[str, dict]) -> dic
     Requiredness is reported only after resolving the property in the emitted graph. A missing
     path remains unknown instead of being misreported as optional.
     """
-    local_defs = form_schema.get("$defs", {})
-
-    def variants(node: dict, seen: set[str] | None = None) -> list[dict]:
+    def variants(
+        node: dict,
+        document: dict,
+        seen: set[str] | None = None,
+    ) -> list[tuple[dict, dict]]:
         seen = set() if seen is None else seen
-        out = [node]
+        out = [(node, document)]
         ref = node.get("$ref")
         target = None
+        target_document = document
         marker = None
         if isinstance(ref, str) and "question-bank/" in ref:
             block_id = bank_ref(ref)
             target = bank.get(block_id or "")
             marker = f"bank:{block_id}"
+            if isinstance(target, dict):
+                target_document = target
         elif isinstance(ref, str) and ref.startswith("#/$defs/"):
             name = ref.removeprefix("#/$defs/")
-            target = local_defs.get(name)
-            marker = f"local:{name}"
+            target = document.get("$defs", {}).get(name)
+            marker = f"local:{id(document)}:{name}"
         if isinstance(target, dict) and marker not in seen:
-            out.extend(variants(target, {*seen, marker}))
+            out.extend(variants(target, target_document, {*seen, marker}))
         for branch in node.get("allOf", []):
             if isinstance(branch, dict):
-                out.extend(variants(branch, seen))
+                out.extend(variants(branch, document, seen))
         return out
 
-    current = form_schema
+    current: list[tuple[dict, dict]] = [(form_schema, form_schema)]
     required: bool | None = None
     array_shape: dict | None = None
     for segment in (part for part in path.split("/") if part):
-        available = variants(current)
+        available: list[tuple[dict, dict]] = []
+        for node, document in current:
+            available.extend(variants(node, document))
         if segment == "[]":
-            container = next((item for item in available if isinstance(item.get("items"), dict)), None)
-            if container is None:
+            containers = [
+                (item, document)
+                for item, document in available
+                if isinstance(item.get("items"), dict)
+            ]
+            if not containers:
                 return {**schema_shape({}), "required": required}
-            array_shape = schema_shape(container)
-            current = container["items"]
+            array_shape = {}
+            for container, _document in containers:
+                for key, value in schema_shape(container).items():
+                    if value is not None and key not in array_shape:
+                        array_shape[key] = value
+            current = [(container["items"], document) for container, document in containers]
             continue
-        owner = next(
-            (item for item in available if segment in item.get("properties", {})),
-            None,
-        )
-        if owner is None:
+        owners = [
+            (item, document)
+            for item, document in available
+            if segment in item.get("properties", {})
+        ]
+        if not owners:
             return {**schema_shape({}), "required": None}
-        required = any(segment in item.get("required", []) for item in available)
-        current = owner["properties"][segment]
+        required = any(segment in item.get("required", []) for item, _document in available)
+        current = [(owner["properties"][segment], document) for owner, document in owners]
 
     resolved = {}
-    for item in variants(current):
-        for key, value in schema_shape(item).items():
-            if value is not None and key not in resolved:
-                resolved[key] = value
+    for node, document in current:
+        for item, _document in variants(node, document):
+            for key, value in schema_shape(item).items():
+                if value is not None and key not in resolved:
+                    resolved[key] = value
     shape = schema_shape({})
     shape.update(resolved)
     if array_shape is not None:

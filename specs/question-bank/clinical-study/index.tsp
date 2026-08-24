@@ -27,6 +27,7 @@ enum ClinicalAgeUnit { years: "Years", months: "Months", weeks: "Weeks", days: "
 @minValue(0) @maxValue(99999999999) scalar ClinicalCount11 extends integer;
 
 @maxLength(255)
+@minLength(1)
 scalar ClinicalConditionOrFocus extends string;
 
 /** Whether any proposed research involves human specimens and/or data. */
@@ -149,6 +150,7 @@ scalar OtherClinicalTrialDocument extends AttachmentRef;
 @Catalog.tag(TagName.details)
 model DelayedOnsetStudy {
   @maxLength(600)
+  @minLength(1)
   studyTitle: string;
   anticipatedClinicalTrial?: ClinicalYesNo;
   justification: DelayedOnsetJustification;
@@ -248,16 +250,20 @@ model InclusionEnrollmentReport {
   @Response.role(ResponseRole.systemValue)
   @UI.readOnly
   @maxLength(40)
+  @minLength(1)
   reportId?: string;
   @maxLength(600)
+  @minLength(1)
   title: string;
   usesExistingDatasetOrResource: ClinicalYesNo;
   locationType: EnrollmentLocationType;
   @maxItems(200)
   enrollmentCountries?: CountryCode[];
   @maxLength(255)
+  @minLength(1)
   enrollmentLocations?: string;
   @maxLength(500)
+  @minLength(1)
   comments?: string;
   planned?: PlannedEnrollmentMatrix;
   cumulativeActual?: CumulativeEnrollmentMatrix;
@@ -272,6 +278,7 @@ model StudyPopulationCharacteristics {
   @maxItems(20)
   conditionsOrFocus?: ClinicalConditionOrFocus[];
   @maxLength(15000)
+  @minLength(1)
   eligibilityCriteria?: string;
   ageLimits?: ClinicalAgeLimits;
   inclusionAcrossLifespan?: InclusionAcrossLifespanDocument;
@@ -301,8 +308,10 @@ model ProtectionMonitoringPlans {
 model ClinicalIntervention {
   type: ClinicalInterventionType;
   @maxLength(200)
+  @minLength(1)
   name: string;
   @maxLength(1000)
+  @minLength(1)
   description: string;
 }
 
@@ -320,9 +329,11 @@ model ClinicalMaskingParties {
 @Catalog.tag(TagName.details)
 model ClinicalStudyDesign {
   @maxLength(32000)
+  @minLength(1)
   detailedDescription?: string;
   primaryPurpose?: ClinicalPrimaryPurpose;
   @maxLength(255)
+  @minLength(1)
   otherPrimaryPurpose?: string;
   @maxItems(20)
   interventions?: ClinicalIntervention[];
@@ -330,6 +341,7 @@ model ClinicalStudyDesign {
   nihDefinedPhase3?: ClinicalYesNo;
   interventionModel?: ClinicalInterventionModel;
   @maxLength(255)
+  @minLength(1)
   otherInterventionModel?: string;
   masking?: ClinicalYesNo;
   maskingParties?: ClinicalMaskingParties;
@@ -338,11 +350,14 @@ model ClinicalStudyDesign {
 
 model ClinicalOutcomeMeasure {
   @maxLength(255)
+  @minLength(1)
   name: string;
   type: ClinicalOutcomeType;
   @maxLength(255)
+  @minLength(1)
   timeFrame: string;
   @maxLength(999)
+  @minLength(1)
   description: string;
 }
 
@@ -357,6 +372,7 @@ model ProtocolSynopsis {
   outcomeMeasures?: ClinicalOutcomeMeasure[];
   statisticalDesignAndPower?: StatisticalDesignPowerDocument;
   @maxLength(255)
+  @minLength(1)
   subjectParticipationDuration?: string;
   fdaRegulatedIntervention?: ClinicalYesNo;
   investigationalProductAvailability?: InvestigationalAvailabilityDocument;
@@ -373,14 +389,18 @@ model HumanSubjectStudyRecord {
   @Response.role(ResponseRole.systemValue)
   @UI.readOnly
   @maxLength(40)
+  @minLength(1)
   studyId?: string;
   @maxLength(600)
+  @minLength(1)
   studyTitle: string;
   exemptFromFederalRegulations: ClinicalYesNo;
+  @minItems(1)
   @maxItems(8)
   exemptionNumbers?: QuestionBank.ResearchProject.HumanSubjectExemptionCode[];
   clinicalTrialQuestionnaire: ClinicalTrialQuestionnaire;
   @maxLength(11)
+  @minLength(1)
   clinicalTrialsGovIdentifier?: string;
   populationCharacteristics?: StudyPopulationCharacteristics;
   protectionMonitoringPlans?: ProtectionMonitoringPlans;

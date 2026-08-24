@@ -519,6 +519,7 @@ function checkSections(program: Program, block: Block): void {
   for (const prop of orderedProps(program, block)) {
     if (propOmit(program, prop)) continue;
     if (propSection(program, prop)) continue;
+    if (typeof block.overrides[prop.name]?.section === "string") continue;
     reportDiagnostic(program, {
       code: "section-orphan",
       target: prop,

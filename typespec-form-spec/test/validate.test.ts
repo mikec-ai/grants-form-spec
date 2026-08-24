@@ -638,6 +638,27 @@ describe("$onValidate", () => {
         ),
       );
     });
+
+    it("accepts an inherited field assigned by a form-local section override", async () => {
+      expectDiagnosticEmpty(
+        await Tester.diagnose(
+          form(`
+            enum Section { only: "Only" }
+
+            /** A reusable question. */
+            @Question.meta(#{ id: "shared/answer" })
+            @Catalog.tag(TagName.details)
+            model SharedAnswer { answer: string; }
+
+            /** A form. */
+            ${formMeta("override-section")}
+            @UI.sections(Section)
+            @UI.overrides(#{ answer: #{ section: "only", readOnly: true } })
+            model OverrideSection extends SharedAnswer {}
+          `),
+        ),
+      );
+    });
   });
 
   describe("override-path-unresolved", () => {
