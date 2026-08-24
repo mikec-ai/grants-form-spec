@@ -2,11 +2,10 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-nine producer forms and thirty-nine banked consumer forms are
-  delivered; the next candidate cohort is explicitly queued behind current
-  parity and adapter foundations.
+  Thirty-nine producer and consumer forms are delivered; further expansion is
+  queued behind the current compatibility and new-form proof slices.
 sequence: '3'
-superbee_progress_status: active
+superbee_progress_status: queued
 superbee_updated_by: codex-root
 ---
 # Strategy
