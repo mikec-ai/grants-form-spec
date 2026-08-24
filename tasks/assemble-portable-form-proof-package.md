@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:51:26.741Z'
+  at: '2026-08-24T16:55:37.449Z'
 ---
 # Goal
 
@@ -84,8 +84,8 @@ increment; the broader proof-package task remains in progress.
 
 # R&R Budget cross-section proof refresh
 
-[grants-form-spec PR 80](https://github.com/mikec-ai/grants-form-spec/pull/80) refreshes every
-producer-path claim to merged producer main revision
+[grants-form-spec PR 80](https://github.com/mikec-ai/grants-form-spec/pull/80), merged at
+`a667b9fa6904f9b12bdf424ac354c66935462631`, refreshes every producer-path claim to producer revision
 `563e7d8b5a38c7b5d66723bfbc1607caeeff4aad` after the generic F-8-1 condition contract landed.
 The family claim now states the exact 64-occurrence boundary as 50 represented by existing
 declarations, 10 compiled through one generic cross-section contract, and four source-bound and
