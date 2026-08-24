@@ -372,6 +372,32 @@ export const $requiredPathWhen = (
   value: literal(equals),
 });
 
+/** Record a bounded conditional choice over descendant paths. */
+export const $atLeastOnePathWhenPresent = (
+  ctx: Ctx,
+  target: Model | ModelProperty,
+  sourcePath: unknown,
+  ...targetPaths: unknown[]
+) => {
+  const source = String(literal(sourcePath));
+  const paths = [...new Set(targetPaths.map((path) => String(literal(path))))];
+  if (!source || paths.length < 2 || paths.some((path) => !path)) {
+    reportDiagnostic(ctx.program, {
+      code: "conditional-at-least-one-path-invalid",
+      target,
+      format: {
+        model: target.name || "an anonymous model",
+        paths: paths.join(", ") || "none",
+      },
+    });
+    return;
+  }
+  push(ctx, stateKeys.atLeastOnePathWhenPresent, target, {
+    sourcePath: source,
+    targetPaths: paths,
+  });
+};
+
 /** Record a portable JSON Schema any-of-required constraint on sibling properties. */
 export const $atLeastOneOf = (
   ctx: Ctx,

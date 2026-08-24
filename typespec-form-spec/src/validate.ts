@@ -3,7 +3,7 @@ import type {
 } from "@typespec/compiler";
 import { reportDiagnostic } from "./lib.js";
 import {
-  Block, Condition, allBlocks, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propCalculationMaterialization, propComputed, readBlock,
+  Block, Condition, allBlocks, cardinalityAtLeastOnePathWhenPresent, cardinalityRequiredPaths, cardinalityRequiredWhen, childBlock, conditionSourceModel, modelMultiFields, orderedProps, propCalculationMaterialization, propComputed, readBlock,
   propComputedFrom,
   propEncodedCheckboxGroup,
   modelPrePopulate, modelProperties, propEnabledWhen, propNotBefore, propOmit, propReadOnlyWhen, propRequiredWhen, propSection,
@@ -51,7 +51,8 @@ function checkCardinalityPaths(program: Program): void {
     for (const model of namespace.models.values()) {
       const modelPaths = cardinalityRequiredPaths(program, model);
       const modelConditions = cardinalityRequiredWhen(program, model);
-      if ((modelPaths.length || modelConditions.length) && !readBlock(program, model)) {
+      const modelAlternatives = cardinalityAtLeastOnePathWhenPresent(program, model);
+      if ((modelPaths.length || modelConditions.length || modelAlternatives.length) && !readBlock(program, model)) {
         reportDiagnostic(program, {
           code: "cardinality-model-not-emitted",
           target: model,
@@ -66,6 +67,9 @@ function checkCardinalityPaths(program: Program): void {
           for (const path of [
             ...cardinalityRequiredPaths(program, property),
             ...cardinalityRequiredWhen(program, property).flatMap((entry) => [entry.targetPath, entry.sourcePath]),
+            ...cardinalityAtLeastOnePathWhenPresent(program, property).flatMap(
+              (entry) => [entry.sourcePath, ...entry.targetPaths],
+            ),
           ]) {
             reportDiagnostic(program, {
               code: "cardinality-path-unresolved",
@@ -112,6 +116,12 @@ function checkCardinalityTarget(
           members: members.slice(0, 6).join(", ") + (members.length > 6 ? ", ..." : ""),
         },
       });
+    }
+  }
+  for (const entry of cardinalityAtLeastOnePathWhenPresent(program, target)) {
+    reportCardinalityPath(program, target, root, modelName, entry.sourcePath);
+    for (const path of entry.targetPaths) {
+      reportCardinalityPath(program, target, root, modelName, path);
     }
   }
 }

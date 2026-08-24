@@ -1,6 +1,7 @@
 import type { Model, ModelProperty, Program, Type } from "@typespec/compiler";
 import {
   Block,
+  cardinalityAtLeastOnePathWhenPresent,
   cardinalityRequiredPaths,
   cardinalityRequiredWhen,
   modelAtLeastOneOf,
@@ -92,11 +93,16 @@ function cardinalityAnnotations(
 
   let own: Record<string, unknown> = requiredPathPatch(cardinalityRequiredPaths(program, model));
   own = merge(own, conditionalPathPatch(cardinalityRequiredWhen(program, model)));
+  own = merge(own, conditionalAtLeastOnePathPatch(cardinalityAtLeastOnePathWhenPresent(program, model)));
 
   const properties: Record<string, unknown> = {};
   for (const property of model.properties.values()) {
     let patch = requiredPathPatch(cardinalityRequiredPaths(program, property));
     patch = merge(patch, conditionalPathPatch(cardinalityRequiredWhen(program, property)));
+    patch = merge(
+      patch,
+      conditionalAtLeastOnePathPatch(cardinalityAtLeastOnePathWhenPresent(program, property)),
+    );
     const child = childModel(property.type);
     // A published question owns its intrinsic cardinality in its own schema. Crossing
     // that reference boundary would copy the same constraints beside every occurrence
@@ -110,6 +116,20 @@ function cardinalityAnnotations(
   }
   if (Object.keys(properties).length) own = merge(own, { properties });
   return Object.keys(own).length ? own : undefined;
+}
+
+function conditionalAtLeastOnePathPatch(
+  entries: { sourcePath: string; targetPaths: string[] }[],
+): Record<string, unknown> {
+  if (!entries.length) return {};
+  return {
+    allOf: entries.map((entry) => ({
+      if: requirePath(entry.sourcePath.split(".").filter(Boolean)),
+      then: {
+        anyOf: entry.targetPaths.map((path) => requirePath(path.split(".").filter(Boolean))),
+      },
+    })),
+  };
 }
 
 function requiredPathPatch(paths: string[]): Record<string, unknown> {

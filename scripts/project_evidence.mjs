@@ -148,26 +148,96 @@ function collectConditionTargets(node, context, targets = []) {
   return targets;
 }
 
-function collectRequiredOnlyConditionTargets(node, path = [], targets = []) {
+function collectRequiredLeaves(node, path, targets) {
   if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
-  for (const clause of node.allOf ?? []) {
-    const required = clause?.then?.required;
-    if (Array.isArray(required)) {
-      for (const property of required) {
-        if (typeof property === "string" && property) targets.push([...path, property].join("."));
-      }
+  for (const property of node.required ?? []) {
+    if (typeof property !== "string" || !property) continue;
+    const nested = node.properties?.[property];
+    const before = targets.length;
+    if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+      collectRequiredLeaves(nested, [...path, property], targets);
+    }
+    if (targets.length === before) targets.push([...path, property].join("."));
+  }
+  for (const alternative of node.anyOf ?? []) collectRequiredLeaves(alternative, path, targets);
+  return targets;
+}
+
+function jsonPointer(root, fragment, context) {
+  if (!fragment || fragment === "#") return root;
+  if (!fragment.startsWith("#/")) {
+    throw new Error(`${context}: only local JSON Pointer fragments are supported in schema refs`);
+  }
+  let current = root;
+  for (const raw of fragment.slice(2).split("/")) {
+    const token = raw.replaceAll("~1", "/").replaceAll("~0", "~");
+    if (!current || typeof current !== "object" || !(token in current)) {
+      throw new Error(`${context}: unresolved schema ref fragment ${fragment}`);
+    }
+    current = current[token];
+  }
+  return current;
+}
+
+async function collectRequiredOnlyConditionTargets(
+  node,
+  path = [],
+  targets = [],
+  state,
+) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
+  if (typeof node.$ref === "string") {
+    const [relativePath, rawFragment] = node.$ref.split("#", 2);
+    const referencedPath = relativePath
+      ? resolve(dirname(state.schemaPath), relativePath)
+      : state.schemaPath;
+    if (relative(state.dist, referencedPath).startsWith("..")) {
+      throw new Error(`${state.context}: schema ref escapes emitted artifact root: ${node.$ref}`);
+    }
+    const referencedRoot = relativePath ? await json(referencedPath) : state.schemaRoot;
+    const fragment = rawFragment === undefined ? "" : `#${rawFragment}`;
+    const identity = `${referencedPath}${fragment}|${path.join(".")}`;
+    if (!state.seen.has(identity)) {
+      state.seen.add(identity);
+      await collectRequiredOnlyConditionTargets(
+        jsonPointer(referencedRoot, fragment, state.context),
+        path,
+        targets,
+        {
+          ...state,
+          schemaPath: referencedPath,
+          schemaRoot: referencedRoot,
+        },
+      );
     }
   }
+  for (const clause of node.allOf ?? []) {
+    if (clause?.if && clause?.then) collectRequiredLeaves(clause.then, path, targets);
+  }
   for (const [property, schema] of Object.entries(node.properties ?? {})) {
-    collectRequiredOnlyConditionTargets(schema, [...path, property], targets);
+    await collectRequiredOnlyConditionTargets(schema, [...path, property], targets, state);
   }
   if (node.items && typeof node.items === "object" && !Array.isArray(node.items)) {
-    collectRequiredOnlyConditionTargets(node.items, [...path.slice(0, -1), `${path.at(-1) ?? ""}[*]`], targets);
+    await collectRequiredOnlyConditionTargets(
+      node.items,
+      [...path.slice(0, -1), `${path.at(-1) ?? ""}[*]`],
+      targets,
+      state,
+    );
   }
   return targets;
 }
 
-function emittedRuleTargets(ruleSchema, uiSchema, formSchema, behaviorEvidence, occurrences, context) {
+async function emittedRuleTargets(
+  ruleSchema,
+  uiSchema,
+  formSchema,
+  behaviorEvidence,
+  occurrences,
+  context,
+  schemaPath,
+  dist,
+) {
   const canonicalOccurrences = [...occurrences].map(canonicalOccurrence);
   const byRulePath = new Map();
   for (const path of canonicalOccurrences) {
@@ -199,7 +269,19 @@ function emittedRuleTargets(ruleSchema, uiSchema, formSchema, behaviorEvidence, 
       .filter((entry) => entry.ruleKind === "condition" && entry.executionStatus === "compiled")
       .map((entry) => entry.canonicalPath),
   );
-  for (const canonicalPath of new Set(collectRequiredOnlyConditionTargets(formSchema))) {
+  const requiredOnlyTargets = await collectRequiredOnlyConditionTargets(
+    formSchema,
+    [],
+    [],
+    {
+      context,
+      dist,
+      schemaPath,
+      schemaRoot: formSchema,
+      seen: new Set(),
+    },
+  );
+  for (const canonicalPath of new Set(requiredOnlyTargets)) {
     // A conditional enablement on the field itself, or on a nested value within a
     // question wrapper, already accounts for the source condition. Only add the
     // portable-schema target when no consumer UI condition can represent it.
@@ -435,13 +517,17 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       normalizationIdentities.add(identity);
     }
     if (kindRoot === "forms") {
-      const ruleTargets = emittedRuleTargets(
+      const schemaPath = resolve(targetDir, "schema.json");
+      const formSchema = await json(schemaPath);
+      const ruleTargets = await emittedRuleTargets(
         await json(resolve(targetDir, "sgg", "rule-schema.json")),
         await json(resolve(targetDir, "sgg", "ui-schema.json")),
-        await json(resolve(targetDir, "schema.json")),
+        formSchema,
         document.behaviorEvidence,
         occurrences,
         rel,
+        schemaPath,
+        dist,
       );
       const dispositions = new Map();
       for (const behavior of document.behaviorEvidence ?? []) {

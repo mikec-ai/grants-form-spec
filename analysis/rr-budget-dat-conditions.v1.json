@@ -29,13 +29,14 @@
       "optional-row-required-members": 16
     },
     "byDisposition": {
+      "compiled-by-at-least-one-path-when-present": 10,
       "represented-by-existing-declaration": 50,
-      "source-bound-uncompiled": 14
+      "source-bound-uncompiled": 4
     }
   },
   "genericPrimitiveDecision": {
-    "status": "no-new-primitive",
-    "reason": "Fifty source occurrences are already represented by optional-object member requiredness or the existing calculated-output materialization declaration. The remaining attachment/total rules require a positive comparison over an XSD numeric-string wire type, and the cross-section rule requires a conditional minimum across ten distinct optional objects. Neither boundary is safely expressible by the current portable condition vocabulary without a new, consumer-validated contract."
+    "status": "partial-generic-primitive",
+    "reason": "Fifty source occurrences are already represented by optional-object member requiredness or the existing calculated-output materialization declaration. Ten path occurrences of one cross-section rule compile through the bounded atLeastOnePathWhenPresent contract. The remaining four attachment/total rules require a positive comparison over an XSD numeric-string wire type and remain explicitly unavailable pending a consumer-validated numeric-string contract."
   },
   "reviewStatus": "unreviewed",
   "patterns": [
@@ -88,7 +89,7 @@
       "exactConditionTexts": [
         "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17."
       ],
-      "implementationDisposition": "source-bound-uncompiled"
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present"
     },
     {
       "conditionClass": "optional-object-paired-requiredness",
@@ -736,7 +737,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -755,7 +756,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -774,7 +775,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -793,7 +794,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -812,7 +813,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -831,7 +832,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -850,7 +851,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -869,7 +870,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -888,7 +889,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",
@@ -907,7 +908,7 @@
       "dataType": "AN",
       "condition": "All instances (lines 8-17) descriptions are always active. Data entry is not sequential and users can fill data as needed. If data is entered in E-5-1 \"Other\" for Section E - Participant/Trainee Costs, a minimum of one row is required to be filled out from line item 8-17.",
       "conditionClass": "cross-section-minimum-one-row",
-      "implementationDisposition": "source-bound-uncompiled",
+      "implementationDisposition": "compiled-by-at-least-one-path-when-present",
       "sourceId": "grantsgov-rr-budget-dat-3.0-f770",
       "sourceUri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
       "sourceVersion": "3.0",

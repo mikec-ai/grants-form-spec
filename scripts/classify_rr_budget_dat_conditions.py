@@ -81,7 +81,10 @@ def classify_condition(condition: str) -> tuple[str, str]:
     if condition in ATTACHMENT_POSITIVE:
         return "attachment-total-positive-bidirectional", "source-bound-uncompiled"
     if condition == CROSS_SECTION_MINIMUM:
-        return "cross-section-minimum-one-row", "source-bound-uncompiled"
+        return (
+            "cross-section-minimum-one-row",
+            "compiled-by-at-least-one-path-when-present",
+        )
     raise ValueError(f"unclassified exact DAT condition: {condition!r}")
 
 
@@ -175,15 +178,14 @@ def inventory(input_path: pathlib.Path) -> dict:
             "byDisposition": dict(sorted(by_disposition.items())),
         },
         "genericPrimitiveDecision": {
-            "status": "no-new-primitive",
+            "status": "partial-generic-primitive",
             "reason": (
                 "Fifty source occurrences are already represented by optional-object member "
                 "requiredness or the existing calculated-output materialization declaration. "
-                "The remaining attachment/total rules require a positive comparison over an "
-                "XSD numeric-string wire type, and the cross-section rule requires a conditional "
-                "minimum across ten distinct optional objects. Neither boundary is safely "
-                "expressible by the current portable condition vocabulary without a new, "
-                "consumer-validated contract."
+                "Ten path occurrences of one cross-section rule compile through the bounded "
+                "atLeastOnePathWhenPresent contract. The remaining four attachment/total rules "
+                "require a positive comparison over an XSD numeric-string wire type and remain "
+                "explicitly unavailable pending a consumer-validated numeric-string contract."
             ),
         },
         "reviewStatus": "unreviewed",

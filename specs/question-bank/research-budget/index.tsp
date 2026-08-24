@@ -1049,6 +1049,19 @@ model ResearchBudgetBudgetYearTravel {
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.money)
 @UI.label("Budget Period")
+@Validation.atLeastOnePathWhenPresent(
+  "participantTraineeSupportCosts.other",
+  "otherDirectCosts.otherDirectCost1.description",
+  "otherDirectCosts.otherDirectCost2.description",
+  "otherDirectCosts.otherDirectCost3.description",
+  "otherDirectCosts.otherDirectCost4.description",
+  "otherDirectCosts.otherDirectCost5.description",
+  "otherDirectCosts.otherDirectCost6.description",
+  "otherDirectCosts.otherDirectCost7.description",
+  "otherDirectCosts.otherDirectCost8.description",
+  "otherDirectCosts.otherDirectCost9.description",
+  "otherDirectCosts.otherDirectCost10.description"
+)
 model ResearchBudgetBudgetYear {
   @UI.label("End Date:")
   budgetPeriodEndDate: plainDate;

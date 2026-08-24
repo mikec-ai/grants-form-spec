@@ -97,7 +97,7 @@ class ResearchBudgetProfileTests(unittest.TestCase):
                     dat["sha256"],
                     "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035",
                 )
-                self.assertEqual(len(evidence["behaviorEvidence"]), 56)
+                self.assertEqual(len(evidence["behaviorEvidence"]), 66)
                 self.assertEqual(
                     {
                         record["sourceId"]
@@ -134,6 +134,33 @@ class ResearchBudgetProfileTests(unittest.TestCase):
                             for record in evidence["behaviorEvidence"]
                         )
                     )
+
+    def test_f770_cross_section_minimum_is_compiled_without_semantic_acceptance(self) -> None:
+        expected_condition = (
+            'All instances (lines 8-17) descriptions are always active. Data entry is not '
+            'sequential and users can fill data as needed. If data is entered in E-5-1 "Other" '
+            'for Section E - Participant/Trainee Costs, a minimum of one row is required to be '
+            'filled out from line item 8-17.'
+        )
+        for form_id in (
+            "rr-budget",
+            "rr-budget-10yr",
+            "rr-subaward-budget",
+            "rr-subaward-budget-30",
+            "rr-subaward-budget-10yr-30",
+        ):
+            with self.subTest(form_id=form_id):
+                evidence = json.loads((FORMS / form_id / "evidence.json").read_text())
+                conditions = [
+                    record
+                    for record in evidence["behaviorEvidence"]
+                    if record["ruleKind"] == "condition"
+                ]
+                self.assertEqual(len(conditions), 10)
+                self.assertEqual({record["sourceRecord"] for record in conditions}, {expected_condition})
+                self.assertEqual({record["sourcePath"] for record in conditions}, {"F-8-1"})
+                self.assertEqual({record["executionStatus"] for record in conditions}, {"compiled"})
+                self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
 
 
 if __name__ == "__main__":

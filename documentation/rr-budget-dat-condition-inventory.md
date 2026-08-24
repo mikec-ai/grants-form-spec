@@ -48,17 +48,19 @@ These are implementation dispositions, not accepted semantic mappings.
 
 ## Precise unresolved boundary
 
-Fourteen occurrences remain source-bound and uncompiled:
+Ten occurrences of the single F-8-1 cross-section rule now compile through the bounded,
+target-neutral `atLeastOnePathWhenPresent` contract. Presence of the Participant/Trainee `Other`
+object conditionally requires at least one of the ten exact Other Direct Cost description paths.
+The portable emitter expresses this as ordinary JSON Schema `if` plus `then.anyOf`; the rule stays
+visible and active, as the source requires, and remains unreviewed for semantic acceptance.
+
+Four occurrences remain source-bound and uncompiled:
 
 - Four attachment/total rules are two bidirectional pairs. Each pair combines presence with a
   strict greater-than-zero comparison over an XSD decimal represented portably as a string. A
   presence-only rule would weaken the source condition, while ordinary numeric JSON Schema keywords
   do not apply to the wire string.
-- Ten occurrences of the single F-8-1 source rule require at least one of ten distinct Other Direct
-  Cost rows when the Participant/Trainee `Other` cost is entered. This crosses sections and requires
-  a conditional minimum over distinct optional objects.
-
-The current portable vocabulary cannot express either boundary exactly. Adding a generic primitive
-now would require inventing numeric-string or cross-section aggregation semantics before a consumer
-contract and conformance tests exist. The inventory therefore adds no new primitive and leaves all
-fourteen occurrences explicitly unreviewed and uncompiled.
+The current portable vocabulary still cannot express that numeric-string boundary exactly. A
+presence-only approximation would weaken the official rule. Those four occurrences therefore stay
+explicitly unreviewed and uncompiled pending a generic numeric-string comparison contract and
+consumer conformance.
