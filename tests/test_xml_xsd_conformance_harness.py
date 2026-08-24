@@ -81,16 +81,26 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
                     "kind": "value",
                     "namespace": "default",
                     "source": "/control/value",
+                    "attributes": {"code": {"source": "/control/code"}},
                 },
                 "optional": value_field(),
             }
         )
-        root = ET.fromstring(render_profile_xml(profile, {"control": {"value": "answer"}}))
+        root = ET.fromstring(
+            render_profile_xml(
+                profile, {"control": {"value": "answer", "code": "A"}}
+            )
+        )
         self.assertEqual(root[0].text, "answer")
+        self.assertEqual(list(root[0].attrib.values()), ["A"])
         with self.assertRaisesRegex(AssertionError, r"at /control: unknown"):
             render_profile_xml(profile, {"control": {"value": "answer", "unknown": True}})
         with self.assertRaisesRegex(AssertionError, r"at /: copied"):
             render_profile_xml(profile, {"control": {"value": "answer"}, "copied": "shadow"})
+        with self.assertRaisesRegex(AssertionError, "requires a scalar response"):
+            render_profile_xml(
+                profile, {"control": {"value": "answer", "code": {"bad": True}}}
+            )
 
         profile["mapping"]["nonEmittingResponsePaths"] = ["/control/technical"]
         render_profile_xml(
@@ -109,6 +119,86 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
                 candidate["mapping"]["nonEmittingResponsePaths"] = [invalid]
                 with self.assertRaisesRegex(AssertionError, "invalid non-emitting"):
                     render_profile_xml(candidate, {})
+
+    def test_object_and_object_array_source_overrides_validate_declared_children(self) -> None:
+        profile = profile_with(
+            {
+                "wireSummary": {
+                    "element": "Summary",
+                    "kind": "object",
+                    "namespace": "default",
+                    "source": "/summary",
+                    "fields": {
+                        "name": value_field(),
+                        "rows": {
+                            "element": "Rows",
+                            "kind": "array",
+                            "namespace": "default",
+                            "items": {"fields": {"amount": value_field()}},
+                        },
+                    },
+                },
+                "wireRecords": {
+                    "element": "Records",
+                    "kind": "array",
+                    "namespace": "default",
+                    "source": "/records",
+                    "items": {"fields": {"name": value_field()}},
+                },
+            }
+        )
+        response = {
+            "summary": {"name": "summary", "rows": [{"amount": 1}]},
+            "records": [{"name": "record"}],
+        }
+        root = ET.fromstring(render_profile_xml(profile, response))
+        self.assertEqual(root.find("{urn:fixture}Summary/{urn:fixture}Value").text, "summary")
+
+        nested_unknown = copy.deepcopy(response)
+        nested_unknown["summary"]["unknown"] = True
+        with self.assertRaisesRegex(AssertionError, r"at /summary: unknown"):
+            render_profile_xml(profile, nested_unknown)
+
+        array_unknown = copy.deepcopy(response)
+        array_unknown["summary"]["rows"][0]["unknown"] = True
+        with self.assertRaisesRegex(AssertionError, r"at /summary/rows/0: unknown"):
+            render_profile_xml(profile, array_unknown)
+
+        source_array_unknown = copy.deepcopy(response)
+        source_array_unknown["records"][0]["unknown"] = True
+        with self.assertRaisesRegex(AssertionError, r"at /records/0: unknown"):
+            render_profile_xml(profile, source_array_unknown)
+
+    def test_non_emitting_paths_must_be_disjoint_scalar_values(self) -> None:
+        profile = profile_with(
+            {
+                "copied": {
+                    "element": "Copied",
+                    "kind": "value",
+                    "namespace": "default",
+                    "source": "/control/value",
+                },
+                "optional": value_field(),
+            }
+        )
+        for paths in (
+            ["/optional"],
+            ["/control"],
+            ["/control/value/technical"],
+            ["/control/technical", "/control/technical/detail"],
+        ):
+            with self.subTest(paths=paths):
+                candidate = copy.deepcopy(profile)
+                candidate["mapping"]["nonEmittingResponsePaths"] = paths
+                with self.assertRaisesRegex(AssertionError, "overlaps"):
+                    render_profile_xml(candidate, {})
+
+        profile["mapping"]["nonEmittingResponsePaths"] = ["/control/technical"]
+        with self.assertRaisesRegex(AssertionError, "must be a scalar leaf"):
+            render_profile_xml(
+                profile,
+                {"control": {"value": "answer", "technical": {"nested": True}}},
+            )
 
     def test_public_entrypoint_rejects_unsupported_contract_version(self) -> None:
         profile = profile_with({"value": value_field()})

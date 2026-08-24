@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import unittest
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
+from conformance.grants_gov_xml import render_profile_xml
 from scripts.promote_crosswalk import export_packet
 
 
@@ -27,6 +29,31 @@ def objects(value: object):
 
 
 class PHS398ModularBudgetTests(unittest.TestCase):
+    def test_cumulative_budget_object_source_is_recursive_and_fail_closed(self) -> None:
+        profile = load(
+            ROOT / "dist/forms/phs398-modular-budget/targets/grants-gov-xml.json"
+        )
+        cumulative = {
+            "cumulativeDirectCostLessConsortiumFandA": "100.00",
+            "cumulativeConsortiumFandA": "20.00",
+            "cumulativeTotalDirectCosts": "120.00",
+            "cumulativeTotalIndirectCosts": "30.00",
+            "cumulativeTotalDirectAndIndirectCosts": "150.00",
+        }
+        root = ET.fromstring(
+            render_profile_xml(profile, {"cumulativeBudgetInformation": cumulative})
+        )
+        values = [node.text for node in root.iter() if node.text]
+        self.assertIn("150.00", values)
+
+        with self.assertRaisesRegex(
+            AssertionError, r"at /cumulativeBudgetInformation: unknown"
+        ):
+            render_profile_xml(
+                profile,
+                {"cumulativeBudgetInformation": {**cumulative, "unknown": "ignored"}},
+            )
+
     def test_promotion_packet_is_pinned_and_preserves_runtime_evidence(self) -> None:
         if not (CROSSWALK / ".git").exists():
             self.skipTest("pinned crosswalk checkout is unavailable")

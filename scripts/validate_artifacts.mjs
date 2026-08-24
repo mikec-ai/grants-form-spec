@@ -348,15 +348,14 @@ export async function validateArtifactGraph(inputDist) {
             }
           }
         }
-        for (const responsePath of profile.mapping.nonEmittingResponsePaths ?? []) {
-          await validateSourcePointer(
-            responsePath,
-            { value: schema, path: schemaPath },
-            dist,
-            cache,
-            xmlProfilePath,
-          );
-        }
+        await validateNonEmittingResponsePaths(
+          profile.mapping.nonEmittingResponsePaths ?? [],
+          profile.mapping.fields,
+          { value: schema, path: schemaPath },
+          dist,
+          cache,
+          xmlProfilePath,
+        );
         if (nodes.some((node) => node.kind === "attachment") && !profile.attachment) {
           throw new ArtifactError(
             "XML profile maps attachments without declaring their wire fields",
@@ -383,6 +382,9 @@ export async function validateArtifactGraph(inputDist) {
           dist,
           cache,
           xmlProfilePath,
+          "",
+          { value: schema, path: schemaPath },
+          profile.mapping.nonEmittingResponsePaths ?? [],
         );
       }
     }
@@ -532,6 +534,64 @@ async function validateSourcePointer(source, rootSchemaState, dist, cache, profi
     }
     states = next;
   }
+  return states;
+}
+
+function pointersOverlap(left, right) {
+  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+}
+
+function mappedResponsePaths(fields, prefix = "") {
+  const paths = [];
+  for (const [name, node] of Object.entries(fields)) {
+    if (Object.hasOwn(node, "constant")) continue;
+    if (node.source) {
+      paths.push(node.source);
+      continue;
+    }
+    if (node.kind === "group") {
+      paths.push(...mappedResponsePaths(node.fields, prefix));
+      continue;
+    }
+    const pointer = `${prefix}/${encodeOccurrenceStep(name)}`;
+    paths.push(pointer);
+    if (node.kind === "object") {
+      paths.push(...mappedResponsePaths(node.fields, pointer));
+    } else if (node.kind === "array" && node.items.fields) {
+      paths.push(...mappedResponsePaths(node.items.fields, `${pointer}/[]`));
+    }
+  }
+  return paths;
+}
+
+async function validateNonEmittingResponsePaths(
+  paths,
+  fields,
+  rootSchemaState,
+  dist,
+  cache,
+  profilePath,
+) {
+  const mapped = mappedResponsePaths(fields);
+  const occurrences = await schemaFieldOccurrences(rootSchemaState, dist, cache);
+  for (const [index, path] of paths.entries()) {
+    const overlap = [...mapped, ...paths.slice(0, index)].find(
+      (candidate) => pointersOverlap(path, candidate),
+    );
+    if (overlap) {
+      throw new ArtifactError(
+        `non-emitting response path overlaps a mapped or declared path: ${path} and ${overlap}`,
+        profilePath,
+      );
+    }
+    await validateSourcePointer(path, rootSchemaState, dist, cache, profilePath);
+    if (occurrences.get(path) !== true) {
+      throw new ArtifactError(
+        `non-emitting response path must resolve to an exact canonical scalar leaf: ${path}`,
+        profilePath,
+      );
+    }
+  }
 }
 
 async function groupSources(fields, rootSchemaState, dist, cache, profilePath) {
@@ -567,6 +627,7 @@ async function validateMappingCoverage(
   profilePath,
   at = "",
   rootSchemaState = schemaState,
+  nonEmittingResponsePaths = [],
 ) {
   const properties = await schemaProperties(schemaState, dist, cache);
   const mapped = new Set(Object.entries(fields)
@@ -579,6 +640,10 @@ async function validateMappingCoverage(
       const property = sourcePropertyAt(source, at);
       if (property) mapped.add(property);
     }
+  }
+  for (const source of nonEmittingResponsePaths) {
+    const property = sourcePropertyAt(source, at);
+    if (property) mapped.add(property);
   }
   const available = new Set(properties.keys());
   const missing = [...available].filter((name) => !mapped.has(name)).sort();
@@ -595,6 +660,7 @@ async function validateMappingCoverage(
     if (node.kind === "object") {
       await validateMappingCoverage(
         node.fields, child, dist, cache, profilePath, childPath, rootSchemaState,
+        nonEmittingResponsePaths,
       );
     }
     if (node.kind === "array") {
@@ -611,6 +677,7 @@ async function validateMappingCoverage(
           profilePath,
           `${childPath}[*]`,
           rootSchemaState,
+          nonEmittingResponsePaths,
         );
       } else if (node.items.node.kind === "object") {
         await validateMappingCoverage(
@@ -621,6 +688,7 @@ async function validateMappingCoverage(
           profilePath,
           `${childPath}[*]`,
           rootSchemaState,
+          nonEmittingResponsePaths,
         );
       }
     }

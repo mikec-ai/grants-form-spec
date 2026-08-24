@@ -72,9 +72,12 @@ recursively through objects and object arrays. This prevents a profile from sile
 canonical data during XML projection. A schema-backed consumer or UI control that intentionally
 does not enter the source wire may be declared by its exact JSON pointer in
 `mapping.nonEmittingResponsePaths`. Those pointers are validated against the canonical form
-schema and allow only the named response path; they are not an open-ended additional-properties
-escape hatch. Constants and `source` overrides consume only their declared values, and omitted
-optional or conditional fields require no exception.
+schema and must identify exact scalar leaves that neither overlap a mapped path nor overlap
+another non-emitting path. Object and array containers are never valid exceptions. These paths
+are not an open-ended additional-properties escape hatch. Constants and `source` overrides
+consume only their declared values. An object- or object-array-valued `source` still validates
+recursively against the node's declared children; it does not make the source subtree opaque.
+Omitted optional or conditional fields require no exception.
 
 An `object` node may declare `emitWhenParentPresent: true` when the pinned XSD requires its
 element whenever the parent object is emitted, even if the canonical child object is absent.

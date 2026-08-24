@@ -21,6 +21,7 @@ from xml.etree import ElementTree as ET
 
 _MISSING = object()
 _SOURCE_VALUE = object()
+_NON_EMITTING = object()
 _SUPPORTED_CONTRACT = "grants-gov-xml-profile/v1"
 _MAPPING_NODE_KEYS = {
     "element",
@@ -102,6 +103,18 @@ def _assert_supported_profile(profile: Mapping[str, Any]) -> None:
                         )
                     index += 1
                 index += 1
+    mapped_paths = _mapped_response_paths(mapping["fields"])
+    for index, pointer in enumerate(paths):
+        overlaps = [
+            candidate
+            for candidate in (*mapped_paths, *paths[:index])
+            if _paths_overlap(pointer, candidate)
+        ]
+        if overlaps:
+            raise AssertionError(
+                f"non-emitting response path overlaps a mapped or declared path: "
+                f"{pointer!r} and {overlaps[0]!r}"
+            )
     _assert_mapping_fields(mapping["fields"])
 
 
@@ -188,20 +201,49 @@ def _pointer(document: Mapping[str, Any], pointer: str) -> Any:
     return value
 
 
+def _paths_overlap(left: str, right: str) -> bool:
+    return left == right or left.startswith(f"{right}/") or right.startswith(f"{left}/")
+
+
+def _mapped_response_paths(
+    fields: Mapping[str, Mapping[str, Any]], prefix: str = ""
+) -> tuple[str, ...]:
+    paths: list[str] = []
+    for name, node in fields.items():
+        if "constant" in node:
+            continue
+        if source := node.get("source"):
+            paths.append(source)
+            continue
+        if node.get("kind") == "group":
+            paths.extend(_mapped_response_paths(node["fields"], prefix))
+            continue
+        pointer = f"{prefix}/{name}"
+        paths.append(pointer)
+        if node.get("kind") == "object":
+            paths.extend(_mapped_response_paths(node["fields"], pointer))
+        elif node.get("kind") == "array" and "fields" in node["items"]:
+            paths.extend(_mapped_response_paths(node["items"]["fields"], pointer))
+    return tuple(paths)
+
+
 def _response_pointer_tree(profile: Mapping[str, Any]) -> dict[str, Any]:
     """Build exact root-response paths consumed or explicitly non-emitting."""
 
     tree: dict[str, Any] = {}
 
+    def add(source: str, declaration: Any) -> None:
+        cursor = tree
+        for encoded_step in source.removeprefix("/").split("/"):
+            step = encoded_step.replace("~1", "/").replace("~0", "~")
+            cursor = cursor.setdefault(step, {})
+        cursor.setdefault(_SOURCE_VALUE, []).append(declaration)
+
     def visit(value: Any) -> None:
         if isinstance(value, Mapping):
             source = value.get("source")
             if isinstance(source, str):
-                cursor = tree
-                for encoded_step in source.removeprefix("/").split("/"):
-                    step = encoded_step.replace("~1", "/").replace("~0", "~")
-                    cursor = cursor.setdefault(step, {})
-                cursor[_SOURCE_VALUE] = True
+                add(source, value)
             for child in value.values():
                 visit(child)
         elif isinstance(value, list):
@@ -210,12 +252,27 @@ def _response_pointer_tree(profile: Mapping[str, Any]) -> dict[str, Any]:
 
     visit(profile["mapping"]["fields"])
     for source in profile["mapping"].get("nonEmittingResponsePaths", []):
-        visit({"source": source})
+        add(source, _NON_EMITTING)
     return tree
 
 
 def _assert_source_payload(value: Any, tree: Mapping[Any, Any], path: str) -> None:
     if _SOURCE_VALUE in tree:
+        for declaration in tree[_SOURCE_VALUE]:
+            if declaration is _NON_EMITTING:
+                if isinstance(value, (Mapping, list)):
+                    raise AssertionError(
+                        f"non-emitting response path at {path} must be a scalar leaf"
+                    )
+            else:
+                _assert_declared_value(
+                    declaration,
+                    value,
+                    path=path,
+                    source_tree={
+                        key: child for key, child in tree.items() if key is not _SOURCE_VALUE
+                    },
+                )
         return
     if not isinstance(value, Mapping):
         raise AssertionError(f"source override payload at {path} requires an object")
@@ -229,6 +286,40 @@ def _assert_source_payload(value: Any, tree: Mapping[Any, Any], path: str) -> No
         if not isinstance(name, str) or name not in value or value[name] is None:
             continue
         _assert_source_payload(value[name], child_tree, f"{path.rstrip('/')}/{name}")
+
+
+def _assert_declared_value(
+    node: Mapping[str, Any],
+    value: Any,
+    *,
+    path: str,
+    source_tree: Mapping[Any, Any],
+) -> None:
+    kind = node.get("kind")
+    if kind is None:
+        if isinstance(value, (Mapping, list)):
+            raise AssertionError(f"scalar mapping at {path} requires a scalar response")
+        return
+    if kind in {"object", "group"}:
+        if not isinstance(value, Mapping):
+            raise AssertionError(f"{kind} mapping requires an object response")
+        _assert_response_fields(
+            node["fields"], value, path=path, source_tree=source_tree
+        )
+    elif kind == "array":
+        if not isinstance(value, list):
+            raise AssertionError("array mapping requires a list response")
+        items = node["items"]
+        if "fields" in items:
+            for index, item in enumerate(value):
+                if not isinstance(item, Mapping):
+                    raise AssertionError("array field mapping requires object items")
+                _assert_response_fields(
+                    items["fields"],
+                    item,
+                    path=f"{path.rstrip('/')}/{index}",
+                    source_tree={},
+                )
 
 
 def _assert_response_fields(
@@ -276,30 +367,12 @@ def _assert_response_fields(
             continue
         value = response[name]
         nested_source_tree = source_tree.get(name, {})
-        kind = node["kind"]
-        if kind in {"object", "group"}:
-            if not isinstance(value, Mapping):
-                raise AssertionError(f"{kind} mapping requires an object response")
-            _assert_response_fields(
-                node["fields"],
-                value,
-                path=f"{path.rstrip('/')}/{name}",
-                source_tree=nested_source_tree,
-            )
-        elif kind == "array":
-            if not isinstance(value, list):
-                raise AssertionError("array mapping requires a list response")
-            items = node["items"]
-            if "fields" in items:
-                for index, item in enumerate(value):
-                    if not isinstance(item, Mapping):
-                        raise AssertionError("array field mapping requires object items")
-                    _assert_response_fields(
-                        items["fields"],
-                        item,
-                        path=f"{path.rstrip('/')}/{name}/{index}",
-                        source_tree={},
-                    )
+        _assert_declared_value(
+            node,
+            value,
+            path=f"{path.rstrip('/')}/{name}",
+            source_tree=nested_source_tree,
+        )
 
 
 def _value_map_key(value: Any) -> str:
