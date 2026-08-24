@@ -8,7 +8,7 @@ description: >-
   then extend it across every overlap form.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.443Z'
-superbee_updated_by: codex-root
+superbee_updated_by: legacy_diff_cohort
 assignee: legacy_diff_cohort
 ---
 # Goal
@@ -46,3 +46,23 @@ Existing behavior is a compatibility oracle, not semantic authority. A differenc
 [depends on](add-portable-form-preview-registration.md)
 
 [depends on](enforce-evidence-backed-parity-deltas.md)
+
+## Implementation checkpoint: initial seven-form cohort
+
+Draft consumer PR [mikec-ai/simpler-grants-gov#76](https://github.com/mikec-ai/simpler-grants-gov/pull/76), exact head `31f0f6095de807b7a83719786148397f831e409f`, implements the first uniform cohort from fork `main` after merged PR 75.
+
+The cohort is SF-424, SF-424 Short, SF-424A, Key Contacts, Project Abstract Summary, Project Narrative Attachments, and SF-424B. The same generic comparator runs every form; form-specific declarations are limited to existing-oracle identity and exact intentional-delta keys with a reason and durable evidence path. It has no form-ID branches.
+
+Current reproducible result:
+
+- 7 release-gated receipts passed and 0 failed;
+- schema: 1 parity and 6 evidence-linked intentional deltas;
+- UI: 3 parity and 4 evidence-linked intentional deltas;
+- validation: 5 parity and 2 evidence-linked intentional deltas;
+- rules: 6 declaration parity and 1 not applicable;
+- 45 focused and related tests passed;
+- direct isort, Black, Ruff, and full API mypy passed.
+
+The static mechanism deliberately reports XML, rule outcomes, and runtime lifecycle as `unavailable`. It does not convert an unsupported comparison into zero differences or parity. Project Narrative Attachments is exact parity across all four supported dimensions. Generated receipts remain ignored and are published as a CI build artifact.
+
+The next extension should add further overlap forms only when their existing implementation is a stable compatibility oracle. Diagnostic runs against SF-LLL and Performance Site Locations exposed broad source or structural divergence, so they were not normalized into large intentional-delta allowlists merely to increase the cohort count. They remain candidates for source reconciliation before cohort admission.
