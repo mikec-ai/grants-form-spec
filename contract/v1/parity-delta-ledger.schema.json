@@ -113,7 +113,44 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "review": {
+                "type": "object",
+                "properties": {"status": {"const": "accepted"}}
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "classification": {
+                "enum": [
+                  "authoritative_source_correction",
+                  "canonical_constraint_or_guidance",
+                  "legacy_presentation_difference",
+                  "approved_incompatibility"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"classification": {"const": "authoritative_source_correction"}}
+          },
+          "then": {
+            "properties": {
+              "sourceSupport": {
+                "type": "object",
+                "properties": {"status": {"const": "verified"}}
+              }
+            }
+          }
+        }
+      ]
     },
     "externalReference": {
       "type": "object",

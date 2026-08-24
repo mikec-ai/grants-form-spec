@@ -160,6 +160,15 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
             raise ValueError(f"{record_id} has unsupported review status {status!r}")
         if record.get("classification") == "unresolved_mismatch" and status == "accepted":
             raise ValueError(f"{record_id} cannot accept an unresolved mismatch")
+        if status == "accepted" and record.get("classification") == "unclassified":
+            raise ValueError(f"{record_id} accepted review lacks a resolved classification")
+        if (
+            record.get("classification") == "authoritative_source_correction"
+            and source_support.get("status") != "verified"
+        ):
+            raise ValueError(
+                f"{record_id} authoritative source correction lacks verified source support"
+            )
         if status == "proposed" and (review.get("reviewer") or review.get("reviewedAt")):
             raise ValueError(f"{record_id} proposed review cannot claim completed review")
     return ledger
