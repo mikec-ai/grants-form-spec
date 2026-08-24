@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_operational_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:59:29.025Z'
+  at: '2026-08-24T04:59:53.464Z'
 assignee: implement_operational_evidence
 ---
 # Goal
@@ -110,7 +110,7 @@ Implement this small contract-and-projection slice before the next form whose pa
 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/71
 - Branch: `codex/generic-operational-behavior-evidence`
-- Exact head: `bc295e2a814dcd020ba3d56401da8a27de0b6cba`
+- Exact head: `bc295e2a8335b0ff54d85d8aa3e4fdafee2a526d`
 - Base: producer `main` at `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`
 - Contract: optional sibling `operationalBehaviorEvidence`; `behaviorEvidence` remains calculation/condition-only.
 - Generic projector: exact destination closure, source-authority checks, canonical source-block/path closure, passthrough only, and no runtime-rule generation.
