@@ -42,6 +42,10 @@ function mountCanonicalPath(mountPath, canonicalPath) {
   return mountPath ? `${mountPath}.${canonicalPath}` : canonicalPath;
 }
 
+function mountOperationalPointer(mountPath, pointer) {
+  return mountPath ? `${mountPath}${pointer}` : pointer;
+}
+
 function canonicalOccurrence(path) {
   return path
     .split("/")
@@ -356,23 +360,79 @@ export async function projectEvidence({ evidenceRoot, dist }) {
     return { sources, behaviorEvidence };
   }
 
+  function resolveOperationalBehaviorEvidence(record, visiting = new Set()) {
+    const id = record.document.block.id;
+    if (visiting.has(id)) throw new Error(`operational behavior evidence inheritance cycle at ${id}`);
+    visiting.add(id);
+    const sources = [...record.document.sources];
+    const operationalBehaviorEvidence = [...(record.document.operationalBehaviorEvidence ?? [])];
+    for (const inheritance of record.document.inheritsOperationalBehaviorEvidenceFrom ?? []) {
+      const { blockId: inheritedId, mountPath } = inheritance;
+      const inherited = byBlock.get(inheritedId);
+      if (!inherited) {
+        throw new Error(`${id}: inherited operational behavior evidence block ${inheritedId} does not exist`);
+      }
+      const resolved = resolveOperationalBehaviorEvidence(inherited, new Set(visiting));
+      const sourceIds = new Set(
+        resolved.operationalBehaviorEvidence.map((entry) => entry.sourceId).filter(Boolean),
+      );
+      for (const source of resolved.sources.filter((candidate) => sourceIds.has(candidate.id))) {
+        const existing = sources.find((candidate) => candidate.id === source.id);
+        if (existing && JSON.stringify(existing) !== JSON.stringify(source)) {
+          throw new Error(`${id}: inherited source ${source.id} conflicts with a local source`);
+        }
+        if (!existing) sources.push(source);
+      }
+      operationalBehaviorEvidence.push(
+        ...resolved.operationalBehaviorEvidence.map((entry) => ({
+          ...entry,
+          canonicalPath: mountOperationalPointer(mountPath, entry.canonicalPath),
+          ...(entry.targetSelection
+            ? {
+                targetSelection: {
+                  ...entry.targetSelection,
+                  arrayPath: mountOperationalPointer(mountPath, entry.targetSelection.arrayPath),
+                },
+              }
+            : {}),
+          inheritedFrom: inheritedId,
+        })),
+      );
+    }
+    visiting.delete(id);
+    return { sources, operationalBehaviorEvidence };
+  }
+
   for (const { sourcePath, document: authoredDocument } of records) {
     if (!validate(authoredDocument)) {
       const detail = validate.errors.map((error) => `${error.instancePath || "/"} ${error.message}`).join("; ");
       throw new Error(`${relative(ROOT, sourcePath)}: ${detail}`);
     }
     const resolvedEvidence = resolveBehaviorEvidence({ sourcePath, document: authoredDocument });
+    const resolvedOperationalEvidence = resolveOperationalBehaviorEvidence({
+      sourcePath,
+      document: authoredDocument,
+    });
+    const resolvedSources = [...resolvedEvidence.sources];
+    for (const source of resolvedOperationalEvidence.sources) {
+      const existing = resolvedSources.find((candidate) => candidate.id === source.id);
+      if (existing && JSON.stringify(existing) !== JSON.stringify(source)) {
+        throw new Error(`${authoredDocument.block.id}: inherited source ${source.id} conflicts`);
+      }
+      if (!existing) resolvedSources.push(source);
+    }
     const document = {
       ...authoredDocument,
-      sources: resolvedEvidence.sources,
+      sources: resolvedSources,
       behaviorEvidence: resolvedEvidence.behaviorEvidence,
-      operationalBehaviorEvidence: [...(authoredDocument.operationalBehaviorEvidence ?? [])],
+      operationalBehaviorEvidence: resolvedOperationalEvidence.operationalBehaviorEvidence,
       responseNormalizationEvidence: [...(authoredDocument.responseNormalizationEvidence ?? [])],
     };
     delete document.inheritsBehaviorEvidenceFrom;
+    delete document.inheritsOperationalBehaviorEvidenceFrom;
     if (!validate(document)) {
       const detail = validate.errors.map((error) => `${error.instancePath || "/"} ${error.message}`).join("; ");
-      throw new Error(`${relative(ROOT, sourcePath)} after behavior inheritance: ${detail}`);
+      throw new Error(`${relative(ROOT, sourcePath)} after evidence inheritance: ${detail}`);
     }
     const sourceById = new Map(document.sources.map((source) => [source.id, source]));
     for (const behavior of document.behaviorEvidence) {

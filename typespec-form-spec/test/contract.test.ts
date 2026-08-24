@@ -220,6 +220,39 @@ describe("artifact contract v1", () => {
     }
   });
 
+  it("accepts only closed operational behavior inheritance declarations", async () => {
+    const fixture = (await json(
+      resolve(contractRoot, "conformance/evidence.valid.json"),
+    )) as Record<string, unknown>;
+
+    expect(
+      validateEvidence({
+        ...fixture,
+        inheritsOperationalBehaviorEvidenceFrom: [
+          { blockId: "rr-budget", mountPath: "" },
+          { blockId: "nested-budget", mountPath: "/subawardBudget" },
+        ],
+      }),
+      JSON.stringify(validateEvidence.errors),
+    ).toBe(true);
+
+    for (const inheritance of [
+      { blockId: "", mountPath: "" },
+      { blockId: "rr-budget" },
+      { blockId: "rr-budget", mountPath: "subawardBudget" },
+      { blockId: "rr-budget", mountPath: "/subawardBudget/" },
+      { blockId: "rr-budget", mountPath: "", decision: "form-specific" },
+    ]) {
+      expect(
+        validateEvidence({
+          ...fixture,
+          inheritsOperationalBehaviorEvidenceFrom: [inheritance],
+        }),
+        JSON.stringify(inheritance),
+      ).toBe(false);
+    }
+  });
+
   it("requires reviewed, exact-source response normalization evidence", async () => {
     const fixture = (await json(
       resolve(contractRoot, "conformance/evidence.valid.json"),

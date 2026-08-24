@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -753,6 +754,92 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(projected["operationalBehaviorEvidence"], [record])
         self.assertEqual(rules, {})
+
+    def test_projector_inherits_operational_evidence_and_exact_source_record(self) -> None:
+        record = self._official_prefill()
+        record["executionStatus"] = "compiled"
+        record["executionPolicy"] = {
+            "trigger": "source-response-updated",
+            "writePolicy": "until-target-user-modified",
+            "missingSourcePolicy": "skip",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            source_evidence_path = self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+
+            child_dist = dist / "forms/child"
+            shutil.copytree(dist / "forms/example", child_dist)
+            child_index = json.loads((child_dist / "index.json").read_text())
+            child_index["id"] = "child"
+            self._json(child_dist / "index.json", child_index)
+            child_manifest = json.loads((child_dist / "manifest.json").read_text())
+            child_manifest["form"]["id"] = "child"
+            self._json(child_dist / "manifest.json", child_manifest)
+
+            child_evidence = json.loads(source_evidence_path.read_text())
+            child_evidence["block"]["id"] = "child"
+            child_evidence["sources"] = [{
+                "id": "child-source",
+                "type": "dat",
+                "uri": "https://example.gov/child-source.json",
+                "nativeVersion": None,
+                "sha256": "c" * 64,
+            }]
+            child_evidence["operationalBehaviorEvidence"] = []
+            child_evidence["inheritsOperationalBehaviorEvidenceFrom"] = [{
+                "blockId": "example",
+                "mountPath": "",
+            }]
+            child_evidence_path = root / "evidence/forms/child/evidence.json"
+            child_evidence_path.parent.mkdir(parents=True)
+            self._json(child_evidence_path, child_evidence)
+
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            projected = json.loads((child_dist / "evidence.json").read_text())
+            runtime = json.loads(
+                (child_dist / "operational-behavior.json").read_text()
+            )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(
+            {source["id"] for source in projected["sources"]},
+            {"child-source", "example-source"},
+        )
+        self.assertEqual(
+            projected["operationalBehaviorEvidence"],
+            [{**record, "inheritedFrom": "example"}],
+        )
+        self.assertEqual(runtime["formId"], "child")
+        self.assertEqual(runtime["behaviors"][0]["canonicalPath"], "/name")
+
+    def test_projector_rejects_missing_operational_inheritance_block(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            evidence_path = self._write_evidence(root, behavior_evidence=[])
+            evidence = json.loads(evidence_path.read_text())
+            evidence["inheritsOperationalBehaviorEvidenceFrom"] = [{
+                "blockId": "missing",
+                "mountPath": "",
+            }]
+            self._json(evidence_path, evidence)
+
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn(
+            "inherited operational behavior evidence block missing does not exist",
+            result.stdout,
+        )
 
     def test_projector_emits_compiled_operational_behavior_as_a_runtime_artifact(self) -> None:
         record = self._official_prefill()

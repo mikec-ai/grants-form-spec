@@ -59,6 +59,11 @@
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/behaviorEvidenceInheritance" }
     },
+    "inheritsOperationalBehaviorEvidenceFrom": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/operationalBehaviorEvidenceInheritance" }
+    },
     "behaviorEvidence": {
       "type": "array",
       "items": { "$ref": "#/$defs/behaviorEvidence" }
@@ -152,6 +157,15 @@
         "mountPath": { "type": "string" }
       }
     },
+    "operationalBehaviorEvidenceInheritance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blockId", "mountPath"],
+      "properties": {
+        "blockId": { "type": "string", "minLength": 1 },
+        "mountPath": { "type": "string", "pattern": "^(?:|/(?:[^/]+(?:/[^/]+)*))$" }
+      }
+    },
     "behaviorEvidence": {
       "oneOf": [
         { "$ref": "#/$defs/sourceBoundBehaviorEvidence" },
@@ -238,7 +252,8 @@
         "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
         "authority": { "enum": ["official_source", "implementation_parity", "unresolved"] },
         "executionStatus": { "enum": ["compiled", "source-bound-uncompiled"] },
-        "executionPolicy": { "$ref": "#/$defs/operationalExecutionPolicy" }
+        "executionPolicy": { "$ref": "#/$defs/operationalExecutionPolicy" },
+        "inheritedFrom": { "type": "string", "minLength": 1 }
       },
       "allOf": [
         {
@@ -336,6 +351,7 @@
             "authority": { "enum": ["official_source", "implementation_parity"] },
             "executionStatus": { "enum": ["compiled", "source-bound-uncompiled"] },
             "executionPolicy": { "$ref": "#/$defs/operationalExecutionPolicy" },
+            "inheritedFrom": { "type": "string", "minLength": 1 },
             "sourceId": { "type": "string", "minLength": 1 },
             "sourcePath": { "type": "string", "minLength": 1 },
             "sourceRecord": { "type": "string", "minLength": 1 }
@@ -367,6 +383,7 @@
             "targetSelection": { "$ref": "#/$defs/operationalTargetSelection" },
             "authority": { "const": "unresolved" },
             "executionStatus": { "const": "source-bound-uncompiled" },
+            "inheritedFrom": { "type": "string", "minLength": 1 },
             "owner": { "type": "string", "minLength": 1 },
             "reason": { "type": "string", "minLength": 1 },
             "removalCondition": { "type": "string", "minLength": 1 }

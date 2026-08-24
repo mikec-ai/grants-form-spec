@@ -10,6 +10,8 @@ FORMS = ROOT / "dist" / "forms"
 QUESTIONS = ROOT / "dist" / "question-bank" / "budget" / "research"
 AUDIT = ROOT / "analysis" / "rr-budget-source-content-audit.v1.json"
 EVIDENCE = ROOT / "dist" / "forms" / "rr-budget" / "evidence.json"
+TEN_YEAR_EVIDENCE = ROOT / "dist" / "forms" / "rr-budget-10yr" / "evidence.json"
+TEN_YEAR_RUNTIME = ROOT / "dist" / "forms" / "rr-budget-10yr" / "operational-behavior.json"
 
 DAT_SHA256 = "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035"
 
@@ -108,6 +110,32 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                     "ProposedStartDate on the R&R SF424. Start Date cannot be after End Date."
                 ),
             },
+        )
+
+    def test_ten_year_profile_inherits_exact_compiled_prefill_contract(self) -> None:
+        evidence = load(TEN_YEAR_EVIDENCE)
+        records = evidence["operationalBehaviorEvidence"]
+        self.assertEqual(len(records), 3)
+        self.assertEqual(
+            {record["sourcePath"] for record in records}, {"0-06", "0-07", "0-10"}
+        )
+        self.assertEqual({record["inheritedFrom"] for record in records}, {"rr-budget"})
+        self.assertEqual(
+            {record["sourceId"] for record in records},
+            {"grantsgov-rr-budget-dat-3.0-f770"},
+        )
+        self.assertIn(
+            "grantsgov-rr-budget-dat-3.0-f770",
+            {source["id"] for source in evidence["sources"]},
+        )
+
+        runtime = load(TEN_YEAR_RUNTIME)
+        self.assertEqual(runtime["contract"], "grants-form-operational-behavior/v1")
+        self.assertEqual(runtime["formId"], "rr-budget-10yr")
+        self.assertEqual(len(runtime["behaviors"]), 3)
+        self.assertEqual(
+            {behavior["executionPolicy"]["writePolicy"] for behavior in runtime["behaviors"]},
+            {"until-target-user-modified"},
         )
         self.assertEqual({record["executionStatus"] for record in records}, {"compiled"})
         self.assertEqual(
