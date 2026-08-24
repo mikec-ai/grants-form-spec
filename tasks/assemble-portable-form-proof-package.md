@@ -7,10 +7,10 @@ description: >-
   Package reproducible parity, source-validation, reuse, and demonstration
   evidence for the initial proof.
 superbee_progress_status: in_progress
-superbee_updated_by: proof_condition_followthrough
+superbee_updated_by: rr_budget_condition_contract
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:28:11.820Z'
+  at: '2026-08-24T16:51:26.741Z'
 ---
 # Goal
 
@@ -81,3 +81,17 @@ revision. All declared producer paths resolve and are hashed from the pinned Git
 focused proof-package tests pass, deterministic generation reports six claims, and full preflight
 passes with 118 TypeScript tests and 323 Python tests (two skipped). This is an evidence-hardening
 increment; the broader proof-package task remains in progress.
+
+# R&R Budget cross-section proof refresh
+
+[grants-form-spec PR 80](https://github.com/mikec-ai/grants-form-spec/pull/80) refreshes every
+producer-path claim to merged producer main revision
+`563e7d8b5a38c7b5d66723bfbc1607caeeff4aad` after the generic F-8-1 condition contract landed.
+The family claim now states the exact 64-occurrence boundary as 50 represented by existing
+declarations, 10 compiled through one generic cross-section contract, and four source-bound and
+uncompiled pending source-exact numeric-string comparison semantics. It continues to state that
+semantic acceptance and the broader human/release gates remain open.
+
+The focused four-test proof suite and full producer preflight pass at PR head `4cc63b49d` (121
+TypeScript tests and 325 Python tests, two skipped). Generated proof index and manifest remain
+ignored build artifacts.
