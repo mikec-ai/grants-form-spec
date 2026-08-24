@@ -2,17 +2,20 @@
 type: Task
 title: Prove SF-424 Short browser compatibility
 description: >-
-  Draft consumer PR 73 is open against PR 71 at commit 6c8b2727a. The generic
-  bounded plan selects sf424-short, the preview adapter resolves its reusable
-  references without a form-specific branch, 28 focused selection/preview/seed
-  tests pass, and the complete declarative parity suite passes. The real-Simpler
-  browser receipt remains the only completion gate and will run after the shared
-  SF-424 recording environment is released.
+  Completed on consumer PR 73 at commit ed5685f34. The bounded SF-424 Short
+  receipt passes registration, adapter API preflight, real Apply render,
+  save/reload with 73 persisted controls after editing organization_name,
+  accessibility with zero violations, and ordinary print rendering. The slice
+  added only generic capability and renderer improvements: mixed/root
+  conditional extraction, removal of resolved definitions before rendering,
+  exclusion of prepopulated outputs from editable discovery, and plan-driven
+  control selection. Focused API, frontend, typing, lint, formatting, and build
+  checks pass; generated evidence remains ignored.
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T14:35:12.526Z'
-superbee_progress_status: in_progress
+  at: '2026-08-24T15:11:25.626Z'
+superbee_progress_status: done
 priority: P0
 assignee: codex-root
 ---
