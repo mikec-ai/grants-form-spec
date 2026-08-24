@@ -6,10 +6,10 @@ description: >-
   Resolve the producer, declaration, and reviewed compatibility differences
   exposed by PR63 while production remains fail-closed on legacy definitions.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:16:49.507Z'
+  at: '2026-08-24T05:18:53.017Z'
 assignee: codex-cardinality-emitter
 ---
 # Goal
@@ -137,3 +137,5 @@ This audit resolves the blank-value mechanics from exact sources. It does not ac
 
 - Review found R&R Personal Data as the third emitted form affected by the same generic correction. The regression now proves both its direct `projectDirector` reference and repeated `coProjectDirectors.items` reference do not copy nested name cardinality, while both shared question artifacts retain required first and last names.
 - Full preflight passed again at exact amended head `f4cf21eb8326d92872efe5e4d7f3a58786217172`: 116 TypeScript tests and 291 Python tests with 2 skipped, plus every producer artifact and conformance gate. Draft PR #72 remains unmerged; hosted CI is running on the amended head.
+
+[depends on](implement-exact-empty-string-to-absent-normalization.md)
