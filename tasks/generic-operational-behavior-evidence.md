@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_operational_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:59:53.464Z'
+  at: '2026-08-24T05:06:51.524Z'
 assignee: implement_operational_evidence
 ---
 # Goal
@@ -110,7 +110,7 @@ Implement this small contract-and-projection slice before the next form whose pa
 
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/71
 - Branch: `codex/generic-operational-behavior-evidence`
-- Exact head: `bc295e2a8335b0ff54d85d8aa3e4fdafee2a526d`
+- Exact head: `c1bcee0eb0c24004abb0910dfb58f697160aded7`
 - Base: producer `main` at `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`
 - Contract: optional sibling `operationalBehaviorEvidence`; `behaviorEvidence` remains calculation/condition-only.
 - Generic projector: exact destination closure, source-authority checks, canonical source-block/path closure, passthrough only, and no runtime-rule generation.
@@ -118,6 +118,7 @@ Implement this small contract-and-projection slice before the next form whose pa
 - Canary: five R&R Personal Data PD/PI name prefills, each protected, official-source-backed by the pinned XFA, source-bound-uncompiled, and linked to an exact R&R SF-424 principal-investigator name occurrence.
 - Candidate audit at the implementation base found 6 `@Sgg.prePopulate` declarations, 14 `ResponseRole.systemValue` declarations, and 115 exact `@UI.readOnly` declarations. None were inferred or promoted into operational evidence.
 - Deferred: PHS 398 Cover Page Supplement discard/replace remains source-bound because the application-context predicate and summary source coordinate are not declarative. SF-424D prefill remains deferred pending exact field/source reconciliation.
-- Verification: full preflight passed with 115 TypeScript tests, 288 Python tests (2 skipped), 30 exact XSD fixtures, 1,533 validated artifact nodes, and zero unclassified-field debt.
+- Independent review correction: the initial `adapter-projected` status was removed because no generic adapter-artifact coordinate and closure check exists yet. The closed execution-status vocabulary now accepts only `source-bound-uncompiled`; a projector regression test proves unsupported stronger claims fail closed.
+- Verification: full preflight passed with 115 TypeScript tests, 289 Python tests (2 skipped), 30 exact XSD fixtures, 1,533 validated artifact nodes, and zero unclassified-field debt.
 
 The implementation is complete but remains `in_progress` until PR review and merge.
