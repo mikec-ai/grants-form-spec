@@ -18,6 +18,11 @@ class ArtifactBundleTests(unittest.TestCase):
             (root / "dist/forms/key-contacts/schema.json").write_text('{"type":"object"}\n')
             (root / "dist/question-bank/name").mkdir(parents=True)
             (root / "dist/question-bank/name/schema.json").write_text('{"type":"string"}\n')
+            (root / "contract/v1").mkdir(parents=True)
+            (root / "contract/v1/parity-delta-ledger.schema.json").write_text("{}\n")
+            (root / "parity").mkdir()
+            (root / "parity/consumer-evidence-verification.v1.json").write_text("{}\n")
+            (root / "parity/legacy-deltas.v1.json").write_text("{}\n")
 
             first = root / "build/first.tar.gz"
             second = root / "build/second.tar.gz"
@@ -27,7 +32,11 @@ class ArtifactBundleTests(unittest.TestCase):
             self.assertEqual(first.read_bytes(), second.read_bytes())
             manifest = verify_bundle(first)
             self.assertEqual(manifest["source"]["revision"], "abc123")
-            self.assertEqual(len(manifest["files"]), 2)
+            self.assertEqual(len(manifest["files"]), 5)
+            self.assertIn(
+                "parity/legacy-deltas.v1.json",
+                {entry["path"] for entry in manifest["files"]},
+            )
             self.assertTrue(first.with_suffix(".gz.sha256").is_file())
 
     def test_verifier_rejects_changed_artifact(self) -> None:

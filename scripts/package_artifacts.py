@@ -34,6 +34,7 @@ def _revision(root: Path) -> str:
 
 
 def _artifact_files(dist: Path) -> list[Path]:
+    root = dist.parent
     published_roots = (dist / "forms", dist / "question-bank")
     files = sorted(
         path
@@ -42,6 +43,18 @@ def _artifact_files(dist: Path) -> list[Path]:
         for path in published_root.rglob("*")
         if path.is_file()
     )
+    files.extend(
+        root / relative
+        for relative in (
+            "contract/v1/parity-delta-ledger.schema.json",
+            "parity/consumer-evidence-verification.v1.json",
+            "parity/legacy-deltas.v1.json",
+        )
+    )
+    files = sorted(set(files))
+    missing = [path for path in files if not path.is_file()]
+    if missing:
+        raise ValueError(f"published artifacts are missing: {missing}")
     if not files:
         raise ValueError(f"no emitted artifacts found under {dist}")
     return files

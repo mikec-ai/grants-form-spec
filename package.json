@@ -22,6 +22,7 @@
     "analyze": "python3 scripts/analyze.py",
     "check-classified-fields": "python3 scripts/check_classified_form_fields.py",
     "check-xsd-fixtures": "python3 scripts/check_xml_profile_fixtures.py",
+    "validate-parity-deltas": "node scripts/validate_parity_delta_schema.mjs && python3 scripts/validate_parity_delta_ledger.py",
     "validate-artifacts": "node scripts/validate_artifacts.mjs",
     "validate-promotion": "node scripts/validate_promotion.mjs",
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",
