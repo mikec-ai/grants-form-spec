@@ -123,4 +123,6 @@ Focused verification after hardening: 16 API tests and 5 frontend contract tests
 
 Rebase verification removed the unrelated canary-formatting commit from the old stack. The resulting diff contains only the browser plan, lower-environment seed seam, matrix/receipt code, CI wiring, documentation, dependency, and focused tests.
 
+The two Prettier-only canary changes inherited by consumer main are isolated in [ready PR 68](https://github.com/mikec-ai/simpler-grants-gov/pull/68) at `eae8d42fcb225bcc39d0c8b0a3bbc3fbeceb481f`. That hotfix changes only `FieldListWidget.test.tsx` and `rrKeyPersonPrintCanary.test.tsx`; PR 66 remains independent and unchanged.
+
 Stage B generic capability executors and portable conformance vectors remain to be implemented before this task is complete.
