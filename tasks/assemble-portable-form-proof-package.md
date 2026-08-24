@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: proof_package
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:10:17.530Z'
+  at: '2026-08-24T16:11:44.335Z'
 ---
 # Goal
 
@@ -40,13 +40,13 @@ Assemble a concise, reproducible evidence package showing what the portable form
 # First increment
 
 PR [mikec-ai/grants-form-spec#76](https://github.com/mikec-ai/grants-form-spec/pull/76) at exact head
-`cd5d3d76a5a746bca33333b0b7bbdcbc01f1ca94` adds a generated proof-package contract and index for
+`4ad2b1384efeab604a1ddd0f1171294355850125` adds a generated proof-package contract and index for
 the evidence already available:
 
 - SF-424 comparison and runtime receipts;
 - SF-424 Short runtime receipt;
 - SF-424A runtime receipt;
-- R&R SF-424 lifecycle and exact-XSD evidence; and
+- R&R SF-424 lifecycle, exact-XSD, and six-probe browser evidence;
 - the five-profile R&R Budget family proof;
 - the reviewed-similarity boundary established by the corrected analysis export.
 
