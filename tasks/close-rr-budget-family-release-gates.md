@@ -488,10 +488,14 @@ registration are not closed.
   source-save, missing-value, and applicant-modification tests now execute for both the 5-year and
   10-year profiles.
 - Consumer-local verification passes 23 focused adapter, artifact, projection, and lifecycle unit
-  tests plus isort, Black, Ruff, and mypy. Database-backed lifecycle cases are committed for both
-  profiles; their local run was unavailable because the Docker-only `grants-db` hostname was not
-  running, so hosted API CI remains the authority for that result. Browser execution remains the
-  next bounded receipt after PR 96 merges.
+  tests plus isort, Black, Ruff, and mypy. All four database-backed lifecycle cases pass locally
+  against PostgreSQL for both profiles. A parameterized fixture collision on repeated UEI values
+  was found and corrected before merge.
+- Consumer PR 96 merged at `f79a66ff2bb9631ab9a27c1709fcec4e1fe86199`. The unbounded pull-request
+  E2E fanout and restarted monolithic API run were canceled after the focused local gates passed.
+  Browser execution remains the next bounded receipt. A new dispatch was deliberately withdrawn
+  when an independently owned bounded browser run was already active on `main`; do not interrupt
+  that run or create a competing dispatch under the workflow's cancel-in-progress concurrency key.
 
 ## Bounded four-browser runtime receipt — 2026-08-24
 
