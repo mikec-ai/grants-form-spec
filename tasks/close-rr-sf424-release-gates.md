@@ -4,14 +4,16 @@ title: Close R&R SF-424 release gates
 priority: P0
 assignee: rr_sf424_browser
 description: >-
-  Build generic lifecycle conformance evidence for R&R SF-424; close
-  high-confidence conditional validation, save/reload, locked/print, XML/XSD,
-  and accessibility gates; register only after the relevant gates pass.
+  Current claimed increment: generate a bounded, capability-driven real-browser
+  compatibility receipt for R&R SF-424 in the public Simpler fork, covering
+  preview registration, API preflight, render, edit/save/reload, automated
+  accessibility and keyboard evidence, and locked print without claiming
+  semantic or release approval.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
+superbee_updated_by: rr_sf424_browser
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T15:54:11.053Z'
+  at: '2026-08-24T15:55:53.135Z'
 ---
 # Scope
 
