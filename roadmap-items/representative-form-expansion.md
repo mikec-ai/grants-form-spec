@@ -2,8 +2,8 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-nine producer forms and thirty-eight consumer-bank forms are
-  delivered; SBIR/STTR consumer promotion remains a separate reviewed step.
+  Thirty-nine producer forms and thirty-eight consumer-bank forms are delivered;
+  SBIR/STTR consumer promotion remains a separate reviewed step.
 sequence: '3'
 superbee_progress_status: active
 superbee_updated_by: promote_new_forms
@@ -235,3 +235,5 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/bank-phs-inclusion-enrollment-report-in-sgg.md)
 
 [contains](../tasks/bank-phs398-cover-page-supplement-in-sgg.md)
+
+[contains](../tasks/bank-sbir-sttr-information-in-sgg.md)
