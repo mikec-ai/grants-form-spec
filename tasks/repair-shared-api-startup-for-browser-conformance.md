@@ -14,7 +14,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-ci-startup
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T10:11:32.626Z'
+  at: '2026-08-24T10:17:39.196Z'
 ---
 ## Diagnostic evidence, 2026-08-24
 
@@ -45,3 +45,9 @@ generated:
 - Exact head: `83abd7b7349a22c104cba29e311a67e73a8afc16`; exact base: `c4709fc2931d4c9129871d058247f88bcfcd0e22`.
 - Local verification is green: five focused shell cases, ShellCheck, actionlint, merged compose configuration, a live health probe invoked from the frontend working directory, and `git diff --check`.
 - The task remains in progress. Hosted API, E2E, and Pa11y results are the next evidence boundary; the draft must not be treated as browser conformance until those jobs reach the matrix and publish their CI-only artifacts.
+
+## Independent-review correction, 2026-08-24
+
+- Review found that a curl started just before the deadline could use its full configured timeout and accept a late HTTP 2xx after the overall readiness budget.
+- PR #69 was amended at exact head `75456b985971be885bed6a76e8888ead0e89a232`: each curl attempt now clamps connect/max time to the remaining total budget, and a 2xx is accepted only when it completes strictly before the deadline.
+- A sixth shell case simulates a slow HTTP 200 completing at the exact boundary and verifies timeout classification, retained HTTP evidence, clamped curl arguments, and compose diagnostics. Local verification remains green; exact-head rereview and restarted hosted runs are pending.
