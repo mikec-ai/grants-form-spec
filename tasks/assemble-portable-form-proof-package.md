@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: uniform_cohort_proof
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T17:54:59.198Z'
+  at: '2026-08-24T17:57:29.180Z'
 ---
 # Goal
 
@@ -107,13 +107,16 @@ proof-package claim for the uniform portable-versus-existing comparator merged i
 - Across 28 supported form-dimension results, 15 report parity, 12 report evidence-linked
   intentional differences, one is not applicable, and none fail. Project Narrative Attachments
   reports exact parity in the supported schema, UI, validation, and rule-declaration dimensions.
-- The claim pins the consumer merge, stable cohort/comparator/test paths, generated summary path,
-  successful workflow run `32756098657`, artifact ID `9531875033`, and exact artifact name. The
-  downloaded hosted summary reports seven passed and zero failed.
+- The claim pins final consumer merge `1e4cdb8b6481a0e34946df7b380e8cf306d552cd`, while separately
+  recording that the hosted receipt was generated at PR merge-ref
+  `35d63c39db0d7dfae2dd83d36b4aba52011e064f`. GitHub resolves both revisions to the identical tree
+  `9a765873ee4ba8e7057c6bf156d6ac14df39c329`. It also records stable cohort/comparator/test paths,
+  generated summary path, successful workflow run `32756098657`, artifact ID `9531875033`, and
+  exact artifact name. The downloaded hosted summary reports seven passed and zero failed.
 - Serialized XML, rule outcomes, and runtime lifecycle remain explicitly unavailable in this static
   mechanism. Existing Simpler behavior remains a compatibility oracle rather than semantic
   authority. The claim is not release readiness, semantic acceptance, accessibility review, policy
   approval, or production registration.
-- Focused proof tests pass, and full producer preflight is green at PR head `28cb51f63` with 121
+- Focused proof tests pass, and full producer preflight is green at amended PR head `32c25739b` with 121
   TypeScript tests and 325 Python tests, two skipped. Generated receipts, proof index, and manifest
   remain ignored build artifacts.
