@@ -27,7 +27,7 @@ SHARED_XSDS = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
 FILES = {
     "NIFA_Supplemental_Info_1_2-V1.2.xsd": (
         FORM_XSD,
-        "0a9461de86e7c807bcae9047ff12f1ba3f2753b5d7147caed200aab4649bf2fc",
+        "9fd2d43797ec5fe17a9c29f073295e1c459b13d39346b3422de036d51c1d69e2",
     ),
     "Attachments-V1.0.xsd": (
         SHARED_XSDS / "Attachments-V1.0.xsd",
