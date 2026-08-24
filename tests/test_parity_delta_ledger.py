@@ -118,6 +118,22 @@ class ParityDeltaLedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "lacks verified source support"):
             validate_ledger(ROOT, self._write(unsupported))
 
+    def test_accepted_review_requires_independent_decision_artifact_receipt(self) -> None:
+        accepted = copy.deepcopy(self.ledger)
+        record = next(
+            row
+            for row in accepted["records"]
+            if row["classification"] == "authoritative_source_correction"
+        )
+        record["review"] = {
+            "status": "accepted",
+            "reviewer": "accountable-reviewer",
+            "reviewedAt": "2026-08-24T12:00:00Z",
+            "decisionEvidence": [record["evidenceReferences"][0]],
+        }
+        with self.assertRaisesRegex(ValueError, "independent decision-artifact receipt"):
+            validate_ledger(ROOT, self._write(accepted))
+
     def test_cli_rejects_unknown_flags_with_usage_exit(self) -> None:
         result = subprocess.run(
             [sys.executable, "scripts/validate_parity_delta_ledger.py", "--unknown"],

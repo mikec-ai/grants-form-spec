@@ -88,6 +88,7 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
     verified = {entry["path"]: entry["sha256"] for entry in receipt.get("files", [])}
     if not verified or any(not re.fullmatch(r"[0-9a-f]{64}", digest) for digest in verified.values()):
         raise ValueError("evidence verification receipt has no valid file digests")
+    used_verified_paths: set[str] = set()
 
     records = ledger.get("records")
     if not isinstance(records, list):
@@ -118,6 +119,7 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
             path = reference.get("path")
             if path not in verified:
                 raise ValueError(f"{record_id} evidence path is absent from the verification receipt")
+            used_verified_paths.add(path)
             reference_ids.add(reference.get("id"))
         assertion = record.get("differentialAssertion", {})
         if assertion.get("evidenceReferenceId") not in reference_ids or not assertion.get("testId"):
@@ -151,17 +153,20 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
         review = record.get("review", {})
         status = review.get("status")
         decision_evidence = review.get("decisionEvidence")
-        if status == "accepted":
-            if not review.get("reviewer") or not review.get("reviewedAt") or not decision_evidence:
-                raise ValueError(
-                    f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
-                )
-        elif status not in {"proposed", "rejected"}:
+        if status not in {"proposed", "accepted", "rejected"}:
             raise ValueError(f"{record_id} has unsupported review status {status!r}")
         if record.get("classification") == "unresolved_mismatch" and status == "accepted":
             raise ValueError(f"{record_id} cannot accept an unresolved mismatch")
         if status == "accepted" and record.get("classification") == "unclassified":
             raise ValueError(f"{record_id} accepted review lacks a resolved classification")
+        if status == "accepted":
+            if not review.get("reviewer") or not review.get("reviewedAt") or not decision_evidence:
+                raise ValueError(
+                    f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
+                )
+            raise ValueError(
+                f"{record_id} accepted review requires an independent decision-artifact receipt"
+            )
         if (
             record.get("classification") == "authoritative_source_correction"
             and source_support.get("status") != "verified"
@@ -171,6 +176,9 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
             )
         if status == "proposed" and (review.get("reviewer") or review.get("reviewedAt")):
             raise ValueError(f"{record_id} proposed review cannot claim completed review")
+    unused_verified_paths = sorted(set(verified) - used_verified_paths)
+    if unused_verified_paths:
+        raise ValueError(f"evidence verification receipt has unused paths: {unused_verified_paths}")
     return ledger
 
 
