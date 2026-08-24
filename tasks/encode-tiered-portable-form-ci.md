@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:08:51.243Z'
+  at: '2026-08-24T02:42:20.373Z'
 ---
 # Goal
 
@@ -29,7 +29,8 @@ Encode the tiered portable-form CI decision in the SGG fork without weakening fu
 
 # Progress
 
-- SGG PR #55 (`810980689`) implements the classifier, bank-only integrity lane, full-CI escalation, XSD staging, wildcard byte preservation, tests, and repository documentation.
+- SGG PR #55 merged as `32f09a1ee3cec163095adfe8425ce4204b8f5aba`; it implements the classifier, bank-only integrity lane, full-CI escalation, XSD staging, wildcard byte preservation, tests, and repository documentation.
 - Local gates: 230 form-spec tests passed with the one database-dependent lifecycle test deselected; repository-wide Black/isort and Ruff passed; classifier MyPy passed.
 - Hosted workflow parsing and the fail-closed full-CI classification both passed on PR #55. The task remains in progress until the next artifact/XSD-only promotion proves the hosted lightweight lane.
+- The full API run reproduced the preceding NIFA PR's exact 22 baseline failures while increasing passes from 4,509 to 4,514; E2E reproduced the unrelated 800-second API-readiness timeout. Neither failure was introduced by the tiering change.
 - NIFA Supplemental consumer PR #54 merged as `91a01b0c5`; its unrelated E2E run failed after the API readiness wait exhausted 800 seconds, providing direct evidence for separating inert banking from runtime/browser validation.
