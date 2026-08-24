@@ -367,6 +367,35 @@ registration are not closed.
   response safely, the deliverable will be a tested feasibility boundary rather than an
   approximation.
 
+## 2026-08-24: cross-form prefill adapter projection published
+
+- Draft [simpler-grants-gov PR 92](https://github.com/mikec-ai/simpler-grants-gov/pull/92)
+  pins the 39-form bank to producer merge
+  `bac08000460ef457b5970647d0c9019559398e42` and projects portable operational evidence into
+  typed Simpler coordinates.
+- The generic projection applies the target form's naming rules to destination pointers, the
+  source form's naming rules to canonical value-source pointers, and resolves source form ids
+  through the explicit Simpler runtime-identity record. It preserves the zero-based first-period
+  selector and fails closed on a missing source identity or any stronger execution-status claim.
+- R&R Budget now resolves three exact adapter records: `/samuei` from R&R SF-424
+  `/applicant_info/organization_info/sam_uei`, `/organization_name` from
+  `/applicant_info/organization_info/organization_name`, and
+  `/budget_year/[]/budget_period_start_date` from
+  `/proposed_project_period/proposed_start_date`, with the latter constrained to array index zero.
+- The records remain `source-bound-uncompiled` and are not attached to the persisted runtime Form
+  or executed by application lifecycle code. This closes the canonical-to-Simpler coordinate seam,
+  not the trigger or overwrite-policy decision.
+- Deterministic inspection of the official interactive PDF at
+  `https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0.pdf` (downloaded SHA-256
+  `1c9e8c1d6f5661102b28efc0961e7dd35f87ae5b3b6e0a9a1ed048a3cdf72280`) found XFA form-state
+  records marking SAM UEI and organization name open and scripts copying first-period values into
+  later PDF periods. The PDF expects package data to arrive already populated and does not establish
+  when a web application should copy a sibling response. No OCR was used.
+- Local verification: 340 non-database form-spec tests, 37 promotion/synchronization/classifier/
+  provenance/projection tests, focused Ruff and formatting, and targeted mypy pass. Two unrelated
+  SF-424A database lifecycle tests remain unavailable locally because `grants-db` does not resolve.
+  Hosted full-lane CI is running.
+
 [depends on](harden-rr-budget-production.md)
 
 [depends on](author-integrate-rr-subaward-budget.md)
