@@ -77,19 +77,16 @@ model SF424Short {
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Name of Federal Agency")
   @UI.section(Sf424ShortSection.federalAgency)
-  @UI.readOnly
   agencyName: AgencyName;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Assistance Listing Number")
   @UI.section(Sf424ShortSection.assistanceListing)
-  @UI.readOnly
   assistanceListingNumber?: AssistanceListingNumber;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Assistance Listing Title")
   @UI.section(Sf424ShortSection.assistanceListing)
-  @UI.readOnly
   assistanceListingProgramTitle?: AssistanceListingTitle;
 
   /** Completed by Grants.gov upon submission. */
@@ -101,13 +98,11 @@ model SF424Short {
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Funding Opportunity Number")
   @UI.section(Sf424ShortSection.fundingOpportunity)
-  @UI.readOnly
   fundingOpportunityNumber: OpportunityNumber;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Funding Opportunity Title")
   @UI.section(Sf424ShortSection.fundingOpportunity)
-  @UI.readOnly
   fundingOpportunityTitle: OpportunityTitle;
 
   /** Enter the legal name of applicant that will undertake the assistance activity. This is the name that the organization has registered with the System for Award Management (SAM.gov). Information on registering with SAM may be obtained by visiting the Grants.gov website. */
@@ -146,7 +141,6 @@ model SF424Short {
   /** UEI of the applicant organization. This field is pre-populated from the Application cover sheet. */
   @UI.label("SAM UEI")
   @UI.section(Sf424ShortSection.applicantInformation)
-  @UI.readOnly
   samUei: SamUei;
 
   /** Congressional District of Applicant is required: Enter the Congressional District in the format: 2 character State Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th District, CA-012 for California's 12th District, NC-103 for North Carolina's 103rd District. If outside the U.S., enter 00-000. */
