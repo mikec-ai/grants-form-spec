@@ -620,4 +620,41 @@ describe("form-scoped behavior overrides", () => {
       "@UI.overrides enabledWhen collides with intrinsic UI behavior at explanation",
     );
   });
+
+  it.each([
+    ["visible", "@UI.visibleWhen"],
+    ["read-only", "@UI.readOnlyWhen"],
+  ])("fails closed when an enabled override collides with intrinsic %s behavior", async (kind, decorator) => {
+    const instance = await Tester.createInstance();
+    const id = `behavior-override-${kind}-collision`;
+    await instance.compile(
+      form(`
+        enum Mode { first: "First", second: "Second" }
+        enum CollisionSection { details: "Details" }
+
+        ${formMeta(id)}
+        @UI.sections(CollisionSection)
+        @UI.overrides(#{
+          explanation: #{ enabledWhen: #{ path: "mode", equals: Mode.second } },
+        })
+        model BehaviorOverrideCollision {
+          @UI.section(CollisionSection.details)
+          mode: Mode;
+
+          @UI.section(CollisionSection.details)
+          ${decorator}(BehaviorOverrideCollision.mode, Mode.first)
+          explanation?: string;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find((candidate) => candidate.id === id);
+    expect(block).toBeDefined();
+    expect(() => emitBlockUi(instance.program, block!)).toThrow(
+      "@UI.overrides enabledWhen collides with intrinsic UI behavior at explanation",
+    );
+    expect(() => emitSggUi(instance.program, block!)).toThrow(
+      "@UI.overrides enabledWhen collides with intrinsic UI behavior at explanation",
+    );
+  });
 });

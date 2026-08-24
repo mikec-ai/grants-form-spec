@@ -225,6 +225,23 @@ function field(
     ...inheritedVisible,
     ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join("."), itemPath),
   ];
+  const intrinsicEnabled = [
+    ...inheritedEnabled,
+    ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), itemPath),
+  ];
+  const readOnly = [
+    ...inheritedReadOnly,
+    ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join("."), itemPath),
+  ];
+  const overrideEnabled = overrideEnabledWhen(override);
+  if (
+    overrideEnabled.length
+    && (visible.length || intrinsicEnabled.length || readOnly.length)
+  ) {
+    throw new Error(
+      `@UI.overrides enabledWhen collides with intrinsic UI behavior at ${targetPath.join(".")}`,
+    );
+  }
   if (visible.length) {
     const predicates = visible.map(predicate);
     f.conditional = {
@@ -233,16 +250,6 @@ function field(
       otherwise: { visible: false },
     };
   } else {
-    const overrideEnabled = overrideEnabledWhen(override);
-    const intrinsicEnabled = [
-      ...inheritedEnabled,
-      ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), itemPath),
-    ];
-    if (overrideEnabled.length && intrinsicEnabled.length) {
-      throw new Error(
-        `@UI.overrides enabledWhen collides with intrinsic UI behavior at ${targetPath.join(".")}`,
-      );
-    }
     const enabled = [...intrinsicEnabled, ...overrideEnabled];
     if (enabled.length) {
       const predicates = enabled.map(predicate);
@@ -252,10 +259,6 @@ function field(
         otherwise: { interaction: "disabled" },
       };
     } else {
-      const readOnly = [
-        ...inheritedReadOnly,
-        ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join("."), itemPath),
-      ];
       if (readOnly.length) {
         const predicates = readOnly.map(predicate);
         f.conditional = {
