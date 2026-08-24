@@ -61,7 +61,7 @@ class RRPersonalDataXmlTests(unittest.TestCase):
                 "name": {"prefix": "Dr", "firstName": "Ada", "middleName": "M", "lastName": "Lovelace", "suffix": "III"},
                 "sex": "Female",
                 "race": ["Asian", "White"],
-                "ethnicity": "Not Hispanic or Latino",
+                "ethnicity": "Non-Hispanic or Latino",
                 "disabilityStatus": ["Hearing", "Visual"],
                 "citizenship": "US Citizen",
             },
@@ -70,7 +70,7 @@ class RRPersonalDataXmlTests(unittest.TestCase):
                     "name": name("Grace", "Hopper"),
                     "sex": "Female",
                     "race": ["White"],
-                    "ethnicity": "Do Not Wish To Provide",
+                    "ethnicity": "Do Not Wish to Provide",
                     "disabilityStatus": ["None"],
                     "citizenship": "US Citizen",
                 },
@@ -96,6 +96,21 @@ class RRPersonalDataXmlTests(unittest.TestCase):
         )
         self.assertTrue(all(child.tag.startswith(f"{{{GLOB_LIB_NS}}}") for child in person_name))
         self.assertEqual([node.text for node in director.findall(f"{{{FORM_NS}}}Race")], ["Asian", "White"])
+        self.assertEqual(director.find(f"{{{FORM_NS}}}Ethnicity").text, "Not Hispanic or Latino")
+        co_director = root.findall(f"{{{FORM_NS}}}Co-ProjectDirector")[0]
+        self.assertEqual(co_director.find(f"{{{FORM_NS}}}Ethnicity").text, "Do Not Wish To Provide")
+        self.assert_valid(xml)
+
+    def test_source_valid_free_text_name_prefix_and_suffix_round_trip(self) -> None:
+        response = {
+            "projectDirector": {
+                "name": {"prefix": "Mx", "firstName": "Ada", "lastName": "Lovelace", "suffix": "III"}
+            }
+        }
+        xml = render_profile_xml(PROFILE, response)
+        director_name = ET.fromstring(xml).find(f"{{{FORM_NS}}}ProjectDirector/{{{FORM_NS}}}Name")
+        self.assertEqual(director_name.find(f"{{{GLOB_LIB_NS}}}PrefixName").text, "Mx")
+        self.assertEqual(director_name.find(f"{{{GLOB_LIB_NS}}}SuffixName").text, "III")
         self.assert_valid(xml)
 
     def test_exact_xsd_enforces_director_race_disability_and_repeat_maxima(self) -> None:

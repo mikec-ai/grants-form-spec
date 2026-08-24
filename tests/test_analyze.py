@@ -227,8 +227,8 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
-        self.assertEqual(len(self.analysis["questionInventory"]), 209)
-        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 1325)
+        self.assertEqual(len(self.analysis["questionInventory"]), 214)
+        self.assertEqual(len(self.analysis["formQuestionWorkbook"]), 1335)
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 703)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 38)
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
@@ -264,7 +264,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
 
     def test_unreviewed_semantics_never_enter_published_metrics(self) -> None:
         self.assertEqual(self.analysis["status"]["reviewedAssociationCount"], 0)
-        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 1325)
+        self.assertEqual(self.analysis["status"]["exploratoryAssociationCount"], 1335)
         self.assertTrue(
             all(not row["publishable"] for row in self.analysis["formQuestionWorkbook"])
         )
