@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 import Ajv2020 from "ajv/dist/2020.js";
+import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateResponseNormalization } from "./project_response_normalizations.mjs";
 
 const VERSION = "0.1.0";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -134,6 +136,7 @@ async function validators() {
     "block-index",
     "form-package",
     "evidence",
+    "response-normalization",
     "grants-gov-xml-profile",
   ]) {
     out.set(name, ajv.compile(await readJson(resolve(CONTRACT, `${name}.schema.json`))));
@@ -297,6 +300,49 @@ export async function validateArtifactGraph(inputDist) {
         const target = resolve(dir, artifact);
         if (!inside(dir, target) || !jsonFiles.includes(target)) {
           throw new ArtifactError(`manifest artifact does not exist: ${artifact}`, manifestPath);
+        }
+      }
+
+      const normalizationPath = resolve(dir, "response-normalization.json");
+      if (jsonFiles.includes(normalizationPath)) {
+        const normalization = await readJson(normalizationPath);
+        const normalizationValidator = validate.get("response-normalization");
+        if (!normalizationValidator(normalization)) {
+          throw new ArtifactError(
+            `response normalization contract failed: ${formatAjv(normalizationValidator.errors)}`,
+            normalizationPath,
+          );
+        }
+        if (normalization.form.id !== index.id ||
+            normalization.form.formVersion !== manifest.form.formVersion) {
+          throw new ArtifactError("response normalization identity does not match its form", normalizationPath);
+        }
+        const declaration = manifest.artifacts["response-normalization.json"];
+        if (!declaration || typeof declaration !== "object" || declaration.origin !== "passthrough") {
+          throw new ArtifactError(
+            "response normalization is not declared as a hashed passthrough package artifact",
+            manifestPath,
+          );
+        }
+        const bytes = await readFile(normalizationPath);
+        const digest = createHash("sha256").update(bytes).digest("hex");
+        if (declaration.sha256 !== digest) {
+          throw new ArtifactError("response normalization digest does not match its manifest", manifestPath);
+        }
+        const evidencePath = resolve(dir, "evidence.json");
+        if (!jsonFiles.includes(evidencePath)) {
+          throw new ArtifactError("response normalization requires packaged evidence", normalizationPath);
+        }
+        try {
+          await validateResponseNormalization(normalization, {
+            schemaPath,
+            evidence: await readJson(evidencePath),
+            dist,
+            cache,
+            context: relative(dist, normalizationPath),
+          });
+        } catch (error) {
+          throw new ArtifactError(error.message, normalizationPath);
         }
       }
 

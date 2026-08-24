@@ -68,6 +68,11 @@
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/operationalBehaviorEvidence" }
     },
+    "responseNormalizationEvidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/responseNormalizationEvidence" }
+    },
     "extraction": {
       "type": "object",
       "additionalProperties": false,
@@ -100,6 +105,44 @@
     }
   },
   "$defs": {
+    "responseNormalizationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "canonicalPath",
+        "operation",
+        "authority",
+        "reviewStatus",
+        "sourceEvidence",
+        "disposition"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "canonicalPath": {
+          "type": "string",
+          "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$"
+        },
+        "operation": { "const": "empty-string-to-absent" },
+        "authority": { "const": "official_source" },
+        "reviewStatus": { "const": "reviewed" },
+        "sourceEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sourceId", "sourcePath", "sourceRecord"],
+            "properties": {
+              "sourceId": { "type": "string", "minLength": 1 },
+              "sourcePath": { "type": "string", "minLength": 1 },
+              "sourceRecord": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "disposition": { "type": "string", "minLength": 1 }
+      }
+    },
     "behaviorEvidenceInheritance": {
       "type": "object",
       "additionalProperties": false,

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import subprocess
 import tempfile
 import unittest
@@ -24,6 +25,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "$id": "generics/name/schema.json",
             "type": "string",
+            "minLength": 1,
         })
         self._json(question / "ui.json", {"type": "Control", "scope": "#"})
         self._json(question / "index.json", {
@@ -96,6 +98,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         *,
         behavior_evidence: list[dict[str, object]],
         operational_behavior_evidence: list[dict[str, object]] | None = None,
+        response_normalization_evidence: list[dict[str, object]] | None = None,
         source_type: str = "dat",
     ) -> Path:
         evidence = root / "evidence/forms/example/evidence.json"
@@ -110,6 +113,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             }],
             "behaviorEvidence": behavior_evidence,
             "operationalBehaviorEvidence": operational_behavior_evidence or [],
+            "responseNormalizationEvidence": response_normalization_evidence or [],
             "extraction": {
                 "repository": "https://github.com/example/forms",
                 "revision": "1" * 40,
@@ -160,6 +164,66 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             },
         })
 
+    def _add_packaged_normalization(
+        self,
+        dist: Path,
+        *,
+        path: str = "/name",
+        evidence_ref: str = "reviewed-name-omission",
+        evidence_path: str | None = None,
+    ) -> tuple[Path, Path, Path]:
+        form = dist / "forms/example"
+        normalization = {
+            "contract": "grants-form-response-normalization/v1",
+            "form": {"id": "example", "formVersion": "1.0"},
+            "operations": [{
+                "path": path,
+                "operation": "empty-string-to-absent",
+                "evidenceRef": evidence_ref,
+            }],
+        }
+        normalization_bytes = (json.dumps(normalization, indent=2) + "\n").encode()
+        normalization_path = form / "response-normalization.json"
+        normalization_path.write_bytes(normalization_bytes)
+        evidence_path_file = form / "evidence.json"
+        self._json(evidence_path_file, {
+            "contract": "grants-form-evidence/v1",
+            "block": {"id": "example", "kind": "form", "formVersion": "1.0"},
+            "sources": [{
+                "id": "example-source", "type": "xsd",
+                "uri": "https://example.gov/example-v1.0.xsd", "nativeVersion": "1.0",
+                "sha256": "a" * 64,
+            }],
+            "responseNormalizationEvidence": [{
+                "id": "reviewed-name-omission",
+                "canonicalPath": evidence_path or path,
+                "operation": "empty-string-to-absent",
+                "authority": "official_source",
+                "reviewStatus": "reviewed",
+                "sourceEvidence": [{
+                    "sourceId": "example-source",
+                    "sourcePath": "Example.Name",
+                    "sourceRecord": "The optional element rejects a present empty string.",
+                }],
+                "disposition": "Normalize exact empty string to omission.",
+            }],
+            "extraction": {
+                "repository": "https://github.com/example/forms", "revision": "1" * 40,
+                "artifact": "example.json", "sourceSetSha256": "b" * 64,
+                "extractedAt": "2026-08-24T00:00:00Z",
+            },
+            "semanticReview": {"status": "unreviewed", "mappings": []},
+        })
+        manifest_path = form / "manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest["artifacts"]["evidence.json"] = "passthrough"
+        manifest["artifacts"]["response-normalization.json"] = {
+            "origin": "passthrough",
+            "sha256": hashlib.sha256(normalization_bytes).hexdigest(),
+        }
+        self._json(manifest_path, manifest)
+        return normalization_path, evidence_path_file, manifest_path
+
     def test_accepts_a_hand_authored_artifact_graph(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             dist = self._write_graph(Path(directory))
@@ -168,6 +232,84 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("status: passed", result.stdout)
         self.assertIn("blocks: 2", result.stdout)
+
+    def test_accepts_and_verifies_a_manifest_hashed_response_normalization(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            self._add_packaged_normalization(dist)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rejects_a_tampered_response_normalization_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            _, _, manifest_path = self._add_packaged_normalization(dist)
+            manifest = json.loads(manifest_path.read_text())
+            manifest["artifacts"]["response-normalization.json"] = {
+                "origin": "passthrough",
+                "sha256": "0" * 64,
+            }
+            self._json(manifest_path, manifest)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("digest does not match", result.stdout)
+
+    def test_rejects_packaged_normalization_with_unresolved_or_mismatched_evidence(self) -> None:
+        cases = [
+            ({"evidence_ref": "missing"}, "unresolved evidenceRef missing"),
+            ({"evidence_path": "/other"}, "does not exactly review"),
+        ]
+        for options, message in cases:
+            with self.subTest(message=message), tempfile.TemporaryDirectory() as directory:
+                dist = self._write_graph(Path(directory))
+                self._add_packaged_normalization(dist, **options)
+                result = self._run("--dist", str(dist))
+            self.assertEqual(result.returncode, 1, result.stdout)
+            self.assertIn(message, result.stdout)
+
+    def test_rejects_packaged_normalization_with_a_missing_cited_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            _, evidence_path, _ = self._add_packaged_normalization(dist)
+            evidence = json.loads(evidence_path.read_text())
+            evidence["responseNormalizationEvidence"][0]["sourceEvidence"][0][
+                "sourceId"
+            ] = "missing-source"
+            self._json(evidence_path, evidence)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("names missing source missing-source", result.stdout)
+
+    def test_rejects_packaged_normalization_using_implementation_as_official_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            _, evidence_path, _ = self._add_packaged_normalization(dist)
+            evidence = json.loads(evidence_path.read_text())
+            evidence["sources"][0]["type"] = "implementation"
+            self._json(evidence_path, evidence)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn(
+            "claims official_source authority from implementation source example-source",
+            result.stdout,
+        )
+
+    def test_rejects_packaged_normalization_for_an_ineligible_canonical_target(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = self._write_graph(Path(directory))
+            question = dist / "question-bank/generics/name/schema.json"
+            schema = json.loads(question.read_text())
+            schema["minLength"] = 0
+            self._json(question, schema)
+            self._add_packaged_normalization(dist)
+            result = self._run("--dist", str(dist))
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("must reject a present empty string", result.stdout)
 
     def test_resolves_nested_paths_through_an_empty_local_all_of_extension(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -238,6 +380,44 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
 
         self.assertEqual(result.returncode, 1)
         self.assertIn("composes unknown question generics/missing", result.stdout)
+
+    def test_evidence_projector_rejects_unresolved_normalization_source_and_path(self) -> None:
+        base = {
+            "id": "reviewed-name-omission",
+            "canonicalPath": "/name",
+            "operation": "empty-string-to-absent",
+            "authority": "official_source",
+            "reviewStatus": "reviewed",
+            "sourceEvidence": [{
+                "sourceId": "missing-source",
+                "sourcePath": "Example.Name",
+                "sourceRecord": "Optional in the official source.",
+            }],
+            "disposition": "Normalize the exact empty string to omission.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            evidence = self._write_evidence(
+                root,
+                behavior_evidence=[],
+                response_normalization_evidence=[base],
+            )
+            missing_source = self._run_projector(
+                "--evidence", str(evidence.parents[2]), "--dist", str(dist),
+            )
+            document = json.loads(evidence.read_text())
+            document["responseNormalizationEvidence"][0]["sourceEvidence"][0]["sourceId"] = "example-source"
+            document["responseNormalizationEvidence"][0]["canonicalPath"] = "/missing"
+            self._json(evidence, document)
+            missing_path = self._run_projector(
+                "--evidence", str(evidence.parents[2]), "--dist", str(dist),
+            )
+
+        self.assertEqual(missing_source.returncode, 1)
+        self.assertIn("names missing source missing-source", missing_source.stdout)
+        self.assertEqual(missing_path.returncode, 1)
+        self.assertIn("is not an exact emitted field occurrence", missing_path.stdout)
 
     def test_rejects_an_incomplete_field_occurrence_inventory(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

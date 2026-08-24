@@ -28,13 +28,25 @@
       "required": ["schema.json", "ui.json"],
       "properties": {
         "schema.json": { "enum": ["generated", "projected", "passthrough"] },
-        "ui.json": { "enum": ["generated", "projected", "passthrough"] }
+        "ui.json": { "enum": ["generated", "projected", "passthrough"] },
+        "response-normalization.json": { "$ref": "#/$defs/hashedArtifact" }
       },
       "propertyNames": {
         "type": "string",
         "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.json$"
       },
       "additionalProperties": { "enum": ["generated", "projected", "passthrough"] }
+    }
+  },
+  "$defs": {
+    "hashedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "sha256"],
+      "properties": {
+        "origin": { "enum": ["generated", "projected", "passthrough"] },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
     }
   }
 }

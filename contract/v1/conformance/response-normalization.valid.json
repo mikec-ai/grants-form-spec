@@ -1,0 +1,11 @@
+{
+  "contract": "grants-form-response-normalization/v1",
+  "form": { "id": "example", "formVersion": "1.0" },
+  "operations": [
+    {
+      "path": "/optionalNarrative",
+      "operation": "empty-string-to-absent",
+      "evidenceRef": "example-optional-narrative-omission"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "sf424a",
+  "method": {
+    "ocrUsed": false,
+    "datMethod": "deterministic workbook cell inspection of Form DAT rows F-0-1 through F-0-3",
+    "pdfTextMethod": "embedded instruction text extraction",
+    "xfaMethod": "deterministic XFA packet inspection of the pinned official sample PDF",
+    "reviewStatus": "agent-reviewed"
+  },
+  "sourceArtifacts": {
+    "rootXsdSha256": "d5a636733d72c1e4cc9087ffc59b3d10000ee51f80da0dde3150ff91bcad0b5c",
+    "globalXsdSha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb",
+    "datSha256": "5228e637f00b1946f10df473376d9f6dd50956b929cbf823b5dd8313e0bbd7a4",
+    "sampleXfaPdfSha256": "74f89e6c250d900ada5f7e6f7bc5546c24a88885c9c07f458cb408b91bc95095",
+    "instructionsSha256": "6176bbf30c6288876dff8b95e7f150ca8c9f0ce474a2286be6410d2c28fd255b"
+  },
+  "reviewedResponseNormalization": [
+    {
+      "canonicalPath": "/directChargesExplanation",
+      "sourceField": "BudgetInformation.OtherInformation.OtherDirectChargesExplanation",
+      "disposition": "The XML element is optional and a present value requires 1-50 characters. The applicant UI permits blank capture, and XFA null exclusion represents that state by omitting the element. Exact empty string is a legacy capture representation of absence."
+    },
+    {
+      "canonicalPath": "/indirectChargesExplanation",
+      "sourceField": "BudgetInformation.OtherInformation.OtherIndirectChargesExplanation",
+      "disposition": "The XML element is optional and a present value requires 1-50 characters. The applicant UI permits blank capture, and XFA null exclusion represents that state by omitting the element. Exact empty string is a legacy capture representation of absence."
+    },
+    {
+      "canonicalPath": "/remarks",
+      "sourceField": "BudgetInformation.OtherInformation.Remarks",
+      "disposition": "The XML element is optional and a present value requires 1-250 characters. The applicant UI permits blank capture, and XFA null exclusion represents that state by omitting the element. Exact empty string is a legacy capture representation of absence."
+    }
+  ],
+  "submissionBehavior": "The XFA nodes use dd:minOccur=0 and dd:nullType=exclude. The pre-submit event removes OtherInformation when all three controls are null or empty.",
+  "whitespaceBoundary": "No reviewed source authorizes trimming or treating whitespace-only strings as absence. The compatibility policy therefore applies only to the exact zero-length string.",
+  "semanticBoundary": "This review establishes source-valid omission and a compatibility normalization. It does not accept the separate proposed semantic question mappings or contribute to reuse metrics."
+}
