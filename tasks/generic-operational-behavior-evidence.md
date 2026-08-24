@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_operational_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:30:52.725Z'
+  at: '2026-08-24T04:59:29.025Z'
 assignee: implement_operational_evidence
 ---
 # Goal
@@ -105,3 +105,19 @@ Question-bank operational inheritance is intentionally deferred. The current can
 ## Sequencing recommendation
 
 Implement this small contract-and-projection slice before the next form whose parity claim depends on prefill, protected/read-only population, external derivation, discard, or replacement. It need not block forms that add only schema, presentation, mappings, calculations, or conditions. The design is ready for implementation, but the task should remain `todo` until an implementer claims it.
+
+# Implementation receipt
+
+- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/71
+- Branch: `codex/generic-operational-behavior-evidence`
+- Exact head: `bc295e2a814dcd020ba3d56401da8a27de0b6cba`
+- Base: producer `main` at `88aee1a3406c3f860bc50c9bcc92c6022b9dda3b`
+- Contract: optional sibling `operationalBehaviorEvidence`; `behaviorEvidence` remains calculation/condition-only.
+- Generic projector: exact destination closure, source-authority checks, canonical source-block/path closure, passthrough only, and no runtime-rule generation.
+- Analysis: `operationalBehaviorOccurrences` and `operational-behavior-occurrences.csv`, explicitly excluded from semantic similarity, reviewed coverage, capability reuse, and marginal reuse.
+- Canary: five R&R Personal Data PD/PI name prefills, each protected, official-source-backed by the pinned XFA, source-bound-uncompiled, and linked to an exact R&R SF-424 principal-investigator name occurrence.
+- Candidate audit at the implementation base found 6 `@Sgg.prePopulate` declarations, 14 `ResponseRole.systemValue` declarations, and 115 exact `@UI.readOnly` declarations. None were inferred or promoted into operational evidence.
+- Deferred: PHS 398 Cover Page Supplement discard/replace remains source-bound because the application-context predicate and summary source coordinate are not declarative. SF-424D prefill remains deferred pending exact field/source reconciliation.
+- Verification: full preflight passed with 115 TypeScript tests, 288 Python tests (2 skipped), 30 exact XSD fixtures, 1,533 validated artifact nodes, and zero unclassified-field debt.
+
+The implementation is complete but remains `in_progress` until PR review and merge.
