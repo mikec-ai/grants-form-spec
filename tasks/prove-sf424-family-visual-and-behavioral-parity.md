@@ -4,20 +4,16 @@ title: Prove SF-424 family visual and behavioral parity
 priority: P0
 assignee: codex-root
 description: >-
-  SF-424 increment delivered in fork PR
-  https://github.com/mikec-ai/simpler-grants-gov/pull/71 (commit d8684d29b).
-  Generic adapter expansion preserves portable refs as source while compiling
-  for Simpler. One-form isolated canary passes all six Chrome probes in 17
-  seconds: registration, API preflight, Apply render, edited save/reload with 70
-  persisted controls, zero Axe violations plus keyboard focus, and print.
-  Focused checks: 30 API tests, 5 frontend contract tests, TypeScript, ESLint,
-  Ruff. Receipts/screenshots/traces remain generated artifacts; SF-424 Short and
-  SF-424A remain next increments.
+  SF-424 portable browser canary is delivered in fork PR 71. Current claimed
+  increment: add a deterministic Playwright recording that compares the existing
+  and portable SF-424 through the real Simpler frontend, publishes generated
+  media and a pinned receipt outside git, and becomes reusable for SF-424 Short
+  and SF-424A.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T13:42:36.211Z'
+  at: '2026-08-24T13:56:32.075Z'
 ---
 # Goal
 
