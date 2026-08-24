@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:50:54.910Z'
+  at: '2026-08-24T02:59:00.827Z'
 assignee: human_subjects_agent
 ---
 # Goal
@@ -66,4 +66,4 @@ Record which capabilities were genuinely new so PHS Inclusion Enrollment Report 
 
 # Consumer banking receipt
 
-Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. It remains bank-only with no runtime identity or registration. Consumer human semantic, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. After rebasing over concurrent automated promotion PR #56, PR #58 adds only PHS Human Subjects and Clinical Trials plus PHS 398 Research Plan; its current base is `9fa568e1e6eb04e7218a9685cdf255215080cafb` and head is `11038593df1e125c62ce43fad8273144f3cf93ed`. It remains bank-only with no runtime identity or registration. Consumer human semantic, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
