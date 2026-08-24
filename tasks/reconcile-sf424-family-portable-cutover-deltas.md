@@ -6,10 +6,10 @@ description: >-
   Resolve the producer, declaration, and reviewed compatibility differences
   exposed by PR63 while production remains fail-closed on legacy definitions.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:22:33.161Z'
+  at: '2026-08-24T06:17:29.686Z'
 assignee: codex
 ---
 # Goal
@@ -19,7 +19,7 @@ Resolve the portable-versus-legacy schema and validation deltas exposed when con
 # Incident evidence
 
 - Consumer PR #63 head `44a217345868ed15192431ee755c9f41febcc8b7` consumed producer revision `14b08b8cbd6016778a8f0688ed924a7ede4c8d2d` and produced 12 relevant API test failures across the three forms. The failures collapse to three root causes; repeated fixtures amplify the same field-level differences.
-- Consumer PR #65 began by restoring the three legacy definitions for production while preserving the portable bank, adapter, and preview seam. Its current head `1f2f47f164674e91904d7392978ae58c63c5936d` also closes a CI-classifier gap: the lightweight additive lane had allowed modifications to existing portable artifacts and XSDs, while those changes can alter already-banked behavior. Existing artifact or XSD modifications now require full CI; only strictly additive files qualify for the lightweight lane. Both changes are the correct fail-closed disposition.
+- Consumer PR #65 restored the three legacy definitions for production while preserving the portable bank, adapter, and preview seam. It also closed a CI-classifier gap: the lightweight additive lane had allowed modifications to existing portable artifacts and XSDs, while those changes can alter already-banked behavior. Existing artifact or XSD modifications now require full CI; only strictly additive files qualify for the lightweight lane. Exact head `0e1f220bae0ca20d1e49b1f80d94f4e4f1f43b92` passed independent review, the full 4,519-test API suite, and 14 local DB-backed lifecycle tests, then merged to consumer main as `de55d5f5b7d4aa66b40e657fc212d6dfb1e93841`.
 - The legacy implementation is a compatibility oracle, not semantic authority. The SF-424A evidence records cited below are still `proposed`, so they cannot yet authorize an intentional production delta.
 
 # Root-cause classification
@@ -44,7 +44,7 @@ Do not weaken the shared bank questions solely to satisfy legacy fixtures. First
 
 # Minimal correction sequence
 
-1. Land PR #65 independently after its full CI is green. Production remains legacy; portable candidates remain banked and previewable; modifications to existing artifact or XSD files continue through full CI.
+1. PR #65 is complete. Production remains legacy; portable candidates remain banked and previewable; modifications to existing artifact or XSD files continue through full CI.
 2. Fix producer cardinality emission generically, rebuild artifacts, promote the immutable producer revision, and prove one validation issue per missing address path in both forms.
 3. Resolve and encode the SF-424 Short read-only decision in producer declarations or the governed intentional-delta ledger; keep pre-population behavior unchanged.
 4. Complete semantic review of the three SF-424A XSD mappings. Only then implement the selected generic SGG compatibility behavior or accept the canonical delta.
@@ -62,7 +62,7 @@ Do not weaken the shared bank questions solely to satisfy legacy fixtures. First
 
 # Boundary
 
-No HHS upstream writes. Do not edit or merge PR #63 or PR #65 from this task. Similar behavior is not semantic equivalence, and proposed evidence does not count as reviewed acceptance.
+No HHS upstream writes. PR #63 remains a separate preview-only review and release unit. Similar behavior is not semantic equivalence, and proposed evidence does not count as reviewed acceptance.
 
 # SF-424 Short six-field semantic audit
 
