@@ -5,11 +5,11 @@ priority: P0
 description: >-
   Make producer preflight fail whenever a portable XML profile's official XSD
   digest does not match the byte-exact vendored fixture used for conformance.
-superbee_progress_status: in_progress
-superbee_updated_by: promote_new_forms
+superbee_progress_status: done
+superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:40:07.789Z'
+  at: '2026-08-24T02:43:15.816Z'
 ---
 # Goal
 
