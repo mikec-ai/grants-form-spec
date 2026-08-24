@@ -156,3 +156,14 @@ Stage B generic capability executors and portable conformance vectors remain to 
 - Attachment Form and PHS Assignment Request passed preview registration, adapter/API preflight, Apply render, initial save/reload, accessibility, and print render; schema implication was correctly recorded as not applicable.
 - R&R Budget passed those probes plus schema implication in all four browsers.
 - The workflow-level red status is not a failure of those generic receipts. A separate form-specific `attachment-form-release.spec.ts` also matched the portable-catalog tag and failed on its own application/navigation assumptions. Constrain that spec separately; do not discard or overstate the 12 form/browser receipts.
+
+## Matrix-derived next closure wave — 2026-08-24
+
+Review of the 39-form workbook identifies the next bounded technical-closure sequence:
+
+1. Repair SF-424C's producer-owned declarative table layout, then rerun the same four-browser catalog plan. Do not add a consumer form-id branch.
+2. Close the seven SF-424B/SF-424D assurance profiles as one derivative cohort. The matrix records zero new questions, capture mechanisms, or behavior capabilities for all seven relative to the prior catalog.
+3. Close the four remaining R&R Budget derivatives as one family cohort. Each records zero or one new question and fully reuses the attachment and behavior capability set; exact source/version differences still require independent receipts.
+4. Close the three narrative attachment forms as one mechanism-reuse cohort. Each adds one role-specific semantic question while reusing the existing attachment capture and validation behavior.
+
+These are implementation-derived prioritization signals, not accepted semantic equivalence or human release approval. The workbook still records zero accepted occurrence mappings, so human semantic review remains a separate gate.
