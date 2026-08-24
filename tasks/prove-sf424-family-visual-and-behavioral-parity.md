@@ -4,13 +4,19 @@ title: Prove SF-424 family visual and behavioral parity
 priority: P0
 assignee: codex-root
 description: >-
-  Current bounded slice: produce the first complete SF-424 compatibility receipt
-  before expanding to sibling forms.
+  SF-424 slice complete locally on codex/sf424-compatibility-receipt: the
+  generic Simpler adapter now expands portable JSON Schema references, one-form
+  browser selections use isolated deterministic seeds, and the Chrome receipt
+  passes registration, adapter API preflight, Apply render, edited save/reload
+  across 70 controls, Axe accessibility with keyboard focus, and print. Focused
+  verification: 30 API tests, 5 frontend contract tests, TypeScript, ESLint,
+  Ruff. Next increment is publish the fork PR and attach the generated receipt
+  as a build artifact; SF-424 Short and SF-424A remain in task scope.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T13:08:10.095Z'
+  at: '2026-08-24T13:41:35.175Z'
 ---
 # Goal
 
