@@ -148,6 +148,44 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertNotIn("gg_calculation", json.dumps(load(FORM / "sgg/rule-schema.json")))
         self.assertNotIn("conditional", json.dumps(load(FORM / "sgg/ui-schema.json")))
 
+        operational_evidence = evidence["operationalBehaviorEvidence"]
+        self.assertEqual(len(operational_evidence), 5)
+        self.assertEqual(
+            [row["canonicalPath"] for row in operational_evidence],
+            [row["canonicalPath"] for row in operational],
+        )
+        self.assertEqual({row["operationKind"] for row in operational_evidence}, {"prefill"})
+        self.assertEqual({row["editability"] for row in operational_evidence}, {"protected"})
+        self.assertEqual({row["authority"] for row in operational_evidence}, {"official_source"})
+        self.assertEqual(
+            {row["executionStatus"] for row in operational_evidence},
+            {"source-bound-uncompiled"},
+        )
+        self.assertEqual(
+            {row["sourceId"] for row in operational_evidence},
+            {"rr-personal-data-xfa-pdf-v1-2"},
+        )
+        self.assertEqual(
+            {row["sourcePath"] for row in operational_evidence},
+            {row["xfaSourcePath"] for row in operational},
+        )
+        self.assertEqual(
+            {
+                row["canonicalPath"]: row["valueSource"]
+                for row in operational_evidence
+            },
+            {
+                row["canonicalPath"]: {
+                    "kind": "canonical",
+                    "blockId": "rr-sf424",
+                    "path": row["canonicalPath"].replace(
+                        "/projectDirector", "/principalInvestigator", 1
+                    ),
+                }
+                for row in operational
+            },
+        )
+
     def test_generic_name_accepts_source_valid_free_text_prefix_and_suffix(self) -> None:
         schema_path = ROOT / "dist/question-bank/generics/person-name/schema.json"
         payload = {"prefix": "Mx", "firstName": "Ada", "lastName": "Lovelace", "suffix": "III"}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 import subprocess
 import tempfile
@@ -224,6 +225,7 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
             "pairwise-exploratory.csv",
             "pairwise-reviewed.csv",
             "capability-occurrences.csv",
+            "operational-behavior-occurrences.csv",
             "marginal-capability-reuse.csv",
         }
         self.assertEqual({path.name for path in self.output_dir.iterdir()}, expected)
@@ -232,6 +234,51 @@ class AttachmentSemanticAnalysisTests(unittest.TestCase):
         self.assertEqual(len(self.analysis["pairwiseExploratory"]), 741)
         self.assertEqual(len(self.analysis["marginalCapabilityReuse"]), 39)
         self.assertEqual(self.analysis["status"]["unclassifiedFormFieldCount"], 0)
+
+    def test_operational_evidence_is_projected_without_entering_reuse_metrics(self) -> None:
+        rows = self.analysis["operationalBehaviorOccurrences"]
+        personal_data_rows = [
+            row for row in rows if row["formId"] == "rr-personal-data"
+        ]
+        self.assertEqual(len(personal_data_rows), 5)
+        rows = personal_data_rows
+        self.assertEqual({row["operationKind"] for row in rows}, {"prefill"})
+        self.assertEqual({row["editability"] for row in rows}, {"protected"})
+        self.assertEqual({row["valueSourceBlockId"] for row in rows}, {"rr-sf424"})
+        self.assertEqual(
+            {row["canonicalPath"] for row in rows},
+            {
+                "/projectDirector/name/prefix",
+                "/projectDirector/name/firstName",
+                "/projectDirector/name/middleName",
+                "/projectDirector/name/lastName",
+                "/projectDirector/name/suffix",
+            },
+        )
+        self.assertEqual(
+            self.analysis["status"]["operationalBehaviorOccurrenceCount"],
+            len(self.analysis["operationalBehaviorOccurrences"]),
+        )
+        self.assertTrue(
+            all(
+                row["kind"] != "operationalBehavior"
+                for row in self.analysis["capabilityOccurrences"]
+            )
+        )
+        rr_personal_data = next(
+            row
+            for row in self.analysis["marginalCapabilityReuse"]
+            if row["formId"] == "rr-personal-data"
+        )
+        self.assertNotIn("operationalBehaviorCount", rr_personal_data)
+
+        with (self.output_dir / "operational-behavior-occurrences.csv").open() as handle:
+            csv_rows = [
+                row for row in csv.DictReader(handle)
+                if row["formId"] == "rr-personal-data"
+            ]
+        self.assertEqual(len(csv_rows), 5)
+        self.assertEqual({row["sourceId"] for row in csv_rows}, {"rr-personal-data-xfa-pdf-v1-2"})
 
     def test_readme_reference_form_summary_tracks_the_sequence(self) -> None:
         sequence = json.loads((ROOT / "analysis/form-sequence.v1.json").read_text())

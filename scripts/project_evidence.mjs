@@ -280,6 +280,7 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       ...authoredDocument,
       sources: resolvedEvidence.sources,
       behaviorEvidence: resolvedEvidence.behaviorEvidence,
+      operationalBehaviorEvidence: [...(authoredDocument.operationalBehaviorEvidence ?? [])],
     };
     delete document.inheritsBehaviorEvidenceFrom;
     if (!validate(document)) {
@@ -308,6 +309,28 @@ export async function projectEvidence({ evidenceRoot, dist }) {
         );
       }
     }
+    for (const behavior of document.operationalBehaviorEvidence) {
+      if (behavior.authority === "unresolved") continue;
+      const source = sourceById.get(behavior.sourceId);
+      if (!source) {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: operational behavior ${behavior.canonicalPath} ` +
+          `names missing source ${behavior.sourceId}`,
+        );
+      }
+      if (behavior.authority === "official_source" && source.type === "implementation") {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: operational behavior ${behavior.canonicalPath} ` +
+          `claims official_source authority from implementation source ${behavior.sourceId}`,
+        );
+      }
+      if (behavior.authority === "implementation_parity" && source.type !== "implementation") {
+        throw new Error(
+          `${relative(ROOT, sourcePath)}: operational behavior ${behavior.canonicalPath} ` +
+          `claims implementation_parity authority from ${source.type} source ${behavior.sourceId}`,
+        );
+      }
+    }
 
     const rel = relative(evidenceRoot, sourcePath);
     for (const source of document.sources) {
@@ -332,6 +355,45 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       throw new Error(`${rel}: evidence block identity does not match ${relative(dist, indexPath)}`);
     }
     const occurrences = new Set((index.fieldOccurrences ?? []).map((entry) => entry.path));
+    const operationalIdentities = new Set();
+    for (const behavior of document.operationalBehaviorEvidence) {
+      if (!occurrences.has(behavior.canonicalPath)) {
+        throw new Error(
+          `${rel}: operational behavior destination ${behavior.canonicalPath} ` +
+          "is not an exact emitted field occurrence",
+        );
+      }
+      const identity = `${behavior.operationKind}:${behavior.canonicalPath}`;
+      if (operationalIdentities.has(identity)) {
+        throw new Error(
+          `${rel}: duplicate ${behavior.operationKind} operational behavior for ` +
+          `${behavior.canonicalPath}`,
+        );
+      }
+      operationalIdentities.add(identity);
+
+      if (behavior.valueSource?.kind === "canonical") {
+        const sourceBlock = byBlock.get(behavior.valueSource.blockId);
+        if (!sourceBlock) {
+          throw new Error(
+            `${rel}: operational behavior ${behavior.canonicalPath} names missing canonical ` +
+            `source block ${behavior.valueSource.blockId}`,
+          );
+        }
+        const sourceKindRoot = sourceBlock.document.block.kind === "question" ? "question-bank" : "forms";
+        const sourceIndex = await json(resolve(dist, sourceKindRoot, behavior.valueSource.blockId, "index.json"));
+        const sourceOccurrences = new Set(
+          (sourceIndex.fieldOccurrences ?? []).map((entry) => entry.path),
+        );
+        if (!sourceOccurrences.has(behavior.valueSource.path)) {
+          throw new Error(
+            `${rel}: operational behavior ${behavior.canonicalPath} canonical source ` +
+            `${behavior.valueSource.blockId}:${behavior.valueSource.path} is not an exact emitted ` +
+            "field occurrence",
+          );
+        }
+      }
+    }
     if (kindRoot === "forms") {
       const ruleTargets = emittedRuleTargets(
         await json(resolve(targetDir, "sgg", "rule-schema.json")),
