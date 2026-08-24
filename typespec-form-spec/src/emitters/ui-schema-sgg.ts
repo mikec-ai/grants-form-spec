@@ -5,6 +5,7 @@ import {
   propLabel, propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propWidget,
   propEnabledWhen, propSggFieldList, propVisibleWhen,
 } from "../model.js";
+import { normalizedOverrideEnabledWhen } from "./override-condition.js";
 
 export interface SggField {
   type: "field" | "null";
@@ -115,40 +116,21 @@ const at = (overrides: Overrides, dataPath: string) => overrides[dataPath] ?? {}
 function overrideEnabledWhen(
   override: Record<string, unknown>,
 ): AbsoluteAtomicCondition[] {
-  const condition = override.enabledWhen;
-  if (!condition || typeof condition !== "object" || Array.isArray(condition)) return [];
-  const path = (condition as Record<string, unknown>).path;
-  const value = (condition as Record<string, unknown>).equals;
-  const values = (condition as Record<string, unknown>).in;
-  if (typeof path !== "string" || !path) return [];
-  if (
-    Array.isArray(values)
-    && values.length > 0
-    && values.every((item) => (
-      item === null
-      || typeof item === "string"
-      || typeof item === "number"
-      || typeof item === "boolean"
-    ))
-  ) {
+  const condition = normalizedOverrideEnabledWhen(override);
+  if (!condition) return [];
+  if (condition.operator === "in") {
     return [{
       scope: "root",
-      sourcePath: path.split(".").filter(Boolean),
+      sourcePath: condition.sourcePath,
       operator: "in",
-      values,
+      values: condition.values,
     }];
   }
-  if (
-    value !== null
-    && typeof value !== "string"
-    && typeof value !== "number"
-    && typeof value !== "boolean"
-  ) return [];
   return [{
     scope: "root",
-    sourcePath: path.split(".").filter(Boolean),
+    sourcePath: condition.sourcePath,
     operator: "equals",
-    value,
+    value: condition.value,
   }];
 }
 
@@ -251,11 +233,17 @@ function field(
       otherwise: { visible: false },
     };
   } else {
-    const enabled = [
+    const overrideEnabled = overrideEnabledWhen(override);
+    const intrinsicEnabled = [
       ...inheritedEnabled,
-      ...overrideEnabledWhen(override),
       ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), itemPath),
     ];
+    if (overrideEnabled.length && intrinsicEnabled.length) {
+      throw new Error(
+        `@UI.overrides enabledWhen collides with intrinsic UI behavior at ${targetPath.join(".")}`,
+      );
+    }
+    const enabled = [...intrinsicEnabled, ...overrideEnabled];
     if (enabled.length) {
       const predicates = enabled.map(predicate);
       f.conditional = {

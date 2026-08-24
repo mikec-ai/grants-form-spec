@@ -479,7 +479,8 @@ describe("form-scoped behavior overrides", () => {
         enum Mode { enabled: "Enabled", disabled: "Disabled" }
         enum OverrideSection { details: "Details" }
         model SharedDetails { mode?: Mode; explanation?: string; }
-        model LocalDetails extends SharedDetails {}
+        @Question.meta(#{ id: "shared/details" })
+        model LocalDetails { ...SharedDetails; }
 
         ${formMeta("behavior-override-check")}
         @UI.sections(OverrideSection)
@@ -501,6 +502,22 @@ describe("form-scoped behavior overrides", () => {
     expect(block).toBeDefined();
     expect(block!.overrides["details.explanation"]).toEqual({
       enabledWhen: { path: "details.mode", equals: "Enabled" },
+    });
+    const canonical = emitBlockUi(instance.program, block!);
+    const findScope = (node: typeof canonical, suffix: string): typeof canonical | undefined =>
+      node.scope?.endsWith(suffix)
+        ? node
+        : node.elements?.map((child) => findScope(child, suffix)).find(Boolean);
+    const canonicalExplanation = findScope(canonical, "/explanation");
+    expect(canonicalExplanation).toMatchObject({
+      scope: "#/properties/details/properties/explanation",
+      rule: {
+        effect: "ENABLE",
+        condition: {
+          scope: "#/properties/details/properties/mode",
+          schema: { const: "Enabled" },
+        },
+      },
     });
     const fields = emitSggUi(instance.program, block!)[0].children;
     expect(fields.find((field) => field.definition.endsWith("/explanation"))).toMatchObject({
@@ -545,6 +562,16 @@ describe("form-scoped behavior overrides", () => {
       (candidate) => candidate.id === "behavior-override-in-check",
     );
     expect(block).toBeDefined();
+    const canonical = emitBlockUi(instance.program, block!);
+    expect(canonical.elements?.find((field) => field.scope?.endsWith("/explanation"))).toMatchObject({
+      rule: {
+        effect: "ENABLE",
+        condition: {
+          scope: "#/properties/details/properties/mode",
+          schema: { enum: ["First", "Second"] },
+        },
+      },
+    });
     const fields = emitSggUi(instance.program, block!)[0].children;
     expect(fields.find((field) => field.definition.endsWith("/explanation"))).toMatchObject({
       conditional: {
@@ -557,5 +584,40 @@ describe("form-scoped behavior overrides", () => {
         otherwise: { interaction: "disabled" },
       },
     });
+  });
+
+  it("fails closed when an enabled override collides with intrinsic behavior", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Mode { first: "First", second: "Second" }
+        enum CollisionSection { details: "Details" }
+
+        ${formMeta("behavior-override-collision")}
+        @UI.sections(CollisionSection)
+        @UI.overrides(#{
+          explanation: #{ enabledWhen: #{ path: "mode", equals: Mode.second } },
+        })
+        model BehaviorOverrideCollision {
+          @UI.section(CollisionSection.details)
+          mode: Mode;
+
+          @UI.section(CollisionSection.details)
+          @UI.enabledWhen(BehaviorOverrideCollision.mode, Mode.first)
+          explanation?: string;
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "behavior-override-collision",
+    );
+    expect(block).toBeDefined();
+    expect(() => emitBlockUi(instance.program, block!)).toThrow(
+      "@UI.overrides enabledWhen collides with intrinsic UI behavior at explanation",
+    );
+    expect(() => emitSggUi(instance.program, block!)).toThrow(
+      "@UI.overrides enabledWhen collides with intrinsic UI behavior at explanation",
+    );
   });
 });

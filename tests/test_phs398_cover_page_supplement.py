@@ -85,6 +85,51 @@ class PHS398CoverPageSupplementTests(unittest.TestCase):
         rules = load(FORM / "sgg/rule-schema.json")
         self.assertNotIn("gg_calculation", json.dumps(rules))
 
+    def test_form_scoped_identity_conditions_are_portable_and_preserved_by_sgg(self) -> None:
+        def controlled_rules(value: object) -> dict[str, dict[str, object]]:
+            found: dict[str, dict[str, object]] = {}
+            if isinstance(value, dict):
+                scope = value.get("scope")
+                rule = value.get("rule")
+                if isinstance(scope, str) and isinstance(rule, dict):
+                    found[scope] = rule
+                for child in value.values():
+                    found.update(controlled_rules(child))
+            elif isinstance(value, list):
+                for child in value:
+                    found.update(controlled_rules(child))
+            return found
+
+        expected = {
+            "#/properties/formerProjectDirector/properties/prefix": "#/properties/changes/properties/changeOfProjectDirector",
+            "#/properties/formerProjectDirector/properties/firstName": "#/properties/changes/properties/changeOfProjectDirector",
+            "#/properties/formerProjectDirector/properties/middleName": "#/properties/changes/properties/changeOfProjectDirector",
+            "#/properties/formerProjectDirector/properties/lastName": "#/properties/changes/properties/changeOfProjectDirector",
+            "#/properties/formerProjectDirector/properties/suffix": "#/properties/changes/properties/changeOfProjectDirector",
+            "#/properties/formerOrganizationName": "#/properties/changes/properties/changeOfRecipientOrganization",
+        }
+        portable = controlled_rules(load(FORM / "ui.json"))
+        for target, source in expected.items():
+            self.assertEqual(portable[target], {
+                "effect": "ENABLE",
+                "condition": {"scope": source, "schema": {"const": "Y: Yes"}},
+            })
+
+        sgg = load(FORM / "sgg/ui-schema.json")
+        sgg_expected = {target.removeprefix("#"): source for target, source in expected.items()}
+        sgg_fields: dict[str, dict[str, object]] = {}
+        for section in sgg:
+            for field in section["children"]:
+                if field.get("definition") in sgg_expected:
+                    sgg_fields[field["definition"]] = field
+        self.assertEqual(set(sgg_fields), set(sgg_expected))
+        for target, source in sgg_expected.items():
+            self.assertEqual(sgg_fields[target]["conditional"]["when"], {
+                "op": "equals",
+                "ref": {"scope": "root", "pointer": source.replace("#/properties/", "/").replace("/properties/", "/")},
+                "value": "Y: Yes",
+            })
+
     def test_exact_sources_no_ocr_and_bounded_operational_gates(self) -> None:
         evidence = load(FORM / "evidence.json")
         sources = {row["id"]: row for row in evidence["sources"]}
