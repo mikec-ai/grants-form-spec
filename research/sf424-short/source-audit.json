@@ -1,0 +1,121 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "sf424-short",
+  "method": {
+    "ocrUsed": false,
+    "datMethod": "exact Form DAT cell review after deterministic workbook conversion",
+    "pdfTextMethod": "embedded text extraction plus rendered visual inspection",
+    "xfaMethod": "deterministic XFA template packet inspection from the pinned official sample PDF",
+    "reviewStatus": "agent-reviewed"
+  },
+  "sourceArtifacts": {
+    "rootXsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/SF424_Short_3_0-V3.0.xsd",
+      "nativeVersion": "3.0",
+      "sha256": "82b0f2a0ddbbcfae4ec7e083188287fb05700e201ade3b2f69684241bf8baabd"
+    },
+    "dat": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/SF424_Short_3_0-V3.0_F711.xls",
+      "nativeVersion": "3.0",
+      "sha256": "a905f905928a730b10d48d0b77cbb59397edb3ad3c99770391e1e160c3fb06df"
+    },
+    "readOnlyPdf": {
+      "uri": "https://apply07.grants.gov/apply/forms/readonly/SF424_Short_3_0-V3.0.pdf",
+      "nativeVersion": "3.0",
+      "retrievedAt": "2026-08-24",
+      "sha256": "0c0b2405ce06adf4b0bd7fcf456ec4a42eab540246c6c04842dece8d3c082ffc"
+    },
+    "sampleXfaPdf": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/SF424_Short_3_0-V3.0.pdf",
+      "nativeVersion": "3.0",
+      "retrievedAt": "2026-08-24",
+      "sha256": "efd781d0f799d65e2ea90e219070c62a3c00fdee06ecd118bde418cfb7f68298"
+    },
+    "instructions": {
+      "uri": "https://apply07.grants.gov/apply/forms/instructions/SF424_Short_3_0-V3.0-Instructions.pdf",
+      "nativeVersion": "3.0",
+      "retrievedAt": "2026-08-24",
+      "sha256": "5c0a58a5bedb4040baf8a2166b9e7b0b47d4bfcad2fb859a414de3edd03c3dd0",
+      "metadataNote": "The PDF title retains the historical text V1.1 Instructions, while its form-identifiers table states V3.0 and its OMB expiration is 2028-07-31."
+    },
+    "fid711": {
+      "uri": "https://www.grants.gov/forms/form-items-description/fid/711",
+      "nativeVersion": null,
+      "observedAt": "2026-08-24"
+    }
+  },
+  "editabilityFindings": [
+    {
+      "canonicalPath": "/agencyName",
+      "datCoordinate": "Form DAT row 1",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.AgencyName",
+      "xfaCoordinate": "template field AgencyName calculate event",
+      "xfaDisposition": "Calculates from SubmissionDef.AgencyName or PDFDef.AgencyName and does not assign protected access.",
+      "classification": "read-only-inferred-from-prepopulation",
+      "declarativeDisposition": "retain-prepopulation-remove-readonly"
+    },
+    {
+      "canonicalPath": "/assistanceListingNumber",
+      "datCoordinate": "Form DAT row 2-1",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.CFDANumber",
+      "xfaCoordinate": "template field CFDANumber calculate and initialize events",
+      "xfaDisposition": "Calculates from SubmissionDef.CFDANumber or PDFDef.CFDANumber; the initialize packet contains the inactive statement //this.access = protected.",
+      "classification": "read-only-inferred-from-prepopulation",
+      "declarativeDisposition": "retain-prepopulation-remove-readonly"
+    },
+    {
+      "canonicalPath": "/assistanceListingProgramTitle",
+      "datCoordinate": "Form DAT row 2-2",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.CFDATitle",
+      "xfaCoordinate": "template field CFDAProgramTitle calculate and initialize events",
+      "xfaDisposition": "Calculates from SubmissionDef.CFDATitle or PDFDef.CFDATitle; the initialize packet contains the inactive statement //this.access = protected.",
+      "classification": "read-only-inferred-from-prepopulation",
+      "declarativeDisposition": "retain-prepopulation-remove-readonly"
+    },
+    {
+      "canonicalPath": "/fundingOpportunityNumber",
+      "datCoordinate": "Form DAT row 4-1",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.OpportunityID",
+      "xfaCoordinate": "template field FundingOpportunityNumber",
+      "xfaDisposition": "The field remains a text-edit control and does not assign protected access.",
+      "classification": "read-only-inferred-from-prepopulation",
+      "declarativeDisposition": "retain-prepopulation-remove-readonly"
+    },
+    {
+      "canonicalPath": "/fundingOpportunityTitle",
+      "datCoordinate": "Form DAT row 4-2",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.OpportunityIDTitle",
+      "xfaCoordinate": "template field FundingOpportunityTitle calculate event",
+      "xfaDisposition": "Calculates from SubmissionDef.OpportunityTitle or PDFDef.OpportunityTitle and does not assign protected access.",
+      "classification": "read-only-inferred-from-prepopulation",
+      "declarativeDisposition": "retain-prepopulation-remove-readonly"
+    },
+    {
+      "canonicalPath": "/samUei",
+      "datCoordinate": "Form DAT row 5f-1",
+      "datFieldType": "Pre-populated",
+      "datFieldTypeSource": "SubmissionDef.SAMUEI",
+      "xfaCoordinate": "template field SAMUEI calculate event",
+      "xfaDisposition": "Sets access open first, then protects the field only when PDFDef exists or an individual-applicant sentinel applies; otherwise it remains editable.",
+      "classification": "context-dependent-source-conflict",
+      "declarativeDisposition": "retain-sgg-prepopulation-remove-unconditional-readonly"
+    }
+  ],
+  "sourceConflicts": [
+    "The active instructions say Enter the organization's UEI, the DAT classifies SAM UEI as pre-populated, and the XFA leaves it editable in some application contexts. The canonical declaration preserves SGG prepopulation but makes no unconditional read-only claim.",
+    "The instructions call the Assistance Listing number and title required while the DAT and XSD make both optional. This audit does not resolve that separate cardinality conflict.",
+    "The DAT names the Funding Opportunity Title source SubmissionDef.OpportunityIDTitle while the XFA calculate event uses SubmissionDef.OpportunityTitle. The SGG target binding is retained without silently equating the two source names."
+  ],
+  "submissionPopulatedReadOnlyFields": [
+    "/dateReceived",
+    "/aorSignature",
+    "/authorizedRepresentativeDateSigned"
+  ],
+  "operationalEvidenceBoundary": "Do not derive operationalBehaviorEvidence from prepopulation annotations. The DAT supports prepopulation, XFA supports editability findings, and SAM UEI remains context-dependent. Any future operational record must preserve exact evidence for every asserted facet.",
+  "parityClaim": "The declaration preserves six SGG prepopulation bindings and removes six unsupported unconditional read-only assertions. It does not resolve application-context editability, Assistance Listing cardinality, or the Funding Opportunity Title source-name discrepancy."
+}
