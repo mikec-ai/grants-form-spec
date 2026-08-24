@@ -44,6 +44,72 @@ def value_field() -> dict:
 
 
 class XmlXsdConformanceHarnessTests(unittest.TestCase):
+    def test_payload_properties_must_be_consumed_by_the_declarative_mapping(self) -> None:
+        profile = profile_with(
+            {
+                "record": {
+                    "element": "Record",
+                    "kind": "object",
+                    "namespace": "default",
+                    "fields": {
+                        "name": value_field(),
+                        "rows": {
+                            "element": "Rows",
+                            "kind": "array",
+                            "namespace": "default",
+                            "items": {"fields": {"name": value_field()}},
+                        },
+                    },
+                }
+            }
+        )
+        with self.assertRaisesRegex(AssertionError, r"unmapped response properties at /: unknown"):
+            render_profile_xml(profile, {"record": {"name": "ok"}, "unknown": True})
+        with self.assertRaisesRegex(AssertionError, r"at /record: unknown"):
+            render_profile_xml(profile, {"record": {"name": "ok", "unknown": True}})
+        with self.assertRaisesRegex(AssertionError, r"at /record/rows/0: unknown"):
+            render_profile_xml(
+                profile,
+                {"record": {"name": "ok", "rows": [{"name": "row", "unknown": True}]}},
+            )
+
+    def test_source_overrides_consume_only_their_exact_root_payload_paths(self) -> None:
+        profile = profile_with(
+            {
+                "copied": {
+                    "element": "Copied",
+                    "kind": "value",
+                    "namespace": "default",
+                    "source": "/control/value",
+                },
+                "optional": value_field(),
+            }
+        )
+        root = ET.fromstring(render_profile_xml(profile, {"control": {"value": "answer"}}))
+        self.assertEqual(root[0].text, "answer")
+        with self.assertRaisesRegex(AssertionError, r"at /control: unknown"):
+            render_profile_xml(profile, {"control": {"value": "answer", "unknown": True}})
+        with self.assertRaisesRegex(AssertionError, r"at /: copied"):
+            render_profile_xml(profile, {"control": {"value": "answer"}, "copied": "shadow"})
+
+        profile["mapping"]["nonEmittingResponsePaths"] = ["/control/technical"]
+        render_profile_xml(
+            profile,
+            {"control": {"value": "answer", "technical": "consumer-only"}},
+        )
+        with self.assertRaisesRegex(AssertionError, r"at /control: unknown"):
+            render_profile_xml(
+                profile,
+                {"control": {"value": "answer", "technical": "ok", "unknown": True}},
+            )
+
+        for invalid in ("control/technical", "/", "/control//technical", "/control/~2"):
+            with self.subTest(invalid=invalid):
+                candidate = copy.deepcopy(profile)
+                candidate["mapping"]["nonEmittingResponsePaths"] = [invalid]
+                with self.assertRaisesRegex(AssertionError, "invalid non-emitting"):
+                    render_profile_xml(candidate, {})
+
     def test_public_entrypoint_rejects_unsupported_contract_version(self) -> None:
         profile = profile_with({"value": value_field()})
         profile["contract"] = "grants-gov-xml-profile/v2"
@@ -73,7 +139,8 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
                     AssertionError, "declarative null emission is unsupported"
                 ):
                     render_profile_xml(
-                        profile_with({"value": declaration}), {"choice": "none"}
+                        profile_with({"value": declaration}),
+                        {"choice": "none"} if "source" in declaration else {},
                     )
 
     def test_collection_array_uses_one_wrapper_and_declared_item_attributes(self) -> None:

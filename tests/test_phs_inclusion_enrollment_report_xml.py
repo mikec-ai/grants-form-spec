@@ -87,6 +87,13 @@ class PHSInclusionEnrollmentReportXmlTests(unittest.TestCase):
         self.assertNotIn("IER_id", xml.decode())
         self.assert_valid(xml)
 
+    def test_embedded_only_report_identifier_fails_closed_in_standalone_profile(self) -> None:
+        with self.assertRaisesRegex(
+            AssertionError,
+            r"unmapped response properties at /reports/0: reportId",
+        ):
+            render_profile_xml(PROFILE, {"reports": [report(reportId="not-on-this-wire")]})
+
     def test_report_country_string_enum_and_numeric_boundaries(self) -> None:
         self.assert_invalid(render_profile_xml(PROFILE, {"reports": []}))
         self.assert_valid(render_profile_xml(PROFILE, {"reports": [report()] * 20}))

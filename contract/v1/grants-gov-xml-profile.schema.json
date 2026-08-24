@@ -153,7 +153,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["fields"],
-      "properties": { "fields": { "$ref": "#/$defs/mappingFields" } }
+      "properties": {
+        "fields": { "$ref": "#/$defs/mappingFields" },
+        "nonEmittingResponsePaths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$" }
+        }
+      }
     },
     "mappingFields": {
       "type": "object",

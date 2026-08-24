@@ -348,6 +348,15 @@ export async function validateArtifactGraph(inputDist) {
             }
           }
         }
+        for (const responsePath of profile.mapping.nonEmittingResponsePaths ?? []) {
+          await validateSourcePointer(
+            responsePath,
+            { value: schema, path: schemaPath },
+            dist,
+            cache,
+            xmlProfilePath,
+          );
+        }
         if (nodes.some((node) => node.kind === "attachment") && !profile.attachment) {
           throw new ArtifactError(
             "XML profile maps attachments without declaring their wire fields",

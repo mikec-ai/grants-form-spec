@@ -263,6 +263,10 @@ class PHSHumanSubjectsXmlTests(unittest.TestCase):
         self.assertIsNotNone(study_node)
         self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}StudyConditions")), 2)
         self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}EnrollmentCountry")), 1)
+        self.assertEqual(
+            study_node.find(f".//{{{STUDY_NS}}}IER_id").text,
+            "ier-1",
+        )
         self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}Interventions")), 1)
         self.assertEqual(len(study_node.findall(f".//{{{STUDY_NS}}}OutcomesMeasures")), 1)
         self.assert_valid(xml)

@@ -67,6 +67,15 @@ object. For example, R&R SF-424 asks for one applicant congressional district wh
 wraps that value in a `CongressionalDistrict` element. The target profile owns that wrapper;
 the canonical form remains a scalar question.
 
+The reference interpreter rejects every response property that no mapping node consumes,
+recursively through objects and object arrays. This prevents a profile from silently dropping
+canonical data during XML projection. A schema-backed consumer or UI control that intentionally
+does not enter the source wire may be declared by its exact JSON pointer in
+`mapping.nonEmittingResponsePaths`. Those pointers are validated against the canonical form
+schema and allow only the named response path; they are not an open-ended additional-properties
+escape hatch. Constants and `source` overrides consume only their declared values, and omitted
+optional or conditional fields require no exception.
+
 An `object` node may declare `emitWhenParentPresent: true` when the pinned XSD requires its
 element whenever the parent object is emitted, even if the canonical child object is absent.
 The consumer emits the declared object with no child values in that case. This is wire
