@@ -9,7 +9,6 @@ description: >-
   a per-form or current foundation gate.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: codex-root
 assignee: catalog_browser_matrix
 ---
 # Goal
@@ -150,3 +149,10 @@ Stage B generic capability executors and portable conformance vectors remain to 
 - Consumer PR [94](https://github.com/mikec-ai/simpler-grants-gov/pull/94) fixes both generically. Attachment and AttachmentArray widgets remain separately declared under the attachment capability, Stage A skips scalar editing when no scalar applies, and Axe is scoped to `main`.
 - Focused verification for PR 94: 17 browser-plan tests pass; Ruff lint, Prettier, ESLint, and `git diff --check` pass. Production registration is unchanged.
 - PR 94 merged as `5ed9c9e72643631d4e9ec1a72c9b4ff0a1c6c34f` at `2026-08-24T23:14:36Z`. Its complete API job recorded 4,695 passing tests; the five failures were pre-existing R&R Budget-family conformance failures outside the changed browser-plan and catalog-test files. A post-merge bounded rerun for PHS Assignment Request, Attachment Form, and R&R Budget is [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690).
+
+## Post-merge bounded cohort receipt — 2026-08-24
+
+- Run [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690) produced 12 clean generic catalog receipts: PHS Assignment Request, Attachment Form, and R&R Budget each passed in Chrome, Firefox, WebKit, and mobile Chrome.
+- Attachment Form and PHS Assignment Request passed preview registration, adapter/API preflight, Apply render, initial save/reload, accessibility, and print render; schema implication was correctly recorded as not applicable.
+- R&R Budget passed those probes plus schema implication in all four browsers.
+- The workflow-level red status is not a failure of those generic receipts. A separate form-specific `attachment-form-release.spec.ts` also matched the portable-catalog tag and failed on its own application/navigation assumptions. Constrain that spec separately; do not discard or overstate the 12 form/browser receipts.

@@ -6,10 +6,9 @@ description: >-
   Prove the banked Attachment Form through legacy differential parity, consumer
   lifecycle, accessibility, and release gates.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T22:43:18.185Z'
+  at: '2026-08-24T23:37:57.371Z'
 assignee: attachment_release
 ---
 # Goal
@@ -74,3 +73,9 @@ Automated checks support handoff but do not constitute human semantic, accessibi
 - Bounded run [32783471054](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32783471054) proved preview registration, adapter/API preflight, apply render, initial save/reload, and print render in Chrome, Firefox, WebKit, and mobile Chrome.
 - The remaining bounded-run findings were attributed to the shared catalog harness, not Attachment Form: attachment controls were misclassified as editable scalars and Axe included the developer-only test-user selector. Generic repair is isolated in consumer PR [94](https://github.com/mikec-ai/simpler-grants-gov/pull/94).
 - Human screen-reader, semantic, policy, and release approvals remain open; the merge records automated handoff evidence and does not imply those approvals.
+
+## Post-harness-repair browser receipt — 2026-08-24
+
+- Main run [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690) passed the generic Attachment Form catalog plan in Chrome, Firefox, WebKit, and mobile Chrome: preview registration, adapter/API preflight, Apply render, save/reload, accessibility, and print render all passed.
+- Schema implication is not applicable for this form. The workflow-level red result comes from the separate form-specific release spec, not these four generic receipts.
+- Human screen-reader, semantic, policy, and release approvals remain open.
