@@ -212,6 +212,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
             ],
+            "sbir-sttr-information": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+            ],
         }
         for source in sorted((SOURCE / "profiles").glob("*.json")):
             profile = _json(source)
