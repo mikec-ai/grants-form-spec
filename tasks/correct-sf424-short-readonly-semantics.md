@@ -8,11 +8,11 @@ description: >-
   tasks/reconcile-sf424-family-portable-cutover-deltas: remove unconditional UI
   readOnly, retain SGG prepopulation, preserve conflicts as durable evidence,
   and prove emitted behavior without adapter branches.
-superbee_progress_status: in_progress
-superbee_updated_by: implement_operational_evidence
+superbee_progress_status: done
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:25:17.968Z'
+  at: '2026-08-24T05:31:26.191Z'
 ---
 # Scope
 
@@ -33,6 +33,9 @@ Implement the six-field source-audited declarative correction from `tasks/reconc
 
 `./scripts/preflight.sh` passed after rebasing onto the exact producer main. Results: 116 TypeScript tests passed; 294 Python tests passed with 2 skipped; exact XSD fixtures, artifact validation, promotion validation, packaging verification, analysis, classified-field, and independent TypeSpec compilation gates passed. GitHub CI passed in 2 minutes at draft PR head `273d1ba8da96a958448d9c19209a50b8cbe2c0dc`.
 
-# Remaining gate
+# Independent review and merge
 
-Keep this task in progress until independent review completes. Do not merge from this task.
+- Independently approved at exact head `273d1ba8da96a958448d9c19209a50b8cbe2c0dc` with no actionable findings.
+- The reviewer independently re-downloaded all five official source artifacts and matched every recorded SHA-256; DAT and XFA findings were reproduced without OCR.
+- Hosted CI and local preflight passed: 116 TypeScript tests and 294 Python tests, with 2 skipped.
+- PR `https://github.com/mikec-ai/grants-form-spec/pull/73` merged as `68911b553d311dd817fb3300587c01a8391e323c` on 2026-08-24.
