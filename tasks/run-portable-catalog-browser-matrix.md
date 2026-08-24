@@ -113,7 +113,7 @@ Reuse the existing Playwright authentication/application helpers, form navigatio
 
 # Implementation progress
 
-The first consumer slice is published as [draft consumer PR 66](https://github.com/mikec-ai/simpler-grants-gov/pull/66) at exact head `083d738e827cecc82b7d1593872d27c916699a8f`, rebased onto consumer main `19dbbc9833935d8a2971b9ab6037bdc883bb7b7f` after the generic response-normalization adapter merged. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
+The first consumer slice is published as [draft consumer PR 66](https://github.com/mikec-ai/simpler-grants-gov/pull/66) at exact head `b2a54a2e2b82d0bd4e440114c9e8f582fdbd97e7`, rebased onto consumer main `0a5b10f6ec62600bddb7f65e4649bd6208b6959f` after both the generic response-normalization adapter and its isolated formatting hotfix merged. It provides the manifest-driven projected-artifact plan, deterministic lower-environment seed competition, Stage A Apply/save/reload/print/accessibility matrix, boundary-owned receipts, and CI-only receipt/screenshot/trace publication. The live execution receipt currently selects 39 forms; that count remains execution evidence rather than a coded or durable planning assumption.
 
 Independent review hardening now places catalog setup inside evidence-preserving cleanup, produces blocked per-form receipts and a catalog summary on setup failure, records the first failed boundary, captures a trace or an explicit trace-unavailable receipt, distinguishes Playwright timeouts as harness-inconclusive, and runs an authenticated API/adapter preflight before rendering. Plan generation and browser execution both require the real lower-environment preview gate. Keyboard traversal must reach a manifest-declared editable control, and print checks cover inputs, textareas, selects, buttons, and editable content.
 
@@ -122,6 +122,8 @@ The plan load itself is also protected. Missing, malformed, empty, duplicate, or
 Focused verification after hardening: 16 API tests and 5 frontend contract tests pass; Black, Ruff, Prettier, ESLint, TypeScript checks, YAML/actionlint validation, and Playwright discovery across Chrome, Firefox, WebKit, and mobile Chrome pass. The hosted database-backed browser run remains the next PR validation gate.
 
 Rebase verification removed the unrelated canary-formatting commit from the old stack. The resulting diff contains only the browser plan, lower-environment seed seam, matrix/receipt code, CI wiring, documentation, dependency, and focused tests.
+
+Final restack verification against main `0a5b10f6e` produced the same stable aggregate patch id (`5c34abbbe5034327b80a609756232a993fd8c013`) as the prior approved 14-file diff. The two canary formatting files are absent from PR 66.
 
 The two Prettier-only canary changes inherited by consumer main are isolated in [ready PR 68](https://github.com/mikec-ai/simpler-grants-gov/pull/68) at `eae8d42fcb225bcc39d0c8b0a3bbc3fbeceb481f`. That hotfix changes only `FieldListWidget.test.tsx` and `rrKeyPersonPrintCanary.test.tsx`; PR 66 remains independent and unchanged.
 
