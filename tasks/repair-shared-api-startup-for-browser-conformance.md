@@ -4,17 +4,24 @@ title: Repair shared API startup for hosted browser conformance
 priority: P0
 assignee: codex-ci-startup
 description: >-
-  Diagnose and repair the branch-independent hosted API readiness failure that
-  prevents Pa11y and all E2E shards from starting Playwright. Preserve ordinary
-  production behavior; add actionable startup diagnostics and tests. Acceptance:
-  a hosted lower-environment run reaches the browser matrix and publishes
-  summary/receipt/trace artifacts, or the task records a precisely evidenced
-  external blocker without claiming conformance.
+  Draft consumer PR #69 is independently approved at exact head
+  75456b985971be885bed6a76e8888ead0e89a232 on exact main
+  c4709fc2931d4c9129871d058247f88bcfcd0e22. It adds CI-only Flask --no-reload
+  startup plus fail-fast, bounded container/HTTP diagnostics and six shell
+  regressions; local development retains --reload. Hosted exact-head evidence is
+  decisive: API readiness improved from an 800-second timeout to 5 seconds,
+  Pa11y passed, all four E2E shards reached Playwright, and full API/infra
+  checks passed. The ordinary Mobile Chrome smoke lane then exposed pre-existing
+  downstream debt (attachment scan flakiness, Key Contacts if/then frontend
+  incompatibility, and an SF-424A locator mismatch), none introduced by PR69. A
+  targeted @portable-catalog dispatch, run 32721986045, is in progress. Keep
+  task in progress until PR69 merges and the targeted run publishes matrix
+  evidence or an exact downstream blocker.
 superbee_progress_status: in_progress
-superbee_updated_by: codex-ci-startup
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T10:17:39.196Z'
+  at: '2026-08-24T11:30:36.865Z'
 ---
 ## Diagnostic evidence, 2026-08-24
 

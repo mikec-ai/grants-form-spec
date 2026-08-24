@@ -4,20 +4,18 @@ title: Run the banked portable catalog through browser conformance
 superbee_progress_status: in_progress
 priority: P0
 description: >-
-  Harness implementation merged in mikec-ai/simpler-grants-gov PR #66 from
-  independently approved exact head b2a54a2e2b82d0bd4e440114c9e8f582fdbd97e7 as
-  squash merge c4709fc2931d4c9129871d058247f88bcfcd0e22 on formatting-corrected
-  main. The manifest-driven matrix, exact lower-environment gates, deterministic
-  preview seeding, adapter/API preflight, ownership taxonomy, failure receipts,
-  keyboard/print probes, and artifact-only evidence are complete. Full hosted
-  API, frontend, build, infrastructure, and security checks passed. Actual
-  browser conformance remains unexecuted because Pa11y and all E2E shards failed
-  before Playwright at the shared API readiness boundary after 800 seconds,
-  identical to main; no conformance results are claimed. Task remains in
-  progress until the shared startup issue is repaired and a complete matrix run
-  publishes receipts.
+  Harness implementation merged in consumer PR #66 as
+  c4709fc2931d4c9129871d058247f88bcfcd0e22. Startup repair PR #69 at
+  independently approved head 75456b985971be885bed6a76e8888ead0e89a232 reduced
+  hosted API readiness from 800 seconds to 5 seconds; Pa11y passed and all four
+  shards reached Playwright. PR-event CI selected @smoke, so it produced no
+  portable receipts and exposed separate pre-existing downstream failures.
+  Targeted generic workflow dispatch 32721986045 is now running with
+  playwright_tags=@portable-catalog against the exact PR69 head. No browser
+  conformance is claimed until its artifacts are reviewed.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
+superbee_updated_by: codex-root
 ---
 # Goal
 
