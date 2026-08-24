@@ -8,19 +8,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_rr_personal_data
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T03:54:11.893Z'
----
----
-type: Task
-title: Correct R&R Personal Data source parity
-priority: P0
-assignee: implement_rr_personal_data
-description: Correct verified source-parity and evidence defects in merged producer PR68.
-superbee_progress_status: in_progress
-superbee_updated_by: implement_rr_personal_data
-generated:
-  by: 'process:superbee'
-  at: '2026-08-24T03:48:44.078Z'
+  at: '2026-08-24T04:05:11.292Z'
 ---
 # Goal
 
@@ -32,6 +20,9 @@ Correct the merged R&R Personal Data producer artifacts so portable validation, 
 - The four DAT exclusivity rules are present only in the research audit. Add them to `evidence.json` as `source-bound-uncompiled`; do not infer runtime behavior.
 - Canonical ethnicity choices use wire spellings instead of the current XFA display labels. Use declarative `valueMap` for `Non-Hispanic or Latino` to `Not Hispanic or Latino` and `Do Not Wish to Provide` to `Do Not Wish To Provide`.
 - The evidence closure omits the official transitive `UniversalCodes-V2.0` source.
+- Five source-specific demographic questions need stable declarative identities reused across PD/PI and Co-PD/PI occurrences while role context remains in the wrappers and clinical enrollment demographics stay distinct.
+- The five PD/PI name fields' exact DAT forward-population and XFA protected-after-initialize behavior need a bounded per-field source audit, without misclassifying operational behavior as calculations or conditions.
+- A mapping-node `valueMap` must remain legal only on `kind: value`; local object, group, array, and attachment nodes must be rejected.
 
 # Acceptance criteria
 
@@ -41,14 +32,15 @@ Correct the merged R&R Personal Data producer artifacts so portable validation, 
 - Exact official source/version/hash closure includes UniversalCodes.
 - Privacy, policy, accessibility, lifecycle, and runtime registration gates remain closed.
 - Full producer preflight passes and a focused draft PR is opened without merging.
+- Generic non-rule operational behavior evidence is tracked separately in `tasks/generic-operational-behavior-evidence`.
 
 # Delivery receipt
 
 - Producer branch: `codex/fix-rr-personal-data-source-parity`
-- Exact head: `7d724fe1d`
+- Exact head: `63400f47d0c91b5818eb83ee5c11a0a588b4ccd6`
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/69
-- Local verification: full `npm run preflight` passed with 113 TypeScript tests, 272 Python tests (2 skipped), 29 exact-XSD fixture/profile checks, and zero unclassified fields or exceptions.
-- CI status: pending.
+- Local verification: full `npm run preflight` passed with 114 TypeScript tests, 272 Python tests (2 skipped), 29 exact-XSD fixture/profile checks, 258 blocks / 1,412 artifacts, and zero unclassified fields or exceptions.
+- CI status: pending at https://github.com/mikec-ai/grants-form-spec/actions/runs/32688654215.
 - Merge status: intentionally unmerged.
 
 [depends on](author-integrate-rr-personal-data.md)
