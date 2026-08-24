@@ -3,27 +3,21 @@ type: Task
 title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
-  Producer capability merged in grants-form-spec at
-  4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer draft PR #67 is rebased on
-  preview-enabled public-fork main 4c8b331798c0f31552cff2759a868ba25cd795b6 at
-  exact head 89e7bc0fc7b6e5cfa90519a20db182e7b9b163f8. The generic adapter
-  verifies and projects exact reviewed pointers, normalizes copied responses
-  before rules, canonical validation, and XML, preserves raw capture blanks
-  while retaining rule writes, and carries the policy through manifest-driven
-  previews with no form-ID branches or DB migration. All independent review
-  findings are addressed: producer-forbidden schema composition fails closed;
-  numeric object-property names and required parents match producer acceptance;
-  empty RFC 6901 tokens fail before traversal; projected normalization paths
-  cannot overlap pre/post-population rule mutation targets; and overlap
-  traversal mirrors runtime structure by excluding only registered handlers and
-  gg_type metadata, so legitimate gg_-prefixed data fields remain covered.
-  Focused isort, Black, Ruff, mypy, and 51 normalization/SF-424A/preview tests
-  are green; hosted CI/final merge decision remain pending.
-superbee_progress_status: in_progress
-superbee_updated_by: codex-operational-evidence
+  Producer capability merged at 4e69e3fb25f8ee9554ee5e40ad84348ec99599dc.
+  Consumer adapter merged in mikec-ai/simpler-grants-gov PR #67 from
+  independently approved exact head 89e7bc0fc7b6e5cfa90519a20db182e7b9b163f8 as
+  squash merge 19dbbc9833935d8a2971b9ab6037bdc883bb7b7f. The generic fail-closed
+  adapter verifies reviewed exact pointers, normalizes immutable copies before
+  rules, canonical validation, and XML, preserves raw capture semantics, rejects
+  normalization/population-rule overlap, and contains no form-ID branches.
+  Focused tests and the full hosted API suite passed. Hosted E2E repeated the
+  exact main-branch API-readiness timeout before Playwright and was classified
+  non-regressive infrastructure.
+superbee_progress_status: done
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T08:04:26.715Z'
+  at: '2026-08-24T08:32:25.734Z'
 assignee: codex-operational-evidence
 ---
 # Goal
