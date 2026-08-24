@@ -6,10 +6,10 @@ description: >-
   Reuse the Human Subjects dimensional enrollment model as a derivative form and
   resolve its source-backed conditions and calculations.
 superbee_progress_status: done
-superbee_updated_by: codex
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T01:52:31.073Z'
+  at: '2026-08-24T02:50:55.054Z'
 assignee: enrollment_derivative_agent
 ---
 # Goal
@@ -50,3 +50,7 @@ The standalone source proves calculated targets but does not pin exact operands 
 - Hosted CI and independent full preflight passed at the exact reviewed head; the final review reported no findings.
 
 [depends on](author-integrate-phs-human-subjects.md)
+
+# Consumer banking receipt
+
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. It remains bank-only with no runtime identity or registration. Dimensional-grid accessibility, semantic interpretation of totals, lifecycle, and production release remain explicit downstream gates.

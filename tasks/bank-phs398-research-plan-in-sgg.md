@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:21:17.109Z'
+  at: '2026-08-24T02:50:54.761Z'
 assignee: consumer_promotion_agent
 ---
 # Goal
@@ -47,3 +47,14 @@ This task proves low-cost cross-repository banking. It does not claim production
 [depends on](author-integrate-phs398-research-plan.md)
 
 [consumer delivery uses](automate-cross-repo-form-promotion.md)
+
+# Successful cohort promotion receipt, 2026-08-23
+
+- Draft consumer PR: https://github.com/mikec-ai/simpler-grants-gov/pull/58
+- Consumer base: `32f09a1ee`; consumer head: `535720a081d25eb82fd2611a863759db8690ab49`.
+- Immutable producer revision: `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`; source bundle SHA-256: `4b147e74598d4abd8fe9e00926ec66c7eb35809119e5c0579b737e73ea376289`.
+- The complete bank now contains 36 forms and 418 selected artifacts. NIFA Supplemental was already banked on consumer main; this promotion adds PHS 398 Research Plan, PHS Human Subjects and Clinical Trials, and PHS Inclusion Enrollment Report from the same immutable bundle.
+- Runtime-enabled forms remain 29 and registered forms remain 5. The runtime-identity and registration files are byte-identical before and after promotion; all seven bank-only forms fail closed at runtime.
+- Exact root XSDs were vendored and verified for all three newly added forms. No identity, registration, preview, compiler, adapter, renderer, or form-specific consumer branch was added.
+- Local gates: producer preflight passed 109 TypeScript and 250 Python tests; consumer non-DB form-spec suite passed 233 tests; focused integrity/provenance/registration/updater suite passed 39 tests; repository-native format, Ruff, and mypy gates passed.
+- The DB-backed SF-424A lifecycle test remains an environment-only local exception because host `grants-db` is unavailable. Hosted CI is running; this task remains in progress until independent review and merge.

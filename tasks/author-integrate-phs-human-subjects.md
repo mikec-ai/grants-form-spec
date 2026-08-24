@@ -6,10 +6,10 @@ description: >-
   Producer delivery is complete for the dimensional clinical-study foundation;
   consumer, accessibility, semantic, and release gates remain explicit.
 superbee_progress_status: done
-superbee_updated_by: human_subjects_agent
+superbee_updated_by: promote_new_forms
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T00:59:31.928Z'
+  at: '2026-08-24T02:50:54.910Z'
 assignee: human_subjects_agent
 ---
 # Goal
@@ -63,3 +63,7 @@ Record which capabilities were genuinely new so PHS Inclusion Enrollment Report 
 [depends on](enforce-rule-evidence-target-coverage.md)
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
+
+# Consumer banking receipt
+
+Draft public-consumer PR https://github.com/mikec-ai/simpler-grants-gov/pull/58 banks this producer package from immutable producer revision `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`. It remains bank-only with no runtime identity or registration. Consumer human semantic, accessibility, lifecycle, and release gates remain open and are not implied by artifact banking.
