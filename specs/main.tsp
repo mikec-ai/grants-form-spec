@@ -30,3 +30,4 @@ import "./forms/sf424b.tsp";
 import "./forms/sf424d-family.tsp";
 import "./forms/sf424c.tsp";
 import "./forms/nifa-supplemental.tsp";
+import "./forms/rr-personal-data.tsp";
