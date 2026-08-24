@@ -407,3 +407,17 @@ registration are not closed.
 [depends on](author-integrate-rr-subaward-budget.md)
 
 [depends on](author-integrate-rr-budget.md)
+
+## 2026-08-24: next claimed executable vertical proof
+
+- `root_budget_initial_cross_form_population` claims one bounded producer-and-consumer slice that
+  makes the three source-exact R&R Budget mappings executable only during initial form creation.
+- The contract must be declarative and target-neutral, must preserve applicant edits after initial
+  creation, and must fail closed when the sibling form, source response, source path, target path,
+  or selected array item is unavailable. It may populate only an absent destination.
+- Verification must cover initial population from R&R SF-424, an unavailable sibling/source value,
+  preservation across save/reload, and no overwrite after either applicant edits or later source
+  changes. Browser proof will be added if the existing harness can exercise the application-level
+  transition without a form-specific path.
+- This claim does not authorize continuous synchronization, inferred editability, form-specific
+  consumer branches, registration, production approval, or HHS upstream changes.
