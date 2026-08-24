@@ -119,6 +119,10 @@ def build_package(*, root: Path, source_path: Path, output_dir: Path) -> dict[st
             _validate_revision(revision, f"{evidence_context}.revision")
             resolved = dict(item)
             if kind == "producer_path":
+                if revision != producer_revision:
+                    raise ValueError(
+                        f"{evidence_context}.revision must match repositories.producer.revision"
+                    )
                 path = _require_text(item, "path", evidence_context)
                 data = _git_bytes(root, revision, path)
                 resolved.update(

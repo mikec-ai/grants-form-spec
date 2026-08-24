@@ -5,7 +5,7 @@
   "repositories": {
     "producer": {
       "url": "https://github.com/mikec-ai/grants-form-spec",
-      "revision": "4229eca2e5902ea99c917271963be6bd0edf3027"
+      "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65"
     },
     "consumer": {
       "url": "https://github.com/mikec-ai/simpler-grants-gov"
@@ -87,7 +87,7 @@
         {
           "kind": "producer_path",
           "label": "SF-424A source evidence",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "evidence/forms/sf424a/evidence.json"
         }
       ],
@@ -109,13 +109,13 @@
         {
           "kind": "producer_path",
           "label": "R&R SF-424 source evidence",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "evidence/forms/rr-sf424/evidence.json"
         },
         {
           "kind": "producer_path",
           "label": "Pinned official XSD fixture manifest",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "tests/fixtures/grants-gov-xsd/root-fixture-manifest.json"
         },
         {
@@ -142,7 +142,7 @@
         }
       ],
       "reproduce": [
-        "In grants-form-spec at 4229eca2e5902ea99c917271963be6bd0edf3027, run npm ci && npm run preflight",
+        "In grants-form-spec at 2bd979045f3dabfd1f77655c92f36fd496b08f65, run npm ci && npm run preflight",
         "In simpler-grants-gov at 5ef1589b971cb685780f902b782c3cf6ef65e953, run the focused R&R SF-424 lifecycle, rule, and XML tests listed in PR 28",
         "In simpler-grants-gov at 1f74d451fdc950b4c6430e9c665360af50551e3d, generate a bounded plan with PORTABLE_BROWSER_FORM_IDS=rr-sf424 and run the @portable-catalog Chrome test documented in api/src/form_schema/form_spec/README.md"
       ],
@@ -154,20 +154,26 @@
     {
       "id": "rr-budget-family-reuse",
       "title": "Five R&R Budget-family profiles reuse one declarative structure, calculation graph, and XML mapping",
-      "statement": "The family publishes five duration and subaward profiles without a form-family compiler or adapter branch; all 56 DAT-defined calculations are declared, and representative maximal XML for each profile validates against its pinned official XSD.",
+      "statement": "The family publishes five duration and subaward profiles without a form-family compiler or adapter branch; all 56 DAT-defined calculations are declared, representative maximal XML for each profile validates against its pinned official XSD, and the condition inventory records 64 conditioned occurrences: 50 represented by existing declarations and 14 explicitly source-bound and uncompiled.",
       "status": "merged_technical_proof",
       "evidence": [
         {
           "kind": "producer_path",
           "label": "R&R Budget family profile tests",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "tests/test_budget_profiles.py"
         },
         {
           "kind": "producer_path",
           "label": "R&R Budget source evidence",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "evidence/forms/rr-budget/evidence.json"
+        },
+        {
+          "kind": "producer_path",
+          "label": "Exact R&R Budget DAT condition inventory",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
+          "path": "analysis/rr-budget-dat-conditions.v1.json"
         },
         {
           "kind": "producer_pull_request",
@@ -192,12 +198,12 @@
         }
       ],
       "reproduce": [
-        "In grants-form-spec at 4229eca2e5902ea99c917271963be6bd0edf3027, run npm ci && npm run preflight",
-        "Inspect tests/test_budget_profiles.py and the five emitted form target profiles produced by npm run emit"
+        "In grants-form-spec at 2bd979045f3dabfd1f77655c92f36fd496b08f65, run npm ci && npm run preflight",
+        "Inspect tests/test_budget_profiles.py, analysis/rr-budget-dat-conditions.v1.json, and the five emitted form target profiles produced by npm run emit"
       ],
       "limitations": [
-        "The family evidence remains explicitly unreviewed for semantic acceptance.",
-        "Human accessibility, remaining DAT conditions, policy, and production-registration gates remain open."
+        "The condition inventory and family evidence remain explicitly unreviewed for semantic acceptance.",
+        "Fourteen conditioned occurrences remain source-bound and uncompiled; human accessibility, policy, and production-registration gates also remain open."
       ]
     },
     {
@@ -209,24 +215,24 @@
         {
           "kind": "producer_path",
           "label": "Analysis export contract and review boundary",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "documentation/analysis-export.md"
         },
         {
           "kind": "producer_path",
           "label": "Analysis projection implementation",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "scripts/analyze.py"
         },
         {
           "kind": "producer_path",
           "label": "Reviewed-only denominator regression",
-          "revision": "4229eca2e5902ea99c917271963be6bd0edf3027",
+          "revision": "2bd979045f3dabfd1f77655c92f36fd496b08f65",
           "path": "tests/test_analyze.py"
         }
       ],
       "reproduce": [
-        "Clone grants-form-spec with full Git history and check out 4229eca2e5902ea99c917271963be6bd0edf3027",
+        "Clone grants-form-spec with full Git history and check out 2bd979045f3dabfd1f77655c92f36fd496b08f65",
         "Run npm ci && npm run emit && npm run project-evidence",
         "Run python3 scripts/analyze.py --json --output-dir build/analysis > /dev/null",
         "Inspect build/analysis/pairwise-reviewed.csv, build/analysis/pairwise-exploratory.csv, and build/analysis/form-analysis.json"
