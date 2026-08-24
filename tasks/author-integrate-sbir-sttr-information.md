@@ -7,6 +7,21 @@ description: >-
   and condition-operation reuse; retain its program, eligibility, ownership,
   affiliation, disclosure, and partner-role semantics as distinct.
 superbee_progress_status: in_progress
+superbee_updated_by: review_sbir_semantics
+generated:
+  by: 'process:superbee'
+  at: '2026-08-24T04:27:39.222Z'
+assignee: implement_sbir_sttr
+---
+---
+type: Task
+title: Author and integrate SBIR/STTR Information
+priority: P1
+description: >-
+  Add the source-bound SBIR/STTR supplement using only proven attachment-wire
+  and condition-operation reuse; retain its program, eligibility, ownership,
+  affiliation, disclosure, and partner-role semantics as distinct.
+superbee_progress_status: in_progress
 superbee_updated_by: implement_sbir_sttr
 generated:
   by: 'process:superbee'
@@ -166,5 +181,13 @@ The audit shows no new generic architecture capability is required for the minim
 - Exact sources: root XSD `32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf`; DAT `c0e8d91e583b9f7e6339cc6239f1e4d51e9d93299b893b34efd1bbbc435c6e9b`; current Grants.gov XFA PDF `bd36dbc83d8fcfcd309cd45236d496a5f34f1401b4cf51d5aaeac2f22e45ce1e`. The older NIH PDF remains explicit history/conflict evidence.
 - Verification: full producer preflight passed after independent-review hardening, with 114 TypeScript tests, 282 Python tests and 2 skips, 30 exact root-XSD fixtures, 1,533 validated emitted artifacts, 1,062 packaged artifacts, zero unclassified fields, and zero exceptions. Canonical AJV tests exercise all 11 required/optional transitions, and the UI test asserts all 10 consumer enablement conditions with exact scopes, values, and effects.
 - State: review-ready and intentionally unmerged pending independent semantic/source review and hosted CI.
+
+# Independent exact-head review receipt (2026-08-24)
+
+- Reviewed exact head `a3e3f77eb16c656344d03916b560d6d67cda7f14` against the pinned root XSD, DAT workbook, source audit, emitted portable and SGG artifacts, XML profile, and task acceptance criteria. OCR was not used.
+- Initial findings were corrected before approval: all 11 portable conditional-required transitions and all 10 consumer enablement rules now have direct regression coverage; all 27 semantic identities have unique proposed XSD mappings; employee-count and TABA catalog classifications are accurate; and Agency Topic/Subtopic is classified as compiled in the portable source of truth while its consumer projection gap remains explicit.
+- Verified the three attachments remain distinct semantic questions over one generic capture mechanism, `SAMUEI` remains the non-profit research-partner UEI rather than applicant-organization reuse, policy conflicts remain unresolved rather than inferred, and no form-specific compiler, adapter, loader, renderer, conformance, eligibility, or policy branch was added.
+- Independent local `npm run preflight` passed: 114 TypeScript tests, 282 Python tests with 2 skips, 30 exact-XSD profiles/fixtures, 1,533 validated emitted artifacts, 1,062 verified packaged artifacts, and zero unclassified fields or exceptions.
+- Hosted CI run `32689957291` passed at the exact head in 1m27s. No actionable findings remain. GitHub cannot record an `APPROVE` review because the configured credential owns the PR, so this bundle receipt is the durable independent approval record.
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
