@@ -133,6 +133,46 @@ class XmlXsdConformanceHarnessTests(unittest.TestCase):
         self.assertEqual([child.tag for child in root], ["{urn:fixture}Entry"] * 2)
         self.assertEqual([child[0].text for child in root], ["true", "false"])
 
+    def test_scalar_array_can_flatten_each_value_into_its_repeated_element(self) -> None:
+        profile = profile_with(
+            {
+                "values": {
+                    "element": "Entry",
+                    "kind": "array",
+                    "namespace": "default",
+                    "items": {"node": {"kind": "value", "flatten": True}},
+                }
+            }
+        )
+
+        root = ET.fromstring(render_profile_xml(profile, {"values": [True, False]}))
+
+        self.assertEqual([child.tag for child in root], ["{urn:fixture}Entry"] * 2)
+        self.assertEqual([child.text for child in root], ["true", "false"])
+        self.assertTrue(all(len(child) == 0 for child in root))
+
+    def test_flattened_scalar_rejects_illegal_context_and_ignored_properties(self) -> None:
+        with self.assertRaisesRegex(AssertionError, "only valid as an array item node"):
+            render_profile_xml(
+                profile_with({"value": {"kind": "value", "flatten": True}}),
+                {"value": "answer"},
+            )
+
+        declaration = {
+            "element": "Entry",
+            "kind": "array",
+            "namespace": "default",
+            "items": {
+                "node": {
+                    "kind": "value",
+                    "flatten": True,
+                    "element": "Ignored",
+                }
+            },
+        }
+        with self.assertRaisesRegex(AssertionError, "cannot declare ignored properties"):
+            render_profile_xml(profile_with({"values": declaration}), {"values": ["x"]})
+
     def test_collection_array_can_flatten_attachment_payload_into_each_item(self) -> None:
         profile = profile_with(
             {

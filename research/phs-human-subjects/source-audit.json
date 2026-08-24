@@ -1,0 +1,89 @@
+{
+  "contract": "grants-form-source-audit/v1",
+  "formId": "phs-human-subjects",
+  "formVersion": "3.0",
+  "method": {
+    "ocrUsed": false,
+    "pdfEvidence": "The read-only and XFA PDFs are pinned as source bytes. No OCR-derived text or field identity is used.",
+    "semanticBoundary": "Deterministic XSD and DAT extraction is separate from all proposed canonical mappings."
+  },
+  "instructionSources": [
+    {
+      "edition": "NIH Forms I General Application Guide",
+      "section": "G.500 PHS Human Subjects and Clinical Trials Information",
+      "uri": "https://grants.nih.gov/grants/how-to-apply-application-guide/forms-i/general-forms-i.pdf",
+      "sha256": "97b323be4e8ca90a0a5f69fe46b7762e45188088dc220efd846e008df3c13588",
+      "capturedAt": "2026-08-23",
+      "use": "Instruction claims are retained as evidence and do not override contradictory or absent executable DAT behavior without review."
+    },
+    {
+      "edition": "NIH Forms I General Application Guide",
+      "section": "G.500 PHS Human Subjects and Clinical Trials Information",
+      "uri": "https://grants.nih.gov/grants/how-to-apply-application-guide/forms-i/general/g.500-phs-human-subjects-and-clinical-trials-information.htm",
+      "contentIdentity": "dynamic-html-not-byte-stable",
+      "use": "Human-readable corroboration only; the byte-pinned PDF is the instruction provenance source."
+    }
+  ],
+  "inventory": {
+    "xsdRecords": 305,
+    "countableOccurrences": 188,
+    "technicalFields": 61,
+    "containers": 56,
+    "datBehaviorRecords": 46,
+    "sourceBoundConditions": 11,
+    "sourceBoundCalculations": 0,
+    "enrollmentCoordinates": 115,
+    "totalLikeCoordinates": 28
+  },
+  "dimensionalEnrollment": {
+    "semanticQuestionId": "clinical-study/inclusion-enrollment-report",
+    "axes": ["reportingPeriod", "ethnicity", "sexOrGender", "race"],
+    "disposition": "One semantic composite with 115 coordinate-qualified leaf occurrences. Coordinates are not independent question-bank identities.",
+    "analysisGap": "First-class dimension metadata is not yet part of the emitted analysis contract; unique canonical occurrence paths preserve the coordinates in the interim."
+  },
+  "calculationDecision": {
+    "status": "source-bound-unresolved",
+    "disposition": "All 28 total-like coordinates remain entered or observed values. No arithmetic is emitted.",
+    "reason": "The pinned parent XSD and F705 DAT establish no calculations. Current NIH Forms I guidance describes automatic totals, but the exact embedded-study executable behavior source is not pinned.",
+    "removalCondition": "Pin and reconcile exact version-matched embedded-study calculation evidence, then review each formula and target coordinate."
+  },
+  "conditionDecision": {
+    "sourceBoundCount": 11,
+    "compiledCount": 0,
+    "status": "source-bound-unresolved",
+    "reason": "The F705 DAT conditions describe cross-form values, row controls, and the legacy embedded-PDF workflow. The standalone declarative contract has no local response path for several sources and does not fabricate one.",
+    "nestedStudyConditions": "No field-level DAT behavior evidence exists for the embedded Human Subject Study. Label- or policy-inferred nested conditions are not emitted."
+  },
+  "sourceBoundConditions": [
+    { "sourcePath": "1-07", "target": "exemptFromFederalRegulations", "literal": "Required if HumanSubjectsIndicator is yes." },
+    { "sourcePath": "1-08", "target": "exemptionNumbers", "literal": "One selection required if ExemptFedReg is yes." },
+    { "sourcePath": "1-14", "target": "legacySaveStudyControl", "literal": "Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-15-1", "target": "studyDeleteControl", "literal": "Disabled if only one entry exists. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-15-2", "target": "studyRows", "literal": "1 to 150 rows with Add, Delete and View features. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-16", "target": "studyAddControl", "literal": "Disabled on 150th entry. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-19-1", "target": "delayedOnsetDeleteControl", "literal": "Disabled if only one entry exists. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-19-2", "target": "delayedOnsetStudies[].studyTitle", "literal": "Required for each row entered. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-19-3", "target": "delayedOnsetStudies[].anticipatedClinicalTrial", "literal": "Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-19-4", "target": "delayedOnsetStudies[].justification", "literal": "Required for each row entered. Disabled if HumanSubjectsIndicator is not Yes." },
+    { "sourcePath": "1-20", "target": "delayedOnsetAddControl", "literal": "Disabled on 150th entry. Disabled if HumanSubjectsIndicator is not Yes." }
+  ],
+  "captureSemantics": {
+    "studyRecord": "Structured canonical data because the official parent XSD embeds HumanSubjectStudy_3_0 as structured XML.",
+    "legacyPdfWorkflow": "Presentation and capture behavior only; it does not redefine the study as an attachment.",
+    "narrativeUploads": "Each narrative purpose is a distinct typed semantic question that composes the generic attachment capture mechanism."
+  },
+  "provenanceConflicts": [
+    {
+      "id": "root-xsd-source-version",
+      "physicalByteSha256": "29d859de80cc9febbd1599c28f5db9a3ec82bff26a4d32f4dbbc372effb56bf3",
+      "legacyExtractionSourceVersion": "0ea2ffec",
+      "disposition": "The physical root XSD hash is authoritative for source bytes. The legacy value remains extraction-lineage metadata and is not substituted for the byte digest."
+    },
+    {
+      "id": "dat-uri-alias",
+      "paths": ["/forms/sample/PHSHumanSubjectsAndClinicalTrialsInfo_3_0-V3.0_F705.xls", "/forms/formversions/PHSHumanSubjectsAndClinicalTrialsInfo_3_0-V3.0_F705.xls"],
+      "sha256": "b02d18779d7eca89ca552056cb6d62d001dbaebd366f7b67b93b4dc7667c4dbd",
+      "disposition": "The active sample URI is recorded as the source URI; the legacy alias remains provenance context."
+    }
+  ]
+}

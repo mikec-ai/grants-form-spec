@@ -93,6 +93,18 @@ def _assert_mapping_node(
         )
 
     kind = node.get("kind")
+    if kind == "value" and node.get("flatten") is True:
+        if not flattened_attachment_context:
+            raise AssertionError(
+                "flattened value mapping is only valid as an array item node"
+            )
+        ignored = set(node) - {"kind", "flatten"}
+        if ignored:
+            raise AssertionError(
+                "flattened value mapping cannot declare ignored properties: "
+                + ", ".join(sorted(ignored))
+            )
+        return
     if kind == "attachment" and node.get("flatten") is True:
         if not flattened_attachment_context:
             raise AssertionError(
@@ -120,6 +132,10 @@ def _assert_mapping_node(
             item_node.get("kind") == "attachment"
             and item_node.get("flatten") is True
         )
+        item_is_flattened_value = (
+            item_node.get("kind") == "value"
+            and item_node.get("flatten") is True
+        )
         if item_is_flattened_attachment and not node.get("itemElement"):
             raise AssertionError(
                 "flattened attachment mapping is only valid as an array item node "
@@ -127,7 +143,9 @@ def _assert_mapping_node(
             )
         _assert_mapping_node(
             item_node,
-            flattened_attachment_context=item_is_flattened_attachment,
+            flattened_attachment_context=(
+                item_is_flattened_attachment or item_is_flattened_value
+            ),
         )
 
 
@@ -343,6 +361,9 @@ def _add_node(
         _add_attachment(parent, profile, node, value, attachments, root_response)
         return
     if kind == "value":
+        if node.get("flatten") is True:
+            parent.text = _text(value)
+            return
         leaf_parent = parent
         if container := node.get("container"):
             leaf_parent = ET.SubElement(

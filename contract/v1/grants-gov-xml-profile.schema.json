@@ -315,10 +315,20 @@
         "flatten": { "const": true }
       }
     },
+    "flattenedValueNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "flatten"],
+      "properties": {
+        "kind": { "const": "value" },
+        "flatten": { "const": true }
+      }
+    },
     "arrayItemNode": {
       "oneOf": [
         { "$ref": "#/$defs/mappingNode" },
-        { "$ref": "#/$defs/flattenedAttachmentNode" }
+        { "$ref": "#/$defs/flattenedAttachmentNode" },
+        { "$ref": "#/$defs/flattenedValueNode" }
       ]
     }
   }
