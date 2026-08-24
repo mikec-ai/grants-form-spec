@@ -228,3 +228,5 @@ Keep these behind the committed next sequence rather than silently expanding sco
 [contains](../tasks/make-form-banking-safe-and-measured-by-default.md)
 
 [contains](../tasks/encode-tiered-portable-form-ci.md)
+
+[contains](../tasks/bank-phs-inclusion-enrollment-report-in-sgg.md)
