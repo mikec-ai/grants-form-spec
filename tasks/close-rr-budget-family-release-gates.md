@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: root_budget_numeric_string
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T19:35:49.119Z'
+  at: '2026-08-24T19:56:10.303Z'
 assignee: root_budget_numeric_string
 ---
 # Goal
@@ -190,6 +190,33 @@ architecture or silently claim human approval.
 - The producer contract merged in grants-form-spec PR 44 at `c36b0173bf1f4a596727a06218e4e423ed5f60ee`.
 - The generic Simpler consumer merged in fork PR 38 at `a6a8ec6a062e4c2a9cab207a715d0d37c783cadf` after restacking over the 21-form baseline.
 - The broader human semantic, accessibility, instruction, operational, and production-registration gates remain open, so this task remains in progress.
+
+## 2026-08-24: positive-total condition closure
+
+- [grants-form-spec PR 87](https://github.com/mikec-ai/grants-form-spec/pull/87), merged at
+  `243e5951b883b9b521c24567a5e362d9bfdd7f19`, closes the last four source-bound/uncompiled
+  F770 condition occurrences through two target-neutral declarations. One requires an attachment
+  when its decimal-string total is strictly positive; the other requires a strictly positive total
+  when the attachment exists. The emitter uses ordinary JSON Schema `if`/`then` constraints and
+  intersects the source field's precision and scale with an unsigned decimal lexical pattern that
+  contains at least one non-zero digit.
+- Both equipment and senior/key-person pairs are declared once in the shared research-budget
+  question bank and inherited by all five duration/subaward profiles. The producer retains exact
+  A-2-1, A-3-1, C-2-0, and C-2-1 DAT records and their pinned provenance. All remain explicitly
+  unreviewed for semantic acceptance.
+- [simpler-grants-gov PR 81](https://github.com/mikec-ai/simpler-grants-gov/pull/81), merged at
+  `99709f19e45cddbc58d8d5be4d72610fdbe5e61b`, pins the merged producer revision and proves the
+  portable conditions through Simpler's resolved direct R&R Budget and nested R&R Subaward Budget
+  schemas. No Simpler runtime, compiler, projector, renderer, frontend, or form-specific adapter
+  code changed. Forty-nine focused family, integrity, provenance, and bank tests pass locally.
+- [grants-form-spec PR 88](https://github.com/mikec-ai/grants-form-spec/pull/88), merged at
+  `c78df2351b01eb2331e8d55437e8cb6437001c10`, refreshes the generated proof-package source. The
+  technical boundary is now 64 conditioned occurrences: 50 represented by existing declarations,
+  10 compiled through the cross-section contract, and four compiled through the positive-decimal
+  contracts. Producer preflight and the proof-package artifact check are green.
+- This completes the technical DAT-condition representation gate. Semantic acceptance, human
+  accessibility review, instruction/policy decisions, operational readiness, and production
+  registration remain open, so the broader release-gate task remains in progress.
 
 [depends on](harden-rr-budget-production.md)
 
