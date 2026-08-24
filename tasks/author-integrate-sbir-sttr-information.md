@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_sbir_sttr
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:14:46.083Z'
+  at: '2026-08-24T04:15:01.704Z'
 assignee: implement_sbir_sttr
 ---
 ---
@@ -128,7 +128,7 @@ The audit shows no new generic architecture capability is required for the minim
 # Producer implementation receipt (2026-08-24)
 
 - Draft PR: `https://github.com/mikec-ai/grants-form-spec/pull/70`
-- Review head: `89c89cc36e6a05a66b429fbbef3e60026d1b3f3a`
+- Review head: `89c89cc3605dc51588df74df3a9fb5cbd46b12e5`
 - Scope: producer only; no consumer or HHS/upstream changes; no OCR.
 - Composition: 27 new source-specific semantic question identities and three distinct attachment questions composing only `generics/attachment` capture and the shared attached-file XML mapping. The STTR partner UEI remains distinct from `primary-org/uei`; no applicant-organization or person identity is reused.
 - Evidence: 27 applicant questions, 12 technical attachment leaves, one root structure record, 78 DAT rows, 16 DAT Business Rules rows, 10 consumer condition targets, one portable required-only condition, zero calculations.
