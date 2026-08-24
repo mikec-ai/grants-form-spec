@@ -11,6 +11,7 @@ npm run project-response-normalization
 npm run check-xsd-fixtures
 npm run validate-artifacts
 npm run validate-promotion
+npm run validate-parity-deltas
 npm test
 npm run test-python
 npm run package-artifacts
