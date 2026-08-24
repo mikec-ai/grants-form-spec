@@ -329,6 +329,30 @@ registration are not closed.
 - This slice will not modify browser harnesses, proof packaging, test isolation, SF-424-family
   work, or the release tasks already owned by other agents. No HHS upstream writes are permitted.
 
+## 2026-08-24: lifecycle and prefill source slice merged
+
+- [grants-form-spec PR 92](https://github.com/mikec-ai/grants-form-spec/pull/92), merged at
+  `bac08000460ef457b5970647d0c9019559398e42`, preserves the three exact F770 cross-form prefill
+  instructions at 0-06, 0-07, and 0-10. Their value sources are exact canonical R&R SF-424
+  occurrences for SAM UEI, organization name, and proposed start date.
+- A target-neutral zero-based array-item selector now represents the first-budget-period boundary
+  for the proposed start date. The evidence contract also permits `unspecified` editability when
+  the official source does not state whether a prefilled value remains editable. The projector
+  fails closed when a selected array occurrence is absent or does not contain the destination.
+- DAT paths 0-08 and L-1-1 are proven structurally: budget type and the project-wide budget
+  justification are each emitted once at the form root rather than once per budget period. This
+  does not turn them into semantic mappings or infer broader lifecycle policy.
+- All three cross-form operations remain `source-bound-uncompiled`. The current Simpler
+  prepopulation runtime has no generic cross-form response-copy rule, so this increment preserves
+  exact evidence and exposes it to analysis without claiming execution.
+- Full producer preflight passed before merge: 123 TypeScript tests and 342 Python tests (10
+  skipped), plus artifact, XML fixture, promotion, parity-ledger, classified-field, package, and
+  independent TypeSpec-file checks. Both required GitHub workflows passed.
+- The lifecycle/prefill source-modeling sub-slice is complete. Generic cross-form execution,
+  remaining browser confirmation, human semantic/accessibility acceptance, operational readiness,
+  and production registration remain open; the broader release-gate task therefore remains in
+  progress.
+
 [depends on](harden-rr-budget-production.md)
 
 [depends on](author-integrate-rr-subaward-budget.md)
