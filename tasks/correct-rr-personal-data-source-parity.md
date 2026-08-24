@@ -4,11 +4,11 @@ title: Correct R&R Personal Data source parity
 priority: P0
 assignee: implement_rr_personal_data
 description: Correct verified source-parity and evidence defects in merged producer PR68.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: implement_rr_personal_data
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:05:11.292Z'
+  at: '2026-08-24T04:06:20.904Z'
 ---
 # Goal
 
@@ -40,7 +40,7 @@ Correct the merged R&R Personal Data producer artifacts so portable validation, 
 - Exact head: `63400f47d0c91b5818eb83ee5c11a0a588b4ccd6`
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/69
 - Local verification: full `npm run preflight` passed with 114 TypeScript tests, 272 Python tests (2 skipped), 29 exact-XSD fixture/profile checks, 258 blocks / 1,412 artifacts, and zero unclassified fields or exceptions.
-- CI status: pending at https://github.com/mikec-ai/grants-form-spec/actions/runs/32688654215.
+- CI status: passed at https://github.com/mikec-ai/grants-form-spec/actions/runs/32688654215 (job `97318232245`, 1m37s).
 - Merge status: intentionally unmerged.
 
 [depends on](author-integrate-rr-personal-data.md)
