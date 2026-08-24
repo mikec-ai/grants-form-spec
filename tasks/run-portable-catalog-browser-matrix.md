@@ -9,7 +9,7 @@ description: >-
   a per-form or current foundation gate.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: catalog_browser_matrix
+superbee_updated_by: codex-root
 assignee: catalog_browser_matrix
 ---
 # Goal
@@ -141,3 +141,11 @@ Stage B generic capability executors and portable conformance vectors remain to 
 - A parallel-work bottleneck was identified during execution: bounded one-form requests previously expanded to the complete selection. Consumer PR 87, owned separately, adds the already-supported fail-closed selector to hosted CI and reduces bounded runs to one shard. This task did not duplicate that change.
 
 [depends on](repair-shared-api-startup-for-browser-conformance.md)
+
+## Bounded receipt finding, 2026-08-24
+
+- Consumer PR 87 merged as `6cb02b71deaa40e8aec26fd8ac8c294d31e2b89c`, enabling one-shard bounded catalog dispatches without changing the default live-manifest selection.
+- Bounded Attachment Form run [32783471054](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32783471054) proved preview registration, API preflight, apply render, initial save/reload, and print render across Chrome, Firefox, WebKit, and mobile Chrome.
+- Its release gate correctly failed on two shared harness defects rather than an Attachment Form defect: `editableScalar` incorrectly included Attachment widgets and the Axe scan included the developer-only test-user selector outside the application form.
+- Consumer PR [94](https://github.com/mikec-ai/simpler-grants-gov/pull/94) fixes both generically. Attachment and AttachmentArray widgets remain separately declared under the attachment capability, Stage A skips scalar editing when no scalar applies, and Axe is scoped to `main`.
+- Focused verification for PR 94: 17 browser-plan tests pass; Ruff lint, Prettier, ESLint, and `git diff --check` pass. Production registration is unchanged.
