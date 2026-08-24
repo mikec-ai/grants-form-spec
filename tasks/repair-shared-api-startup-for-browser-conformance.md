@@ -14,7 +14,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-ci-startup
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T10:07:37.071Z'
+  at: '2026-08-24T10:11:32.626Z'
 ---
 ## Diagnostic evidence, 2026-08-24
 
@@ -38,3 +38,10 @@ generated:
 - Failure output includes `docker compose ps -a`, container state/exit/OOM/error fields, the bounded health body, and the last 300 API log lines.
 - A CI-only compose override removes Flask reload for hosted E2E and Pa11y while preserving ordinary local reload behavior.
 - Focused shell cases cover readiness, stopped-container fail-fast, a running HTTP 503 response/body, and the exact deadline boundary. Local compose and workflow validation are underway before a draft PR is opened.
+
+## Draft PR receipt, 2026-08-24
+
+- Draft PR: `mikec-ai/simpler-grants-gov#69`, https://github.com/mikec-ai/simpler-grants-gov/pull/69
+- Exact head: `83abd7b7349a22c104cba29e311a67e73a8afc16`; exact base: `c4709fc2931d4c9129871d058247f88bcfcd0e22`.
+- Local verification is green: five focused shell cases, ShellCheck, actionlint, merged compose configuration, a live health probe invoked from the frontend working directory, and `git diff --check`.
+- The task remains in progress. Hosted API, E2E, and Pa11y results are the next evidence boundary; the draft must not be treated as browser conformance until those jobs reach the matrix and publish their CI-only artifacts.
