@@ -3,6 +3,7 @@ import { getDoc } from "@typespec/compiler";
 import {
   AtomicCondition, Block, Condition, childBlock, orderedProps, propEnabledWhen, propLabel, propReadOnly, propReadOnlyWhen, propSection, propVisibleWhen, propWidget,
 } from "../model.js";
+import { normalizedOverrideEnabledWhen } from "./override-condition.js";
 
 const conditionSchema = (condition: AtomicCondition): Record<string, unknown> =>
   condition.operator === "in"
@@ -50,6 +51,50 @@ export interface UiNode {
   options?: Record<string, unknown>;
   rule?: Record<string, unknown>;
 }
+
+type Overrides = Record<string, Record<string, unknown>>;
+
+/** Convert a canonical JSON Forms scope into the dotted path addressed by @UI.overrides. */
+const dataPathFromScope = (scope: string): string | undefined => {
+  if (!scope.startsWith("#/properties/")) return undefined;
+  const tokens = scope.slice(2).split("/");
+  const path: string[] = [];
+  for (let index = 0; index < tokens.length;) {
+    if (tokens[index] !== "properties" || !tokens[index + 1]) return undefined;
+    path.push(tokens[index + 1]);
+    index += 2;
+    if (tokens[index] === "items") index += 1;
+  }
+  return path.join(".");
+};
+
+/** Emit the portable JSON Forms equivalent of a form-scoped enabledWhen override. */
+const overrideEnabledRule = (
+  override: Record<string, unknown>,
+): Record<string, unknown> | undefined => {
+  const condition = normalizedOverrideEnabledWhen(override);
+  if (!condition) return undefined;
+  const scope = `#/${condition.sourcePath.map((step) => `properties/${step}`).join("/")}`;
+  const schema = condition.operator === "in"
+    ? { enum: condition.values }
+    : { const: condition.value };
+  return { effect: "ENABLE", condition: { scope, schema } };
+};
+
+/** Apply occurrence-specific behavior after recursively composing canonical child UI trees. */
+const applyOverrides = (node: UiNode, overrides: Overrides): UiNode => {
+  const out: UiNode = { ...node };
+  if (typeof node.scope === "string") {
+    const path = dataPathFromScope(node.scope);
+    const rule = path ? overrideEnabledRule(overrides[path] ?? {}) : undefined;
+    if (rule && node.rule) {
+      throw new Error(`@UI.overrides enabledWhen collides with intrinsic UI behavior at ${path}`);
+    }
+    if (rule) out.rule = rule;
+  }
+  if (node.elements) out.elements = node.elements.map((child) => applyOverrides(child, overrides));
+  return out;
+};
 
 /** Re-prefix every Control scope so a child's tree sits under `propName`. */
 export function rescopeUi(node: UiNode, propName: string): UiNode {
@@ -166,5 +211,5 @@ export function emitBlockUi(program: Program, block: Block): UiNode {
   const group: UiNode = { type: "Group", elements };
   if (block.label) group.label = block.label;
   else if (block.doc) group.label = block.doc;
-  return group;
+  return applyOverrides(group, block.overrides);
 }

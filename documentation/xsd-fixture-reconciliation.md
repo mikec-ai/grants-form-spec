@@ -19,8 +19,7 @@ retains source-set SHA-256 `cccce03554424d59b5958e4443a54db12a5a10780fbdc5df2ec2
 Neither digest is rewritten to resemble the other.
 
 All source URIs below use `https://apply07.grants.gov/apply/forms/schemas/` followed by the
-listed filename. The table is the 27-profile reconciliation at producer revision
-`a237bc9bdbc34784652840946faf46d53e10e3a4`; the gate regenerates its judgment from emitted
+listed filename. The table is the 28-profile reconciliation; the gate regenerates its judgment from emitted
 profiles and fixture bytes on every preflight.
 
 | Form | Version | Official XSD | Physical SHA-256 | Byte-exact fixture |
@@ -37,6 +36,7 @@ profiles and fixture bytes on every preflight.
 | `phs-assignment-request` | `4.0` | `PHS_AssignmentRequestForm_4_0-V4.0.xsd` | `7e697ee33ea6f72271c0d74fc48c61f4f81faa242a712a4c73e7898f6c4ab976` | `phs-assignment-request-4.0/PHS_AssignmentRequestForm_4_0-V4.0.xsd` |
 | `phs-human-subjects` | `3.0` | `PHSHumanSubjectsAndClinicalTrialsInfo_3_0-V3.0.xsd` | `29d859de80cc9febbd1599c28f5db9a3ec82bff26a4d32f4dbbc372effb56bf3` | `phs-human-subjects-3.0/PHSHumanSubjectsAndClinicalTrialsInfo_3_0-V3.0.xsd` |
 | `phs-inclusion-enrollment-report` | `1.0` | `PHSInclusionEnrollmentReport-V1.0.xsd` | `3263bbfa8881c7d428958cf91de470cd19f0f6cbc11818c4752d5266bb0f53a4` | `phs-inclusion-enrollment-report-1.0/PHSInclusionEnrollmentReport-V1.0.xsd` |
+| `phs398-cover-page-supplement` | `5.0` | `PHS398_CoverPageSupplement_5_0-V5.0.xsd` | `ec538c9bb5fd233c36ac73ca567d31e60779ee3df2f3c7b456d9395b3ec2dc26` | `phs398-cover-page-supplement-5.0/PHS398_CoverPageSupplement_5_0-V5.0.xsd` |
 | `phs398-modular-budget` | `1.2` | `PHS398_ModularBudget_1_2-V1.2.xsd` | `f166abebd40e6912861dca5c5c4a83c7a82779f1ae67a2c0fa8b4aafc25d5bff` | `phs398-modular-budget-1.2/PHS398_ModularBudget_1_2-V1.2.xsd` |
 | `phs398-research-plan` | `5.0` | `PHS398_ResearchPlan_5_0-V5.0.xsd` | `6e7171465d1f44a16eb822f8921423ceede4fa486cb0819bc5dd327121b4bb56` | `phs398-research-plan-5.0/PHS398_ResearchPlan_5_0-V5.0.xsd` |
 | `rr-budget-10yr` | `3.0` | `RR_Budget10_3_0-V3.0.xsd` | `e9d004c15ffcbae04b65087cb0eff7e87b8eb8ba0ffd6bfb6aba5542e04708cc` | `rr-budget-10yr-3.0/RR_Budget10_3_0-V3.0.xsd` |

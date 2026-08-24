@@ -1,0 +1,62 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "phs398-cover-page-supplement",
+  "method": {
+    "ocrUsed": false,
+    "pdfTextMethod": "embedded text extraction only",
+    "xfaMethod": "deterministic packet extraction from pinned official sample PDF",
+    "reviewStatus": "agent-reviewed"
+  },
+  "inventory": {
+    "xsdQuestionAndStructureRecords": 38,
+    "datRows": 56,
+    "normalizedBehaviorRecords": 37,
+    "datConditionRecords": 24,
+    "compiledLocalConditionTargets": 13,
+    "calculations": 0
+  },
+  "sourceArtifacts": {
+    "rootXsdSha256": "ec538c9bb5fd233c36ac73ca567d31e60779ee3df2f3c7b456d9395b3ec2dc26",
+    "datSha256": "bd467aee5184e8d13eb5867ba12370e60c9a10765d42a728ee8c28ab784f66ab",
+    "readonlyPdfSha256": "82f9827f440018a0d3cfee25ec9f9696063143a5c618fb2dafe778ac80f183e8",
+    "xfaPdfSha256": "16522671505d4c3b1b5a9cbdc5218ae47de39bd3055396ae72b5d820a87e44ae",
+    "xfaPacketBundleSha256": "f09f5d8cbd232fa9848fafd03cf5d4f9712bcedf93ac90d479830aa6ef4f38eb",
+    "xfaTemplatePacketSha256": "0d1b972984b810cf3c5f69724b1ffef3c8ca692b49acda88fe42e80322c53016",
+    "formsIGeneralGuideSha256": "97b323be4e8ca90a0a5f69fe46b7762e45188088dc220efd846e008df3c13588",
+    "formsIG210HtmlObservedSha256": "490dde811e54e93b5815181ebd2b5252ea1c86674c24419366a121ebc841eb2e"
+  },
+  "dependencyClosure": [
+    { "name": "Attachments-V1.0", "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d" },
+    { "name": "Global-V1.0", "sha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb" },
+    { "name": "GlobalLibrary-V2.0", "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8" },
+    { "name": "UniversalCodes-V2.0", "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a" }
+  ],
+  "sourceConflicts": [
+    "The XSD permits zero-to-four-character stem-cell line values; Forms-I instructions call for a four-digit registry number. The applicant-facing declaration follows the instructions and preserves the XSD envelope as conflict evidence.",
+    "The XSD permits an empty Program Income Source string; the DAT and instructions require a populated row to be complete. The applicant-facing declaration requires a nonempty source while preserving the conflict.",
+    "The live G.210 HTML is mutable and a later retrieval produced digest 3ec0fd43f8c9bbad98e08fef0c5856c5e80f7191bf0ccdbd017b02185d3ce9d4. The pinned Forms-I PDF is the stable instruction artifact; the observed HTML digest remains explicit rather than silently replaced.",
+    "The Forms-I G.210 introductory text mentions human-subject information, but the authoritative version 5.0 XSD contains no human-subject field. No such question was invented.",
+    "An older NIH illustrative PDF has digest 9f1362acf0709e1f1e277c4940017c15e0e7d4459e0be497911cb32690932d64 and expired OMB metadata; it is not used as the current form oracle."
+  ],
+  "unresolvedBehavior": [
+    "Vertebrate-animal applicability depends on R&R Other Project Information.",
+    "Inventions and patents applicability depends on R&R SF-424 application type.",
+    "Change indicators are restricted by New and Revision application contexts.",
+    "Program-income row editing, partially populated row handling, and multi-project/training profiles require consumer and application-context decisions.",
+    "The hESC checkbox and cell-line list require mutual exclusion and clearing semantics that are not emitted by the current generic condition contract.",
+    "HFT attachment filename policies cannot be validated from the opaque attachment identifier alone.",
+    "Multi-project Overall-versus-Other aggregation, summary, and discard behavior remains application-context evidence.",
+    "Conditional stale-value clearing and non-emission require consumer verification before parity can be claimed."
+  ],
+  "privacyBoundary": {
+    "status": "unresolved-human-consumer-gate",
+    "fields": ["formerProjectDirector", "formerOrganizationName"],
+    "notVerified": ["logging", "analytics", "exports", "retention", "access controls"]
+  },
+  "accessibilityBoundary": {
+    "status": "unresolved-human-consumer-gate",
+    "verified": "Stable labels, sections, cardinalities, conditional targets, and attachment controls are emitted for deterministic consumer testing.",
+    "notVerified": ["keyboard order and focus movement", "conditional-status announcements", "repeating-row add/remove announcements", "attachment upload status", "legend and error-summary rendering", "locked and print presentation"]
+  },
+  "parityClaim": "The implementation proves exact schema and XML boundaries plus a bounded subset of source conditions. It does not claim complete PDF, XFA, application-context, accessibility, privacy, or production parity."
+}
