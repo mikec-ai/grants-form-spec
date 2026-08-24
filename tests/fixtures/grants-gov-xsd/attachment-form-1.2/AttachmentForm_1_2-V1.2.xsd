@@ -6,21 +6,111 @@
 	<xs:element name="AttachmentForm_1_2">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ATT1" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT1File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT2" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT2File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT3" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT3File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT4" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT4File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT5" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT5File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT6" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT6File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT7" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT7File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT8" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT8File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT9" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT9File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT10" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT10File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT11" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT11File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT12" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT12File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT13" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT13File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT14" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT14File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
-				<xs:element name="ATT15" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="ATT15File" type="att:AttachedFileDataType"/></xs:sequence></xs:complexType></xs:element>
+				<xs:element name="ATT1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT1File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT2" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT2File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT3" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT3File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT4" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT4File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT5" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT5File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT6" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT6File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT7" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT7File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT8" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT8File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT9" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT9File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT10" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT10File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT11" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT11File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT12" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT12File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT13" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT13File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT14" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT14File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATT15" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ATT15File" type="att:AttachedFileDataType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="FormVersion" type="globLib:FormVersionDataType" use="required" fixed="1.2"/>
 		</xs:complexType>

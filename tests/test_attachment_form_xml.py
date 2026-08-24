@@ -29,7 +29,7 @@ SHARED_XSDS = ROOT / "tests/fixtures/grants-gov-xsd/rr-key-person-expanded-4.0"
 FILES = {
     "AttachmentForm_1_2-V1.2.xsd": (
         FORM_XSD,
-        "dc3ae0af03a52b3a062dc74745b2e355a6c6ce1cc1b53a6c955cd2f972f11466",
+        "c6b7f40614a2077818f5f3b5df72959f867611b887c5b888005df8adeaa5e8e9",
     ),
     "Attachments-V1.0.xsd": (
         SHARED_XSDS / "Attachments-V1.0.xsd",

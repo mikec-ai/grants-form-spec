@@ -127,6 +127,15 @@ The artifact is declared in the form manifest, validated against
 `contract/v1/grants-gov-xml-profile.schema.json`, checked for complete canonical field
 coverage, and included in the reproducible artifact bundle.
 
+Producer preflight also requires every emitted profile's pinned root XSD URI, native version,
+root role, SHA-256, and fixture path to match one row in the machine-readable root-fixture
+manifest and resolve to exactly one byte-identical conformance fixture. A normalized,
+dependency-rewritten, or otherwise derived file cannot satisfy that physical-source gate merely
+because it has the same filename or validates the same XML. Fixture sharing is not implicit:
+each manifest path and source identity may be claimed by only one profile. The current
+reconciliation is recorded in
+[`xsd-fixture-reconciliation.md`](xsd-fixture-reconciliation.md).
+
 The initial R&R Budget family proves that one authored payload mapping serves the 5-year,
 10-year, and three subaward profiles. Their only differences are declarative wire-contract
 metadata.
