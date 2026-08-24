@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:40:31.174Z'
+  at: '2026-08-24T20:43:10.660Z'
 ---
 # Goal
 
@@ -35,3 +35,11 @@ The PHS Assignment Request lane independently found that the generic browser-pla
 # Boundary
 
 This task improves execution isolation. It does not redesign the application runtime, portable form architecture, or deployment topology.
+
+# Progress — 2026-08-24
+
+- Consumer PR [mikec-ai/simpler-grants-gov#87](https://github.com/mikec-ai/simpler-grants-gov/pull/87) exposes the existing fail-closed portable-form selector to manual and reusable hosted E2E dispatches.
+- A bounded selection now uses one shard; the default continues to use the live manifest and four shards.
+- The selector is propagated through browser-plan generation and preview seeding without form-specific test paths or registrations.
+- Fifteen browser-plan/workflow contract tests pass locally; workflow YAML and Ruff checks pass.
+- Local Compose container-name isolation remains open and is deliberately separate from this hosted-workflow increment.
