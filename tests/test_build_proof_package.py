@@ -25,7 +25,7 @@ class ProofPackageTests(unittest.TestCase):
             build_package(root=ROOT, source_path=source, output_dir=second)
 
             self.assertEqual(package["contract"], "grants-form-proof-package/v1")
-            self.assertEqual(len(package["claims"]), 6)
+            self.assertEqual(len(package["claims"]), 7)
             self.assertEqual(
                 first.joinpath("proof-manifest.json").read_bytes(),
                 second.joinpath("proof-manifest.json").read_bytes(),
@@ -86,6 +86,51 @@ class ProofPackageTests(unittest.TestCase):
                 },
             )
             self.assertEqual(inventory["reviewStatus"], "unreviewed")
+
+            cohort_claim = next(
+                claim
+                for claim in package["claims"]
+                if claim["id"] == "uniform-seven-form-static-differential"
+            )
+            self.assertIn("All seven comparison gates pass", cohort_claim["statement"])
+            self.assertIn("15 report parity", cohort_claim["statement"])
+            self.assertIn(
+                "12 report evidence-linked intentional differences",
+                cohort_claim["statement"],
+            )
+            self.assertIn("none fail", cohort_claim["statement"])
+            self.assertIn(
+                "Project Narrative Attachments has exact parity",
+                cohort_claim["statement"],
+            )
+            self.assertEqual(
+                cohort_claim["evidence"][0]["revision"],
+                "1e4cdb8b6481a0e34946df7b380e8cf306d552cd",
+            )
+            self.assertEqual(
+                cohort_claim["evidence"][0]["generatedReceipt"],
+                "api/test-results/legacy-differential/summary.json",
+            )
+            self.assertEqual(
+                cohort_claim["evidence"][0]["artifactRevision"],
+                "35d63c39db0d7dfae2dd83d36b4aba52011e064f",
+            )
+            self.assertEqual(
+                cohort_claim["evidence"][0]["sharedTreeSha"],
+                "9a765873ee4ba8e7057c6bf156d6ac14df39c329",
+            )
+            self.assertEqual(cohort_claim["evidence"][0]["artifactId"], 9531875033)
+            self.assertEqual(
+                cohort_claim["evidence"][0]["artifactName"],
+                "portable-legacy-differential-35d63c39db0d7dfae2dd83d36b4aba52011e064f",
+            )
+            self.assertIn("PR merge-ref revision", cohort_claim["statement"])
+            self.assertIn("Git tree is identical", cohort_claim["statement"])
+            limitations = " ".join(cohort_claim["limitations"])
+            self.assertIn("Serialized XML", limitations)
+            self.assertIn("rule outcomes", limitations)
+            self.assertIn("runtime lifecycle", limitations)
+            self.assertIn("not release readiness", limitations)
 
     def test_claim_without_limitations_is_rejected(self) -> None:
         revision = subprocess.run(
