@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:43:10.660Z'
+  at: '2026-08-24T20:54:58.833Z'
 ---
 # Goal
 
@@ -43,3 +43,5 @@ This task improves execution isolation. It does not redesign the application run
 - The selector is propagated through browser-plan generation and preview seeding without form-specific test paths or registrations.
 - Fifteen browser-plan/workflow contract tests pass locally; workflow YAML and Ruff checks pass.
 - Local Compose container-name isolation remains open and is deliberately separate from this hosted-workflow increment.
+- Independent review found and the same PR corrected two cold-path hazards: bounded shard 1 now installs Firefox and WebKit, and a bounded selector now implies `@portable-catalog` rather than accidentally running the entire E2E suite.
+- Invalid or whitespace-bearing selectors fail before expensive downstream jobs; the Python selector remains authoritative for membership in the live manifest.
