@@ -96,12 +96,12 @@ class SbirSttrInformationTests(unittest.TestCase):
         self.assertEqual(len(evidence["behaviorEvidence"]), 16)
         self.assertEqual(
             len([row for row in evidence["behaviorEvidence"] if row["executionStatus"] == "compiled"]),
-            10,
+            11,
         )
         unresolved = [row for row in evidence["behaviorEvidence"] if row["executionStatus"] == "source-bound-uncompiled"]
         self.assertEqual(
             {row["sourcePath"] for row in unresolved},
-            {"A-6", "E-1", "F-02-1", "F-04-1", "F-05-1", "F-08-1"},
+            {"A-6", "F-02-1", "F-04-1", "F-05-1", "F-08-1"},
         )
         self.assertIn("commercializationPlan", " ".join(row["canonicalPath"] for row in unresolved))
         self.assertNotIn("gg_calculation", json.dumps(load(FORM / "sgg/rule-schema.json")))

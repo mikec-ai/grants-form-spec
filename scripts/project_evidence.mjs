@@ -148,7 +148,26 @@ function collectConditionTargets(node, context, targets = []) {
   return targets;
 }
 
-function emittedRuleTargets(ruleSchema, uiSchema, occurrences, context) {
+function collectRequiredOnlyConditionTargets(node, path = [], targets = []) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
+  for (const clause of node.allOf ?? []) {
+    const required = clause?.then?.required;
+    if (Array.isArray(required)) {
+      for (const property of required) {
+        if (typeof property === "string" && property) targets.push([...path, property].join("."));
+      }
+    }
+  }
+  for (const [property, schema] of Object.entries(node.properties ?? {})) {
+    collectRequiredOnlyConditionTargets(schema, [...path, property], targets);
+  }
+  if (node.items && typeof node.items === "object" && !Array.isArray(node.items)) {
+    collectRequiredOnlyConditionTargets(node.items, [...path.slice(0, -1), `${path.at(-1) ?? ""}[*]`], targets);
+  }
+  return targets;
+}
+
+function emittedRuleTargets(ruleSchema, uiSchema, formSchema, behaviorEvidence, occurrences, context) {
   const canonicalOccurrences = [...occurrences].map(canonicalOccurrence);
   const byRulePath = new Map();
   for (const path of canonicalOccurrences) {
@@ -168,9 +187,28 @@ function emittedRuleTargets(ruleSchema, uiSchema, occurrences, context) {
     }
     targets.push({ ruleKind: "calculation", canonicalPath: candidates[0] });
   }
-  for (const canonicalPath of collectConditionTargets(uiSchema, context)) {
+  const uiConditionTargets = collectConditionTargets(uiSchema, context);
+  for (const canonicalPath of uiConditionTargets) {
     if (!canonicalOccurrences.includes(canonicalPath)) {
       throw new Error(`${context}: condition target ${canonicalPath} is not an exact emitted occurrence`);
+    }
+    targets.push({ ruleKind: "condition", canonicalPath });
+  }
+  const claimedCompiledConditions = new Set(
+    (behaviorEvidence ?? [])
+      .filter((entry) => entry.ruleKind === "condition" && entry.executionStatus === "compiled")
+      .map((entry) => entry.canonicalPath),
+  );
+  for (const canonicalPath of new Set(collectRequiredOnlyConditionTargets(formSchema))) {
+    // A conditional enablement on the field itself, or on a nested value within a
+    // question wrapper, already accounts for the source condition. Only add the
+    // portable-schema target when no consumer UI condition can represent it.
+    if (uiConditionTargets.some((target) => target === canonicalPath || target.startsWith(`${canonicalPath}.`))) {
+      continue;
+    }
+    if (!claimedCompiledConditions.has(canonicalPath)) continue;
+    if (!canonicalOccurrences.includes(canonicalPath)) {
+      throw new Error(`${context}: required-only condition target ${canonicalPath} is not an exact emitted occurrence`);
     }
     targets.push({ ruleKind: "condition", canonicalPath });
   }
@@ -298,6 +336,8 @@ export async function projectEvidence({ evidenceRoot, dist }) {
       const ruleTargets = emittedRuleTargets(
         await json(resolve(targetDir, "sgg", "rule-schema.json")),
         await json(resolve(targetDir, "sgg", "ui-schema.json")),
+        await json(resolve(targetDir, "schema.json")),
+        document.behaviorEvidence,
         occurrences,
         rel,
       );
