@@ -420,6 +420,15 @@ def write_workbook(output_dir: pathlib.Path, analysis: dict) -> None:
             analysis["capabilityOccurrences"],
             ["formId", "capabilityId", "kind", "path", "relationship"],
         ),
+        "operational-behavior-occurrences.csv": (
+            analysis["operationalBehaviorOccurrences"],
+            [
+                "formId", "canonicalPath", "operationKind", "editability",
+                "authority", "executionStatus", "valueSourceKind",
+                "valueSourceBlockId", "valueSourceNamespace", "valueSourcePath",
+                "sourceId", "sourcePath", "sourceRecord",
+            ],
+        ),
         "marginal-capability-reuse.csv": (
             analysis["marginalCapabilityReuse"],
             ["sequence", "formId", "measurementStatus", "questionCount", "newQuestionCount", "reusedQuestionCount", "newQuestions", "reusedQuestions", "captureMechanismCount", "newCaptureMechanismCount", "reusedCaptureMechanismCount", "newCaptureMechanisms", "reusedCaptureMechanisms", "behaviorCount", "newBehaviorCount", "reusedBehaviorCount", "newBehaviors", "reusedBehaviors"],
@@ -542,6 +551,28 @@ def main(argv: list[str] | None = None) -> int:
         form_id: occurrence_index(form_indexes[form_id]) for form_id in forms
     }
     form_evidence = {form_id: form_file(form_id, "evidence.json") for form_id in forms}
+    operational_behavior_occurrences = []
+    for form_id in sorted(forms):
+        for record in form_evidence[form_id].get("operationalBehaviorEvidence", []):
+            value_source = record.get("valueSource", {})
+            operational_behavior_occurrences.append({
+                "formId": form_id,
+                "canonicalPath": record["canonicalPath"],
+                "operationKind": record["operationKind"],
+                "editability": record["editability"],
+                "authority": record["authority"],
+                "executionStatus": record["executionStatus"],
+                "valueSourceKind": value_source.get("kind"),
+                "valueSourceBlockId": value_source.get("blockId"),
+                "valueSourceNamespace": value_source.get("namespace"),
+                "valueSourcePath": value_source.get("path"),
+                "sourceId": record.get("sourceId"),
+                "sourcePath": record.get("sourcePath"),
+                "sourceRecord": record.get("sourceRecord"),
+            })
+    operational_behavior_occurrences.sort(
+        key=lambda row: (row["formId"], row["canonicalPath"], row["operationKind"])
+    )
     form_profiles = {
         form_id: form_file(form_id, "targets/grants-gov-xml.json")
         for form_id in forms
@@ -743,6 +774,11 @@ def main(argv: list[str] | None = None) -> int:
             ),
             "exploratoryAssociationCount": len(question_associations),
             "unclassifiedFormFieldCount": len(unclassified_form_fields),
+            "operationalBehaviorOccurrenceCount": len(operational_behavior_occurrences),
+            "operationalBehaviorMetricsPolicy": (
+                "Source-backed operational behavior is projected separately and is excluded "
+                "from semantic similarity, reviewed coverage, capability reuse, and marginal reuse."
+            ),
         },
         "sequence": sequence_contract,
         "blocks": sorted(bank),
@@ -764,6 +800,7 @@ def main(argv: list[str] | None = None) -> int:
             null_empty=True,
         ),
         "capabilityOccurrences": capability_occurrences,
+        "operationalBehaviorOccurrences": operational_behavior_occurrences,
         "unclassifiedFormFields": unclassified_form_fields,
         "marginalCapabilityReuse": marginal,
     }

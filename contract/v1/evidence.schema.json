@@ -63,6 +63,11 @@
       "type": "array",
       "items": { "$ref": "#/$defs/behaviorEvidence" }
     },
+    "operationalBehaviorEvidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/operationalBehaviorEvidence" }
+    },
     "extraction": {
       "type": "object",
       "additionalProperties": false,
@@ -163,6 +168,130 @@
             "removalCondition": { "type": "string", "minLength": 1 },
             "executionStatus": { "enum": ["compiled", "source-bound-uncompiled"] },
             "inheritedFrom": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "operationalBehaviorEvidence": {
+      "oneOf": [
+        { "$ref": "#/$defs/sourceBoundOperationalBehaviorEvidence" },
+        { "$ref": "#/$defs/unresolvedOperationalBehaviorEvidence" }
+      ]
+    },
+    "operationalBehaviorEvidenceBase": {
+      "type": "object",
+      "required": [
+        "canonicalPath",
+        "operationKind",
+        "editability",
+        "authority",
+        "executionStatus"
+      ],
+      "properties": {
+        "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
+        "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
+        "valueSource": { "$ref": "#/$defs/operationalValueSource" },
+        "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+        "authority": { "enum": ["official_source", "implementation_parity", "unresolved"] },
+        "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operationKind": { "enum": ["prefill", "external-derived", "replace"] }
+            },
+            "required": ["operationKind"]
+          },
+          "then": {
+            "properties": { "valueSource": true },
+            "required": ["valueSource"]
+          }
+        }
+      ]
+    },
+    "operationalValueSource": {
+      "oneOf": [
+        { "$ref": "#/$defs/canonicalOperationalValueSource" },
+        { "$ref": "#/$defs/externalOperationalValueSource" }
+      ]
+    },
+    "canonicalOperationalValueSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "blockId", "path"],
+      "properties": {
+        "kind": { "const": "canonical" },
+        "blockId": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" }
+      }
+    },
+    "externalOperationalValueSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "namespace", "path"],
+      "properties": {
+        "kind": { "const": "external" },
+        "namespace": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceBoundOperationalBehaviorEvidence": {
+      "allOf": [
+        { "$ref": "#/$defs/operationalBehaviorEvidenceBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonicalPath",
+            "operationKind",
+            "editability",
+            "authority",
+            "executionStatus",
+            "sourceId",
+            "sourcePath",
+            "sourceRecord"
+          ],
+          "properties": {
+            "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
+            "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
+            "valueSource": { "$ref": "#/$defs/operationalValueSource" },
+            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+            "authority": { "enum": ["official_source", "implementation_parity"] },
+            "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] },
+            "sourceId": { "type": "string", "minLength": 1 },
+            "sourcePath": { "type": "string", "minLength": 1 },
+            "sourceRecord": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "unresolvedOperationalBehaviorEvidence": {
+      "allOf": [
+        { "$ref": "#/$defs/operationalBehaviorEvidenceBase" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonicalPath",
+            "operationKind",
+            "editability",
+            "authority",
+            "executionStatus",
+            "owner",
+            "reason",
+            "removalCondition"
+          ],
+          "properties": {
+            "canonicalPath": { "type": "string", "pattern": "^/(?:[^/]+(?:/[^/]+)*)?$" },
+            "operationKind": { "enum": ["prefill", "external-derived", "discard", "replace"] },
+            "valueSource": { "$ref": "#/$defs/operationalValueSource" },
+            "editability": { "enum": ["editable", "read-only", "protected", "not-applicable"] },
+            "authority": { "const": "unresolved" },
+            "executionStatus": { "enum": ["source-bound-uncompiled", "adapter-projected"] },
+            "owner": { "type": "string", "minLength": 1 },
+            "reason": { "type": "string", "minLength": 1 },
+            "removalCondition": { "type": "string", "minLength": 1 }
           }
         }
       ]

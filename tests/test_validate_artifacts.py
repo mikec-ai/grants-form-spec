@@ -95,6 +95,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         root: Path,
         *,
         behavior_evidence: list[dict[str, object]],
+        operational_behavior_evidence: list[dict[str, object]] | None = None,
         source_type: str = "dat",
     ) -> Path:
         evidence = root / "evidence/forms/example/evidence.json"
@@ -108,6 +109,7 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
                 "sha256": "a" * 64,
             }],
             "behaviorEvidence": behavior_evidence,
+            "operationalBehaviorEvidence": operational_behavior_evidence or [],
             "extraction": {
                 "repository": "https://github.com/example/forms",
                 "revision": "1" * 40,
@@ -118,6 +120,24 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             "semanticReview": {"status": "unreviewed", "mappings": []},
         })
         return evidence
+
+    @staticmethod
+    def _official_prefill(path: str = "/name") -> dict[str, object]:
+        return {
+            "canonicalPath": path,
+            "operationKind": "prefill",
+            "valueSource": {
+                "kind": "canonical",
+                "blockId": "example",
+                "path": "/name",
+            },
+            "editability": "protected",
+            "authority": "official_source",
+            "executionStatus": "source-bound-uncompiled",
+            "sourceId": "example-source",
+            "sourcePath": "F-1",
+            "sourceRecord": "Copy the source value and protect the destination.",
+        }
 
     @staticmethod
     def _official_calculation(path: str) -> dict[str, object]:
@@ -533,6 +553,100 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(projected["behaviorEvidence"], [record])
         self.assertEqual(rules, {})
+
+    def test_projector_preserves_operational_evidence_without_emitting_a_rule(self) -> None:
+        record = self._official_prefill()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+            projected = json.loads((dist / "forms/example/evidence.json").read_text())
+            rules = json.loads((dist / "forms/example/sgg/rule-schema.json").read_text())
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(projected["operationalBehaviorEvidence"], [record])
+        self.assertEqual(rules, {})
+
+    def test_projector_rejects_operational_destination_outside_emitted_occurrences(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[self._official_prefill("/missing")],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("operational behavior destination /missing", result.stdout)
+        self.assertIn("not an exact emitted field occurrence", result.stdout)
+
+    def test_projector_rejects_missing_operational_evidence_source(self) -> None:
+        record = self._official_prefill()
+        record["sourceId"] = "missing-source"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("names missing source missing-source", result.stdout)
+
+    def test_projector_rejects_operational_authority_source_type_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[self._official_prefill()],
+                source_type="implementation",
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("claims official_source authority from implementation source", result.stdout)
+
+    def test_projector_rejects_dangling_canonical_operational_source(self) -> None:
+        record = self._official_prefill()
+        record["valueSource"] = {
+            "kind": "canonical",
+            "blockId": "example",
+            "path": "/missing",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._write_evidence(
+                root,
+                behavior_evidence=[],
+                operational_behavior_evidence=[record],
+            )
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("example:/missing is not an exact emitted field occurrence", result.stdout)
 
     def test_projector_rejects_uncompiled_evidence_for_a_nonexistent_occurrence(self) -> None:
         record = {

@@ -25,6 +25,7 @@ The output directory contains:
 | `pairwise-exploratory.csv` | Implementation-derived similarity using authored canonical identities |
 | `pairwise-reviewed.csv` | Published-eligible similarity using only explicitly accepted occurrence mappings |
 | `capability-occurrences.csv` | Questions, capture mechanisms, and portable runtime behaviors used by each form |
+| `operational-behavior-occurrences.csv` | Source-backed prefill, external derivation, discard, replacement, and editability occurrences |
 | `marginal-capability-reuse.csv` | New versus reused capabilities in the versioned authoring sequence |
 
 ## Review boundary
@@ -52,6 +53,13 @@ reported separately, so reuse of the attachment control does not make Project Na
 Narrative the same question. Runtime behavior capabilities are derived from the emitted rule
 artifact and reported separately again. This permits a form to have low semantic overlap but low
 implementation cost.
+
+Operational behavior evidence is a fourth, explicitly separate table. It records exact destination
+paths, canonical or external value-source coordinates, editability, authority, execution status,
+and source provenance. These rows are not questions or compiled rules. They therefore do not enter
+semantic similarity, reviewed coverage, capability reuse, or marginal reuse metrics. A declaration
+such as `readOnly`, `systemValue`, or a consumer pre-population annotation is never promoted into
+source evidence by inference.
 
 The portable `@Response.role` vocabulary classifies an authored block or occurrence as applicant
 input, calculated output, system value, technical field, attestation, or static content. Roles are

@@ -104,6 +104,9 @@ Source evidence is authored as a separate sidecar under `evidence/` and projecte
 block with `npm run project-evidence`. Each record pins public source URIs, versions, hashes,
 and deterministic extraction provenance. Semantic mappings carry an explicit review state;
 unreviewed or proposed mappings are never eligible for published coverage metrics.
+Source-backed prefill, external derivation, discard, replacement, and editability evidence uses
+the separate `operationalBehaviorEvidence` contract. The projector validates its exact canonical
+destinations and value-source coordinates, but does not compile it into runtime rules.
 
 Every emitted form index includes path-qualified canonical field lineage and explicitly authored
 response roles. CI requires zero fields without canonical question lineage or a declared

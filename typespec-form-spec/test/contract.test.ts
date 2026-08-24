@@ -117,6 +117,74 @@ describe("artifact contract v1", () => {
     await run();
   });
 
+  it("validates the closed operational behavior evidence vocabulary", async () => {
+    const fixture = (await json(
+      resolve(contractRoot, "conformance/evidence.valid.json"),
+    )) as Record<string, unknown>;
+    const base = {
+      canonicalPath: "/destination",
+      editability: "protected",
+      authority: "official_source",
+      executionStatus: "source-bound-uncompiled",
+      sourceId: "example-xsd",
+      sourcePath: "Example.Destination",
+      sourceRecord: "Exact source record.",
+    };
+    const records = [
+      {
+        ...base,
+        operationKind: "prefill",
+        valueSource: { kind: "canonical", blockId: "source-form", path: "/source" },
+      },
+      {
+        ...base,
+        canonicalPath: "/external",
+        operationKind: "external-derived",
+        valueSource: { kind: "external", namespace: "sam.gov", path: "entity/uei" },
+        editability: "read-only",
+      },
+      {
+        ...base,
+        canonicalPath: "/discarded",
+        operationKind: "discard",
+        editability: "not-applicable",
+      },
+      {
+        ...base,
+        canonicalPath: "/replaced",
+        operationKind: "replace",
+        valueSource: { kind: "external", namespace: "application", path: "summary" },
+        editability: "editable",
+        executionStatus: "adapter-projected",
+      },
+    ];
+    expect(
+      validateEvidence({ ...fixture, operationalBehaviorEvidence: records }),
+      JSON.stringify(validateEvidence.errors),
+    ).toBe(true);
+
+    const poisoned = [
+      { ...records[0], canonicalPath: undefined },
+      { ...records[0], sourceId: undefined },
+      { ...records[0], valueSource: { kind: "unknown", path: "/source" } },
+      { ...records[0], valueSource: { kind: "canonical", path: "/source" } },
+      { ...records[0], valueSource: { kind: "canonical", blockId: "source-form" } },
+      { ...records[1], valueSource: { kind: "external", path: "entity/uei" } },
+      { ...records[1], valueSource: { kind: "external", namespace: "sam.gov" } },
+      { ...records[3], valueSource: undefined },
+      { ...records[0], operationKind: "copy" },
+      { ...records[0], editability: "locked" },
+      { ...records[0], executionStatus: "runtime-verified" },
+    ];
+    for (const record of poisoned) {
+      const candidate = JSON.parse(JSON.stringify({
+        ...fixture,
+        operationalBehaviorEvidence: [record],
+      }));
+      expect(validateEvidence(candidate), JSON.stringify(record)).toBe(false);
+    }
+  });
+
   it("accepts all emitted form, UI, index, and package artifacts", async () => {
     const groups: [string[], () => ValidateFunction][] = [
       [await schemaArtifacts(emittedFormsRoot), () => validateForm],
