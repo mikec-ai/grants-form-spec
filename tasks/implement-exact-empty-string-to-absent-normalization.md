@@ -3,20 +3,22 @@ type: Task
 title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
-  Producer step remains in draft grants-form-spec PR #74 at amended head
-  0e9204800f624ad04d67952ddbb2443a42c2d268. All review findings are addressed,
-  including exact closure from normalization citations to declared
-  non-implementation official sources. Full local preflight and hosted CI run
-  32696720397 are green. Consumer design is complete against simpler-grants-gov
-  main 534a36b74201baa2f28d35f138e64e03efb0e348: optional artifact selection,
-  existing pointer projection, copied canonical working data before
-  rules/validation, raw-capture-preserving rule merge, and pre-XML
-  normalization, all generic and form-ID-free.
+  Producer capability merged in grants-form-spec at
+  4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer implementation is complete
+  on isolated branch codex/response-normalization-consumer from public-fork main
+  de55d5f5b7d4aa66b40e657fc212d6dfb1e93841, with clean generic adapter commit
+  eb0563efc and exact producer-pin/SF-424A canary commit b45577fe1. It selects
+  the hashed optional sibling, validates and projects exact reviewed pointers,
+  normalizes copied data before rules/schema/XML, preserves stored capture
+  blanks while retaining rule writes, and has no form-ID branches or DB
+  migration. Repo-native format, Ruff, and full mypy are green; portable-form
+  tests are in final rerun. Preview PR #63 still awaits merge before this branch
+  is rebased and a draft consumer PR is finalized.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T06:20:01.796Z'
+  at: '2026-08-24T06:45:27.497Z'
 assignee: codex-operational-evidence
 ---
 # Goal
