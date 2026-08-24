@@ -6,23 +6,24 @@ description: >-
   Producer capability merged in grants-form-spec at
   4e69e3fb25f8ee9554ee5e40ad84348ec99599dc. Consumer draft PR #67 is rebased on
   preview-enabled public-fork main 4c8b331798c0f31552cff2759a868ba25cd795b6 at
-  exact head fd6f0000cb58667bbe086a5abeac78a765dc3662. The generic adapter
+  exact head 89e7bc0fc7b6e5cfa90519a20db182e7b9b163f8. The generic adapter
   verifies and projects exact reviewed pointers, normalizes copied responses
   before rules, canonical validation, and XML, preserves raw capture blanks
   while retaining rule writes, and carries the policy through manifest-driven
-  previews with no form-ID branches or DB migration. Review findings addressed:
-  producer-forbidden schema composition fails closed; numeric object-property
-  names and required parents match producer acceptance; empty RFC 6901 tokens
-  fail before traversal; projected normalization paths cannot overlap
-  pre/post-population rule mutation targets, preventing intentional null
-  deletion from being mistaken for capture-only omission. Focused isort, Black,
-  Ruff, mypy, and 50 normalization/SF-424A/preview tests are green; hosted CI
-  and final independent review are pending.
+  previews with no form-ID branches or DB migration. All independent review
+  findings are addressed: producer-forbidden schema composition fails closed;
+  numeric object-property names and required parents match producer acceptance;
+  empty RFC 6901 tokens fail before traversal; projected normalization paths
+  cannot overlap pre/post-population rule mutation targets; and overlap
+  traversal mirrors runtime structure by excluding only registered handlers and
+  gg_type metadata, so legitimate gg_-prefixed data fields remain covered.
+  Focused isort, Black, Ruff, mypy, and 51 normalization/SF-424A/preview tests
+  are green; hosted CI/final merge decision remain pending.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T07:08:22.834Z'
+  at: '2026-08-24T08:04:26.715Z'
 assignee: codex-operational-evidence
 ---
 # Goal
