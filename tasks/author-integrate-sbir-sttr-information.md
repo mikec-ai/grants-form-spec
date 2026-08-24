@@ -10,6 +10,21 @@ superbee_progress_status: in_progress
 superbee_updated_by: implement_sbir_sttr
 generated:
   by: 'process:superbee'
+  at: '2026-08-24T04:14:46.083Z'
+assignee: implement_sbir_sttr
+---
+---
+type: Task
+title: Author and integrate SBIR/STTR Information
+priority: P1
+description: >-
+  Add the source-bound SBIR/STTR supplement using only proven attachment-wire
+  and condition-operation reuse; retain its program, eligibility, ownership,
+  affiliation, disclosure, and partner-role semantics as distinct.
+superbee_progress_status: in_progress
+superbee_updated_by: implement_sbir_sttr
+generated:
+  by: 'process:superbee'
   at: '2026-08-24T03:59:17.979Z'
 assignee: implement_sbir_sttr
 ---
@@ -109,5 +124,17 @@ No calculation declaration is needed.
 # Scope boundary
 
 The audit shows no new generic architecture capability is required for the minimal slice. Do not introduce one speculatively.
+
+# Producer implementation receipt (2026-08-24)
+
+- Draft PR: `https://github.com/mikec-ai/grants-form-spec/pull/70`
+- Review head: `89c89cc36e6a05a66b429fbbef3e60026d1b3f3a`
+- Scope: producer only; no consumer or HHS/upstream changes; no OCR.
+- Composition: 27 new source-specific semantic question identities and three distinct attachment questions composing only `generics/attachment` capture and the shared attached-file XML mapping. The STTR partner UEI remains distinct from `primary-org/uei`; no applicant-organization or person identity is reused.
+- Evidence: 27 applicant questions, 12 technical attachment leaves, one root structure record, 78 DAT rows, 16 DAT Business Rules rows, 10 consumer condition targets, one portable required-only condition, zero calculations.
+- Behavior disposition: 10 exact enable/require targets compile through generic equals or in-set operations. Six source behaviors remain source-bound uncompiled: required-only consumer projection for Agency Topic/Subtopic, four clear/remove effects, and the disputed compound Commercialization Plan rule.
+- Exact sources: root XSD `32ed46a450c1b77d9ef64ebf2a4086ab90b076aa2d3cdfedfab8c00324adcebf`; DAT `c0e8d91e583b9f7e6339cc6239f1e4d51e9d93299b893b34efd1bbbc435c6e9b`; current Grants.gov XFA PDF `bd36dbc83d8fcfcd309cd45236d496a5f34f1401b4cf51d5aaeac2f22e45ce1e`. The older NIH PDF remains explicit history/conflict evidence.
+- Verification: full producer preflight passed with 112 TypeScript tests, 278 Python tests and 2 skips, 30 exact root-XSD fixtures, 1,513 validated emitted artifacts, 1,047 packaged artifacts, zero unclassified fields, and zero exceptions.
+- State: review-ready and intentionally unmerged pending independent semantic/source review and hosted CI.
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
