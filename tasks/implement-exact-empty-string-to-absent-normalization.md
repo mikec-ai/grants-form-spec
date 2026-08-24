@@ -3,17 +3,18 @@ type: Task
 title: Implement exact empty-string-to-absent input normalization
 priority: P0
 description: >-
-  Producer step is implemented in draft grants-form-spec PR #74 at head
-  6589465b08f72fe07e26f7e77ba6be621dc44552. Full local preflight and hosted CI
-  are green. The versioned exact-path policy, reviewed SF-424A evidence, generic
-  fail-closed projector, manifest hash, and test matrix are complete. Consumer
-  execution before canonical validation and XML remains pending, so the
-  cross-repository task stays in progress.
+  Producer step remains in draft grants-form-spec PR #74, amended at head
+  a6a3f6c4b63d4efd5a537131534348356aa4b5a1. Independent review findings are
+  addressed: artifact validation now independently closes evidence and canonical
+  eligibility, duplicate form declarations fail before writes, and mixed
+  help/unknown flags exit 2. Full local preflight is green with 118 TypeScript
+  and 308 Python tests; hosted CI is rerunning. Consumer execution design
+  remains in progress.
 superbee_progress_status: in_progress
 superbee_updated_by: codex-operational-evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T05:35:50.538Z'
+  at: '2026-08-24T05:44:38.341Z'
 assignee: codex-operational-evidence
 ---
 # Goal
