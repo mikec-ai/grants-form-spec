@@ -357,6 +357,54 @@ describe("artifact contract v1", () => {
     ).toBe(true);
   });
 
+  it("rejects value maps on non-value mapping nodes", async () => {
+    const valid = (await json(
+      resolve(contractRoot, "conformance/grants-gov-xml-profile.valid.json"),
+    )) as any;
+    const invalidNodes = [
+      {
+        element: "Object",
+        kind: "object",
+        fields: { value: { element: "Value", kind: "value" } },
+        valueMap: { display: "wire" },
+      },
+      {
+        element: "Group",
+        kind: "group",
+        fields: { value: { element: "Value", kind: "value" } },
+        valueMap: { display: "wire" },
+      },
+      {
+        element: "Items",
+        kind: "array",
+        items: { fields: { value: { element: "Value", kind: "value" } } },
+        valueMap: { display: "wire" },
+      },
+      {
+        element: "File",
+        kind: "attachment",
+        valueMap: { display: "wire" },
+      },
+    ];
+
+    for (const node of invalidNodes) {
+      const candidate = structuredClone(valid);
+      candidate.mapping.fields.title = node;
+      expect(validateGrantsGovXmlProfile(candidate), JSON.stringify(node)).toBe(false);
+    }
+
+    const localValue = structuredClone(valid);
+    localValue.mapping.fields.title = {
+      element: "Title",
+      kind: "value",
+      valueMap: { display: "wire" },
+    };
+    expect(
+      validateGrantsGovXmlProfile(localValue),
+      JSON.stringify(validateGrantsGovXmlProfile.errors),
+    ).toBe(true);
+  });
+
   it("accepts a portable form package before a legacy consumer id is assigned", async () => {
     const fixture = structuredClone(
       await json(resolve(contractRoot, "conformance/form-package.valid.json")),

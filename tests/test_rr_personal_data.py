@@ -52,14 +52,24 @@ class RRPersonalDataTests(unittest.TestCase):
             "US Citizen", "Permanent Resident", "Other non-US Citizen", "Do Not Wish to Provide",
         ])
 
-    def test_role_qualified_questions_share_name_capture_without_semantic_conflation(self) -> None:
+    def test_role_wrappers_share_source_specific_questions_without_semantic_conflation(self) -> None:
         index = load(FORM / "index.json")
         occurrences = {row["path"]: row for row in index["fieldOccurrences"]}
-        self.assertEqual(occurrences["/projectDirector/sex"]["blockIds"], ["personal-data/project-director"])
-        self.assertEqual(
-            occurrences["/coProjectDirectors/[]/sex"]["blockIds"],
-            ["personal-data/co-project-director"],
-        )
+        shared = {
+            "sex": "personal-data/sex",
+            "race": "personal-data/race",
+            "ethnicity": "personal-data/ethnicity",
+            "disabilityStatus": "personal-data/disability-status",
+            "citizenship": "personal-data/citizenship",
+        }
+        for field, question_id in shared.items():
+            pd_ids = occurrences[f"/projectDirector/{field}"]["blockIds"]
+            co_ids = occurrences[f"/coProjectDirectors/[]/{field}"]["blockIds"]
+            self.assertIn(question_id, pd_ids)
+            self.assertIn(question_id, co_ids)
+            self.assertIn("personal-data/project-director", pd_ids)
+            self.assertIn("personal-data/co-project-director", co_ids)
+            self.assertNotEqual(set(pd_ids), set(co_ids))
         self.assertEqual(
             occurrences["/projectDirector/name/firstName"]["blockIds"],
             ["generics/person-name", "personal-data/project-director"],
@@ -68,10 +78,13 @@ class RRPersonalDataTests(unittest.TestCase):
             occurrences["/coProjectDirectors/[]/name/firstName"]["blockIds"],
             ["generics/person-name", "personal-data/co-project-director"],
         )
-        self.assertNotEqual(
-            set(occurrences["/projectDirector/sex"]["blockIds"]),
-            set(occurrences["/coProjectDirectors/[]/sex"]["blockIds"]),
-        )
+        clinical_ids = {
+            block_id
+            for row in index["fieldOccurrences"]
+            for block_id in row["blockIds"]
+            if block_id.startswith("clinical-study/")
+        }
+        self.assertEqual(clinical_ids, set())
         self.assertTrue(all(row["responseRole"] == "applicantInput" for row in occurrences.values()))
 
     def test_sgg_projection_preserves_widgets_notice_and_repeat_validation(self) -> None:
@@ -107,7 +120,22 @@ class RRPersonalDataTests(unittest.TestCase):
         audit = load(ROOT / "research/rr-personal-data/source-audit.json")
         behavior = audit["behaviorInventory"]
         self.assertEqual(behavior["privacyNotice"]["implementation"], "compiled into the portable section description")
-        self.assertEqual(behavior["projectDirectorPrefill"]["implementation"], "source-bound-uncompiled")
+        operational = behavior["projectDirectorNameOperationalBehavior"]
+        self.assertEqual(len(operational), 5)
+        self.assertEqual(
+            [row["canonicalPath"] for row in operational],
+            [
+                "/projectDirector/name/prefix",
+                "/projectDirector/name/firstName",
+                "/projectDirector/name/middleName",
+                "/projectDirector/name/lastName",
+                "/projectDirector/name/suffix",
+            ],
+        )
+        self.assertEqual([row["datSourcePath"] for row in operational], ["01-01", "01-02", "01-03", "01-04", "01-05"])
+        self.assertTrue(all(row["datFieldType"] == "Forward-populated" for row in operational))
+        self.assertTrue(all(row["xfaAccessAfterInitialize"] == "protected" for row in operational))
+        self.assertTrue(all(row["implementation"] == "source-bound-uncompiled" for row in operational))
         self.assertEqual(len(behavior["coProjectDirectorRepetition"]["sourceBehaviorKeys"]), 4)
         self.assertEqual(
             {row["canonicalPath"] for row in behavior["selectionConstraints"]},
@@ -164,7 +192,26 @@ if (!validate(payload)) { console.error(JSON.stringify(validate.errors)); proces
         asks = set(report["asks"]["rr-personal-data"])
         self.assertEqual(
             asks,
-            {"personal-data/project-director", "personal-data/co-project-director", "generics/person-name"},
+            {
+                "personal-data/project-director",
+                "personal-data/co-project-director",
+                "generics/person-name",
+                "personal-data/sex",
+                "personal-data/race",
+                "personal-data/ethnicity",
+                "personal-data/disability-status",
+                "personal-data/citizenship",
+            },
+        )
+        clinical_asks = set(report["asks"]["phs-inclusion-enrollment-report"])
+        self.assertTrue(
+            {
+                "personal-data/sex",
+                "personal-data/race",
+                "personal-data/ethnicity",
+                "personal-data/disability-status",
+                "personal-data/citizenship",
+            }.isdisjoint(clinical_asks)
         )
         self.assertEqual(report["usesCaptureMechanisms"]["rr-personal-data"], [])
         self.assertEqual(load(FORM / "evidence.json")["semanticReview"]["status"], "proposed")

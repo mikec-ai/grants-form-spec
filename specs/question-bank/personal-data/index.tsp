@@ -49,40 +49,83 @@ enum PersonalDataCitizenship {
   withheld: "Do Not Wish to Provide",
 }
 
+/** Select the person's sex, or decline to provide it, for this R&R Personal Data form. */
+@Question.meta(#{ id: "personal-data/sex" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.principalInvestigator)
+@Catalog.tag(TagName.person, TagName.details)
+model QuestionPersonalDataSex {
+  /** Select the person's sex, or decline to provide it. */
+  @UI.label("Sex")
+  @UI.widget(WidgetName.Select)
+  sex?: PersonalDataSex;
+}
+
+/** Select the person's race categories, or decline to provide them, for this R&R Personal Data form. */
+@Question.meta(#{ id: "personal-data/race" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.principalInvestigator)
+@Catalog.tag(TagName.person, TagName.details)
+model QuestionPersonalDataRace {
+  /** Select every race category that applies, or decline to provide race. */
+  @UI.label("Race (check all that apply)")
+  @UI.widget(WidgetName.MultiSelect)
+  @maxItems(5)
+  race?: PersonalDataRace[];
+}
+
+/** Select the person's ethnicity, or decline to provide it, for this R&R Personal Data form. */
+@Question.meta(#{ id: "personal-data/ethnicity" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.principalInvestigator)
+@Catalog.tag(TagName.person, TagName.details)
+model QuestionPersonalDataEthnicity {
+  /** Select the person's ethnicity, or decline to provide it. */
+  @UI.label("Ethnicity")
+  @UI.widget(WidgetName.Select)
+  ethnicity?: PersonalDataEthnicity;
+}
+
+/** Select the person's disability statuses, select None, or decline to provide them, for this R&R Personal Data form. */
+@Question.meta(#{ id: "personal-data/disability-status" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.principalInvestigator)
+@Catalog.tag(TagName.person, TagName.details)
+model QuestionPersonalDataDisabilityStatus {
+  /** Select every disability status that applies, select None, or decline to provide it. */
+  @UI.label("Disability Status (check all that apply)")
+  @UI.widget(WidgetName.MultiSelect)
+  @maxItems(4)
+  disabilityStatus?: PersonalDataDisabilityStatus[];
+}
+
+/** Select the person's citizenship status, or decline to provide it, for this R&R Personal Data form. */
+@Question.meta(#{ id: "personal-data/citizenship" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.principalInvestigator)
+@Catalog.tag(TagName.person, TagName.details)
+model QuestionPersonalDataCitizenship {
+  /** Select the person's citizenship status, or decline to provide it. */
+  @UI.label("Citizenship")
+  @UI.widget(WidgetName.Select)
+  citizenship?: PersonalDataCitizenship;
+}
+
 // This unannotated model is a capture shape, not a semantic question. The two role-qualified
 // questions below share it without claiming that a PD/PI and a co-PD/PI are the same person.
+// These source-specific demographic identities are intentionally distinct from clinical-study
+// enrollment demographics, whose mappings remain independently proposed.
 model PersonalDataDirectorCapture {
   /** Enter the person's name. First and last name are required. */
   @UI.label("Name")
   @Validation.requiredPaths("firstName", "lastName")
   name: QuestionPersonName;
 
-  /** Select the person's sex, or decline to provide it. */
-  @UI.label("Sex")
-  @UI.widget(WidgetName.Select)
-  sex?: PersonalDataSex;
-
-  /** Select every race category that applies, or decline to provide race. */
-  @UI.label("Race (check all that apply)")
-  @UI.widget(WidgetName.MultiSelect)
-  @maxItems(5)
-  race?: PersonalDataRace[];
-
-  /** Select the person's ethnicity, or decline to provide it. */
-  @UI.label("Ethnicity")
-  @UI.widget(WidgetName.Select)
-  ethnicity?: PersonalDataEthnicity;
-
-  /** Select every disability status that applies, select None, or decline to provide it. */
-  @UI.label("Disability Status (check all that apply)")
-  @UI.widget(WidgetName.MultiSelect)
-  @maxItems(4)
-  disabilityStatus?: PersonalDataDisabilityStatus[];
-
-  /** Select the person's citizenship status, or decline to provide it. */
-  @UI.label("Citizenship")
-  @UI.widget(WidgetName.Select)
-  citizenship?: PersonalDataCitizenship;
+  ...QuestionPersonalDataSex;
+  ...QuestionPersonalDataRace;
+  ...QuestionPersonalDataEthnicity;
+  ...QuestionPersonalDataDisabilityStatus;
+  ...QuestionPersonalDataCitizenship;
 }
 
 /** Voluntary personal data for the application's Project Director/Principal Investigator. */
