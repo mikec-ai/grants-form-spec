@@ -3,13 +3,14 @@ type: Task
 title: Project flattened scalar-array XML in SGG
 priority: P0
 description: >-
-  Teach the generic Simpler XML adapter to execute the producer's fail-closed
-  flattened scalar-array item contract without form-specific branches.
-superbee_progress_status: in_progress
-superbee_updated_by: flattened_xml
+  Merged consumer PR 78: generic flattened scalar and attachment item-node XML
+  execution, reviewed fail-closed metadata propagation, and fully offline
+  exact-XSD validation for representative PHS forms.
+superbee_progress_status: done
+superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T18:53:30.038Z'
+  at: '2026-08-24T18:55:16.234Z'
 assignee: flattened_xml
 ---
 # Goal
