@@ -389,6 +389,7 @@ model ResearchBudgetBudgetYearEquipmentEquipmentList {
 )
 model ResearchBudgetBudgetYearEquipment {
   @UI.label("Additional Equipment:")
+  @UI.helpText("One possible attachment per budget period. Required if TotalFundForAttachedEquipment is entered and greater than zero.")
   @UI.widget(WidgetName.Attachment)
   additionalEquipmentsAttachment?: ResearchBudgetAdditionalEquipment;
 
@@ -404,6 +405,7 @@ model ResearchBudgetBudgetYearEquipment {
   totalFund: ResearchBudgetDecimal15;
 
   @UI.label("Total funds requested for all equipment listed in the attached file")
+  @UI.helpText("Required and must be greater than zero if an AdditionalEquipmentsAttachment exists.")
   totalFundForAttachedEquipment?: ResearchBudgetDecimal14;
 }
 
@@ -517,6 +519,7 @@ model ResearchBudgetBudgetYearKeyPersonsKeyPerson {
 )
 model ResearchBudgetBudgetYearKeyPersons {
   @UI.label("Additional Senior Key Persons:")
+  @UI.helpText("One possible attachment per budget period. Required if TotalFundForAttachedKeyPersons is entered and greater than zero.")
   @UI.widget(WidgetName.Attachment)
   attachedKeyPersons?: ResearchBudgetAdditionalKeyPersonnel;
 
@@ -525,6 +528,7 @@ model ResearchBudgetBudgetYearKeyPersons {
   keyPerson: ResearchBudgetBudgetYearKeyPersonsKeyPerson[];
 
   @UI.label("Total Funds requested for all Senior Key Persons in the attached file")
+  @UI.helpText("Required and must be greater than zero if an AttachedKeyPersons attachment exists.")
   totalFundForAttachedKeyPersons?: ResearchBudgetDecimal15;
 
   @UI.label("Total Senior/Key Person")
@@ -1080,6 +1084,8 @@ model ResearchBudgetBudgetYearTravel {
 )
 model ResearchBudgetBudgetYear {
   @UI.label("End Date:")
+  @Validation.notBefore(ResearchBudgetBudgetYear.budgetPeriodStartDate)
+  @UI.helpText("End Date cannot be before Start Date.")
   budgetPeriodEndDate: plainDate;
 
   @UI.label("Start Date:")

@@ -1,0 +1,98 @@
+{
+  "contract": "rr-budget-source-content-audit/v1",
+  "scope": {
+    "questionBank": "budget/research",
+    "forms": [
+      "rr-budget",
+      "rr-budget-10yr",
+      "rr-subaward-budget",
+      "rr-subaward-budget-30",
+      "rr-subaward-budget-10yr-30"
+    ],
+    "reviewedDimensions": [
+      "applicant-visible-labels",
+      "help-and-instructions",
+      "requiredness",
+      "section-and-group-semantics",
+      "attachment-positive-total-pairs"
+    ]
+  },
+  "source": {
+    "id": "grantsgov-rr-budget-dat-3.0-f770",
+    "type": "dat",
+    "uri": "https://apply07.grants.gov/apply/forms/sample/RR_Budget_3_0-V3.0_F770.xls",
+    "nativeVersion": "3.0",
+    "sha256": "c85158ce7ddcc756d6e8a55a050e00b4a95cdfc8d9a2d91b7bd94c7f8bdb1035"
+  },
+  "extraction": {
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef",
+    "artifact": "artifacts/proof/grantsgov-RRBudget-enriched.jsonl",
+    "inputSha256": "0f3e71fd70e470e3b2ce3e35be300bc8c7f240369a51aca855ea618c83d508bb"
+  },
+  "implementedCorrections": [
+    {
+      "canonicalPath": "budgetYear[*].budgetPeriodEndDate",
+      "sourcePath": "0-11",
+      "sourceRecord": "End Date cannot be before Start Date.",
+      "implementation": "generic date_not_before validation plus source-exact help text"
+    },
+    {
+      "canonicalPath": "budgetYear[*].keyPersons.attachedKeyPersons",
+      "sourcePath": "A-2-1",
+      "sourceRecord": "One possible attachment per budget period. Required if TotalFundForAttachedKeyPersons is entered and greater than zero.",
+      "implementation": "source-exact help text on the existing compiled condition"
+    },
+    {
+      "canonicalPath": "budgetYear[*].keyPersons.totalFundForAttachedKeyPersons",
+      "sourcePath": "A-3-1",
+      "sourceRecord": "Required and must be greater than zero if an AttachedKeyPersons attachment exists.",
+      "implementation": "source-exact help text on the existing compiled condition"
+    },
+    {
+      "canonicalPath": "budgetYear[*].equipment.additionalEquipmentsAttachment",
+      "sourcePath": "C-2-0",
+      "sourceRecord": "One possible attachment per budget period. Required if TotalFundForAttachedEquipment is entered and greater than zero.",
+      "implementation": "source-exact help text on the existing compiled condition"
+    },
+    {
+      "canonicalPath": "budgetYear[*].equipment.totalFundForAttachedEquipment",
+      "sourcePath": "C-2-1",
+      "sourceRecord": "Required and must be greater than zero if an AdditionalEquipmentsAttachment exists.",
+      "implementation": "source-exact help text on the existing compiled condition"
+    }
+  ],
+  "confirmedWithoutChange": [
+    {
+      "dimension": "applicant-visible-labels",
+      "finding": "All 64 unique non-empty DAT label strings occur verbatim in the shared research-budget declaration.",
+      "limit": "Vocabulary coverage does not by itself establish path-level semantic equivalence."
+    },
+    {
+      "dimension": "section-and-group-semantics",
+      "finding": "The shared declaration preserves the DAT A-through-L budget structure as personnel, equipment, travel, participant or trainee, other direct cost, indirect cost, total, justification, and cumulative-summary groups.",
+      "limit": "No additional cross-form semantic equivalence is accepted by this audit."
+    },
+    {
+      "dimension": "attachment-positive-total-pairs",
+      "finding": "The two bidirectional attachment and positive-total pairs retain their four exact DAT records and compile through generic JSON Schema conditions.",
+      "limit": "The evidence sidecar remains semantically unreviewed."
+    }
+  ],
+  "unresolved": [
+    {
+      "sourcePaths": ["B-1-2", "B-2-2", "B-3-2", "B-4-2"],
+      "sourceRecord": "Read-only text. Default to the named personnel category.",
+      "reason": "The current declaration models each project role as a required string. Changing ownership or introducing fixed defaults requires a reviewed portable fixed-value or externally-derived response contract; this audit does not infer one."
+    },
+    {
+      "sourcePaths": ["0-06", "0-07", "0-08", "0-10", "L-1-1"],
+      "sourceRecord": "The DAT describes prefill or first-period-only lifecycle behavior.",
+      "reason": "These are operational ownership and presentation rules, not safe question-bank semantics. They remain outside this bounded content correction."
+    }
+  ],
+  "semanticReview": {
+    "status": "unreviewed",
+    "note": "This deterministic source reconciliation does not accept semantic mappings."
+  }
+}
