@@ -6,11 +6,12 @@ description: >-
   Harden the existing additive promotion path so routine local and hosted use
   cannot accidentally replace the bank, skips redundant work, runs native gates,
   and emits comparable elapsed-time receipts.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:02:57.033Z'
+  at: '2026-08-24T02:54:11.699Z'
+assignee: codex
 ---
 # Goal
 
