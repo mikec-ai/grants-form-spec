@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:26:31.334Z'
+  at: '2026-08-24T02:43:06.955Z'
 ---
 # Goal
 
@@ -39,6 +39,14 @@ Bank the already-complete PHS Inclusion Enrollment Report into the SGG consumer 
 - Hosted CI selects `bank_only=true`, runs `Portable Form Bank Checks`, and skips full API and browser jobs.
 - The form remains intentionally unregistered and runtime-disabled.
 - The PR merges and the measured receipt is added to the roadmap and tiered-CI task.
+
+# Timed run
+
+- Start recorded: `2026-08-24T02:42:46Z` (`22:42:46 ET`).
+- Consumer base: `32f09a1ee3cec163095adfe8425ce4204b8f5aba` (tiered-CI PR #55).
+- Producer revision: `70fa65f82f66901f8a6a330aa8ef70479ded9b5e` (exact-XSD preflight PR #66, containing Inclusion Enrollment PR #64).
+- Hosted promotion run: `32683964276`.
+- Initial state: queued at `2026-08-24T02:42:49Z`; timer remains active through PR open, lightweight CI, and merge.
 
 [depends on](encode-tiered-portable-form-ci.md)
 
