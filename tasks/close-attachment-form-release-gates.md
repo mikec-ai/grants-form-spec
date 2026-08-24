@@ -5,11 +5,12 @@ priority: P1
 description: >-
   Prove the banked Attachment Form through legacy differential parity, consumer
   lifecycle, accessibility, and release gates.
-superbee_progress_status: todo
-superbee_updated_by: codex
+superbee_progress_status: in_progress
+superbee_updated_by: attachment_release
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T04:02:33.860Z'
+  at: '2026-08-24T20:35:00.440Z'
+assignee: attachment_release
 ---
 # Goal
 
