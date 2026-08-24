@@ -1,7 +1,7 @@
 ---
 type: Task
 title: Run the banked portable catalog through browser conformance
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 priority: P2
 description: >-
   Optional, manually dispatched catalog-wide browser evidence. The harness is
@@ -9,8 +9,8 @@ description: >-
   a per-form or current foundation gate.
 actor: Codex
 timestamp: '2026-08-23T22:26:31.124Z'
-superbee_updated_by: codex-root
-assignee: unassigned
+superbee_updated_by: catalog_browser_matrix
+assignee: catalog_browser_matrix
 ---
 # Goal
 
