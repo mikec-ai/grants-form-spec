@@ -9,7 +9,7 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T20:39:19.932Z'
+  at: '2026-08-24T21:20:02.590Z'
 assignee: root_budget_numeric_string
 ---
 # Goal
@@ -259,16 +259,34 @@ artifacts, and no HHS upstream repository or issue is modified.
   and nested date-order scoping, artifact integrity, and immutable provenance. Repository isort,
   Ruff, mypy, and diff checks passed after a review-found import-order defect was corrected. The
   promotion adds no adapter, compiler, renderer, frontend, registration, or form-specific branch.
-- [simpler-grants-gov PR 82](https://github.com/mikec-ai/simpler-grants-gov/pull/82) remains in
-  progress for the browser lane. Its generic plan discovers JSON Schema implications without form
-  identifiers; frontend build, unit/type/format checks, Storybook, and Pa11y are green. A bounded
-  direct-profile real-stack run is replacing the slow full-repository E2E fanout as the attributable
-  completion gate. Nested two-repeater browser execution remains an explicit open capability.
+- A bounded direct-profile browser run exposed three generic consumer gaps before it could exercise
+  the form. [simpler-grants-gov PR 89](https://github.com/mikec-ai/simpler-grants-gov/pull/89),
+  merged at `a050806bbe5786c04222a838afca291ec3bf84dd`, permits recursive `FieldList` children in the
+  generic UI-schema validator. [PR 90](https://github.com/mikec-ai/simpler-grants-gov/pull/90),
+  merged at `187ba3f0b1a9c7595baae25ba472240500283bc2`, classifies disjunctive conditional-required
+  effects such as `then.anyOf` as non-projectable for frontend required styling while leaving the
+  authoritative JSON Schema unchanged and active. [PR 91](https://github.com/mikec-ai/simpler-grants-gov/pull/91),
+  merged at `889b52c588a61f686ce7c2d178259dabc711dc66`, allows the already supported calculated/`null`
+  field variant inside `FieldList` children. These are generic contract consistency fixes with no
+  form identifier branch; their focused and full frontend checks passed.
+- [simpler-grants-gov PR 82](https://github.com/mikec-ai/simpler-grants-gov/pull/82), merged at
+  `75be12f2d4afe352a9e46ea1ed3268af55b6dfcb`, adds schema-driven implication discovery and a
+  reusable browser probe for positive-total/required-attachment behavior, zero reversal,
+  calculated-state save/reload, and validation-summary focus. Sixteen focused API tests and 95
+  focused frontend tests passed (one skipped), together with TypeScript, focused ESLint, and
+  Prettier. The last complete isolated Chrome run over `rr-budget` and `rr-budget-10yr` produced 12
+  passes, zero failures, and two focus-only inconclusive probes. The final generic visible-upload
+  focus correction is unit-covered but still needs clean-stack browser confirmation; a later rerun
+  lacked the isolated frontend's `API_JWT_PUBLIC_KEY` and therefore stopped before application
+  creation. Nested Subaward implications are discovered, but browser execution remains explicitly
+  not applicable until the harness supports two repeating dimensions. No receipts, traces,
+  screenshots, or media were committed.
 
 The independent cross-PR review found no form-specific architecture branch in PRs 82, 83, or 84.
-The broader task remains in progress because nested browser execution, human semantic and
-accessibility acceptance, lifecycle/prefill ownership, fixed personnel-role defaults, operational
-readiness, and production registration are not closed.
+The broader task remains in progress because final visible-upload focus browser confirmation,
+nested two-repeater browser execution, human semantic and accessibility acceptance,
+lifecycle/prefill ownership, fixed personnel-role defaults, operational readiness, and production
+registration are not closed.
 
 [depends on](harden-rr-budget-production.md)
 
