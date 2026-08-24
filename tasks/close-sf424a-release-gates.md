@@ -10,7 +10,7 @@ superbee_progress_status: blocked
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-23T21:44:32.446Z'
+  at: '2026-08-24T05:03:56.206Z'
 assignee: human-review
 ---
 # Goal
@@ -77,3 +77,5 @@ modify HHS upstream.
 - Human accessibility and guidance acceptance, semantic and policy decisions, instruction-asset
   and identifier acceptance, operational submission evidence, and production registration remain
   open gates. Technical automation does not resolve or approve them.
+
+[depends on](reconcile-sf424-family-portable-cutover-deltas.md)
