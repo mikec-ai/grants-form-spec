@@ -318,6 +318,17 @@ registration are not closed.
   Lifecycle/prefill ownership, browser confirmation, human semantic/accessibility acceptance,
   operational readiness, and production registration remain outside this increment.
 
+## 2026-08-24: next claimed lifecycle and prefill slice
+
+- `root_budget_lifecycle_prefill` claims only the five remaining F770 lifecycle and prefill records
+  at 0-06, 0-07, 0-08, 0-10, and L-1-1.
+- The slice will reconcile each exact source record against the existing target-neutral response,
+  visibility, cardinality, and prepopulation vocabulary. It will implement only behavior supported
+  by exact evidence and portable semantics; consumer-owned or package-context behavior will remain
+  explicit rather than being approximated in the question bank.
+- This slice will not modify browser harnesses, proof packaging, test isolation, SF-424-family
+  work, or the release tasks already owned by other agents. No HHS upstream writes are permitted.
+
 [depends on](harden-rr-budget-production.md)
 
 [depends on](author-integrate-rr-subaward-budget.md)
