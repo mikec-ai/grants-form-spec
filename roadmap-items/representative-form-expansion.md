@@ -2,7 +2,7 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-six producer forms and thirty-three banked consumer forms are
+  Thirty-six producer forms and thirty-four banked consumer forms are
   delivered; Research Plan and Human Subjects consumer promotion plus a measured
   cheap-form lane now test whether marginal delivery cost is falling.
 sequence: '3'
@@ -22,7 +22,7 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 The producer now contains 36 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, and form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 33 forms at consumer revision `91a01b0c5`. PHS Assignment Request, Attachment Form, R&R SF-424B, and NIFA Supplemental have landed since the prior snapshot. `phs398-research-plan`, `phs-human-subjects`, and `phs-inclusion-enrollment-report` are producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks 34 forms at consumer revision `9fa568e1e6eb04e7218a9685cdf255215080cafb`. PHS Assignment Request, Attachment Form, R&R SF-424B, NIFA Supplemental, and PHS Inclusion Enrollment Report have landed since the prior snapshot. `phs398-research-plan` and `phs-human-subjects` are producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 
@@ -68,6 +68,8 @@ Run this bounded lane alongside—not instead of—the committed sequence:
 4. **Author SBIR/STTR Information.** Its 22,853 instances and moderate conditional surface make it a useful follow-on composition test, not an excuse for a general policy engine.
 
 Human Subjects, Inclusion Enrollment, and Cover Page Supplement remain in the committed sequence above and are not duplicated in this lane. Each lane task must record elapsed effort and reuse so the roadmap measures marginal economics instead of merely accumulating form count.
+
+The first measured lightweight banking proof completed on PHS Inclusion Enrollment Report. The automation built, verified, ingested, committed, and pushed the 34-form/370-artifact bundle in 1 minute 49 seconds. After two one-time CI/repository configuration defects were repaired, the corrected hosted bank-only lane reached green in 43 seconds from refreshed-branch update and the promotion merged 8 minutes 27 seconds after the original timer start. No full API or E2E execution occurred on the successful pass.
 
 # Oracle protocol
 

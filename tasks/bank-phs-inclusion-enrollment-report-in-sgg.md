@@ -7,11 +7,11 @@ description: >-
   Use the completed derivative form as the first timed hosted proof that
   additive artifact/XSD banking skips full API and E2E CI without weakening
   integrity gates.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T02:43:06.955Z'
+  at: '2026-08-24T02:52:56.277Z'
 ---
 # Goal
 
@@ -40,13 +40,22 @@ Bank the already-complete PHS Inclusion Enrollment Report into the SGG consumer 
 - The form remains intentionally unregistered and runtime-disabled.
 - The PR merges and the measured receipt is added to the roadmap and tiered-CI task.
 
-# Timed run
+# Timed result
 
-- Start recorded: `2026-08-24T02:42:46Z` (`22:42:46 ET`).
-- Consumer base: `32f09a1ee3cec163095adfe8425ce4204b8f5aba` (tiered-CI PR #55).
-- Producer revision: `70fa65f82f66901f8a6a330aa8ef70479ded9b5e` (exact-XSD preflight PR #66, containing Inclusion Enrollment PR #64).
-- Hosted promotion run: `32683964276`.
-- Initial state: queued at `2026-08-24T02:42:49Z`; timer remains active through PR open, lightweight CI, and merge.
+- Timer start: `2026-08-24T02:42:46Z` (`22:42:46 ET`). Consumer base was `32f09a1ee3cec163095adfe8425ce4204b8f5aba`; immutable producer revision was `70fa65f82f66901f8a6a330aa8ef70479ded9b5e`.
+- Hosted promotion run `32683964276` started at `02:42:53Z`. Producer build, exact-XSD verification, bundle ingestion, consumer integrity/release checks, commit, and branch push all succeeded by `02:44:35Z`: 1 minute 49 seconds after the timer start.
+- The workflow could not open the PR because the fork disabled Actions PR creation. The preserved branch was opened manually as consumer PR #56 at `02:46:34Z`; the repository setting is now durably enabled.
+- The first bank-only pass correctly ran the classifiers and five-second integrity lane and skipped full API and E2E execution. It exposed one orchestration defect: the E2E report aggregator still ran despite there being no test artifacts. The two-line condition fix merged separately in PR #57 as `3974f60a540b7fb80e5452b27387bda174f2e0c0` at `02:50:03Z`.
+- After refreshing PR #56, both classifiers passed, `Portable Form Bank Checks` passed in 5 seconds, and API tests, API build, Playwright caching, E2E infrastructure/tests, and the empty report aggregator all skipped. The corrected hosted lane was green at `02:51:04Z` and PR #56 merged at `02:51:13Z` as `9fa568e1e6eb04e7218a9685cdf255215080cafb`.
+- Total first-run elapsed time, including discovery and repair of both repository-permission and aggregator configuration defects: 8 minutes 27 seconds. The steady-state path demonstrated by the successful phases is approximately 2-3 minutes from dispatch through merge, excluding human review latency.
+
+# Promotion receipt
+
+- Added form: `phs-inclusion-enrollment-report`; removed forms: none.
+- Selected forms: 34; selected artifacts: 370.
+- Bundle SHA-256: `4b147e74598d4abd8fe9e00926ec66c7eb35809119e5c0579b737e73ea376289`.
+- Consumer diff: 11 paths, limited to the artifact manifest, portable form/question artifacts, two producer-refresh artifact changes, and the exact `PHSInclusionEnrollmentReport-V1.0.xsd` fixture.
+- No adapter code, tests, runtime identities, registrations, projections, or workflow files were included in the promotion PR. The form remains intentionally unregistered.
 
 [depends on](encode-tiered-portable-form-ci.md)
 
