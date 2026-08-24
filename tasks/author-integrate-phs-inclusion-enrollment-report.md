@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T01:19:11.643Z'
+  at: '2026-08-24T01:22:07.574Z'
 assignee: enrollment_derivative_agent
 ---
 # Goal
@@ -38,8 +38,10 @@ The standalone source proves calculated targets but does not pin exact operands 
 # Delivery receipt
 
 - Branch: codex/phs-inclusion-enrollment-report
+- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/64
+- Exact head: 599d69bcd7a749e36276bd95ed386992eca3220d
 - Base: producer main 94a4d232f8b96ef09b09f36d4637156d62a25b65
-- Verification: full preflight passed; 108 TypeScript tests and 228 Python tests passed with one existing skip.
+- Verification: full preflight passed; 109 TypeScript tests and 235 Python tests passed with two existing skips.
 - Marginal reuse: 1 reused semantic question, 0 new semantic questions, 121 source-qualified associations.
 - Generic contract delta: none. The only refactor separates the reusable report core from its embedded-only technical identifier wrapper.
 
