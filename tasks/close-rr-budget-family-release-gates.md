@@ -7,10 +7,10 @@ description: >-
   semantic-review, and production gates across R&R Budget and Subaward Budget
   profiles.
 superbee_progress_status: in_progress
-superbee_updated_by: rr_budget_conditions
+superbee_updated_by: proof_condition_followthrough
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:21:30.123Z'
+  at: '2026-08-24T16:28:11.979Z'
 assignee: rr_budget_conditions
 ---
 # Goal
@@ -133,6 +133,20 @@ architecture or silently claim human approval.
 - This closes the deterministic inventory/classification sub-slice only. Consumer conformance for
   any future numeric-string or cross-object aggregate primitive, human semantic acceptance,
   accessibility, instruction, operational, and production-registration gates remain open.
+
+## 2026-08-24: proof-package integration
+
+- [grants-form-spec PR 78](https://github.com/mikec-ai/grants-form-spec/pull/78) carries the merged
+  condition inventory into the generated proof-package source at exact producer main revision
+  `2bd979045f3dabfd1f77655c92f36fd496b08f65`.
+- The family proof states the exact boundary as 64 conditioned occurrences, 50 represented, and 14
+  source-bound/uncompiled. It does not describe the 56 DAT calculations as conditions and does not
+  claim semantic acceptance.
+- Every producer-path claim now uses one package revision, enforced fail-closed by the builder. The
+  exact condition inventory is resolved and hashed from that Git tree. Generated proof index and
+  manifest remain build artifacts.
+- Focused proof-package tests and full producer preflight pass at PR head `4f28d50d1` (118
+  TypeScript tests and 323 Python tests, two skipped). The broader release gates remain open.
 
 ## Merge receipt
 

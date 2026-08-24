@@ -7,10 +7,10 @@ description: >-
   Package reproducible parity, source-validation, reuse, and demonstration
   evidence for the initial proof.
 superbee_progress_status: in_progress
-superbee_updated_by: proof_package
+superbee_updated_by: proof_condition_followthrough
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:15:57.084Z'
+  at: '2026-08-24T16:28:11.820Z'
 ---
 # Goal
 
@@ -64,3 +64,20 @@ was verified, a worktree-only evidence regression passed, unknown flags return e
 diagnostics, and `git diff --check` passed. Hosted form-spec CI and the dedicated proof-package
 artifact job both passed at the exact head. This increment does not complete the broader
 seven-to-ten-form or catalog-metrics scope, so the task remains in progress.
+
+# R&R Budget condition-evidence follow-through
+
+[grants-form-spec PR 78](https://github.com/mikec-ai/grants-form-spec/pull/78) pins every
+producer-path claim to merged producer main revision
+`2bd979045f3dabfd1f77655c92f36fd496b08f65` and adds the exact machine-readable R&R Budget DAT
+condition inventory to the family claim. The claim now distinguishes 56 DAT-defined calculations
+from the condition boundary: 64 conditioned occurrences, 50 represented by existing declarations,
+and 14 explicitly source-bound and uncompiled. The inventory and family evidence remain
+`unreviewed` for semantic acceptance.
+
+The builder now rejects producer-path evidence whose revision differs from the package producer
+revision. All declared producer paths resolve and are hashed from the pinned Git tree. Generated
+`index.md` and `proof-manifest.json` remain ignored build artifacts. At PR head `4f28d50d1`, four
+focused proof-package tests pass, deterministic generation reports six claims, and full preflight
+passes with 118 TypeScript tests and 323 Python tests (two skipped). This is an evidence-hardening
+increment; the broader proof-package task remains in progress.
