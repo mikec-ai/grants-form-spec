@@ -1,10 +1,10 @@
 ---
 type: Context Note
 title: Portable Grants.gov XML progress and 10-year XSD hash discrepancy
-timestamp: '2026-08-22T23:11:26Z'
+timestamp: '2026-08-24T01:01:08Z'
 description: >-
-  Architecture handoff, completed PR status, merge order, and the unresolved R&R
-  Budget 10-year XSD provenance discrepancy.
+  Historical architecture handoff with the completed merge receipt and the
+  still-preserved R&R Budget 10-year XSD provenance discrepancy.
 tags:
   - architecture
   - grants-gov-xml
@@ -25,15 +25,13 @@ The portable Grants.gov XML work now follows the intended shared-kernel architec
 - The SGG adapter contains no form-name list and no five-year, ten-year, budget, or subaward branching. Budget-specific Python mapping modules were deleted.
 - The profile contract now rejects ambiguous nodes that mix incompatible object and array properties.
 
-## Current progress
+## Completed merge receipt
 
-- Producer PR: [mikec-ai/grants-form-spec#21](https://github.com/mikec-ai/grants-form-spec/pull/21), head `efb956c94fa72451255a7411a130fe9d62dac940`.
-- Consumer PR: [mikec-ai/simpler-grants-gov#15](https://github.com/mikec-ai/simpler-grants-gov/pull/15), head `98b51cd83f15d55532e2410da291f8039fadc0e7`.
-- Both PRs are clean and mergeable. Producer CI passes.
+- Producer PR [#21](https://github.com/mikec-ai/grants-form-spec/pull/21), reviewed at head `efb956c94fa72451255a7411a130fe9d62dac940`, merged as `fe8461f944394d604e5644fe029ccb3474498af0` on 2026-08-22.
+- Consumer PR [#15](https://github.com/mikec-ai/simpler-grants-gov/pull/15), reviewed at head `98b51cd83f15d55532e2410da291f8039fadc0e7`, merged as `e2510ac9df1aeaabab5e3e534cde1384d696bac1` on 2026-08-22.
 - Producer preflight passes after synchronization with current `main`: 64 TypeScript tests, 35 Python tests with 3 existing skips, 84 canonical blocks, and 485 emitted artifacts.
 - Consumer verification passes: 99 focused portable-adapter and budget-family tests, Ruff, and mypy.
 - All five budget-family profiles emit maximal XML that validates against the pinned official Grants.gov XSDs.
-- Merge order: `grants-form-spec#21` first, then `simpler-grants-gov#15`, so the consumer's pinned producer revision exists on `main`.
 
 ## Ten-year XSD hash discrepancy
 
@@ -50,9 +48,9 @@ The currently served official XSD, the 10-year subaward evidence, the portable t
 
 Do not silently replace the older evidence hash. It may identify an earlier upstream byte representation and is tied to a specific extraction run. The portable profile deliberately pins the currently served and XSD-tested hash. A separate provenance reconciliation should retrieve or locate the older bytes, determine whether Grants.gov changed the file or the extraction normalized it, and record the result as timestamped evidence rather than overwriting history.
 
-## Remaining action
+## Remaining provenance action
 
-Merge the two PRs in producer-then-consumer order. The hash discrepancy is non-blocking for these PRs because the runtime contract is pinned and validated, but it remains an explicit provenance follow-up.
+The hash discrepancy was non-blocking for the merged PRs because the runtime contract is pinned and validated, but it remains an explicit provenance follow-up.
 
 [supports](../decisions/canonical-form-architecture.md)
 
