@@ -103,6 +103,16 @@ enum ApplicantTypeCode {
   X: "X: Other (specify)",
 }
 
+/** Select the applicant's single primary category. */
+@Question.meta(#{ id: "primary-org/applicant-type-code" })
+@Response.role(ResponseRole.applicantInput)
+@Catalog.entity(EntityName.primaryOrg)
+@Catalog.tag(TagName.organization, TagName.role)
+model QuestionApplicantTypeCode {
+  @UI.label("Type of Applicant")
+  applicantTypeCode: ApplicantTypeCode;
+}
+
 // The answer is a list, so the question is the list: one to three codes, which is what both
 // forms asking it require. Each form supplies its own wording for *how* to choose.
 /** The applicant's category or categories. */
