@@ -9,7 +9,7 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T21:20:02.590Z'
+  at: '2026-08-24T21:22:26.332Z'
 assignee: root_budget_numeric_string
 ---
 # Goal
@@ -287,6 +287,16 @@ The broader task remains in progress because final visible-upload focus browser 
 nested two-repeater browser execution, human semantic and accessibility acceptance,
 lifecycle/prefill ownership, fixed personnel-role defaults, operational readiness, and production
 registration are not closed.
+
+## 2026-08-24: next claimed source slice
+
+- `root_budget_fixed_roles` claims the four exact F770 personnel-role defaults at B-1-2, B-2-2,
+  B-3-2, and B-4-2. The slice will determine whether the existing portable schema vocabulary can
+  express source-owned fixed/read-only values or whether one small target-neutral declaration is
+  required; it must apply through the shared research-budget question bank to all five profiles.
+- This slice will not modify the shared catalog browser harness, bounded dispatch, test-isolation,
+  proof-package, SF-424-family, R&R SF-424, SF-424C, PHS Assignment, or Attachment Form work already
+  claimed by other agents. No HHS upstream writes are permitted.
 
 [depends on](harden-rr-budget-production.md)
 
