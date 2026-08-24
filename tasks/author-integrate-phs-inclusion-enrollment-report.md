@@ -9,7 +9,7 @@ superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T01:43:53.077Z'
+  at: '2026-08-24T01:52:31.073Z'
 assignee: enrollment_derivative_agent
 ---
 # Goal
@@ -39,12 +39,13 @@ The standalone source proves calculated targets but does not pin exact operands 
 
 - Branch: codex/phs-inclusion-enrollment-report
 - Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/64
-- Exact head: dc9a7de17eb228f7ef2da2172d3d03038798a37a
+- Exact head: efe2eafa53f80a51bb91fe9ead88287a55df3c36
 - Base after rebase: producer main c1c2150f54fff4131119857ae46950cf2fd6ed22
-- Verification: full preflight passed; 109 TypeScript tests and 238 Python tests passed with two existing skips. Artifact validation, evidence projection, package verification, analysis, classified-field gating, and independent TypeSpec compilation also passed.
+- Verification: full preflight passed; 109 TypeScript tests and 242 Python tests passed with two existing skips. Artifact validation, evidence projection, package verification, analysis, classified-field gating, and independent TypeSpec compilation also passed.
 - Marginal reuse: 1 reused semantic question, 0 new semantic questions, 121 source-qualified associations.
 - Generic contract delta after review: the reference XML/conformance path now recursively rejects payload properties that no declarative mapping consumes, including nested object and array-item properties. A schema-validated `mapping.nonEmittingResponsePaths` list narrowly declares canonical response fields that are intentionally technical or UI-only and do not emit. This does not alter form JSON Schemas or add a form-specific branch.
 - Fail-closed regression: standalone F791 now rejects embedded-only `reportId`; the Human Subjects embedded profile still accepts it and emits `IER_id`. Source aliases, constants, flattened groups, nested arrays, conditional nulls, and declared non-emitting controls have generic positive and negative coverage.
 - Evidence correction: report navigation records 2-25-1, 2-25-3, 2-25-4, and 2-25-6 target `/reports`; delete-current record 2-25-5 targets `/reports/[]`. All remain source-bound and uncompiled.
+- Exact-head hardening: object-valued and object-array-valued absolute source overrides recursively validate their declared child mappings instead of making the source subtree opaque. A real PHS 398 Modular Budget cumulative-summary regression and synthetic nested-source negatives prove this boundary. Non-emitting response paths must now be exact canonical scalar leaves and may not equal, contain, or descend from mapped or other non-emitting paths. The only catalog allowance remains `/federalFunding/totalProjectCosts`.
 
 [depends on](author-integrate-phs-human-subjects.md)
