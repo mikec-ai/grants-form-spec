@@ -5,10 +5,9 @@ description: >-
   Teach the generic capability planner to recognize declarative multiField table
   widgets, then run a bounded SF-424A receipt through the real Simpler frontend
   without form-specific runtime behavior.
-superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T15:37:55.075Z'
+  at: '2026-08-24T15:38:02.199Z'
 superbee_progress_status: done
 priority: P0
 assignee: codex-root
@@ -57,3 +56,5 @@ The receipt also produced three generic improvements rather than form-ID excepti
 Generated plans and receipts remain local build evidence and are not checked into the runtime repository. This completes browser compatibility for the portable SF-424A projection. It does not claim that unresolved source semantics or human accessibility review are complete.
 
 Roadmap: [[roadmaps/portable-form-spec]]
+
+[roadmaps/portable-form-spec](../roadmaps/portable-form-spec.md)
