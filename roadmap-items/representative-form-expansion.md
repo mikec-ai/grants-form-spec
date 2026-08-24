@@ -2,7 +2,7 @@
 type: Roadmap Item
 title: Expand through representative forms
 description: >-
-  Thirty-four producer forms and thirty-two banked consumer forms are
+  Thirty-six producer forms and thirty-two banked consumer forms are
   delivered; Research Plan and Human Subjects consumer promotion plus a
   measured cheap-form lane now test whether marginal delivery cost is falling.
 sequence: '3'
@@ -11,7 +11,7 @@ superbee_updated_by: codex
 ---
 # Strategy
 
-Use two complementary delivery lanes across the current 34-form producer baseline and the next expansion sequence:
+Use two complementary delivery lanes across the current 36-form producer baseline and the next expansion sequence:
 
 1. **Oracle-backed migrations.** Replace an existing SGG form definition with portable artifacts while retaining the legacy schema, UI, rules, XML, XSD, fixtures, and lifecycle behavior as a differential parity oracle.
 2. **Coverage-building foundations.** Add high-volume forms that establish reusable capabilities missing from SGG and then immediately exercise those capabilities through a derivative form.
@@ -20,9 +20,9 @@ The official XSD, DAT, PDF/XFA, instructions, and versioned policy sources remai
 
 # Delivered baseline
 
-The producer now contains 34 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
+The producer now contains 36 portable forms. Forms 20 through 30 delivered SF-LLL, CD-511, Grants.gov Lobbying, four SF-424B profiles, three SF-424D profiles, and SF-424C. Forms 31 and 32 delivered PHS Assignment Request and Attachment Form. Form 33 delivered PHS 398 Research Plan as thirteen role-specific semantic questions over one reusable attachment capture mechanism. Form 34 delivered PHS Human Subjects and Clinical Trials as a structured clinical-study foundation with one 115-coordinate enrollment composite, exact nested XML/XSD conformance, and zero inferred calculations. Form 35 delivered NIFA Supplemental, and form 36 delivered standalone PHS Inclusion Enrollment Report by reusing one existing semantic composite across 121 exact associations with zero new semantic questions. The baseline has zero unclassified field occurrences and zero field-classification exceptions.
 
-Current cross-repository snapshot: the public consumer fork banks 32 forms at consumer revision `12977071e`. PHS Assignment Request, Attachment Form, and R&R SF-424B have landed since the prior snapshot. `phs398-research-plan` and `phs-human-subjects` are producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
+Current cross-repository snapshot: the public consumer fork banks 32 forms at consumer revision `12977071e`. PHS Assignment Request, Attachment Form, and R&R SF-424B have landed since the prior snapshot. `phs398-research-plan`, `phs-human-subjects`, `nifa-supplemental`, and `phs-inclusion-enrollment-report` are producer-only. Five R&R Budget-family profiles are registered in the fork; the other banked forms remain intentionally unregistered.
 
 Producer completion does not imply production registration or human semantic, policy, instruction, accessibility, or operational approval. Proposed mappings remain unpublished.
 

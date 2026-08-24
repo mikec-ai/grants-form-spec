@@ -38,7 +38,7 @@ The standalone source proves calculated targets but does not pin exact operands 
 # Delivery receipt
 
 - Branch: codex/phs-inclusion-enrollment-report
-- Draft PR: https://github.com/mikec-ai/grants-form-spec/pull/64
+- Producer PR [#64](https://github.com/mikec-ai/grants-form-spec/pull/64) merged as `a237bc9bdbc34784652840946faf46d53e10e3a4` after independent approval.
 - Exact head: efe2eafa53f80a51bb91fe9ead88287a55df3c36
 - Base after rebase: producer main c1c2150f54fff4131119857ae46950cf2fd6ed22
 - Verification: full preflight passed; 109 TypeScript tests and 242 Python tests passed with two existing skips. Artifact validation, evidence projection, package verification, analysis, classified-field gating, and independent TypeSpec compilation also passed.
@@ -47,5 +47,6 @@ The standalone source proves calculated targets but does not pin exact operands 
 - Fail-closed regression: standalone F791 now rejects embedded-only `reportId`; the Human Subjects embedded profile still accepts it and emits `IER_id`. Source aliases, constants, flattened groups, nested arrays, conditional nulls, and declared non-emitting controls have generic positive and negative coverage.
 - Evidence correction: report navigation records 2-25-1, 2-25-3, 2-25-4, and 2-25-6 target `/reports`; delete-current record 2-25-5 targets `/reports/[]`. All remain source-bound and uncompiled.
 - Exact-head hardening: object-valued and object-array-valued absolute source overrides recursively validate their declared child mappings instead of making the source subtree opaque. A real PHS 398 Modular Budget cumulative-summary regression and synthetic nested-source negatives prove this boundary. Non-emitting response paths must now be exact canonical scalar leaves and may not equal, contain, or descend from mapped or other non-emitting paths. The only catalog allowance remains `/federalFunding/totalProjectCosts`.
+- Hosted CI and independent full preflight passed at the exact reviewed head; the final review reported no findings.
 
 [depends on](author-integrate-phs-human-subjects.md)
