@@ -87,6 +87,21 @@ architecture or silently claim human approval.
   policy, privacy/security, operational, registration, or release approval. The broader task remains
   in progress.
 
+## 2026-08-24: claimed 30-subaward browser harvest
+
+- `root_rr_subaward_30_browser` claims the bounded derivative proof for
+  `rr-subaward-budget-30`, building directly on the merged generic nested-browser capability.
+- The slice must consume the existing portable profile and mechanically discovered capabilities.
+  It may add profile selection or evidence expectations, but must not add a form-id, budget-field,
+  duration, cardinality, compiler, adapter, renderer, or validation branch.
+- The target is the same seven-probe receipt across Chrome, Firefox, WebKit, and Mobile Chrome:
+  artifact registration and API round trip, Apply render, deterministic edit and save/reload,
+  nested schema-implication trigger/reversal with row-specific error focus, automated accessibility,
+  and print rendering. Generated receipts and media remain build artifacts.
+- This claim tests whether the 10-to-30 cardinality derivative is genuinely a cheap reuse harvest.
+  It does not imply human semantic, accessibility, policy, privacy/security, operational,
+  registration, or release approval.
+
 ## 2026-08-23: calculated-output materialization slice
 
 - Source review found 20 of the 56 R&R Budget DAT calculations with non-empty conditions stating
