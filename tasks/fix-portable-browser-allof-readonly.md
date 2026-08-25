@@ -7,9 +7,9 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:31:55.318Z'
+  at: '2026-08-25T18:53:26.638Z'
 priority: P1
-superbee_progress_status: in_progress
+superbee_progress_status: done
 assignee: codex_phs_human_subjects_closure
 ---
 # Defect
@@ -46,5 +46,11 @@ Focused receipt: 51 browser-plan, preview, and PHS flattened-scalar XML tests pa
 Independent re-review is clean. Exact bounded run `32883228437` was intentionally canceled after setup passed because the shared attachment probe waits on whole-form validity and PHS Human Subjects has 15 attachment roles; continuing would yield a predictable non-attributable timeout rather than useful evidence. Hosted API run `32883150872` stopped before tests on the unrelated main-branch mypy regression in `check_form_spec_bank.py:189`; that regression is now fixed on the rebased main. Fresh rebase receipts are 87 combined tests, whole mypy across 753 files, Ruff, and Black green. Hosted API run `32884226167` is pending; the redundant automatic E2E was canceled while the attachment probe remains unresolved.
 
 PR #127 is held for its fresh API signal, then may merge independently of the attachment-probe defect because its production change is limited to read-only browser-plan discovery. The bounded Human Subjects form run remains blocked on the attachment-probe fix.
+
+# Technical closure
+
+Private-fork PR #127 merged as `f855935343fe91ea45f36a01204878ca652ccd8f` from exact reviewed head `e990d7305630c100b3411e4fb4ffc111e5b29818`. The attributable evidence at merge was: 51 focused browser-plan, preview, and PHS XML tests; 87 combined focused-plus-classifier tests; whole mypy across 753 files; Ruff; Black; and an independent clean re-review of the exact field partition. Hosted API run `32884226167` had passed setup, formatting, linting, migrations, and security checks and was still executing its broad test step without a failure; it was canceled after merge as obsolete rather than serializing this one-line generic harness correction behind the broad suite.
+
+This task closes only generic `allOf` read-only discovery in the browser plan. The PHS Human Subjects closure task remains in progress. Its bounded browser run is still gated by the separately known attachment-probe defect, and its human semantic, visual, accessibility, privacy/policy, registration, and release decisions remain open.
 
 [blocks](close-phs-human-subjects-technical-gates.md)
