@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_sbir_sttr_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T17:10:00Z'
+  at: '2026-08-25T19:06:31.240Z'
 ---
 # Goal
 
@@ -70,3 +70,13 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 - Updated local receipts: SBIR/STTR API 14/14; API plus registration boundary 20/20; frontend 10/10; Ruff, ESLint, Prettier, and TypeScript green.
 - The earlier hosted API run failed before form tests in the unrelated `test_wait_for_api.sh` late-success stdout assertion. No product change was made for that baseline helper flake; new-head checks remain pending and authoritative.
 - Exact bounded four-browser SBIR/STTR run dispatched once for head `b15ce13cb`: GitHub Actions run `32879500738` (`portable_browser_form_ids=sbir-sttr-information`). No duplicate broad/API run was dispatched.
+
+## Generic browser-harness remediation — 2026-08-25
+
+- Exact run `32879500738` was canceled after more than 35 minutes without a receipt. Its partial artifact `9576642702` and a local trace showed the generic deterministic edit waiting on Playwright `check()` for an offscreen USWDS radio across the four browser projects; the portable suite itself had retries disabled.
+- The same trace proved two attachment-probe defects: it selected the first declared attachment even when conditionally disabled, and it required the unrelated whole form to report `No errors were detected` before accepting durable attachment persistence.
+- Private consumer PR `mikec-ai/simpler-grants-gov#129` fixed only the generic portable browser harness and merged as `fe5e6ab92976d0a3c0b81f91c790333e0bdee309`.
+- The harness now activates binary controls through their visible associated labels with bounded timeouts, selects the first declared attachment input that is actually visible and enabled, and proves persistence using the save acknowledgement plus the exact filename, Delete affordance, and non-empty hidden attachment ID after reload.
+- Regression receipts at PR #129 head `8e5cf6a90`: matrix contract 17/17, Chrome harness 4/4, ESLint and TypeScript green. Direct browser regressions cover hidden and disabled declaration skips, declared-order selection, exact selected definition/control ID, explicit no-eligible failure, offscreen-radio persistence, and attachment persistence despite unrelated validation errors. Independent review was clean.
+- Hosted E2E classifier succeeded; redundant broad E2E was canceled before form execution. The prior-head hosted Frontend Checks run `32887241874` completed successfully. Remaining queued PR runs were canceled after merge.
+- PR #122 must now rebase onto the merged generic fix and produce one fresh, exact SBIR/STTR browser receipt. The five source-bound behaviors, semantic review, registration, human review, and release gates remain open and unchanged.
