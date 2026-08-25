@@ -51,6 +51,13 @@ architecture or silently claim human approval.
 
 # Implementation progress
 
+## 2026-08-24: claimed nested Subaward browser proof
+
+- `root_rr_subaward_nested_browser` claims the next bounded architecture proof: exercise one mechanically discovered R&R Subaward Budget schema implication through its two repeating dimensions in the real browser harness.
+- The implementation must remain form-neutral. It may interpret the response-path wildcard structure and generic FieldList controls, but it must not branch on an R&R form id, budget field name, or source-specific semantic assumption.
+- The target receipt is render, deterministic edit and save/reload, nested implication trigger and reversal with error-link focus, automated accessibility, and print rendering for `rr-subaward-budget`. Existing producer declarations and the generic adapter remain the source of truth; generated receipts and media remain build artifacts.
+- This claim does not cover the 30-subaward or 10-year/30-subaward derivatives until the first nested profile establishes a clean generic path. It does not imply human semantic, accessibility, policy, privacy/security, operational, registration, or release approval.
+
 ## 2026-08-23: calculated-output materialization slice
 
 - Source review found 20 of the 56 R&R Budget DAT calculations with non-empty conditions stating
