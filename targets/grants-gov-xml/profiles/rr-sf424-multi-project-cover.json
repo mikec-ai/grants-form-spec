@@ -36,6 +36,10 @@
           "kind": "value",
           "namespace": "default"
         }
+      },
+      "$moveAfter": {
+        "aorSignature": "coverLetterAttachment",
+        "aorSignedDate": "aorSignature"
       }
     }
   },

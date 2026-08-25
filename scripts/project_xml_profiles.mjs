@@ -4,6 +4,11 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  applyObjectProjection,
+  validateProjectionSiblings,
+} from "./lib/project_xml_projection.mjs";
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const TARGET_ROOT = resolve(ROOT, "targets/grants-gov-xml");
 const PROFILE_ROOT = resolve(TARGET_ROOT, "profiles");
@@ -34,13 +39,7 @@ async function resolveRefs(value, from, stack = new Set()) {
   }
   if (!value || typeof value !== "object") return value;
   if (typeof value.$ref === "string") {
-    const members = Object.keys(value);
-    const unexpected = members.filter(
-      (member) => !["$ref", "$rename", "$overlay"].includes(member),
-    );
-    if (unexpected.length > 0) {
-      throw new Error(`${from}: $ref has unsupported sibling ${unexpected[0]}`);
-    }
+    validateProjectionSiblings(value, from);
     const [location, fragment = ""] = value.$ref.split("#", 2);
     if (!location || /^[a-z][a-z0-9+.-]*:/i.test(location)) {
       throw new Error(`${from}: only relative cross-file references are supported`);
@@ -54,39 +53,10 @@ async function resolveRefs(value, from, stack = new Set()) {
       target,
       new Set([...stack, key]),
     );
-    if (!("$rename" in value) && !("$overlay" in value)) return targetValue;
-    if (!targetValue || Array.isArray(targetValue) || typeof targetValue !== "object") {
-      throw new Error(`${from}: $rename and $overlay require an object reference target`);
+    if (!("$rename" in value) && !("$overlay" in value) && !("$moveAfter" in value)) {
+      return targetValue;
     }
-    const renames = value.$rename ?? {};
-    if (!renames || Array.isArray(renames) || typeof renames !== "object") {
-      throw new Error(`${from}: $rename must be an object`);
-    }
-    const destinations = new Set(Object.values(renames));
-    if (
-      Object.values(renames).some((member) => typeof member !== "string" || !member) ||
-      destinations.size !== Object.keys(renames).length
-    ) {
-      throw new Error(`${from}: $rename destinations must be unique non-empty strings`);
-    }
-    for (const [member, replacement] of Object.entries(renames)) {
-      if (!(member in targetValue)) throw new Error(`${from}: $rename source ${member} is absent`);
-      if (replacement in targetValue && !(replacement in renames)) {
-        throw new Error(`${from}: $rename destination ${replacement} already exists`);
-      }
-    }
-    const resolved = Object.fromEntries(
-      Object.entries(targetValue).map(([member, child]) => [renames[member] ?? member, child]),
-    );
-    const overlay = value.$overlay ?? {};
-    if (!overlay || Array.isArray(overlay) || typeof overlay !== "object") {
-      throw new Error(`${from}: $overlay must be an object`);
-    }
-    for (const [member, replacement] of Object.entries(overlay)) {
-      if (replacement === null) delete resolved[member];
-      else resolved[member] = replacement;
-    }
-    return resolved;
+    return applyObjectProjection(targetValue, value, from);
   }
   return Object.fromEntries(
     await Promise.all(

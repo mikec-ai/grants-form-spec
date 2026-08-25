@@ -327,6 +327,18 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             },
         )
         self.assertEqual(multi_fields, standalone_fields)
+        self.assertLess(
+            list(multi["mapping"]["fields"]).index("preApplicationAttachment"),
+            list(multi["mapping"]["fields"]).index("coverLetterAttachment"),
+        )
+        self.assertLess(
+            list(multi["mapping"]["fields"]).index("coverLetterAttachment"),
+            list(multi["mapping"]["fields"]).index("aorSignature"),
+        )
+        self.assertLess(
+            list(multi["mapping"]["fields"]).index("aorSignature"),
+            list(multi["mapping"]["fields"]).index("aorSignedDate"),
+        )
         self.assertNotIn("$ref", json.dumps(multi))
 
     def test_complex_wire_shapes_remain_declarative(self) -> None:
