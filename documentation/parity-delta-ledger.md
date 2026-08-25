@@ -18,10 +18,21 @@ Review is also explicit. Proposed records are not accepted differences. An accep
 an accountable reviewer, review timestamp, and durable decision evidence. Unresolved mismatches are
 classified separately and cannot be accepted.
 
-The current v1 package has no independent decision-artifact receipt. The validator therefore
-rejects every `accepted` record, even when it cites comparator or source evidence. `accepted` and
-the downstream `reviewed_delta` status are reserved until a distinct, offline-verifiable decision
-artifact contract is added; differential tests cannot stand in for an acceptance decision.
+Decision evidence uses a third, independent evidence channel. The decision receipt names a
+previously committed artifact by repository, full Git revision, exact path, and SHA-256 digest. The
+portable bundle includes the artifact bytes. Producer validation compares those bytes with the
+pinned Git object; consumer validation compares them with the producer artifact manifest and the
+decision receipt. No network access is required.
+
+An accepted record cites exactly one decision artifact. The artifact must repeat the exact ledger
+record id, form id, semantic target, classification, reviewer, and timestamp, and must record an
+`accepted` decision. Missing, stale, tampered, unverified, reused, and unused artifacts fail closed.
+This intentionally makes acceptance a two-step operation: commit the accountable decision artifact
+first, then cite that immutable revision in a later ledger change. Comparator tests and source
+evidence cannot serve as decision artifacts.
+
+The current receipt is empty and all current records remain proposed. Adding the contract therefore
+does not accept any existing delta or turn any current result into `reviewed_delta`.
 
 Classification and source support describe what evidence currently says; neither is acceptance.
 For example, an `authoritative_source_correction` with verified source support still remains proposed

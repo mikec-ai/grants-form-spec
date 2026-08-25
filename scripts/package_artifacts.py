@@ -47,10 +47,21 @@ def _artifact_files(dist: Path) -> list[Path]:
         root / relative
         for relative in (
             "contract/v1/parity-delta-ledger.schema.json",
+            "contract/v1/parity-decision-artifact.schema.json",
+            "contract/v1/parity-decision-verification.schema.json",
             "parity/consumer-evidence-verification.v1.json",
+            "parity/decision-verification.v1.json",
             "parity/legacy-deltas.v1.json",
         )
     )
+    decision_receipt = root / "parity/decision-verification.v1.json"
+    if decision_receipt.is_file():
+        receipt = json.loads(decision_receipt.read_text())
+        for entry in receipt.get("artifacts", []):
+            relative = entry.get("path") if isinstance(entry, dict) else None
+            if not isinstance(relative, str) or not relative.startswith("parity/decisions/"):
+                raise ValueError("decision receipt contains an invalid artifact path")
+            files.append(root / relative)
     files = sorted(set(files))
     missing = [path for path in files if not path.is_file()]
     if missing:
