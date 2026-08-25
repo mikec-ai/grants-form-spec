@@ -63,3 +63,17 @@ Producer PR [grants-form-spec #112](https://github.com/mikec-ai/grants-form-spec
 - the two honest choices are an event-aware generic interaction extension or a separately reviewed intentional timing delta. No form-specific branch is permitted.
 
 The plan is pinned at `research/epa-key-contacts/behavior-closure-plan.md`. Full local producer preflight passed with 125 TypeSpec tests and 380 Python tests (10 skipped); both hosted checks (`form-spec` and `proof-package`) passed before merge. Semantic mappings remain proposed and accepted mappings remain zero.
+
+## Generic optional-object evidence closure
+
+Producer PR [grants-form-spec #113](https://github.com/mikec-ai/grants-form-spec/pull/113) merged on 2026-08-25 at `7c3be8e32968b49b5ce48f53a832c00220eb5bee` from reviewed head `1523fed603e1e121f4d77aa84b161bfe8b947e16`.
+
+- the evidence projector now generically recognizes exact required descendant leaves beneath optional object occurrences;
+- the verifier resolves local and external `$ref` composition, merges unconditional `allOf` constraints, requires an exact emitted occurrence, and only recognizes targets explicitly claimed as compiled;
+- positive and fail-closed tests prove a referenced optional object is recognized, an unclaimed rule creates no evidence obligation, a wrong descendant is rejected, and a required root object is not misclassified;
+- the change contains no EPA, role, contact, form-ID, compiler, or consumer-adapter special case;
+- 24 any-present role-completeness effects are now exact compiled producer targets, bringing EPA Key Contacts to 32 compiled effects total;
+- exactly four State initial-active/post-Country-exit timing effects remain `source-bound-uncompiled` and unresolved;
+- semantic review remains `proposed`, accepted mappings remain zero, and consumer registration remains absent.
+
+Exact verification receipts: full local producer preflight passed with 125 TypeSpec tests, 387 Python tests (10 skipped), 8 XML projection tests, 321 validated blocks, 1,721 validated artifacts, and 43 projected evidence sidecars. Hosted `proof-package` run `32855602146` passed; hosted `form-spec` run `32855602057` passed in 2m7s. The separate unregistered consumer schema/initial-render receipt remains the next bounded integration gate and must not register the form.
