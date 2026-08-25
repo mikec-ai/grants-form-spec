@@ -1,0 +1,166 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "epa-key-contacts",
+  "formIdentity": {
+    "name": "EPA KEY CONTACTS FORM",
+    "grantsGovFormId": 674,
+    "nativeVersion": "2.0",
+    "rootElement": "KeyContactPersons_2_0",
+    "targetNamespace": "http://apply.grants.gov/forms/EPA_KeyContacts_2_0-V2.0",
+    "ombControlNumber": "2030-0020",
+    "ombExpirationDate": "02/28/2029",
+    "paperFormIdentifier": "EPA Form 5700-54 (Rev 4-02)"
+  },
+  "method": {
+    "ocrUsed": false,
+    "xsdMethod": "deterministic crosswalk extraction reconciled against current official source bytes",
+    "datMethod": "source-bound runtime ledger review; no agent-proposed semantic mapping accepted",
+    "pdfMethod": "embedded text extraction and page-level presentation review of the current official read-only PDF",
+    "xfaMethod": "source bytes and XFA status pinned; script-level packet review remains open",
+    "reviewStatus": "source-reviewed; semantic mapping unreviewed"
+  },
+  "inventory": {
+    "xsdRecords": 81,
+    "xsdContainerRecords": 13,
+    "xsdQuestionRecords": 68,
+    "fixedContactRoles": 4,
+    "sourceBoundRuntimeEffects": 36,
+    "anyPresentRequiredEffects": 24,
+    "stateVisibilityEffects": 4,
+    "stateRequiredEffects": 4,
+    "zipRequiredEffects": 4,
+    "acceptedSemanticMappings": 0
+  },
+  "sourceArtifacts": {
+    "rootXsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/EPA_KeyContacts_2_0-V2.0.xsd",
+      "nativeVersion": "2.0",
+      "sha256": "157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01"
+    },
+    "dat": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/EPA_KeyContacts_2_0-V2.0_F674.xls",
+      "nativeVersion": "2.0",
+      "sha256": "bc3db7e10eb19bb679020aa11d44d4fd9213331e5814d94568281bd45a3d4d04"
+    },
+    "readOnlyPdf": {
+      "uri": "https://apply07.grants.gov/apply/forms/readonly/EPA_KeyContacts_2_0-V2.0.pdf",
+      "nativeVersion": "2.0",
+      "retrievedAt": "2026-08-25",
+      "sha256": "2d90213e02a22656f7f624dd83ce49c5d162c90ae0fbc220a61cc60ad16649f8"
+    },
+    "sampleXfaPdf": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/EPA_KeyContacts_2_0-V2.0.pdf",
+      "nativeVersion": "2.0",
+      "retrievedAt": "2026-08-25",
+      "sha256": "6d12ccee7bcd95f66b019d7bca7c64a13303ff4d4ad9124b95c0aa2db54633c3"
+    },
+    "instructions": {
+      "status": "not-pinned",
+      "checkedAt": "2026-08-25",
+      "note": "The conventional versioned Grants.gov instructions URL returned HTTP 404. No instruction content is inferred from another form or from the legacy implementation."
+    }
+  },
+  "dependencyClosure": [
+    {
+      "name": "GlobalLibrary-V2.0",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+      "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8"
+    },
+    {
+      "name": "UniversalCodes-V2.0",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
+      "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a"
+    }
+  ],
+  "extractionLineage": {
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef",
+    "manifest": "artifacts/proof/grantsgov-EPAKeyContacts.jsonl.manifest.json",
+    "manifestSha256": "133c14c2d6995f44b6b6dc638d130c3146acf16dd0db5424eaa1fa87b94473e2",
+    "proofSha256": "e3b1b4f6d0e289f856ad09283ed4fe9d7d466ad2541da6e1e820fd9fca113f6b",
+    "manifestDeclaredSourceVersion": "sha256:157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01",
+    "extractedAt": "2026-08-18T21:05:40.378463+00:00",
+    "behaviorLedger": {
+      "path": "artifacts/authoring/contact-role-runtime/EPAKeyContacts.runtime.json",
+      "sha256": "1dab5d3a06204697e6f63ecc84df3cfa03843ff28c7e4e0a16a1f0171bfdb007"
+    },
+    "resolvedRuntimeAst": {
+      "path": "artifacts/authoring/runtime-rule-ast-resolved-v1/forms/EPAKeyContacts.json",
+      "sha256": "d8abc73d554cdb91c687bfec414b4569125444d6a8c0904dfcf1449d8e6fa53e",
+      "reviewStatus": "agent_proposed",
+      "productionReady": false
+    }
+  },
+  "fixedRoles": [
+    {
+      "canonicalName": "authorizedRepresentative",
+      "wireElement": "AuthorizedRepresentative",
+      "presentationLabel": "Authorized Representative",
+      "presentationDescription": "Original awards and amendments will be sent to this individual for review and acceptance, unless otherwise indicated."
+    },
+    {
+      "canonicalName": "payee",
+      "wireElement": "Payee",
+      "presentationLabel": "Payee",
+      "presentationDescription": "Individual authorized to accept payments."
+    },
+    {
+      "canonicalName": "administrativeContact",
+      "wireElement": "AdminstrativeContact",
+      "presentationLabel": "Administrative Contact",
+      "presentationDescription": "Individual from Sponsored Programs Office to contact concerning administrative matters (i.e., indirect cost rate computation, rebudgeting requests etc).",
+      "provenanceNote": "The official XSD misspells the wire element as AdminstrativeContact. The canonical name corrects spelling without changing wire provenance."
+    },
+    {
+      "canonicalName": "projectManager",
+      "wireElement": "ProjectManager",
+      "presentationLabel": "Project Manager",
+      "presentationDescription": "Individual responsible for the technical completion of the proposed work."
+    }
+  ],
+  "sourceConflicts": [
+    "The imported ContactPersonDataTypeV3 permits County and Province, but the official read-only PDF and the existing Simpler UI omit both controls for every role. Their XSD presence is not treated as proof that they are applicant-visible questions.",
+    "The XSD makes Phone optional inside ContactPersonDataTypeV3, while the DAT requires Phone when any field in that role is entered. The portable applicant schema must preserve the DAT's conditional completeness rule without making the whole role required.",
+    "The DAT says State is active and optional on first open, then active and required for USA after Country loses focus and inactive for non-USA. A simple value-based enabled condition does not preserve that initial interaction state; this behavior remains unresolved until the generic runtime can represent it exactly or an intentional delta is reviewed.",
+    "The existing Simpler form has no rule schema. It is a rendering and XML compatibility oracle, but it does not prove the DAT's State/ZIP conditional behavior."
+  ],
+  "implementationPlan": {
+    "status": "source-foundation-ready",
+    "producerReuse": [
+      "generic five-part human name",
+      "generic address fields excluding unproven applicant-visible County and Province controls",
+      "generic phone, fax, email, and contact-title constraints",
+      "shared GlobalLibrary V2 human-name and address XML fragments"
+    ],
+    "newPortableComposition": [
+      "one source-bound contact-person composition with nested conditional completeness",
+      "four fixed role-qualified properties and four role-specific sections",
+      "one reusable ContactPersonDataTypeV3 XML fragment"
+    ],
+    "openTechnicalDecision": "Represent or explicitly gate the DAT's initial-active then country-conditioned State interaction without a form-specific runtime branch.",
+    "consumerBoundary": "Use the legacy Simpler implementation as a differential oracle. Keep the portable form unregistered until parity deltas and human gates are accepted."
+  },
+  "semanticBoundary": {
+    "status": "unreviewed-human-review-gate",
+    "acceptedMappings": 0,
+    "statement": "The four roles, their occurrences, source rules, and wire paths are source-bound. Reuse of canonical name, address, and contact concepts remains proposed until reviewed in each role context.",
+    "prohibitedInferences": [
+      "the four contact roles are interchangeable",
+      "XSD leaf presence proves applicant-visible presentation",
+      "legacy rendering proves official behavior",
+      "matching contact field shapes prove semantic equivalence"
+    ]
+  },
+  "releaseBoundary": {
+    "status": "source-foundation-only",
+    "notVerified": [
+      "accepted semantic mappings",
+      "complete instructions or agency policy",
+      "exact XFA interaction scripts",
+      "portable XML and XSD conformance",
+      "consumer differential parity and lifecycle",
+      "human accessibility, privacy, security, operations, registration, and release"
+    ]
+  },
+  "parityClaim": "This audit proves exact source identity, byte provenance, source inventory, behavior inventory, and legacy-oracle boundaries. It does not claim portable implementation, semantic acceptance, behavioral parity, XML parity, accessibility, policy, or production readiness."
+}
