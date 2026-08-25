@@ -67,6 +67,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "rr-other-project-information",
             "phs398-modular-budget",
             "phs-additional-indirect-costs",
+            "phs-fellowship-supplemental",
             "rr-key-person-expanded",
             "sflll",
             "cd511",
@@ -211,6 +212,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                 "../mappings/inclusion-enrollment-report-3.0.json#/planned",
             ],
             "phs398-cover-page-supplement": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+            ],
+            "phs-fellowship-supplemental": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
             "rr-personal-data": [

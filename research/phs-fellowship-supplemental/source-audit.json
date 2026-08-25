@@ -1,0 +1,101 @@
+{
+  "contract": "source-audit/v1",
+  "formId": "phs-fellowship-supplemental",
+  "formIdentity": {
+    "name": "PHS Fellowship Supplemental Form",
+    "grantsGovFormId": 836,
+    "nativeVersion": "8.0",
+    "status": "active",
+    "statusSource": "https://www.grants.gov/forms/form-items-description/fid/836",
+    "statusObservedDate": "2026-08-24",
+    "rootElement": "PHS_Fellowship_Supplemental_8_0",
+    "targetNamespace": "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_8_0-V8.0",
+    "ombControlNumber": "0925-0001",
+    "ombExpirationDate": "12/31/2027",
+    "formFamily": "SF-424 R&R Family"
+  },
+  "method": {
+    "ocrUsed": false,
+    "pdfTextMethod": "embedded text extraction only",
+    "xfaMethod": "deterministic packet extraction from the pinned official sample PDF",
+    "datMethod": "deterministic workbook inspection; no label-based semantic mapping accepted",
+    "reviewStatus": "source-reviewed; semantic mapping unreviewed"
+  },
+  "inventory": {
+    "crosswalkXsdRecords": 165,
+    "datRows": 120,
+    "datBusinessRuleRows": 74,
+    "crosswalkSourceBehaviorRecords": 120,
+    "crosswalkApplicantBehaviorRecords": 84,
+    "crosswalkPresentationBehaviorRecords": 34,
+    "crosswalkRuntimeRuleProposals": 45,
+    "crosswalkOpenReviewGates": 129,
+    "acceptedSemanticMappings": 0
+  },
+  "sourceArtifacts": {
+    "rootXsdSha256": "85f8e33df4641c56f3b6b96108690f89d214de8b5c864b1d6bd1e6bf8c7cc7bc",
+    "datSha256": "fe9c42a0ec7008f6d9076e250bb37243629a71403331b69afcbf1069929f8beb",
+    "readonlyPdfSha256": "20c65f3c9cf5d88c4caae01ae340c6b41f0bd099bc130e8a809e91dc2b0c350e",
+    "xfaPdfSha256": "551c8eae61563692554a16f900a880aeb326a3407714a18a5a144c7270a6040a",
+    "xfaPacketBundleSha256": "c9f8bb90e3d26a3ee97c64f9ef2c87dba3d0d1f8ca0cfb8394d8e66defec249a",
+    "xfaTemplatePacketSha256": "ab6f9284cbf4352b723c0b56546effa2a0b443011437cfafac29e906504783e2",
+    "formsIFellowshipGuideSha256": "6177d4e9c0a2b0bd4785173cefe28539210305459a26e5bc6f936b4db0dcb08e"
+  },
+  "dependencyClosure": [
+    {
+      "name": "Attachments-V1.0",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/Attachments-V1.0.xsd",
+      "sha256": "ae2ebb3618f7d8fb337be2309b3096e9121b4af659e913af423aab85d13dcb1d"
+    },
+    {
+      "name": "Global-V1.0",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/Global-V1.0.xsd",
+      "sha256": "4b338db919152eb8b96a1a846902d04ef8bca8d08127b21f80f927eaa62283cb"
+    },
+    {
+      "name": "GlobalLibrary-V2.0",
+      "uri": "https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+      "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8"
+    }
+  ],
+  "extractionLineage": {
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "manifest": "artifacts/proof/grantsgov-PHSFellowshipSupplemental.jsonl.manifest.json",
+    "manifestDeclaredSourceVersion": "sha256:85f8e33df4641c56f3b6b96108690f89d214de8b5c864b1d6bd1e6bf8c7cc7bc",
+    "sourceSetSha256": "ced520509653ed07d7e572edd8d7678d15901ec5b912b3bec6978688c105677f",
+    "extractedAt": "2026-08-18T20:59:38.138023Z"
+  },
+  "sourceBoundaries": [
+    "The active Grants.gov form establishes a cross-agency structural and wire contract. NIH Forms-I instructions are an agency policy layer and do not silently replace or narrow that contract.",
+    "The live NIH G.430 HTML is mutable. The byte-pinned Forms-I Fellowship PDF is the stable instruction artifact for this source foundation.",
+    "The sample PDF is an XFA form with JavaScript. Its packets are retained as deterministic behavior evidence; no XFA behavior is treated as portable or executable until reviewed and represented declaratively.",
+    "Attachment controls are capture mechanisms. Each attachment purpose remains a candidate semantic question and is not collapsed into one generic attachment question."
+  ],
+  "semanticBoundary": {
+    "status": "unreviewed-human-review-gate",
+    "acceptedMappings": 0,
+    "proposalCount": 165,
+    "ruleProposalCount": 45,
+    "statement": "Deterministic source extraction is pinned, but no source occurrence has been accepted as a canonical reusable question and no proposed runtime rule has been accepted for execution.",
+    "prohibitedInferences": [
+      "similar labels imply semantic equivalence",
+      "an XSD leaf is necessarily an applicant question",
+      "a DAT business rule is executable without path and operator review",
+      "two attachment fields are equivalent because they use the same capture mechanism",
+      "NIH instructions are universal cross-agency policy"
+    ]
+  },
+  "releaseBoundary": {
+    "status": "source-foundation-only",
+    "notVerified": [
+      "semantic question identity",
+      "portable form composition",
+      "runtime rules and calculations",
+      "XML mappings and round trip",
+      "consumer rendering and validation",
+      "accessibility, privacy, security, policy, operations, registration, and release"
+    ]
+  },
+  "parityClaim": "This source foundation proves exact source identity, byte provenance, dependency closure, and extraction lineage only. It does not claim semantic, behavioral, renderer, XML, accessibility, policy, or production parity."
+}

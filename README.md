@@ -6,7 +6,7 @@ The project defines reusable semantic questions, composes them recursively into 
 
 ## Current proof
 
-The repository currently includes 40 reference forms, spanning:
+The repository currently includes 41 reference forms, spanning:
 
 - Key Contacts
 - SF-424
@@ -27,6 +27,7 @@ The repository currently includes 40 reference forms, spanning:
 - R&R Other Project Information
 - PHS 398 Modular Budget
 - PHS Additional Indirect Costs
+- PHS Fellowship Supplemental
 - PHS Assignment Request
 - Attachment Form
 - PHS 398 Research Plan

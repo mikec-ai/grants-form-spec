@@ -23,6 +23,7 @@ import "./forms/performance-site.tsp";
 import "./forms/rr-other-project-information.tsp";
 import "./forms/phs398-modular-budget.tsp";
 import "./forms/phs-additional-indirect-costs.tsp";
+import "./forms/phs-fellowship-supplemental.tsp";
 import "./forms/phs-assignment-request.tsp";
 import "./forms/sflll.tsp";
 import "./forms/cd511.tsp";
