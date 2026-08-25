@@ -82,7 +82,22 @@
       "canonicalPath": "budgetYear[*].otherPersonnel.secretarialClerical.projectRole",
       "sourcePath": "B-4-2",
       "sourceRecord": "Read-only text. Default to Secretarial/Clerical",
-      "implementation": "source-exact literal type with matching default and generic read-only annotation"
+      "additionalAuthorities": [
+        {
+          "formId": "rr-budget",
+          "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_Budget_3_0-V3.0.xsd",
+          "sha256": "d474010f85819549990de65fc51292bed08ba98ac0895d0dde9513fbe855cdbc",
+          "fixedValue": "Secretarial / Clerical"
+        },
+        {
+          "formId": "rr-budget-10yr",
+          "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_Budget10_3_0-V3.0.xsd",
+          "sha256": "e9d004c15ffcbae04b65087cb0eff7e87b8eb8ba0ffd6bfb6aba5542e04708cc",
+          "fixedValue": "Secretarial / Clerical"
+        }
+      ],
+      "implementation": "runtime literal and default follow the official XSD fixed serialization value; the applicant-visible label preserves the DAT wording without spaces",
+      "authorityResolution": "The DAT display/default wording and XSD serialization value differ only in spacing. They are preserved as separate presentation and serialization facts rather than treated as source-exact equivalents."
     },
     {
       "canonicalPath": "budgetYear[*].equipment.additionalEquipmentsAttachment",
