@@ -7,8 +7,8 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T19:33:20.956Z'
-superbee_progress_status: in_progress
+  at: '2026-08-25T20:13:44.339Z'
+superbee_progress_status: done
 assignee: codex_phs_human_subjects_closure
 ---
 # Defect
@@ -20,7 +20,7 @@ Portable XML generation used a flat last-write-wins `local element name -> names
 - Parent `Explanation/attFile`, `OtherRequestedInformation/attFile`, and delayed-onset `Justification/attFile` emitted in the embedded study namespace even though their mapping nodes declare `default`.
 - Parent `ExemptionNumbers` emitted in the embedded study namespace when a study exemption mapping was present.
 - The prior sparse Human Subjects XML test exercised only an embedded study attachment, so it did not expose the collision.
-- Artifact scan found same-local-name multi-namespace mappings in PHS Human Subjects and R&R SF-424 variants. Existing scalar/object in-band metadata protects the R&R paths; attachment dictionaries and array containers lacked equivalent path-local attribution.
+- Artifact scan found same-local-name multi-namespace mappings in PHS Human Subjects and R&R SF-424 variants. Existing scalar/object in-band metadata protected the R&R paths; attachment dictionaries and array containers lacked equivalent path-local attribution.
 
 # Generic resolution
 
@@ -30,9 +30,13 @@ Portable XML generation used a flat last-write-wins `local element name -> names
 - Add a generic default-versus-imported collision regression covering both arrays and attachments.
 - Add a combined PHS parent, embedded-study, and delayed-onset regression that validates offline against the exact pinned parent/embedded XSD closure.
 
-# Implementation checkpoint
+# Completion receipt
 
-Private-fork PR #131 is open at exact head `751c6fae36d1d78af005eaf26484b657f556698e`. It contains exactly two runtime files and three generic/shared/PHS regression files, with no form-ID branch or artifact mutation. Fifty-two attributable tests, Ruff, and targeted mypy are green. An unrelated amd64/QEMU browser-plan CLI subprocess segfault is explicitly excluded from the green claim. The PR is held for independent review.
+- Private-fork PR [#131](https://github.com/mikec-ai/simpler-grants-gov/pull/131) merged at exact head `9f31f9e84cd0e4bc2ddfb492760daf212c176ac0` as merge commit `61b0b18b1c1721cbf2566d9331bff62b33439846` on 2026-08-25.
+- The merged diff contains exactly two generic XML runtime files and three generic/shared/PHS regression files, with no form-ID branch or artifact mutation.
+- Fifty-two focused tests, Ruff, Black, and targeted mypy passed.
+- Two independent fixed-head reviews were clean, including the final repeat-element-per-item array propagation delta.
+- Hosted broad API run `32890804652` completed with 4,856 passed and 2 skipped. Its sole failure was the pre-existing PHS Cover Page test resolving a frontend fixture as `/frontend/...` inside the API-only container; that file is outside PR #131 and remains a separate open test-harness gate.
 
 # Boundaries
 
