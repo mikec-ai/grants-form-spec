@@ -4,30 +4,39 @@ title: Close R&R SF-424 Multi-Project Cover technical gates
 description: >-
   Exact XML/XSD and bounded Simpler lifecycle/browser closure for the portable
   Multi-Project Cover.
-superbee_updated_by: multiproject_cover_closure
+superbee_updated_by: codex-rr-mp-cover-admin-closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T08:31:06.228Z'
-superbee_progress_status: in_progress
+  at: '2026-08-25T15:35:29.576Z'
+superbee_progress_status: done
 ---
 # Objective
 
 Move the already-banked R&R SF-424 Multi-Project Cover from adapter canary to technical human-review handoff while preserving source-specific optionality and keeping human gates separate.
 
-# Technical result
+# Automated technical handoff receipts
 
-- Producer PR [#106](https://github.com/mikec-ai/grants-form-spec/pull/106), commit `4ccabcbb8539a747f0dee85c60da7bdb9016e362`, pins the official 4.0 root XSD at SHA-256 `5d5599068d721e6554fa442df88711f8d9386a5fafc18b01cb1d1becc41f84e7`.
+- Producer PR [#106](https://github.com/mikec-ai/grants-form-spec/pull/106) merged as `762d67354d1cf2447c782a85c91ba4abb4c3253b` from reviewed head `4ccabcbb8539a747f0dee85c60da7bdb9016e362`. It pins the official 4.0 root XSD at SHA-256 `5d5599068d721e6554fa442df88711f8d9386a5fafc18b01cb1d1becc41f84e7`.
 - The XML profile composes the existing R&R SF-424 mapping with a generic build-time `$rename`/`$overlay`; the only source-backed wire delta is `GGTrackingID` to `GrantsTrackingNumber`.
 - The common projection now uses the existing declarative `container` mechanism for Congressional District, preventing a phantom empty wrapper when this all-optional form has no response.
 - Exact-XSD tests prove an empty response, a representative lifecycle response, ordering, and the 13-character lower bound for the tracking number.
 - Full producer preflight passed: 34/34 XSD fixtures, 320 blocks, 1,708 artifacts, 125 TypeScript tests, 367 Python tests, a verified 1,186-artifact bundle, and zero unclassified fields.
-- Consumer PR [#112](https://github.com/mikec-ai/simpler-grants-gov/pull/112), commit `496d07979e09a80dbcb980a574028a60d73ec221`, vendors the exact XSD and profile and adds generic preview, validation, submission, and XML/XSD lifecycle proof.
-- Consumer focused result: 20 lifecycle/provenance/integrity tests passed; Ruff, mypy, artifact integrity, and exact-XSD integrity passed.
+- Consumer PR [#112](https://github.com/mikec-ai/simpler-grants-gov/pull/112) merged as `beed3479f37158a3a5e3391d3bad59e0c5e83958` from final head `73bf5ce6608168f8ded3fe2aa8b4378f5a0d233b`. It vendors the exact XSD and profile and adds generic preview, validation, submission, and XML/XSD lifecycle proof. There are no form-specific compiler or adapter branches.
+- On technical head `496d07979e09a80dbcb980a574028a60d73ec221`, 20 focused lifecycle, provenance, and integrity tests passed with Ruff, mypy, artifact integrity, and exact-XSD integrity green.
+- Exact bounded browser run [#32826954842](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32826954842) completed successfully on that exact head with `PORTABLE_BROWSER_FORM_IDS=rr-sf424-multi-project-cover`: four checks passed and four nonselected checks were intentionally skipped. Evidence artifact `9555574508` was published at 89,434,917 bytes.
+- A later full API run [#32850583118](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32850583118) on runtime head `d7254b232e1440c3f7fc7e1a63b8d788078693a9` passed 4,771 tests with two skipped. Its only failure was a stale Project Abstract provenance assertion that incorrectly equated a global bundle revision with that form's historical producer revision; it was not a Multi-Project Cover runtime failure.
+- Final head `73bf5ce6608168f8ded3fe2aa8b4378f5a0d233b` repaired that cross-form receipt assertion. Fourteen focused Project Abstract plus Multi-Project lifecycle/provenance/integrity tests and the format, lint, migrations, security, artifact, and exact-XSD checks were green.
+- Current-head bounded browser run [#32853841892](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32853841892) independently repeated the exact form-filtered result: four passed and four intentionally skipped. Evidence artifact `9565703668` was published at 111,665,073 bytes.
 
-# Pending receipt
+# Technical disposition
 
-Bounded hosted browser run [#32826954842](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32826954842) is queued for `rr-sf424-multi-project-cover`. Do not merge the consumer PR until that receipt is green and the coordinating agent approves.
+Automated technical handoff is complete: the producer and private-fork consumer are merged, exact XML/XSD and generic runtime lifecycle evidence are recorded, and the final consumer head has a green bounded browser receipt. This is a handoff for human review, not production readiness.
 
-# Explicit boundaries
+# Open human and release gates
 
-The form remains unregistered. Semantic mappings remain proposed. Policy, accessibility, human acceptance, and production release are not claimed by this task.
+- Human semantic review remains open; mappings remain proposed and are not accepted semantic equivalences.
+- Human visual-design, content, usability, and source-fidelity review remains open.
+- Accessibility review remains open, including manual inspection and assistive-technology testing; automated browser success is not accessibility approval.
+- Privacy, policy, and program/content-authority review remains open.
+- Human acceptance and user-acceptance iteration remain open.
+- Production registration, operational approval, deployment, and release remain open. The form remains unregistered.
