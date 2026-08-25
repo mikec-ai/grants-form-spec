@@ -102,6 +102,29 @@ architecture or silently claim human approval.
   It does not imply human semantic, accessibility, policy, privacy/security, operational,
   registration, or release approval.
 
+## 2026-08-24: 30-subaward browser harvest delivered
+
+- No implementation change or PR was required. The already-merged `rr-subaward-budget-30`
+  artifact ran directly from the Simpler fork's `main` revision
+  `3db2198cb4671d4e04aa9f50d785951bd24be875` through the generic browser contract.
+- After removing form identity, the 10- and 30-subaward schemas differ only in explanatory copy
+  and `budgetAttachments.maxItems` from 10 to 30. Their 56-rule graphs are byte-identical, and the
+  UI schemas differ only in the outer explanatory sentence. The browser plan mechanically discovers
+  the same four nested attachment/positive-total implications.
+- [Bounded browser run 32797322394](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32797322394)
+  passes 28 of 28 probes across Chrome, Firefox, WebKit, and Mobile Chrome. Every browser registers
+  and round-trips the artifact, renders Apply, persists 144 controls, exercises the nested
+  attachment implication through both repeating dimensions with exact visible-upload focus,
+  persists the non-triggering reversal after reload, reports zero detected automated accessibility
+  violations, and renders print output with zero interactive controls.
+- Twenty-one focused browser-plan and 30-subaward portable-form tests pass locally. The plan pins
+  producer revision `70d409bce191848c63fb7c85fae26714933e867c`. Generated plans, receipts, traces,
+  screenshots, and reports remain build artifacts.
+- This is a confirmed cheap derivative harvest: the prior generic runtime improvement immediately
+  banked another browser-verified profile with zero new production code. Human semantic,
+  accessibility, policy, privacy/security, operational, registration, and release approval remain
+  separate.
+
 ## 2026-08-23: calculated-output materialization slice
 
 - Source review found 20 of the 56 R&R Budget DAT calculations with non-empty conditions stating
