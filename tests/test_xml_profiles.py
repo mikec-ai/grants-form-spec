@@ -64,6 +64,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "rr-subaward-budget-10yr-30",
             "rr-sf424",
             "performance-site",
+            "project-abstract-summary",
             "rr-other-project-information",
             "phs398-modular-budget",
             "phs-additional-indirect-costs",
@@ -196,6 +197,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             ],
             "sf424c": [],
             "phs-assignment-request": [],
+            "project-abstract-summary": [],
             "phs398-research-plan": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
