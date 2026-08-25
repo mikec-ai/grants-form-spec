@@ -69,3 +69,4 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 - All three attachment IDs execute through the projected rule schema and shared attachment validator, are emitted with `AttachmentInfo` through the generic XML service, and validate together against the exact pinned v3.0 XSD.
 - Updated local receipts: SBIR/STTR API 14/14; API plus registration boundary 20/20; frontend 10/10; Ruff, ESLint, Prettier, and TypeScript green.
 - The earlier hosted API run failed before form tests in the unrelated `test_wait_for_api.sh` late-success stdout assertion. No product change was made for that baseline helper flake; new-head checks remain pending and authoritative.
+- Exact bounded four-browser SBIR/STTR run dispatched once for head `b15ce13cb`: GitHub Actions run `32879500738` (`portable_browser_form_ids=sbir-sttr-information`). No duplicate broad/API run was dispatched.
