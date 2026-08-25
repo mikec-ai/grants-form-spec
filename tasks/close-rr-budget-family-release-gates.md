@@ -59,6 +59,34 @@ architecture or silently claim human approval.
 - The target receipt is render, deterministic edit and save/reload, nested implication trigger and reversal with error-link focus, automated accessibility, and print rendering for `rr-subaward-budget`. Existing producer declarations and the generic adapter remain the source of truth; generated receipts and media remain build artifacts.
 - This claim does not cover the 30-subaward or 10-year/30-subaward derivatives until the first nested profile establishes a clean generic path. It does not imply human semantic, accessibility, policy, privacy/security, operational, registration, or release approval.
 
+## 2026-08-24: nested Subaward browser proof delivered
+
+- [simpler-grants-gov fork PR 98](https://github.com/mikec-ai/simpler-grants-gov/pull/98), merged at
+  `3db2198cb4671d4e04aa9f50d785951bd24be875`, closes the claimed `rr-subaward-budget`
+  nested-browser slice without a form-id, budget-field, compiler, or adapter branch.
+- The generic catalog harness now materializes representative rows through any number of JSON
+  Schema array boundaries. The shared FieldList runtime preserves complete parent and row
+  identities for nested controls, and the shared warning tree associates nested server-validation
+  paths with exactly one row-specific control link.
+- The first bounded run exposed incomplete control identities below the outer subaward row. A
+  second bounded run exposed the warning matcher's prior one-repeating-level limit. Both findings
+  were corrected in shared runtime code and protected by regression tests rather than special-cased
+  in the form package.
+- [Bounded browser run 32795954631](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32795954631)
+  passes 28 of 28 probes across Chrome, Firefox, WebKit, and Mobile Chrome at consumer revision
+  `45267e6f5529bc3a19c2c2c034a9c0d3c4478813`. Every browser registers and loads the artifact,
+  renders Apply, persists 144 controls, triggers the source-declared attachment requirement through
+  `budget_attachments[0]` and `budget_year[0]`, focuses the exact visible upload control, clears the
+  warning after the trigger is reversed, persists that reversal after reload, reports zero detected
+  automated accessibility violations, and renders print output with zero interactive controls.
+- Local verification passes 109 focused tests. Hosted frontend build, lint, type check, formatting,
+  tests, Storybook, and Pa11y checks pass. Generated receipts, traces, screenshots, and reports are
+  retained only as build artifacts.
+- This banks the first nested R&R Subaward Budget browser profile as technical evidence. It does not
+  extend the claim to the cardinality/duration derivatives or imply human semantic, accessibility,
+  policy, privacy/security, operational, registration, or release approval. The broader task remains
+  in progress.
+
 ## 2026-08-23: calculated-output materialization slice
 
 - Source review found 20 of the 56 R&R Budget DAT calculations with non-empty conditions stating
