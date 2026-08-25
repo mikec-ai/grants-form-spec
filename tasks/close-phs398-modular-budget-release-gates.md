@@ -13,7 +13,7 @@ superbee_progress_status: blocked
 superbee_updated_by: codex-root
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T01:31:29.079Z'
+  at: '2026-08-25T01:32:25.452Z'
 ---
 [depends on](harvest-phs398-modular-budget.md)
 
@@ -38,12 +38,11 @@ generated:
   rather than accumulate per-form code.
 - Local consumer validation passed 42 focused API tests, Ruff, Black, isort, nine matrix-contract Jest
   tests, and targeted ESLint. Exact rebased-head browser run
-  [32797218557](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32797218557) completed its
-  PHS 398 Modular Budget E2E job successfully at
-  `489a0fb0036a9c7e6011c17af16bb141578fa8c2`; final report packaging was still completing at merge.
-  The prior exact-head run passed Chrome, Firefox, WebKit, and mobile Chrome with registration,
-  adapter preflight, render, save/reload, automated accessibility, and print probes green; the
-  rebased run was required because shared nested-repeater code changed underneath that first receipt.
+  [32797218557](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32797218557) passed at
+  `489a0fb0036a9c7e6011c17af16bb141578fa8c2`: Chrome, Firefox, WebKit, and mobile Chrome completed
+  the generic PHS 398 Modular Budget plan (`4 passed` in 1.2 minutes), and the workflow uploaded its
+  portable receipts and browser evidence. The prior exact-head run had also passed; the rebased run
+  was required because shared nested-repeater code changed underneath that first receipt.
 - These are fork-level automated technical receipts. Human semantic, visual/accessibility,
   instruction, policy, privacy/security, operational, registration, and release approvals remain
   open, so the task remains blocked on human review rather than marked complete.
