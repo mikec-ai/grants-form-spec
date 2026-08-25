@@ -107,9 +107,39 @@ class EPAKeyContactsTests(unittest.TestCase):
             record for record in source_bound_uncompiled
             if record["authority"] == "unresolved"
         ]
-        self.assertEqual(len(compiled), 0)
-        self.assertEqual(len(source_bound_uncompiled), 36)
+        self.assertEqual(len(compiled), 8)
+        self.assertEqual(len(source_bound_uncompiled), 28)
         self.assertEqual(len(unresolved), 4)
+        self.assertEqual(
+            {record["canonicalPath"] for record in compiled},
+            {
+                f"{role}.address.{field}"
+                for role in (
+                    "authorizedRepresentative",
+                    "payee",
+                    "administrativeContact",
+                    "projectManager",
+                )
+                for field in ("state", "zipCode")
+            },
+        )
+        self.assertTrue(all(
+            record["authority"] == "official_source"
+            and record["sourceId"] == "epa-key-contacts-dat-f674"
+            for record in compiled
+        ))
+        self.assertEqual(
+            {record["canonicalPath"] for record in unresolved},
+            {
+                f"/{role}/address/state"
+                for role in (
+                    "authorizedRepresentative",
+                    "payee",
+                    "administrativeContact",
+                    "projectManager",
+                )
+            },
+        )
         self.assertEqual(
             manifest["artifacts"]["targets/grants-gov-xml.json"],
             "generated",

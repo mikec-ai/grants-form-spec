@@ -159,6 +159,14 @@
       "accessibility, privacy, policy, operations, or production readiness"
     ]
   },
+  "behaviorClosure": {
+    "plan": "research/epa-key-contacts/behavior-closure-plan.md",
+    "compiledExistingGenericContract": 8,
+    "existingSchemaPendingEvidenceAndConsumerReceipt": 24,
+    "requiresGenericInteractionExtensionOrReviewedDelta": 4,
+    "semanticReviewStatus": "proposed",
+    "acceptedMappings": 0
+  },
   "semanticBoundary": {
     "status": "unreviewed-human-review-gate",
     "acceptedMappings": 0,
