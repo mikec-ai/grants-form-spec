@@ -65,15 +65,35 @@ class PHSAdditionalIndirectCostsTests(unittest.TestCase):
         )
         indirect_costs = period["$defs"]["PHSAdditionalIndirectCostsForPeriod"]
         rows = indirect_costs["properties"]["indirectCost"]
+        cost_type = period["$defs"]["PHSAdditionalIndirectCostItem"]["properties"][
+            "costType"
+        ]
         self.assertEqual(rows["minItems"], 1)
         self.assertEqual(rows["maxItems"], 4)
+        self.assertEqual((cost_type["minLength"], cost_type["maxLength"]), (1, 64))
         self.assertEqual(len(lists), 2)
         self.assertEqual(len(calculations), 2)
         self.assertEqual(sorted(rule["order"] for rule in calculations), [1, 2])
+        period_total = rules["budgetYears"]["indirectCosts"]["totalIndirectCosts"][
+            "gg_pre_population"
+        ]
+        self.assertEqual(period_total["fields"], ["@THIS.indirectCost[*].fundRequested"])
+        self.assertEqual(period_total["materialize"], "when_any_source_present")
         self.assertEqual(
-            rules["budgetYears"]["indirectCosts"]["totalIndirectCosts"]
-            ["gg_pre_population"]["fields"],
+            period_total["presence_fields"],
             ["@THIS.indirectCost[*].fundRequested"],
+        )
+        cumulative = rules["budgetSummary"][
+            "cumulativeTotalFundsRequestedIndirectCost"
+        ]["gg_pre_population"]
+        self.assertEqual(
+            cumulative["fields"],
+            ["budgetYears[*].indirectCosts.totalIndirectCosts"],
+        )
+        self.assertEqual(cumulative["materialize"], "when_any_source_present")
+        self.assertEqual(
+            cumulative["presence_fields"],
+            ["budgetYears[*].indirectCosts.totalIndirectCosts"],
         )
         self.assertEqual(
             rules["budgetYears"]["budgetPeriodEndDate"]["gg_validation"],
