@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-scanner-defect-review
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T12:50:50.130Z'
+  at: '2026-08-25T12:59:05.220Z'
 ---
 # Goal
 
@@ -45,3 +45,11 @@ SF-425 is absent from the current 39-form producer catalog and consumer bank. Be
 - Focused receipt: `python3 -m unittest tests.test_sf425_source_audit` passed 3/3.
 - Full producer preflight passed: 125 package tests; 374 Python tests with 10 skipped; 8 XML projection tests; TypeSpec compilation/projections, artifact validation, promotion/parity gates, package verification, analysis, and classified-field checks all green.
 - Remaining gates are unchanged: acquire/review PDF and instructions, adjudicate semantic and behavior records, and establish the financial-reporting lifecycle/consumer oracle before any runtime, banking, registration, or rendered-parity claim.
+
+# Deterministic provenance merge — 2026-08-25
+
+- Private-fork PR `mikec-ai/grants-form-spec#109` merged at `2026-08-25T12:58:38Z` as squash commit `bc6f77fab54559bc610fa5726868e0bef83134bf`; verified `origin/main` resolves to that exact commit.
+- The merged head was `517ff841f895760cccd8b459696db7f8861d2514`. GitHub reported `CLEAN` and `MERGEABLE` immediately before merge.
+- Exact merged scope remains two added files and 169 insertions: `research/sf425/source-audit.json` (99) and `tests/test_sf425_source_audit.py` (70). No form declaration, semantic mapping, runtime behavior, or consumer projection was merged.
+- Hosted `form-spec` CI passed in run `32849818883`, job `97807854980`; hosted `proof-package` passed in run `32849818910`, job `97807854608`.
+- This closes only the deterministic provenance/source-structure slice. The task remains in progress; semantic adjudication, reporting lifecycle/consumer ownership, runtime integration, PDF/instruction review, banking, and registration are deliberately not started by this merge.
