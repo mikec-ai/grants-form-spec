@@ -4,7 +4,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent.parent
 FORMS = ROOT / "dist/forms"
 
@@ -20,7 +19,9 @@ class RuleEvidenceCoverageTests(unittest.TestCase):
 
         self.assertEqual(len(records), 24)
         self.assertEqual({record["ruleKind"] for record in records}, {"calculation"})
-        self.assertEqual({record["authority"] for record in records}, {"official_source"})
+        self.assertEqual(
+            {record["authority"] for record in records}, {"official_source"}
+        )
         self.assertNotIn(
             "federalFunding.federalPercentageShare",
             {record["canonicalPath"] for record in records},
@@ -40,7 +41,8 @@ class RuleEvidenceCoverageTests(unittest.TestCase):
                 records = evidence["behaviorEvidence"]
                 self.assertEqual(len(records), 70)
                 self.assertEqual(
-                    {record["canonicalPath"] for record in records}, expected_paths,
+                    {record["canonicalPath"] for record in records},
+                    expected_paths,
                 )
                 self.assertEqual(
                     sum(record["authority"] == "official_source" for record in records),
@@ -58,29 +60,55 @@ class RuleEvidenceCoverageTests(unittest.TestCase):
                     ),
                     14,
                 )
-                self.assertEqual(evidence["semanticReview"], {
-                    "status": "unreviewed", "mappings": [],
-                })
+                self.assertEqual(
+                    evidence["semanticReview"],
+                    {
+                        "status": "unreviewed",
+                        "mappings": [],
+                    },
+                )
 
         subaward = load("rr-subaward-budget", "evidence.json")["behaviorEvidence"]
         self.assertEqual(len(subaward), 70)
         self.assertTrue(
-            all(record["canonicalPath"].startswith("budgetAttachments[*].") for record in subaward)
+            all(
+                record["canonicalPath"].startswith("budgetAttachments[*].")
+                for record in subaward
+            )
         )
 
-    def test_condition_heavy_form_keeps_every_target_explicitly_unresolved(self) -> None:
+    def test_condition_heavy_form_separates_source_records_from_compiled_dispositions(
+        self,
+    ) -> None:
         evidence = load("rr-other-project-information", "evidence.json")
         records = evidence["behaviorEvidence"]
+        official = [
+            record for record in records if record["authority"] == "official_source"
+        ]
+        compiled = [
+            record for record in records if record["executionStatus"] == "compiled"
+        ]
 
-        self.assertEqual(len(records), 13)
+        self.assertEqual(len(official), 24)
+        self.assertTrue(
+            all(
+                record["executionStatus"] == "source-bound-uncompiled"
+                for record in official
+            )
+        )
+        self.assertEqual(len(compiled), 13)
         self.assertEqual({record["ruleKind"] for record in records}, {"condition"})
-        self.assertEqual({record["authority"] for record in records}, {"unresolved"})
-        self.assertTrue(all(record["owner"] for record in records))
-        self.assertTrue(all(record["reason"] for record in records))
-        self.assertTrue(all(record["removalCondition"] for record in records))
-        self.assertEqual(evidence["semanticReview"], {
-            "status": "unreviewed", "mappings": [],
-        })
+        self.assertEqual({record["authority"] for record in compiled}, {"unresolved"})
+        self.assertTrue(all(record["owner"] for record in compiled))
+        self.assertTrue(all(record["reason"] for record in compiled))
+        self.assertTrue(all(record["removalCondition"] for record in compiled))
+        self.assertEqual(
+            evidence["semanticReview"],
+            {
+                "status": "unreviewed",
+                "mappings": [],
+            },
+        )
 
 
 if __name__ == "__main__":
