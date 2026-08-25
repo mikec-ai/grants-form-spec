@@ -76,6 +76,25 @@ class PHSInclusionEnrollmentReportTests(unittest.TestCase):
         self.assertEqual(len({row["canonicalPath"] for row in calculations}), 28)
         self.assertIsNone(load(FORM / "sgg/rule-schema.json"))
 
+        def read_only_paths(value: object, path: str = "") -> set[str]:
+            if not isinstance(value, dict):
+                return set()
+            paths = {path} if value.get("readOnly") is True else set()
+            properties = value.get("properties", {})
+            if isinstance(properties, dict):
+                for name, child in properties.items():
+                    paths.update(read_only_paths(child, f"{path}/{name}"))
+            branch_path = f"{path}/[]" if value.get("type") == "array" else path
+            for branch in value.get("allOf", []):
+                paths.update(read_only_paths(branch, branch_path))
+            return paths
+
+        schema = load(FORM / "schema.json")
+        self.assertEqual(
+            read_only_paths(schema),
+            {row["canonicalPath"] for row in calculations},
+        )
+
         human_rules = load(ROOT / "dist/forms/phs-human-subjects/sgg/rule-schema.json")
         self.assertNotIn("gg_calculation", json.dumps(human_rules))
 
