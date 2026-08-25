@@ -10,7 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: root_phs_career
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T05:55:54.581Z'
+  at: '2026-08-25T05:57:02.897Z'
 ---
 # Goal
 
@@ -41,3 +41,4 @@ The form is absent from the current 39-form producer catalog and consumer bank. 
 - Producer full preflight passed: 125 TypeSpec tests, 361 Python tests with 10 skips, exact-XSD and artifact validation, classification gates, and packaging.
 - The Simpler fork now banks 41 portable forms and 520 selected artifacts. Registration remains unchanged.
 - Focused consumer verification passed 30 tests and proves generic loading, browser capability discovery, conditional projection, and exact-XSD-valid XML without form-specific adapter code.
+- The implementation-derived marginal analysis records 20 semantic questions: 12 reused and 8 new (60% reuse). Its attachment capture mechanism and attachment-validation behavior are both reused, with no new capture or runtime behavior primitive required. This measurement remains explicitly unreviewed and unpublished.
