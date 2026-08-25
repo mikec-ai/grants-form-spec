@@ -8,7 +8,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T20:56:19.366Z'
+  at: '2026-08-25T21:33:03.282Z'
 priority: P1
 assignee: codex_phs_human_subjects_closure
 superbee_progress_status: in_progress
@@ -59,11 +59,12 @@ Close the smallest automated technical handoff for the already-banked, unregiste
 # Consumer evidence PR checkpoint
 
 - Shared namespace PR #131 merged as `61b0b18b1c1721cbf2566d9331bff62b33439846`; its exact shared defect task is closed. The Human Subjects form task remains in progress.
-- Consumer evidence PR #136 is open in the private fork at exact head `3b65a16e632447ef2e375ce8b8856592e075b9c3`, rebased on main `8f8ea3781957bc832f64b74d41f4a996986b7794`.
-- The PR changes exactly the versioned portable CI map and one form-local evidence test. It changes no runtime, compiler, adapter, artifact, registration, or production form behavior.
-- Exact local receipts: 41 Human Subjects/flattened-XML/browser-plan tests pass; 36 classifier tests pass; Ruff and Black pass. The complete portable catalog produced 485 passes and two explicit environment setup errors in existing SF-424A lifecycle tests because the standalone container could not resolve `grants-db`; those two tests are not claimed green. Hosted compose-backed API remains required.
+- Consumer evidence PR #136 merged at exact head `e86864ed2551d1b885586c87eaaf22a84c7b8d57` as private-fork merge commit `e34c1478593c8e09925643dc354b50cf80837932`.
+- The merged PR changes exactly the versioned portable CI map and one form-local evidence test. It changes no runtime, compiler, adapter, artifact, registration, or production form behavior.
+- Exact evidence pins 184 ordinary fields plus exactly five named repeaters, every one of the 15 attachment roles with its exact missing-ID field/value failure, all 115 canonical-to-wire enrollment coordinates plus four emitted XML sentinels, the complete ordered ten-source provenance tuples, all eleven ordered source-bound conditions without collapsing duplicate targets, and the exact unresolved calculation disposition.
+- Exact final receipts: 92 focused/classifier tests pass; isort, Black, and Ruff pass; the database-connected complete portable catalog passes 502 of 502 tests in 1,433.29 seconds; fixed-head independent review is clean. Hosted classifier and format/lint passed. The remaining hosted full-test job was intentionally cancelled as redundant against this exact-head database-connected catalog plus the hosted-green PR #134 baseline; cancellation is not itself a green receipt.
 - The first CI-map registration intentionally classifies `full` with no selected form IDs because map changes are a shared governance boundary. Subsequent exact Human Subjects evidence-only changes can classify `portable_focused`.
-- Independent review and hosted API are pending. Automated browser evidence remains pending. All eleven source-bound conditions, the unresolved 28-coordinate calculation, semantic acceptance, visual/accessibility/privacy/policy review, operational review, human acceptance, registration, and release gates remain open.
+- Dedicated adapter/rule/XML/XSD technical handoff evidence is complete. Automated browser evidence remains pending. All eleven source-bound conditions, the unresolved 28-coordinate calculation, semantic acceptance, visual/accessibility/privacy/policy review, operational review, human acceptance, registration, and release gates remain open. This task remains in progress and does not claim production readiness.
 
 [depends on](fix-portable-browser-allof-readonly.md)
 
