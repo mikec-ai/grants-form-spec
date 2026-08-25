@@ -12,7 +12,7 @@ The 36 source-bound DAT effects do not require one undifferentiated runtime proj
 |---|---:|---|---|
 | State required when Country is USA | 4 | `@Validation.requiredPathWhen` on the form-local contact address occurrence | Existing generic contract; exact emitted targets are compiled |
 | ZIP/Postal Code required when Country is USA | 4 | `@Validation.requiredPathWhen` on the form-local contact address occurrence | Existing generic contract; exact emitted targets are compiled |
-| Six required fields when any role field is entered | 24 | Optional role object whose nested contact composition requires First Name, Last Name, Street1, City, Country, and Phone | Existing JSON Schema semantics; keep source-bound-uncompiled until generic evidence recognition and consumer validation receipts close |
+| Six required fields when any role field is entered | 24 | Optional role object whose nested contact composition requires First Name, Last Name, Street1, City, Country, and Phone | Existing JSON Schema semantics; exact emitted targets are compiled through generic evidence recognition |
 | State initially active/optional, then active+required for USA or inactive for non-USA after Country exit | 4 | Requiredness is represented; interaction timing/state is not | Requires a generic event-aware interaction extension or a separately reviewed intentional delta |
 
 No row changes semantic-review status. A compiled behavior disposition means only that an exact source-backed behavior has an executable portable artifact target; it does not accept a semantic mapping or establish browser, accessibility, policy, or release readiness.
@@ -23,7 +23,7 @@ The emitted schema contains one country-guarded `allOf` branch for `state` and o
 
 This is producer-level execution evidence. Consumer registration is not required to establish that the portable schema carries the rule, and no form-specific adapter branch is needed.
 
-## Existing schema, incomplete execution receipt: 24 role-completeness effects
+## Existing-schema result: 24 compiled role-completeness effects
 
 Each role is optional at the form root. Once its object exists, the portable contact composition requires:
 
@@ -36,10 +36,9 @@ Each role is optional at the form root. Once its object exists, the portable con
 
 That is the standard JSON Schema expression of the DAT's any-present completeness boundary: an absent role is valid; a present partial role is invalid. It is not a new UI-rule vocabulary and does not require a form-specific runtime branch.
 
-Two receipts are still required before the 24 records can change to `compiled`:
+The producer evidence verifier generically recognizes these 24 required descendants beneath optional object occurrences. It resolves local and external `$ref` composition, merges unconditional `allOf` constraints, requires an exact emitted leaf occurrence, and only treats a target as an executable condition when evidence explicitly claims it as compiled. Generic positive and negative regressions prove that required root objects are not misclassified and that unclaimed optional-object constraints do not create evidence obligations. No EPA, role, or contact identifier is special-cased.
 
-- **Generic evidence recognition:** extend the producer evidence verifier so a claimed condition target may be proven by a required descendant beneath an optional object occurrence. The verifier must resolve local/external `$ref` composition, require an exact emitted leaf occurrence, and only produce targets that have an explicit compiled evidence claim. Add generic positive and negative tests; do not special-case EPA or contact fields.
-- **Unregistered consumer validation:** load the portable artifact through the generic adapter without registering the form, resolve its schema, and prove an absent role is valid, a role containing one optional field is invalid with all six source-required targets, and a complete role is valid. Also verify the renderer does not materialize four empty role objects on initial load. This is a technical receipt, not a release decision.
+An **unregistered consumer validation** remains a separate integration receipt: load the portable artifact through the generic adapter without registering the form, prove an absent role is valid, a role containing one optional field is invalid with all six source-required targets, and a complete role is valid, and verify the renderer does not materialize four empty role objects on initial load. This is not required to establish the producer artifact target and is not claimed by this slice.
 
 If the consumer materializes empty role objects, do not weaken requiredness. Fix the generic optional-object materialization boundary or record a reviewed intentional delta.
 
@@ -75,9 +74,9 @@ Until one path is selected, the four interaction records remain `source-bound-un
 
 ## Bounded implementation sequence
 
-1. Bank the eight exact State/ZIP requiredness dispositions with producer tests.
-2. Add generic optional-object required-descendant recognition to the evidence verifier, with fail-closed tests.
-3. Run unregistered generic-adapter schema and initial-render checks; only then reclassify the 24 completeness records.
+1. Bank the eight exact State/ZIP requiredness dispositions with producer tests. **Complete.**
+2. Add generic optional-object required-descendant recognition to the evidence verifier, with fail-closed tests, and bank the 24 exact completeness dispositions. **Complete.**
+3. Run unregistered generic-adapter schema and initial-render checks as a separate integration receipt; do not register the form.
 4. Present the event-aware extension versus intentional-delta choice for human/architecture review.
 5. If the exact extension is selected, implement it once generically and close the four interaction receipts across all affected roles.
 6. Keep consumer registration, browser/lifecycle closure, semantic acceptance, and production release as later separate gates.
