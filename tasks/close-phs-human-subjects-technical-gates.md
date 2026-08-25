@@ -8,6 +8,21 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
+  at: '2026-08-25T20:55:43.772Z'
+priority: P1
+assignee: codex_phs_human_subjects_closure
+superbee_progress_status: in_progress
+---
+---
+type: Task
+title: Close PHS Human Subjects technical gates
+description: >-
+  Gather dedicated adapter/runtime, exact XML/XSD, dimensional enrollment,
+  repeat, and bounded browser evidence for the unregistered PHS Human Subjects
+  form.
+superbee_updated_by: codex_phs_human_subjects_closure
+generated:
+  by: 'process:superbee'
   at: '2026-08-25T19:41:19.891Z'
 priority: P1
 assignee: codex_phs_human_subjects_closure
@@ -55,6 +70,15 @@ Close the smallest automated technical handoff for the already-banked, unregiste
 - Shared-runtime PR #131 at exact head `9f31f9e84cd0e4bc2ddfb492760daf212c176ac0` preserves explicit attachment and array namespaces in-band, includes generic colliding parent/imported-schema coverage, and validates a combined parent/study/delayed response against the exact pinned XSD closure. Fifty-two attributable tests, Ruff, and Black pass; fixed-head independent re-review is clean. It is awaiting hosted API completion before merge.
 - The isolated form-local evidence draft has five passing tests. It proves the corrected inventory of 184 ordinary fields plus five repeaters, all 15 attachment rule paths with a missing-ID negative case, all 115 dimensional enrollment coordinates, exact source/XSD hashes and extraction provenance, the exact eleven source-bound-uncompiled conditions, the unresolved 28-total calculation disposition, all 15 attachment roles in generated XML, and the unregistered/proposed-semantic boundary.
 - No semantic mapping was accepted, no source behavior was inferred, and no registration or release gate was closed.
+
+# Consumer evidence PR checkpoint
+
+- Shared namespace PR #131 merged as `61b0b18b1c1721cbf2566d9331bff62b33439846`; its exact shared defect task is closed. The Human Subjects form task remains in progress.
+- Consumer evidence PR #136 is open in the private fork at exact head `3b65a16e632447ef2e375ce8b8856592e075b9c3`, rebased on main `8f8ea3781957bc832f64b74d41f4a996986b7794`.
+- The PR changes exactly the versioned portable CI map and one form-local evidence test. It changes no runtime, compiler, adapter, artifact, registration, or production form behavior.
+- Exact local receipts: 41 Human Subjects/flattened-XML/browser-plan tests pass; 36 classifier tests pass; Ruff and Black pass. The complete portable catalog produced 485 passes and two explicit environment setup errors in existing SF-424A lifecycle tests because the standalone container could not resolve `grants-db`; those two tests are not claimed green. Hosted compose-backed API remains required.
+- The first CI-map registration intentionally classifies `full` with no selected form IDs because map changes are a shared governance boundary. Subsequent exact Human Subjects evidence-only changes can classify `portable_focused`.
+- Independent review and hosted API are pending. Automated browser evidence remains pending. All eleven source-bound conditions, the unresolved 28-coordinate calculation, semantic acceptance, visual/accessibility/privacy/policy review, operational review, human acceptance, registration, and release gates remain open.
 
 [depends on](fix-portable-browser-allof-readonly.md)
 
