@@ -502,3 +502,10 @@ registration are not closed.
 - Main run [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690) passed the generic R&R Budget catalog plan in Chrome, Firefox, WebKit, and mobile Chrome.
 - Preview registration, adapter/API preflight, Apply render, save/reload, schema implication, accessibility, and print render all passed in each browser.
 - This is automated technical evidence only. Human semantic, accessibility, policy, privacy/security, operational, and release approvals remain open.
+
+## R&R Budget 10YR bounded four-browser receipt — 2026-08-24
+
+- Run [32791725894](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791725894) passed the generic one-form catalog plan for `rr-budget-10yr` at exact consumer commit `f79a66ff2bb9631ab9a27c1709fcec4e1fe86199` in Chrome, Firefox, WebKit, and mobile Chrome.
+- Each browser produced a machine-readable `sgg-portable-browser-receipt/v1` receipt with all seven probes passing: preview registration, adapter/API preflight, Apply render, initial save/reload, schema implication, automated accessibility, and print render. Each save/reload receipt recorded 106 persisted controls; each automated accessibility probe recorded zero detected violations.
+- The run used a temporary no-code branch at the already-merged consumer commit so it could execute without interrupting another agent's bounded browser run. It added no runtime or form-specific adapter logic. The temporary branch was deleted after the receipts were downloaded.
+- Together with the four database-backed lifecycle tests, this establishes fork-level executable evidence for declarative cross-form initial population and generic browser compatibility for both R&R Budget profiles. It does not establish production registration or human semantic, accessibility, policy, privacy/security, operational, or release approval.
