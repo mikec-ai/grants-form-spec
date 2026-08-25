@@ -164,6 +164,8 @@ export const propNotBefore = (p: Program, prop: ModelProperty) =>
   g(p, stateKeys.notBefore, prop) as ModelProperty | undefined;
 export const propValidationConstraints = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.validationConstraints, prop) as Record<string, unknown> | undefined) ?? {};
+export const propExclusiveValues = (p: Program, prop: ModelProperty) =>
+  (g(p, stateKeys.exclusiveValues, prop) as (string | number | boolean | null)[] | undefined) ?? [];
 export const propValidationConstraintsWhen = (p: Program, prop: ModelProperty) =>
   (g(p, stateKeys.validationConstraintsWhen, prop) as {
     condition: Condition;

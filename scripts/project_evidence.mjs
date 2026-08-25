@@ -232,6 +232,51 @@ async function collectRequiredOnlyConditionTargets(
   return targets;
 }
 
+async function collectExclusiveValueConditionTargets(
+  node,
+  path = [],
+  targets = [],
+  state,
+) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return targets;
+  if (typeof node.$ref === "string") {
+    const [relativePath, rawFragment] = node.$ref.split("#", 2);
+    const referencedPath = relativePath
+      ? resolve(dirname(state.schemaPath), relativePath)
+      : state.schemaPath;
+    if (relative(state.dist, referencedPath).startsWith("..")) {
+      throw new Error(`${state.context}: schema ref escapes emitted artifact root: ${node.$ref}`);
+    }
+    const referencedRoot = relativePath ? await json(referencedPath) : state.schemaRoot;
+    const fragment = rawFragment === undefined ? "" : `#${rawFragment}`;
+    const identity = `${referencedPath}${fragment}|${path.join(".")}`;
+    if (!state.seen.has(identity)) {
+      state.seen.add(identity);
+      await collectExclusiveValueConditionTargets(
+        jsonPointer(referencedRoot, fragment, state.context),
+        path,
+        targets,
+        { ...state, schemaPath: referencedPath, schemaRoot: referencedRoot },
+      );
+    }
+  }
+  if (Array.isArray(node["x-exclusive-values"]) && node["x-exclusive-values"].length) {
+    targets.push(path.join("."));
+  }
+  for (const [property, schema] of Object.entries(node.properties ?? {})) {
+    await collectExclusiveValueConditionTargets(schema, [...path, property], targets, state);
+  }
+  if (node.items && typeof node.items === "object" && !Array.isArray(node.items)) {
+    await collectExclusiveValueConditionTargets(
+      node.items,
+      [...path.slice(0, -1), `${path.at(-1) ?? ""}[*]`],
+      targets,
+      state,
+    );
+  }
+  return targets;
+}
+
 async function emittedRuleTargets(
   ruleSchema,
   uiSchema,
@@ -285,6 +330,27 @@ async function emittedRuleTargets(
       seen: new Set(),
     },
   );
+  const exclusiveValueTargets = await collectExclusiveValueConditionTargets(
+    formSchema,
+    [],
+    [],
+    {
+      context,
+      dist,
+      schemaPath,
+      schemaRoot: formSchema,
+      seen: new Set(),
+    },
+  );
+  for (const canonicalPath of new Set(exclusiveValueTargets)) {
+    if (!canonicalOccurrences.includes(canonicalPath)) {
+      throw new Error(`${context}: exclusive-value target ${canonicalPath} is not an exact emitted occurrence`);
+    }
+    const evidencePath = [...claimedCompiledConditions].find(
+      (candidate) => canonicalOccurrence(candidate) === canonicalPath,
+    );
+    if (evidencePath) targets.push({ ruleKind: "condition", canonicalPath: evidencePath });
+  }
   for (const canonicalPath of new Set(requiredOnlyTargets)) {
     // A conditional enablement on the field itself, or on a nested value within a
     // question wrapper, already accounts for the source condition. Only add the

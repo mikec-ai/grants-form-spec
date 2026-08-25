@@ -70,6 +70,7 @@ model QuestionPersonalDataRace {
   /** Select every race category that applies, or decline to provide race. */
   @UI.label("Race (check all that apply)")
   @UI.widget(WidgetName.MultiSelect)
+  @Validation.exclusiveValues(PersonalDataRace.withheld)
   @maxItems(5)
   race?: PersonalDataRace[];
 }
@@ -95,6 +96,10 @@ model QuestionPersonalDataDisabilityStatus {
   /** Select every disability status that applies, select None, or decline to provide it. */
   @UI.label("Disability Status (check all that apply)")
   @UI.widget(WidgetName.MultiSelect)
+  @Validation.exclusiveValues(
+    PersonalDataDisabilityStatus.none,
+    PersonalDataDisabilityStatus.withheld,
+  )
   @maxItems(4)
   disabilityStatus?: PersonalDataDisabilityStatus[];
 }

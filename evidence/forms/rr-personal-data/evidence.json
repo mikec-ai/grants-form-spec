@@ -38,10 +38,10 @@
     ]
   },
   "behaviorEvidence": [
-    { "canonicalPath": "/projectDirector/race", "ruleKind": "condition", "authority": "official_source", "executionStatus": "source-bound-uncompiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "03-01 through 03-06", "sourceRecord": "Applicant selects one or more race categories. If 'Do Not Wish to Provide' is selected, then all other categories are unselected." },
-    { "canonicalPath": "/projectDirector/disabilityStatus", "ruleKind": "condition", "authority": "official_source", "executionStatus": "source-bound-uncompiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "05-01 through 05-06", "sourceRecord": "Applicant can select one or more types of disabilities. If 'None' is selected, then all others are unselected. If 'Do Not Wish to Provide' is selected, then all others are unselected." },
-    { "canonicalPath": "/coProjectDirectors/[]/race", "ruleKind": "condition", "authority": "official_source", "executionStatus": "source-bound-uncompiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "10-01 through 10-06", "sourceRecord": "Applicant selects one or more race categories. If 'Do Not Wish to Provide' is selected, then all other categories are unselected. Allow entry for up to 4 Co-PD/Co-PIs." },
-    { "canonicalPath": "/coProjectDirectors/[]/disabilityStatus", "ruleKind": "condition", "authority": "official_source", "executionStatus": "source-bound-uncompiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "12-01 through 12-06", "sourceRecord": "Applicant can select one or more types of disabilities. If 'None' is selected, then all others are unselected. If 'Do Not Wish to Provide' is selected, then all others are unselected. Allow entry for up to 4 Co-PD/Co-PIs." }
+    { "canonicalPath": "/projectDirector/race", "ruleKind": "condition", "authority": "official_source", "executionStatus": "compiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "03-01 through 03-06", "sourceRecord": "Applicant selects one or more race categories. If 'Do Not Wish to Provide' is selected, then all other categories are unselected." },
+    { "canonicalPath": "/projectDirector/disabilityStatus", "ruleKind": "condition", "authority": "official_source", "executionStatus": "compiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "05-01 through 05-06", "sourceRecord": "Applicant can select one or more types of disabilities. If 'None' is selected, then all others are unselected. If 'Do Not Wish to Provide' is selected, then all others are unselected." },
+    { "canonicalPath": "/coProjectDirectors/[]/race", "ruleKind": "condition", "authority": "official_source", "executionStatus": "compiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "10-01 through 10-06", "sourceRecord": "Applicant selects one or more race categories. If 'Do Not Wish to Provide' is selected, then all other categories are unselected. Allow entry for up to 4 Co-PD/Co-PIs." },
+    { "canonicalPath": "/coProjectDirectors/[]/disabilityStatus", "ruleKind": "condition", "authority": "official_source", "executionStatus": "compiled", "sourceId": "rr-personal-data-dat-f357", "sourcePath": "12-01 through 12-06", "sourceRecord": "Applicant can select one or more types of disabilities. If 'None' is selected, then all others are unselected. If 'Do Not Wish to Provide' is selected, then all others are unselected. Allow entry for up to 4 Co-PD/Co-PIs." }
   ],
   "operationalBehaviorEvidence": [
     {
@@ -50,7 +50,8 @@
       "valueSource": { "kind": "canonical", "blockId": "rr-sf424", "path": "/principalInvestigator/name/prefix" },
       "editability": "protected",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
+      "executionPolicy": { "trigger": "source-response-updated", "writePolicy": "until-target-user-modified", "missingSourcePolicy": "skip" },
       "sourceId": "rr-personal-data-xfa-pdf-v1-2",
       "sourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDPrefixName initialize",
       "sourceRecord": "Initialize from the R&R SF-424 PD/PI prefix value, then set field access to protected."
@@ -61,7 +62,8 @@
       "valueSource": { "kind": "canonical", "blockId": "rr-sf424", "path": "/principalInvestigator/name/firstName" },
       "editability": "protected",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
+      "executionPolicy": { "trigger": "source-response-updated", "writePolicy": "until-target-user-modified", "missingSourcePolicy": "skip" },
       "sourceId": "rr-personal-data-xfa-pdf-v1-2",
       "sourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDFirstName initialize",
       "sourceRecord": "Initialize from the R&R SF-424 PD/PI first-name value, then set field access to protected."
@@ -72,7 +74,8 @@
       "valueSource": { "kind": "canonical", "blockId": "rr-sf424", "path": "/principalInvestigator/name/middleName" },
       "editability": "protected",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
+      "executionPolicy": { "trigger": "source-response-updated", "writePolicy": "until-target-user-modified", "missingSourcePolicy": "skip" },
       "sourceId": "rr-personal-data-xfa-pdf-v1-2",
       "sourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDMiddleName initialize",
       "sourceRecord": "Initialize from the R&R SF-424 PD/PI middle-name value, then set field access to protected."
@@ -83,7 +86,8 @@
       "valueSource": { "kind": "canonical", "blockId": "rr-sf424", "path": "/principalInvestigator/name/lastName" },
       "editability": "protected",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
+      "executionPolicy": { "trigger": "source-response-updated", "writePolicy": "until-target-user-modified", "missingSourcePolicy": "skip" },
       "sourceId": "rr-personal-data-xfa-pdf-v1-2",
       "sourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDLastName initialize",
       "sourceRecord": "Initialize from the R&R SF-424 PD/PI last-name value, then set field access to protected."
@@ -94,7 +98,8 @@
       "valueSource": { "kind": "canonical", "blockId": "rr-sf424", "path": "/principalInvestigator/name/suffix" },
       "editability": "protected",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
+      "executionPolicy": { "trigger": "source-response-updated", "writePolicy": "until-target-user-modified", "missingSourcePolicy": "skip" },
       "sourceId": "rr-personal-data-xfa-pdf-v1-2",
       "sourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDSuffixName initialize",
       "sourceRecord": "Initialize from the R&R SF-424 PD/PI suffix value, then set field access to protected."

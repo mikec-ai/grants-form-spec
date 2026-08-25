@@ -342,6 +342,12 @@ export const $notBefore = (ctx: Ctx, target: ModelProperty, source: ModelPropert
 export const $validationConstraints = (ctx: Ctx, target: ModelProperty, patch: unknown) =>
   set(ctx, stateKeys.validationConstraints, target, plain(ctx, patch));
 
+export const $exclusiveValues = (
+  ctx: Ctx,
+  target: ModelProperty,
+  ...values: unknown[]
+) => set(ctx, stateKeys.exclusiveValues, target, [...new Set(values.map(literal))]);
+
 export const $validationConstraintsWhen = (
   ctx: Ctx,
   target: ModelProperty,

@@ -11,6 +11,14 @@ namespace SimplerForms.Validation;
 /** Apply source-specific limits to this use of a reusable question without changing its identity. */
 extern dec constraints(target: ModelProperty, patch: valueof ValidationConstraints);
 
+/**
+ * Declare array values that must be the only selected value when present.
+ *
+ * This models source-defined choices such as "None" and "Do Not Wish to Provide"
+ * without assigning those presentation mechanics a new semantic identity.
+ */
+extern dec exclusiveValues(target: ModelProperty, ...values: valueof unknown[]);
+
 /** Apply constraints only when a sibling field equals the declared value. */
 extern dec constraintsWhen(
   target: ModelProperty,

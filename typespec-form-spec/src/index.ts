@@ -31,6 +31,7 @@ export const $decorators = {
   },
   "SimplerForms.Validation": {
     constraints: d.$validationConstraints,
+    exclusiveValues: d.$exclusiveValues,
     constraintsWhen: d.$validationConstraintsWhen,
     requiredPaths: d.$requiredPaths,
     requiredPathWhen: d.$requiredPathWhen,

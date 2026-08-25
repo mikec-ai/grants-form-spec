@@ -103,13 +103,13 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertEqual(co_fields["/properties/coProjectDirectors/items/properties/race"]["widget"], "MultiSelect")
         self.assertEqual(co_fields["/properties/coProjectDirectors/items/properties/citizenship"]["widget"], "Select")
 
-    def test_four_source_bound_exclusivity_rules_are_preserved_without_execution(self) -> None:
+    def test_four_source_bound_exclusivity_rules_and_name_prefills_are_compiled(self) -> None:
         evidence = load(FORM / "evidence.json")
         behaviors = evidence["behaviorEvidence"]
         self.assertEqual(len(behaviors), 4)
         self.assertEqual({row["ruleKind"] for row in behaviors}, {"condition"})
         self.assertEqual({row["authority"] for row in behaviors}, {"official_source"})
-        self.assertEqual({row["executionStatus"] for row in behaviors}, {"source-bound-uncompiled"})
+        self.assertEqual({row["executionStatus"] for row in behaviors}, {"compiled"})
         self.assertEqual(
             {row["canonicalPath"] for row in behaviors},
             {
@@ -135,7 +135,7 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertEqual([row["datSourcePath"] for row in operational], ["01-01", "01-02", "01-03", "01-04", "01-05"])
         self.assertTrue(all(row["datFieldType"] == "Forward-populated" for row in operational))
         self.assertTrue(all(row["xfaAccessAfterInitialize"] == "protected" for row in operational))
-        self.assertTrue(all(row["implementation"] == "source-bound-uncompiled" for row in operational))
+        self.assertTrue(all(row["implementation"] == "compiled" for row in operational))
         self.assertEqual(len(behavior["coProjectDirectorRepetition"]["sourceBehaviorKeys"]), 4)
         self.assertEqual(
             {row["canonicalPath"] for row in behavior["selectionConstraints"]},
@@ -144,7 +144,7 @@ class RRPersonalDataTests(unittest.TestCase):
                 "/coProjectDirectors/[]/race", "/coProjectDirectors/[]/disabilityStatus",
             },
         )
-        self.assertTrue(all(row["implementation"] == "source-bound-uncompiled" for row in behavior["selectionConstraints"]))
+        self.assertTrue(all(row["implementation"] == "compiled" for row in behavior["selectionConstraints"]))
         self.assertNotIn("gg_calculation", json.dumps(load(FORM / "sgg/rule-schema.json")))
         self.assertNotIn("conditional", json.dumps(load(FORM / "sgg/ui-schema.json")))
 
@@ -159,7 +159,7 @@ class RRPersonalDataTests(unittest.TestCase):
         self.assertEqual({row["authority"] for row in operational_evidence}, {"official_source"})
         self.assertEqual(
             {row["executionStatus"] for row in operational_evidence},
-            {"source-bound-uncompiled"},
+            {"compiled"},
         )
         self.assertEqual(
             {row["sourceId"] for row in operational_evidence},
@@ -185,6 +185,51 @@ class RRPersonalDataTests(unittest.TestCase):
                 for row in operational
             },
         )
+        operational_contract = load(FORM / "operational-behavior.json")
+        self.assertEqual(operational_contract["formId"], "rr-personal-data")
+        self.assertEqual(len(operational_contract["behaviors"]), 5)
+        self.assertTrue(
+            all(
+                row["executionPolicy"]["trigger"] == "source-response-updated"
+                for row in operational_contract["behaviors"]
+            )
+        )
+
+    def test_exclusive_values_are_portable_and_validator_enforced(self) -> None:
+        schema_path = PD_BANK / "schema.json"
+        schema = load(schema_path)
+        self.assertEqual(
+            schema["properties"]["race"]["x-exclusive-values"],
+            ["Do Not Wish to Provide"],
+        )
+        self.assertEqual(
+            schema["properties"]["disabilityStatus"]["x-exclusive-values"],
+            ["None", "Do Not Wish to Provide"],
+        )
+        script = """
+const Ajv = require('ajv/dist/2020');
+const schema = JSON.parse(process.argv[1]);
+const payload = JSON.parse(process.argv[2]);
+const validate = new Ajv({strict: false}).compile(schema);
+process.exit(validate(payload) ? 0 : 1);
+"""
+        race_schema = {
+            **schema["properties"]["race"],
+            "$defs": schema["$defs"],
+        }
+        subprocess.run(
+            ["node", "-e", script, json.dumps(race_schema), json.dumps(["Do Not Wish to Provide"])],
+            cwd=ROOT,
+            check=True,
+        )
+        result = subprocess.run(
+            [
+                "node", "-e", script, json.dumps(race_schema),
+                json.dumps(["Asian", "Do Not Wish to Provide"]),
+            ],
+            cwd=ROOT,
+        )
+        self.assertNotEqual(result.returncode, 0)
 
     def test_generic_name_accepts_source_valid_free_text_prefix_and_suffix(self) -> None:
         schema_path = ROOT / "dist/question-bank/generics/person-name/schema.json"
