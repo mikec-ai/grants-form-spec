@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_nifa_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T17:37:54.830Z'
+  at: '2026-08-25T17:38:30.770Z'
 ---
 # Goal
 
@@ -60,3 +60,5 @@ Private-fork PR #121 merged as `cfb57f79915b50980f9d11f880dbf87dac78e7ef`.
 - Unresolved: attachment upload/reload remains `inconclusive` at the timeout/harness boundary in all four browsers. It is a separate shared gate and is not claimed fixed.
 
 Human semantic, visual/content, assistive-technology accessibility, agency-profile, instruction, privacy/security, policy, operational, UAT, registration, and production-release gates remain open. NIFA remains unregistered and lower-environment preview-only; semantic mappings remain proposed and contribute nothing to reviewed coverage.
+
+[depends on](isolate-portable-browser-probes.md)

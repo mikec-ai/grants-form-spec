@@ -10,7 +10,7 @@ superbee_progress_status: done
 superbee_updated_by: codex_nifa_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T17:37:54.697Z'
+  at: '2026-08-25T17:38:30.624Z'
 ---
 The portable catalog browser harness runs attachment upload before its independent save/reload receipt. A failed or inconclusive stateful probe can leave unsaved page state and probe-local request/page-error entries behind, causing unrelated later receipts to fail or be falsely cleared.
 
@@ -26,8 +26,6 @@ Acceptance criteria:
 - Generic regression coverage proves the ownership boundary; no NIFA- or attachment-specific runtime branch is added.
 
 Implementation: private-fork PR #121, commit `0621722700cf354f241cedba19b8118a684df044`. The unresolved attachment timeout and WebKit `Load failed` remain separate shared gates.
-
-[depends on](close-nifa-supplemental-technical-gates.md)
 
 ## Closure receipt
 
