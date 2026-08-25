@@ -2,12 +2,12 @@
 type: Task
 title: Author and integrate PHS Fellowship Supplemental
 priority: P2
-assignee: unassigned
+assignee: root_phs_fellowship
 description: >-
   Create the currently absent Fellowship Supplemental in the declarative
   producer and bank it unregistered through the generic consumer path.
-superbee_progress_status: todo
-superbee_updated_by: codex-root
+superbee_progress_status: in_progress
+superbee_updated_by: root_phs_fellowship
 generated:
   by: 'process:superbee'
   at: '2026-08-24T11:50:58.979Z'
@@ -15,6 +15,13 @@ generated:
 # Goal
 
 Author PHS Fellowship Supplemental as a source-evidenced portable form in the current declarative architecture, then bank its generated package in the public Simpler fork without production registration.
+
+## 2026-08-24 claim
+
+- `root_phs_fellowship` claims the end-to-end producer and unregistered consumer integration.
+- Exact-source acquisition and reuse/capability analysis may proceed in parallel, but semantic
+  identity remains proposed unless separately reviewed. No form-specific compiler, adapter,
+  renderer, or registration branch is authorized.
 
 # Verified starting state
 
