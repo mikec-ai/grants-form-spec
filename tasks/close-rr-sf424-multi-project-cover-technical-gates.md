@@ -4,11 +4,12 @@ title: Close R&R SF-424 Multi-Project Cover technical gates
 description: >-
   Exact XML/XSD and bounded Simpler lifecycle/browser closure for the portable
   Multi-Project Cover.
-superbee_updated_by: codex-rr-mp-cover-admin-closure
+superbee_updated_by: codex_mp_cover_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T15:35:29.576Z'
-superbee_progress_status: done
+  at: '2026-08-25T20:03:22.168Z'
+superbee_progress_status: in_progress
+assignee: codex_mp_cover_evidence
 ---
 # Objective
 
@@ -40,3 +41,10 @@ Automated technical handoff is complete: the producer and private-fork consumer 
 - Privacy, policy, and program/content-authority review remains open.
 - Human acceptance and user-acceptance iteration remain open.
 - Production registration, operational approval, deployment, and release remain open. The form remains unregistered.
+
+## Active form-local evidence closure — 2026-08-25
+
+- Claimed by `codex_mp_cover_evidence` after checking the live board and all open producer/consumer PRs; no active owner or branch touches the Multi-Project Cover evidence or regression files.
+- Reconcile the 14 emitted conditional targets against the exact pinned F769 DAT behavior records while preserving each compiled UI disposition separately. Do not infer semantic equivalence, hidden/disabled parity, inactive-value clearing, or conditional requiredness beyond exact source evidence.
+- Package the existing 22 semantic identities for human review without accepting them. `semanticReview` must remain proposed with zero accepted mappings.
+- Scope is strictly form-local producer evidence and regression coverage. No TypeSpec declaration, shared compiler, adapter, runtime, registration, release, or R&R Subaward Budget 10YR/30 change is authorized.
