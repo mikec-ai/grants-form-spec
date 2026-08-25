@@ -24,6 +24,34 @@ enum PHS398ModularBudgetSection {
   ombNumber: "0925-0001",
 })
 @UI.sections(PHS398ModularBudgetSection)
+// The pinned Grants.gov behavior source identifies all eight totals as read-only,
+// calculated fields. Keep the reusable questions read-only by default while making
+// those outputs visible in this form's review and applicant surfaces.
+@UI.overrides(#{
+  `periods.directCosts.totalDirectCosts`: #{ readOnly: true, visibleReadOnly: true },
+  `periods.indirectCosts.totalIndirectCosts`: #{ readOnly: true, visibleReadOnly: true },
+  `periods.totalDirectAndIndirectCosts`: #{ readOnly: true, visibleReadOnly: true },
+  `cumulativeBudgetInformation.cumulativeDirectCostLessConsortiumFandA`: #{
+    readOnly: true,
+    visibleReadOnly: true,
+  },
+  `cumulativeBudgetInformation.cumulativeConsortiumFandA`: #{
+    readOnly: true,
+    visibleReadOnly: true,
+  },
+  `cumulativeBudgetInformation.cumulativeTotalDirectCosts`: #{
+    readOnly: true,
+    visibleReadOnly: true,
+  },
+  `cumulativeBudgetInformation.cumulativeTotalIndirectCosts`: #{
+    readOnly: true,
+    visibleReadOnly: true,
+  },
+  `cumulativeBudgetInformation.cumulativeTotalDirectAndIndirectCosts`: #{
+    readOnly: true,
+    visibleReadOnly: true,
+  },
+})
 model PHS398ModularBudget {
   @UI.label("Budget Period")
   @UI.section(PHS398ModularBudgetSection.periods)

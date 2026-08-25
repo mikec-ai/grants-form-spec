@@ -91,7 +91,7 @@ class PHS398ModularBudgetTests(unittest.TestCase):
         lists = [row for row in objects(ui) if row.get("type") == "fieldList"]
         calculations = [row["gg_pre_population"] for row in objects(rules) if "gg_pre_population" in row]
 
-        self.assertEqual(len(fields), 13)
+        self.assertEqual(len(fields), 21)
         self.assertEqual(len(lists), 2)
         self.assertEqual(schema["properties"]["periods"]["maxItems"], 5)
         indirect_items = period["$defs"]["PHSModularIndirectCosts"]["properties"][
@@ -113,6 +113,49 @@ class PHS398ModularBudgetTests(unittest.TestCase):
 
         self.assertEqual(len(calculations), 8)
         self.assertEqual(sorted(rule["order"] for rule in calculations), list(range(1, 9)))
+        self.assertEqual(
+            {
+                row["definition"]
+                for row in fields
+                if row["definition"].endswith(
+                    (
+                        "/totalDirectCosts",
+                        "/totalIndirectCosts",
+                        "/totalDirectAndIndirectCosts",
+                        "/cumulativeDirectCostLessConsortiumFandA",
+                        "/cumulativeConsortiumFandA",
+                        "/cumulativeTotalDirectCosts",
+                        "/cumulativeTotalIndirectCosts",
+                        "/cumulativeTotalDirectAndIndirectCosts",
+                    )
+                )
+            },
+            {
+                "/properties/periods/items/properties/directCosts/properties/totalDirectCosts",
+                "/properties/periods/items/properties/indirectCosts/properties/totalIndirectCosts",
+                "/properties/periods/items/properties/totalDirectAndIndirectCosts",
+                (
+                    "/properties/cumulativeBudgetInformation/properties/"
+                    "cumulativeDirectCostLessConsortiumFandA"
+                ),
+                (
+                    "/properties/cumulativeBudgetInformation/properties/"
+                    "cumulativeConsortiumFandA"
+                ),
+                (
+                    "/properties/cumulativeBudgetInformation/properties/"
+                    "cumulativeTotalDirectCosts"
+                ),
+                (
+                    "/properties/cumulativeBudgetInformation/properties/"
+                    "cumulativeTotalIndirectCosts"
+                ),
+                (
+                    "/properties/cumulativeBudgetInformation/properties/"
+                    "cumulativeTotalDirectAndIndirectCosts"
+                ),
+            },
+        )
         self.assertEqual(
             rules["periods"]["directCosts"]["totalDirectCosts"]["gg_pre_population"]["fields"],
             ["@THIS.directCostLessConsortiumFandA", "@THIS.consortiumFandA"],
