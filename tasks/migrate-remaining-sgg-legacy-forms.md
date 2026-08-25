@@ -52,3 +52,14 @@ Producer PR [grants-form-spec #110](https://github.com/mikec-ai/grants-form-spec
 - full producer preflight passed locally: 125 TypeSpec tests, 377 Python tests (10 skipped), exact-XSD fixture, evidence, artifact, classification, package, and analysis gates.
 
 This receipt proves the producer-side source contract, declarative composition, generic XML projection, differential wire compatibility, and exact-XSD conformance only. Consumer registration, save/reload/browser/lifecycle parity, accessibility, privacy/policy, operations, human semantic review, and production release remain separate gates. No consumer branch was created by this lane.
+
+## Behavior closure classification
+
+Producer PR [grants-form-spec #112](https://github.com/mikec-ai/grants-form-spec/pull/112), head `7868291be`, records the bounded behavior plan and first evidence correction:
+
+- eight U.S.-specific State/ZIP requiredness effects are exact emitted targets of the existing generic `requiredPathWhen` contract and are now marked compiled;
+- 24 any-present role-completeness effects already have standard optional-object/required-descendant JSON Schema representation, but remain source-bound-uncompiled until generic evidence recognition and an unregistered consumer validation/initial-render receipt exist;
+- four State initial-active/post-Country-exit interaction effects remain unresolved because the current value-only condition contract has no event trigger or distinct initial effect;
+- the two honest choices are an event-aware generic interaction extension or a separately reviewed intentional timing delta. No form-specific branch is permitted.
+
+The plan is pinned at `research/epa-key-contacts/behavior-closure-plan.md`. Full local producer preflight passed with 125 TypeSpec tests and 380 Python tests (10 skipped). Semantic mappings remain proposed and accepted mappings remain zero.
