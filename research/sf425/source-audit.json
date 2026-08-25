@@ -1,0 +1,99 @@
+{
+  "contract": "official-source-audit/v1",
+  "formId": "sf425",
+  "formVersion": "3.0",
+  "claimsBoundary": "This receipt preserves deterministic provenance and source-declared XSD structure only. Crosswalk concept candidates and behavior bindings remain proposed or unreviewed; no semantic equivalence, application-runtime behavior, consumer readiness, or financial-reporting lifecycle behavior is established.",
+  "method": {
+    "ocrUsed": false,
+    "xsdMethod": "Exact cached artifact hash verification plus namespace-aware XML structure inspection.",
+    "datMethod": "Exact cached workbook hash verification plus reuse of the pinned crosswalk's deterministic DAT behavior inventory; workbook semantics were not adjudicated in this slice.",
+    "reviewStatus": "agent-reviewed-provenance-only"
+  },
+  "crosswalkReceipt": {
+    "repository": "mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "recordPath": "demo-web/public/data/portfolio/forms/expanded_3ASF425_3_0-V3.0_F751.json",
+    "recordId": "expanded:SF425_3_0-V3.0_F751",
+    "canonicalMetadata": {
+      "fid": "751",
+      "formKey": "SF425_3_0-V3.0_F751",
+      "version": "3.0"
+    }
+  },
+  "sources": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/SF425_3_0-V3.0.xsd",
+      "nativeVersion": "3.0",
+      "sha256": "0f5cd6705399fb4c2dd4310150de49e3f9f0abd00349d3bc2983aa9bc13eee69",
+      "crosswalkSourceVersion": "sha256:746351e2dbc27873316ea13b26f7562128c789a29880e707185b30133526011b"
+    },
+    "dat": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/SF425_3_0-V3.0_F751.xls",
+      "nativeVersion": "3.0",
+      "sha256": "6f44d8d685dd84f28df66b390f79d237b78a26a81e4ca1b412df1c39f429eb7d",
+      "crosswalkSourceVersion": "sha256:6f44d8d685dd84f28df66b390f79d237b78a26a81e4ca1b412df1c39f429eb7d"
+    },
+    "pdf": {
+      "reviewState": "not_acquired",
+      "reviewedPages": [],
+      "gate": "Acquire and visually review the official rendered form and instructions before claiming wording, layout, accessibility, or print parity."
+    }
+  },
+  "deterministicInventory": {
+    "xsd": {
+      "targetNamespace": "http://apply.grants.gov/forms/SF425_3_0-V3.0",
+      "declaredElementsIncludingNested": 58,
+      "rootSequenceChildren": 49,
+      "requiredRootChildren": 18,
+      "optionalRootChildren": 31,
+      "repeatingRootChildren": [
+        {
+          "name": "IndirectExpense",
+          "minOccurs": 1,
+          "maxOccurs": 2
+        }
+      ],
+      "imports": 3,
+      "namedSimpleTypes": 2
+    },
+    "portfolio": {
+      "questionDenominator": 55,
+      "occurrenceEvidenceComplete": true,
+      "missingOccurrences": 0,
+      "proposedConcepts": 32,
+      "unassignedQuestions": 20,
+      "acceptedAssignments": 0
+    },
+    "datBehaviorReviewQueue": {
+      "status": "not_reviewed",
+      "behaviorRecords": 252,
+      "calculationBehaviors": 8,
+      "conditionBehaviors": 5,
+      "enumerationBehaviors": 10,
+      "staticBehaviors": 190,
+      "unresolvedBehaviors": 23,
+      "candidateBindings": 39,
+      "acceptedBindings": 0,
+      "publishedCoveragePercent": 0
+    }
+  },
+  "semanticBoundary": {
+    "status": "proposed-unreviewed",
+    "acceptedMappings": 0,
+    "publishedCoveragePercent": 0,
+    "publishedCoverageEligible": false
+  },
+  "oracleBoundary": {
+    "legacySimplerOracle": "not_found",
+    "runtimeCompatibilityClaim": "not_made",
+    "consumerReadinessClaim": "not_made"
+  },
+  "openGates": [
+    "Adjudicate source occurrences before promoting any proposed concept identity.",
+    "Review DAT behavior bindings and all eight calculation records before compiling behavior.",
+    "Review role and dimensional semantics without equating similar field names.",
+    "Review static policy, assurance, accessibility, and product-owner decisions.",
+    "Establish an explicit financial-reporting consumer and oracle before making runtime or lifecycle claims.",
+    "Acquire and visually review official PDF and instruction artifacts before claiming rendered parity."
+  ]
+}
