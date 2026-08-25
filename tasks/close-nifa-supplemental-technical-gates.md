@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_nifa_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T16:23:45.602Z'
+  at: '2026-08-25T16:28:30.475Z'
 ---
 # Goal
 
@@ -44,3 +44,5 @@ Close the smallest automated technical handoff for the already-banked NIFA Suppl
 [depends on](author-integrate-nifa-supplemental.md)
 
 [depends on](add-portable-form-preview-registration.md)
+
+[depends on](fix-portable-boolean-value-map.md)
