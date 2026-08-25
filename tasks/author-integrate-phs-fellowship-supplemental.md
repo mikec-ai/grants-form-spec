@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: root_phs_fellowship
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T11:50:58.979Z'
+  at: '2026-08-25T03:37:20.049Z'
 ---
 # Goal
 
@@ -25,27 +25,33 @@ Author PHS Fellowship Supplemental as a source-evidenced portable form in the cu
 
 # Verified starting state
 
-The form was absent from the producer catalog and consumer bank when claimed. The producer catalog now contains 40 forms on `main`; PHS Fellowship Supplemental will become form 41 when producer PR 101 merges.
+The form was absent from the producer catalog and consumer bank when claimed. It is now the 41st form in the producer catalog and is being promoted as the 40th form in the consumer bank.
 
 # Delivery progress
 
-## Producer foundation, ready to merge
+## Producer foundation, merged
 
 - PR: https://github.com/mikec-ai/grants-form-spec/pull/101
-- Commit: `1db2ea995`
+- Merge commit: `16e23d43a803c5ef523edb4a23d52bb9cc459443`
 - Exact source packet pins the active V8 XSD, DAT, Grants.gov PDF/XFA files, and NIH Forms-I instructions.
 - Emits 66 source-question leaves through 35 reusable block identities.
 - Reuses 15 established question semantics and introduces 20 fellowship-specific blocks.
-- Compiles 17 attachment captures, 21 conditional fields, and two six-year calculations.
+- Compiles 17 attachment captures, 20 conditional fields, and two six-year calculations.
 - Preserves 15 source-backed behaviors as explicit uncompiled gates instead of weakening their predicates.
 - Exact generated XML validates against the pinned official XSD for minimal and representative rich payloads.
 - Semantic review remains unreviewed with zero accepted mappings.
 - Full producer preflight passes: 125 emitter tests and 355 Python tests, with 10 environment-dependent skips.
 
+## Consumer promotion in progress
+
+- Consumer PR: https://github.com/mikec-ai/simpler-grants-gov/pull/105
+- The generic promotion banks the immutable producer package without changing `registrations.json` or adding form-specific runtime code.
+- Forty-nine focused artifact integrity, provenance, preview, and browser-plan tests pass locally.
+- Full CI is required because the immutable producer refresh also updates generated presentation metadata for two previously banked schemas.
+
 ## Remaining increment
 
-- Merge producer PR 101 after CI and independent review.
-- Bank its immutable package in the public Simpler fork through the generic adapter without registration.
+- Merge consumer PR 105 after full CI.
 - Run bounded browser conformance and record the receipt before marking this task complete.
 
 # Acceptance criteria
