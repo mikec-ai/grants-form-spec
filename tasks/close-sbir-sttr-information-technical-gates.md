@@ -59,3 +59,13 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 - Ruff, ESLint, Prettier, and TypeScript checks passed.
 - Evidence explicitly preserves 27 `proposed` mappings, 11 compiled behavior records, and five source-bound-uncompiled records. Runtime registration remains absent.
 - Hosted CI classification: `full`, expected for this first tests/CI-map technical admission without a producer artifact delta. Merge is held pending attributable hosted results.
+
+## Independent-review remediation — 2026-08-25
+
+- Review found that the first condition tests exercised canonical artifacts rather than the projected consumer path, and that the first attachment test asserted declarations without executing the shared mechanisms.
+- Remediation head `b15ce13cb8b7fe5ba4351b26fc2e7619b1fd4d0a` closes both evidence gaps without changing shared runtime, NIFA, registration, or the externally owned subaward lane.
+- All 11 conditional-required targets now execute against `_load_banked_form`'s snake_case projected schema.
+- The frontend's 10 effect cases use snake_case runtime data and a projected-condition fixture; an API regression proves that fixture exactly equals current adapter output, preventing projection drift from producing a false green.
+- All three attachment IDs execute through the projected rule schema and shared attachment validator, are emitted with `AttachmentInfo` through the generic XML service, and validate together against the exact pinned v3.0 XSD.
+- Updated local receipts: SBIR/STTR API 14/14; API plus registration boundary 20/20; frontend 10/10; Ruff, ESLint, Prettier, and TypeScript green.
+- The earlier hosted API run failed before form tests in the unrelated `test_wait_for_api.sh` late-success stdout assertion. No product change was made for that baseline helper flake; new-head checks remain pending and authoritative.
