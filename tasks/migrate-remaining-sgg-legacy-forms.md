@@ -55,11 +55,11 @@ This receipt proves the producer-side source contract, declarative composition, 
 
 ## Behavior closure classification
 
-Producer PR [grants-form-spec #112](https://github.com/mikec-ai/grants-form-spec/pull/112), head `7868291be`, records the bounded behavior plan and first evidence correction:
+Producer PR [grants-form-spec #112](https://github.com/mikec-ai/grants-form-spec/pull/112) merged at `59efac07a205b92aee76b6c0f3f12918356c9380` on 2026-08-25. It records the bounded behavior plan and first evidence correction:
 
 - eight U.S.-specific State/ZIP requiredness effects are exact emitted targets of the existing generic `requiredPathWhen` contract and are now marked compiled;
 - 24 any-present role-completeness effects already have standard optional-object/required-descendant JSON Schema representation, but remain source-bound-uncompiled until generic evidence recognition and an unregistered consumer validation/initial-render receipt exist;
 - four State initial-active/post-Country-exit interaction effects remain unresolved because the current value-only condition contract has no event trigger or distinct initial effect;
 - the two honest choices are an event-aware generic interaction extension or a separately reviewed intentional timing delta. No form-specific branch is permitted.
 
-The plan is pinned at `research/epa-key-contacts/behavior-closure-plan.md`. Full local producer preflight passed with 125 TypeSpec tests and 380 Python tests (10 skipped). Semantic mappings remain proposed and accepted mappings remain zero.
+The plan is pinned at `research/epa-key-contacts/behavior-closure-plan.md`. Full local producer preflight passed with 125 TypeSpec tests and 380 Python tests (10 skipped); both hosted checks (`form-spec` and `proof-package`) passed before merge. Semantic mappings remain proposed and accepted mappings remain zero.
