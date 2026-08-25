@@ -8,7 +8,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:14:19.424Z'
+  at: '2026-08-25T19:41:19.891Z'
 priority: P1
 assignee: codex_phs_human_subjects_closure
 superbee_progress_status: in_progress
@@ -48,7 +48,17 @@ Close the smallest automated technical handoff for the already-banked, unregiste
 - A shared browser-evidence defect blocks a valid bounded run: property-level `allOf` read-only declarations for `involves_human_subjects`, `exempt_from_federal_regulations`, and `exemptions` are missed, so the generic plan incorrectly selects them as editable. The three direct technical IDs are protected. No production or form-specific runtime code has been changed.
 - Collision check is clean for a dedicated PHS Human Subjects test/fixture lane. PR #122 owns the portable CI map, so any map update must wait/rebase; PR #125 owns only three lobbying tests. The externally owned subaward lane is disjoint.
 
+# Current implementation checkpoint
+
+- The generic `allOf` read-only browser-plan defect is merged and closed in private-fork PR #127.
+- A full representative XML response exposed a separate generic path-local namespace collision that sparse study-only evidence had missed. Parent attachments and exemption arrays inherited the embedded-study namespace from a flat last-write-wins local-name index.
+- Shared-runtime PR #131 at exact head `9f31f9e84cd0e4bc2ddfb492760daf212c176ac0` preserves explicit attachment and array namespaces in-band, includes generic colliding parent/imported-schema coverage, and validates a combined parent/study/delayed response against the exact pinned XSD closure. Fifty-two attributable tests, Ruff, and Black pass; fixed-head independent re-review is clean. It is awaiting hosted API completion before merge.
+- The isolated form-local evidence draft has five passing tests. It proves the corrected inventory of 184 ordinary fields plus five repeaters, all 15 attachment rule paths with a missing-ID negative case, all 115 dimensional enrollment coordinates, exact source/XSD hashes and extraction provenance, the exact eleven source-bound-uncompiled conditions, the unresolved 28-total calculation disposition, all 15 attachment roles in generated XML, and the unregistered/proposed-semantic boundary.
+- No semantic mapping was accepted, no source behavior was inferred, and no registration or release gate was closed.
+
 [depends on](fix-portable-browser-allof-readonly.md)
+
+[depends on](fix-path-local-xml-namespace-attribution.md)
 
 [depends on](author-integrate-phs-human-subjects.md)
 
