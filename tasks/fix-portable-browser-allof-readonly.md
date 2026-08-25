@@ -7,9 +7,10 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:14:04.475Z'
+  at: '2026-08-25T18:16:46.012Z'
 priority: P1
-superbee_progress_status: todo
+superbee_progress_status: in_progress
+assignee: codex_phs_human_subjects_closure
 ---
 # Defect
 
@@ -33,5 +34,11 @@ The generic portable browser plan treats three system-owned PHS Human Subjects d
 # Boundary
 
 This is a shared evidence-harness/projection defect, not permission to compile the eleven unreviewed F705 conditions or infer any of the 28 unresolved enrollment calculations.
+
+# Implementation awaiting independent review
+
+Private-fork PR #127 at exact head `9dc3218ef8a6282e577c5eed2514a1558f26af20` changes only the generic browser-plan read-only predicate and its tests. It recursively inspects `readOnly` across each selected schema candidate's `allOf` branches, preserving the existing ancestor protection. A minimal positive/negative regression proves an `allOf`-protected system field is read-only while an otherwise identical applicant field remains editable. The PHS regression proves all three system-owned determinations are read-only, absent from editable selection, and the genuine `involves_human_specimens_or_data` applicant field remains editable.
+
+Focused receipt: 51 browser-plan, preview, and PHS flattened-scalar XML tests passed; Ruff and Black passed. No bounded form run or merge will occur before independent review.
 
 [blocks](close-phs-human-subjects-technical-gates.md)
