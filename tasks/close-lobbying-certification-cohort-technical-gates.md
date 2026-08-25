@@ -46,7 +46,7 @@ Close the smallest shared technical handoff for three already-banked lobbying an
 # Implementation checkpoint — 2026-08-25
 
 - Private consumer branch: `codex/lobbying-certification-technical-closure`
-- Consumer head: `f830a630e9246b601630d00ff01188bf2bae299d`
+- Consumer head: `c22ec7ad508692cafb4c4975b723e1af3f898f2a`
 - Private consumer PR: https://github.com/mikec-ai/simpler-grants-gov/pull/125
 - Scope is test/evidence-only in the three existing form-local suites; no shared runtime, adapter, compiler, browser harness, artifact, registration, or producer change.
 - Exact available source URI/hash sets remain pinned. Semantic review remains `proposed`; CD-511 and Grants.gov Lobbying policy bindings remain `draft`; all three forms remain absent from portable registrations.
@@ -54,7 +54,9 @@ Close the smallest shared technical handoff for three already-banked lobbying an
 - Review follow-up pins SF-LLL's exact three calculated response paths/rules, the exact Prime→`Y: Yes` / SubAwardee→`N: No` projection, and representative exact-XSD-valid XML for both values. CD-511 and Grants.gov Lobbying now assert exact extraction receipts; Grants.gov Lobbying asserts the complete ordered `(type, uri, sha256)` source set.
 - Exactly one bounded browser cohort run was dispatched for `sflll,cd511,gg-lobbying`: https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32880367987 (pending).
 - Stale broad runs for superseded head `4c103920a` were cancelled: API `32879944180`; E2E `32879944838`.
-- The automatically launched broad E2E run for current head (`32880351049`) was also cancelled to avoid duplicating the exact bounded browser cohort run. The current-head full API run `32880350142` remains active because the documented test-only classifier gap routes this PR to full API CI.
+- The automatically launched broad E2E run for pre-hardening head `f830a630e` (`32880351049`) was cancelled to avoid duplicating its exact bounded browser cohort run. Its broad API run was `32880350142`.
+- After CI hardening PR #126 merged at `bb8b7d5c6`, this branch was rebased and local Ruff + 32/32 focused tests remained green. Superseded-head runs `32880367987` and `32880350142` were cancelled.
+- First hosted test-only focused-path candidates on rebased head: API `32880826731`; E2E/browser `32880827041` (classification and attributable receipts pending).
 - Hosted checks are pending. Technical closure remains `in_progress` until the exact bounded browser and attributable hosted receipts are reviewed.
 
 [depends on](migrate-sflll-parity-oracle.md)
