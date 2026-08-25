@@ -10,7 +10,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex-scanner-defect-review
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T13:05:36.298Z'
+  at: '2026-08-25T13:10:26.819Z'
 ---
 # Goal
 
@@ -42,5 +42,13 @@ The form is absent from the current 39-form producer catalog and consumer bank. 
 - Fresh official downloads reproduced the pinned XSD and DAT hashes exactly. Deterministic XSD inspection records 143 declared element nodes and six root children: five required, one optional, with `BudgetYear` repeating `1..5`; it also distinguishes 8 named complex types and 5 named simple types from anonymous inline types.
 - Focused source-audit tests passed 3/3. Full producer preflight passed 125 package tests, 377 Python tests with 10 skipped, 8 XML projection tests, and every compilation, projection, validation, packaging, analysis, and classified-field gate.
 - No form declaration, semantic mapping, runtime/consumer projection, or 10-year/30-year subaward-wrapper file is present in the PR. All downstream architecture and behavior work remains gated.
+
+# Deterministic provenance merge — 2026-08-25
+
+- Private-fork PR `mikec-ai/grants-form-spec#111` merged at `2026-08-25T13:10:01Z` as squash commit `145ec347d7b03d2793190119ef1f995895511c26`; fetched and verified `origin/main` resolves to that exact commit.
+- The exact pre-merge head was `4ba62c55391e61e227e554e7d66b6485ff5579a8`. GitHub reported `CLEAN` and `MERGEABLE`, with only the two provenance/test files and no 10-year or 30-year subaward-wrapper overlap.
+- Hosted `form-spec` CI passed in run `32851446948`, job `97813086481`; hosted `proof-package` passed in run `32851446860`, job `97813085861`.
+- The merge contains exactly 191 insertions: 110 in `research/rr-federal-non-federal-budget/source-audit.json` and 81 in `tests/test_rr_federal_non_federal_budget_source_audit.py`.
+- This closes only the deterministic provenance/source-accounting slice. The task remains in progress; semantic reuse, parameterized-variant architecture, DAT behavior, portable authoring, runtime/consumer integration, PDF/instruction review, banking, and registration remain unstarted or explicitly gated.
 
 [depends on](close-rr-budget-family-release-gates.md)
