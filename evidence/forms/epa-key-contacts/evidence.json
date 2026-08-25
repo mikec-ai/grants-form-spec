@@ -308,73 +308,73 @@
     },
 
     {
-      "canonicalPath": "/authorizedRepresentative/address/state",
+      "canonicalPath": "authorizedRepresentative.address.state",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Authorized Representative State required rule",
       "sourceRecord": "State is required when Country is USA."
     },
     {
-      "canonicalPath": "/authorizedRepresentative/address/zipCode",
+      "canonicalPath": "authorizedRepresentative.address.zipCode",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Authorized Representative ZIP required rule",
       "sourceRecord": "ZIP/Postal Code is required when Country is USA and optional otherwise."
     },
     {
-      "canonicalPath": "/payee/address/state",
+      "canonicalPath": "payee.address.state",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Payee State required rule",
       "sourceRecord": "State is required when Country is USA."
     },
     {
-      "canonicalPath": "/payee/address/zipCode",
+      "canonicalPath": "payee.address.zipCode",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Payee ZIP required rule",
       "sourceRecord": "ZIP/Postal Code is required when Country is USA and optional otherwise."
     },
     {
-      "canonicalPath": "/administrativeContact/address/state",
+      "canonicalPath": "administrativeContact.address.state",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Administrative Contact State required rule",
       "sourceRecord": "State is required when Country is USA."
     },
     {
-      "canonicalPath": "/administrativeContact/address/zipCode",
+      "canonicalPath": "administrativeContact.address.zipCode",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Administrative Contact ZIP required rule",
       "sourceRecord": "ZIP/Postal Code is required when Country is USA and optional otherwise."
     },
     {
-      "canonicalPath": "/projectManager/address/state",
+      "canonicalPath": "projectManager.address.state",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Project Manager State required rule",
       "sourceRecord": "State is required when Country is USA."
     },
     {
-      "canonicalPath": "/projectManager/address/zipCode",
+      "canonicalPath": "projectManager.address.zipCode",
       "ruleKind": "condition",
       "authority": "official_source",
-      "executionStatus": "source-bound-uncompiled",
+      "executionStatus": "compiled",
       "sourceId": "epa-key-contacts-dat-f674",
       "sourcePath": "Project Manager ZIP required rule",
       "sourceRecord": "ZIP/Postal Code is required when Country is USA and optional otherwise."
