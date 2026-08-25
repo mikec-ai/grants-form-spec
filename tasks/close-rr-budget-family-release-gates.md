@@ -140,6 +140,29 @@ architecture or silently claim human approval.
   does not imply human semantic, accessibility, policy, privacy/security, operational,
   registration, or release approval.
 
+## 2026-08-24: delivered 10-year/30-subaward browser harvest
+
+- Main run [32800547064](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32800547064)
+  passed the generic one-form catalog plan for `rr-subaward-budget-10yr-30` at exact consumer
+  commit `209f31182a32639a3669061b6948745187cac62c` in Chrome, Firefox, WebKit, and mobile Chrome.
+- Each browser produced a machine-readable `sgg-portable-browser-receipt/v1` receipt with all seven
+  probes passing: preview registration, adapter/API preflight, Apply render, initial save/reload,
+  schema implication, automated accessibility, and print render. Across four browsers this is
+  28 of 28 passed probes with no failed boundary. Each save/reload receipt recorded 144 persisted
+  controls; the nested equipment-attachment implication triggered and reversed inside both
+  `budget_attachments` and `budget_year` repeaters with row-specific error focus; each automated
+  accessibility probe recorded zero detected violations; and each print receipt recorded zero
+  interactive controls.
+- The consumer used immutable producer revision `4d3d969a398e1d6a19095bf5ec00eaa66a36a830`.
+  Focused local producer/consumer planning tests passed (`22 passed`). Structural comparison shows
+  the shared budget block changes its period limit from five to ten, while the outer 30-subaward
+  wrapper remains unchanged and the 56-rule graph is byte-identical to the five-year/30-subaward
+  sibling. Remaining UI differences are source-specific title and help copy.
+- No implementation change, form-specific branch, pull request, or merge was needed. Generated
+  plans, receipts, traces, screenshots, and reports remain build artifacts rather than runtime
+  source. This is fork-level automated technical evidence, not human semantic, accessibility,
+  policy, privacy/security, operational, registration, or release approval.
+
 ## 2026-08-23: calculated-output materialization slice
 
 - Source review found 20 of the 56 R&R Budget DAT calculations with non-empty conditions stating
