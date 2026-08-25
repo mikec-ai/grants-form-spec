@@ -53,8 +53,8 @@ PR #125 changes only the exact CI-mapped test files for SF-LLL, CD-511, and Gran
 - Real test-only proof PR: https://github.com/mikec-ai/simpler-grants-gov/pull/125
 - Proof head after rebase: `c22ec7ad508692cafb4c4975b723e1af3f898f2a`
 - Hosted API run `32880826731` classified `portable_focused` with reason `only exact unambiguous CI-mapped portable tests changed`; exact `focusedForms` / `portableFormIds` were `cd511`, `gg-lobbying`, and `sflll`; exact `portableTestFiles` were their three form-local mapped suites; `changedArtifacts` was empty. Focused Portable Form Checks passed (job `97910331871`, 7m03s) while full API and bank jobs stayed skipped.
-- Hosted E2E/browser run `32880827041` passed classification and is progressing through the selected cohort.
-- Final exact selected IDs/test files and completed-run receipts remain to be recorded before this task closes.
+- Hosted E2E/browser run `32880827041` passed classification and executed the selected cohort as one bounded shard: job `97911386532` passed in 12m45s and merged report job `97915546008` passed in 38s.
+- Proof PR #125 merged at `dbf71482c4d589e91027df7f6a240309171e44ec`; the first hosted test-only `portable_focused` proof is complete.
 
 # Implementation receipt
 
@@ -62,6 +62,6 @@ PR #125 changes only the exact CI-mapped test files for SF-LLL, CD-511, and Gran
 - Implementation head: `1ea66a436`.
 - Local classifier suite: 36 passed; isort and Ruff passed.
 - The exact PR #125 diff through the updated classifier returns `tier: portable_focused`, `portableFormIds: [cd511, gg-lobbying, sflll]`, the exact three mapped portable tests, and `changedArtifacts: []`.
-- Hosted PR #125 receipt remains pending until PR #126 is reviewed, merged, and PR #125 is rebased onto that base.
+- Hosted PR #125 receipt is complete on rebased head `c22ec7ad508692cafb4c4975b723e1af3f898f2a` and merged commit `dbf71482c4d589e91027df7f6a240309171e44ec`.
 
 [related to](close-lobbying-certification-cohort-technical-gates.md)

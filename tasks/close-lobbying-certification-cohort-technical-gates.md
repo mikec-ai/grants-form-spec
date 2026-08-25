@@ -7,7 +7,7 @@ description: >-
   Gather bounded adapter, runtime, browser-plan, lifecycle, attestation, and
   exact-XML evidence for SF-LLL, CD-511, and Grants.gov Lobbying without
   accepting policy text, semantics, or production registration.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex_lobbying_certification_closure
 generated:
   by: 'process:superbee'
@@ -56,8 +56,16 @@ Close the smallest shared technical handoff for three already-banked lobbying an
 - Stale broad runs for superseded head `4c103920a` were cancelled: API `32879944180`; E2E `32879944838`.
 - The automatically launched broad E2E run for pre-hardening head `f830a630e` (`32880351049`) was cancelled to avoid duplicating its exact bounded browser cohort run. Its broad API run was `32880350142`.
 - After CI hardening PR #126 merged at `bb8b7d5c6`, this branch was rebased and local Ruff + 32/32 focused tests remained green. Superseded-head runs `32880367987` and `32880350142` were cancelled.
-- First hosted test-only focused-path proof on rebased head: API `32880826731` classified `portable_focused` with exact selected IDs `cd511`, `gg-lobbying`, `sflll`, their exact three mapped test files, and zero changed artifacts; Focused Portable Form Checks passed (job `97910331871`, 7m03s) while full API/bank jobs stayed skipped. E2E/browser `32880827041` also passed classification and its single bounded `(1,1)` cohort shard passed (job `97911386532`, 12m45s). Only the merged browser-report job remains pending.
-- Hosted checks are pending. Technical closure remains `in_progress` until the exact bounded browser and attributable hosted receipts are reviewed.
+- First hosted test-only focused-path proof on rebased head: API `32880826731` classified `portable_focused` with exact selected IDs `cd511`, `gg-lobbying`, `sflll`, their exact three mapped test files, and zero changed artifacts; Focused Portable Form Checks passed (job `97910331871`, 7m03s) while full API/bank jobs stayed skipped. E2E/browser `32880827041` also passed classification; its single bounded `(1,1)` cohort shard passed (job `97911386532`, 12m45s), and the merged report passed (job `97915546008`, 38s).
+- PR #125 merged into the private fork at `dbf71482c4d589e91027df7f6a240309171e44ec` on 2026-08-25.
+
+# Remaining non-technical gates
+
+- Semantic mappings remain `proposed`; no reviewed coverage was claimed.
+- CD-511 and Grants.gov Lobbying policy bindings remain `draft`; policy/legal/content acceptance remains pending.
+- SF-LLL constants and value-map policy acceptance remains a human gate even though exact runtime projection is proven.
+- Accessibility/assistive-technology, privacy/security, operational, UAT, and production-release reviews remain open.
+- All three forms remain unregistered; no registration or production cutover decision was made.
 
 [depends on](migrate-sflll-parity-oracle.md)
 

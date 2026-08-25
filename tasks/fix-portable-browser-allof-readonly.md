@@ -7,7 +7,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:16:46.012Z'
+  at: '2026-08-25T18:20:31.581Z'
 priority: P1
 superbee_progress_status: in_progress
 assignee: codex_phs_human_subjects_closure
@@ -37,7 +37,7 @@ This is a shared evidence-harness/projection defect, not permission to compile t
 
 # Implementation awaiting independent review
 
-Private-fork PR #127 at exact head `9dc3218ef8a6282e577c5eed2514a1558f26af20` changes only the generic browser-plan read-only predicate and its tests. It recursively inspects `readOnly` across each selected schema candidate's `allOf` branches, preserving the existing ancestor protection. A minimal positive/negative regression proves an `allOf`-protected system field is read-only while an otherwise identical applicant field remains editable. The PHS regression proves all three system-owned determinations are read-only, absent from editable selection, and the genuine `involves_human_specimens_or_data` applicant field remains editable.
+Private-fork PR #127 at exact head `c3a3e1ff06e8cb99f24c50735ad53c1f5ef55bb1` changes only the generic browser-plan read-only predicate and its tests. It recursively inspects `readOnly` across each selected schema candidate's `allOf` branches, preserving the existing ancestor protection. A minimal positive/negative regression proves an `allOf`-protected system field is read-only while an otherwise identical applicant field remains editable. After initial review, the PHS regression was strengthened to assert the exact three-field read-only definition set, the exact three-field top-level applicant-editable set, the exact two-repeater top-level set, and the complete top-level UI partition.
 
 Focused receipt: 51 browser-plan, preview, and PHS flattened-scalar XML tests passed; Ruff and Black passed. No bounded form run or merge will occur before independent review.
 
