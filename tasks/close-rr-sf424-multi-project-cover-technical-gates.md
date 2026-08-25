@@ -7,8 +7,8 @@ description: >-
 superbee_updated_by: codex_mp_cover_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T20:03:22.168Z'
-superbee_progress_status: in_progress
+  at: '2026-08-25T20:18:46.722Z'
+superbee_progress_status: done
 assignee: codex_mp_cover_evidence
 ---
 # Objective
@@ -48,3 +48,13 @@ Automated technical handoff is complete: the producer and private-fork consumer 
 - Reconcile the 14 emitted conditional targets against the exact pinned F769 DAT behavior records while preserving each compiled UI disposition separately. Do not infer semantic equivalence, hidden/disabled parity, inactive-value clearing, or conditional requiredness beyond exact source evidence.
 - Package the existing 22 semantic identities for human review without accepting them. `semanticReview` must remain proposed with zero accepted mappings.
 - Scope is strictly form-local producer evidence and regression coverage. No TypeSpec declaration, shared compiler, adapter, runtime, registration, release, or R&R Subaward Budget 10YR/30 change is authorized.
+
+### Evidence-closure receipt
+
+- Merged producer PR [#118](https://github.com/mikec-ai/grants-form-spec/pull/118) as `d1cd1a23dddbee406140b970a471fba311134114` from exact reviewed head `c27dbb560b982203d335f9a026646c08108d825e`.
+- Replaced all 14 placeholder conditions with exact pinned F769 source records and retained 14 separate compiled-but-unreviewed dispositions. The five identical Revision Code source rows are explicitly aggregated as `08-1-1 through 08-1-5`; Multi-Project-specific numbering remains Women Owned `07-3` and Socially/Economically Disadvantaged `07-4`.
+- Regression coverage pins every emitted condition's exact root reference, value, and interaction effect: ten enabled/disabled transitions and four read-only/enabled transitions. Source wording such as `inactive` is not silently equated with read-only or disabled, and inactive-value clearing or retention remains open.
+- Semantic review remains exactly 22 proposed mappings, zero accepted, with no `reviewedBy`; this work contributes nothing to reviewed semantic coverage.
+- Full producer preflight passed 125 TypeSpec tests, 398 Python tests / 10 skipped, 8 XML projection tests, 36 XSD fixtures, 1,721 artifact checks, and classified 0/0. Hosted [form-spec CI 32894013961](https://github.com/mikec-ai/grants-form-spec/actions/runs/32894013961) and [proof-package 32894013947](https://github.com/mikec-ai/grants-form-spec/actions/runs/32894013947) both passed.
+- Independent review found no blocker and verified exact source provenance/text/path, all emitted condition effects, 22 proposed/0 accepted semantics, and the strictly form-local evidence/test diff.
+- Human semantic, interaction-equivalence, inactive-value policy, visual/content, accessibility, privacy/policy, UAT, registration, operational, and release gates remain open. This is technical evidence closure, not production approval.
