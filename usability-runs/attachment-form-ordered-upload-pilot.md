@@ -9,8 +9,9 @@ producer_commit: 273d1ba8da96a958448d9c19209a50b8cbe2c0dc
 artifact_manifest_digest: 17861ef970eb80b84ec9aa079eeb03b588dbd2d75aceb2fafdbdb56f8db5e5b7
 browser_scope: desktop-chromium-calibration
 result: not_run
-superbee_progress_status: queued
-superbee_updated_by: codex
+superbee_progress_status: inconclusive
+superbee_updated_by: codex_attachment_usability
+assignee: codex_attachment_usability
 ---
 # Intent
 
@@ -46,13 +47,34 @@ intentional invalid upload, and inspect the printable result.
 
 # Evidence
 
-Not run. The executing agent must add browser/viewport, local application identifier, safe route
-reference, fixture names and hashes, timestamps, screenshots or trace locations, and step-level
-observations here.
+- Attempt timestamp: `2026-08-25T21:54:05Z`.
+- Requested browser scope: desktop Chromium calibration through the ordinary local Simpler route.
+- Browser connection evidence: the in-app browser selector returned exact diagnostic
+  `Browser is not available: iab`; the URL-based selector for `http://localhost:3000/` then returned
+  exact diagnostic `No browser is available`.
+- Local application identifier and safe route reference: not observable because no supported
+  browser surface was available. The requested root URL was `http://localhost:3000/`; no form or
+  application route was opened.
+- Runtime and producer provenance remain the pinned values above. They were not substituted with a
+  different local checkout or newer build.
+- Fixtures: none created or uploaded. Consequently there are no fixture hashes, screenshots, or
+  browser traces for this attempt.
+- Step 1: not executed; displayed ordering content could not be observed.
+- Step 2: not executed; no valid files were uploaded.
+- Step 3: not executed; no invalid-file feedback was elicited.
+- Step 4: not executed; no attachment was replaced or removed.
+- Step 5: not executed; persistence and ordering were not evaluated.
+- Step 6: not executed; keyboard traversal and print representation were not evaluated.
+- Step 7: no applicant-facing symptom was observed, so no Usability Finding was created.
+- Prior automated catalog evidence was not used as a substitute for this manual calibration.
 
 # Outcome and follow-up
 
-Not run. Set the result and terminal status only after the evidence above is complete. Distinguish
-product usability from missing agency-specific guidance and from browser/harness failures.
+Inconclusive due solely to unavailable browser infrastructure. This attempt provides no evidence
+for or against Attachment Form usability, ordering clarity, validation, persistence, keyboard
+operation, or print behavior. Keep `result: not_run`; terminal lifecycle is
+`progress_status: inconclusive`. Requeue a new run against the same pinned build when a supported
+desktop Chromium browser is available. No product code, issue, finding, or root-cause record was
+created.
 
 [validates](../tasks/close-attachment-form-release-gates.md)
