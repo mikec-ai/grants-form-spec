@@ -51,7 +51,7 @@
         "xfaSourceId": "rr-personal-data-xfa-pdf-v1-2",
         "xfaSourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDPrefixName initialize",
         "xfaAccessAfterInitialize": "protected",
-        "implementation": "source-bound-uncompiled"
+        "implementation": "compiled"
       },
       {
         "canonicalPath": "/projectDirector/name/firstName",
@@ -62,7 +62,7 @@
         "xfaSourceId": "rr-personal-data-xfa-pdf-v1-2",
         "xfaSourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDFirstName initialize",
         "xfaAccessAfterInitialize": "protected",
-        "implementation": "source-bound-uncompiled"
+        "implementation": "compiled"
       },
       {
         "canonicalPath": "/projectDirector/name/middleName",
@@ -73,7 +73,7 @@
         "xfaSourceId": "rr-personal-data-xfa-pdf-v1-2",
         "xfaSourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDMiddleName initialize",
         "xfaAccessAfterInitialize": "protected",
-        "implementation": "source-bound-uncompiled"
+        "implementation": "compiled"
       },
       {
         "canonicalPath": "/projectDirector/name/lastName",
@@ -84,7 +84,7 @@
         "xfaSourceId": "rr-personal-data-xfa-pdf-v1-2",
         "xfaSourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDLastName initialize",
         "xfaAccessAfterInitialize": "protected",
-        "implementation": "source-bound-uncompiled"
+        "implementation": "compiled"
       },
       {
         "canonicalPath": "/projectDirector/name/suffix",
@@ -95,7 +95,7 @@
         "xfaSourceId": "rr-personal-data-xfa-pdf-v1-2",
         "xfaSourcePath": "template: RR_PersonalData_1_2_P1.ProjectDirector.PDSuffixName initialize",
         "xfaAccessAfterInitialize": "protected",
-        "implementation": "source-bound-uncompiled"
+        "implementation": "compiled"
       }
     ],
     "coProjectDirectorRepetition": {
@@ -110,10 +110,10 @@
       ]
     },
     "selectionConstraints": [
-      { "canonicalPath": "/projectDirector/race", "sourcePath": "03-01 through 03-06", "implementation": "source-bound-uncompiled" },
-      { "canonicalPath": "/projectDirector/disabilityStatus", "sourcePath": "05-01 through 05-06", "implementation": "source-bound-uncompiled" },
-      { "canonicalPath": "/coProjectDirectors/[]/race", "sourcePath": "10-01 through 10-06", "implementation": "source-bound-uncompiled" },
-      { "canonicalPath": "/coProjectDirectors/[]/disabilityStatus", "sourcePath": "12-01 through 12-06", "implementation": "source-bound-uncompiled" }
+      { "canonicalPath": "/projectDirector/race", "sourcePath": "03-01 through 03-06", "implementation": "compiled" },
+      { "canonicalPath": "/projectDirector/disabilityStatus", "sourcePath": "05-01 through 05-06", "implementation": "compiled" },
+      { "canonicalPath": "/coProjectDirectors/[]/race", "sourcePath": "10-01 through 10-06", "implementation": "compiled" },
+      { "canonicalPath": "/coProjectDirectors/[]/disabilityStatus", "sourcePath": "12-01 through 12-06", "implementation": "compiled" }
     ]
   },
   "unresolvedBehavior": [

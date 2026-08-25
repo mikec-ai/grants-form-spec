@@ -10,6 +10,7 @@ import {
   orderedProps,
   propHelpText,
   propEncodedCheckboxGroup,
+  propExclusiveValues,
   propReadOnly,
   propRequiredWhen,
   propValidationConstraints,
@@ -41,8 +42,9 @@ export function emitSchemaOverlay(
   const constraints = constraintAnnotations(program, model);
   const cardinality = cardinalityAnnotations(program, model);
   const encodedCheckboxes = encodedCheckboxAnnotations(program, model);
+  const exclusiveValues = exclusiveValueAnnotations(program, model);
   const alternatives = atLeastOneAnnotations(program, model);
-  const parts = [conditionals, patches, readOnly, helpText, constraints, cardinality, encodedCheckboxes, alternatives].filter(Boolean) as Record<string, unknown>[];
+  const parts = [conditionals, patches, readOnly, helpText, constraints, cardinality, encodedCheckboxes, exclusiveValues, alternatives].filter(Boolean) as Record<string, unknown>[];
   if (!parts.length) return undefined;
   return parts.reduce(merge, {});
 }
@@ -59,9 +61,48 @@ export function emitModelOverlay(
     constraintAnnotations(program, model),
     cardinalityAnnotations(program, model),
     encodedCheckboxAnnotations(program, model),
+    exclusiveValueAnnotations(program, model),
     atLeastOneAnnotations(program, model),
   ].filter(Boolean) as Record<string, unknown>[];
   return parts.length ? parts.reduce(merge, {}) : undefined;
+}
+
+/**
+ * Carry array-choice exclusivity as both portable machine metadata and ordinary JSON Schema.
+ * Consumers may use the metadata for immediate interaction; every validator still rejects a
+ * response where one of the named values appears beside another selection.
+ */
+function exclusiveValueAnnotations(
+  program: Program,
+  model: Model,
+  seen = new Set<Model>(),
+): Record<string, unknown> | undefined {
+  if (seen.has(model)) return undefined;
+  seen.add(model);
+  const properties: Record<string, unknown> = {};
+  for (const property of model.properties.values()) {
+    let patch: Record<string, unknown> = {};
+    const values = propExclusiveValues(program, property);
+    if (values.length) {
+      patch = {
+        "x-exclusive-values": values,
+        allOf: values.map((value) => ({
+          if: { contains: { const: value } },
+          then: { maxItems: 1 },
+        })),
+      };
+    }
+    const child = childModel(property.type);
+    // Published questions own intrinsic exclusivity in their own schema. Do not repeat the
+    // same constraint beside each form occurrence's $ref; only local unpublished capture
+    // models need recursive projection.
+    if (child && !readBlock(program, child.model)) {
+      const nested = exclusiveValueAnnotations(program, child.model, new Set(seen));
+      if (nested) patch = merge(patch, child.repeated ? { items: nested } : nested);
+    }
+    if (Object.keys(patch).length) properties[property.name] = patch;
+  }
+  return Object.keys(properties).length ? { properties } : undefined;
 }
 
 /** Emit a model-level choice as ordinary, portable JSON Schema. */
