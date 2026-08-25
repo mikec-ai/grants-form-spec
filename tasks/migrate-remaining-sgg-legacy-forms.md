@@ -40,4 +40,15 @@ Treat each form as a source-evidenced portable definition, use the legacy implem
 
 The `personal_data_closure` lane claimed the smallest non-overlapping slice on 2026-08-25: EPA Key Contacts only. Project Abstract remains independently owned; EPA 4700-4 and the Supplementary NEH Cover Sheet remain outside this slice.
 
-Verified starting evidence exists without asserting producer completion: 81 deterministic XSD records with pinned source URL/version and no extraction warnings; a preserved versioned XLS behavior source; a legacy Simpler form, XML profile, exact-XSD tests, and browser fixtures that can serve as a compatibility oracle; and prior agent-proposed role-qualified mappings that remain proposals. No open producer or consumer PR/remote branch currently claims EPA Key Contacts. The first deliverable is producer-owned source/provenance reconciliation and a declarative authoring plan; no consumer registration or release claim is authorized.
+Producer PR [grants-form-spec #110](https://github.com/mikec-ai/grants-form-spec/pull/110), head `cea50b88e06bace76faf7344e9b82825b0907d30`, now carries the isolated source/declarative/XML slice:
+
+- exact official v2.0 XSD, DAT, read-only PDF, XFA PDF, GlobalLibrary V2, and UniversalCodes V2 identities and hashes are pinned;
+- one role-qualified contact composition serves Authorized Representative, Payee, Administrative Contact, and Project Manager;
+- all 36 exact DAT runtime effects remain machine-readable as `source-bound-uncompiled`, including four explicitly unresolved initial-active/post-blur State transitions;
+- all semantic mappings remain `proposed`, accepted mappings remain zero, and published coverage is not increased;
+- implementation-derived analysis reports five reused question blocks, zero new question blocks, and 24 exploratory associations;
+- one source-identical `ContactPersonDataTypeV3` mapping projects all four roles, preserving exact XSD sequence, namespaces, optional-role behavior, and the official `AdminstrativeContact` wire spelling;
+- the byte-identical root XSD fixture hashes to `157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01`;
+- full producer preflight passed locally: 125 TypeSpec tests, 377 Python tests (10 skipped), exact-XSD fixture, evidence, artifact, classification, package, and analysis gates.
+
+This receipt proves the producer-side source contract, declarative composition, generic XML projection, differential wire compatibility, and exact-XSD conformance only. Consumer registration, save/reload/browser/lifecycle parity, accessibility, privacy/policy, operations, human semantic review, and production release remain separate gates. No consumer branch was created by this lane.
