@@ -388,7 +388,14 @@ function overriddenPresentation(block: Block): Record<string, unknown> | undefin
       // A root property is declared in this block, so `@UI.label` already covers it.
       continue;
     }
-    const patch = rest.length ? nest(rest, presentation) : presentation;
+    const property = modelProperty(block.model as Model, head);
+    const child = property ? childModel(property.type) : undefined;
+    let patch = rest.length && child
+      ? nestPresentation(child.model, rest, presentation)
+      : rest.length
+        ? nest(rest, presentation)
+        : presentation;
+    if (rest.length && child?.repeated) patch = { items: patch };
     patches[head] = merge(patches[head] ?? {}, patch);
   }
   if (!Object.keys(patches).length) return undefined;
@@ -397,6 +404,39 @@ function overriddenPresentation(block: Block): Record<string, unknown> | undefin
       Object.entries(patches).map(([name, patch]) => [name, { allOf: [patch] }]),
     ),
   };
+}
+
+/** Find one own or inherited property, preferring the derived declaration. */
+function modelProperty(model: Model, name: string): ModelProperty | undefined {
+  for (let current: Model | undefined = model; current; current = current.baseModel) {
+    const property = current.properties.get(name);
+    if (property) return property;
+  }
+  return undefined;
+}
+
+/**
+ * Nest one form-scoped presentation patch through the addressed model shape.
+ *
+ * Arrays require an `items` boundary in JSON Schema even though the authoring
+ * path deliberately omits array syntax (`reports.total`, not `reports[].total`).
+ */
+function nestPresentation(
+  model: Model,
+  steps: string[],
+  leaf: Record<string, unknown>,
+): Record<string, unknown> {
+  const [step, ...rest] = steps;
+  if (!step) return leaf;
+  const property = modelProperty(model, step);
+  const child = property ? childModel(property.type) : undefined;
+  let nested = rest.length && child
+    ? nestPresentation(child.model, rest, leaf)
+    : rest.length
+      ? nest(rest, leaf)
+      : leaf;
+  if (rest.length && child?.repeated) nested = { items: nested };
+  return { properties: { [step]: nested } };
 }
 
 /** `["phone"], {title}` becomes `{properties: {phone: {title}}}`. */

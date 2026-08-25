@@ -649,6 +649,56 @@ describe("field occurrence role precedence", () => {
 });
 
 describe("form-scoped behavior overrides", () => {
+  it("projects presentation overrides through repeated object items", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum OverrideSection { reports: "Reports" }
+        model SharedTotals { entered?: int32; total?: int32; }
+        model SharedReport { details?: SharedTotals; }
+
+        ${formMeta("repeated-presentation-override-check")}
+        @UI.sections(OverrideSection)
+        @UI.overrides(#{
+          \`reports.details.total\`: #{ readOnly: true, visibleReadOnly: true },
+        })
+        model RepeatedPresentationOverrideCheck {
+          @UI.section(OverrideSection.reports)
+          reports: SharedReport[];
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "repeated-presentation-override-check",
+    );
+    expect(block).toBeDefined();
+    expect(emitSchemaOverlay(instance.program, block!)).toEqual({
+      properties: {
+        reports: {
+          allOf: [{
+            items: {
+              properties: {
+                details: { properties: { total: { readOnly: true } } },
+              },
+            },
+          }],
+        },
+      },
+    });
+    const fields = emitSggUi(instance.program, block!)[0].children;
+    const reports = fields.find((field) => field.definition === "/properties/reports");
+    expect(reports).toMatchObject({
+      type: "fieldList",
+      children: expect.arrayContaining([
+        {
+          type: "field",
+          definition: "/properties/reports/items/properties/details/properties/total",
+        },
+      ]),
+    });
+  });
+
   it("emits an enabled condition without re-declaring the shared question", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(

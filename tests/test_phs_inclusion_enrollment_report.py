@@ -84,6 +84,10 @@ class PHSInclusionEnrollmentReportTests(unittest.TestCase):
             if isinstance(properties, dict):
                 for name, child in properties.items():
                     paths.update(read_only_paths(child, f"{path}/{name}"))
+            items = value.get("items")
+            if isinstance(items, dict):
+                item_path = path if path.endswith("/[]") else f"{path}/[]"
+                paths.update(read_only_paths(items, item_path))
             branch_path = f"{path}/[]" if value.get("type") == "array" else path
             for branch in value.get("allOf", []):
                 paths.update(read_only_paths(branch, branch_path))
