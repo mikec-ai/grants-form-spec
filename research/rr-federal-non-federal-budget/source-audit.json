@@ -1,0 +1,110 @@
+{
+  "contract": "official-source-audit/v1",
+  "formId": "rr-federal-non-federal-budget",
+  "formVersion": "2.0",
+  "claimsBoundary": "This receipt preserves deterministic provenance, source-declared XSD structure, and crosswalk source accounting only. It does not establish that this form is a parameterized R&R Budget variant, that similarly named budget fields are semantically equivalent, or that proposed calculations, conditions, runtime behavior, consumer readiness, banking, or registration are correct.",
+  "method": {
+    "ocrUsed": false,
+    "xsdMethod": "Fresh official download, SHA-256 verification against the pinned crosswalk receipt, and namespace-aware XML structure inspection.",
+    "datMethod": "Fresh official workbook download and SHA-256 verification against the pinned deterministic behavior receipt; workbook behavior semantics were not adjudicated in this slice.",
+    "reviewStatus": "agent-reviewed-provenance-only"
+  },
+  "crosswalkReceipt": {
+    "repository": "mikec-ai/grants-question-crosswalk",
+    "revision": "4312f6504b060e2b9ffdbd2307fc41130c3123a0",
+    "portfolioRecordPath": "demo-web/public/data/portfolio/forms/frozen_3ARRFedNonFedBudget.json",
+    "portfolioRecordId": "frozen:RRFedNonFedBudget",
+    "questionManifestPath": "artifacts/proof/grantsgov-RRFedNonFedBudget.jsonl.manifest.json",
+    "behaviorManifestPath": "artifacts/proof/grantsgov-RRFedNonFedBudget-behaviors.jsonl.manifest.json",
+    "canonicalMetadata": {
+      "fid": "738",
+      "formKey": "RR_FedNonFedBudget_2_0-V2.0_F738",
+      "version": "2.0"
+    }
+  },
+  "sources": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/RR_FedNonFedBudget_2_0-V2.0.xsd",
+      "nativeVersion": "2.0",
+      "retrievedAt": "2026-08-25",
+      "sha256": "2ae0445e5f0a7228c1b0cdecbedc8fb4bb064f6249644e20f3dc99164bd44a1f",
+      "crosswalkExtractionVersion": "sha256:cdc687b1fae157eadc282c3f9aaa9e508e8c39ccb3238f2e6a5d89804ce4d782"
+    },
+    "dat": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/RR_FedNonFedBudget_2_0-V2.0_F738.xls",
+      "nativeVersion": "2.0",
+      "retrievedAt": "2026-08-25",
+      "sha256": "cfa2cd8cb6003f44093c085fd3503c8b32d7cf6ac4a15c6362ca706fa5c8255e",
+      "crosswalkExtractionVersion": "sha256:cfa2cd8cb6003f44093c085fd3503c8b32d7cf6ac4a15c6362ca706fa5c8255e"
+    },
+    "pdf": {
+      "reviewState": "not_acquired",
+      "reviewedPages": [],
+      "gate": "Acquire and visually review the official rendered form and instructions before claiming wording, layout, accessibility, or print parity."
+    }
+  },
+  "deterministicInventory": {
+    "xsd": {
+      "targetNamespace": "http://apply.grants.gov/forms/RR_FedNonFedBudget_2_0-V2.0",
+      "declaredElementsIncludingNested": 143,
+      "rootSequenceChildren": 6,
+      "requiredRootChildren": 5,
+      "optionalRootChildren": 1,
+      "repeatingRootChildren": [
+        {
+          "name": "BudgetYear",
+          "minOccurs": 1,
+          "maxOccurs": 5
+        }
+      ],
+      "imports": 3,
+      "namedComplexTypes": 8,
+      "namedSimpleTypes": 5
+    },
+    "crosswalkSourceAccounting": {
+      "questionAndStructureRecords": 364,
+      "behaviorRecords": 391,
+      "calculationBehaviors": 144,
+      "conditionalBehaviors": 86,
+      "staticPresentationBehaviors": 128,
+      "enumeratedRecords": 2,
+      "repeatingRecords": 6
+    },
+    "behaviorReviewQueue": {
+      "status": "agent_proposed",
+      "acceptedBindings": 0,
+      "reviewQueueBeforeReconciliation": 236,
+      "runtimeReconciledBindings": 132,
+      "ledgerProposedBindings": 30,
+      "contextualBindingCandidates": 42,
+      "enumerationBindingCandidates": 2,
+      "remainingReviewQueue": 60,
+      "publishedCoverageEligible": false
+    }
+  },
+  "semanticBoundary": {
+    "status": "proposed-unreviewed",
+    "acceptedMappings": 0,
+    "publishedCoverageEligible": false,
+    "parameterizedVariantClaim": "not_accepted"
+  },
+  "oracleBoundary": {
+    "legacySimplerOracle": "not_found",
+    "crosswalkBrowserArtifact": "agent_proposed-not-a-legacy-simpler-oracle",
+    "runtimeCompatibilityClaim": "not_made",
+    "consumerReadinessClaim": "not_made"
+  },
+  "scopeBoundary": {
+    "subawardTenYearWrapper": "excluded",
+    "subawardThirtyYearWrapper": "excluded",
+    "productionFormDeclaration": "not_created"
+  },
+  "openGates": [
+    "Human-review all semantic mappings and the proposed parameterized-variant architecture.",
+    "Adjudicate DAT calculations, conditions, input roles, and remaining behavior bindings before compiling behavior.",
+    "Compare exact structure and semantics with the existing budget family without treating similarity as equivalence.",
+    "Acquire and visually review official PDF and instruction artifacts.",
+    "Establish a consumer oracle before making runtime, banking, registration, or accessibility claims.",
+    "Keep the excluded 10-year and 30-year subaward wrapper lanes under their existing owners."
+  ]
+}
