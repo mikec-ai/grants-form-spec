@@ -13,7 +13,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_rr_sf424_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T19:49:08.982Z'
+  at: '2026-08-25T19:59:43.563Z'
 ---
 # Scope
 
@@ -59,3 +59,13 @@ R&R SF-424 validated the intended boundary: canonical questions and cross-field 
 - Claimed by `codex_rr_sf424_evidence` after collision-checking current open producer PRs; no open branch changes `evidence/forms/rr-sf424/evidence.json`, `tests/test_rr_sf424.py`, or the R&R SF-424 TypeSpec source.
 - Scope is form-local evidence and regression coverage only: reconcile the eight already-emitted conditional targets to exact pinned official source records and package all 22 semantic identities for human review without accepting any mapping.
 - No compiler, adapter, shared runtime, registration, release, or R&R Subaward Budget 10YR/30 changes are authorized in this lane. Any generic defect discovered during full validation will be reported before implementation.
+
+### Technical closure receipt
+
+- Merged producer PR [#117](https://github.com/mikec-ai/grants-form-spec/pull/117) at merge commit `6078fa35d8c0f1ae6dc040ed77536a2920534dd0`.
+- Preserved the exact pinned F768 source URI and SHA-256, then reconciled all eight official source-bound behavior records separately from eight compiled-but-unresolved UI dispositions. No hidden/disabled or conditional-requiredness parity was inferred.
+- Packaged all 22 semantic identities as proposals for human review; `semanticReview` remains `unreviewed`, with zero accepted mappings and no contribution to reviewed coverage.
+- Focused local evidence: 12 tests passed / 1 skipped. Full producer preflight passed 125 TypeSpec tests, 395 Python tests / 10 skipped, 8 XML projection tests, 36 XSD fixtures, 1,721 artifact checks, and classified 0/0.
+- Hosted receipts at exact head `167d5a227c5ff69b2ca74fe4331b3d307409ca78`: [form-spec CI run 32892431936](https://github.com/mikec-ai/grants-form-spec/actions/runs/32892431936) and [proof-package run 32892431932](https://github.com/mikec-ai/grants-form-spec/actions/runs/32892431932), both green.
+- Independent review was clean on exact source text/path/provenance, the five-row revision-code aggregation, separation of unresolved compiled dispositions, 22 proposed/0 accepted semantics, and the strictly form-local two-file diff.
+- Remaining gates are unchanged: human semantic and source-bound XML/policy review, manual visual and accessibility review, release acceptance, and runtime registration. This merge makes no production-readiness or release claim.
