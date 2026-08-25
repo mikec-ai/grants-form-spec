@@ -125,7 +125,7 @@
     "The existing Simpler form has no rule schema. It is a rendering and XML compatibility oracle, but it does not prove the DAT's State/ZIP conditional behavior."
   ],
   "implementationPlan": {
-    "status": "source-foundation-ready",
+    "status": "producer-xml-verified",
     "producerReuse": [
       "generic five-part human name",
       "generic address fields excluding unproven applicant-visible County and Province controls",
@@ -139,6 +139,25 @@
     ],
     "openTechnicalDecision": "Represent or explicitly gate the DAT's initial-active then country-conditioned State interaction without a form-specific runtime branch.",
     "consumerBoundary": "Use the legacy Simpler implementation as a differential oracle. Keep the portable form unregistered until parity deltas and human gates are accepted."
+  },
+  "producerVerification": {
+    "status": "verified",
+    "profile": "targets/grants-gov-xml/profiles/epa-key-contacts.json",
+    "sharedMapping": "targets/grants-gov-xml/mappings/global-library-v2-contact-person-v3.json",
+    "exactRootFixture": "tests/fixtures/grants-gov-xsd/epa-key-contacts-2.0/EPA_KeyContacts_2_0-V2.0.xsd",
+    "verifiedClaims": [
+      "all four role objects resolve through one source-identical ContactPersonDataTypeV3 mapping",
+      "root and contact-child element order and namespaces match the official XSD",
+      "the official AdminstrativeContact wire spelling is preserved",
+      "optional role omission and both State and Province address variants validate against the exact pinned XSD",
+      "portable output matches the existing Simpler transform's declared wire sequence"
+    ],
+    "excludedClaims": [
+      "consumer registration or runtime execution",
+      "browser, save/reload, or lifecycle parity",
+      "semantic acceptance or published coverage",
+      "accessibility, privacy, policy, operations, or production readiness"
+    ]
   },
   "semanticBoundary": {
     "status": "unreviewed-human-review-gate",
@@ -157,10 +176,9 @@
       "accepted semantic mappings",
       "complete instructions or agency policy",
       "exact XFA interaction scripts",
-      "portable XML and XSD conformance",
       "consumer differential parity and lifecycle",
       "human accessibility, privacy, security, operations, registration, and release"
     ]
   },
-  "parityClaim": "This audit proves exact source identity, byte provenance, source inventory, behavior inventory, and legacy-oracle boundaries. It does not claim portable implementation, semantic acceptance, behavioral parity, XML parity, accessibility, policy, or production readiness."
+  "parityClaim": "This audit and its linked producer tests prove exact source identity, byte provenance, source and behavior inventories, reusable portable composition, exact wire projection, and conformance to the pinned official XSD. They do not claim consumer execution, semantic acceptance, browser or lifecycle parity, accessibility, policy, or production readiness."
 }

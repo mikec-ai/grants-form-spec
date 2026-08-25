@@ -110,7 +110,10 @@ class EPAKeyContactsTests(unittest.TestCase):
         self.assertEqual(len(compiled), 0)
         self.assertEqual(len(source_bound_uncompiled), 36)
         self.assertEqual(len(unresolved), 4)
-        self.assertNotIn("targets/grants-gov-xml.json", manifest["artifacts"])
+        self.assertEqual(
+            manifest["artifacts"]["targets/grants-gov-xml.json"],
+            "generated",
+        )
 
 
 if __name__ == "__main__":
