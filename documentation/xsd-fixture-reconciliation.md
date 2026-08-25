@@ -45,6 +45,7 @@ profiles and fixture bytes on every preflight.
 | `rr-other-project-information` | `1.4` | `RR_OtherProjectInfo_1_4-V1.4.xsd` | `b2144c290ed5ad6d942e70815d195d7d6aa4e8e6c82fc3932d8540e3aa303ef5` | `rr-other-project-information-1.4/RR_OtherProjectInfo_1_4-V1.4.xsd` |
 | `rr-personal-data` | `1.2` | `RR_PersonalData_1_2-V1.2.xsd` | `5f766d46d573da1f6bb326bcbc13338439ba75399ad09dee2380f65e892402cb` | `rr-personal-data-1.2/RR_PersonalData_1_2-V1.2.xsd` |
 | `rr-sf424` | `5.0` | `RR_SF424_5_0-V5.0.xsd` | `f140f32afed9d7efbe30fc8f299542bbbc3121dbc87a79aa351fcf096163d3bc` | `rr-sf424-5.0/RR_SF424_5_0-V5.0.xsd` |
+| `rr-sf424-multi-project-cover` | `4.0` | `RR_SF424_Multi_Project_Cover_4_0-V4.0.xsd` | `5d5599068d721e6554fa442df88711f8d9386a5fafc18b01cb1d1becc41f84e7` | `rr-sf424-multi-project-cover-4.0/RR_SF424_Multi_Project_Cover_4_0-V4.0.xsd` |
 | `rr-sf424b` | `1.1` | `RRSF424_SF424B-V1.1.xsd` | `511de9a5594a739ce596a33a92d3dec1bac2a32f193a2fe6b4799b45f29ff296` | `sf424b-1.1/RRSF424_SF424B-V1.1.xsd` |
 | `rr-subaward-budget-10yr-30` | `3.0` | `RR_SubawardBudget10_30_3_0-V3.0.xsd` | `0ed112b2e50f0e0c43423f690201b207f5b9c5a85349335260e4fd999f3a611a` | `rr-subaward-budget-10yr-30-3.0/RR_SubawardBudget10_30_3_0-V3.0.xsd` |
 | `rr-subaward-budget-30` | `3.0` | `RR_SubawardBudget30_3_0-V3.0.xsd` | `d5d534326e8f7e4416baf98c95c1f9234c0a23628259ee2d7e3199181a24e08a` | `rr-subaward-budget-30-3.0/RR_SubawardBudget30_3_0-V3.0.xsd` |

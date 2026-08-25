@@ -34,7 +34,13 @@ async function resolveRefs(value, from, stack = new Set()) {
   }
   if (!value || typeof value !== "object") return value;
   if (typeof value.$ref === "string") {
-    if (Object.keys(value).length !== 1) throw new Error(`${from}: $ref must be the only member`);
+    const members = Object.keys(value);
+    const unexpected = members.filter(
+      (member) => !["$ref", "$rename", "$overlay"].includes(member),
+    );
+    if (unexpected.length > 0) {
+      throw new Error(`${from}: $ref has unsupported sibling ${unexpected[0]}`);
+    }
     const [location, fragment = ""] = value.$ref.split("#", 2);
     if (!location || /^[a-z][a-z0-9+.-]*:/i.test(location)) {
       throw new Error(`${from}: only relative cross-file references are supported`);
@@ -43,8 +49,44 @@ async function resolveRefs(value, from, stack = new Set()) {
     if (!inside(TARGET_ROOT, target)) throw new Error(`${from}: reference escapes target root`);
     const key = `${target}#${fragment}`;
     if (stack.has(key)) throw new Error(`${from}: reference cycle at ${value.$ref}`);
-    const targetValue = pointer(await readJson(target), fragment ? `#${fragment}` : "#", target);
-    return resolveRefs(targetValue, target, new Set([...stack, key]));
+    const targetValue = await resolveRefs(
+      pointer(await readJson(target), fragment ? `#${fragment}` : "#", target),
+      target,
+      new Set([...stack, key]),
+    );
+    if (!("$rename" in value) && !("$overlay" in value)) return targetValue;
+    if (!targetValue || Array.isArray(targetValue) || typeof targetValue !== "object") {
+      throw new Error(`${from}: $rename and $overlay require an object reference target`);
+    }
+    const renames = value.$rename ?? {};
+    if (!renames || Array.isArray(renames) || typeof renames !== "object") {
+      throw new Error(`${from}: $rename must be an object`);
+    }
+    const destinations = new Set(Object.values(renames));
+    if (
+      Object.values(renames).some((member) => typeof member !== "string" || !member) ||
+      destinations.size !== Object.keys(renames).length
+    ) {
+      throw new Error(`${from}: $rename destinations must be unique non-empty strings`);
+    }
+    for (const [member, replacement] of Object.entries(renames)) {
+      if (!(member in targetValue)) throw new Error(`${from}: $rename source ${member} is absent`);
+      if (replacement in targetValue && !(replacement in renames)) {
+        throw new Error(`${from}: $rename destination ${replacement} already exists`);
+      }
+    }
+    const resolved = Object.fromEntries(
+      Object.entries(targetValue).map(([member, child]) => [renames[member] ?? member, child]),
+    );
+    const overlay = value.$overlay ?? {};
+    if (!overlay || Array.isArray(overlay) || typeof overlay !== "object") {
+      throw new Error(`${from}: $overlay must be an object`);
+    }
+    for (const [member, replacement] of Object.entries(overlay)) {
+      if (replacement === null) delete resolved[member];
+      else resolved[member] = replacement;
+    }
+    return resolved;
   }
   return Object.fromEntries(
     await Promise.all(

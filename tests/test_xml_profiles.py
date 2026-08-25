@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -21,7 +22,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
     def test_factored_profiles_remain_byte_identical_to_the_source_bound_baseline(self) -> None:
         expected = {
             "rr-budget": "b519089485c79277dd6eb21363624895eebfde882f5e2224b268692d606eafe3",
-            "rr-sf424": "23015dd8940e677666e335d2533012865439952db03c57eea61056f8764ca9ca",
+            "rr-sf424": "01e598882f33a5586d8e1ea5847dba2ccd40258863f3b1e929e54b02d3769664",
         }
 
         for form_id, digest in expected.items():
@@ -63,6 +64,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "rr-subaward-budget-30",
             "rr-subaward-budget-10yr-30",
             "rr-sf424",
+            "rr-sf424-multi-project-cover",
             "performance-site",
             "rr-other-project-information",
             "phs398-modular-budget",
@@ -224,6 +226,10 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
             ],
+            "rr-sf424-multi-project-cover": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/rr-sf424-5.0.json#/fields",
+            ],
             "sbir-sttr-information": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
@@ -279,20 +285,47 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
 
     def test_rr_sf424_keeps_wire_only_grouping_out_of_the_question_model(self) -> None:
         profile = _json(DIST_FORMS / "rr-sf424/targets/grants-gov-xml.json")
-        district = profile["mapping"]["fields"]["congressionalDistrict"]
-
-        self.assertEqual(district["kind"], "group")
-        self.assertEqual(district["namespace"], "default")
+        district = profile["mapping"]["fields"]["applicantCongressionalDistrict"]
         self.assertEqual(
-            district["fields"]["applicantCongressionalDistrict"],
+            district,
             {
                 "element": "ApplicantCongressionalDistrict",
                 "kind": "value",
                 "namespace": "default",
-                "source": "/applicantCongressionalDistrict",
+                "container": {
+                    "element": "CongressionalDistrict",
+                    "namespace": "default",
+                },
             },
         )
         self.assertEqual(profile["evidence"]["status"], "source-bound-unreviewed")
+
+    def test_multi_project_cover_overlays_only_its_source_backed_tracking_rename(self) -> None:
+        standalone = _json(DIST_FORMS / "rr-sf424/targets/grants-gov-xml.json")
+        multi = _json(
+            DIST_FORMS
+            / "rr-sf424-multi-project-cover/targets/grants-gov-xml.json"
+        )
+        standalone_fields = copy.deepcopy(standalone["mapping"]["fields"])
+        multi_fields = copy.deepcopy(multi["mapping"]["fields"])
+        self.assertEqual(
+            standalone_fields.pop("grantsGovTrackingId"),
+            {
+                "element": "GGTrackingID",
+                "kind": "value",
+                "namespace": "default",
+            },
+        )
+        self.assertEqual(
+            multi_fields.pop("grantsTrackingNumber"),
+            {
+                "element": "GrantsTrackingNumber",
+                "kind": "value",
+                "namespace": "default",
+            },
+        )
+        self.assertEqual(multi_fields, standalone_fields)
+        self.assertNotIn("$ref", json.dumps(multi))
 
     def test_complex_wire_shapes_remain_declarative(self) -> None:
         other = _json(DIST_FORMS / "rr-other-project-information/targets/grants-gov-xml.json")
