@@ -8,7 +8,7 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T00:11:56.276Z'
+  at: '2026-08-25T00:31:46.020Z'
 assignee: codex_root_sf424c
 ---
 # Goal
@@ -61,5 +61,5 @@ This task validates and releases the existing portable design; it does not reope
 - Consumer PR [mikec-ai/simpler-grants-gov#97](https://github.com/mikec-ai/simpler-grants-gov/pull/97) merged as `82912c5de7315bc6bb0e13ed589c8264c919c0cc` at `2026-08-25T00:11:33Z`. It pins the merged producer revision and recursively projects nested Table cell definitions through the existing canonical-to-Simpler rename map. The generated 16-row, four-column SF-424C UI artifact passes Simpler's frontend AJV contract and focused Table/FormFields tests.
 - Local consumer receipts: 35 focused projection, SF-424C, integrity, and provenance tests passed; 48 frontend Table, UI-schema, and FormFields tests passed. Five additional legacy calculation tests require the local `grants-db` service and were unable to initialize outside the composed environment.
 - Bounded browser run [32791681432](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791681432) passed at the exact rebased consumer head `bc3da014971c2ffec80f55b5498434210e6ddd22`: four `@portable-catalog` probes passed against only `sf424c` in 1.4 minutes after the hosted application environment started. The run created the SF-424C preview opportunity/application, rendered the generated Table through the real frontend, and completed without an SF-424C-specific runtime branch.
-- The broad API workflow had already cleared formatting, linting, migrations, and security when the consumer PR merged. Its complete test phase is retained as a post-merge signal because this fork's broad suite routinely takes roughly 25–30 minutes; it was not used to obscure the bounded release evidence above.
+- Broad API run [32791671803](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791671803) completed after the merge with 4,714 passing tests, one skip, and six failures. None involved SF-424C, Table projection, or the generic adapter: one R&R Budget source-promotion assertion retained the earlier producer revision `fbb2554f...` instead of the correctly pinned `d75d511d...`, and five failures were fully-populated lifecycle validations across the R&R Budget family. These are concurrent R&R Budget follow-up defects, not evidence against the SF-424C table closure; no SF-424C production code was changed in response.
 - Production registration remains unchanged. Human semantic, instruction, accessibility, policy, and release approvals remain open.
