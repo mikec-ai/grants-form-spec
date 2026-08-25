@@ -1,0 +1,51 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "global-library-v2-contact-person-v3",
+  "evidence": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/system/schemas/GlobalLibrary-V2.0.xsd",
+      "version": "2.0",
+      "sha256": "ff0214de91b95a4209f50f0fe08a18d0f3d17f280ab8c8bbcb52878f37de7be8",
+      "type": "globLib:ContactPersonDataTypeV3",
+      "path": "/xs:schema/xs:complexType[@name='ContactPersonDataTypeV3']"
+    }
+  },
+  "fields": {
+    "name": {
+      "element": "Name",
+      "kind": "object",
+      "namespace": "globLib",
+      "fields": {
+        "$ref": "./global-library-v2-human-name.json#/fields"
+      }
+    },
+    "title": {
+      "element": "Title",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "address": {
+      "element": "Address",
+      "kind": "object",
+      "namespace": "globLib",
+      "fields": {
+        "$ref": "./global-library-v2-address-v3.json#/fields"
+      }
+    },
+    "phone": {
+      "element": "Phone",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "fax": {
+      "element": "Fax",
+      "kind": "value",
+      "namespace": "globLib"
+    },
+    "email": {
+      "element": "Email",
+      "kind": "value",
+      "namespace": "globLib"
+    }
+  }
+}

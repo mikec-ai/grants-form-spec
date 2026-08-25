@@ -1,6 +1,7 @@
 // Every form, so one compile produces the whole artifact tree and the catalogue sees the
 // complete bank. Individual form files still compile on their own while authoring.
 import "./forms/key-contacts.tsp";
+import "./forms/epa-key-contacts.tsp";
 import "./forms/sf424.tsp";
 import "./forms/sf424a.tsp";
 import "./forms/sf424-short.tsp";

@@ -1,0 +1,63 @@
+{
+  "contract": "grants-gov-xml-profile/v1",
+  "formId": "epa-key-contacts",
+  "xsd": {
+    "uri": "https://apply07.grants.gov/apply/forms/schemas/EPA_KeyContacts_2_0-V2.0.xsd",
+    "sha256": "157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01"
+  },
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/EPA_KeyContacts_2_0-V2.0",
+    "EPA_KeyContacts_2_0": "http://apply.grants.gov/forms/EPA_KeyContacts_2_0-V2.0",
+    "globLib": "http://apply.grants.gov/system/GlobalLibrary-V2.0",
+    "codes": "http://apply.grants.gov/system/UniversalCodes-V2.0"
+  },
+  "root": {
+    "element": "KeyContactPersons_2_0",
+    "namespacePrefix": "EPA_KeyContacts_2_0",
+    "attributes": {
+      "FormVersion": "2.0"
+    }
+  },
+  "mapping": {
+    "fields": {
+      "authorizedRepresentative": {
+        "element": "AuthorizedRepresentative",
+        "kind": "object",
+        "namespace": "default",
+        "fields": {
+          "$ref": "../mappings/global-library-v2-contact-person-v3.json#/fields"
+        }
+      },
+      "payee": {
+        "element": "Payee",
+        "kind": "object",
+        "namespace": "default",
+        "fields": {
+          "$ref": "../mappings/global-library-v2-contact-person-v3.json#/fields"
+        }
+      },
+      "administrativeContact": {
+        "element": "AdminstrativeContact",
+        "kind": "object",
+        "namespace": "default",
+        "fields": {
+          "$ref": "../mappings/global-library-v2-contact-person-v3.json#/fields"
+        }
+      },
+      "projectManager": {
+        "element": "ProjectManager",
+        "kind": "object",
+        "namespace": "default",
+        "fields": {
+          "$ref": "../mappings/global-library-v2-contact-person-v3.json#/fields"
+        }
+      }
+    }
+  },
+  "evidence": {
+    "status": "source-bound-unreviewed",
+    "repository": "https://github.com/mikec-ai/grants-question-crosswalk",
+    "revision": "dfe9e47ffd6a25c967b8ed38703480ccdc15a8ef",
+    "artifact": "artifacts/proof/grantsgov-EPAKeyContacts.jsonl.manifest.json"
+  }
+}
