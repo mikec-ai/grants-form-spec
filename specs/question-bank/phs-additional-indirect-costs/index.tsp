@@ -23,6 +23,7 @@ enum PHSAdditionalIndirectCostsBudgetType {
 /** One indirect-cost rate and requested amount. */
 model PHSAdditionalIndirectCostItem {
   @UI.label("Indirect Cost Type")
+  @minLength(1)
   @maxLength(64)
   costType: string;
 
@@ -45,6 +46,7 @@ model PHSAdditionalIndirectCostsForPeriod {
 
   @UI.label("Total Indirect Costs")
   @Validation.computedFrom(Op.Sum, "indirectCost[*].fundRequested")
+  @Validation.materializeWhenAnySourcePresent
   @Validation.evaluationOrder(1)
   @UI.readOnly
   totalIndirectCosts: ResearchBudgetTotalAmount15;
@@ -84,6 +86,7 @@ model QuestionPHSAdditionalIndirectCostsBudgetYear {
 model QuestionPHSAdditionalIndirectCostsSummary {
   @UI.label("Indirect Costs")
   @Validation.computedFrom(Op.Sum, "../budgetYears[*].indirectCosts.totalIndirectCosts")
+  @Validation.materializeWhenAnySourcePresent
   @Validation.evaluationOrder(2)
   @UI.readOnly
   cumulativeTotalFundsRequestedIndirectCost?: ResearchBudgetTotalAmount15;
