@@ -8,7 +8,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:11:21.683Z'
+  at: '2026-08-25T18:14:19.424Z'
 priority: P1
 assignee: codex_phs_human_subjects_closure
 superbee_progress_status: in_progress
@@ -38,6 +38,17 @@ Close the smallest automated technical handoff for the already-banked, unregiste
 - The 28 total-like enrollment coordinates remain applicant-entered/observed; no arithmetic is inferred.
 - Semantic mappings remain proposed and contribute nothing to reviewed coverage.
 - Dimensional-grid usability, keyboard navigation, focus/error behavior, screen-reader behavior, agency-profile behavior, instructions, privacy/security, policy, human semantic review, visual/content review, operational review, UAT, registration, and production release remain open.
+
+# Initial consumer gap analysis
+
+- The banked package is substantial and internally coherent: 189 UI fields across 195 nodes, five repeaters (studies, inclusion reports, interventions, outcomes, and delayed-onset studies), 15 distinct attachment mappings, 11 array mappings, five flattened scalar-array mappings, 172 XML value mappings, and exact parent/embedded-study XSD provenance.
+- The projected schema contains no native JSON boolean scalar; yes/no determinations use exact source wire strings. The merged generic boolean-to-XML fix is therefore not directly exercised by this form.
+- Existing consumer coverage is narrow: two flattened-scalar XML tests pass, including one structured study, two enrollment countries, and one attachment against the pinned parent/embedded XSD closure. It does not yet prove the 115 enrollment coordinates, nested/repeating study boundaries, all 15 attachment roles, comprehensive XML sequencing, validation lifecycle, or four-browser behavior.
+- No executable conditions or calculations are declared. The browser plan correctly reports both capabilities not applicable; the eleven F705 conditions and the single unresolved calculation disposition covering 28 total-like coordinates remain source-bound-uncompiled.
+- A shared browser-evidence defect blocks a valid bounded run: property-level `allOf` read-only declarations for `involves_human_subjects`, `exempt_from_federal_regulations`, and `exemptions` are missed, so the generic plan incorrectly selects them as editable. The three direct technical IDs are protected. No production or form-specific runtime code has been changed.
+- Collision check is clean for a dedicated PHS Human Subjects test/fixture lane. PR #122 owns the portable CI map, so any map update must wait/rebase; PR #125 owns only three lobbying tests. The externally owned subaward lane is disjoint.
+
+[depends on](fix-portable-browser-allof-readonly.md)
 
 [depends on](author-integrate-phs-human-subjects.md)
 
