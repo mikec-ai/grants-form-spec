@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_sbir_sttr_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T19:06:31.240Z'
+  at: '2026-08-25T19:08:53.361Z'
 ---
 # Goal
 
@@ -80,3 +80,11 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 - Regression receipts at PR #129 head `8e5cf6a90`: matrix contract 17/17, Chrome harness 4/4, ESLint and TypeScript green. Direct browser regressions cover hidden and disabled declaration skips, declared-order selection, exact selected definition/control ID, explicit no-eligible failure, offscreen-radio persistence, and attachment persistence despite unrelated validation errors. Independent review was clean.
 - Hosted E2E classifier succeeded; redundant broad E2E was canceled before form execution. The prior-head hosted Frontend Checks run `32887241874` completed successfully. Remaining queued PR runs were canceled after merge.
 - PR #122 must now rebase onto the merged generic fix and produce one fresh, exact SBIR/STTR browser receipt. The five source-bound behaviors, semantic review, registration, human review, and release gates remain open and unchanged.
+
+## Post-harness rebase receipt — 2026-08-25
+
+- PR #122 rebased cleanly onto private main `fe5e6ab92976d0a3c0b81f91c790333e0bdee309` without conflicts; updated head is `d9ef826c1902caf620c350c7bb288d7ce7751063`.
+- Updated local evidence: SBIR/STTR API 14/14; frontend projected-condition cases 10/10; Ruff, Python format, ESLint, Prettier, and TypeScript green.
+- Fresh API and E2E classifiers succeeded. Because the branch adds the versioned CI-map entry, classification remains `full`; the redundant automatic broad E2E run `32887805417` was canceled before form execution.
+- Exactly one new bounded hosted SBIR/STTR browser proof was dispatched for the rebased head: run `32887856725`, input `portable_browser_form_ids=sbir-sttr-information`.
+- PR API, frontend, and Pa11y checks continue independently. No shared runtime, form artifact, registration, semantic status, or unresolved-behavior boundary changed during the rebase.
