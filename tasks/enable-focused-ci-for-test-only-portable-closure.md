@@ -64,4 +64,14 @@ PR #125 changes only the exact CI-mapped test files for SF-LLL, CD-511, and Gran
 - The exact PR #125 diff through the updated classifier returns `tier: portable_focused`, `portableFormIds: [cd511, gg-lobbying, sflll]`, the exact three mapped portable tests, and `changedArtifacts: []`.
 - Hosted PR #125 receipt is complete on rebased head `c22ec7ad508692cafb4c4975b723e1af3f898f2a` and merged commit `dbf71482c4d589e91027df7f6a240309171e44ec`.
 
+# Post-merge type-check closure
+
+- PR #126 exposed a mypy-only regression because a function-scoped `form_id: str` loop name was reused for `_form_id_from_artifact(...) -> str | None`.
+- Private fix PR: https://github.com/mikec-ai/simpler-grants-gov/pull/128
+- Fix head: `a3fb00083850d29c2382ac399f2024efe06bdc76`
+- The fix uses a distinct optional `candidate_form_id` and explicit `None` guard; classifier behavior is unchanged.
+- Local receipts: whole `src bin` mypy passed all 753 source files; classifier suite 36/36 passed; Ruff and format-check passed.
+- Independent review: clean, with fail-closed semantics unchanged.
+- PR #128 merged at `17a5f7cf862dd71585eb3afd6fb4cdb58c4d24a4` on 2026-08-25. Obsolete pending broad/API and CI-infra jobs were cancelled after merge.
+
 [related to](close-lobbying-certification-cohort-technical-gates.md)

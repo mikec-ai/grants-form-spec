@@ -7,7 +7,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T18:26:51.024Z'
+  at: '2026-08-25T18:31:55.318Z'
 priority: P1
 superbee_progress_status: in_progress
 assignee: codex_phs_human_subjects_closure
@@ -37,14 +37,14 @@ This is a shared evidence-harness/projection defect, not permission to compile t
 
 # Implementation awaiting independent review
 
-Private-fork PR #127 at exact head `c3a3e1ff06e8cb99f24c50735ad53c1f5ef55bb1` changes only the generic browser-plan read-only predicate and its tests. It recursively inspects `readOnly` across each selected schema candidate's `allOf` branches, preserving the existing ancestor protection. A minimal positive/negative regression proves an `allOf`-protected system field is read-only while an otherwise identical applicant field remains editable. After initial review, the PHS regression was strengthened to assert the exact three-field read-only definition set, the exact three-field top-level applicant-editable set, the exact two-repeater top-level set, and the complete top-level UI partition.
+Private-fork PR #127, rebased onto private main `17a5f7cf862dd71585eb3afd6fb4cdb58c4d24a4`, is at exact head `e990d7305630c100b3411e4fb4ffc111e5b29818`. It changes only the generic browser-plan read-only predicate and its tests. It recursively inspects `readOnly` across each selected schema candidate's `allOf` branches, preserving the existing ancestor protection. A minimal positive/negative regression proves an `allOf`-protected system field is read-only while an otherwise identical applicant field remains editable. After initial review, the PHS regression was strengthened to assert the exact three-field read-only definition set, the exact three-field top-level applicant-editable set, the exact two-repeater top-level set, and the complete top-level UI partition.
 
 Focused receipt: 51 browser-plan, preview, and PHS flattened-scalar XML tests passed; Ruff and Black passed. No bounded form run or merge will occur before independent review.
 
 # Independent review and hold
 
-Independent re-review is clean at `c3a3e1ff06e8cb99f24c50735ad53c1f5ef55bb1`. Exact bounded run `32883228437` was intentionally canceled after setup passed because the shared attachment probe waits on whole-form validity and PHS Human Subjects has 15 attachment roles; continuing would yield a predictable non-attributable timeout rather than useful evidence. Hosted API run `32883150872` also stopped before tests on the unrelated main-branch mypy regression in `check_form_spec_bank.py:189`.
+Independent re-review is clean. Exact bounded run `32883228437` was intentionally canceled after setup passed because the shared attachment probe waits on whole-form validity and PHS Human Subjects has 15 attachment roles; continuing would yield a predictable non-attributable timeout rather than useful evidence. Hosted API run `32883150872` stopped before tests on the unrelated main-branch mypy regression in `check_form_spec_bank.py:189`; that regression is now fixed on the rebased main. Fresh rebase receipts are 87 combined tests, whole mypy across 753 files, Ruff, and Black green. Hosted API run `32884226167` is pending; the redundant automatic E2E was canceled while the attachment probe remains unresolved.
 
-PR #127 is held without merge or rerun until the main mypy regression and generic attachment-probe defect land centrally. No additional production change is authorized in this branch.
+PR #127 is held for its fresh API signal, then may merge independently of the attachment-probe defect because its production change is limited to read-only browser-plan discovery. The bounded Human Subjects form run remains blocked on the attachment-probe fix.
 
 [blocks](close-phs-human-subjects-technical-gates.md)
