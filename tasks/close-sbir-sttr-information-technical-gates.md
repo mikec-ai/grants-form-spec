@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_sbir_sttr_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T19:08:53.361Z'
+  at: '2026-08-25T19:47:03.662Z'
 ---
 # Goal
 
@@ -88,3 +88,12 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 - Fresh API and E2E classifiers succeeded. Because the branch adds the versioned CI-map entry, classification remains `full`; the redundant automatic broad E2E run `32887805417` was canceled before form execution.
 - Exactly one new bounded hosted SBIR/STTR browser proof was dispatched for the rebased head: run `32887856725`, input `portable_browser_form_ids=sbir-sttr-information`.
 - PR API, frontend, and Pa11y checks continue independently. No shared runtime, form artifact, registration, semantic status, or unresolved-behavior boundary changed during the rebase.
+
+## Final technical closure receipt — 2026-08-25
+
+- A second generic harness correction was isolated in private consumer PR #130 and merged as `48efb3cf346a1fa5d25fe785454e7e5fb4abe1be`. General control actionability remains bounded at 10 seconds; only the durable save acknowledgement may wait up to 30 seconds. Independent review confirmed that no runtime, form, or release assertion changed.
+- PR #122 rebased cleanly onto that merged harness revision with final head `f765737553075ecdec1c5e58de9de49e01e200bf`. Post-rebase local evidence remained green: SBIR/STTR API 14/14, API plus registration boundary 20/20, projected frontend conditions 10/10, plus Ruff, Python format, ESLint, Prettier, and TypeScript.
+- Exactly one final bounded hosted proof ran for `sbir-sttr-information`: GitHub Actions run `32889810419`. Its report and evidence catalog completed successfully at the tested PR head.
+- Chrome, Firefox, Mobile Chrome, and WebKit each record seven passed probes, zero failed, zero inconclusive, and two declared not-applicable probes. Preview registration, adapter preflight, Apply render, attachment upload/reload, initial save/reload, automated accessibility, and print all passed. The selected `commercialization_plan` attachment persisted after reload with its exact filename, hidden attachment ID, and Delete affordance; print contained the attachment filename and zero interactive controls.
+- Private consumer PR #122 merged as `a9311c6f404fa554e0605aa0c87a118480c6f647`. The redundant automatic broad E2E and Pa11y runs were canceled intentionally, and the still-running broad API job was canceled after merge because focused attributable evidence was already complete.
+- This closes the automated technical handoff only. The five source-bound-uncompiled behaviors, semantic acceptance, preview registration decision, human visual/content and assistive-technology review, agency/policy review, UAT, and production release gates remain open. No published semantic coverage was increased.
