@@ -78,9 +78,9 @@ Producer PR [grants-form-spec #113](https://github.com/mikec-ai/grants-form-spec
 
 Exact verification receipts: full local producer preflight passed with 125 TypeSpec tests, 387 Python tests (10 skipped), 8 XML projection tests, 321 validated blocks, 1,721 validated artifacts, and 43 projected evidence sidecars. Hosted `proof-package` run `32855602146` passed; hosted `form-spec` run `32855602057` passed in 2m7s. The separate unregistered consumer schema/initial-render receipt remains the next bounded integration gate and must not register the form.
 
-## Prepared unregistered consumer receipt
+## Merged unregistered consumer receipt
 
-The isolated private-fork branch `codex/epa-key-contacts-unregistered` is prepared at `2e159d8c7844b0b5bbda7b4cf2dcaac863729a60`, based on private-fork main `2e4391008b5cf587e01a91100619347b073a0912`. No consumer PR exists yet; it is intentionally held until attributable portable-form CI merges so this slice can be the first validation of the faster path.
+Private-fork consumer PR [simpler-grants-gov #118](https://github.com/mikec-ai/simpler-grants-gov/pull/118) merged on 2026-08-25 at `000eb82a02e751733e9c8375c030f9ba9c3c1e92` from reviewed head `b05ebf58f3c473c97cc95455ebb4419be5f01048`, rebased on attachment-lifecycle baseline `95fcbf5273c9093a494307b5125b87b8284df488`.
 
 - the exact producer merge `7c3be8e32968b49b5ce48f53a832c00220eb5bee` is additively banked as the 43rd form with `registrationChanged: false`;
 - `runtime_identity("epa-key-contacts")` and `load_form("epa-key-contacts")` both remain fail-closed, while the private bank projector and preview builder load the package without XML enablement;
@@ -91,4 +91,13 @@ The isolated private-fork branch `codex/epa-key-contacts-unregistered` is prepar
 
 The additive promotion exposed an exact-source issue: Simpler's existing `EPA_KeyContacts_2_0-V2.0.xsd` had LF-normalized bytes (`2321d483...`) while the official producer fixture preserves CRLF bytes (`157a9c8...`). The XML content was otherwise identical. The branch replaces the tracked XSD with the producer-pinned official byte-identical fixture; existing integrity and non-database legacy EPA XML checks pass.
 
-Focused local receipts: 46 tests passed and two database-backed legacy XSD tests were deliberately deselected because the isolated host has no `grants-db`; the new EPA test file passes 4/4, targeted Ruff lint and format checks pass, artifact integrity passes for 43 forms and 538 files, and registrations/runtime identities are unchanged. A broad repository Ruff-format invocation is not attributable because the current repository has extensive pre-existing formatting drift and the installed Ruff process panics while rendering that baseline; the changed Python file itself is clean.
+This was intentionally a one-time full-CI admission because the exact producer pin also advanced existing R&R Personal Data artifacts and shared personal-data question blocks. The fail-closed classifier remained unchanged and correctly selected `full`. The explicit CI-map entry now means subsequent EPA-local artifact/test changes qualify for `portable_focused`; unrelated producer-pin deltas still fail closed.
+
+Exact consumer receipts:
+
+- local source-promotion, EPA, and classifier suite: 39/39 passed; targeted Ruff lint and format passed;
+- hosted API run `32866467828`, job `97862954632`: full format, lint, migrations, and security passed; the 4,805-item suite completed with 4,803 passed and two skipped, and the job passed in 20m44s;
+- hosted E2E run `32866468174`: shards 1/4, 2/4, 3/4, and 4/4 passed in 12m23s, 19m6s, 20m32s, and 15m54s respectively; merged-report job `97871059362` passed in 45s;
+- exact XSD SHA-256 remains `157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01`;
+- registrations, runtime identities, and projections remain unchanged; EPA remains deliberately unregistered;
+- evidence remains 32 compiled effects and four unresolved timing effects; semantic review remains proposed with zero accepted mappings.
