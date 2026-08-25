@@ -25,7 +25,28 @@ Author PHS Fellowship Supplemental as a source-evidenced portable form in the cu
 
 # Verified starting state
 
-The form is absent from the current 39-form producer catalog and the current 39-form consumer bank. No completion or partial implementation is claimed on this board.
+The form was absent from the producer catalog and consumer bank when claimed. The producer catalog now contains 40 forms on `main`; PHS Fellowship Supplemental will become form 41 when producer PR 101 merges.
+
+# Delivery progress
+
+## Producer foundation, ready to merge
+
+- PR: https://github.com/mikec-ai/grants-form-spec/pull/101
+- Commit: `1db2ea995`
+- Exact source packet pins the active V8 XSD, DAT, Grants.gov PDF/XFA files, and NIH Forms-I instructions.
+- Emits 66 source-question leaves through 35 reusable block identities.
+- Reuses 15 established question semantics and introduces 20 fellowship-specific blocks.
+- Compiles 17 attachment captures, 21 conditional fields, and two six-year calculations.
+- Preserves 15 source-backed behaviors as explicit uncompiled gates instead of weakening their predicates.
+- Exact generated XML validates against the pinned official XSD for minimal and representative rich payloads.
+- Semantic review remains unreviewed with zero accepted mappings.
+- Full producer preflight passes: 125 emitter tests and 355 Python tests, with 10 environment-dependent skips.
+
+## Remaining increment
+
+- Merge producer PR 101 after CI and independent review.
+- Bank its immutable package in the public Simpler fork through the generic adapter without registration.
+- Run bounded browser conformance and record the receipt before marking this task complete.
 
 # Acceptance criteria
 
