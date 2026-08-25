@@ -46,3 +46,16 @@ Close the smallest automated technical handoff for the already-banked SBIR/STTR 
 [depends on](bank-sbir-sttr-information-in-sgg.md)
 
 [depends on](add-portable-form-preview-registration.md)
+
+# Implementation receipt — 2026-08-25
+
+- Private consumer PR: `mikec-ai/simpler-grants-gov#122`
+- Branch/head: `codex/sbir-sttr-technical-closure` at `03562edbe`
+- Base at implementation start: private fork main `d613c0aea5fca8a5dc6c05c34a320ef60918ee4b`
+- Collision check: zero changed-file overlap with NIFA PR #121 head `41192ca6`; no R&R Subaward Budget 10YR/30 files touched.
+- Focused API verifier: 12/12 passed, including representative generic XML emission and exact pinned v3.0 XSD validation.
+- API verifier plus registration boundary: 18/18 passed.
+- Frontend generic condition evaluator: 10/10 passed.
+- Ruff, ESLint, Prettier, and TypeScript checks passed.
+- Evidence explicitly preserves 27 `proposed` mappings, 11 compiled behavior records, and five source-bound-uncompiled records. Runtime registration remains absent.
+- Hosted CI classification: `full`, expected for this first tests/CI-map technical admission without a producer artifact delta. Merge is held pending attributable hosted results.
