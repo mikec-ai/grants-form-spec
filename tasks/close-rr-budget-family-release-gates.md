@@ -9,8 +9,9 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T23:37:57.389Z'
+  at: '2026-08-25T01:05:28.197Z'
 assignee: root_budget_numeric_string
+superbee_updated_by: codex-root
 ---
 # Goal
 
@@ -516,3 +517,34 @@ registration are not closed.
 - Each browser produced a machine-readable `sgg-portable-browser-receipt/v1` receipt with all seven probes passing: preview registration, adapter/API preflight, Apply render, initial save/reload, schema implication, automated accessibility, and print render. Each save/reload receipt recorded 106 persisted controls; each automated accessibility probe recorded zero detected violations.
 - The run used a temporary no-code branch at the already-merged consumer commit so it could execute without interrupting another agent's bounded browser run. It added no runtime or form-specific adapter logic. The temporary branch was deleted after the receipts were downloaded.
 - Together with the four database-backed lifecycle tests, this establishes fork-level executable evidence for declarative cross-form initial population and generic browser compatibility for both R&R Budget profiles. It does not establish production registration or human semantic, accessibility, policy, privacy/security, operational, or release approval.
+
+## Exact XSD role-value correction and five-profile closure — 2026-08-24
+
+- [grants-form-spec PR 96](https://github.com/mikec-ai/grants-form-spec/pull/96), merged at
+  `70d409bce191848c63fb7c85fae26714933e867c`, resolves a source-authority discrepancy for the
+  secretarial/clerical project role. The DAT presentation text is exactly `Secretarial/Clerical`,
+  while both pinned official R&R Budget 3.0 and R&R Budget10 3.0 XSDs require the serialized fixed
+  value `Secretarial / Clerical`. The portable question block now preserves those as distinct UI and
+  serialization facts; the audit sidecar records both exact sources and hashes rather than claiming
+  semantic equivalence.
+- Producer preflight passed at the exact merge revision: 124 TypeScript tests, 346 Python tests with
+  ten skips, 30 exact-XSD fixtures, 1,536 artifacts, and zero unclassified fields or exceptions.
+  Both hosted producer checks passed before merge.
+- [simpler-grants-gov PR 100](https://github.com/mikec-ai/simpler-grants-gov/pull/100), merged at
+  `22e44c0ceaf9752d3c6ea1e75c04b62adcf30a79`, consumes that immutable producer revision. The only
+  generated runtime changes are the research-budget other-personnel schema and artifact manifest.
+  The promotion test now verifies an immutable 40-character producer revision, a 64-character source
+  bundle hash, the exact repository URL, and the checked-in artifact bundle instead of hard-coding a
+  stale producer commit.
+- Local consumer verification passed 86 focused tests across R&R Budget, R&R Budget 10YR, and all
+  three subaward wrapper profiles, including maximal XML emission and validation against each pinned
+  official XSD. No form-specific compiler, adapter, duration, or subaward branch was added.
+- Exact-head bounded browser run
+  [32795375819](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32795375819) completed the
+  R&R Budget E2E job successfully at consumer head
+  `bfab2fda6bac420bad722af2f32f0536517a5b73`; report packaging was still completing when PR 100 was
+  merged. The broader hosted API suite had passed format, lint, migrations, and security lint and was
+  still running its monolithic test step. Neither pending signal should be described as fully green
+  until its final workflow conclusion is recorded.
+- This closes the shared XSD-fidelity defect that blocked all five profiles. It does not claim the
+  independently owned R&R Subaward Budget implementation or its remaining human/release approvals.
