@@ -905,7 +905,7 @@ model ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical {
 
   @UI.label("Project Role Secretarial/Clerical")
   @UI.readOnly
-  projectRole: "Secretarial/Clerical" = "Secretarial/Clerical";
+  projectRole: "Secretarial / Clerical" = "Secretarial / Clerical";
 
   @UI.label("Requested Salary Secretarial/Clerical")
   requestedSalary: ResearchBudgetDecimal14;

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -153,13 +154,25 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
         schema = load(QUESTIONS / "other-personnel" / "schema.json")
         definitions = schema["$defs"]
         expected = {
-            "ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates": "Post Doctoral Associates",
-            "ResearchBudgetBudgetYearOtherPersonnelGraduateStudents": "Graduate Students",
-            "ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents": "Undergraduate Students",
-            "ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical": "Secretarial/Clerical",
+            "ResearchBudgetBudgetYearOtherPersonnelPostDocAssociates": (
+                "Post Doctoral Associates",
+                "Project Role Post Doctoral Associates",
+            ),
+            "ResearchBudgetBudgetYearOtherPersonnelGraduateStudents": (
+                "Graduate Students",
+                "Project Role Graduate Students",
+            ),
+            "ResearchBudgetBudgetYearOtherPersonnelUndergraduateStudents": (
+                "Undergraduate Students",
+                "Project Role Undergraduate Students",
+            ),
+            "ResearchBudgetBudgetYearOtherPersonnelSecretarialClerical": (
+                "Secretarial / Clerical",
+                "Project Role Secretarial/Clerical",
+            ),
         }
 
-        for model_name, value in expected.items():
+        for model_name, (value, title) in expected.items():
             with self.subTest(model_name=model_name):
                 self.assertEqual(
                     definitions[model_name]["properties"]["projectRole"],
@@ -167,10 +180,24 @@ class ResearchBudgetSourceContentTests(unittest.TestCase):
                         "type": "string",
                         "const": value,
                         "default": value,
-                        "title": f"Project Role {value}",
+                        "title": title,
                         "readOnly": True,
                     },
                 )
+
+        for xsd_path in (
+            ROOT
+            / "tests/fixtures/grants-gov-xsd/rr-budget-3.0/RR_Budget_3_0-V3.0.xsd",
+            ROOT
+            / "tests/fixtures/grants-gov-xsd/rr-budget-10yr-3.0/RR_Budget10_3_0-V3.0.xsd",
+        ):
+            fixed_values = {
+                element.attrib["fixed"]
+                for element in ET.parse(xsd_path).getroot().iter()
+                if element.attrib.get("name") == "ProjectRole"
+                and "fixed" in element.attrib
+            }
+            self.assertIn("Secretarial / Clerical", fixed_values)
 
         self.assertEqual(
             definitions["ResearchBudgetBudgetYearOtherPersonnelOther"]["properties"]["projectRole"],
