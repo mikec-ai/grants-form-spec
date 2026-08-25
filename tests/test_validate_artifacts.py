@@ -155,6 +155,48 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
             "sourceRecord": "F-1",
         }
 
+    @staticmethod
+    def _official_condition(path: str) -> dict[str, object]:
+        return {
+            "canonicalPath": path,
+            "ruleKind": "condition",
+            "authority": "official_source",
+            "executionStatus": "compiled",
+            "sourceId": "example-source",
+            "sourcePath": f"Example.{path}",
+            "sourceRecord": "The field is required when the optional object is present.",
+        }
+
+    def _add_optional_complete_object(
+        self,
+        dist: Path,
+        *,
+        root_required: bool = False,
+    ) -> None:
+        question = dist / "question-bank/generics/name/schema.json"
+        form = dist / "forms/example"
+        self._json(question, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "generics/name/schema.json",
+            "type": "object",
+            "properties": {"name": {"type": "string"}},
+            "allOf": [{"required": ["name"]}],
+        })
+        schema = json.loads((form / "schema.json").read_text())
+        schema["properties"] = {
+            "contact": {"$ref": "../../question-bank/generics/name/schema.json"},
+        }
+        if root_required:
+            schema["required"] = ["contact"]
+        self._json(form / "schema.json", schema)
+        index = json.loads((form / "index.json").read_text())
+        index["fieldOccurrences"] = [{
+            "path": "/contact/name",
+            "leaf": True,
+            "blockIds": ["generics/name"],
+        }]
+        self._json(form / "index.json", index)
+
     def _add_calculation(self, dist: Path, target: str = "name") -> None:
         self._json(dist / "forms/example/sgg/rule-schema.json", {
             target: {
@@ -734,6 +776,59 @@ class ArtifactGraphValidatorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(projected["behaviorEvidence"], [record])
         self.assertEqual(rules, {})
+
+    def test_projector_recognizes_required_descendant_of_optional_referenced_object(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_optional_complete_object(dist)
+            record = self._official_condition("contact.name")
+            self._write_evidence(root, behavior_evidence=[record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_projector_does_not_require_evidence_for_unclaimed_optional_object_rules(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_optional_complete_object(dist)
+            self._write_evidence(root, behavior_evidence=[])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_projector_rejects_optional_object_claim_for_a_wrong_descendant(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_optional_complete_object(dist)
+            record = self._official_condition("contact.missing")
+            self._write_evidence(root, behavior_evidence=[record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("is not an exact emitted rule target", result.stdout)
+
+    def test_projector_does_not_treat_a_required_object_as_presence_conditioned(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dist = self._write_graph(root)
+            self._add_optional_complete_object(dist, root_required=True)
+            record = self._official_condition("contact.name")
+            self._write_evidence(root, behavior_evidence=[record])
+            result = self._run_projector(
+                "--evidence", str(root / "evidence"), "--dist", str(dist),
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("is not an exact emitted rule target", result.stdout)
 
     def test_projector_preserves_operational_evidence_without_emitting_a_rule(self) -> None:
         record = self._official_prefill()

@@ -107,20 +107,29 @@ class EPAKeyContactsTests(unittest.TestCase):
             record for record in source_bound_uncompiled
             if record["authority"] == "unresolved"
         ]
-        self.assertEqual(len(compiled), 8)
-        self.assertEqual(len(source_bound_uncompiled), 28)
+        self.assertEqual(len(compiled), 32)
+        self.assertEqual(len(source_bound_uncompiled), 4)
         self.assertEqual(len(unresolved), 4)
         self.assertEqual(
             {record["canonicalPath"] for record in compiled},
             {
-                f"{role}.address.{field}"
+                f"{role}.{path}"
                 for role in (
                     "authorizedRepresentative",
                     "payee",
                     "administrativeContact",
                     "projectManager",
                 )
-                for field in ("state", "zipCode")
+                for path in (
+                    "name.firstName",
+                    "name.lastName",
+                    "address.street1",
+                    "address.city",
+                    "address.country",
+                    "phone",
+                    "address.state",
+                    "address.zipCode",
+                )
             },
         )
         self.assertTrue(all(

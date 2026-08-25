@@ -232,6 +232,104 @@ async function collectRequiredOnlyConditionTargets(
   return targets;
 }
 
+async function expandConjunctiveSchemas(node, state) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return [];
+  const schemas = [{ node, state }];
+  if (typeof node.$ref === "string") {
+    const [relativePath, rawFragment] = node.$ref.split("#", 2);
+    const referencedPath = relativePath
+      ? resolve(dirname(state.schemaPath), relativePath)
+      : state.schemaPath;
+    if (relative(state.dist, referencedPath).startsWith("..")) {
+      throw new Error(`${state.context}: schema ref escapes emitted artifact root: ${node.$ref}`);
+    }
+    const referencedRoot = relativePath ? await json(referencedPath) : state.schemaRoot;
+    const fragment = rawFragment === undefined ? "" : `#${rawFragment}`;
+    const identity = `${referencedPath}${fragment}`;
+    if (!state.refStack.has(identity)) {
+      schemas.push(
+        ...(await expandConjunctiveSchemas(
+          jsonPointer(referencedRoot, fragment, state.context),
+          {
+            ...state,
+            schemaPath: referencedPath,
+            schemaRoot: referencedRoot,
+            refStack: new Set([...state.refStack, identity]),
+          },
+        )),
+      );
+    }
+  }
+  for (const clause of node.allOf ?? []) {
+    if (!clause?.if) schemas.push(...(await expandConjunctiveSchemas(clause, state)));
+  }
+  return schemas;
+}
+
+async function collectRequiredDescendantLeaves(schemas, path, targets) {
+  const expanded = [];
+  for (const schema of schemas) {
+    expanded.push(...(await expandConjunctiveSchemas(schema.node, schema.state)));
+  }
+  const required = new Set(
+    expanded.flatMap(({ node }) =>
+      (node.required ?? []).filter((property) => typeof property === "string" && property),
+    ),
+  );
+  const properties = new Map();
+  for (const schema of expanded) {
+    for (const [property, node] of Object.entries(schema.node.properties ?? {})) {
+      const candidates = properties.get(property) ?? [];
+      candidates.push({ node, state: schema.state });
+      properties.set(property, candidates);
+    }
+  }
+  for (const property of required) {
+    const before = targets.length;
+    const nested = properties.get(property) ?? [];
+    if (nested.length) {
+      await collectRequiredDescendantLeaves(nested, [...path, property], targets);
+    }
+    if (targets.length === before) targets.push([...path, property].join("."));
+  }
+  return targets;
+}
+
+async function collectOptionalObjectRequiredConditionTargets(
+  schemas,
+  path = [],
+  targets = [],
+) {
+  const expanded = [];
+  for (const schema of schemas) {
+    expanded.push(...(await expandConjunctiveSchemas(schema.node, schema.state)));
+  }
+  const required = new Set(
+    expanded.flatMap(({ node }) =>
+      (node.required ?? []).filter((property) => typeof property === "string" && property),
+    ),
+  );
+  const properties = new Map();
+  for (const schema of expanded) {
+    for (const [property, node] of Object.entries(schema.node.properties ?? {})) {
+      const candidates = properties.get(property) ?? [];
+      candidates.push({ node, state: schema.state });
+      properties.set(property, candidates);
+    }
+  }
+  for (const [property, nested] of properties) {
+    if (!required.has(property)) {
+      await collectRequiredDescendantLeaves(nested, [...path, property], targets);
+    }
+    await collectOptionalObjectRequiredConditionTargets(
+      nested,
+      [...path, property],
+      targets,
+    );
+  }
+  return targets;
+}
+
 async function collectExclusiveValueConditionTargets(
   node,
   path = [],
@@ -330,6 +428,18 @@ async function emittedRuleTargets(
       seen: new Set(),
     },
   );
+  const optionalObjectRequiredTargets = await collectOptionalObjectRequiredConditionTargets(
+    [{
+      node: formSchema,
+      state: {
+        context,
+        dist,
+        schemaPath,
+        schemaRoot: formSchema,
+        refStack: new Set(),
+      },
+    }],
+  );
   const exclusiveValueTargets = await collectExclusiveValueConditionTargets(
     formSchema,
     [],
@@ -351,7 +461,10 @@ async function emittedRuleTargets(
     );
     if (evidencePath) targets.push({ ruleKind: "condition", canonicalPath: evidencePath });
   }
-  for (const canonicalPath of new Set(requiredOnlyTargets)) {
+  for (const canonicalPath of new Set([
+    ...requiredOnlyTargets,
+    ...optionalObjectRequiredTargets,
+  ])) {
     // A conditional enablement on the field itself, or on a nested value within a
     // question wrapper, already accounts for the source condition. Only add the
     // portable-schema target when no consumer UI condition can represent it.
