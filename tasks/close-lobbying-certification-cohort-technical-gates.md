@@ -56,7 +56,7 @@ Close the smallest shared technical handoff for three already-banked lobbying an
 - Stale broad runs for superseded head `4c103920a` were cancelled: API `32879944180`; E2E `32879944838`.
 - The automatically launched broad E2E run for pre-hardening head `f830a630e` (`32880351049`) was cancelled to avoid duplicating its exact bounded browser cohort run. Its broad API run was `32880350142`.
 - After CI hardening PR #126 merged at `bb8b7d5c6`, this branch was rebased and local Ruff + 32/32 focused tests remained green. Superseded-head runs `32880367987` and `32880350142` were cancelled.
-- First hosted test-only focused-path candidates on rebased head: API `32880826731`; E2E/browser `32880827041` (classification and attributable receipts pending).
+- First hosted test-only focused-path proof on rebased head: API `32880826731` classified `portable_focused` with exact selected IDs `cd511`, `gg-lobbying`, `sflll`, their exact three mapped test files, and zero changed artifacts; Focused Portable Form Checks passed (job `97910331871`, 7m03s) while full API/bank jobs stayed skipped. E2E/browser `32880827041` also passed classification and is executing the cohort as a single bounded shard. Final browser receipt remains pending.
 - Hosted checks are pending. Technical closure remains `in_progress` until the exact bounded browser and attributable hosted receipts are reviewed.
 
 [depends on](migrate-sflll-parity-oracle.md)

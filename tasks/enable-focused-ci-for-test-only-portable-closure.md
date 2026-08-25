@@ -46,6 +46,16 @@ PR #125 changes only the exact CI-mapped test files for SF-LLL, CD-511, and Gran
 - Changed paths: the three exact mapped form-local tests for `sflll`, `cd511`, and `gg-lobbying` only.
 - Current result: `tier: full`, `portableFormIds: []`, `portableTestFiles: []`.
 
+# Implementation and first hosted proof
+
+- CI hardening PR: https://github.com/mikec-ai/simpler-grants-gov/pull/126
+- Merged private-main commit: `bb8b7d5c6`
+- Real test-only proof PR: https://github.com/mikec-ai/simpler-grants-gov/pull/125
+- Proof head after rebase: `c22ec7ad508692cafb4c4975b723e1af3f898f2a`
+- Hosted API run `32880826731` classified `portable_focused` with reason `only exact unambiguous CI-mapped portable tests changed`; exact `focusedForms` / `portableFormIds` were `cd511`, `gg-lobbying`, and `sflll`; exact `portableTestFiles` were their three form-local mapped suites; `changedArtifacts` was empty. Focused Portable Form Checks passed (job `97910331871`, 7m03s) while full API and bank jobs stayed skipped.
+- Hosted E2E/browser run `32880827041` passed classification and is progressing through the selected cohort.
+- Final exact selected IDs/test files and completed-run receipts remain to be recorded before this task closes.
+
 # Implementation receipt
 
 - Implementation PR: https://github.com/mikec-ai/simpler-grants-gov/pull/126
