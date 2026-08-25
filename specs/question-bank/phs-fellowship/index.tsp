@@ -443,8 +443,13 @@ model QuestionFellowshipChildcare {
 @Catalog.entity(EntityName.principalInvestigator)
 @Catalog.tag(TagName.money)
 model QuestionFellowshipInstitutionalBaseSalary {
+  @UI.label("Institutional Base Salary Amount")
   amount: ResearchBudgetAmount14;
+
+  @UI.label("Academic Period")
   academicPeriod: FellowshipAcademicPeriod;
+
+  @UI.label("Number of Months")
   numberOfMonths: FellowshipMonthsUpTo24;
 }
 
@@ -454,7 +459,10 @@ model QuestionFellowshipInstitutionalBaseSalary {
 @Catalog.entity(EntityName.principalInvestigator)
 @Catalog.tag(TagName.money)
 model QuestionFellowshipFederalStipend {
+  @UI.label("Federal Stipend Amount")
   amount: ResearchBudgetAmount14;
+
+  @UI.label("Number of Months")
   numberOfMonths: FellowshipMonthsUpTo12;
 }
 
@@ -464,13 +472,18 @@ model QuestionFellowshipFederalStipend {
 @Catalog.entity(EntityName.principalInvestigator)
 @Catalog.tag(TagName.money)
 model QuestionFellowshipSupplementation {
+  @UI.label("Supplementation Amount")
   amount: ResearchBudgetAmount14;
+
+  @UI.label("Number of Months")
   numberOfMonths: FellowshipMonthsUpTo12;
 
+  @UI.label("Type of Supplementation")
   @minLength(1)
   @maxLength(30)
   type: string;
 
+  @UI.label("Source of Supplementation")
   @minLength(1)
   @maxLength(60)
   source: string;

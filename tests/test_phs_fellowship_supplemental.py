@@ -65,6 +65,39 @@ class PHSFellowshipSupplementalTests(unittest.TestCase):
         self.assertTrue(year_fields <= set(tuition["properties"]))
         self.assertTrue(year_fields <= set(childcare["properties"]))
 
+        # Every primitive budget control needs an explicit declarative label.
+        # The consumer uses these schema titles as the accessible names for
+        # nested inputs; falling back to property-name inference would move a
+        # form authoring decision into the adapter.
+        expected_budget_labels = {
+            "institutional-base-salary": {
+                "amount": "Institutional Base Salary Amount",
+                "academicPeriod": "Academic Period",
+                "numberOfMonths": "Number of Months",
+            },
+            "federal-stipend": {
+                "amount": "Federal Stipend Amount",
+                "numberOfMonths": "Number of Months",
+            },
+            "supplementation": {
+                "amount": "Supplementation Amount",
+                "numberOfMonths": "Number of Months",
+                "type": "Type of Supplementation",
+                "source": "Source of Supplementation",
+            },
+        }
+        for question_id, labels in expected_budget_labels.items():
+            question = load(
+                ROOT / f"dist/question-bank/fellowship-budget/{question_id}/schema.json"
+            )
+            self.assertEqual(
+                {
+                    field_name: question["properties"][field_name].get("title")
+                    for field_name in labels
+                },
+                labels,
+            )
+
         attachments = [
             row
             for row in objects(rules)
