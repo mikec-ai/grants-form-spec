@@ -7,11 +7,11 @@ description: >-
   Promote Project Abstract Summary's exact Grants.gov XML profile and gather
   bounded generic consumer/browser lifecycle evidence while preserving the
   existing implementation as oracle.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex-project-abstract-closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T08:29:08.799Z'
+  at: '2026-08-25T12:51:19.740Z'
 ---
 # Scope
 
@@ -36,12 +36,14 @@ Close the technical release gates for Project Abstract Summary FID 591 v2.0 thro
 
 - Producer PR [#105](https://github.com/mikec-ai/grants-form-spec/pull/105) merged as `b6a584df98570c9ee1c521eda75635e010fa1555`. It authors the Project Abstract Summary 2.0 XML profile without a compiler branch. Full producer preflight passed: 366 Python tests, 125 TypeSpec tests, exact-XSD fixture gate 34 profiles/34 fixtures, zero unclassified fields.
 - The pinned official `Project_AbstractSummary_2_0-V2.0.xsd` is byte-identical to the existing Simpler oracle fixture at SHA-256 `3022f177a7f0ebb9a1888e9b8a4a644ed2ba7857a775d2d05642a9fbd1cc008f`.
-- Consumer PR [#111](https://github.com/mikec-ai/simpler-grants-gov/pull/111), current head `108a6dd4759d2f939bc8bbed58528e325735ca80`, pins the merged producer revision and proves the generic adapter produces the same parsed root, namespaced version attribute, child order, field values, and optional CFDA omission as the existing implementation. The output validates against the exact official XSD.
-- Fifty-seven bounded portable/adapter tests passed locally. A broader portable cohort produced 385 passes; four database-dependent tests were unavailable because the local `grants-db` service was not running. The only initial failure was the expected producer bundle revision pin, which this PR updates.
+- Consumer PR [#111](https://github.com/mikec-ai/simpler-grants-gov/pull/111) merged as `d1f657ae77f24422b07820e5bf01e795f6f520bf` from final head `2d5745bcca41dc4c574f4a7cce8318cf61085cea`. It pins producer revision `b6a584df98570c9ee1c521eda75635e010fa1555` and proves the generic adapter produces the same parsed root, namespaced version attribute, child order, field values, and optional CFDA omission as the existing implementation. The output validates against the exact official XSD.
+- Fifty-seven focused portable/adapter/provenance tests passed locally after rebasing onto merged PR #93. Isort, Ruff, Bandit, and the hardened XML parser gate passed.
+- Full hosted API run [#32847134194](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32847134194) passed on exact head `2d5745bcca41dc4c574f4a7cce8318cf61085cea`: readiness, formatting, lint, migrations, security, complete tests, and portable-versus-existing differential receipts were green. The API job completed in 28m44s.
+- Exact bounded browser run [#32847137957](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32847137957) passed on the same head with `PORTABLE_BROWSER_FORM_IDS=project-abstract-summary`: 4/4 lifecycle checks passed, the merged report passed, and portable catalog receipt artifact `9563055459` was published (65,721,308 bytes).
+- The broad PR E2E run's red signal was inspected and was unrelated baseline: two application-submission tests failed while 35 passed. Failures involved organization/individual submission inputs and attachment-upload persistence; the exact Project Abstract cohort was green.
 - Project Abstract Summary remains banked and unregistered. The existing production implementation remains the runtime oracle. Semantic review remains `unreviewed` with zero accepted mappings.
 
-# Open gates and dependency
+# Remaining non-technical gates
 
-- Do not merge consumer PR #111 until its hosted checks are green and the active PR #93 test-isolation/scanner work is either merged and rebased or explicitly shown not to affect the bounded browser run.
-- After that dependency resolves, run the exact one-form portable browser cohort for `project-abstract-summary` across render, required validation, valid save/reload, print, and bounded accessibility checks. Record exact workflow/run/artifact receipts before closing this task.
-- Human semantic review, policy/content acceptance, and production registration remain separate approvals and are not implied by technical closure.
+- Technical portable release closure is complete. The producer and private-fork consumer are merged with exact XML/XSD, parity, API, and bounded browser evidence.
+- Human semantic review, policy/content acceptance, and production registration remain separate approvals and are not implied by this technical closure.
