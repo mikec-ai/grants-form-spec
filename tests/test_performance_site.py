@@ -113,6 +113,124 @@ class PerformanceSiteTests(unittest.TestCase):
             "d47dbb254b112f69dc308c01dea2fe15b29114d0e3bdc5a137d3178b5af7bc6c",
         )
 
+    def test_five_exact_dat_behaviors_are_reconciled_without_overclaiming_parity(self) -> None:
+        root = ROOT / "dist/forms/performance-site"
+        evidence = load(root / "evidence.json")
+        records = evidence["behaviorEvidence"]
+
+        official = [row for row in records if row["authority"] == "official_source"]
+        unresolved = [row for row in records if row["authority"] == "unresolved"]
+        self.assertEqual(len(official), 5)
+        self.assertEqual(
+            [(row["canonicalPath"], row["sourcePath"]) for row in official],
+            [
+                ("/primarySite/address/state", "1-07"),
+                ("/primarySite/address/province", "1-08"),
+                ("/additionalSites/[]/address/state", "2-08"),
+                ("/additionalSites/[]/address/province", "2-08a"),
+                ("additionalLocations", "3-3"),
+            ],
+        )
+        self.assertEqual({row["sourceId"] for row in official}, {"source-1-c0747c333fb8"})
+        self.assertEqual(
+            [row["sourceRecord"] for row in official],
+            [
+                "Conditionally required if Country is US then active. If Country is not US, then inactive",
+                "If Country is US then inactive. If Country is not US, then active",
+                "Conditionally required if Country is US then active. If Country is not US, then inactive",
+                "If Country is US then inactive. If Country is not US, then active",
+                "Button becomes active only after the maximum number of sites (i.e 299) has been entered.",
+            ],
+        )
+        self.assertEqual(
+            [row["executionStatus"] for row in official],
+            [
+                "source-bound-uncompiled",
+                "source-bound-uncompiled",
+                "source-bound-uncompiled",
+                "source-bound-uncompiled",
+                "compiled",
+            ],
+        )
+
+        self.assertEqual(len(unresolved), 4)
+        self.assertEqual({row["executionStatus"] for row in unresolved}, {"compiled"})
+        self.assertEqual(
+            {row["canonicalPath"] for row in unresolved},
+            {
+                "primarySite.address.state",
+                "primarySite.address.province",
+                "additionalSites[*].address.state",
+                "additionalSites[*].address.province",
+            },
+        )
+        self.assertTrue(all(row["owner"] == "form-semantic-review" for row in unresolved))
+        self.assertTrue(all(row["reason"] and row["removalCondition"] for row in unresolved))
+        self.assertEqual(evidence["semanticReview"], {"status": "unreviewed", "mappings": []})
+
+    def test_handoff_exposes_current_interactions_and_requiredness_gap(self) -> None:
+        root = ROOT / "dist/forms/performance-site"
+        schema = load(root / "schema.json")
+        ui = load(root / "sgg/ui-schema.json")
+        fields = {
+            row["definition"]: row
+            for row in objects(ui)
+            if row.get("type") == "field"
+        }
+
+        expected_conditions = {
+            "/properties/primarySite/properties/address/properties/state": {
+                "when": {
+                    "op": "equals",
+                    "ref": {"scope": "root", "pointer": "/primarySite/address/country"},
+                    "value": "USA: UNITED STATES",
+                },
+                "then": {"interaction": "enabled"},
+                "otherwise": {"interaction": "disabled"},
+            },
+            "/properties/primarySite/properties/address/properties/province": {
+                "when": {
+                    "op": "equals",
+                    "ref": {"scope": "root", "pointer": "/primarySite/address/country"},
+                    "value": "USA: UNITED STATES",
+                },
+                "then": {"interaction": "readOnly"},
+                "otherwise": {"interaction": "enabled"},
+            },
+            "/properties/additionalSites/items/properties/address/properties/state": {
+                "when": {
+                    "op": "equals",
+                    "ref": {"scope": "item", "pointer": "/address/country"},
+                    "value": "USA: UNITED STATES",
+                },
+                "then": {"interaction": "enabled"},
+                "otherwise": {"interaction": "disabled"},
+            },
+            "/properties/additionalSites/items/properties/address/properties/province": {
+                "when": {
+                    "op": "equals",
+                    "ref": {"scope": "item", "pointer": "/address/country"},
+                    "value": "USA: UNITED STATES",
+                },
+                "then": {"interaction": "readOnly"},
+                "otherwise": {"interaction": "enabled"},
+            },
+        }
+        for definition, expected in expected_conditions.items():
+            with self.subTest(definition=definition):
+                self.assertEqual(fields[definition]["conditional"], expected)
+        self.assertEqual(
+            fields["/properties/additionalLocations"]["conditional"]["when"],
+            {
+                "op": "countAtLeast",
+                "ref": {"scope": "root", "pointer": "/additionalSites"},
+                "minimum": 299,
+            },
+        )
+
+        address = schema["$defs"]["PerformanceSiteAddress"]
+        self.assertFalse(any("required" in branch.get("then", {}) for branch in address["allOf"]))
+
 
 if __name__ == "__main__":
     unittest.main()
