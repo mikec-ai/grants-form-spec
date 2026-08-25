@@ -61,8 +61,12 @@ XSD_SET = ExactXsdFixture(
 
 
 class RRSF424MultiProjectCoverXmlTests(unittest.TestCase):
-    def assert_xsd_valid(self, response: dict[str, object]) -> bytes:
-        xml = render_profile_xml(PROFILE, response)
+    def assert_xsd_valid(
+        self,
+        response: dict[str, object],
+        attachments: dict[str, dict[str, str]] | None = None,
+    ) -> bytes:
+        xml = render_profile_xml(PROFILE, response, attachments or {})
         result = validate_exact_xsd(xml, XSD_SET, profile=PROFILE)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return xml
@@ -100,10 +104,33 @@ class RRSF424MultiProjectCoverXmlTests(unittest.TestCase):
                 "stateReviewCodeType": "Program is not covered by E.O. 12372"
             },
             "trustAgree": "Y: Yes",
+            "sflllAttachment": "sflll",
+            "preApplicationAttachment": "pre-application",
+            "coverLetterAttachment": "cover-letter",
             "aorSignature": "Authorized Representative",
             "aorSignedDate": "2026-08-25",
         }
-        root = ET.fromstring(self.assert_xsd_valid(response))
+        attachments = {
+            "sflll": {
+                "fileName": "SFLLL.pdf",
+                "mimeType": "application/pdf",
+                "fileLocation": "cid:sflll",
+                "hashValue": "c2ZsbGwtaGFzaA==",
+            },
+            "pre-application": {
+                "fileName": "PreApplication.pdf",
+                "mimeType": "application/pdf",
+                "fileLocation": "cid:pre-application",
+                "hashValue": "cHJlLWFwcGxpY2F0aW9uLWhhc2g=",
+            },
+            "cover-letter": {
+                "fileName": "CoverLetter.pdf",
+                "mimeType": "application/pdf",
+                "fileLocation": "cid:cover-letter",
+                "hashValue": "Y292ZXItbGV0dGVyLWhhc2g=",
+            },
+        }
+        root = ET.fromstring(self.assert_xsd_valid(response, attachments))
         names = [child.tag.rsplit("}", 1)[-1] for child in root]
         self.assertEqual(
             names,
@@ -117,6 +144,9 @@ class RRSF424MultiProjectCoverXmlTests(unittest.TestCase):
                 "EstimatedProjectFunding",
                 "StateReview",
                 "TrustAgree",
+                "SFLLLAttachment",
+                "PreApplicationAttachment",
+                "CoverLetterAttachment",
                 "AOR_Signature",
                 "AOR_SignedDate",
             ],

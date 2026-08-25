@@ -14,6 +14,7 @@ npm run validate-promotion
 npm run validate-parity-deltas
 npm test
 npm run test-python
+npm run test-project-xml
 npm run package-artifacts
 python3 scripts/package_artifacts.py --verify build/grants-form-artifacts.tar.gz
 npm run analyze -- --json --output-dir build/analysis >/dev/null

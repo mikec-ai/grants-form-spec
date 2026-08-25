@@ -28,6 +28,7 @@
     "package-artifacts": "python3 scripts/package_artifacts.py --output build/grants-form-artifacts.tar.gz",
     "proof-package": "python3 scripts/build_proof_package.py",
     "test-python": "python3 -m unittest discover -s tests",
+    "test-project-xml": "node --test tests/test_project_xml_projection.mjs",
     "test": "npm test -w @simpler-grants/form-spec",
     "preflight": "./scripts/preflight.sh"
   }
