@@ -6,11 +6,11 @@ assignee: codex_nifa_closure
 description: >-
   Repair the generic XML mapper so typed booleans match JSON-canonical portable
   value-map keys without changing non-boolean semantics.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex_nifa_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T16:28:30.323Z'
+  at: '2026-08-25T17:37:54.434Z'
 ---
 # Goal
 
@@ -33,3 +33,7 @@ Make the generic XML `map_values` transformer honor JSON-canonical boolean keys 
 # Open gates
 
 This generic defect repair does not accept NIFA semantic mappings, register the form, or close any human semantic, visual, accessibility, agency, instruction, privacy/security, policy, operational, UAT, or release gate.
+
+## Closure receipt
+
+Merged private-fork PR #121 as `cfb57f79915b50980f9d11f880dbf87dac78e7ef`. Focused transformer regressions preserve legacy and non-boolean behavior, and representative NIFA `true` and `false` XML validates against the exact pinned official XSD.

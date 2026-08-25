@@ -6,11 +6,11 @@ assignee: codex_nifa_closure
 description: >-
   Prevent a failed stateful browser probe from contaminating or falsely clearing
   independent portable-form receipts.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex_nifa_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T17:25:30.999Z'
+  at: '2026-08-25T17:37:54.697Z'
 ---
 The portable catalog browser harness runs attachment upload before its independent save/reload receipt. A failed or inconclusive stateful probe can leave unsaved page state and probe-local request/page-error entries behind, causing unrelated later receipts to fail or be falsely cleared.
 
@@ -28,3 +28,7 @@ Acceptance criteria:
 Implementation: private-fork PR #121, commit `0621722700cf354f241cedba19b8118a684df044`. The unresolved attachment timeout and WebKit `Load failed` remain separate shared gates.
 
 [depends on](close-nifa-supplemental-technical-gates.md)
+
+## Closure receipt
+
+Merged private-fork PR #121 as `cfb57f79915b50980f9d11f880dbf87dac78e7ef`. Exact-head bounded run `32877753834` retains `attachment_upload_reload=inconclusive` with timeout/harness ownership in all four browsers, records the attachment probe's own empty failed-request and page-error deltas, and then passes independent save/reload, accessibility, and print in all four browsers. The attachment timeout remains unresolved and was not reclassified.
