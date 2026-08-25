@@ -10,10 +10,10 @@ description: >-
   and locked-print gates; human semantic, accessibility, policy, registration,
   and release approval remain explicit.
 superbee_progress_status: in_progress
-superbee_updated_by: rr_sf424_browser
+superbee_updated_by: codex_rr_sf424_evidence
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T16:09:03.338Z'
+  at: '2026-08-25T19:49:08.982Z'
 ---
 # Scope
 
@@ -53,3 +53,9 @@ generated:
 R&R SF-424 validated the intended boundary: canonical questions and cross-field relationships remain independent of Grants.gov wire wrappers, portable targets declare the wire contract, and the Simpler adapter compiles those declarations generically. Exact lifecycle, XSD, and browser execution caught reusable validation, namespace, grouping, ordering, and nested-requiredness gaps without introducing form-specific Python or frontend logic.
 
 [depends on](author-integrate-rr-sf424.md)
+
+## Active evidence-closure wave — 2026-08-25
+
+- Claimed by `codex_rr_sf424_evidence` after collision-checking current open producer PRs; no open branch changes `evidence/forms/rr-sf424/evidence.json`, `tests/test_rr_sf424.py`, or the R&R SF-424 TypeSpec source.
+- Scope is form-local evidence and regression coverage only: reconcile the eight already-emitted conditional targets to exact pinned official source records and package all 22 semantic identities for human review without accepting any mapping.
+- No compiler, adapter, shared runtime, registration, release, or R&R Subaward Budget 10YR/30 changes are authorized in this lane. Any generic defect discovered during full validation will be reported before implementation.
