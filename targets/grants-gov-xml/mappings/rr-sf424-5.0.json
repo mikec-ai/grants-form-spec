@@ -246,17 +246,13 @@
         }
       }
     },
-    "congressionalDistrict": {
-      "element": "CongressionalDistrict",
-      "kind": "group",
+    "applicantCongressionalDistrict": {
+      "element": "ApplicantCongressionalDistrict",
+      "kind": "value",
       "namespace": "default",
-      "fields": {
-        "applicantCongressionalDistrict": {
-          "element": "ApplicantCongressionalDistrict",
-          "kind": "value",
-          "namespace": "default",
-          "source": "/applicantCongressionalDistrict"
-        }
+      "container": {
+        "element": "CongressionalDistrict",
+        "namespace": "default"
       }
     },
     "principalInvestigator": {
