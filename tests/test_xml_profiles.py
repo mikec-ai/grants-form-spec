@@ -217,6 +217,9 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "phs-fellowship-supplemental": [
                 "../mappings/attached-file-data-1.0.json#/fields",
             ],
+            "phs398-career-development-supplemental": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+            ],
             "rr-personal-data": [
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
                 "../mappings/rr-personal-data-director-1.2.json#/fields",
