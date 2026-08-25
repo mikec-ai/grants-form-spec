@@ -1,0 +1,29 @@
+{
+  "contract": "official-source-audit/v1",
+  "formId": "phs-additional-indirect-costs",
+  "formVersion": "2.0",
+  "claimsBoundary": "XSD structure and DAT behavior records are exact-source-backed. Semantic equivalence to other budget questions is not established. An official rendered PDF has not been acquired or reviewed.",
+  "sources": {
+    "xsd": {
+      "uri": "https://apply07.grants.gov/apply/forms/schemas/PHS_Additional_IndirectCosts_2_0-V2.0.xsd",
+      "sha256": "ba38a3500b025b0414edbcdbffe80dc12165ceb7a7fb657012d450b2e9682b66",
+      "nativeVersion": "2.0"
+    },
+    "dat": {
+      "uri": "https://apply07.grants.gov/apply/forms/sample/PHS_Additional_IndirectCosts_2_0-V2.0_F739.xls",
+      "sha256": "b0d0411dbb9794ba031b45dfaa4a94f735aad42311409a77bf44a0810196d3dd",
+      "nativeVersion": null
+    },
+    "pdf": {
+      "reviewState": "not_acquired",
+      "reviewedPages": [],
+      "gate": "Acquire and visually review the official rendered form before claiming PDF wording or page-layout parity."
+    }
+  },
+  "openGates": [
+    "First-period-only prefill behavior for UEI and organization name is recorded in the DAT but is not compiled in this slice.",
+    "The DAT makes calculated totals required when any funds-requested value is entered; conditional requiredness remains uncompiled.",
+    "Semantic mappings remain unreviewed and do not contribute to published coverage.",
+    "Official PDF wording, instructions, and visual parity remain unverified."
+  ]
+}

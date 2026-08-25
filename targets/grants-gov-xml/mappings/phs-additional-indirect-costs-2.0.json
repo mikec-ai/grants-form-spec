@@ -1,0 +1,52 @@
+{
+  "contract": "grants-gov-xml-mapping/v1",
+  "id": "phs-additional-indirect-costs-2.0",
+  "fields": {
+    "budgetYears": {
+      "element": "BudgetYear",
+      "kind": "array",
+      "items": {
+        "fields": {
+          "samUei": { "element": "SAMUEI", "kind": "value" },
+          "organizationName": { "element": "OrganizationName", "kind": "value" },
+          "budgetType": { "element": "BudgetType", "kind": "value" },
+          "budgetPeriodStartDate": { "element": "BudgetPeriodStartDate", "kind": "value" },
+          "budgetPeriodEndDate": { "element": "BudgetPeriodEndDate", "kind": "value" },
+          "indirectCosts": {
+            "element": "IndirectCosts",
+            "kind": "object",
+            "fields": {
+              "indirectCost": {
+                "element": "IndirectCost",
+                "kind": "array",
+                "items": {
+                  "fields": {
+                    "costType": { "element": "CostType", "kind": "value" },
+                    "rate": { "element": "Rate", "kind": "value" },
+                    "base": { "element": "Base", "kind": "value" },
+                    "fundRequested": { "element": "FundRequested", "kind": "value" }
+                  }
+                }
+              },
+              "totalIndirectCosts": { "element": "TotalIndirectCosts", "kind": "value" }
+            }
+          }
+        }
+      }
+    },
+    "budgetJustificationAttachment": {
+      "element": "BudgetJustificationAttachment",
+      "kind": "attachment"
+    },
+    "budgetSummary": {
+      "element": "BudgetSummary",
+      "kind": "object",
+      "fields": {
+        "cumulativeTotalFundsRequestedIndirectCost": {
+          "element": "CumulativeTotalFundsRequestedIndirectCost",
+          "kind": "value"
+        }
+      }
+    }
+  }
+}
