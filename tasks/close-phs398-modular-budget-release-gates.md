@@ -10,10 +10,10 @@ description: >-
   pass; human semantic, visual/accessibility, instruction, and registration
   gates remain.
 superbee_progress_status: blocked
-superbee_updated_by: codex-root
+superbee_updated_by: codex-phs398-modular-budget-closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T01:32:25.452Z'
+  at: '2026-08-25T01:33:14.278Z'
 ---
 [depends on](harvest-phs398-modular-budget.md)
 
@@ -40,9 +40,13 @@ generated:
   tests, and targeted ESLint. Exact rebased-head browser run
   [32797218557](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32797218557) passed at
   `489a0fb0036a9c7e6011c17af16bb141578fa8c2`: Chrome, Firefox, WebKit, and mobile Chrome completed
-  the generic PHS 398 Modular Budget plan (`4 passed` in 1.2 minutes), and the workflow uploaded its
-  portable receipts and browser evidence. The prior exact-head run had also passed; the rebased run
-  was required because shared nested-repeater code changed underneath that first receipt.
+  the generic PHS 398 Modular Budget plan (`4 passed` in 1.2 minutes). Portable receipt artifact
+  `portable-catalog-local-1` is GitHub Actions artifact `9545404227`. Every browser passed preview
+  registration, adapter preflight, Apply render, save/reload, automated accessibility, and print;
+  edited and refocused exact control `periods[0]--budget_period_start_date`; persisted 14 controls
+  with zero validation warnings; reported zero automated accessibility violations; and printed with
+  zero interactive controls. Schema implication was correctly not applicable, and no receipt
+  recorded a failed boundary or failure owner.
 - These are fork-level automated technical receipts. Human semantic, visual/accessibility,
   instruction, policy, privacy/security, operational, registration, and release approvals remain
   open, so the task remains blocked on human review rather than marked complete.
