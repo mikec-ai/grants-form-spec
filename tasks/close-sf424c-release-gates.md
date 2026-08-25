@@ -8,7 +8,7 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T23:56:13.462Z'
+  at: '2026-08-25T00:11:56.276Z'
 assignee: codex_root_sf424c
 ---
 # Goal
@@ -58,7 +58,8 @@ This task validates and releases the existing portable design; it does not reope
 - Producer PR [mikec-ai/grants-form-spec#95](https://github.com/mikec-ai/grants-form-spec/pull/95) merged as `d75d511d19f5c790442049d7ed6b1aa47949982f` at `2026-08-24T23:53:38Z`.
 - The generic SGG Table projector now derives columns, rows, cell paths, monetary display, and input/read-only state from a regular object-of-objects model. SF-424C supplies only its form-local table heading; no form-id branch or copied 16-row generator was added.
 - The producer's complete preflight passed: 124 TypeSpec tests, 346 Python tests with 10 skips, 30 exact-XSD fixtures, 1,536 validated artifacts, and zero unclassified field occurrences or exceptions.
-- Consumer PR [mikec-ai/simpler-grants-gov#97](https://github.com/mikec-ai/simpler-grants-gov/pull/97) pins the merged producer revision and recursively projects nested Table cell definitions through the existing canonical-to-Simpler rename map. The generated 16-row, four-column SF-424C UI artifact passes Simpler's frontend AJV contract and focused Table/FormFields tests.
+- Consumer PR [mikec-ai/simpler-grants-gov#97](https://github.com/mikec-ai/simpler-grants-gov/pull/97) merged as `82912c5de7315bc6bb0e13ed589c8264c919c0cc` at `2026-08-25T00:11:33Z`. It pins the merged producer revision and recursively projects nested Table cell definitions through the existing canonical-to-Simpler rename map. The generated 16-row, four-column SF-424C UI artifact passes Simpler's frontend AJV contract and focused Table/FormFields tests.
 - Local consumer receipts: 35 focused projection, SF-424C, integrity, and provenance tests passed; 48 frontend Table, UI-schema, and FormFields tests passed. Five additional legacy calculation tests require the local `grants-db` service and were unable to initialize outside the composed environment.
-- Bounded four-browser run [32791482621](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791482621) is executing at consumer head `c954ec151dd0838917d8d8457305cffa0281e4ee`. Do not claim browser closure until its receipts are read.
+- Bounded browser run [32791681432](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32791681432) passed at the exact rebased consumer head `bc3da014971c2ffec80f55b5498434210e6ddd22`: four `@portable-catalog` probes passed against only `sf424c` in 1.4 minutes after the hosted application environment started. The run created the SF-424C preview opportunity/application, rendered the generated Table through the real frontend, and completed without an SF-424C-specific runtime branch.
+- The broad API workflow had already cleared formatting, linting, migrations, and security when the consumer PR merged. Its complete test phase is retained as a post-merge signal because this fork's broad suite routinely takes roughly 25–30 minutes; it was not used to obscure the bounded release evidence above.
 - Production registration remains unchanged. Human semantic, instruction, accessibility, policy, and release approvals remain open.
