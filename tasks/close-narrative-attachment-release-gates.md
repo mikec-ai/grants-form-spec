@@ -7,11 +7,11 @@ description: >-
   Prove Project Narrative Attachment, Budget Narrative Attachment, and Other
   Narrative Attachments end to end as three distinct semantic roles reusing one
   generic attachment-capture mechanism.
-superbee_progress_status: in_progress
-superbee_updated_by: codex_narrative_attachment_closure
+superbee_progress_status: done
+superbee_updated_by: codex-scanner-defect-review
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T03:12:36.165Z'
+  at: '2026-08-25T12:40:46.063Z'
 ---
 # Scope
 
@@ -38,6 +38,15 @@ These are three distinct semantic narrative roles that reuse one generic attachm
 
 # Remaining gates
 
-- Hosted attachment scanner correction and a clean exact rerun after PR #93 merges.
 - Human visual acceptance, policy review, and semantic review; bounded automated accessibility receipts are not an accessibility-conformance determination.
 - Production registration/promotion and upstream review remain separate release decisions.
+
+# Automated closure — 2026-08-25
+
+- Scanner/isolation PR #93 merged as `75a0469d318b53e933e50768980b1f56562f5081`. PR #103 was then rebased cleanly onto that fork-main revision; rebased head `27ad94568878d602b6424ec57fef45283c66ac5b` remained limited to three generic portable-catalog test files with no form-specific producer, adapter, runtime, renderer, or registration changes.
+- Focused local verification on the rebased head passed: browser-plan producer `27 passed`; TypeScript matrix consumer `11 passed`; targeted Prettier and ESLint passed; `git diff --check` passed. The generated plan contained exactly `project-narrative-attachments`, `budget-narrative-attachments`, and `other-narrative-attachments`, each with the mechanically addressable `/properties/attachments` declaration.
+- [Bounded hosted run 32847064884](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32847064884) completed successfully on the exact rebased head: `4 passed`, `4 skipped` Playwright cases in 3.4 minutes using six workers and one shard. The portable receipt artifact is ID `9563144954`, digest `sha256:ba13fa1df1da21f42c2860a4abb0748dbc2a31ec934ef663848acfe433d56326`; the blob report is ID `9563139418`, digest `sha256:926ac5a8702c9554a71b29965f4d9b301b8efc84fe3bb66656b667012037963b`.
+- All 12 form-by-browser receipts (three narrative roles across Chrome, Firefox, Mobile Chrome, and WebKit) report `attachment_upload_reload: passed`, `persistedAfterReload: true`, and `sample-upload-kb.pdf`. All 12 `print_render` probes passed with the same filename and zero interactive controls. There were zero failed or inconclusive probes.
+- Automatic full run [32847062542](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32847062542) reproduced the documented unrelated SF-424A baseline: shard 1 ran 44 tests with six workers and finished `34 passed`, `6 skipped`, `2 flaky`, `2 failed` in 10.3 minutes. The only hard failures were the SF-424A Organization and Individual Chrome cases, each unable to locate `Total, row 1` on every retry. Two legacy attachment-history cases were retry-flaky and then passed. No hard failure was attributable to this narrative attachment change.
+- [PR #103](https://github.com/mikec-ai/simpler-grants-gov/pull/103) admin-squash-merged as `4db9540cb7efea7a0ff898809d124774f75d2e92` after GitHub recalculated onto concurrently advanced fork main `64d57940393019221be0b8e6c918405947cf8263`. The merge commit itself changes exactly the same three generic portable-catalog files.
+- The automated upload, scan, save/reload, read-only print, and bounded accessibility evidence gate is complete. Human semantic, policy, visual, accessibility-conformance, production-promotion, and upstream-review decisions remain explicitly separate.
