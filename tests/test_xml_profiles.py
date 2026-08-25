@@ -66,6 +66,7 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "performance-site",
             "rr-other-project-information",
             "phs398-modular-budget",
+            "phs-additional-indirect-costs",
             "rr-key-person-expanded",
             "sflll",
             "cd511",
@@ -128,6 +129,10 @@ class GrantsGovXmlProfileTests(unittest.TestCase):
             "phs398-modular-budget": [
                 "../mappings/attached-file-data-1.0.json#/fields",
                 "../mappings/phs398-modular-budget-1.2.json#/fields",
+            ],
+            "phs-additional-indirect-costs": [
+                "../mappings/attached-file-data-1.0.json#/fields",
+                "../mappings/phs-additional-indirect-costs-2.0.json#/fields",
             ],
             "rr-key-person-expanded": [
                 "../mappings/attached-file-data-1.0.json#/fields",
