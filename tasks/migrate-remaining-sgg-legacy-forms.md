@@ -40,7 +40,7 @@ Treat each form as a source-evidenced portable definition, use the legacy implem
 
 The `personal_data_closure` lane claimed the smallest non-overlapping slice on 2026-08-25: EPA Key Contacts only. Project Abstract remains independently owned; EPA 4700-4 and the Supplementary NEH Cover Sheet remain outside this slice.
 
-Producer PR [grants-form-spec #110](https://github.com/mikec-ai/grants-form-spec/pull/110), head `cea50b88e06bace76faf7344e9b82825b0907d30`, now carries the isolated source/declarative/XML slice:
+Producer PR [grants-form-spec #110](https://github.com/mikec-ai/grants-form-spec/pull/110) merged on 2026-08-25 at `5e7f6d3fd2aaa8c150477c460d3731055bd72594` (reviewed head `cea50b88e06bace76faf7344e9b82825b0907d30`). The merged isolated source/declarative/XML slice includes:
 
 - exact official v2.0 XSD, DAT, read-only PDF, XFA PDF, GlobalLibrary V2, and UniversalCodes V2 identities and hashes are pinned;
 - one role-qualified contact composition serves Authorized Representative, Payee, Administrative Contact, and Project Manager;
