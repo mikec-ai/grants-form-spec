@@ -15,6 +15,77 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "parity" / "legacy-deltas.v1.json"
 CONTRACT = "grants-form-parity-delta-ledger/v1"
+DECISION_CONTRACT = "grants-form-parity-decision/v1"
+DECISION_RECEIPT_CONTRACT = "grants-form-parity-decision-verification/v1"
+PRODUCER_REPOSITORY = "https://github.com/mikec-ai/grants-form-spec.git"
+
+
+def _git_blob(root: Path, revision: str, path: str) -> bytes:
+    result = subprocess.run(
+        ["git", "show", f"{revision}:{path}"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        raise ValueError(f"decision artifact is absent at its pinned revision: {path}")
+    return result.stdout
+
+
+def _load_decision_artifacts(
+    root: Path, ledger: dict[str, Any]
+) -> dict[tuple[str, str, str], dict[str, Any]]:
+    verification = ledger.get("decisionVerification", {})
+    receipt_path = root / verification.get("receipt", "")
+    if not receipt_path.is_file():
+        raise ValueError("parity decision verification receipt is missing")
+    receipt = json.loads(receipt_path.read_text())
+    if receipt.get("contract") != DECISION_RECEIPT_CONTRACT:
+        raise ValueError("unsupported parity decision verification receipt")
+    entries = receipt.get("artifacts")
+    if not isinstance(entries, list):
+        raise ValueError("parity decision verification receipt has no artifacts array")
+    verified: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for entry in entries:
+        repository = entry.get("repository") if isinstance(entry, dict) else None
+        revision = entry.get("revision") if isinstance(entry, dict) else None
+        path = entry.get("path") if isinstance(entry, dict) else None
+        digest = entry.get("sha256") if isinstance(entry, dict) else None
+        key = (repository, revision, path)
+        if (
+            repository != PRODUCER_REPOSITORY
+            or not re.fullmatch(r"[0-9a-f]{40}", str(revision))
+            or not isinstance(path, str)
+            or not re.fullmatch(r"parity/decisions/[a-z0-9][a-z0-9.-]+\.json", path)
+            or not re.fullmatch(r"[0-9a-f]{64}", str(digest))
+            or key in verified
+        ):
+            raise ValueError("parity decision verification receipt has invalid artifacts")
+        local_path = root / path
+        if not local_path.is_file():
+            raise ValueError(f"verified decision artifact is missing: {path}")
+        payload = local_path.read_bytes()
+        if hashlib.sha256(payload).hexdigest() != digest:
+            raise ValueError(f"verified decision artifact digest mismatch: {path}")
+        if _git_blob(root, revision, path) != payload:
+            raise ValueError(f"decision artifact is stale from its pinned revision: {path}")
+        artifact = json.loads(payload)
+        required = {
+            "contract",
+            "id",
+            "ledgerRecordId",
+            "formId",
+            "target",
+            "classification",
+            "decision",
+            "reviewer",
+            "reviewedAt",
+            "rationale",
+        }
+        if set(artifact) != required or artifact.get("contract") != DECISION_CONTRACT:
+            raise ValueError(f"verified decision artifact has an invalid contract: {path}")
+        verified[key] = artifact
+    return verified
 
 
 def _pointer_exists(document: Any, pointer: str) -> bool:
@@ -89,6 +160,8 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
     if not verified or any(not re.fullmatch(r"[0-9a-f]{64}", digest) for digest in verified.values()):
         raise ValueError("evidence verification receipt has no valid file digests")
     used_verified_paths: set[str] = set()
+    verified_decisions = _load_decision_artifacts(root, ledger)
+    used_decisions: set[tuple[str, str, str]] = set()
 
     records = ledger.get("records")
     if not isinstance(records, list):
@@ -164,9 +237,39 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
                 raise ValueError(
                     f"{record_id} accepted review lacks reviewer, timestamp, or decision evidence"
                 )
-            raise ValueError(
-                f"{record_id} accepted review requires an independent decision-artifact receipt"
+            if not isinstance(decision_evidence, list) or len(decision_evidence) != 1:
+                raise ValueError(f"{record_id} accepted review requires exactly one decision artifact")
+            decision_reference = decision_evidence[0]
+            decision_key = (
+                decision_reference.get("repository"),
+                decision_reference.get("revision"),
+                decision_reference.get("path"),
             )
+            if decision_key in used_decisions:
+                raise ValueError(f"{record_id} reuses a decision artifact")
+            artifact = verified_decisions.get(decision_key)
+            if artifact is None:
+                raise ValueError(
+                    f"{record_id} decision evidence is absent from the offline verification receipt"
+                )
+            expected = {
+                "id": decision_reference.get("id"),
+                "ledgerRecordId": record_id,
+                "formId": record.get("formId"),
+                "target": record.get("target"),
+                "classification": record.get("classification"),
+                "decision": "accepted",
+                "reviewer": review.get("reviewer"),
+                "reviewedAt": review.get("reviewedAt"),
+            }
+            stale = sorted(key for key, value in expected.items() if artifact.get(key) != value)
+            if stale:
+                raise ValueError(
+                    f"{record_id} decision artifact is stale for ledger fields: {stale}"
+                )
+            used_decisions.add(decision_key)
+        elif decision_evidence:
+            raise ValueError(f"{record_id} non-accepted review cannot claim decision evidence")
         if (
             record.get("classification") == "authoritative_source_correction"
             and source_support.get("status") != "verified"
@@ -179,6 +282,9 @@ def validate_ledger(root: Path, ledger_path: Path) -> dict[str, Any]:
     unused_verified_paths = sorted(set(verified) - used_verified_paths)
     if unused_verified_paths:
         raise ValueError(f"evidence verification receipt has unused paths: {unused_verified_paths}")
+    unused_decisions = sorted(set(verified_decisions) - used_decisions)
+    if unused_decisions:
+        raise ValueError(f"parity decision receipt has unused artifacts: {unused_decisions}")
     return ledger
 
 
