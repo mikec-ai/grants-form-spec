@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex_ci_baseline_audit
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T17:50:29.251Z'
+  at: '2026-08-25T17:54:40.382Z'
 ---
 # Problem
 
@@ -45,5 +45,13 @@ PR #125 changes only the exact CI-mapped test files for SF-LLL, CD-511, and Gran
 - Head: `4c103920a9345876972f79d44ee2d04f6b738130`
 - Changed paths: the three exact mapped form-local tests for `sflll`, `cd511`, and `gg-lobbying` only.
 - Current result: `tier: full`, `portableFormIds: []`, `portableTestFiles: []`.
+
+# Implementation receipt
+
+- Implementation PR: https://github.com/mikec-ai/simpler-grants-gov/pull/126
+- Implementation head: `1ea66a436`.
+- Local classifier suite: 36 passed; isort and Ruff passed.
+- The exact PR #125 diff through the updated classifier returns `tier: portable_focused`, `portableFormIds: [cd511, gg-lobbying, sflll]`, the exact three mapped portable tests, and `changedArtifacts: []`.
+- Hosted PR #125 receipt remains pending until PR #126 is reviewed, merged, and PR #125 is rebased onto that base.
 
 [related to](close-lobbying-certification-cohort-technical-gates.md)
