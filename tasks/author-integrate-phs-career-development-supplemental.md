@@ -2,15 +2,15 @@
 type: Task
 title: Author and integrate PHS Career Development Supplemental
 priority: P2
-assignee: unassigned
+assignee: root_phs_career
 description: >-
   Create the currently absent Career Development Supplemental through
   source-evidenced composition of proven PHS capabilities.
-superbee_progress_status: todo
-superbee_updated_by: codex-root
+superbee_progress_status: in_progress
+superbee_updated_by: root_phs_career
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T11:50:59.417Z'
+  at: '2026-08-25T04:20:38.853Z'
 ---
 # Goal
 
