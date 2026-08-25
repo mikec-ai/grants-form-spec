@@ -77,3 +77,18 @@ Producer PR [grants-form-spec #113](https://github.com/mikec-ai/grants-form-spec
 - semantic review remains `proposed`, accepted mappings remain zero, and consumer registration remains absent.
 
 Exact verification receipts: full local producer preflight passed with 125 TypeSpec tests, 387 Python tests (10 skipped), 8 XML projection tests, 321 validated blocks, 1,721 validated artifacts, and 43 projected evidence sidecars. Hosted `proof-package` run `32855602146` passed; hosted `form-spec` run `32855602057` passed in 2m7s. The separate unregistered consumer schema/initial-render receipt remains the next bounded integration gate and must not register the form.
+
+## Prepared unregistered consumer receipt
+
+The isolated private-fork branch `codex/epa-key-contacts-unregistered` is prepared at `2e159d8c7844b0b5bbda7b4cf2dcaac863729a60`, based on private-fork main `2e4391008b5cf587e01a91100619347b073a0912`. No consumer PR exists yet; it is intentionally held until attributable portable-form CI merges so this slice can be the first validation of the faster path.
+
+- the exact producer merge `7c3be8e32968b49b5ce48f53a832c00220eb5bee` is additively banked as the 43rd form with `registrationChanged: false`;
+- `runtime_identity("epa-key-contacts")` and `load_form("epa-key-contacts")` both remain fail-closed, while the private bank projector and preview builder load the package without XML enablement;
+- all four optional roles accept absence, reject a partial role containing only an optional field, expose the same six source-required leaf constraints, and accept a complete non-U.S. role;
+- all four U.S. roles require State and ZIP through the emitted schema;
+- initial preview rule processing leaves `{}` unchanged and does not materialize Authorized Representative, Payee, Administrative Contact, or Project Manager objects;
+- evidence remains exactly 32 compiled effects, four unresolved `source-bound-uncompiled` timing effects, semantic review `proposed`, and zero accepted mappings.
+
+The additive promotion exposed an exact-source issue: Simpler's existing `EPA_KeyContacts_2_0-V2.0.xsd` had LF-normalized bytes (`2321d483...`) while the official producer fixture preserves CRLF bytes (`157a9c8...`). The XML content was otherwise identical. The branch replaces the tracked XSD with the producer-pinned official byte-identical fixture; existing integrity and non-database legacy EPA XML checks pass.
+
+Focused local receipts: 46 tests passed and two database-backed legacy XSD tests were deliberately deselected because the isolated host has no `grants-db`; the new EPA test file passes 4/4, targeted Ruff lint and format checks pass, artifact integrity passes for 43 forms and 538 files, and registrations/runtime identities are unchanged. A broad repository Ruff-format invocation is not attributable because the current repository has extensive pre-existing formatting drift and the installed Ruff process panics while rendering that baseline; the changed Python file itself is clean.
