@@ -8,22 +8,7 @@ description: >-
 superbee_updated_by: codex_phs_human_subjects_closure
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T20:55:43.772Z'
-priority: P1
-assignee: codex_phs_human_subjects_closure
-superbee_progress_status: in_progress
----
----
-type: Task
-title: Close PHS Human Subjects technical gates
-description: >-
-  Gather dedicated adapter/runtime, exact XML/XSD, dimensional enrollment,
-  repeat, and bounded browser evidence for the unregistered PHS Human Subjects
-  form.
-superbee_updated_by: codex_phs_human_subjects_closure
-generated:
-  by: 'process:superbee'
-  at: '2026-08-25T19:41:19.891Z'
+  at: '2026-08-25T20:56:19.366Z'
 priority: P1
 assignee: codex_phs_human_subjects_closure
 superbee_progress_status: in_progress
