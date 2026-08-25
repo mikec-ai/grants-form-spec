@@ -13,8 +13,8 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-25T11:23:18.415Z'
-superbee_updated_by: personal_data_closure
+  at: '2026-08-25T12:33:24.066Z'
+superbee_updated_by: codex
 ---
 # Scope
 
@@ -28,7 +28,8 @@ Generic runtime execution covers five PD/PI name prefills, protected editability
 
 - Producer PR #108 merged at producer main `5940bdcc8e6b5dee60f36cb723b8c1b0dad0df5c`; five exact XFA-backed PD/PI name prefills and four exact DAT exclusivity rules compile without changing `semanticReview: proposed` or source hashes.
 - Producer preflight: 125 TypeSpec tests; 371 Python tests passed with 10 skipped; 35 exact XSD profiles/fixtures; 320 blocks and 1,710 artifacts; zero unclassified records and zero exceptions.
-- Generic consumer PR #114 is open for protected/read-only schema projection, lower-environment preview behavior execution, exclusive-value MultiSelect execution, composed-schema traversal, and implicit-field XML value maps. Focused receipts: 48 API tests; 41 frontend tests passed with 1 skipped; frontend typecheck, Ruff, and Prettier green.
+- Generic consumer PR #114 is open for protected/read-only schema projection, lower-environment preview behavior execution, exclusive-value MultiSelect execution, composed-schema traversal, and implicit-field XML value maps. It was rebased cleanly onto consumer main `75a0469d318b53e933e50768980b1f56562f5081`, preserving a generic-only diff at head `d47f38eb315866e8c5d3f022682ee6d6820b5f55`. Focused receipts: 53 API tests passed; 42 frontend tests passed with 1 skipped; repo-wide isort and Black, frontend lint/typecheck, hosted broad API, frontend, accessibility, build, and Storybook checks green.
+- The hosted E2E cohort is not a Personal Data failure signal. Attempt 1 shard 4 failed three existing Mobile Chrome attachment-persistence/SF-424A print-view tests while selecting no portable forms (`PORTABLE_BROWSER_FORM_IDS` empty); 31 tests passed and two other existing tests were marked flaky. A clean rerun reproduced only the two existing SF-424A cases: `Total, row 1` was absent where the legacy test expected `100.00`; 36 tests passed. The repeated failures exercise no changed PR #114 path, so production code was not changed. Rerun shards 1–3 remain pending.
 - A temporary exact-package rehearsal loaded all five operational behaviors and generated representative XML that validates against pinned `RR_PersonalData_1_2-V1.2.xsd`.
 - Exact artifact repin, save/reload, and bounded browser receipts remain pending the independently owned Multi-Project Cover consumer baseline. Current 42-form sync correctly refuses because consumer main lacks `api/src/services/xml_generation/xsds/RR_SF424_Multi_Project_Cover_4_0-V4.0.xsd`; this lane will not import that file.
 - Privacy, policy, accessibility, semantic acceptance, and human release gates remain open and separate.
