@@ -6,11 +6,11 @@ assignee: codex_root_parallel_tests
 description: >-
   Remove local Compose collisions so multiple form-evidence agents can run
   repository-native tests concurrently.
-superbee_progress_status: in_progress
-superbee_updated_by: codex-root-fork
+superbee_progress_status: done
+superbee_updated_by: codex-scanner-defect-review
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T22:40:08.750Z'
+  at: '2026-08-25T12:16:50.746Z'
 ---
 ---
 type: Task
@@ -74,3 +74,12 @@ This task improves execution isolation. It does not redesign the application run
 - The proof surfaced and fixed one shared Docker Desktop defect: S3Mock's mutable host bind mount could not be chowned in a clean worktree. PR #93 now uses a Compose-scoped named volume and tests that contract.
 - A simultaneous clean build of two amd64 API images on this arm64 Mac exceeded the host/QEMU envelope and one `uv build` process segfaulted. Staging the same immutable image once, then initializing and testing both isolated runtime stacks, succeeded. This is a local build-capacity constraint rather than a Compose namespace collision.
 - Remaining work is PR review and completion of hosted checks; the concurrent runtime-isolation acceptance criterion is satisfied.
+
+# Completion — 2026-08-25
+
+- [PR #93](https://github.com/mikec-ai/simpler-grants-gov/pull/93) merged as [`75a0469d318b53e933e50768980b1f56562f5081`](https://github.com/HHS/simpler-grants-gov/commit/75a0469d318b53e933e50768980b1f56562f5081). The merged changes remain limited to development and test infrastructure.
+- The final local scanner/isolation regression lane passed 28 focused tests (`tests/src/services/files/test_local_file_scanner.py` and `tests/bin/test_run_isolated_api_test.py`), while the readiness shell suite passed all 6 tests. Ruff, Black, isort, Compose effective-configuration validation, actionlint, and `git diff --check` also passed.
+- [Bounded hosted run 32841916959](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32841916959) passed the concurrent attachment cohort on the scanner-fix head: Chrome 6/6, Firefox 6/6, Mobile Chrome 6/6, and WebKit 3 passed plus 3 retry-flaky tests. This demonstrated successful attachment scanning across the hosted browser matrix under the bounded six-worker load.
+- [Full calibrated run 32843531115](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32843531115) verified the hosted-local capacity control with `Running 44 tests using 6 workers, shard 4 of 4`. Mobile Chrome completed with 34 passed, 6 skipped, 2 attachment retry-flakies, and 2 hard failures; fail-fast then canceled the other shards.
+- The two hard failures in that full run were both the pre-existing SF-424A Mobile Chrome Organization/Individual value checks: every retry could not locate `Total, row 1` at `submission-printview-sf424a.spec.ts:131`. They are explicitly classified as unrelated to Compose isolation and file-scanner behavior. Attachment tests were no longer hard failures after the six-worker calibration.
+- The acceptance criteria for isolated local stacks, bounded hosted selection, generic file-scan observation, and hosted-local capacity calibration are satisfied. The unrelated SF-424A browser defect is outside this task's boundary.
