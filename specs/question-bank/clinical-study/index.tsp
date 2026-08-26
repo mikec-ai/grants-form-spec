@@ -148,6 +148,7 @@ scalar OtherClinicalTrialDocument extends AttachmentRef;
 @Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.details)
+@UI.label("Delayed Onset Study")
 model DelayedOnsetStudy {
   @maxLength(600)
   @minLength(1)
@@ -246,6 +247,7 @@ model CumulativeEnrollmentMatrix {
 @Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.count, TagName.details)
+@UI.label("Inclusion Enrollment Report")
 model InclusionEnrollmentReport {
   @maxLength(600)
   @minLength(1)
@@ -265,6 +267,7 @@ model InclusionEnrollmentReport {
 }
 
 /** Embedded-study occurrence of the shared report with its source-owned technical identifier. */
+@UI.label("Inclusion Enrollment Report")
 model EmbeddedInclusionEnrollmentReport extends InclusionEnrollmentReport {
   @Response.role(ResponseRole.systemValue)
   @UI.readOnly
@@ -389,6 +392,7 @@ model ProtocolSynopsis {
 @Response.role(ResponseRole.applicantInput)
 @Catalog.entity(EntityName.project)
 @Catalog.tag(TagName.details)
+@UI.label("Human Subject Study")
 model HumanSubjectStudyRecord {
   @Response.role(ResponseRole.systemValue)
   @UI.readOnly

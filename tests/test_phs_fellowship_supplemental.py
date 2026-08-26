@@ -41,6 +41,19 @@ class PHSFellowshipSupplementalTests(unittest.TestCase):
             evidence["extraction"]["sourceSetSha256"],
             "ced520509653ed07d7e572edd8d7678d15901ec5b912b3bec6978688c105677f",
         )
+        nrsa_records = [
+            record
+            for record in evidence["behaviorEvidence"]
+            if record["canonicalPath"].lstrip("/").replace("/", ".")
+            == "candidateInformation.currentPriorNrsaSupport.records"
+        ]
+        self.assertEqual(
+            [(record["sourcePath"], record["executionStatus"]) for record in nrsa_records],
+            [
+                ("G-5-01", "compiled"),
+                ("G-5-02", "source-bound-uncompiled"),
+            ],
+        )
 
     def test_form_compiles_reusable_questions_and_source_cardinalities(self) -> None:
         schema = load(FORM / "schema.json")

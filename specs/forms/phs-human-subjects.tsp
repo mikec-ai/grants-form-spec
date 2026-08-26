@@ -26,11 +26,27 @@ enum PHSHumanSubjectsSection {
 @UI.sections(PHSHumanSubjectsSection)
 @Response.role(ResponseRole.systemValue)
 @UI.overrides(#{
-  `involvesHumanSubjects`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
-  `exemptFromFederalRegulations`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
-  `exemptions`: #{ readOnly: true, visibleReadOnly: true, section: "overview" },
+  `involvesHumanSubjects`: #{
+    label: "Does the proposed project involve human subjects?",
+    readOnly: true,
+    visibleReadOnly: true,
+    section: "overview",
+  },
+  `exemptFromFederalRegulations`: #{
+    label: "Is the project exempt from federal regulations?",
+    readOnly: true,
+    visibleReadOnly: true,
+    section: "overview",
+  },
+  `exemptions`: #{
+    label: "Exemption Number(s)",
+    readOnly: true,
+    visibleReadOnly: true,
+    section: "overview",
+  },
 })
 model PHSHumanSubjects extends QuestionBank.ResearchProject.HumanSubjectDeterminations {
+  @UI.label("Does any proposed research involve human specimens and/or data?")
   @UI.section(PHSHumanSubjectsSection.overview)
   involvesHumanSpecimensOrData: QuestionInvolvesHumanSpecimensOrData;
   @UI.section(PHSHumanSubjectsSection.overview)
@@ -38,9 +54,19 @@ model PHSHumanSubjects extends QuestionBank.ResearchProject.HumanSubjectDetermin
   @UI.section(PHSHumanSubjectsSection.overview)
   otherRequestedInformation?: HumanSubjectsOtherRequestedInformation;
   @maxItems(150)
+  @UI.label("Human Subject Study Records")
+  @UI.enabledWhen(
+    PHSHumanSubjects.involvesHumanSubjects,
+    QuestionBank.ResearchProject.ResearchProjectYesNoCode.yes
+  )
   @UI.section(PHSHumanSubjectsSection.studies)
   studies?: HumanSubjectStudyRecord[];
   @maxItems(150)
+  @UI.label("Delayed Onset Studies")
+  @UI.enabledWhen(
+    PHSHumanSubjects.involvesHumanSubjects,
+    QuestionBank.ResearchProject.ResearchProjectYesNoCode.yes
+  )
   @UI.section(PHSHumanSubjectsSection.delayedOnset)
   delayedOnsetStudies?: DelayedOnsetStudy[];
   @Response.role(ResponseRole.systemValue)

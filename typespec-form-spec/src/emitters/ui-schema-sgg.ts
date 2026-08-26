@@ -23,6 +23,7 @@ export interface SggFieldList {
   description?: string;
   hideFieldListHeading?: boolean;
   validateBeforeAdd?: boolean;
+  conditional?: Record<string, unknown>;
   children: (SggField | SggFieldList)[];
 }
 export interface SggMultiField {
@@ -170,7 +171,17 @@ function walk(
     if (propOmit(program, prop) || at(overrides, here).omit === true) continue;
 
     const path = `${prefix}/properties/${prop.name}`;
-    const list = fieldListAt(program, prop, path, here, overrides);
+    const list = fieldListAt(
+      program,
+      prop,
+      path,
+      here,
+      overrides,
+      inheritedVisible,
+      inheritedEnabled,
+      inheritedReadOnly,
+      itemPath,
+    );
     if (list) {
       into.push(list);
       continue;
@@ -356,6 +367,10 @@ function fieldListAt(
   definition: string,
   dataPath: string,
   overrides: Overrides,
+  inheritedVisible: AbsoluteCondition[] = [],
+  inheritedEnabled: AbsoluteCondition[] = [],
+  inheritedReadOnly: AbsoluteCondition[] = [],
+  parentItemPath?: string[],
 ): SggFieldList | undefined {
   const t = prop.type;
   if (t.kind !== "Model" || !t.indexer) return undefined;
@@ -381,6 +396,48 @@ function fieldListAt(
   }
   if (propSggFieldList(program, prop).validateBeforeAdd === true) {
     list.validateBeforeAdd = true;
+  }
+  const targetPath = definition
+    .split("/")
+    .filter((step) => step && step !== "properties" && step !== "items");
+  const visible = [
+    ...inheritedVisible,
+    ...absoluteConditions(propVisibleWhen(program, prop), targetPath.join("."), parentItemPath),
+  ];
+  if (visible.length) {
+    const predicates = visible.map(predicate);
+    list.conditional = {
+      when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+      then: { visible: true },
+      otherwise: { visible: false },
+    };
+  } else {
+    const enabled = [
+      ...inheritedEnabled,
+      ...overrideEnabledWhen(at(overrides, dataPath)),
+      ...absoluteConditions(propEnabledWhen(program, prop), targetPath.join("."), parentItemPath),
+    ];
+    if (enabled.length) {
+      const predicates = enabled.map(predicate);
+      list.conditional = {
+        when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
+      };
+    } else {
+      const readOnly = [
+        ...inheritedReadOnly,
+        ...absoluteConditions(propReadOnlyWhen(program, prop), targetPath.join("."), parentItemPath),
+      ];
+      if (readOnly.length) {
+        const predicates = readOnly.map(predicate);
+        list.conditional = {
+          when: predicates.length === 1 ? predicates[0] : { op: "all", predicates },
+          then: { interaction: "readOnly" },
+          otherwise: { interaction: "enabled" },
+        };
+      }
+    }
   }
   return list;
 }
