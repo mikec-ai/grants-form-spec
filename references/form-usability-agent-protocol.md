@@ -14,6 +14,14 @@ accessibility checks; it does not replace them or convert their passes into huma
 
 # Operating loop
 
+## Readiness gate
+
+Do not start the usability clock until the local API, frontend, authentication, scanner/storage,
+preview registration, and pinned fixture application are healthy. Prove that gate with one known
+form route, one authenticated session check, and—when attachments are in scope—one disposable
+scanner fixture. Harness diagnosis is setup work and must be recorded separately from form
+findings.
+
 1. Create one `Form Usability Run` for an exact form, scenario, environment, runtime commit, and
    producer/artifact pin when available.
 2. Claim it atomically by setting `progress_status: in_progress` and `assignee` together. Agents
@@ -35,6 +43,32 @@ accessibility checks; it does not replace them or convert their passes into huma
    actionable.
 9. Mark a merged defect `fixed`; schedule a later run with `verifies`. Only that later manual run
    may mark the shared defect `verified`.
+
+## Delivery cadence
+
+Run forms in small cohorts selected to exercise one shared mechanism: simple scalar/choice,
+conditional sections, repeaters, attachments, calculations/read-only output, and deeply nested
+records. For each cohort:
+
+1. Primary agent executes one representative form end to end.
+2. Triage immediately into `form_spec`, `shared_runtime`, `adapter`, `source_or_policy`, `harness`,
+   or `unknown`.
+3. Implement the smallest reusable or declarative fix with automated regression tests.
+4. Re-run the exact failed scenario before reviewing another form that depends on the mechanism.
+5. Once the shared mechanism is verified, batch the remaining related forms through shorter
+   confirmation scenarios.
+
+Track active-review time separately from readiness/harness time. A healthy simple-form run should
+target 10–20 minutes, a typical form 20–45 minutes, and a behavior-heavy form 45–90 minutes. A run
+that exceeds its band pauses for explicit harness or architecture triage; repeated manual
+workarounds are not accepted as review throughput.
+
+## Closure rule
+
+A finding closes only after its evidence-backed fix is present in the consumer build and the exact
+browser scenario passes. A producer commit, consumer artifact promotion, automated test, or merged
+PR alone is not a manual usability verification. Policy-ambiguous findings remain triaged and open;
+the team must not invent agency rules merely to make the queue green.
 
 # Execution topology
 

@@ -1,10 +1,10 @@
 ---
 type: Usability Finding
 title: PHS overview required controls are unlabeled
-superbee_progress_status: observed
+superbee_progress_status: triaged
 severity: blocker
 category: accessibility
-affected_layer: unknown
+affected_layer: form_spec
 form_id: phs-human-subjects
 stable_field_path: /properties/involvesHumanSubjects
 reproduction: >-
@@ -34,3 +34,10 @@ Observed against consumer commit `e34c1478593c8e09925643dc354b50cf80837932`, pro
 `c31c759743a5266cd9ea941df73bc7edaf0d5ae68bb4250265ac44e7d86892f9`. Root-cause ownership is
 not yet assigned: the portable schema mixes local `allOf` definitions and question-bank `$ref`
 definitions, and the rendered symptom must be traced through both projection and runtime resolution.
+
+# Triage
+
+Producer PR [#119](https://github.com/mikec-ai/grants-form-spec/pull/119) adds explicit
+source-shaped labels to the three system-owned determinations and the specimens/data question.
+Keep this finding open until those artifacts are promoted into the consumer and the exact browser
+scenario verifies accessible names.

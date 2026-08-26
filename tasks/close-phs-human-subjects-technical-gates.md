@@ -73,3 +73,20 @@ Close the smallest automated technical handoff for the already-banked, unregiste
 [depends on](author-integrate-phs-human-subjects.md)
 
 [consumer delivery follows](automate-cross-repo-form-promotion.md)
+
+# Primary usability remediation — 2026-08-25
+
+- Primary run `usability-runs/phs-human-subjects-core-applicant-pilot` exposed four reproducible
+  applicant-facing findings after the automated technical handoff.
+- Producer PR [#119](https://github.com/mikec-ai/grants-form-spec/pull/119), commit `a2bfc5b29`,
+  fixes the evidence-supported first slice declaratively: explicit overview labels, reusable
+  repeater item labels, and generic interaction conditions on repeatable groups.
+- Exact F705 evidence now classifies only the two emitted `HumanSubjectsIndicator` group gates as
+  compiled. Nine other source conditions, all embedded-study condition uncertainty, and the 28
+  unresolved total-like coordinates remain explicit.
+- Targeted receipts: TypeScript build passed; 24 condition-emitter tests passed; nine PHS producer
+  tests and targeted evidence projection passed. The full TypeSpec run passed 125 tests; its one
+  artifact-fixture failure is attributable to the pre-existing whole-repository PHS Fellowship
+  evidence gap on current main, not this change.
+- Closure still requires producer merge, consumer artifact promotion, and an exact primary-agent
+  browser re-run. No finding is marked resolved merely from the producer change.

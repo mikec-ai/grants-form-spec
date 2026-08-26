@@ -1,7 +1,7 @@
 ---
 type: Usability Finding
 title: PHS repeaters display internal collection identifiers
-superbee_progress_status: observed
+superbee_progress_status: triaged
 severity: moderate
 category: content
 affected_layer: form_spec
@@ -27,3 +27,9 @@ Repeatable groups display internal collection identifiers as applicant-facing he
 
 This is an applicant-facing content symptom. Similar internal headings in another form would require
 separate evidence before treating it as a shared defect.
+
+# Triage
+
+Producer PR [#119](https://github.com/mikec-ai/grants-form-spec/pull/119) gives the reusable study,
+delayed-onset study, and inclusion-enrollment item models explicit entry labels. Keep this finding
+open until promoted consumer artifacts pass the exact repeater scenario.

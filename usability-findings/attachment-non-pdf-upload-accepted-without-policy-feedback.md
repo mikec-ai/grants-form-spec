@@ -3,10 +3,10 @@ type: Usability Finding
 title: >-
   Attachment Form accepts a non-PDF upload without visible format-policy
   feedback
-superbee_progress_status: observed
+superbee_progress_status: triaged
 severity: moderate
 category: validation
-affected_layer: unknown
+affected_layer: source_or_policy
 form_id: attachment-form
 stable_field_path: /properties/attachment3
 reproduction: >-
@@ -35,5 +35,12 @@ format and naming, but this portable-preview opportunity exposes no agency guide
 Therefore this finding does not claim that PDF is the universally required format or that the
 backend security scanner is defective. It records only the absence of visible format-policy
 feedback for a non-PDF upload.
+
+# Triage
+
+Do not add a universal PDF restriction. Resolution requires an opportunity- or agency-scoped file
+policy artifact that the generic attachment control can display and enforce. Until that source is
+available, the current instructions are the semantic boundary and this remains an open policy
+decision rather than a runtime defect.
 
 [observed-in](../usability-runs/attachment-form-ordered-upload-primary-pilot.md)

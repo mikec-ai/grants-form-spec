@@ -1,7 +1,7 @@
 ---
 type: Usability Finding
 title: PHS study entry exposes the full unconditioned schema
-superbee_progress_status: observed
+superbee_progress_status: triaged
 severity: major
 category: conditional_behavior
 affected_layer: form_spec
@@ -31,3 +31,11 @@ applicant-oriented conditional flow.
 The producer record already identifies eleven source-bound conditions as uncompiled. This finding
 records the visible applicant consequence; it does not infer missing policy behavior beyond those
 known gates.
+
+# Triage
+
+Producer PR [#119](https://github.com/mikec-ai/grants-form-spec/pull/119) adds generic conditional
+support for repeatable groups and compiles the two exact F705 `HumanSubjectsIndicator` gates for
+study and delayed-onset lists. Nine other F705 conditions and the embedded-study field-level
+condition set remain explicitly uncompiled. This finding therefore remains open and must be
+retested as a partial improvement, not marked resolved.

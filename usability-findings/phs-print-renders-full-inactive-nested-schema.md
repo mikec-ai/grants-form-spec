@@ -1,7 +1,7 @@
 ---
 type: Usability Finding
 title: PHS print view renders the full inactive nested schema
-superbee_progress_status: observed
+superbee_progress_status: triaged
 severity: major
 category: print
 affected_layer: unknown
@@ -31,3 +31,10 @@ extremely long review artifact before the applicant entered enrollment data.
 
 Print rendering itself succeeded. This finding concerns review usability and scope, not loss of
 saved data or print-route availability.
+
+# Triage
+
+The new top-level repeatable-group gates should remove inactive study groups when the source
+determination is not Yes. Suppressing blank fields inside an intentionally added study requires
+either exact embedded-study conditions or an approved generic print-content policy. Neither is
+inferred here; verify the top-level improvement and keep the deeper print question open.
