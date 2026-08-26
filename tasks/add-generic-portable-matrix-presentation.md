@@ -10,6 +10,20 @@ superbee_progress_status: todo
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
+  at: '2026-08-26T06:04:54.524Z'
+---
+---
+type: Task
+title: Add a generic portable matrix presentation contract
+priority: P0
+assignee: codex
+description: >-
+  Preserve visible and programmatic dimensional context without form-specific
+  renderer code or inferred calculations.
+superbee_progress_status: todo
+superbee_updated_by: codex
+generated:
+  by: 'process:superbee'
   at: '2026-08-26T05:56:56.534Z'
 ---
 ---
@@ -52,3 +66,4 @@ Design and implement a generic portable matrix-presentation contract so dimensio
 - The current portable SGG emitter can only emit `SggMultiField` at section level. `SggFieldList.children` accepts fields and nested field lists, but not multi-fields, so a matrix inside a repeated report cannot currently reach the existing table widget declaratively.
 - The likely smallest slice is therefore producer-first: add a target-neutral matrix/table presentation decorator and shape, allow emitted multi-fields inside field-list children, then make the existing Table widget accept the fully nested repeated-item definitions.
 - PHS coordinates require grouped row semantics across ethnicity and sex, not merely a flat label column. The contract design must support programmatic row headers (including grouped headers where needed) before implementation begins.
+- SF-424C is the required second reference form. The current producer already derives a complete regular object-of-objects table from authored labels, read-only metadata, and model structure via generic `tableChildren`; the consumer's existing `TableWidget` renders it. The PHS slice should generalize this proven path to a table nested inside a repeated item and to multi-level row dimensions, while keeping SF-424C output identical.
