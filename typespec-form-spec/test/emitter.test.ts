@@ -159,6 +159,7 @@ describe("SGG UI emission", () => {
   it("emits portable modular choices and sibling date ordering", async () => {
     const root = resolve(packageRoot, "dist/forms/phs398-modular-budget");
     const manifest = JSON.parse(await readFile(resolve(root, "manifest.json"), "utf8"));
+    const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
     const rules = JSON.parse(await readFile(resolve(root, "sgg/rule-schema.json"), "utf8"));
     const period = JSON.parse(
       await readFile(
@@ -180,6 +181,34 @@ describe("SGG UI emission", () => {
     expect(rules.periods.budgetPeriodEndDate.gg_validation).toEqual({
       rule: "date_not_before",
       fields: ["@THIS.budgetPeriodStartDate"],
+    });
+
+    const nodes = (value: unknown): Record<string, any>[] => {
+      if (Array.isArray(value)) return value.flatMap(nodes);
+      if (!value || typeof value !== "object") return [];
+      const object = value as Record<string, any>;
+      return [object, ...Object.values(object).flatMap(nodes)];
+    };
+    const directCosts = nodes(ui).find(
+      (node) => node.type === "multiField" && node.name === "directCosts",
+    );
+    expect(directCosts).toMatchObject({
+      widget: "Table",
+      definition: ["/properties/periods/items/properties/directCosts"],
+      children: {
+        columns: [
+          { columnHeader: "Direct Cost less Consortium Indirect (F&A)", width: 100 / 3 },
+          { columnHeader: "Consortium Indirect (F&A)", width: 100 / 3 },
+          { columnHeader: "Total Funds Requested for Direct Costs", width: 100 / 3 },
+        ],
+        rows: [{
+          cells: [
+            { type: "input" },
+            { type: "input", format: "dollar" },
+            { type: "readOnly", format: "dollar" },
+          ],
+        }],
+      },
     });
   });
 
