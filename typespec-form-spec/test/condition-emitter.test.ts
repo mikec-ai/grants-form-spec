@@ -9,6 +9,47 @@ import { allBlocks } from "../src/model.js";
 import { Tester, form, formMeta } from "./tester.js";
 
 describe("bounded presence conditions", () => {
+  it("preserves interaction conditions on repeatable groups", async () => {
+    const instance = await Tester.createInstance();
+    await instance.compile(
+      form(`
+        enum Answer { yes: "Yes", no: "No" }
+        enum ConditionalListSection { entries: "Entries" }
+        model Entry { value?: string; }
+
+        ${formMeta("conditional-list-check")}
+        @UI.sections(ConditionalListSection)
+        model ConditionalListCheck {
+          @UI.section(ConditionalListSection.entries)
+          enabled: Answer;
+          @UI.enabledWhen(ConditionalListCheck.enabled, Answer.yes)
+          @UI.section(ConditionalListSection.entries)
+          entries?: Entry[];
+        }
+      `),
+    );
+
+    const block = allBlocks(instance.program).find(
+      (candidate) => candidate.id === "conditional-list-check",
+    );
+    const list = emitSggUi(instance.program, block!)[0].children.find(
+      (node) => node.type === "fieldList",
+    );
+    expect(list).toMatchObject({
+      type: "fieldList",
+      name: "entries",
+      conditional: {
+        when: {
+          op: "equals",
+          ref: { scope: "root", pointer: "/enabled" },
+          value: "Yes",
+        },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
+      },
+    });
+  });
+
   it("keeps intrinsic cardinality in a published question while preserving occurrence narrowing", async () => {
     const instance = await Tester.createInstance();
     await instance.compile(

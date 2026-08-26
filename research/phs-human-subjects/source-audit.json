@@ -50,9 +50,10 @@
   },
   "conditionDecision": {
     "sourceBoundCount": 11,
-    "compiledCount": 0,
-    "status": "source-bound-unresolved",
-    "reason": "The F705 DAT conditions describe cross-form values, row controls, and the legacy embedded-PDF workflow. The standalone declarative contract has no local response path for several sources and does not fabricate one.",
+    "compiledCount": 2,
+    "status": "partially-compiled",
+    "reason": "The exact HumanSubjectsIndicator gate now disables both repeatable study groups when the source value is not Yes. The remaining F705 conditions describe conditional requiredness, row-count controls, and legacy embedded-PDF behavior that are not yet fully represented; the contract does not fabricate missing behavior.",
+    "compiledTargets": ["studies", "delayedOnsetStudies"],
     "nestedStudyConditions": "No field-level DAT behavior evidence exists for the embedded Human Subject Study. Label- or policy-inferred nested conditions are not emitted."
   },
   "sourceBoundConditions": [

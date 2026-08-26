@@ -27,7 +27,7 @@ class PHSHumanSubjectsTests(unittest.TestCase):
             "exemptFromFederalRegulations",
             "exemptions",
         ):
-            self.assertEqual(overview["properties"][name]["allOf"], [{"readOnly": True}])
+            self.assertTrue(overview["properties"][name]["allOf"][0]["readOnly"])
         self.assertTrue(overview["properties"]["applicationId"]["readOnly"])
 
         ui = load(FORM / "sgg/ui-schema.json")
@@ -57,6 +57,55 @@ class PHSHumanSubjectsTests(unittest.TestCase):
         self.assertIn("/properties/applicationId", hidden)
         self.assertTrue(any(path.endswith("/properties/studyId") for path in hidden))
         self.assertTrue(any(path.endswith("/properties/reportId") for path in hidden))
+
+    def test_applicant_labels_and_source_bound_top_level_conditions_are_projected(self) -> None:
+        schema = load(FORM / "schema.json")
+        self.assertEqual(
+            schema["properties"]["involvesHumanSubjects"]["allOf"],
+            [{
+                "title": "Does the proposed project involve human subjects?",
+                "readOnly": True,
+            }],
+        )
+        self.assertEqual(
+            schema["properties"]["exemptFromFederalRegulations"]["allOf"],
+            [{
+                "title": "Is the project exempt from federal regulations?",
+                "readOnly": True,
+            }],
+        )
+        self.assertEqual(
+            schema["properties"]["exemptions"]["allOf"],
+            [{"title": "Exemption Number(s)", "readOnly": True}],
+        )
+        self.assertEqual(
+            schema["properties"]["involvesHumanSpecimensOrData"]["title"],
+            "Does any proposed research involve human specimens and/or data?",
+        )
+
+        ui = load(FORM / "sgg/ui-schema.json")
+        studies = ui[1]["children"][0]
+        delayed = ui[2]["children"][0]
+        self.assertEqual(studies["label"], "Human Subject Study")
+        self.assertEqual(delayed["label"], "Delayed Onset Study")
+        expected = {
+            "when": {
+                "op": "equals",
+                "ref": {"scope": "root", "pointer": "/involvesHumanSubjects"},
+                "value": "Y: Yes",
+            },
+            "then": {"interaction": "enabled"},
+            "otherwise": {"interaction": "disabled"},
+        }
+        self.assertEqual(studies["conditional"], expected)
+        self.assertEqual(delayed["conditional"], expected)
+
+        nested = next(
+            child
+            for child in studies["children"]
+            if child.get("name") == "inclusionEnrollmentReports"
+        )
+        self.assertEqual(nested["label"], "Inclusion Enrollment Report")
 
     def test_narrow_human_subject_determinations_are_reused_with_occurrence_roles(self) -> None:
         expected = {
@@ -223,7 +272,11 @@ if (!validate(payload)) { console.error(JSON.stringify(validate.errors)); proces
         audit = load(audit_path)
         self.assertFalse(audit["method"]["ocrUsed"])
         self.assertEqual(len(audit["sourceBoundConditions"]), 11)
-        self.assertEqual(audit["conditionDecision"]["compiledCount"], 0)
+        self.assertEqual(audit["conditionDecision"]["compiledCount"], 2)
+        self.assertEqual(
+            audit["conditionDecision"]["compiledTargets"],
+            ["studies", "delayedOnsetStudies"],
+        )
         self.assertEqual(audit["inventory"]["totalLikeCoordinates"], 28)
         self.assertEqual(audit["calculationDecision"]["status"], "source-bound-unresolved")
         conditions = [
@@ -240,11 +293,17 @@ if (!validate(payload)) { console.error(JSON.stringify(validate.errors)); proces
             {"1-07", "1-08", "1-14", "1-15-1", "1-15-2", "1-16",
              "1-19-1", "1-19-2", "1-19-3", "1-19-4", "1-20"},
         )
-        self.assertTrue(all(
-            row["executionStatus"] == "source-bound-uncompiled"
-            and row["authority"] == "official_source"
+        compiled = {
+            row["canonicalPath"]
             for row in conditions
-        ))
+            if row["executionStatus"] == "compiled"
+        }
+        self.assertEqual(compiled, {"studies", "delayedOnsetStudies"})
+        self.assertEqual(
+            sum(row["executionStatus"] == "source-bound-uncompiled" for row in conditions),
+            9,
+        )
+        self.assertTrue(all(row["authority"] == "official_source" for row in conditions))
         self.assertEqual(len(calculations), 1)
         self.assertEqual(calculations[0]["authority"], "unresolved")
         self.assertIn("28 total-like", calculations[0]["reason"])
