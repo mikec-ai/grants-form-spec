@@ -90,3 +90,19 @@ Close the smallest automated technical handoff for the already-banked, unregiste
   evidence gap on current main, not this change.
 - Closure still requires producer merge, consumer artifact promotion, and an exact primary-agent
   browser re-run. No finding is marked resolved merely from the producer change.
+
+# First consumer usability closure — 2026-08-25
+
+- Producer PR [#119](https://github.com/mikec-ai/grants-form-spec/pull/119) merged as
+  `92aad605ea9a8e6709bd6562ce9ed000a9512fb0`; both hosted checks and the full local preflight passed.
+- Consumer PR [#137](https://github.com/mikec-ai/simpler-grants-gov/pull/137) promotes that immutable
+  producer revision at consumer commit `5c90a799336df79990528da455c1ce5a0a43be6b`.
+- The exact consumer artifact-manifest SHA-256 is
+  `968f51dd9cdcfb6ad1c66a5b2d97f361642d02c04ad4d8b0598ec8382196ae59`.
+- Twenty-three targeted consumer adapter/XML tests and Ruff passed.
+- The primary-agent browser re-run verified all four overview accessible names, applicant-facing
+  study and enrollment repeater labels, initial disabled state for both top-level study groups, and
+  enablement after the exact `Y: Yes` controlling value.
+- The overview-label and named repeater-label findings are resolved in this consumer build. The
+  deeper study-flow and print findings remain open, as do nine F705 conditions, embedded-study
+  behavior, unresolved enrollment totals, and all human/policy/release gates.

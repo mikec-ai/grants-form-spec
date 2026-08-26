@@ -39,3 +39,9 @@ support for repeatable groups and compiles the two exact F705 `HumanSubjectsIndi
 study and delayed-onset lists. Nine other F705 conditions and the embedded-study field-level
 condition set remain explicitly uncompiled. This finding therefore remains open and must be
 retested as a partial improvement, not marked resolved.
+
+The primary-agent consumer verification in
+`usability-runs/phs-human-subjects-first-fix-verification` confirms that the two top-level gates now
+execute: study and delayed-onset controls are disabled until `HumanSubjectsIndicator` is Yes and
+enable immediately afterward. The full nested study schema remains visible when a study exists,
+so the nine F705 conditions and embedded-study flow still block resolution.
