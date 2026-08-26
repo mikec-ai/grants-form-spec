@@ -188,57 +188,91 @@ model FirstSubjectEnrollment {
 }
 
 /** Counts for the source racial categories at one ethnicity/sex coordinate. */
+@UI.label("Race")
 model PlannedRaceCounts {
+  @UI.label("American Indian or Alaska Native")
   americanIndianAlaskaNative?: ClinicalCount9;
+  @UI.label("Asian")
   asian?: ClinicalCount9;
+  @UI.label("Native Hawaiian or Other Pacific Islander")
   nativeHawaiianPacificIslander?: ClinicalCount9;
+  @UI.label("Black or African American")
   blackAfricanAmerican?: ClinicalCount9;
+  @UI.label("White")
   white?: ClinicalCount9;
+  @UI.label("More Than One Race")
   moreThanOneRace?: ClinicalCount9;
   // The source XSD and pinned parent DAT do not establish derivation. Totals remain
   // entered/observed values until exact embedded-study behavior evidence is pinned.
+  @UI.label("Total")
   total?: ClinicalCount10;
 }
 
 model CumulativeRaceCounts extends PlannedRaceCounts {
+  @UI.label("Unknown/Not Reported")
   unknownNotReported?: ClinicalCount9;
 }
 
+@UI.label("Race")
 model PlannedTotalCounts {
+  @UI.label("American Indian or Alaska Native")
   americanIndianAlaskaNative?: ClinicalCount10;
+  @UI.label("Asian")
   asian?: ClinicalCount10;
+  @UI.label("Native Hawaiian or Other Pacific Islander")
   nativeHawaiianPacificIslander?: ClinicalCount10;
+  @UI.label("Black or African American")
   blackAfricanAmerican?: ClinicalCount10;
+  @UI.label("White")
   white?: ClinicalCount10;
+  @UI.label("More Than One Race")
   moreThanOneRace?: ClinicalCount10;
+  @UI.label("Total")
   total?: ClinicalCount11;
 }
 
 model CumulativeTotalCounts extends PlannedTotalCounts {
+  @UI.label("Unknown/Not Reported")
   unknownNotReported?: ClinicalCount10;
 }
 
+@UI.label("Sex")
 model PlannedEthnicityCounts {
+  @UI.label("Female")
   female?: PlannedRaceCounts;
+  @UI.label("Male")
   male?: PlannedRaceCounts;
 }
 
+@UI.label("Sex")
 model CumulativeEthnicityCounts {
+  @UI.label("Female")
   female?: CumulativeRaceCounts;
+  @UI.label("Male")
   male?: CumulativeRaceCounts;
+  @UI.label("Unknown/Not Reported")
   unknownNotReportedSex?: CumulativeRaceCounts;
 }
 
+@UI.label("Ethnicity")
 model PlannedEnrollmentMatrix {
+  @UI.label("Not Hispanic or Latino")
   notHispanicLatino?: PlannedEthnicityCounts;
+  @UI.label("Hispanic or Latino")
   hispanicLatino?: PlannedEthnicityCounts;
+  @UI.label("Total")
   total?: PlannedTotalCounts;
 }
 
+@UI.label("Ethnicity")
 model CumulativeEnrollmentMatrix {
+  @UI.label("Not Hispanic or Latino")
   notHispanicLatino?: CumulativeEthnicityCounts;
+  @UI.label("Hispanic or Latino")
   hispanicLatino?: CumulativeEthnicityCounts;
+  @UI.label("Unknown/Not Reported")
   unknownNotReportedEthnicity?: CumulativeEthnicityCounts;
+  @UI.label("Total")
   total?: CumulativeTotalCounts;
 }
 
@@ -262,7 +296,11 @@ model InclusionEnrollmentReport {
   @maxLength(500)
   @minLength(1)
   comments?: string;
+  @UI.label("Planned Enrollment")
+  @UI.widget(WidgetName.Table)
   planned?: PlannedEnrollmentMatrix;
+  @UI.label("Cumulative Enrollment")
+  @UI.widget(WidgetName.Table)
   cumulativeActual?: CumulativeEnrollmentMatrix;
 }
 

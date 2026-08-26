@@ -105,6 +105,45 @@ class PHSInclusionEnrollmentReportTests(unittest.TestCase):
     def test_ui_paths_are_unique_but_accessibility_remains_an_explicit_gate(self) -> None:
         ui = load(FORM / "sgg/ui-schema.json")
 
+        reports = ui[0]["children"][0]
+        tables = [child for child in reports["children"] if child["type"] == "multiField"]
+        self.assertEqual([table["name"] for table in tables], ["planned", "cumulativeActual"])
+        self.assertTrue(all(table["widget"] == "Table" for table in tables))
+        planned, cumulative = tables
+        self.assertEqual(
+            [column["columnHeader"] for column in planned["children"]["columns"]],
+            [
+                "Ethnicity", "Sex", "American Indian or Alaska Native", "Asian",
+                "Native Hawaiian or Other Pacific Islander", "Black or African American",
+                "White", "More Than One Race", "Total",
+            ],
+        )
+        self.assertEqual(len(planned["children"]["rows"]), 5)
+        self.assertEqual(len(cumulative["children"]["rows"]), 10)
+        self.assertTrue(all(len(row["cells"]) == 9 for row in planned["children"]["rows"]))
+        self.assertTrue(all(len(row["cells"]) == 10 for row in cumulative["children"]["rows"]))
+        cells = [
+            cell
+            for table in tables
+            for row in table["children"]["rows"]
+            for cell in row["cells"]
+        ]
+        self.assertEqual(sum(cell["type"] == "readOnly" for cell in cells), 28)
+        self.assertEqual(
+            planned["children"]["rows"][0]["cells"][:2],
+            [
+                {"type": "plainText", "staticContent": "Not Hispanic or Latino"},
+                {"type": "plainText", "staticContent": "Female"},
+            ],
+        )
+        self.assertEqual(
+            planned["children"]["rows"][-1]["cells"][:2],
+            [
+                {"type": "plainText", "staticContent": "Total"},
+                {"type": "plainText", "staticContent": ""},
+            ],
+        )
+
         def definitions(value: object) -> list[str]:
             if isinstance(value, dict):
                 own = [value["definition"]] if isinstance(value.get("definition"), str) else []
