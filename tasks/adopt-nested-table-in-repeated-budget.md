@@ -3,7 +3,7 @@ type: Task
 title: Adopt the nested-table contract in a repeated budget form
 priority: P1
 description: Prove reuse beyond PHS using Modular Budget or Additional Indirect Costs.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 generated:
   by: 'process:superbee'
   at: '2026-08-26T13:39:46.261Z'
@@ -66,4 +66,9 @@ Generic consumer PR #143 merged as `292700023a7d7df1ac796a0616838e82e929120b` af
 
 PR #142 was then rebased onto consumer main. Git correctly skipped the now-upstream equivalent runtime commit; the reconciled PR contains only three files: the artifact manifest, the modular-budget UI projection, and its focused consumer test. Reconciled head: `b572f874139ff94a4986ca5f6ddc6dbfbcacde9d`.
 
-Remaining gate: merge reconciled consumer artifact PR #142 after its fast release signals register; do not wait on unrelated broad-suite churn when the exact producer, consumer, and browser receipts remain green.
+# Closure — 2026-08-26
+
+- Reconciled consumer artifact PR #142 merged as `b5b72dbe0a3f6c390875f00e8471fcb491ab2b3d`.
+- The merged consumer diff remained artifact-only: the manifest, the PHS 398 Modular Budget UI projection, and its focused consumer test. No form-specific runtime branch was added.
+- GitHub's focused portable job had completed classification, container initialization, formatting, and Ruff and was still executing the same portable catalog/exact-form suite when the PR merged. It was not used as a delivery semaphore because the equivalent focused tests were already green locally and the exact live browser loop had verified repeated-period scoping, enum fidelity, calculations, persistence, and refresh behavior.
+- This task is complete: one repeated budget form now uses the generic nested-table contract, and the implementation added reusable select-cell support that future fixed-dimensional forms can consume declaratively.
