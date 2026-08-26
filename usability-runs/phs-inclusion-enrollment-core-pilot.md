@@ -6,7 +6,7 @@ scenario: core-persistence-and-repeat-entry/v1
 environment: 'local signed-in Simpler preview at localhost:3000'
 runtime_commit: b147f0acf23bd1de9c7bd3853a31067ce2d1baef
 assignee: codex
-producer_commit: c484de1862b44bc93bebf2af1af51bedd4a22a6c
+producer_commit: 7c3be8e32968b49b5ce48f53a832c00220eb5bee
 artifact_manifest_digest: a072b156d6cb701f9a65ee03d79ab36dac5580328005cf38ee599d9728616664
 browser_scope: Desktop Chromium via Codex in-app browser
 result: pass_with_findings

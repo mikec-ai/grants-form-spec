@@ -127,3 +127,7 @@ Continue adding forms and run the optional full browser matrix after the proof-f
 [contains](../tasks/make-portable-form-ci-attributable.md)
 
 [contains](../tasks/add-generic-portable-matrix-presentation.md)
+
+[contains](../tasks/synchronize-encoded-checkbox-form-state.md)
+
+[contains](../tasks/scope-nested-fieldlist-child-identity.md)
