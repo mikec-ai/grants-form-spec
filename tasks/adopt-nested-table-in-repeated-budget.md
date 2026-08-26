@@ -6,7 +6,7 @@ description: Prove reuse beyond PHS using Modular Budget or Additional Indirect 
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T13:36:36.806Z'
+  at: '2026-08-26T13:39:46.261Z'
 assignee: codex
 ---
 # Scope
@@ -62,4 +62,8 @@ The next release gate is to merge #122 and #143 when green, regenerate #142 from
 - Browser persistence and calculations after save plus hard refresh: choices `25000.00` and `50000.00`; consortium inputs `5000.00` and `10000.00`; calculated period totals `$30,000.00` and `$60,000.00`; cumulative direct costs `90000.00`.
 - The initially blank second calculated total immediately after the save action was a client timing observation, not persisted data loss: the hard refresh returned both source values, both totals, and the correct cumulative value from the server.
 
-Remaining gate: merge generic consumer PR #143 when its running broad shards finish, let #142 reconcile against main, then merge #142 when its release checks are acceptably resolved.
+Generic consumer PR #143 merged as `292700023a7d7df1ac796a0616838e82e929120b` after frontend build, lint/type/format/test, Storybook, Pa11y, one complete broad E2E shard, local targeted tests, and the exact modular-budget browser loop were green. The remaining broad shards were not used as a delivery semaphore.
+
+PR #142 was then rebased onto consumer main. Git correctly skipped the now-upstream equivalent runtime commit; the reconciled PR contains only three files: the artifact manifest, the modular-budget UI projection, and its focused consumer test. Reconciled head: `b572f874139ff94a4986ca5f6ddc6dbfbcacde9d`.
+
+Remaining gate: merge reconciled consumer artifact PR #142 after its fast release signals register; do not wait on unrelated broad-suite churn when the exact producer, consumer, and browser receipts remain green.
