@@ -155,7 +155,7 @@ class PHSHumanSubjectsTests(unittest.TestCase):
 
         def walk(node: object) -> None:
             if isinstance(node, dict):
-                if node.get("type") == "field" and "definition" in node:
+                if node.get("type") in {"field", "input", "readOnly"} and "definition" in node:
                     fields.append(node)
                 for value in node.values():
                     walk(value)

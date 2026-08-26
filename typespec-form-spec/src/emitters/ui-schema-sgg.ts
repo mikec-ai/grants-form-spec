@@ -24,7 +24,7 @@ export interface SggFieldList {
   hideFieldListHeading?: boolean;
   validateBeforeAdd?: boolean;
   conditional?: Record<string, unknown>;
-  children: (SggField | SggFieldList)[];
+  children: (SggField | SggFieldList | SggMultiField)[];
 }
 export interface SggMultiField {
   type: "multiField";
@@ -159,7 +159,7 @@ function walk(
   model: Model,
   prefix: string,
   dataPath: string,
-  into: (SggField | SggFieldList)[],
+  into: (SggField | SggFieldList | SggMultiField)[],
   overrides: Overrides,
   inheritedVisible: AbsoluteCondition[] = [],
   inheritedEnabled: AbsoluteCondition[] = [],
@@ -188,6 +188,16 @@ function walk(
     }
     const object = objectBehind(program, prop);
     if (object) {
+      if (propWidget(program, prop) === "Table") {
+        into.push({
+          type: "multiField",
+          name: prop.name,
+          widget: "Table",
+          definition: [path],
+          children: tableChildren(program, [prop], path, here, overrides),
+        });
+        continue;
+      }
       const override = at(overrides, here);
       walk(
         program,
@@ -377,7 +387,7 @@ function fieldListAt(
   const item = t.indexer.value;
   if (item.kind !== "Model") return undefined;
 
-  const children: (SggField | SggFieldList)[] = [];
+  const children: (SggField | SggFieldList | SggMultiField)[] = [];
   const itemPath = dataPath.split(".").filter(Boolean);
   walk(program, item, `${definition}/items`, dataPath, children, overrides, [], [], [], itemPath);
   // The list's label names one entry, so it comes from the item block; the property's
@@ -466,15 +476,20 @@ function gridProperties(program: Program, block: Block, members: ModelProperty[]
 }
 
 /**
- * Project a regular object-of-objects grid into Simpler's declarative Table contract.
+ * Project a regular dimensional object grid into Simpler's declarative Table contract.
  *
- * The section identifies the table root, the root model's properties identify rows, and
- * each row model's properties identify columns. Labels and read-only state therefore stay
- * attached to the same authored model that supplies schema and calculation behavior. The
- * projector rejects irregular grids instead of inventing missing cells or form-specific
- * branches.
+ * Object-valued properties identify row dimensions until a scalar-valued leaf model supplies
+ * columns. Labels and read-only state therefore stay attached to the same authored model that
+ * supplies schema and calculation behavior. The projector rejects mixed or irregular shapes
+ * instead of inventing missing cells or form-specific branches.
  */
-function tableChildren(program: Program, members: ModelProperty[]): SggTableChildren {
+function tableChildren(
+  program: Program,
+  members: ModelProperty[],
+  definitionPrefix = "",
+  dataPathPrefix = "",
+  overrides: Overrides = {},
+): SggTableChildren {
   if (members.length !== 1) {
     throw new Error(
       `Table multiField requires exactly one object property; received ${members.length}`,
@@ -485,52 +500,102 @@ function tableChildren(program: Program, members: ModelProperty[]): SggTableChil
     throw new Error(`Table multiField property ${members[0].name} must contain an object`);
   }
 
-  const rowProperties = allProperties(program, root);
-  if (!rowProperties.length) {
+  if (!allProperties(program, root).length) {
     throw new Error(`Table multiField property ${members[0].name} has no rows`);
   }
-  const rowModels = rowProperties.map((row) => ({ row, model: objectBehind(program, row) }));
-  const invalidRow = rowModels.find(({ model }) => !model);
-  if (invalidRow) {
-    throw new Error(`Table row ${invalidRow.row.name} must contain an object`);
-  }
 
-  const columnNames = allProperties(program, rowModels[0].model!).map((column) => column.name);
-  if (!columnNames.length) {
-    throw new Error(`Table row ${rowModels[0].row.name} has no columns`);
+  interface TableLeafRow {
+    dimensionLabels: string[];
+    path: ModelProperty[];
+    columns: ModelProperty[];
+    money: boolean;
   }
-  for (const { row, model } of rowModels.slice(1)) {
-    const names = allProperties(program, model!).map((column) => column.name);
+  const rows: TableLeafRow[] = [];
+  const dimensionHeaders: string[] = [];
+
+  const visit = (model: Model, path: ModelProperty[]): void => {
+    const properties = allProperties(program, model);
+    const objectProperties = properties.map((prop) => ({ prop, model: objectBehind(program, prop) }));
+    const objects = objectProperties.filter(({ model: child }) => child);
+    if (!objects.length) {
+      if (!properties.length) {
+        throw new Error(`Table row ${path.at(-1)?.name ?? members[0].name} has no columns`);
+      }
+      rows.push({
+        dimensionLabels: path.map((step) =>
+          propLabel(program, step)
+          ?? (objectBehind(program, step) ? modelLabel(program, objectBehind(program, step)!) : undefined)
+          ?? step.name
+        ),
+        path,
+        columns: properties,
+        money: (readBlock(program, model)?.tags ?? []).includes("money"),
+      });
+      return;
+    }
+    if (objects.length !== properties.length) {
+      throw new Error(
+        `Table dimension ${path.at(-1)?.name ?? members[0].name} mixes object rows and scalar columns`,
+      );
+    }
+    const depth = path.length;
+    const header = modelLabel(program, model) ?? `Field ${depth + 1}`;
+    if (dimensionHeaders[depth] && dimensionHeaders[depth] !== header) {
+      throw new Error(
+        `Table dimension ${depth + 1} labels ${dimensionHeaders[depth]} and ${header} do not match`,
+      );
+    }
+    dimensionHeaders[depth] = header;
+    for (const { prop, model: child } of objects) visit(child!, [...path, prop]);
+  };
+  visit(root, []);
+
+  const maxDepth = Math.max(...rows.map((row) => row.path.length));
+  const firstColumns = rows[0].columns;
+  const columnNames = firstColumns.map((column) => column.name);
+  for (const row of rows.slice(1)) {
+    const names = row.columns.map((column) => column.name);
     if (names.length !== columnNames.length || names.some((name, index) => name !== columnNames[index])) {
       throw new Error(
-        `Table row ${row.name} columns ${names.join(", ")} do not match ${columnNames.join(", ")}`,
+        `Table row ${row.path.at(-1)?.name ?? members[0].name} columns ${names.join(", ")} do not match ${columnNames.join(", ")}`,
       );
     }
   }
 
-  const firstColumns = allProperties(program, rowModels[0].model!);
+  const dimensionWidth = 40 / maxDepth;
   const valueWidth = 60 / firstColumns.length;
   return {
     columns: [
-      { columnHeader: modelLabel(program, root) ?? "Field", width: 40 },
+      ...Array.from({ length: maxDepth }, (_, index) => ({
+        columnHeader: dimensionHeaders[index] ?? `Field ${index + 1}`,
+        width: dimensionWidth,
+      })),
       ...firstColumns.map((column) => ({
         columnHeader: propLabel(program, column) ?? column.name,
         width: valueWidth,
       })),
     ],
-    rows: rowModels.map(({ row, model }) => {
-      const money = (readBlock(program, model!)?.tags ?? []).includes("money");
+    rows: rows.map((row) => {
+      const pathNames = row.path.map((step) => step.name);
       return {
         cells: [
-          {
+          ...Array.from({ length: maxDepth }, (_, index) => ({
             type: "plainText" as const,
-            staticContent: modelLabel(program, model!) ?? propLabel(program, row) ?? row.name,
-          },
-          ...allProperties(program, model!).map((column) => ({
-            type: propReadOnly(program, column) ? "readOnly" as const : "input" as const,
-            definition: `/properties/${row.name}/properties/${column.name}`,
-            ...(money ? { format: "dollar" as const } : {}),
+            staticContent: row.dimensionLabels[index] ?? "",
           })),
+          ...row.columns.map((column) => {
+            const dataPath = [dataPathPrefix, ...pathNames, column.name].filter(Boolean).join(".");
+            const override = at(overrides, dataPath);
+            return {
+              type: override.visibleReadOnly === true
+                ? "readOnly" as const
+                : override.readOnly === true || propReadOnly(program, column)
+                  ? "readOnly" as const
+                  : "input" as const,
+              definition: `${definitionPrefix}${pathNames.map((name) => `/properties/${name}`).join("")}/properties/${column.name}`,
+              ...(row.money ? { format: "dollar" as const } : {}),
+            };
+          }),
         ],
       };
     }),
