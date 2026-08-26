@@ -6,7 +6,7 @@ description: Prove reuse beyond PHS using Modular Budget or Additional Indirect 
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T13:25:06.062Z'
+  at: '2026-08-26T13:36:36.806Z'
 assignee: codex
 ---
 # Scope
@@ -50,3 +50,16 @@ This is being fixed centrally rather than patched for PHS 398 Modular Budget:
 - Consumer artifact PR #142: https://github.com/mikec-ai/simpler-grants-gov/pull/142 at `36befa45e` remains intentionally unmerged. Its focused check failed because the pre-#143 validator rejected the new `select` contract; that is a useful expected gate, not an artifact or form-specific defect.
 
 The next release gate is to merge #122 and #143 when green, regenerate #142 from the merged producer revision, then browser-test the exact choice, calculation, repeated-period scoping, save, and refresh behavior before closing this task.
+
+# Release receipts — 2026-08-26
+
+- Producer PR #122 merged as `77fcbe1d63fdb5d5e247f0a9e3bb3b7a1939b46d` after both producer checks passed.
+- Atomic consumer regeneration from that exact revision synchronized all 43 selected forms and 541 artifacts. Only the artifact manifest and modular-budget UI projection changed before the bounded consumer test update.
+- Updated consumer PR #142 head: `c235352185fb7920c2a4a75a85bdc323f532c405`. Its branch temporarily includes the generic consumer #143 commit so the new contract can be validated and browser-tested before #143 merges; the shared runtime commit will fall out of #142's diff once it is on main.
+- Focused consumer verification passed: 3 modular-budget API tests, TypeScript checking, and 68 targeted Table/UI-schema tests.
+- Browser application: `32b4bdae-7d92-4d75-a668-313009598684`; form occurrence: `7a248692-7eef-42ce-b18c-b5618a577ba5`.
+- Browser structure: adding two budget periods rendered two generic `directCosts` tables. Each table exposed the exact 11 producer-declared choices, one money input, and one read-only total. HTML names were correctly entry-scoped under `periods[0]` and `periods[1]`.
+- Browser persistence and calculations after save plus hard refresh: choices `25000.00` and `50000.00`; consortium inputs `5000.00` and `10000.00`; calculated period totals `$30,000.00` and `$60,000.00`; cumulative direct costs `90000.00`.
+- The initially blank second calculated total immediately after the save action was a client timing observation, not persisted data loss: the hard refresh returned both source values, both totals, and the correct cumulative value from the server.
+
+Remaining gate: merge generic consumer PR #143 when its running broad shards finish, let #142 reconcile against main, then merge #142 when its release checks are acceptably resolved.
