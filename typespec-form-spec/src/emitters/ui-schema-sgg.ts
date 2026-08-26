@@ -3,7 +3,7 @@ import { getDoc } from "@typespec/compiler";
 import {
   AtomicCondition, Block, Condition, childBlock, modelLabel, modelMultiFields, modelOrder, orderedProps, propHelpText,
   propLabel, propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propWidget,
-  propEnabledWhen, propSggFieldList, propVisibleWhen, readBlock,
+  propEnabledWhen, propSggFieldList, propVisibleWhen, readBlock, typeTags,
 } from "../model.js";
 import { normalizedOverrideEnabledWhen } from "./override-condition.js";
 
@@ -562,8 +562,8 @@ function tableChildren(
     }
   }
 
-  const dimensionWidth = 40 / maxDepth;
-  const valueWidth = 60 / firstColumns.length;
+  const dimensionWidth = maxDepth > 0 ? 40 / maxDepth : 0;
+  const valueWidth = (maxDepth > 0 ? 60 : 100) / firstColumns.length;
   return {
     columns: [
       ...Array.from({ length: maxDepth }, (_, index) => ({
@@ -586,6 +586,8 @@ function tableChildren(
           ...row.columns.map((column) => {
             const dataPath = [dataPathPrefix, ...pathNames, column.name].filter(Boolean).join(".");
             const override = at(overrides, dataPath);
+            const columnIsMoney = column.type.kind === "Scalar"
+              && typeTags(program, column.type).includes("money");
             return {
               type: override.visibleReadOnly === true
                 ? "readOnly" as const
@@ -593,7 +595,7 @@ function tableChildren(
                   ? "readOnly" as const
                   : "input" as const,
               definition: `${definitionPrefix}${pathNames.map((name) => `/properties/${name}`).join("")}/properties/${column.name}`,
-              ...(row.money ? { format: "dollar" as const } : {}),
+              ...(row.money || columnIsMoney ? { format: "dollar" as const } : {}),
             };
           }),
         ],

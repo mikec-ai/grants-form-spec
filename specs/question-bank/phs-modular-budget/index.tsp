@@ -110,6 +110,7 @@ model QuestionPHSModularBudgetPeriod {
 
   /** Enter the direct costs requested for this period. */
   @UI.label("Direct Costs")
+  @UI.widget(WidgetName.Table)
   directCosts: PHSModularDirectCosts;
 
   /** Enter the indirect costs requested for this period. */

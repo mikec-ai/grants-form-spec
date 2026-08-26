@@ -89,10 +89,27 @@ class PHS398ModularBudgetTests(unittest.TestCase):
         period = load(ROOT / "dist/question-bank/budget/phs398-modular/period/schema.json")
         fields = [row for row in objects(ui) if row.get("type") == "field"]
         lists = [row for row in objects(ui) if row.get("type") == "fieldList"]
+        tables = [
+            row
+            for row in objects(ui)
+            if row.get("type") == "multiField" and row.get("widget") == "Table"
+        ]
         calculations = [row["gg_pre_population"] for row in objects(rules) if "gg_pre_population" in row]
 
-        self.assertEqual(len(fields), 21)
+        self.assertEqual(len(fields), 18)
         self.assertEqual(len(lists), 2)
+        self.assertEqual(len(tables), 1)
+        direct_costs_table = tables[0]
+        self.assertEqual(direct_costs_table["name"], "directCosts")
+        self.assertEqual(len(direct_costs_table["children"]["rows"]), 1)
+        self.assertEqual(
+            [cell["type"] for cell in direct_costs_table["children"]["rows"][0]["cells"]],
+            ["input", "input", "readOnly"],
+        )
+        self.assertAlmostEqual(
+            sum(column["width"] for column in direct_costs_table["children"]["columns"]),
+            100,
+        )
         self.assertEqual(schema["properties"]["periods"]["maxItems"], 5)
         indirect_items = period["$defs"]["PHSModularIndirectCosts"]["properties"][
             "indirectCostItems"
@@ -113,11 +130,16 @@ class PHS398ModularBudgetTests(unittest.TestCase):
 
         self.assertEqual(len(calculations), 8)
         self.assertEqual(sorted(rule["order"] for rule in calculations), list(range(1, 9)))
+        table_cells = [
+            row
+            for row in objects(direct_costs_table["children"])
+            if row.get("type") in {"input", "readOnly"}
+        ]
         self.assertEqual(
             {
                 row["definition"]
-                for row in fields
-                if row["definition"].endswith(
+                for row in [*fields, *table_cells]
+                if row.get("definition", "").endswith(
                     (
                         "/totalDirectCosts",
                         "/totalIndirectCosts",
