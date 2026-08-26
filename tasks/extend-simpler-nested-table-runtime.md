@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T12:38:26.941Z'
+  at: '2026-08-26T12:42:07.145Z'
 assignee: codex
 ---
 # Scope
@@ -38,7 +38,7 @@ Extend Simpler's existing generic `TableWidget` and `FieldList` composition path
 
 # Closure update — 2026-08-26
 
-- Consumer artifact-selection PR: https://github.com/mikec-ai/simpler-grants-gov/pull/140
+- Consumer artifact-selection and validator PR #140 merged as `c886be7101c93a8308182d8491aa0308080708f5`: https://github.com/mikec-ai/simpler-grants-gov/pull/140
 - Artifact-selection commit: `7c8d7bb09`; producer pinned at `c700c8bd1edb4e7537325e26a141776826f643b8`.
 - Browser testing exposed a generic server-side UI-schema validator exclusion that rejected a `Table` child inside `FieldList`, even though the renderer supported it. Commit `732da5e48` removes that exclusion and adds the regression expectation.
 - Focused frontend verification after the validator fix: 4 suites passed, 108 tests passed, 1 skipped; targeted ESLint passed.

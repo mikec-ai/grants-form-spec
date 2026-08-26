@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T12:38:27.081Z'
+  at: '2026-08-26T12:42:07.282Z'
 assignee: codex
 ---
 # Scope
@@ -35,7 +35,7 @@ Do not compile the 8 conditions or 28 calculation targets until exact operands a
 - Standalone rendered planned and cumulative tables, protected the 28 exact F791 source-backed calculated-output coordinates, added a second report with entry-scoped names, and persisted entered values through save/reload.
 - Embedded rendered planned and cumulative tables under one study/report occurrence with full study/report-scoped names and coordinate-qualified accessible labels. Study title, report title, and an entered matrix value persisted through save/reload.
 - The embedded totals remain applicant-editable by design pending exact evidence. `evidence/forms/phs-human-subjects/evidence.json` records one unresolved calculation disposition covering the 28 total-like coordinates because the pinned parent XSD and F705 DAT contain zero calculation records.
-- Producer PR #120 merged at `c700c8bd1edb4e7537325e26a141776826f643b8`; generic consumer runtime PR #139 merged at `88c7fc6c88058f3a2336218b128352c815e824af`; artifact/validator closure is tracked in consumer PR #140.
+- Producer PR #120 merged at `c700c8bd1edb4e7537325e26a141776826f643b8`; generic consumer runtime PR #139 merged at `88c7fc6c88058f3a2336218b128352c815e824af`; artifact/validator PR #140 merged at `c886be7101c93a8308182d8491aa0308080708f5`.
 
 # Still open
 
