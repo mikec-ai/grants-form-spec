@@ -36,6 +36,17 @@ accessibility checks; it does not replace them or convert their passes into huma
 9. Mark a merged defect `fixed`; schedule a later run with `verifies`. Only that later manual run
    may mark the shared defect `verified`.
 
+# Execution topology
+
+The primary agent owns the desktop in-app-browser lane. Browser runs are serial because delegated
+subagents do not inherit control of that desktop browser session. Do not delegate a browser run and
+then record its inability to access the browser as a product result.
+
+Parallel agents remain useful for bounded work around an observed run: preparing source-backed
+scenarios, inspecting exact artifacts, clustering findings, diagnosing reusable fixes, adding tests,
+and reviewing evidence. Introduce that parallel work after the primary browser observation exists;
+do not spend coordination effort merely to duplicate the scarce browser lane.
+
 # Required scenario coverage
 
 Every scenario must name its applicant goal and declare which of these are applicable: orientation
