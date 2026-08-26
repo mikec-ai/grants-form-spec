@@ -6,11 +6,11 @@ assignee: codex
 description: >-
   Preserve visible and programmatic dimensional context without form-specific
   renderer code or inferred calculations.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T11:45:18.934Z'
+  at: '2026-08-26T12:04:19.282Z'
 ---
 # Goal
 
@@ -37,3 +37,13 @@ Generalize the proven SF-424C table path so dimensional fields inside repeatable
 - Row and column headers are programmatically associated with every coordinate.
 - Repeat-entry, save/reload, validation routing, locked state, print, and keyboard behavior are tested.
 - Existing stable paths, XML projection, and source provenance remain unchanged.
+
+# Delivery receipts
+
+- Producer commit: `1b6c10183`
+- Merged producer PR: https://github.com/mikec-ai/grants-form-spec/pull/120
+- The generic emitter now supports tables nested in repeatable entries and recursively projects regular row dimensions without a PHS-specific branch.
+- Standalone PHS Inclusion and the embedded PHS Human Subjects occurrence preserve all 115 unique coordinate-qualified paths.
+- The standalone form preserves 28 exact source-backed calculated coordinates as visible read-only cells without compiling unpinned arithmetic.
+- Full producer preflight passed: 126 TypeScript tests, 399 Python tests (2 skipped), 8 XML projection tests, 1,721 artifacts, 36 XSD fixtures, and zero unclassified fields.
+- Existing SF-424C tests remained green.
