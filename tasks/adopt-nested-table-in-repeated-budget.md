@@ -4,10 +4,9 @@ title: Adopt the nested-table contract in a repeated budget form
 priority: P1
 description: Prove reuse beyond PHS using Modular Budget or Additional Indirect Costs.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T13:00:18.099Z'
+  at: '2026-08-26T13:25:06.062Z'
 assignee: codex
 ---
 # Scope
@@ -38,3 +37,16 @@ Selected the PHS 398 Modular Budget `periods[].directCosts` group for the bounde
 - Generic flat tables with no row dimensions now allocate 100% width instead of the 60% dimensional-grid allocation.
 - Money-tagged scalar columns preserve dollar formatting without form-specific logic.
 - Full producer preflight passed: 126 TypeScript tests, 399 Python tests (2 skipped), 1,721 artifacts, 36 XML fixtures, 0 unclassified fields.
+- Producer PR #121 merged as `72b2ff69129f56f0146ae601e047d20bb8e3fb6f`.
+
+# Empirical compatibility finding — 2026-08-26
+
+The first exact consumer promotion correctly exposed a generic contract gap before release. `directCostLessConsortiumFandA` is not a free numeric input: its authoritative question-bank schema constrains the applicant to 11 exact modular-budget wire values. The original Table projection emitted every editable scalar as `input`, which would have weakened that enum into free text.
+
+This is being fixed centrally rather than patched for PHS 398 Modular Budget:
+
+- Producer PR #122: https://github.com/mikec-ai/grants-form-spec/pull/122 at `f7315ee8c5c78ff7781c7dfbdad3f997a3308549` projects any editable enum-valued table column as a portable `select` cell with its exact declared values. Full producer preflight passed again: 126 TypeScript tests, 399 Python tests (2 skipped), 1,721 artifacts, 36 XML fixtures, and zero unclassified fields.
+- Consumer PR #143: https://github.com/mikec-ai/simpler-grants-gov/pull/143 at `912136634f9f4a185365e5866f0f8431bf5bed7b` renders and locks select cells generically, preserves exact values, updates nested values through the existing path seam, and makes the UI-schema validator fail closed when options are absent. Local TypeScript checking and 68 targeted Table/UI-schema tests passed.
+- Consumer artifact PR #142: https://github.com/mikec-ai/simpler-grants-gov/pull/142 at `36befa45e` remains intentionally unmerged. Its focused check failed because the pre-#143 validator rejected the new `select` contract; that is a useful expected gate, not an artifact or form-specific defect.
+
+The next release gate is to merge #122 and #143 when green, regenerate #142 from the merged producer revision, then browser-test the exact choice, calculation, repeated-period scoping, save, and refresh behavior before closing this task.
