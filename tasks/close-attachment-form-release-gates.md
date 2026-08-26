@@ -8,7 +8,7 @@ description: >-
 superbee_progress_status: in_progress
 generated:
   by: 'process:superbee'
-  at: '2026-08-24T23:37:57.371Z'
+  at: '2026-08-26T02:05:27.431Z'
 assignee: attachment_release
 ---
 # Goal
@@ -79,3 +79,29 @@ Automated checks support handoff but do not constitute human semantic, accessibi
 - Main run [32788458690](https://github.com/mikec-ai/simpler-grants-gov/actions/runs/32788458690) passed the generic Attachment Form catalog plan in Chrome, Firefox, WebKit, and mobile Chrome: preview registration, adapter/API preflight, Apply render, save/reload, accessibility, and print render all passed.
 - Schema implication is not applicable for this form. The workflow-level red result comes from the separate form-specific release spec, not these four generic receipts.
 - Human screen-reader, semantic, policy, and release approvals remain open.
+
+## Primary-agent usability calibration — 2026-08-25
+
+- Run `usability-runs/attachment-form-ordered-upload-primary-pilot` exercised the ordinary local
+  Simpler workflow at consumer commit `e34c1478593c8e09925643dc354b50cf80837932` against producer
+  commit `273d1ba8da96a958448d9c19209a50b8cbe2c0dc` and manifest SHA-256
+  `17861ef970eb80b84ec9aa079eeb03b588dbd2d75aceb2fafdbdb56f8db5e5b7`.
+- Two synthetic PDFs uploaded, completed scanning, saved in slots 1 and 2, and persisted after
+  `Save and refresh` plus a full reload.
+- A synthetic `text/plain` file also saved in slot 3 with no visible format-policy feedback. The
+  preview opportunity lacks agency guideline evidence, so this is a bounded usability finding,
+  not a claim that PDF is universally required.
+- The ordinary local print route rendered blank and the frontend recorded a server-side
+  `TypeError`/HTTP 500 before a broken hydration fallback. This conflicts with the green hosted
+  print receipt above and therefore requires a bounded shared-runtime investigation before local
+  human handoff can treat print as closed.
+- The local scanner initially exposed a harness-only storage-volume mismatch and stale synthetic
+  scan queue. The canonical shared `s3mock-data` mount was restored and a backed-up synthetic scan
+  bucket was cleared before the successful upload evidence; those setup failures are excluded from
+  product findings.
+
+[validated-by](../usability-runs/attachment-form-ordered-upload-primary-pilot.md)
+
+[has-finding](../usability-findings/attachment-non-pdf-upload-accepted-without-policy-feedback.md)
+
+[has-finding](../usability-findings/attachment-print-route-renders-blank.md)
