@@ -131,3 +131,13 @@ Continue adding forms and run the optional full browser matrix after the proof-f
 [contains](../tasks/synchronize-encoded-checkbox-form-state.md)
 
 [contains](../tasks/scope-nested-fieldlist-child-identity.md)
+
+[contains](../tasks/extend-simpler-nested-table-runtime.md)
+
+[contains](../tasks/verify-phs-inclusion-matrix-occurrences.md)
+
+[contains](../tasks/adopt-nested-table-in-repeated-budget.md)
+
+[contains](../tasks/evaluate-rr-budget-family-table-adoption.md)
+
+[contains](../tasks/evaluate-sf424a-generic-table-adoption.md)
