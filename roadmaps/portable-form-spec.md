@@ -1,7 +1,7 @@
 ---
 type: Roadmap
 title: Portable grants form specification
-superbee_updated_by: promote_new_forms
+superbee_updated_by: Codex
 actor: Codex
 timestamp: '2026-08-23T22:26:12.549Z'
 ---
@@ -20,3 +20,5 @@ timestamp: '2026-08-23T22:26:12.549Z'
 [contains](../roadmap-items/conformance-authoring-leverage.md)
 
 [contains](../roadmap-items/portable-catalog-proof.md)
+
+[contains](../roadmap-items/portable-form-workbench.md)
