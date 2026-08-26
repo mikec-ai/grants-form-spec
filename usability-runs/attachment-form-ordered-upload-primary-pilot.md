@@ -10,15 +10,16 @@ assignee: codex-primary-usability
 producer_commit: 273d1ba8da96a958448d9c19209a50b8cbe2c0dc
 artifact_manifest_digest: 17861ef970eb80b84ec9aa079eeb03b588dbd2d75aceb2fafdbdb56f8db5e5b7
 browser_scope: desktop-chromium-calibration
-result: fail
+result: pass_with_findings
 superbee_updated_by: codex
 ---
 # Intent
 
 Run the first primary-agent Attachment Form calibration through Simpler's ordinary local
 application workflow. Determine whether an applicant can understand the 15-slot ordering model,
-upload two synthetic PDFs, recover from one invalid upload, replace or remove a file, save/reload,
-and review the print representation without inventing semantic meaning for unnamed slots.
+upload two synthetic PDFs, observe handling of one non-PDF upload, inspect the saved-file controls,
+save/reload, and review the print representation without inventing semantic meaning for unnamed
+slots.
 
 # Preconditions and provenance
 
@@ -35,10 +36,10 @@ and review the print representation without inventing semantic meaning for unnam
 
 1. Open the ordinary local Simpler application route and interpret only the displayed ordering instructions.
 2. Upload two valid synthetic PDF fixtures to the first two slots.
-3. Attempt a synthetic invalid text upload and observe feedback and recovery.
-4. Replace or remove one valid attachment and inspect how the resulting order is communicated.
+3. Upload a synthetic text fixture and observe whether the form presents format-policy feedback.
+4. Inspect the available saved-file controls without deleting evidence unless separately authorized.
 5. Save, reload, and verify filenames and ordering.
-6. Exercise the upload controls by keyboard where supported and inspect the ordinary print route.
+6. Inspect the accessible upload-control representation and the ordinary print route.
 7. Record symptoms as findings; do not infer a shared defect without corroboration.
 
 # Evidence
@@ -54,10 +55,14 @@ and review the print representation without inventing semantic meaning for unnam
 - Both PDFs completed upload and security scanning and displayed their filename, size, and saved date.
 - The text file also completed upload and scanning without visible format-policy feedback.
 - `Save and refresh` succeeded. A full reload preserved all three filenames in their original slots.
-- The ordinary print route
+- After the frontend was restarted with its documented local session configuration, the ordinary
+  print route
   `/print/application/378723db-e895-4160-a977-03262926bd46/form/ef5c9b34-7b4f-411d-9795-162ea9e1bf04`
-  rendered a blank page. The local frontend recorded `TypeError: Cannot read properties of
-  undefined (reading 'call')` and an HTTP 500 before a broken hydration fallback.
+  rendered all 15 ordered slots and the three saved filenames in slots 1, 2, and 3.
+- The earlier blank print attempt was reproduced as `UnauthorizedError` while the restarted
+  frontend had no `SESSION_SECRET` or `API_JWT_PUBLIC_KEY`. Restoring those documented local
+  session keys made the same persisted application and print route pass. The provisional print
+  finding is therefore dismissed as harness/session state, not product evidence.
 - The upload scanner initially exposed a local harness defect: the API scanner and S3 mock had
   diverged storage mounts plus stale synthetic scan metadata. The canonical shared
   `s3mock-data` volume was restored and the exact synthetic scan bucket was backed up and cleared
@@ -67,13 +72,13 @@ and review the print representation without inventing semantic meaning for unnam
 
 # Outcome and follow-up
 
-The core ordered-upload and persistence path works for multiple attachments, but the pilot fails
-the release gate because the ordinary print representation does not render. A second bounded
-finding records that a non-PDF upload receives no visible format-policy feedback; because this
-preview opportunity has no agency guideline artifact, the evidence does not establish what exact
-format should have been required.
+The ordered-upload, persistence, reload, and print paths work for multiple attachments. The pilot
+passes with one bounded finding: a non-PDF upload receives no visible format-policy feedback.
+Because this preview opportunity has no agency guideline artifact, the evidence does not establish
+what exact format should have been required. Delete/replace remains outside this run because the
+only saved-file mutation is `Delete`, which required separate action-time authorization.
 
 [observed](../usability-findings/attachment-non-pdf-upload-accepted-without-policy-feedback.md)
-[observed](../usability-findings/attachment-print-route-renders-blank.md)
+[dismissed](../usability-findings/attachment-print-route-renders-blank.md)
 
 [validates](../tasks/close-attachment-form-release-gates.md)

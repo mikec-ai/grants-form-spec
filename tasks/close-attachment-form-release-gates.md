@@ -91,10 +91,11 @@ Automated checks support handoff but do not constitute human semantic, accessibi
 - A synthetic `text/plain` file also saved in slot 3 with no visible format-policy feedback. The
   preview opportunity lacks agency guideline evidence, so this is a bounded usability finding,
   not a claim that PDF is universally required.
-- The ordinary local print route rendered blank and the frontend recorded a server-side
-  `TypeError`/HTTP 500 before a broken hydration fallback. This conflicts with the green hosted
-  print receipt above and therefore requires a bounded shared-runtime investigation before local
-  human handoff can treat print as closed.
+- The authenticated ordinary local print route rendered all 15 ordered slots and the three saved
+  filenames. The earlier blank render was traced to a local frontend restart without the
+  documented `SESSION_SECRET` and `API_JWT_PUBLIC_KEY`; after restoring those keys, the same
+  persisted application passed. The provisional print finding is dismissed as harness/session
+  state and does not reopen the green hosted print receipt.
 - The local scanner initially exposed a harness-only storage-volume mismatch and stale synthetic
   scan queue. The canonical shared `s3mock-data` mount was restored and a backed-up synthetic scan
   bucket was cleared before the successful upload evidence; those setup failures are excluded from
