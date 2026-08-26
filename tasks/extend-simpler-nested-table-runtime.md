@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T12:07:05.676Z'
+  at: '2026-08-26T12:38:26.941Z'
 assignee: codex
 ---
 # Scope
@@ -35,3 +35,19 @@ Extend Simpler's existing generic `TableWidget` and `FieldList` composition path
 - Local checks passed: TypeScript, 89 targeted frontend tests (1 skipped), targeted formatting, and targeted lint with only three pre-existing TableWidget hook warnings.
 - Browser persistence, locked-state, print, and end-to-end validation routing remain closure gates after the producer artifact is selected by the consumer.
 - Consumer PR #139 merged as `88c7fc6c88058f3a2336218b128352c815e824af` after the frontend build, lint/type/format/test suite, Storybook, artifact classification, and API setup checks passed. Broad E2E and Pa11y jobs were still running at merge and are not claimed as receipts here.
+
+# Closure update — 2026-08-26
+
+- Consumer artifact-selection PR: https://github.com/mikec-ai/simpler-grants-gov/pull/140
+- Artifact-selection commit: `7c8d7bb09`; producer pinned at `c700c8bd1edb4e7537325e26a141776826f643b8`.
+- Browser testing exposed a generic server-side UI-schema validator exclusion that rejected a `Table` child inside `FieldList`, even though the renderer supported it. Commit `732da5e48` removes that exclusion and adds the regression expectation.
+- Focused frontend verification after the validator fix: 4 suites passed, 108 tests passed, 1 skipped; targeted ESLint passed.
+- Standalone PHS Inclusion rendered both matrices, preserved repeat-entry-qualified names, exposed coordinate-qualified accessible names, added a second report occurrence, and persisted title plus matrix values through save and reload.
+- Embedded PHS Human Subjects rendered the same two matrices inside `studies[0].populationCharacteristics.inclusionEnrollmentReports[0]`, preserved the full study/report-qualified names and coordinate-qualified accessible names, and persisted study title, report title, and a matrix value through save and reload.
+- No form-specific adapter or renderer branch was added.
+
+# Remaining closure gates
+
+- Locked-state, print, and keyboard-order browser receipts remain open.
+- Delete was not exercised in the browser because it is a destructive local-data action; unit coverage is not represented as a browser receipt.
+- The embedded occurrence intentionally leaves 28 total-like coordinates editable: its pinned parent XSD and F705 DAT contain zero calculation records. Similar structure to standalone F791 is not evidence of equivalent calculations. Exact version-matched embedded-study behavior evidence is required before protecting or calculating them.
