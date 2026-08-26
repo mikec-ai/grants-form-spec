@@ -6,10 +6,9 @@ description: >-
   Consume nested portable table definitions with correct paths, persistence,
   validation, accessibility, locked state, and print behavior.
 superbee_progress_status: in_progress
-superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T12:48:04.554Z'
+  at: '2026-08-26T13:37:49.465Z'
 assignee: codex
 ---
 # Scope
@@ -54,7 +53,8 @@ Extend Simpler's existing generic `TableWidget` and `FieldList` composition path
 
 # Closure-test and CI receipts
 
-- Follow-up consumer PR #141: https://github.com/mikec-ai/simpler-grants-gov/pull/141; commit `3f296f0e2`.
+- Follow-up consumer PR #141: https://github.com/mikec-ai/simpler-grants-gov/pull/141; final branch commit `757d84b951ace5d594701f22b259b83529e27597`; merged as `1764231e30a2aaae005c995bfb19b39122cbc164`.
 - Added integrated regression coverage for fully qualified repeat-entry validation routing, locked-form conversion of nested inputs to non-interactive values, and keyboard order through the focusable scroll region into row-major inputs.
 - Focused result: 47 TableWidget/TableCell tests passed; targeted ESLint passed.
+- Frontend build, lint/type/format/test, and Storybook checks passed. The broad E2E matrix failed in pre-existing smoke scenarios unrelated to this test-only diff; one inspected failure was attachment-upload persistence after 35 passing tests. It is not represented as a nested-table product failure.
 - PR #140 post-merge E2E failures were infrastructure-timing failures, not product failures. Every shard failed while `actions/checkout` retried the already-removed synthetic ref `refs/pull/140/merge` after the PR had merged. The merged-report failure followed because no shard artifacts existed. No production-code change is warranted from that signal.
