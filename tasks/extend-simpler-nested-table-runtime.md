@@ -9,7 +9,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T12:42:07.145Z'
+  at: '2026-08-26T12:48:04.554Z'
 assignee: codex
 ---
 # Scope
@@ -51,3 +51,10 @@ Extend Simpler's existing generic `TableWidget` and `FieldList` composition path
 - Locked-state, print, and keyboard-order browser receipts remain open.
 - Delete was not exercised in the browser because it is a destructive local-data action; unit coverage is not represented as a browser receipt.
 - The embedded occurrence intentionally leaves 28 total-like coordinates editable: its pinned parent XSD and F705 DAT contain zero calculation records. Similar structure to standalone F791 is not evidence of equivalent calculations. Exact version-matched embedded-study behavior evidence is required before protecting or calculating them.
+
+# Closure-test and CI receipts
+
+- Follow-up consumer PR #141: https://github.com/mikec-ai/simpler-grants-gov/pull/141; commit `3f296f0e2`.
+- Added integrated regression coverage for fully qualified repeat-entry validation routing, locked-form conversion of nested inputs to non-interactive values, and keyboard order through the focusable scroll region into row-major inputs.
+- Focused result: 47 TableWidget/TableCell tests passed; targeted ESLint passed.
+- PR #140 post-merge E2E failures were infrastructure-timing failures, not product failures. Every shard failed while `actions/checkout` retried the already-removed synthetic ref `refs/pull/140/merge` after the PR had merged. The merged-report failure followed because no shard artifacts existed. No production-code change is warranted from that signal.
