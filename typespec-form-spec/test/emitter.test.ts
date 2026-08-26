@@ -203,7 +203,13 @@ describe("SGG UI emission", () => {
         ],
         rows: [{
           cells: [
-            { type: "input" },
+            {
+              type: "select",
+              options: [
+                "0.00", "25000.00", "50000.00", "75000.00", "100000.00", "125000.00",
+                "150000.00", "175000.00", "200000.00", "225000.00", "250000.00",
+              ],
+            },
             { type: "input", format: "dollar" },
             { type: "readOnly", format: "dollar" },
           ],

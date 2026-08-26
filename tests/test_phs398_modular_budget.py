@@ -104,7 +104,11 @@ class PHS398ModularBudgetTests(unittest.TestCase):
         self.assertEqual(len(direct_costs_table["children"]["rows"]), 1)
         self.assertEqual(
             [cell["type"] for cell in direct_costs_table["children"]["rows"][0]["cells"]],
-            ["input", "input", "readOnly"],
+            ["select", "input", "readOnly"],
+        )
+        self.assertEqual(
+            direct_costs_table["children"]["rows"][0]["cells"][0]["options"],
+            period["$defs"]["PHSModularDirectCostAmount"]["enum"],
         )
         self.assertAlmostEqual(
             sum(column["width"] for column in direct_costs_table["children"]["columns"]),

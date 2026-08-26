@@ -39,6 +39,7 @@ export interface SggTableColumn {
 }
 export type SggTableCell =
   | { type: "input" | "readOnly"; definition: string; format?: "dollar" }
+  | { type: "select"; definition: string; options: (string | number)[] }
   | { type: "plainText"; staticContent: string };
 export interface SggTableChildren {
   columns: SggTableColumn[];
@@ -586,17 +587,20 @@ function tableChildren(
           ...row.columns.map((column) => {
             const dataPath = [dataPathPrefix, ...pathNames, column.name].filter(Boolean).join(".");
             const override = at(overrides, dataPath);
+            const options = column.type.kind === "Enum"
+              ? [...column.type.members.values()].map((member) => member.value ?? member.name)
+              : undefined;
             const columnIsMoney = column.type.kind === "Scalar"
               && typeTags(program, column.type).includes("money");
-            return {
-              type: override.visibleReadOnly === true
-                ? "readOnly" as const
-                : override.readOnly === true || propReadOnly(program, column)
-                  ? "readOnly" as const
-                  : "input" as const,
-              definition: `${definitionPrefix}${pathNames.map((name) => `/properties/${name}`).join("")}/properties/${column.name}`,
-              ...(row.money || columnIsMoney ? { format: "dollar" as const } : {}),
-            };
+            const definition = `${definitionPrefix}${pathNames.map((name) => `/properties/${name}`).join("")}/properties/${column.name}`;
+            const format = row.money || columnIsMoney ? { format: "dollar" as const } : {};
+            if (
+              override.visibleReadOnly === true
+              || override.readOnly === true
+              || propReadOnly(program, column)
+            ) return { type: "readOnly" as const, definition, ...format };
+            if (options) return { type: "select" as const, definition, options };
+            return { type: "input" as const, definition, ...format };
           }),
         ],
       };
