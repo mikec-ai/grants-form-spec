@@ -3,11 +3,12 @@ type: Task
 title: Adopt the nested-table contract in a repeated budget form
 priority: P1
 description: Prove reuse beyond PHS using Modular Budget or Additional Indirect Costs.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-26T11:45:19.403Z'
+  at: '2026-08-26T12:49:58.082Z'
+assignee: codex
 ---
 # Scope
 
