@@ -106,3 +106,15 @@ Automated checks support handoff but do not constitute human semantic, accessibi
 [has-finding](../usability-findings/attachment-non-pdf-upload-accepted-without-policy-feedback.md)
 
 [has-finding](../usability-findings/attachment-print-route-renders-blank.md)
+
+## File-type policy disposition — 2026-08-25
+
+- The accepted `text/plain` upload is not repaired with a universal PDF rule because the preview
+  opportunity supplies no agency- or opportunity-scoped file policy.
+- The next implementable slice is a reusable attachment-policy contract whose allowed media types,
+  size limits, and applicant guidance are supplied by authoritative form, agency, or opportunity
+  configuration and enforced through the shared attachment mechanism.
+- Before implementation, pin one exact authority artifact and prove the same configuration through
+  validation, visible feedback, save/reload, and submission. Until then the usability finding stays
+  triaged as `source_or_policy`; it is not a product regression and does not block unrelated form
+  cohorts.
