@@ -559,7 +559,7 @@ describe("SGG UI emission", () => {
     },
   );
 
-  it("projects nested conditional requiredness and SGG visibility without form code", async () => {
+  it("projects nested conditional requiredness and SGG interaction without form code", async () => {
     const root = resolve(packageRoot, "dist/forms/rr-sf424");
     const schema = JSON.parse(await readFile(resolve(root, "schema.json"), "utf8"));
     const ui = JSON.parse(await readFile(resolve(root, "sgg/ui-schema.json"), "utf8"));
@@ -599,8 +599,8 @@ describe("SGG UI emission", () => {
           ref: { scope: "root", pointer: "/applicationType/applicationTypeCode" },
           value: "Revision",
         },
-        then: { visible: true },
-        otherwise: { visible: false },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
       },
     });
     expect(schema.$defs.ResearchRevisionCode.enum).toEqual([
@@ -647,8 +647,8 @@ describe("SGG UI emission", () => {
           ref: { scope: "root", pointer: "/applicantType/applicantTypeCode" },
           value: "R: Small Business",
         },
-        then: { visible: true },
-        otherwise: { visible: false },
+        then: { interaction: "enabled" },
+        otherwise: { interaction: "disabled" },
       },
     });
   });

@@ -58,7 +58,7 @@ model ResearchApplicationType extends QuestionResearchApplicationType {
   @minLength(1)
   @maxLength(20)
   @Validation.requiredWhen(ResearchApplicationType.isOtherAgencySubmission, YesNoCode.yes)
-  @UI.visibleWhen(ResearchApplicationType.isOtherAgencySubmission, YesNoCode.yes)
+  @UI.enabledWhen(ResearchApplicationType.isOtherAgencySubmission, YesNoCode.yes)
   otherAgencySubmissionExplanation?: string;
 
   @UI.label("Revision Code")
@@ -83,14 +83,14 @@ model ResearchApplicationType extends QuestionResearchApplicationType {
     ],
   })
   @Validation.requiredWhen(ResearchApplicationType.applicationTypeCode, ResearchApplicationTypeCode.revision)
-  @UI.visibleWhen(ResearchApplicationType.applicationTypeCode, ResearchApplicationTypeCode.revision)
+  @UI.enabledWhen(ResearchApplicationType.applicationTypeCode, ResearchApplicationTypeCode.revision)
   revisionCode?: ResearchRevisionCode;
 
   @UI.label("Other Revision Explanation")
   @minLength(1)
   @maxLength(45)
   @Validation.requiredWhen(ResearchApplicationType.revisionCode, ResearchRevisionCode.E)
-  @UI.visibleWhen(ResearchApplicationType.revisionCode, ResearchRevisionCode.E)
+  @UI.enabledWhen(ResearchApplicationType.revisionCode, ResearchRevisionCode.E)
   revisionCodeOtherExplanation?: string;
 }
 
@@ -102,11 +102,11 @@ model ResearchApplicantType extends QuestionResearchApplicantType {
   @minLength(1)
   @maxLength(50)
   @Validation.requiredWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.X)
-  @UI.visibleWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.X)
+  @UI.enabledWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.X)
   applicantTypeCodeOtherExplanation?: string;
 
   @UI.label("Small Business Organization Type")
-  @UI.visibleWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.R)
+  @UI.enabledWhen(ResearchApplicantType.applicantTypeCode, ApplicantTypeCode.R)
   smallBusinessOrganizationType?: QuestionResearchSmallBusinessType;
 }
 
@@ -147,7 +147,7 @@ model ResearchStateReview extends QuestionResearchStateReview {
 
   @UI.label("State Review Date")
   @Validation.requiredWhen(ResearchStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
-  @UI.visibleWhen(ResearchStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
+  @UI.enabledWhen(ResearchStateReview.stateReviewCodeType, ResearchStateReviewCode.yes)
   stateReviewDate?: plainDate;
 }
 
@@ -216,7 +216,6 @@ model RRSF424 {
   @minLength(13)
   @maxLength(15)
   @Validation.requiredWhen(RRSF424.submissionTypeCode, ResearchSubmissionType.changedCorrected)
-  @UI.visibleWhen(RRSF424.submissionTypeCode, ResearchSubmissionType.changedCorrected)
   grantsGovTrackingId?: PreviousGrantsGovTrackingNumber;
 
   @UI.label("Applicant Information")
