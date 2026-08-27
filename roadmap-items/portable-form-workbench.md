@@ -2,16 +2,16 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 23 exact producer forms and has an
-  agent-facing capability preflight. Workbench PR #16 (merge d77f543) verifies
-  canonical package digests and exact source receipts, then checks every UI and
-  behavior declaration against versioned generic and Simpler-compatible profiles
-  without changing semantic review status. Current audit: 23/23 forms ready for
-  declared portable capabilities in both profiles, zero accepted semantic
-  mappings claimed. The next empirical frontier is to emit PHS Fellowship as a
-  portable package, run preflight, and implement only the newly exposed shared
-  capabilities; its known uncompiled conditions and calculations remain explicit
-  producer gates.
+  Independent consumer architecture now runs 24 exact producer forms through
+  replaceable generic and Simpler-compatible presentations. Workbench PR #18
+  (merge 714fc56) adds a catalog-driven matrix proving 24
+  package/provenance/behavior cases and 48 renderer-profile cases without
+  form-specific paths; PR #19 (merge 570ed4f) lets an agent preflight one
+  authored package directly with exact source, artifact, and package receipts.
+  Zero accepted semantic mappings are claimed. The next empirical frontier is to
+  run a genuinely new high-value form through this one-package loop, implement
+  only capabilities that fail generically, and measure whether the marginal form
+  is configuration rather than runtime code.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
