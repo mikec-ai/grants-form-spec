@@ -74,7 +74,7 @@ class RRSF424Tests(unittest.TestCase):
             {"rule": "date_not_before", "fields": ["@THIS.proposedStartDate"]},
         )
 
-    def test_eight_dat_conditions_are_source_bound_without_false_ui_parity(self) -> None:
+    def test_eight_dat_conditions_are_compiled_with_exact_source_authority(self) -> None:
         root = ROOT / "dist/forms/rr-sf424"
         evidence = json.loads((root / "evidence.json").read_text())
         records = evidence["behaviorEvidence"]
@@ -102,18 +102,18 @@ class RRSF424Tests(unittest.TestCase):
         self.assertEqual(
             [(row["canonicalPath"], row["sourcePath"]) for row in official],
             [
-                ("/grantsGovTrackingId", "04-2"),
-                ("/applicantType/applicantTypeCodeOtherExplanation", "07-1"),
+                ("grantsGovTrackingId", "04-2"),
+                ("applicantType.applicantTypeCodeOtherExplanation", "07-1"),
                 (
-                    "/applicantType/smallBusinessOrganizationType/"
+                    "applicantType.smallBusinessOrganizationType."
                     "sociallyEconomicallyDisadvantaged",
                     "07-3",
                 ),
-                ("/applicantType/smallBusinessOrganizationType/womenOwned", "07-2"),
-                ("/applicationType/otherAgencySubmissionExplanation", "08-2-3"),
-                ("/applicationType/revisionCode", "08-1-1 through 08-1-5"),
-                ("/applicationType/revisionCodeOtherExplanation", "08-1-6"),
-                ("/stateReview/stateReviewDate", "16-3"),
+                ("applicantType.smallBusinessOrganizationType.womenOwned", "07-2"),
+                ("applicationType.otherAgencySubmissionExplanation", "08-2-3"),
+                ("applicationType.revisionCode", "08-1-1 through 08-1-5"),
+                ("applicationType.revisionCodeOtherExplanation", "08-1-6"),
+                ("stateReview.stateReviewDate", "16-3"),
             ],
         )
         self.assertEqual(
@@ -140,30 +140,10 @@ class RRSF424Tests(unittest.TestCase):
                 "StateReviewCodeType is not Yes, then inactive.",
             ],
         )
-        self.assertEqual(
-            {row["executionStatus"] for row in official}, {"source-bound-uncompiled"}
-        )
+        self.assertEqual({row["executionStatus"] for row in official}, {"compiled"})
+        self.assertEqual(unresolved, [])
 
-        self.assertEqual(len(unresolved), 8)
-        self.assertEqual({row["executionStatus"] for row in unresolved}, {"compiled"})
-        self.assertEqual(
-            {row["canonicalPath"] for row in unresolved},
-            {
-                "grantsGovTrackingId",
-                "applicantType.applicantTypeCodeOtherExplanation",
-                "applicantType.smallBusinessOrganizationType."
-                "sociallyEconomicallyDisadvantaged",
-                "applicantType.smallBusinessOrganizationType.womenOwned",
-                "applicationType.otherAgencySubmissionExplanation",
-                "applicationType.revisionCode",
-                "applicationType.revisionCodeOtherExplanation",
-                "stateReview.stateReviewDate",
-            },
-        )
-        self.assertTrue(all(row["owner"] == "form-semantic-review" for row in unresolved))
-        self.assertTrue(all(row["reason"] and row["removalCondition"] for row in unresolved))
-
-    def test_all_eight_current_ui_dispositions_pin_exact_paths_and_effects(self) -> None:
+    def test_source_authorized_ui_conditions_preserve_disabled_controls(self) -> None:
         ui = json.loads(
             (ROOT / "dist/forms/rr-sf424/sgg/ui-schema.json").read_text()
         )
@@ -173,10 +153,6 @@ class RRSF424Tests(unittest.TestCase):
             if row.get("type") == "field" and "conditional" in row
         }
         expected = {
-            "/properties/grantsGovTrackingId": (
-                "/submissionTypeCode",
-                "Change/Corrected Application",
-            ),
             "/properties/applicantType/properties/applicantTypeCodeOtherExplanation": (
                 "/applicantType/applicantTypeCode",
                 "X: Other (specify)",
@@ -217,10 +193,17 @@ class RRSF424Tests(unittest.TestCase):
                             "ref": {"scope": "root", "pointer": pointer},
                             "value": value,
                         },
-                        "then": {"visible": True},
-                        "otherwise": {"visible": False},
+                        "then": {"interaction": "enabled"},
+                        "otherwise": {"interaction": "disabled"},
                     },
                 )
+
+        tracking = next(
+            row
+            for row in objects(ui)
+            if row.get("definition") == "/properties/grantsGovTrackingId"
+        )
+        self.assertNotIn("conditional", tracking)
 
     def test_analysis_exposes_reuse_without_claiming_review(self) -> None:
         result = subprocess.run(
