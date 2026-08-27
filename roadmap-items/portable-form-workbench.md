@@ -14,7 +14,6 @@ description: >-
   its 14 uncompiled conditions and two calculations must remain explicit gates.
 sequence: '8'
 superbee_progress_status: active
-superbee_updated_by: Codex
 ---
 [contains](../tasks/implement-simpler-compatible-renderer-preset.md)
 
@@ -69,3 +68,5 @@ superbee_updated_by: Codex
 [contains](../tasks/import-phs398-research-plan.md)
 
 [contains](../tasks/import-phs-career-development.md)
+
+[contains](../tasks/implement-consumer-capability-preflight.md)
