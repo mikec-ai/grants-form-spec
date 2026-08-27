@@ -55,3 +55,5 @@ superbee_updated_by: Codex
 [contains](../tasks/prove-expanded-workbench-cohort-conformance.md)
 
 [contains](../tasks/import-next-high-reuse-workbench-cohort.md)
+
+[contains](../tasks/project-nested-producer-conditions.md)
