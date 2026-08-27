@@ -9,10 +9,11 @@ description: >-
   intact; do not move presentation or form-specific logic into the loader.
   Acceptance: generic manifest/index contract, failure and race handling,
   multi-package tests, and a migration path from the bounded demo transport.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T02:47:06.650Z'
+  at: '2026-08-27T02:49:23.117Z'
+assignee: Codex-discovery-agent
 ---
 [depends on](close-workbench-multi-form-proof.md)

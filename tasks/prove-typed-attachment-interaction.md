@@ -9,10 +9,11 @@ description: >-
   in an attachment. Acceptance: generic contract, Simpler-compatible control,
   validation/provenance receipts, no form-ID branches, deterministic tests, and
   bounded browser evidence; do not claim attachment-content semantic extraction.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T02:47:06.205Z'
+  at: '2026-08-27T02:49:22.980Z'
+assignee: Codex-attachment-agent
 ---
 [depends on](close-workbench-multi-form-proof.md)

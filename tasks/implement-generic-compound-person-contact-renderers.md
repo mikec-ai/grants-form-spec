@@ -10,10 +10,11 @@ description: >-
   schema provenance remain intact; generic and Simpler presets preserve
   identical data; tests cover composition, requiredness, validation, and preset
   switching; bounded browser review confirms both controls.
-superbee_progress_status: todo
+superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T02:47:05.919Z'
+  at: '2026-08-27T02:49:22.695Z'
+assignee: Codex
 ---
 [depends on](close-workbench-multi-form-proof.md)
