@@ -2,16 +2,18 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 24 exact producer forms through
+  Independent consumer architecture now runs 25 exact producer forms through
   replaceable generic and Simpler-compatible presentations. Workbench PR #18
-  (merge 714fc56) adds a catalog-driven matrix proving 24
-  package/provenance/behavior cases and 48 renderer-profile cases without
-  form-specific paths; PR #19 (merge 570ed4f) lets an agent preflight one
-  authored package directly with exact source, artifact, and package receipts.
-  Zero accepted semantic mappings are claimed. The next empirical frontier is to
-  run a genuinely new high-value form through this one-package loop, implement
-  only capabilities that fail generically, and measure whether the marginal form
-  is configuration rather than runtime code.
+  established automatic package/behavior/two-profile conformance; PR #19 added
+  direct one-package agent preflight; PR #20 used that loop to add R&R
+  Senior/Key Person Profile (Expanded) with zero runtime or form-specific
+  production code. Existing person/address, repeatable collection, attachment,
+  and declarative rule capabilities covered all 18 profile findings. Zero
+  accepted semantic mappings are claimed, and nine unresolved behavior records
+  remained unresolved. The next empirical frontier is to repeat this on another
+  non-colliding high-value form and begin publishing a marginal-cost curve:
+  reused capabilities, genuinely new capabilities, and runtime code change per
+  form.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
