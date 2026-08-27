@@ -16,7 +16,6 @@ description: >-
   pattern holds.
 sequence: '8'
 superbee_progress_status: active
-superbee_updated_by: Codex
 ---
 [contains](../tasks/implement-simpler-compatible-renderer-preset.md)
 
@@ -83,3 +82,5 @@ superbee_updated_by: Codex
 [contains](../tasks/import-cd511-workbench.md)
 
 [contains](../tasks/implement-agent-form-authoring-compiler.md)
+
+[contains](../tasks/extend-agent-authoring-nested-repeatable.md)
