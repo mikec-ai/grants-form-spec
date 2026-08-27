@@ -11,7 +11,7 @@ superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T21:00:11.824Z'
+  at: '2026-08-27T21:00:59.627Z'
 ---
 # Acceptance criteria
 
@@ -24,7 +24,7 @@ generated:
 
 # Outcome
 
-Completed in `mikec-ai/grants-form-workbench` PR #39 at commit `74bc4110fb003fb48d28e39200249b375e0910a0`.
+Merged in `mikec-ai/grants-form-workbench` PR #39. Source commit `74bc4110fb003fb48d28e39200249b375e0910a0`; merge commit `10ae4fe781b0cf5013db2564f78dddd6e5789ad1`.
 
 - Reframed the composer around three human decisions: choose questions, add rules, and try the form.
 - Kept exact hashes, IDs, evidence, and technical JSON available behind optional disclosures.
