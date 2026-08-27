@@ -2,24 +2,22 @@
 type: Task
 title: Import a pinned producer-backed form cohort into the workbench
 priority: P0
-assignee: Codex-producer-cohort-agent
+assignee: Codex
 description: >-
-  Implement a generic repeatable import from exact grants-form-spec revisions
-  for SF-424, SF-424 Short, Attachment Form, and PHS Assignment Request. Initial
-  commit 1033f0d captured 99 artifacts and preserved conservative review status,
-  but independent review withheld approval on three P1 boundaries: packaged
-  question compilation mishandles nested $id and $anchor references; ignored
-  dist output can be stale unless the importer itself executes or verifies the
-  pinned generator; and the agent-facing CLI lacks complete AXI
-  version/help/error behavior. Remediation must preserve raw
-  bytes/digests/revisions/review states, use resource-aware cycle-safe reference
-  handling, generate or cryptographically verify artifacts inside the import,
-  provide structured TOON stdout and actionable exit codes without raw
-  dependency leakage, and retain zero form-ID branches or semantic upgrades.
-superbee_progress_status: in_progress
+  Completed and independently approved. Workbench commits 71b3642, a538d93, and
+  4c3c60c import SF-424, SF-424 Short, Attachment Form, and PHS Assignment
+  Request from pinned grants-form-spec revision 273d1ba8. The importer
+  regenerates producer output, preserves exact artifacts and conservative
+  semantic-review status, compiles nested JSON Schema resources safely, rejects
+  unresolved active references, constrains cleanup to a dedicated cohort
+  directory, and provides an AXI-compliant command interface. Combined
+  integration verification: 166 tests passed, 1 skipped; typecheck, all builds,
+  dependency tree, and diff checks green. Independent review found no remaining
+  P0/P1/P2 issues.
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T00:56:58.692Z'
+  at: '2026-08-27T01:51:32.496Z'
 ---
 [depends on](implement-portable-form-catalog.md)
