@@ -8,7 +8,7 @@ description: >-
 sequence: '7'
 actor: Codex
 timestamp: '2026-08-23T22:26:31.769Z'
-superbee_updated_by: codex
+superbee_updated_by: Codex
 ---
 # Outcome
 
@@ -141,3 +141,11 @@ Continue adding forms and run the optional full browser matrix after the proof-f
 [contains](../tasks/evaluate-rr-budget-family-table-adoption.md)
 
 [contains](../tasks/evaluate-sf424a-generic-table-adoption.md)
+
+[contains](../tasks/integrate-pinned-producer-cohort-in-workbench.md)
+
+[contains](../tasks/execute-portable-behaviors-in-workbench-renderer.md)
+
+[contains](../tasks/prove-real-form-preset-swapping.md)
+
+[contains](../tasks/close-workbench-multi-form-proof.md)
