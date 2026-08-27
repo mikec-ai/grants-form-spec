@@ -2,18 +2,16 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 22 exact producer forms. PRs #4-#14
-  advanced to producer revision 77fcbe1d, generalized nested conditions,
-  repeatable attachments, root occurrences, data-driven tests and receipts, and
-  added 17 forms beyond the initial five without form-specific runtime branches.
-  Latest evidence: 240/240 tests, deterministic 22-form/304-file reimport, exact
-  source and behavior receipts, all builds, two replaceable presentation
-  presets, and independent reviews. The implementation loop also found and
-  tracked a real reusable MultiSelect/exclusive-choice gap before R&R Personal
-  Data was counted as compatible. Next high-leverage wave: PHS Fellowship with
-  21 exact compiled conditions while keeping 14 uncompiled conditions and two
-  calculations explicit, or implement MultiSelect then re-admit R&R Personal
-  Data.
+  Independent consumer architecture now runs 23 exact producer forms. Workbench
+  commit 05957be adds a form-neutral choice-controls package and re-admits R&R
+  Personal Data through exact MultiSelect and x-exclusive-values declarations
+  across both replaceable presets, without producer changes or form-specific
+  runtime branches. Current evidence: 245/245 tests, deterministic
+  23-form/312-file reimport at producer revision 77fcbe1d, all builds, current
+  browser assets, and zero accepted semantic promotion. The next frontier should
+  remain consumer-first: add another reusable capability only when a real form
+  exposes it; PHS Fellowship is the strongest behavior-heavy candidate, while
+  its 14 uncompiled conditions and two calculations must remain explicit gates.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
