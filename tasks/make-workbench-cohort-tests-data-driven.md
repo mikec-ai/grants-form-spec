@@ -4,14 +4,15 @@ title: Make workbench cohort tests data-driven
 priority: P0
 assignee: Codex-dynamic-fixture
 description: >-
-  Replace static imports and manual entry counts in the three cohort-facing test
-  suites with one test-only discovered-catalog fixture. Preserve
-  PortableFormCatalog identity/digest verification and focused include filters.
-  Production code and generated cohorts remain unchanged.
-superbee_progress_status: in_progress
+  Merged as grants-form-workbench PR #8 (merge
+  92b8ccb58ce8625698b9e271c612cc83bf27ac5d). One discovered-catalog fixture now
+  drives catalog transport, browser rendering, behavior-bearing package checks,
+  exact reference baselines, and the global accepted-mapping gate. Independent
+  review approved f1e9765; focused 26/26 and integrated cohort gates passed.
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T05:58:30.853Z'
+  at: '2026-08-27T06:44:43.638Z'
 ---
 [depends on](advance-workbench-producer-baseline.md)
