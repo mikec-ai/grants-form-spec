@@ -79,3 +79,5 @@ superbee_updated_by: Codex
 [contains](../tasks/enable-single-package-agent-preflight.md)
 
 [contains](../tasks/import-rr-key-person-expanded-workbench.md)
+
+[contains](../tasks/import-cd511-workbench.md)
