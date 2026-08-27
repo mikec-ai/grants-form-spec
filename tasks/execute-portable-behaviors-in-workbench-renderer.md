@@ -4,24 +4,24 @@ title: Execute portable behaviors through the workbench state pipeline
 priority: P0
 assignee: Codex-behavior-integration-agent
 description: >-
-  Connect the merged bounded behavior contract to the generic renderer data flow
-  so declared conditions and calculations execute without presentation,
-  producer, or form-ID coupling. Commit 330d4c3 completed the first
-  implementation with 129 passing tests and one intentional skip, but
-  independent review correctly withheld approval: an edit that activated
-  additive requiredness forwarded validation errors computed against the
-  previous schema. The fix must revalidate rendered data against the
-  post-behavior schema before any change/state callback and include a same-edit
-  regression test. The portable behavior artifact names outcomes but does not
-  assign visual effects; condition-to-field effects remain optional explicit
-  consumer configuration with separate receipts. Keep applicant inputs,
-  calculated outputs, validation outcomes, provenance, rollback, and fail-closed
-  errors distinct; schema-required fields may not be weakened. Row-specific
-  repeated-field effects remain deferred pending an explicit row-aware contract.
-superbee_progress_status: in_progress
+  Delivered and independently approved in grants-form-workbench integration
+  commits 53e3b1a and f140c14. Portable conditions and calculations now execute
+  through the generic renderer without producer, form-ID, standards, or
+  presentation coupling. Optional exact non-repeated condition bindings remain
+  explicit consumer configuration; portable outcomes and consumer effects have
+  separate receipts. Calculated outputs are read-only rendered state and are
+  removed from applicant-authored data; behavior failures suppress persistence
+  callbacks; post-transition data is revalidated against the post-behavior
+  schema before callbacks. Static requiredness is never weakened. Full
+  verification passed with 130 tests, one intentional skip, typecheck, all
+  builds, and a clean dependency tree. Independent review found and then
+  verified the same-edit requiredness validation fix. Row-specific
+  repeated-field effects remain deliberately deferred pending a row-aware
+  contract.
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T00:51:51.762Z'
+  at: '2026-08-27T00:54:59.317Z'
 ---
 [depends on](implement-portable-declarative-behaviors.md)
