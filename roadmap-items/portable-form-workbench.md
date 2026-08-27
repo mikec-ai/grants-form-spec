@@ -89,3 +89,5 @@ superbee_updated_by: Codex
 [contains](../tasks/decouple-agent-authoring-source-and-question-catalog.md)
 
 [contains](../tasks/prove-epa4700-schema-only-agent-authoring.md)
+
+[contains](../tasks/implement-source-evidence-authoring-scaffolder.md)
