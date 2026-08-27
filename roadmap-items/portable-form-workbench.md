@@ -2,19 +2,20 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Active independent-consumer roadmap. Architecture foundation merged in
-  grants-form-workbench PR #1 on 2026-08-27 at merge commit
-  19736adedbdaf61545e525d55b96d2b4c2fb38b7. It includes the replaceable
-  Simpler-compatible preset, layouts, collections, typed controls, an immutable
-  verified catalog, bounded declarative behaviors, and enforced dependency
-  boundaries. Independent architecture review approved; 124 tests, typecheck,
-  all workspace builds, dependency-tree checks, and diff checks passed locally.
-  GitHub-hosted CI could not start because the account Actions billing/minute
-  limit blocked the runner; this remains an external capacity gate rather than a
-  failing test. The next milestone is a genuine multi-form proof using pinned
-  grants-form-spec packages, live behavior execution, preset swapping, and
-  bounded browser and human-review evidence without form-specific runtime
-  branches.
+  Independent consumer architecture and genuine multi-form proof are merged. PR
+  #1 established replaceable presentation presets, typed controls, layouts,
+  collections, verified catalog loading, declarative behaviors, and enforced
+  package boundaries. PR #2 (merge 8f885b39603d786023255506d5cf79b294e19c14)
+  imported a pinned four-form producer cohort transactionally, executed portable
+  behaviors generically, and proved SF-424, SF-424 Short, Attachment Form, and
+  PHS Assignment Request can load through one catalog and switch between generic
+  and Simpler-compatible presentations without changing package or response
+  data. Final evidence: 175 tests, four forms/99 deterministic files, all
+  builds, browser checks, and independent architecture/code reviews. The next
+  highest-value wave is closing the remaining generic consumer gaps revealed by
+  real forms—compound person/contact objects, typed attachment interaction, and
+  scalable package discovery—then adding behavior-bearing producer packages and
+  accessibility/human review.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
