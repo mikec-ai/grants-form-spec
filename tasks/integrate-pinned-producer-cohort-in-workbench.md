@@ -2,7 +2,7 @@
 type: Task
 title: Import a pinned producer-backed form cohort into the workbench
 priority: P0
-assignee: Codex
+assignee: Codex-producer-cohort-agent
 description: >-
   Create one generic, repeatable import path from exact grants-form-spec
   revisions into the workbench catalog. Start with SF-424, SF-424 Short,
@@ -18,6 +18,6 @@ superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T00:16:14.092Z'
+  at: '2026-08-27T00:39:07.991Z'
 ---
 [depends on](implement-portable-form-catalog.md)
