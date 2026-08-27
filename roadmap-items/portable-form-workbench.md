@@ -41,3 +41,11 @@ superbee_updated_by: Codex
 [contains](../tasks/prove-real-form-preset-swapping.md)
 
 [contains](../tasks/close-workbench-multi-form-proof.md)
+
+[contains](../tasks/implement-generic-compound-person-contact-renderers.md)
+
+[contains](../tasks/prove-typed-attachment-interaction.md)
+
+[contains](../tasks/implement-scalable-portable-package-discovery.md)
+
+[contains](../tasks/import-behavior-bearing-producer-package.md)
