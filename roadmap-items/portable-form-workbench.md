@@ -91,3 +91,5 @@ superbee_updated_by: Codex
 [contains](../tasks/prove-epa4700-schema-only-agent-authoring.md)
 
 [contains](../tasks/implement-source-evidence-authoring-scaffolder.md)
+
+[contains](../tasks/implement-review-gated-portable-response-roles.md)
