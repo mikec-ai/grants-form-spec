@@ -4,22 +4,22 @@ title: Import a pinned producer-backed form cohort into the workbench
 priority: P0
 assignee: Codex-producer-cohort-agent
 description: >-
-  Create one generic, repeatable import path from exact grants-form-spec
-  revisions into the workbench catalog. The active cohort is SF-424, SF-424
-  Short, Attachment Form, and PHS Assignment Request; all four currently import
-  and capture 94 exact generated artifacts. Preserve raw producer manifests
-  byte-for-byte plus content digests, producer paths, revisions, semantic review
-  states, and question authority. A surfaced contract mismatch is handled only
-  at design-time: empty optional identity values such as ombNumber are omitted
-  from the strict portable projection while the exact raw value and path remain
-  in a normalization receipt; non-empty values are unchanged and required empty
-  fields must fail. Proposed or unreviewed mappings remain explicitly so and do
-  not contribute to published semantic coverage. No form-ID branches, runtime
-  producer dependency, or silent semantic acceptance.
+  Implement a generic repeatable import from exact grants-form-spec revisions
+  for SF-424, SF-424 Short, Attachment Form, and PHS Assignment Request. Initial
+  commit 1033f0d captured 99 artifacts and preserved conservative review status,
+  but independent review withheld approval on three P1 boundaries: packaged
+  question compilation mishandles nested $id and $anchor references; ignored
+  dist output can be stale unless the importer itself executes or verifies the
+  pinned generator; and the agent-facing CLI lacks complete AXI
+  version/help/error behavior. Remediation must preserve raw
+  bytes/digests/revisions/review states, use resource-aware cycle-safe reference
+  handling, generate or cryptographically verify artifacts inside the import,
+  provide structured TOON stdout and actionable exit codes without raw
+  dependency leakage, and retain zero form-ID branches or semantic upgrades.
 superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T00:46:01.919Z'
+  at: '2026-08-27T00:56:58.692Z'
 ---
 [depends on](implement-portable-form-catalog.md)
