@@ -75,3 +75,5 @@ superbee_updated_by: Codex
 [contains](../tasks/prove-phs-fellowship-in-workbench.md)
 
 [contains](../tasks/enable-single-package-agent-preflight.md)
+
+[contains](../tasks/import-rr-key-person-expanded-workbench.md)
