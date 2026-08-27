@@ -2,12 +2,16 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Active independent-consumer roadmap. Current delivered foundation includes a
-  replaceable Simpler-compatible preset, generic layouts/collections/typed
-  controls, immutable verified multi-form catalog loading, bounded declarative
-  behaviors, and centralized dependency-direction enforcement. Integrated branch
-  8acb793 received independent architecture approval with 124 tests, typecheck,
-  all builds, and dependency tree green.
+  Active independent-consumer roadmap. The reviewed architecture foundation is
+  published as grants-form-workbench PR #1
+  (https://github.com/mikec-ai/grants-form-workbench/pull/1), branch head
+  8acb793. It includes the replaceable Simpler-compatible preset,
+  layouts/collections/typed controls, immutable verified catalog, bounded
+  behaviors, and dependency enforcement. Independent architecture review
+  approved; 124 tests, typecheck, builds, dependency tree, and diff checks are
+  locally green. GitHub-hosted CI did not start because the account
+  billing/Actions limit blocked the runner; this is an external CI-capacity
+  gate, not a failing test.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
