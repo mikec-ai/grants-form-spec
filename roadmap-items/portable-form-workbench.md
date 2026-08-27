@@ -14,6 +14,7 @@ description: >-
   producer gates.
 sequence: '8'
 superbee_progress_status: active
+superbee_updated_by: Codex
 ---
 [contains](../tasks/implement-simpler-compatible-renderer-preset.md)
 
@@ -72,3 +73,5 @@ superbee_progress_status: active
 [contains](../tasks/implement-consumer-capability-preflight.md)
 
 [contains](../tasks/prove-phs-fellowship-in-workbench.md)
+
+[contains](../tasks/enable-single-package-agent-preflight.md)
