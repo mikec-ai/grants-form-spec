@@ -2,20 +2,16 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture and five-form capability wave are merged. PR
-  #1 established replaceable presentation presets, typed controls, layouts,
-  collections, verified catalog loading, declarative behaviors, and enforced
-  boundaries. PR #2 imported the initial pinned four-form cohort. PR #3 (merge
-  7f69264debfd8c1b0df9f6c0d3e5d11cbe25fc0f) added shared compound person/contact
-  rendering, UUID-only typed attachment interaction with session-local handles,
-  13 exact DAT-backed PHS 398 conditions, and environment-owned catalog
-  discovery with no application-level form imports. Final evidence: 5 real
-  forms, 215/215 tests, deterministic pinned-producer reimport, catalog
-  freshness, remote provenance, typecheck/build/dependency checks, standalone
-  HTTP catalog receipts, and independent combined architecture approval. Next
-  work should use these generic capabilities to add the next high-reuse form
-  cohort, then collect bounded accessibility, XML-parity, policy, and
-  human-review evidence without conflating those gates with runtime readiness.
+  Independent consumer architecture now runs 17 exact producer forms. PRs #4-#10
+  advanced to producer revision 77fcbe1d, added generic nested conditions,
+  repeatable attachment arrays, root question occurrences, data-driven cohort
+  tests, nine simple high-reuse forms, and three standalone narrative attachment
+  forms. Latest evidence: 237/237 tests, deterministic 17-form/217-file
+  reimport, exact provenance and omission receipts, all builds, generic
+  two-preset narrative interactions, and independent approval with no production
+  form-ID branches. Next: consume the root-occurrence capability with SF-LLL,
+  then select behavior-heavy forms only where reviewed behavior evidence can be
+  projected without inventing calculations or semantic acceptance.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
