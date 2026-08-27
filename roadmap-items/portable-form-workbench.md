@@ -2,18 +2,18 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 25 exact producer forms through
-  replaceable generic and Simpler-compatible presentations. Workbench PR #18
-  established automatic package/behavior/two-profile conformance; PR #19 added
-  direct one-package agent preflight; PR #20 used that loop to add R&R
-  Senior/Key Person Profile (Expanded) with zero runtime or form-specific
-  production code. Existing person/address, repeatable collection, attachment,
-  and declarative rule capabilities covered all 18 profile findings. Zero
-  accepted semantic mappings are claimed, and nine unresolved behavior records
-  remained unresolved. The next empirical frontier is to repeat this on another
-  non-colliding high-value form and begin publishing a marginal-cost curve:
-  reused capabilities, genuinely new capabilities, and runtime code change per
-  form.
+  Independent consumer architecture now runs 26 exact producer forms through
+  replaceable generic and Simpler-compatible presentations. Automatic
+  conformance and direct one-package preflight have now produced two consecutive
+  empirical marginal-cost observations: R&R Senior/Key Person Profile (Expanded)
+  and CD-511 both entered as configuration-only packages with zero runtime or
+  form-specific production code. Together they add 34 supported two-profile
+  findings while preserving unresolved and proposed review states; accepted
+  semantic coverage remains zero. The current matrix is 78/78. The next leverage
+  point is a versioned marginal-cost report per import—reused capabilities,
+  unsupported/new capabilities, production-code delta, and explicit open
+  gates—then another higher-complexity form can test whether the zero-runtime
+  pattern holds.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
