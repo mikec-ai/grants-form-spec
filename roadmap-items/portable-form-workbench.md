@@ -16,6 +16,7 @@ description: >-
   pattern holds.
 sequence: '8'
 superbee_progress_status: active
+superbee_updated_by: Codex
 ---
 [contains](../tasks/implement-simpler-compatible-renderer-preset.md)
 
@@ -86,3 +87,5 @@ superbee_progress_status: active
 [contains](../tasks/extend-agent-authoring-nested-repeatable.md)
 
 [contains](../tasks/decouple-agent-authoring-source-and-question-catalog.md)
+
+[contains](../tasks/prove-epa4700-schema-only-agent-authoring.md)
