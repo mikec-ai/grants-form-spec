@@ -12,5 +12,6 @@ impact_scope: >-
 owner: Codex
 superbee_progress_status: fixed
 superbee_updated_by: Codex
+external_issue: 'https://github.com/mikec-ai/grants-form-workbench/pull/35'
 ---
 [implemented by](../tasks/project-portable-visibility-bindings.md)
