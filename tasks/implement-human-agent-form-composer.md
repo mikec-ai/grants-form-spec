@@ -4,26 +4,30 @@ title: Implement shared human-agent form composer foundation
 priority: P0
 assignee: Codex
 description: >-
-  Create a renderer-independent authoring workspace where agents and humans edit
-  the same portable-form-authoring draft. First slice: browse the exact question
-  catalog, inspect provenance and review status, select/remove/reorder
-  questions, preserve stable IDs, and render a live example without introducing
-  a GUI-only form format.
-superbee_progress_status: in_progress
+  Delivered a renderer-independent authoring workspace where agents and humans
+  edit the same portable-form-authoring draft. Humans can inspect agent
+  rationale, add/remove/reorder exact questions, inspect review state and
+  provenance, serialize the draft, and see a live generic preview.
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T20:05:58.693Z'
+  at: '2026-08-27T20:16:45.343Z'
 ---
 # Architectural boundary
 
-The GUI and agent are peer clients of the same neutral authoring contract. The composer may not store React components, HTML, renderer names, or WYSIWYG-only state in the canonical draft. Question selection and edits must preserve exact question-catalog identities, source receipts, and semantic-review status.
+The GUI and agent are peer clients of the same neutral `portable-form-authoring/v1` draft. Search, filters, and other transient UI state remain outside it. Agent rationale uses a separate `portable-form-agent-proposal/v1` receipt and applies through the same `selectQuestion` command as a human click.
 
-# Acceptance evidence
+# Delivery receipts
 
-- A framework-neutral package owns authoring workspace state and commands.
-- A human-facing composer uses that package to browse and select catalog questions.
-- The selected questions are visible alongside their exact IDs and review status.
-- The same neutral draft can be serialized for agent or CLI continuation.
-- A live form example updates from the selected questions through a generic renderer path.
-- Tests enforce dependency boundaries and deterministic draft edits.
+- [grants-form-workbench PR #37](https://github.com/mikec-ai/grants-form-workbench/pull/37) merged from commit `469bde3179021b61a6de1a3fc0ef80e0cdb6ff23`.
+- New framework-neutral package: `@grants-form-workbench/authoring-workspace`.
+- The composer assembles 185 exact question records from the currently verified portable packages, failing closed on conflicting schemas.
+- Every new occurrence remains `proposed`; the composer cannot promote reviewed coverage.
+- Exact question URI, authority, SHA-256, and source receipts survive preview compilation.
+- 29 focused authoring, integration, and architecture tests passed; typecheck and production build passed. The full non-agent suite reached 356 passing and 1 skipped with one unrelated attachment timing flake under concurrent load; that same test passed in the focused run.
+- GitHub Actions did not start because of the account spending limit, not a code failure.
+
+# Deliberately deferred
+
+Visual rule authoring, section/repeatable-group editing, persistence and approval, and source-evidence-backed publication remain separate follow-up slices.
