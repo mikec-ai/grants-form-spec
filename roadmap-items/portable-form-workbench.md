@@ -84,3 +84,5 @@ superbee_progress_status: active
 [contains](../tasks/implement-agent-form-authoring-compiler.md)
 
 [contains](../tasks/extend-agent-authoring-nested-repeatable.md)
+
+[contains](../tasks/decouple-agent-authoring-source-and-question-catalog.md)
