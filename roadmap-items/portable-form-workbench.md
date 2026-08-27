@@ -2,16 +2,18 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 17 exact producer forms. PRs #4-#10
-  advanced to producer revision 77fcbe1d, added generic nested conditions,
-  repeatable attachment arrays, root question occurrences, data-driven cohort
-  tests, nine simple high-reuse forms, and three standalone narrative attachment
-  forms. Latest evidence: 237/237 tests, deterministic 17-form/217-file
-  reimport, exact provenance and omission receipts, all builds, generic
-  two-preset narrative interactions, and independent approval with no production
-  form-ID branches. Next: consume the root-occurrence capability with SF-LLL,
-  then select behavior-heavy forms only where reviewed behavior evidence can be
-  projected without inventing calculations or semantic acceptance.
+  Independent consumer architecture now runs 22 exact producer forms. PRs #4-#14
+  advanced to producer revision 77fcbe1d, generalized nested conditions,
+  repeatable attachments, root occurrences, data-driven tests and receipts, and
+  added 17 forms beyond the initial five without form-specific runtime branches.
+  Latest evidence: 240/240 tests, deterministic 22-form/304-file reimport, exact
+  source and behavior receipts, all builds, two replaceable presentation
+  presets, and independent reviews. The implementation loop also found and
+  tracked a real reusable MultiSelect/exclusive-choice gap before R&R Personal
+  Data was counted as compatible. Next high-leverage wave: PHS Fellowship with
+  21 exact compiled conditions while keeping 14 uncompiled conditions and two
+  calculations explicit, or implement MultiSelect then re-admit R&R Personal
+  Data.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
@@ -63,3 +65,9 @@ superbee_updated_by: Codex
 [contains](../tasks/import-sflll-into-workbench.md)
 
 [contains](../tasks/implement-portable-multiselect-interaction.md)
+
+[contains](../tasks/import-key-contacts-cohort.md)
+
+[contains](../tasks/import-phs398-research-plan.md)
+
+[contains](../tasks/import-phs-career-development.md)
