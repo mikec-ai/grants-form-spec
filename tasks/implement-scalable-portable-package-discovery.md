@@ -3,17 +3,18 @@ type: Task
 title: Replace static demo imports with scalable portable package discovery
 priority: P1
 description: >-
-  Define and implement an environment-owned package discovery/loading boundary
-  so additional portable packages can be added without editing a static Vite
-  import map. Keep catalog identity/digest verification and producer provenance
-  intact; do not move presentation or form-specific logic into the loader.
-  Acceptance: generic manifest/index contract, failure and race handling,
-  multi-package tests, and a migration path from the bounded demo transport.
-superbee_progress_status: in_progress
+  Completed in grants-form-workbench PR #3 (merge
+  7f69264debfd8c1b0df9f6c0d3e5d11cbe25fc0f). The portal now consumes an
+  environment-owned portable-catalog-index/v1 and has no static production form
+  imports. The catalog builder discovers all checked-in cohorts, retains
+  verified bytes, rejects unsafe locators and output paths, handles races and
+  rollback, and serves five forms without application changes. Catalog freshness
+  and standalone HTTP receipts were verified.
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T02:49:23.117Z'
+  at: '2026-08-27T04:14:59.660Z'
 assignee: Codex-discovery-agent
 ---
 [depends on](close-workbench-multi-form-proof.md)

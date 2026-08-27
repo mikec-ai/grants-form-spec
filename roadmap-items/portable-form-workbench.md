@@ -2,20 +2,20 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture and genuine multi-form proof are merged. PR
+  Independent consumer architecture and five-form capability wave are merged. PR
   #1 established replaceable presentation presets, typed controls, layouts,
   collections, verified catalog loading, declarative behaviors, and enforced
-  package boundaries. PR #2 (merge 8f885b39603d786023255506d5cf79b294e19c14)
-  imported a pinned four-form producer cohort transactionally, executed portable
-  behaviors generically, and proved SF-424, SF-424 Short, Attachment Form, and
-  PHS Assignment Request can load through one catalog and switch between generic
-  and Simpler-compatible presentations without changing package or response
-  data. Final evidence: 175 tests, four forms/99 deterministic files, all
-  builds, browser checks, and independent architecture/code reviews. The next
-  highest-value wave is closing the remaining generic consumer gaps revealed by
-  real forms—compound person/contact objects, typed attachment interaction, and
-  scalable package discovery—then adding behavior-bearing producer packages and
-  accessibility/human review.
+  boundaries. PR #2 imported the initial pinned four-form cohort. PR #3 (merge
+  7f69264debfd8c1b0df9f6c0d3e5d11cbe25fc0f) added shared compound person/contact
+  rendering, UUID-only typed attachment interaction with session-local handles,
+  13 exact DAT-backed PHS 398 conditions, and environment-owned catalog
+  discovery with no application-level form imports. Final evidence: 5 real
+  forms, 215/215 tests, deterministic pinned-producer reimport, catalog
+  freshness, remote provenance, typecheck/build/dependency checks, standalone
+  HTTP catalog receipts, and independent combined architecture approval. Next
+  work should use these generic capabilities to add the next high-reuse form
+  cohort, then collect bounded accessibility, XML-parity, policy, and
+  human-review evidence without conflating those gates with runtime readiness.
 sequence: '8'
 superbee_progress_status: active
 superbee_updated_by: Codex
