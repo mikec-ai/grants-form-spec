@@ -6,19 +6,22 @@ assignee: Codex-behavior-integration-agent
 description: >-
   Connect the merged bounded behavior contract to the generic renderer data flow
   so declared conditions and calculations execute without presentation,
-  producer, or form-ID coupling. The portable behavior artifact names condition
-  outcomes but intentionally does not assign visual effects. Therefore any
-  condition-to-field visibility or additive-requiredness binding must be
-  optional, explicit consumer configuration, never inferred, and reported
-  separately from the portable behavior receipt. Keep applicant inputs,
-  calculated outputs, validation outcomes, provenance receipts, rollback, and
-  fail-closed errors distinct; schema-required fields may not be weakened. Begin
-  against the existing fixture so this lane can proceed independently of cohort
-  import, then verify against the producer-backed cohort.
+  producer, or form-ID coupling. Commit 330d4c3 completed the first
+  implementation with 129 passing tests and one intentional skip, but
+  independent review correctly withheld approval: an edit that activated
+  additive requiredness forwarded validation errors computed against the
+  previous schema. The fix must revalidate rendered data against the
+  post-behavior schema before any change/state callback and include a same-edit
+  regression test. The portable behavior artifact names outcomes but does not
+  assign visual effects; condition-to-field effects remain optional explicit
+  consumer configuration with separate receipts. Keep applicant inputs,
+  calculated outputs, validation outcomes, provenance, rollback, and fail-closed
+  errors distinct; schema-required fields may not be weakened. Row-specific
+  repeated-field effects remain deferred pending an explicit row-aware contract.
 superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-27T00:43:29.833Z'
+  at: '2026-08-27T00:51:51.762Z'
 ---
 [depends on](implement-portable-declarative-behaviors.md)
