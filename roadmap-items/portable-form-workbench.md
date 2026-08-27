@@ -57,3 +57,9 @@ superbee_updated_by: Codex
 [contains](../tasks/import-next-high-reuse-workbench-cohort.md)
 
 [contains](../tasks/project-nested-producer-conditions.md)
+
+[contains](../tasks/make-workbench-cohort-tests-data-driven.md)
+
+[contains](../tasks/support-root-question-occurrences.md)
+
+[contains](../tasks/implement-repeatable-attachment-interaction.md)
