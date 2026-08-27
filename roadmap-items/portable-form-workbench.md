@@ -61,3 +61,5 @@ superbee_updated_by: Codex
 [contains](../tasks/implement-repeatable-attachment-interaction.md)
 
 [contains](../tasks/import-sflll-into-workbench.md)
+
+[contains](../tasks/implement-portable-multiselect-interaction.md)
