@@ -49,3 +49,9 @@ superbee_updated_by: Codex
 [contains](../tasks/implement-scalable-portable-package-discovery.md)
 
 [contains](../tasks/import-behavior-bearing-producer-package.md)
+
+[contains](../tasks/advance-workbench-producer-baseline.md)
+
+[contains](../tasks/prove-expanded-workbench-cohort-conformance.md)
+
+[contains](../tasks/import-next-high-reuse-workbench-cohort.md)
