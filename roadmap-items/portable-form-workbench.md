@@ -2,18 +2,19 @@
 type: Roadmap Item
 title: Portable form workbench and replaceable presentation presets
 description: >-
-  Independent consumer architecture now runs 23 exact producer forms. Workbench
-  commit 05957be adds a form-neutral choice-controls package and re-admits R&R
-  Personal Data through exact MultiSelect and x-exclusive-values declarations
-  across both replaceable presets, without producer changes or form-specific
-  runtime branches. Current evidence: 245/245 tests, deterministic
-  23-form/312-file reimport at producer revision 77fcbe1d, all builds, current
-  browser assets, and zero accepted semantic promotion. The next frontier should
-  remain consumer-first: add another reusable capability only when a real form
-  exposes it; PHS Fellowship is the strongest behavior-heavy candidate, while
-  its 14 uncompiled conditions and two calculations must remain explicit gates.
+  Independent consumer architecture now runs 23 exact producer forms and has an
+  agent-facing capability preflight. Workbench PR #16 (merge d77f543) verifies
+  canonical package digests and exact source receipts, then checks every UI and
+  behavior declaration against versioned generic and Simpler-compatible profiles
+  without changing semantic review status. Current audit: 23/23 forms ready for
+  declared portable capabilities in both profiles, zero accepted semantic
+  mappings claimed. The next empirical frontier is to emit PHS Fellowship as a
+  portable package, run preflight, and implement only the newly exposed shared
+  capabilities; its known uncompiled conditions and calculations remain explicit
+  producer gates.
 sequence: '8'
 superbee_progress_status: active
+superbee_updated_by: Codex
 ---
 [contains](../tasks/implement-simpler-compatible-renderer-preset.md)
 
