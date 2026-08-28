@@ -93,3 +93,7 @@ superbee_updated_by: Codex
 [contains](../tasks/implement-source-evidence-authoring-scaffolder.md)
 
 [contains](../tasks/implement-review-gated-portable-response-roles.md)
+
+[contains](../tasks/generalize-source-authoring-dossier.md)
+
+[contains](../tasks/prove-workbench-authored-package-in-sgg.md)
