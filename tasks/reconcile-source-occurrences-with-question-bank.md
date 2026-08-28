@@ -11,7 +11,7 @@ superbee_progress_status: in_progress
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-28T12:22:04.137Z'
+  at: '2026-08-28T14:36:09.033Z'
 ---
 # Objective
 
@@ -217,3 +217,27 @@ Verification receipts:
 Remaining authority boundary:
 
 - The end-to-end mechanism is complete. Any real acceptance of the seven reuse mappings or 21 new definitions still requires a qualified domain reviewer and must remain outside published coverage until those separate authority receipts exist.
+
+# Second-form and repeated-section canary — 2026-08-28
+
+Implemented and merged in [grants-form-workbench PR #57](https://github.com/mikec-ai/grants-form-workbench/pull/57), source commit `28d6dd7455e226cf9430df9dc7aaed7b8582c65a`, merge commit `71ac06467fa10af0808058b4348dfc14e5199c5e`.
+
+Delivered:
+
+- Linked the independently authored PHS Additional Indirect Costs 2.0 package to the same explicit, digest-verified `producer-77fcbe1d` baseline without changing the package digest `12b18d19d4977d963fd8ded89c0964cda6bcab3b0ae2a0402d46b7995ebd4135`.
+- Extended the generic occurrence resolver to traverse `*` path segments through JSON Schema array `items`, including nested repeated indirect-cost rows. Wildcards outside array schemas fail closed.
+- Ran all 12 exact PHS source occurrences through the same review projection used by EPA 4700-4. The deterministic result is zero exact reuse candidates and 12 proposed new questions.
+- Preserved the negative result as evidence: the system does not manufacture reuse from similar budget wording, repeated structure, or the fact that both packages use the same authoring workflow.
+- Added actual app-level review coverage showing the human queue exposes all 12 items under `New questions`, with no accepted semantic decision and no published coverage change.
+
+Verification receipts:
+
+- The question-reconciliation package build and demo-portal typecheck passed.
+- All 35 focused reconciliation and app tests passed across the two files; one unrelated timing-sensitive project-transfer test timed out only in the combined concurrent run and passed when isolated.
+- Portable browser catalog verification passed with 30 forms, three cohorts, one baseline, and 32 exact files; diff-integrity checks passed.
+- The in-app browser local reload was blocked by its URL policy. The equivalent selection, queue opening, classification, filtering, and decision-count flow is exercised by the app integration test.
+- GitHub Actions failed before executing any steps because the account payment/spending limit blocked the job. PR #57 was administratively merged using the complete local receipts above.
+
+Remaining authority boundary:
+
+- Zero reuse is the deterministic implementation-level classification against this exact pinned baseline, not a policy conclusion that these questions can never be harmonized. Any broader semantic equivalence or new canonical definitions still require qualified review and separate authority receipts.
