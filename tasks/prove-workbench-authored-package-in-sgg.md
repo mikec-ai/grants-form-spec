@@ -7,11 +7,11 @@ description: >-
   Export a human-accepted workbench draft through the portable package boundary
   and verify it in the actual Simpler.Grants.gov consumer without moving
   authoring code downstream.
-superbee_progress_status: in_progress
+superbee_progress_status: done
 superbee_updated_by: Codex
 generated:
   by: 'process:superbee'
-  at: '2026-08-28T01:26:01.369Z'
+  at: '2026-08-28T01:35:18.840Z'
 ---
 # Scope
 
@@ -32,7 +32,7 @@ Prove that a form package produced from the neutral workbench authoring path can
 The proof is implemented with Attachment Form 1.2.
 
 - Workbench PR #46 merged at `196c1b67aed0c598676cb3871882439ac309ec45`.
-- SGG proof PR #144 is open at commit `92376ac6a2166831946a558a6494a2fce1603498` pending checks/merge.
+- SGG proof PR #144 merged at `ff411247d01b88f39d4e35ac7c7d434be49dc6d4` from final branch head `e38f326b1173b1e7bce906f09bcf3dfdf1c9ec34`.
 - A generic `@grants-form-workbench/adapter-sgg` projects portable UI and explicit attachment widgets into SGG-native UI/rule artifacts without selecting forms by ID or importing producer/SGG runtime code.
 - A generic `grants-form-export-sgg` command writes a digest-bound SGG artifact tree, is idempotent, refuses differing overwrites without `--force`, and can preserve a separately hashed agent/human/compiler provenance bundle.
 - The end-to-end workbench test applies 17 accepted recommendations, compiles 2 source-backed content blocks plus 15 attachment occurrences, records 17 human-decision receipts, preserves all 15 semantic mappings as proposed, and reaches exact supported portable parity.
@@ -45,6 +45,7 @@ The proof is implemented with Attachment Form 1.2.
 - Export command: 4 tests passed.
 - SGG focused consumer/parity/XML cohort: 7 tests passed.
 - SGG Ruff check and format: passed.
+- SGG CI formatting and lint stages passed after the final branch repair; broad API and E2E jobs continued as post-merge signals.
 - Workbench GitHub Actions job failed before running any steps; local targeted verification is green. The broader agent-tools suite also has unrelated stale-golden failures already present on the branch baseline.
 
 # Architecture finding
