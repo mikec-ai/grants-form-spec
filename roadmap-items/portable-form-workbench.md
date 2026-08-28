@@ -97,3 +97,5 @@ superbee_updated_by: Codex
 [contains](../tasks/generalize-source-authoring-dossier.md)
 
 [contains](../tasks/prove-workbench-authored-package-in-sgg.md)
+
+[contains](../tasks/reconcile-source-occurrences-with-question-bank.md)
